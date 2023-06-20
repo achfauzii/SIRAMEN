@@ -13,7 +13,7 @@ namespace RasManagement.Models
         public string Fullname { get; set; }
         public string Nickname { get; set; }
         public string Email { get; set; } 
-        public string Password { get; set }
+        public string Password { get; set; }
         public string Place_of_birth { get; set; }
         public DateTimeOffset Date_of_birth { get; set; }
         public string Religion { get; set; }
