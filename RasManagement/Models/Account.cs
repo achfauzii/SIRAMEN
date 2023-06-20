@@ -11,7 +11,7 @@ namespace RasManagement.Models
         public string Account_Id { get; set; }
         public string Fullname { get; set; }
         public string Nickname { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; } 
         public string Password { get; set }
         public string Birthplace { get; set; }
         public string Phone { get; set; }
