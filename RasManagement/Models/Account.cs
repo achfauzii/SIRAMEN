@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Metadata;
-using System.Text.Json.Serialization;
+//using System.Reflection.Metadata;
+//using System.Text.Json.Serialization;
 
 namespace RasManagement.Models
 {
@@ -18,17 +18,34 @@ namespace RasManagement.Models
         public DateTimeOffset Date_of_birth { get; set; }
         public string Religion { get; set; }
         public Gender Gender { get; set; }
-        public string Marital_status { get; set; }
-        public string Nationality { get; set; }
+        public Marital_status Marital_status { get; set; }
+        public Nationality Nationality { get; set; }
+        public Hired_status hired_status { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Photo { get; set; }
         public virtual Role? Role { get; set; }
+        
     }
     public enum Gender
     {
         Male,
         Female
+    }
+    public enum Nationality
+    {
+        Wni,
+        Wna
+    }
+    public enum Marital_status
+    {
+        Maried,
+        Unmaried
+    }
+    public enum Hired_status
+    {
+        Bootcamp,
+        Prohire
     }
 }
 
