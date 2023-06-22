@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+}
+
+<h4>Create Account Employee</h4>
+<div class="card mb-5">
+    <div class="card-body">
+        <form class="user">
+            <div class="form-group row">
+               
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Full Name</label>
+                    <input type="text" class="form-control " id="exampleFirstName">
+                </div>
+              
+                <div class="col-sm-6">
+                    <label class="text-dark" for="exampleInputEmail1">Nickname</label>
+                    <input type="text" class="form-control " id="exampleLastName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="text-dark"  for="exampleInputEmail1">Email</label>
+                <input type="email" class="form-control " id="exampleInputEmail">
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark"  for="exampleInputEmail1">Password</label>
+                    <input type="password" class="form-control "
+                           id="exampleInputPassword">
+                </div>
+                <div class="col-sm-6">
+                    <label class="text-dark" for="exampleInputEmail1"> Repeat Password</label>
+                    <input type="password" class="form-control "
+                           id="exampleRepeatPassword">
+                </div>
+            </div>
+             <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark"  for="exampleInputEmail1">Gender</label>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>Male
+                        <label class="form-check-label" for="radio1"></label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">Female
+                        <label class="form-check-label" for="radio2"></label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label class="text-dark" for="exampleInputEmail1"> Nationality</label>
+                    <input type="text" class="form-control "
+                           id="exampleRepeatPassword">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Birth Place</label>
+                  
+                        <input type="text" class="form-control "
+                               id="exampleRepeatPassword">
+                   
+                </div>
+                <div class="col-sm-6">
+                    <label class="text-dark" for="exampleInputEmail1"> Birth Date</label>
+                    <input type="date" class="form-control "
+                           id="exampleRepeatPassword">
+                </div>
+                <div class="form-group">
+                    <label class="text-dark" for="exampleInputEmail1">Email</label>
+                    <input type="text" class="form-control " id="exampleInputEmail">
+                </div>
+            </div>
+
+            <a href="login.html" class="btn btn-primary btn-user btn-block">
+                Register Account
+            </a>
+        </form>
+    </div>
+</div>
+

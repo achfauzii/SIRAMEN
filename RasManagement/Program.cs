@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ProjectRasmanagementContext>();
 builder.Services.AddTransient<IUnitWork, UnitWork>();
+builder.Services.AddScoped<AccountRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

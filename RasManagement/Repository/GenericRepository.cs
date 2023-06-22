@@ -15,6 +15,12 @@ namespace RasManagement.Repository
         {
             return _context.Set<T>().ToList();
         }
+
+        public int Insert(Account Account)
+        {
+            throw new NotImplementedException();
+        }
+
         public class CheckValidation
         {
             public const Account[] NullPounterAccount = null;

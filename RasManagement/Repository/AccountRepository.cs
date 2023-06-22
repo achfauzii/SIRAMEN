@@ -30,6 +30,38 @@ namespace RasManagement.Repository
             return CheckValidation.NullPointerAnAccount;
         }
 
+        public int Register(RegisterVM registerVM)
+        {
+           
+            Account account = new Account
+            {
+                AccountId = registerVM.AccountId,
+                Email = registerVM.Email,
+                Password = registerVM.Password,
+                Nickname = registerVM.Nickname,
+                Fullname = registerVM.Fullname,
+                Birthplace = registerVM.Birthplace,
+                Birthdate = registerVM.Birthdate,
+                Religion = registerVM.Religion,
+               Gender = registerVM.Gender,
+               Maritalstatus = registerVM.Maritalstatus,
+               Hiredstatus = registerVM.Hiredstatus,    
+               Nationality = registerVM .Nationality,
+               Phone= registerVM .Phone,    
+               Address= registerVM .Address,     
+               Image= registerVM.Image,
+               RoleId= registerVM .RoleId,  
+
+            };
+            _context.Entry(account).State = EntityState.Added;
+
+           
+
+            // myContext.Entry(employee).State = EntityState.Added;
+            var save = _context.SaveChanges();
+            return save;
+        }
+
     }
     
 
