@@ -9,7 +9,7 @@ namespace RasManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[EnableCors("AllowOrigin")]
-    public class EducationsController : BaseController<FormalEdu, EducationRepository, int>
+    public class EducationsController : BaseController<FormalEdu, EducationRepository, int> 
     {
         private readonly EducationRepository educationRepository;
         public EducationsController(EducationRepository educationRepository) : base(educationRepository)

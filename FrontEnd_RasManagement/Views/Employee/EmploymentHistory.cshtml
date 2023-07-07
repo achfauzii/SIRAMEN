@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewData["Title"] = "EmploymentHistory";
+    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+}
+
+
+<style>
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
+    }
+
+</style>
+
+<!-- /.card-header -->
+<div class="card-body">
+    <h5 class="mb-3">EmployementHistory</h5>
+    <button style="background-color:#624DE3;  font-size: 12px; type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
+        Add Employment History
+    </button>
+
+    @*Modal*@
+    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Employment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="WorkExperienceId" hidden>
+                        </div>
+                        <div class="form-group">
+                            <label for="CompanyName">Company Name</label>
+                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter Company Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="Job">Job</label>
+                            <input type="text" class="form-control" id="Job" placeholder="Enter Job">
+                        </div>
+                        <div class="form-group">
+                            <label for="Period">Period</label>
+                            <input type="text" class="form-control" id="Period" placeholder="Enter Period">
+                        </div>
+                        <div class="form-group">
+                            <label for="Description">Description</label>
+                            <input type="text" class="form-control" id="Description" placeholder="Enter Description">
+                        </div>
+                        @*<div class="form-group">
+                        <input type="hidden" class="form-control" id="AccountId">
+                        </div>*@
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="Save" onclick="Save();">Save</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update" onclick="Update();">Update</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table id="TB_EmploymentHistory" class="table table-striped" style="font-size:14px; color:black">
+        <thead style="background-color:#FFFFFF">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Job</th>
+                <th scope="col">Periode</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+    </table>
+
+</div>
+
+@section script
+    {
+    <script src="~/js/employmenthistory.js"></script>
+}
+

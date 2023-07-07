@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "Educations";
+    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+}
+
+
+<style>
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
+    }
+
+</style>
+
+<!-- /.card-header -->
+<div class="card-body">
+    <h5 class="mb-3">Educations</h5>
+    <button  style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
+        + Add Education
+    </button>
+
+    @*Modal*@
+    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Education</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="FormalEduId" hidden>
+                        </div>
+                        <div class="form-group">
+                            <label for="UniversityName">University Name</label>
+                            <input type="text" class="form-control" id="UniversityName" placeholder="Enter University Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="Location">Location</label>
+                            <input type="text" class="form-control" id="Location" placeholder="Enter Location">
+                        </div>
+                        <div class="form-group">
+                            <label for="Major">Major</label>
+                            <input type="text" class="form-control" id="Major" placeholder="Enter Major">
+                        </div>
+                        <div class="form-group">
+                            <label for="Degree">Degree</label>
+                            <input type="text" class="form-control" id="Degree" placeholder="Enter Degree">
+                        </div>
+                        <div class="form-group">
+                            <label for="Years">Graduation Year</label>
+                            <input type="text" class="form-control" id="Years" placeholder="Enter Graduation Year">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="AccountId">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="Save" onclick="Save();">Save</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update" onclick="Update();">Update</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table id="TB_FormalEdu" class="table table-striped" style="font-size:14px; color:black">
+        <thead style="background-color:#FFFFFF">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">University Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Major</th>
+                <th scope="col">Degree</th>
+                <th scope="col">Graduation Year</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+    </table>
+
+</div>
+
+@section script
+    {
+    <script src="~/js/Educations.js"></script>
+
+}
