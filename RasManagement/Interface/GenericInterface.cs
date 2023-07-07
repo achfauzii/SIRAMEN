@@ -7,5 +7,6 @@
         IEnumerable<T> GetAll();
         int Insert(Account account);
 
+        
     }
 }

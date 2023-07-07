@@ -1,0 +1,145 @@
+﻿@model FrontEnd_RasManagement.Models.EmployeeViewModel
+
+@{
+    ViewData["Title"] = "DetailEmployee";
+    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+    var employeeData = ViewData["EmployeeData"] as dynamic;
+    var employeePlacement = ViewData["EmployeePlacement"] as dynamic;
+
+
+}
+
+
+
+<h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Detail Employee & Placement</h5>
+<div class="card shadow mb-4">
+    <div class="card-header py-2 d-flex">
+        <span class="text-primary h-6 ">Detail Profile :<span id="fullName" class="text-dark"> @employeeData.accountId</span> </span>
+        <span class="ml-auto">
+            @*  button*@
+        </span>
+    </div>
+    <div class="card-body m-0 pt-2">
+        <div class="row">
+            <div class="col" style="color: black">Full Name </div>
+            <div class="col-10">: @employeeData.fullname </div>
+        </div>
+        <div class="row">
+            <div class="col  " style="color: black">Nick Name </div>
+            <div class="col-10">: @employeeData.nickname </div>
+        </div>
+        <div class="row">
+            <div class="col " style="color: black">Birth Place </div>
+            <div class="col-10">: @employeeData.birthplace </div>
+        </div>
+        <div class="row">
+            <div class="col " style="color: black">Birth Date </div>
+            <div class="col-10">: @employeeData.birthdate </div>
+        </div>
+        <div class="row">
+            <div class="col " style="color: black">Gender </div>
+            <div class="col-10">: @employeeData.gender </div>
+        </div>
+        <div class="row">
+            <div class="col " style="color: black">Religion </div>
+            <div class="col-10">: @employeeData.religion </div>
+        </div>
+        <div class="row">
+            <div class="col " style="color: black">Martial Status </div>
+            <div class="col-10">: @employeeData.martialstatus </div>
+        </div>
+        <div class="row">
+            <div class="col " style="color: black">Nationality </div>
+            <div class="col-10">: @employeeData.nationality </div>
+        </div>
+        <div class="row">
+            <div class="col " style="color: black">Address </div>
+            <div class="col-10">: @employeeData.address </div>
+        </div>
+
+    </div>
+</div>
+@if (employeePlacement != null)
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-2 d-flex">
+            <span class="text-primary h-6 ">Placement Status :<span id="fullName" class="text-dark"> @employeePlacement.placementStatus</span> </span>
+            <span class="ml-auto">
+                <!-- Button trigger modal -->
+
+                <button class="btn btn-sm  pl-1 pr-1 pt-0 pb-0" style="background-color:#624DE3;" data-toggle="modal" data-target="#modalPlacement" onclick="ClearScreen('@employeeData.accountId')">
+                    <i class="fas fa-edit text-light"></i>
+
+                </button>
+            </span>
+        </div>
+        <div class="card-body m-0 pt-2">
+            <div class="row">
+                <div class="col" style="color: black">Company Name </div>
+                <div class="col-10">: @employeePlacement?.companyName </div>
+            </div>
+            <div class="row">
+                <div class="col  " style="color: black">Description </div>
+                <div class="col-10">: @employeePlacement.description </div>
+            </div>
+
+
+
+        </div>
+    </div>
+}
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalPlacement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-1">
+                <h5 class="modal-title" id="exampleModalLabel">Job Vacancy</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="alert-companyName" class="alert alert-danger" role="alert" style="display:none"> Company Name Tidak Boleh Kosong! </div>
+                <form>
+                    <button class="btn btn-sm btn-warning"> @employeeData.accountId</button>
+                    <input type="hidden" id="accountId" value="@employeeData.accountId">
+                    <input type="hidden" id="placementStatusId" value="@employeePlacement?.placementStatusId">
+                    <div class="form-group">
+                        <label class="m-0" for="exampleInputEmail1">Company Name</label>
+                        <input type="text" class="form-control " id="companyName" name="companyName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1" class=" m-0">Desscription</label>
+                        <textarea class="form-control" id="description" rows="2"></textarea>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label class="text-dark" for="exampleInputEmail1">Status</label>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite" checked>
+                                <label class="form-check-label" for="radio1">Onsite</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="idle" name="status" value="Idle">
+                                <label class="form-check-label" for="radio2">Idle</label>
+                            </div>
+                        </div>
+
+                      
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-add" id="Add" onclick="Save('@employeeData.accountId')">Add</button>
+                <button type="button" class="btn btn-primary" id="Update" data-bs-dismiss="modal" onclick="Update()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

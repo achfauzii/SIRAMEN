@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "JobVacancy_Admin";
+    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+}
+
+<h5 style="font-family:comfortaa; color: black" class="font-weight-bold" >Job List</h5>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-sm text-light mb-3" data-toggle="modal" data-target="#exampleModal" style="background-color:#624DE3;  font-size: 12px;">
+    + Add Job Vacancy
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-1">
+                <h5 class="modal-title" id="exampleModalLabel">Job Vacancy</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="m-0" for="exampleInputEmail1">Position</label>
+                        <input type="text" class="form-control " id="position" name="position">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1" class=" m-0">Desscription</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1" class="m-0">Qualification</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label class="text-dark" for="exampleInputEmail1">Application Closed</label>
+                            <input type="date" class="form-control " id="applicationClosed" name="applicationClosed">
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label class="text-dark" for="exampleInputEmail1">Status</label>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="male" name="status" value="Open" checked>Open
+                                <label class="form-check-label" for="radio1"></label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radio2" name="status" value="Close">Close
+                                <label class="form-check-label" for="radio2"></label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-2 d-flex">
+        <span class="text-primary h-6 ">Status : </span>
+        <span class="ml-auto">
+            <button class="btn btn-sm btn-primary pl-1 pr-1 pt-0 pb-0"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>
+        </span>
+    </div>
+    <div class="card-body m-0 pt-2">
+        <span class="text-dark text-lg"> Junior Bootcamp Developer Program</span> <br>
+        <span class="text-sm" style="font-family:comfortaa; font-size: 12px;"> PT Berca Hardayaperkasa</span> <br>
+        <span class="text-sm" style="font-family:comfortaa;  font-size: 12px;"> Availible Until 20 Juni 2023</span>
+        <p class="text-dark text-md mt-2 mb-0"> Job Description :</p>
+        <ul class="text-sm" style="font-family:comfortaa;  font-size: 12px;">
+            <li>Coffee</li>
+            <li>Tea</li>
+            <li>Milk</li>
+        </ul>
+        <p class="text-dark text-md mt-2 mb-0"> Qualification :</p>
+        <ul class="text-sm" style="font-family:comfortaa;  font-size: 12px;">
+            <li>Coffee</li>
+            <li>Tea</li>
+            <li>Milk</li>
+        </ul>
+    </div>
+</div>

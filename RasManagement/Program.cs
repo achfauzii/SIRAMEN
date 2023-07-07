@@ -2,19 +2,60 @@ global using RasManagement.Models;
 global using Microsoft.EntityFrameworkCore;
 using RasManagement.Interface;
 using RasManagement.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//Add Token Barier using JWT.
+builder.Services.AddAuthentication(options =>
+{
 
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = true;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
+        IssuerSigningKey = new SymmetricSecurityKey
+        (Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true
+    };
+
+});
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ProjectRasmanagementContext>();
 builder.Services.AddTransient<IUnitWork, UnitWork>();
 builder.Services.AddScoped<AccountRepository>();
+builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<EmployeePlacementRepository>();
+builder.Services.AddScoped<EducationRepository>();
+
+//builder.Services.AddTransient<EducationRepository>();
+
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowOrigin", options => options
+     .AllowAnyOrigin()
+     .AllowAnyHeader()
+     .AllowAnyMethod());
+});
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -23,7 +64,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//IMPLEMENTASI CORS
+app.UseCors(options => options
+.AllowAnyOrigin()
+.AllowAnyHeader()
+.AllowAnyMethod());
 app.UseHttpsRedirection();
+
+app.UseAuthentication(); // Menambahkan middleware autentikasi
+app.UseAuthorization();
 
 app.UseAuthorization();
 
