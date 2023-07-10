@@ -138,20 +138,19 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.CompanyName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.PublicationYear)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("Publication_year");
-            entity.Property(e => e.Publisher)
+            entity.Property(e => e.Job)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.ValidUntil)
+            entity.Property(e => e.Period)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("Valid_until");
+                .HasColumnName("Periode");
+            entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.EmploymentHistories)
                 .HasForeignKey(d => d.AccountId)
