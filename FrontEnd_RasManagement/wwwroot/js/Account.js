@@ -39,7 +39,9 @@
             //debugger;
 
             loaderContainer.innerHTML = "";
+
             $.post("/Accounts/Auth", { token })
+
                 .done(function () {
                     Swal.fire({
                         icon: 'success',
