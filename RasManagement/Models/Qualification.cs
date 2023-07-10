@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace RasManagement.Models;
 
@@ -19,5 +20,6 @@ public partial class Qualification
 
     public string? AccountId { get; set; }
 
+    [JsonIgnore]
     public virtual Account? Account { get; set; }
 }

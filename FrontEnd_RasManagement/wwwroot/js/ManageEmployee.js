@@ -57,7 +57,7 @@
                 "render": function (data, type, row) {
                  
                     return '<a href="#" class="text-dark pt-1" data-bs-toggle="modal" onclick = "GenerateCv(\'' + row.accountId + '\')"><i class="far fa-file-pdf" title="Curiculum Vitae"></i></a>' +
-                        '<a href="#" class="btn btn-primary ml-2 btn-sm p-0" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId + '\')">Detail</a>';
+                        '<a href="#" class="btn  ml-2 btn-sm p-0"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId + '\')">Detail</a>';
                 }
             }
 
