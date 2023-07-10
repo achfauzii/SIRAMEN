@@ -14,14 +14,14 @@ function loadData() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            //debugger;
-            //console.log(result); 
+            debugger;
+            console.log(result); 
             var obj = result.data.result; //data yg didapat dari api
             var birthDate = obj.birthdate;
             const date = new Date(birthDate);
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
             const date_ = date.toLocaleDateString('id-ID', options);
-            document.getElementById('name').textContent = obj.fullname;
+            document.getElementById('fullName').textContent = obj.fullname;
             document.getElementById('nickName').textContent = obj.nickname;
             document.getElementById('birthPlace').textContent = obj.birthplace;
             document.getElementById('birthDate').textContent = date_;
@@ -29,7 +29,7 @@ function loadData() {
             document.getElementById('religion').textContent = obj.religion;
             document.getElementById('martialStatus').textContent = obj.maritalstatus;
             document.getElementById('nationality').textContent = obj.nationality;
-
+           
             //debugger;
             // API GET (Education By AccountId)
             $.ajax({
