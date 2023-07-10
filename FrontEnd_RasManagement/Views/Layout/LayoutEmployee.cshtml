@@ -33,6 +33,23 @@
     <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/JwtUtils.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            var token = sessionStorage.getItem("Token");
+            var decodedToken = parseJwt(token);
+            var name = decodedToken.Name;
+
+            var userNameElement = document.getElementById("name");
+            userNameElement.textContent = name;
+         
+        });
+
+       
+    </script>
+
 
 </head>
 
@@ -342,9 +359,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="name"></span>
                                 <img class="img-profile rounded-circle"
-                                     src="img/undraw_profile.svg">
+                                     src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

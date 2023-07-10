@@ -1,6 +1,6 @@
 ﻿document.getElementById("loginForm").addEventListener("submit", async function (event) {
     event.preventDefault();
-    const url = "http://localhost:8003/api/Account";
+    const url = "https://localhost:7177/api/Accounts";
     const data = {
         email: $('#exampleInputEmail').val(),
         password: $('#exampleInputPassword').val()
@@ -13,43 +13,50 @@
         body: JSON.stringify(data)
     };
 
-    // Tampilkan loader
-    const loaderContainer = document.getElementById("loaderContainer");
-    loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
+    /*   // Tampilkan loader
+       const loaderContainer = document.getElementById("loaderContainer");
+       loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
+   
+       // Loader
+       const loaderResponse = await fetch("/loader/index");
+       const loaderHtml = await loaderResponse.text();
+   
+       loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
+   */
 
-    // Loader
-    const loaderResponse = await fetch("/loader/index");
-    const loaderHtml = await loaderResponse.text();
-
-    loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-
-
-    debugger;
+    //debugger;
     try {
         const response = await fetch(url, option);
         const json = await response.json();
-
+        console.log(json.data);
         if (response.ok) {
-            sessionStorage.setItem("userToken", json.data);
-            const decodedToken = jwt_decode(sessionStorage.getItem("userToken"));
+            var token = json.data;
+            sessionStorage.setItem("Token",token);
+            const decodedToken = parseJwt(json.data);
 
-            console.log("Token : " + sessionStorage.getItem("userToken"));
-            console.log(response);
+
             console.log(decodedToken.Role);
-            debugger;
+            //debugger;
 
-            loaderContainer.innerHTML = "";
+            //loaderContainer.innerHTML = "";
+            $.post("Auth", { token })
+                .done(function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Greats...',
+                        text: 'You are signed in :D',
+                        showConfirmButton: false,
+                        timer: 1000,
+                        didClose: () => {
+                            if (decodedToken.Role === 'Admin') {
+                                window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin dashboard
+                            } else {
+                                window.location.replace("/dashboards/employee"); // Redirect to user dashboard
+                            }
+                        }
+                    })
+                });
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Greats...',
-                text: 'You are signed in :D',
-                showConfirmButton: false,
-                timer: 1000,
-                didClose: () => {
-                    window.location.replace("/testrole/index");
-                }
-            });
         } else {
             loaderContainer.innerHTML = "";
 
@@ -60,7 +67,7 @@
                 showConfirmButton: false,
                 timer: 1000,
                 didClose: () => {
-                    window.location.replace("/login/index");
+                    window.location.replace("Accounts/Login");
                 }
             });
         }
@@ -74,8 +81,18 @@
             showConfirmButton: false,
             timer: 1000,
             didClose: () => {
-                window.location.replace("/login/index");
+                window.location.replace("Login");
             }
         });
     }
 });
+
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
