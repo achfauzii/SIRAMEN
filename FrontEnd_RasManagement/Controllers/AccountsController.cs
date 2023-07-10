@@ -1,7 +1,9 @@
 ﻿using FrontEnd_RasManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 
@@ -9,7 +11,7 @@ namespace FrontEnd_RasManagement.Controllers
 {
     public class AccountsController : Controller
     {
-        
+
         public IActionResult Index()
         {
             return View();
@@ -18,6 +20,30 @@ namespace FrontEnd_RasManagement.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Auth(string token)
+        {
+
+
+            // Mendekode token JWT
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token);
+
+            // Mendapatkan nilai claim yang diinginkan
+            string userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+            string role = jwtToken.Claims.FirstOrDefault(c => c.Type == "Role")?.Value;
+
+
+
+
+            Console.WriteLine(userId);
+
+            // Melakukan tindakan selanjutnya dengan token yang sudah diubah
+            // ...
+
+            return Ok(role);
         }
 
 

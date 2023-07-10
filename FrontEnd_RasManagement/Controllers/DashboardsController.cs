@@ -8,9 +8,12 @@ namespace FrontEnd_RasManagement.Controllers
     {
 
         //Dashboard Employee
-        public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> Employee()
         {
-          
+            var date = await GetTimeNow();
+            int totalEmployee = await GetTotalEmployee();
+            ViewBag.FormattedDate = date;
+            ViewBag.TotalEmployee = totalEmployee;
             return View();
         }
 
