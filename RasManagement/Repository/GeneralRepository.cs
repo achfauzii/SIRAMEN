@@ -32,6 +32,8 @@ namespace RasManagement.Repository
             return entities.ToList();
         }
 
+
+
         public Entity get(Key key)
         {
             return entities.Find(key);
