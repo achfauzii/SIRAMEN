@@ -88,7 +88,7 @@ namespace RasManagement.Controllers
                         new Claim("Password", viewLogin.Password),
                         new Claim("AccountId", roleId.AccountId),
                         new Claim("RoleId", roleId.RoleId),
-                        
+                        new Claim("Name", roleId.Fullname),
 
                         roleClaim
                     };

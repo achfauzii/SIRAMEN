@@ -26,6 +26,23 @@
     @*  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>*@
+     <script src="~/js/JwtUtils.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            var token = sessionStorage.getItem("Token");
+            var decodedToken = parseJwt(token);
+            var name = decodedToken.Name;
+
+            var userNameElement = document.getElementById("name");
+            userNameElement.textContent = name;
+         
+        });
+
+       
+    </script>
+
     <!-- Custom styles for this page -->
     <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <style>
@@ -36,6 +53,7 @@
         }
     </style>
 
+   
 
 
 
@@ -324,7 +342,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@ViewBag.TotalEmployee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id ="name"></span>
                                 <img class="img-profile rounded-circle"
                                      src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
                             </a>
