@@ -13,7 +13,7 @@
         body: JSON.stringify(data)
     };
 
-    /*   // Tampilkan loader
+       // Tampilkan loader
        const loaderContainer = document.getElementById("loaderContainer");
        loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
    
@@ -22,7 +22,7 @@
        const loaderHtml = await loaderResponse.text();
    
        loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-   */
+   
 
     //debugger;
     try {
@@ -38,8 +38,8 @@
             console.log(decodedToken.Role);
             //debugger;
 
-            //loaderContainer.innerHTML = "";
-            $.post("Auth", { token })
+            loaderContainer.innerHTML = "";
+            $.post("/Accounts/Auth", { token })
                 .done(function () {
                     Swal.fire({
                         icon: 'success',
