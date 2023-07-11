@@ -126,21 +126,22 @@ function ClearScreenFormal() {
     $('#Major').val('');
     $('#Degree').val('');
     $('#Years').val('');
-    $('#AccountId').val('');
     $('#Update').hide();
     $('#Save').show();
 }
 
 function GetById(formalEduId) {
     debugger;
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
     $.ajax({
         url: "https://localhost:7177/api/Educations/" + formalEduId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },
+        /*headers: {
+            sessionStorage.getItem("Token")
+        },*/
         success: function (result) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
@@ -150,8 +151,8 @@ function GetById(formalEduId) {
             $('#Major').val(obj.major);
             $('#Degree').val(obj.degree);
             $('#Years').val(obj.years);
-            $('#AccountId').val(obj.accountId);
-            $('#Modal').modal('show');
+            $('#AccountId').accid;
+            $('#ModalFormal').modal('show');
             $('#Update').show();
             $('#Save').hide();
         },
@@ -161,20 +162,23 @@ function GetById(formalEduId) {
     })
 }
 
-function Update() {
+function UpdateFormal() {
     var FormalEdu = new Object(); //object baru
+    FormalEdu.FormalEduId = $('#FormalEduId').val();
     FormalEdu.UniversityName = $('#UniversityName').val(); //value insert dari id pada input
     FormalEdu.Location = $('#Location').val();
     FormalEdu.Major = $('#Major').val();
     FormalEdu.Degree = $('#Degree').val();
     FormalEdu.Years = $('#Years').val();
-    FormalEdu.accountId = $('#AccountId').val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    FormalEdu.AccountId = accid;
     debugger;
     $.ajax({
-        url: 'https://localhost:7177/api/Educations',
         type: 'PUT',
+        url: 'https://localhost:7177/api/Educations',
         data: JSON.stringify(FormalEdu),
-        contentType: "application/json; charset=utf-8",
+        contentType: "application/json; charset=utf-8"
         /*headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
         },*/

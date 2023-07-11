@@ -2,6 +2,7 @@
     debugger;
     
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    console.log(decodedtoken);
     const accid = decodedtoken.AccountId;
     $('#NonFormalEdu').DataTable({
         "ajax": {
@@ -34,6 +35,7 @@
 })
 
 function parseJwt(token) {
+    debugger;
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
@@ -44,18 +46,18 @@ function parseJwt(token) {
 }
 
 function ClearScreen() {
-    $('#NonFormalId').val('');
     $('#Name').val('');
     $('#Organizer').val('');
     $('#Years').val('');
     $('#Description').val('');
-    $('#AccountId').val('');
     $('#Update').hide();
     $('#Save').show();
 }
 
 function getbyID(NonFormalId) {
     //debugger;
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
     $.ajax({
         url: "https://localhost:7177/api/NonFormalEdu/" + NonFormalId,
         type: "GET",
@@ -69,8 +71,8 @@ function getbyID(NonFormalId) {
             $('#Organizer').val(obj.organizer);
             $('#Years').val(obj.years);
             $('#Description').val(obj.description);
-            $('#AccountId').val(obj.accountId);
-            $('#Modal').modal('show');
+            $('#AccountId').accid;
+            $('#ModalNonFormal').modal('show');
             $('#Save').hide();
             $('#Update').show();
         },
@@ -86,7 +88,7 @@ function Save() {
     NonFormal.Organizer = $('#Organizer').val();
     NonFormal.Years = $('#Years').val();
     NonFormal.Description = $('#Description').val();
-    const decodedtoken = parseJwt(sessionStorage.getItem("userToken"));
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     NonFormal.AccountId = accid;
     $.ajax({
@@ -164,7 +166,9 @@ function Update() {
     NonFormal.Organizer = $('#Organizer').val();
     NonFormal.Years = $('#Years').val();
     NonFormal.Description = $('#Description').val();
-    NonFormal.AccountId = $('#AccountId').val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    NonFormal.AccountId = accid;
     $.ajax({
         url: 'https://localhost:7177/api/NonFormalEdu',
         type: 'PUT',

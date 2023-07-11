@@ -69,7 +69,7 @@
                 showConfirmButton: false,
                 timer: 1000,
                 didClose: () => {
-                    window.location.replace("Accounts/Login");
+                    window.location.replace("/Accounts/Login");
                 }
             });
         }
@@ -83,7 +83,7 @@
             showConfirmButton: false,
             timer: 1000,
             didClose: () => {
-                window.location.replace("Login");
+                window.location.replace("/Accounts/Login");
             }
         });
     }
