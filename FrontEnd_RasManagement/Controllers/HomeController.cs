@@ -17,7 +17,7 @@ namespace FrontEnd_RasManagement.Controllers
         {
             return View();
         }
-
+    
         public IActionResult Privacy()
         {
             return View();
