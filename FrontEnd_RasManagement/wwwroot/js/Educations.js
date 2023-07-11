@@ -4,10 +4,11 @@ $(document).ready(function () {
 })
 
 function Educations() {
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
     table = $('#TB_FormalEdu').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/Educations/accountId?accountId=0999",
-            /*url: "https://localhost:7177/api/Educations",*/
+            url: "https://localhost:7177/api/Educations/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -62,14 +63,26 @@ function Educations() {
     })
 }
 
-function Save() {
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+function SaveFormal() {
     var FormalEdu = new Object(); //object baru
     FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
     FormalEdu.location = $('#Location').val();
     FormalEdu.major = $('#Major').val();
     FormalEdu.degree = $('#Degree').val();
     FormalEdu.years = $('#Years').val();
-    FormalEdu.accountId = $('#AccountId').val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    FormalEdu.AccountId = accid;
     $.ajax({
         type: 'POST',
         url: 'https://localhost:7177/api/Educations',
@@ -106,7 +119,7 @@ function Save() {
     })
 }
 
-function ClearScreen() {
+function ClearScreenFormal() {
     $('#FormalEduId').val('');
     $('#UniversityName').val('');
     $('#Location').val('');

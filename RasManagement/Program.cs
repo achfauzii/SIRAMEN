@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RasManagement.Repository.Data;
+using RasManagement.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,8 @@ builder.Services.AddScoped<EmployeePlacementRepository>();
 builder.Services.AddScoped<EducationRepository>();
 builder.Services.AddScoped<EmploymentHistoryRepository>();
 builder.Services.AddScoped<NonFormalEduRepository>();
+builder.Services.AddScoped<CertificateRepository>();
+builder.Services.AddScoped<ProjectHistoryRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 

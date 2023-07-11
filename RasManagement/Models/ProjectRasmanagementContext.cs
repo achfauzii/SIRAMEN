@@ -140,15 +140,15 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasColumnName("Account_Id");
             entity.Property(e => e.CompanyName)
                 .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Company_Name");
+            entity.Property(e => e.Description)
+                .HasMaxLength(200)
                 .IsUnicode(false);
             entity.Property(e => e.Job)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Period)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Periode");
-            entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .IsUnicode(false);
 

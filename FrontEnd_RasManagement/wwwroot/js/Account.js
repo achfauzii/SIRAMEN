@@ -13,16 +13,16 @@
         body: JSON.stringify(data)
     };
 
-    /*   // Tampilkan loader
-       const loaderContainer = document.getElementById("loaderContainer");
-       loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
-   
-       // Loader
-       const loaderResponse = await fetch("/loader/index");
-       const loaderHtml = await loaderResponse.text();
-   
-       loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-   */
+    // Tampilkan loader
+    const loaderContainer = document.getElementById("loaderContainer");
+    loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
+
+    // Loader
+    const loaderResponse = await fetch("/loader/index");
+    const loaderHtml = await loaderResponse.text();
+
+    loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
+
 
     //debugger;
     try {
@@ -31,15 +31,15 @@
         console.log(json.data);
         if (response.ok) {
             var token = json.data;
-            sessionStorage.setItem("Token",token);
+            sessionStorage.setItem("Token", token);
             const decodedToken = parseJwt(json.data);
 
 
             console.log(decodedToken.Role);
             //debugger;
 
-            //loaderContainer.innerHTML = "";
-            $.post("Auth", { token })
+            loaderContainer.innerHTML = "";
+            $.post("/Accounts/Auth", { token })
                 .done(function () {
                     Swal.fire({
                         icon: 'success',
