@@ -13,16 +13,16 @@
         body: JSON.stringify(data)
     };
 
-       // Tampilkan loader
-       const loaderContainer = document.getElementById("loaderContainer");
-       loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
-   
-       // Loader
-       const loaderResponse = await fetch("/loader/index");
-       const loaderHtml = await loaderResponse.text();
-   
-       loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-   
+/*    // Tampilkan loader
+    const loaderContainer = document.getElementById("loaderContainer");
+    loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
+
+    // Loader
+    const loaderResponse = await fetch("/loader/index");
+    const loaderHtml = await loaderResponse.text();
+
+    loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
+*/
 
     //debugger;
     try {
@@ -31,14 +31,14 @@
         console.log(json.data);
         if (response.ok) {
             var token = json.data;
-            sessionStorage.setItem("Token",token);
+            sessionStorage.setItem("Token", token);
             const decodedToken = parseJwt(json.data);
 
 
             console.log(decodedToken.Role);
             //debugger;
 
-            loaderContainer.innerHTML = "";
+            //loaderContainer.innerHTML = "";
 
             $.post("/Accounts/Auth", { token })
 
@@ -55,40 +55,47 @@
                             } else {
                                 window.location.replace("/dashboards/employee"); // Redirect to user dashboard
                             }
+
+                            Toastify({
+                                text: "Hi " + decodedToken.Nama,
+                                duration: 3000,
+                                style: {
+                                    background: "#28a745",
+                                },
+                            }).showToast();
                         }
                     })
                 });
 
         } else {
-            loaderContainer.innerHTML = "";
+           // loaderContainer.innerHTML = "";
 
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong',
-                showConfirmButton: false,
-                timer: 1000,
-                didClose: () => {
-                    window.location.replace("/Accounts/Login");
-                }
-            });
+            Toastify({
+
+                text: "Incorrect email or password !",
+
+                duration: 3000,
+                 style: {
+                     background: "#DC3545",
+                },
+
+            }).showToast();
         }
     } catch (error) {
-        loaderContainer.innerHTML = "";
+        //loaderContainer.innerHTML = "";
 
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong',
-            showConfirmButton: false,
-            timer: 1000,
-            didClose: () => {
-                window.location.replace("/Accounts/Login");
-            }
-        });
+        Toastify({  
+
+            text: "Incorrect email or password !",
+
+            duration: 3000,
+            style: {
+                background: "#DC3545",
+            },
+
+        }).showToast();
     }
 });
-
 
 
 

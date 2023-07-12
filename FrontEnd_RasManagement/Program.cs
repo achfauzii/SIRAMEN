@@ -30,14 +30,14 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-    app.MapControllerRoute(
-        name: "ResetPassword",
-        pattern: "/ResetPassword/{resetToken}",
-        defaults: new { controller = "Accounts", action = "ResetPassword" }
-    );
+app.MapControllerRoute(
+    name: "ResetPassword",
+    pattern: "/ResetPassword/{resetToken}",
+    defaults: new { controller = "Accounts", action = "ResetPassword" }
+);
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Accounts}/{action=Login}/{id?}");
+    pattern: "{controller=Accounts}/{action=Login}");
 
 app.Run();
