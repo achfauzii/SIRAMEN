@@ -1,8 +1,7 @@
 ﻿$(document).ready(function () {
-    debugger;
+    //debugger;
     
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    console.log(decodedtoken);
     const accid = decodedtoken.AccountId;
     $('#NonFormalEdu').DataTable({
         "ajax": {
@@ -35,7 +34,7 @@
 })
 
 function parseJwt(token) {
-    debugger;
+    //debugger;
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
@@ -46,12 +45,13 @@ function parseJwt(token) {
 }
 
 function ClearScreen() {
+    debugger;
     $('#Name').val('');
     $('#Organizer').val('');
     $('#Years').val('');
     $('#Description').val('');
-    $('#Update').hide();
-    $('#Save').show();
+    $('#UpdateNonFormal').hide();
+    $('#SaveNonFormal').show();
 }
 
 function getbyID(NonFormalId) {
@@ -64,7 +64,7 @@ function getbyID(NonFormalId) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            //debugger;
+            debugger;
             var obj = result.data; //data yg dapet dr id
             $('#NonformalId').val(obj.nonFormalId); //ngambil data dr api
             $('#Name').val(obj.name);
@@ -73,8 +73,8 @@ function getbyID(NonFormalId) {
             $('#Description').val(obj.description);
             $('#AccountId').accid;
             $('#ModalNonFormal').modal('show');
-            $('#Save').hide();
-            $('#Update').show();
+            $('#SaveNonFormal').hide();
+            $('#UpdateNonFormal').show();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -97,7 +97,7 @@ function Save() {
         data: JSON.stringify(NonFormal), //ngirim data ke api
         contentType: "application/json; charset=utf-8"
     }).then((result) => {
-        debugger;
+        //debugger;
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
             //alert("Data Berhasil Dimasukkan");
             Swal.fire({
@@ -120,7 +120,7 @@ function Save() {
 }
 
 function Delete(NonFormalId) {
-    debugger;
+    //debugger;
     Swal.fire({
         title: 'Kamu yakin?',
         text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
@@ -137,7 +137,7 @@ function Delete(NonFormalId) {
                 type: "DELETE",
                 dataType: "json",
             }).then((result) => {
-                debugger;
+                //debugger;
                 if (result.status == 200) {
                     Swal.fire(
                         'Berhasil',
@@ -161,7 +161,7 @@ function Delete(NonFormalId) {
 function Update() {
     debugger;
     var NonFormal = new Object();
-    NonFormal.NonFormalId = $('#NonFormalId').val();
+    NonFormal.NonFormalId = $('#NonformalId').val();
     NonFormal.Name = $('#Name').val();
     NonFormal.Organizer = $('#Organizer').val();
     NonFormal.Years = $('#Years').val();
@@ -174,30 +174,23 @@ function Update() {
         type: 'PUT',
         data: JSON.stringify(NonFormal),
         contentType: "application/json; charset=utf-8",
-
     }).then((result) => {
         debugger;
         if (result.status == 200) {
-            //alert("Data Berhasil Diperbaharui");
-            //table.ajax.reload();
             Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil diupdate',
+                title: "Success!",
+                text: "Data Berhasil Di Update",
+                icon: "success",
                 showConfirmButton: false,
                 timer: 1500
-            })
-            $('#Modal').modal('hide');
-            $('#NonFormalEdu').DataTable().ajax.reload();
-        }
-        else {
-            Swal.fire(
-                'Error!',
-                result.message,
-                'error'
-            )
-            table.ajax.reload();
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            alert("Data gagal Diperbaharui");
+            location.reload();
         }
     });
 }
+
 
