@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Certificate";
+    ViewData["Title"] = "ProjectHistory";
     Layout = "~/Views/Layout/LayoutEmployee.cshtml";
 }
 
@@ -17,9 +17,9 @@
 
 <!-- /.card-header -->
 <div class="card-body">
-    <h5 class="mb-3">Certificate</h5>
+    <h5 class="mb-3">Project History</h5>
     <button style="background-color:#624DE3;  font-size: 12px; type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
-     + Add Certificate
+     + Add Project History
     </button>
 
     @*Modal*@
@@ -27,7 +27,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Certificate</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Project</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -35,23 +35,23 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="CertificateId" hidden>
+                            <input type="text" class="form-control" id="ProjectHistoryId" hidden>
                         </div>
                         <div class="form-group">
-                            <label for="Name">Company Name</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Enter Name">
+                            <label for="ProjectName">Project Name</label>
+                            <input type="text" class="form-control" id="ProjectName" placeholder="Enter Project Name">
                         </div>
                         <div class="form-group">
-                            <label for="Publisher">Publisher</label>
-                            <input type="text" class="form-control" id="Publisher" placeholder="Enter Publisher">
+                            <label for="JobSpec">Job Spesification</label>
+                            <input type="text" class="form-control" id="JobSpec" placeholder="Enter Job Spesification">
                         </div>
                         <div class="form-group">
-                            <label for="PublicationYear">Publication Years</label>
-                            <input type="text" class="form-control" id="PublicationYear" placeholder="Enter Publication Years">
+                            <label for="Year">Year</label>
+                            <input type="text" class="form-control" id="Year" placeholder="Enter Year">
                         </div>
                         <div class="form-group">
-                            <label for="ValidUntil">ValidUntil</label>
-                            <input type="text" class="form-control" id="DescrValidUntiliption" placeholder="Enter Valid Until">
+                            <label for="CompanyName">Company Name</label>
+                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter CompanyName">
                         </div>
                     </form>
                 </div>
@@ -64,14 +64,14 @@
         </div>
     </div>
 
-    <table id="TB_Certificate" class="table table-striped" style="font-size:14px; color:black">
+    <table id="TB_ProjectHistory" class="table table-striped" style="font-size:14px; color:black">
         <thead style="background-color:#FFFFFF">
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Name</th>
-                <th scope="col">Publisher</th>
-                <th scope="col">Publication Year</th>
-                <th scope="col">Valid Until</th>
+                <th scope="col">Project Name</th>
+                <th scope="col">Job Spesification</th>
+                <th scope="col">Year</th>
+                <th scope="col">Company Name</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -79,7 +79,8 @@
 
 </div>
 
-@section script{
-    <script src="~/js/Certificate.js"></script>
+@section script
+    {
+    <script src="~/js/projecthistory.js"></script>
 }
 

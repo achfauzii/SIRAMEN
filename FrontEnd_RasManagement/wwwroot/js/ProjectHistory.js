@@ -1,14 +1,11 @@
 ﻿var table = null;
 $(document).ready(function () {
-    Educations();
-})
-
-function Educations() {
+    debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
-    table = $('#TB_FormalEdu').DataTable({
+    table = $('#TB_ProjectHistory').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/Educations/accountId?accountId=" + accid,
+            url: "https://localhost:7177/api/ProjectHistoryControler/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -26,19 +23,18 @@ function Educations() {
                     return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }
             },
-            { "data": "universityName" },
-            { "data": "location" },
-            { "data": "major" },
-            { "data": "degree" },
-            { "data": "years" },
+            { "data": "projectName" },
+            { "data": "jobSpec" },
+            { "data": "year" },
+            { "data": "companyName" },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 "data": null,
                 "render": function (data, type, row) {
-                    var modalId = "modal-edit-" + data.formalEduId;
-                    var deleteId = "modal-delete-" + data.formalEduId;
-                    return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.formalEduId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.formalEduId + ')"><i class="fa fa-trash"></i></button >'
+                    var modalId = "modal-edit-" + data.projectHistoryId;
+                    var deleteId = "modal-delete-" + data.projectHistoryId;
+                    return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.projectHistoryId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
+                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.projectHistoryId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
         ],
@@ -48,7 +44,7 @@ function Educations() {
         //Buat ngilangin order kolom No dan Action
         "columnDefs": [
             {
-                "targets": [0, 2, 3, 4, 5, 6],
+                "targets": [0, 2, 3, 4, 5],
                 "orderable": false
             }
         ],
@@ -61,7 +57,7 @@ function Educations() {
             });
         }
     })
-}
+})
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
@@ -73,20 +69,19 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-function SaveFormal() {
-    var FormalEdu = new Object(); //object baru
-    FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
-    FormalEdu.location = $('#Location').val();
-    FormalEdu.major = $('#Major').val();
-    FormalEdu.degree = $('#Degree').val();
-    FormalEdu.years = $('#Years').val();
+function Save() {
+    var ProjectHistory = new Object(); //object baru
+    ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
+    ProjectHistory.jobSpec = $('#JobSpec').val();
+    ProjectHistory.year = $('#Year').val();
+    ProjectHistory.companyName = $('#CompanyName').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
-    FormalEdu.AccountId = accid;
+    ProjectHistory.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Educations',
-        data: JSON.stringify(FormalEdu),
+        url: 'https://localhost:7177/api/ProjectHistoryControler',
+        data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         /*headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
@@ -119,38 +114,34 @@ function SaveFormal() {
     })
 }
 
-function ClearScreenFormal() {
-    $('#FormalEduId').val('');
-    $('#UniversityName').val('');
-    $('#Location').val('');
-    $('#Major').val('');
-    $('#Degree').val('');
-    $('#Years').val('');
-    $('#AccountId').val('');
+function ClearScreen() {
+    $('#ProjectHistoryId').val('');
+    $('#ProjectName').val('');
+    $('#JobSpec').val('');
+    $('#Year').val('');
+    $('#CompanyName').val('');
     $('#Update').hide();
     $('#Save').show();
 }
 
-function GetById(formalEduId) {
+function GetById(projectHistoryId) {
     debugger;
     $.ajax({
-        url: "https://localhost:7177/api/Educations/" + formalEduId,
+        url: "https://localhost:7177/api/ProjectHistoryControler/" + projectHistoryId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        headers: {
+        /*headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },
+        },*/
         success: function (result) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
-            $('#FormalEduId').val(obj.formalEduId);
-            $('#UniversityName').val(obj.universityName);
-            $('#Location').val(obj.location);
-            $('#Major').val(obj.major);
-            $('#Degree').val(obj.degree);
-            $('#Years').val(obj.years);
-            $('#AccountId').val(obj.accountId);
+            $('#ProjectHistoryId').val(obj.projectHistoryId);
+            $('#ProjectName').val(obj.projectName);
+            $('#JobSpec').val(obj.jobSpec);
+            $('#Year').val(obj.year);
+            $('#CompanyName').val(obj.companyName);
             $('#Modal').modal('show');
             $('#Update').show();
             $('#Save').hide();
@@ -162,19 +153,17 @@ function GetById(formalEduId) {
 }
 
 function Update() {
-    var FormalEdu = new Object(); //object baru
-    FormalEdu.formalEduId = $('#FormalEduId').val();
-    FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
-    FormalEdu.location = $('#Location').val();
-    FormalEdu.major = $('#Major').val();
-    FormalEdu.degree = $('#Degree').val();
-    FormalEdu.years = $('#Years').val();
-    FormalEdu.accountId = $('#AccountId').val();
+    var ProjectHistory = new Object(); //object baru
+    ProjectHistory.projectHistoryId = $('#ProjectHistoryId');
+    ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
+    ProjectHistory.jobSpec = $('#JobSpec').val();
+    ProjectHistory.year = $('#Year').val();
+    ProjectHistory.companyName = $('#CompanyName').val();
     debugger;
     $.ajax({
-        url: 'https://localhost:7177/api/Educations',
+        url: 'https://localhost:7177/api/EmploymentHistory',
         type: 'PUT',
-        data: JSON.stringify(FormalEdu),
+        data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         /*headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
@@ -198,7 +187,7 @@ function Update() {
     });
 }
 
-function Delete(formalEduId) {
+function Delete(projectHistoryId) {
     debugger;
     Swal.fire({
         title: 'Are you sure?',
@@ -211,7 +200,7 @@ function Delete(formalEduId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Educations/" + formalEduId,
+                url: "https://localhost:7177/api/ProjectHistoryControler/" + projectHistoryId,
                 type: "DELETE",
                 dataType: "json",
 

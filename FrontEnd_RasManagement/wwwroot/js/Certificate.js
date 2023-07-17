@@ -1,4 +1,5 @@
-﻿var table = null;
+﻿
+var table = null;
 $(document).ready(function () {
     debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -8,36 +9,72 @@ $(document).ready(function () {
             url: "https://localhost:7177/api/Certificate/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
-            "dataSrc": "data"
+            "dataSrc": "data",
+            /*headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
+            },*/
+            /*success: function (result) {
+                console.log(result)
+            }*/
         },
+
         "columns": [
             {
-                "data": null,
-                "render": function (data, type, row, meta) {
-                    return meta.row + 1;
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }
             },
             { "data": "name" },
             { "data": "publisher" },
-            { "data": "publicationYears" },
+            { "data": "publicationYear" },
             { "data": "validUntil" },
             {
+                // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 "data": null,
                 "render": function (data, type, row) {
-                    return '<button class="btn btn-warning " data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return getbyID(' + row.certificateId + ')"><i class="fa fa-pen"></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete"  onclick="return Delete(' + row.certificateId + ')"><i class="fa fa-trash"></i></button >'
+                    var modalId = "modal-edit-" + data.certificateId;
+                    var deleteId = "modal-delete-" + data.certificateId;
+                    return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.certificateId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
+                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.certificateId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
-        ]
-    })
+        ],
 
+        "order": [[1, "asc"]],
+        //"responsive": true,
+        //Buat ngilangin order kolom No dan Action
+        "columnDefs": [
+            {
+                "targets": [0, 2, 3, 4, 5],
+                "orderable": false
+            }
+        ],
+        //Agar nomor tidak berubah
+        "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            api.column(1, { page: 'current' }).data().each(function (group, i) {
+                $(rows).eq(i).find('td:first').html(i + 1);
+            });
+        }
+    })
 })
+
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
 
 function ClearScreen() {
     $('#CertificateId').val('');
     $('#Name').val('');
     $('#Publisher').val('');
-    $('#PublicationYears').val('');
+    $('#PublicationYear').val('');
     $('#ValidUntil').val('');
     $('#Update').hide();
     $('#Save').show();
@@ -55,9 +92,9 @@ function getbyID(CertificateId) {
             var obj = result.data; //data yg dapet dr id
             $('#CertificateId').val(obj.certificateId); //ngambil data dr api
             $('#Name').val(obj.name);
-            $('#Publisher').val(obj.organizer);
-            $('#PublicationYears').val(obj.years);
-            $('#ValidUntil').val(obj.description);
+            $('#Publisher').val(obj.publisher);
+            $('#PublicationYear').val(obj.publicationYear);
+            $('#ValidUntil').val(obj.validUntil);
             $('#Modal').modal('show');
             $('#Save').hide();
             $('#Update').show();
@@ -70,13 +107,13 @@ function getbyID(CertificateId) {
 
 function Save() {
     var Certificate = new Object(); //bikin objek baru
-    Certificate.Name = $('#Name').val(); //value dari database
-    Certificate.Publisher = $('#Publisher').val();
-    Certificate.PublicationYears = $('#PublicationYears').val();
-    Certificate.ValidUntil = $('#ValidUntil').val();
+    Certificate.name = $('#Name').val(); //value dari database
+    Certificate.publisher = $('#Publisher').val();
+    Certificate.publicationYear = $('#PublicationYear').val();
+    Certificate.validUntil = $('#ValidUntil').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
-    Certificate.AccountId = accid;
+    Certificate.accountId = accid;
     $.ajax({
         type: 'POST',
         url: 'https://localhost:7177/api/Certificate',
@@ -147,11 +184,11 @@ function Delete(CertificateId) {
 function Update() {
     debugger;
     var Certificate = new Object();
-    Certificate.CertificateId = $('#CertificateId').val();
-    Certificate.Name = $('#Name').val();
-    Certificate.Organizer = $('#Organizer').val();
-    Certificate.Years = $('#Years').val();
-    Certificate.Description = $('#Description').val();
+    Certificate.certificateId = $('#CertificateId').val();
+    Certificate.name = $('#Name').val();
+    Certificate.publisher = $('#Publisher').val();
+    Certificate.publicationYear = $('#PublicationYear').val();
+    Certificate.validUntil = $('#ValidUntil').val();
     $.ajax({
         url: 'https://localhost:7177/api/Certificate',
         type: 'PUT',

@@ -23,5 +23,10 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
         {
             return View();
         }
+
+        public IActionResult ProjectHistory()
+        {
+            return View();
+        }
     }
 }
