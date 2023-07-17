@@ -1,8 +1,11 @@
 ﻿var table = null;
 $(document).ready(function () {
+    //debugger;
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
     table = $('#TB_EmploymentHistory').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId=0999",
+            url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId="+accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -56,15 +59,29 @@ $(document).ready(function () {
     })
 })
 
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
 function Save() {
+    debugger;
     var EmploymentHistory = new Object(); //object baru
     EmploymentHistory.companyName = $('#CompanyName').val(); //value insert dari id pada input
     EmploymentHistory.job = $('#Job').val();
     EmploymentHistory.period = $('#Period').val();
     EmploymentHistory.description = $('#Description').val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    EmploymentHistory.AccountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Employment',
+        url: 'https://localhost:7177/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         /*headers: {
@@ -109,9 +126,9 @@ function ClearScreen() {
 }
 
 function GetById(workExperienceId) {
-    debugger;
+    //debugger;
     $.ajax({
-        url: "https://localhost:7177/api/Employment/" + workExperienceId,
+        url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -119,7 +136,7 @@ function GetById(workExperienceId) {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
         },*/
         success: function (result) {
-            debugger;
+            //debugger;
             var obj = result.data; //data yg kita dapat dr API  
             $('#WorkExperienceId').val(obj.workExperienceId);
             $('#CompanyName').val(obj.companyName);
@@ -137,15 +154,20 @@ function GetById(workExperienceId) {
 }
 
 function Update() {
+    debugger;
     var EmploymentHistory = new Object(); //object baru
+    EmploymentHistory.workExperienceId = $('#WorkExperienceId').val();
     EmploymentHistory.companyName = $('#CompanyName').val(); //value insert dari id pada input
     EmploymentHistory.job = $('#Job').val();
     EmploymentHistory.period = $('#Period').val();
     EmploymentHistory.description = $('#Description').val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    EmploymentHistory.AccountId = accid;
     debugger;
     $.ajax({
-        url: 'https://localhost:7177/api/Employment',
         type: 'PUT',
+        url: 'https://localhost:7177/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         /*headers: {
@@ -183,7 +205,7 @@ function Delete(workExperienceId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Employment/" + workExperienceId,
+                url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
                 type: "DELETE",
                 dataType: "json",
 

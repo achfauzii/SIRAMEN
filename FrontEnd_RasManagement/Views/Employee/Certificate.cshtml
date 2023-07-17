@@ -1,9 +1,8 @@
-﻿
+﻿﻿
 @{
-    ViewData["Title"] = "EmploymentHistory";
+    ViewData["Title"] = "Certificate";
     Layout = "~/Views/Layout/LayoutEmployee.cshtml";
 }
-
 
 <style>
     .table-striped tbody tr:nth-of-type(odd) {
@@ -18,9 +17,9 @@
 
 <!-- /.card-header -->
 <div class="card-body">
-    <h5 class="mb-3">Employement History</h5>
+    <h5 class="mb-3">Certificate</h5>
     <button style="background-color:#624DE3;  font-size: 12px; type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
-        Add Employment History
+        + Add Certificate
     </button>
 
     @*Modal*@
@@ -28,7 +27,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Employment</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Certificate</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -36,27 +35,24 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="WorkExperienceId" hidden>
+                            <input type="text" class="form-control" id="CertificateId" hidden>
                         </div>
                         <div class="form-group">
-                            <label for="CompanyName">Company Name</label>
-                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter Company Name">
+                            <label for="Name">Company Name</label>
+                            <input type="text" class="form-control" id="Name" placeholder="Enter Name">
                         </div>
                         <div class="form-group">
-                            <label for="Job">Job</label>
-                            <input type="text" class="form-control" id="Job" placeholder="Enter Job">
+                            <label for="Publisher">Publisher</label>
+                            <input type="text" class="form-control" id="Publisher" placeholder="Enter Publisher">
                         </div>
                         <div class="form-group">
-                            <label for="Period">Period</label>
-                            <input type="text" class="form-control" id="Period" placeholder="Enter Period">
+                            <label for="PublicationYear">Publication Years</label>
+                            <input type="text" class="form-control" id="PublicationYear" placeholder="Enter Publication Years">
                         </div>
                         <div class="form-group">
-                            <label for="Description">Description</label>
-                            <input type="text" class="form-control" id="Description" placeholder="Enter Description">
+                            <label for="ValidUntil">ValidUntil</label>
+                            <input type="text" class="form-control" id="DescrValidUntiliption" placeholder="Enter Valid Until">
                         </div>
-                        @*<div class="form-group">
-                        <input type="hidden" class="form-control" id="AccountId">
-                        </div>*@
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -68,14 +64,14 @@
         </div>
     </div>
 
-    <table id="TB_EmploymentHistory" class="table table-striped" style="font-size:14px; color:black">
+    <table id="TB_Certificate" class="table table-striped" style="font-size:14px; color:black">
         <thead style="background-color:#FFFFFF">
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Company Name</th>
-                <th scope="col">Job</th>
-                <th scope="col">Periode</th>
-                <th scope="col">Description</th>
+                <th scope="col">Name</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Publication Year</th>
+                <th scope="col">Valid Until</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -83,8 +79,6 @@
 
 </div>
 
-@section script
-    {
-    <script src="~/js/EmployementHistory.js"></script>
+@section script{
+    <script src="~/js/Certificate.js"></script>
 }
-

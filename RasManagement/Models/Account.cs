@@ -35,7 +35,7 @@ public partial class Account
 
     public string? Image { get; set; }
 
-    public string RoleId { get; set; } = null!;
+    public string? RoleId { get; set; }
 
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
@@ -51,5 +51,5 @@ public partial class Account
 
     public virtual ICollection<Qualification> Qualifications { get; set; } = new List<Qualification>();
 
-    public virtual Role Role { get; set; } = null!;
+    public virtual Role? Role { get; set; }
 }

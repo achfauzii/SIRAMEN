@@ -70,6 +70,7 @@
                 });
 
         } else {
+
            // loaderContainer.innerHTML = "";
 
             Toastify({
@@ -96,6 +97,7 @@
             },
 
         }).showToast();
+
     }
 });
 
