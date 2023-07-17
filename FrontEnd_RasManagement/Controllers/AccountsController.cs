@@ -190,6 +190,15 @@ namespace FrontEnd_RasManagement.Controllers
             return View();
         }
 
+        //Logout
+        public IActionResult Logout()
+        {
+            //HttpContext.Session.Remove("Token");
+            //HttpContext.Session.Clear();
+            return View("Login");
+
+        }
+
 
 
         /* [HttpPost("register_employee")]
@@ -232,6 +241,8 @@ namespace FrontEnd_RasManagement.Controllers
          }*/
     }
 
+
+ 
 
 
 

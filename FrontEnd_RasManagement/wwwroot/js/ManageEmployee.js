@@ -51,6 +51,7 @@
                 }
 
             },
+            {"data":"hiredstatus"},
             {
                 "data": null,
                 orderable: false, // menonaktifkan order

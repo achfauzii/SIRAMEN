@@ -35,19 +35,23 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/JwtUtils.js"></script>
 
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            
+
             var token = sessionStorage.getItem("Token");
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
-
+            var role = decodedToken.Role;
+            console.log(role);
             var userNameElement = document.getElementById("name");
+            var userRoleElement = document.getElementById("role");
             userNameElement.textContent = name;
-         
+            userRoleElement.textContent = role;
+
         });
 
-       
+
     </script>
 
 
@@ -360,10 +364,13 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="name"></span>
+                                ( <span class=" d-none d-lg-inline text-gray-600 small" id="role"></span> )
+                          
                                 <img class="img-profile rounded-circle"
                                      src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
+                          
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
@@ -434,10 +441,10 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" @*href="@Url.Action("Logout", "Accounts")" *@ onclick="Logout()">Logout</a>
                 </div>
             </div>
-        </div>
+        </div>s
     </div>
 
     <!-- Custom script with url-->
@@ -463,7 +470,7 @@
     <script src="~/js/Chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/ManageEmployee.js"></script>
-
+    <script src="~/js/Account.js"></script>
     <!--SweetAlert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

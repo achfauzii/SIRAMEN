@@ -112,6 +112,7 @@ namespace RasManagement.Repository
                 Password = registerVM.Password,
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
+                Hiredstatus = registerVM.Hiredstatus,
                 RoleId = registerVM.RoleId,
 
             };

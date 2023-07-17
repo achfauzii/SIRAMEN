@@ -35,7 +35,7 @@
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
             var role = decodedToken.Role;
-            console.log(role);
+
             var userNameElement = document.getElementById("name");
             var userRoleElement = document.getElementById("role");
             userNameElement.textContent = name;
@@ -420,7 +420,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="@Url.Action("Logout", "Accounts")" onclick="Logout()">Logout</a>
                 </div>
             </div>
         </div>
@@ -446,6 +446,7 @@
     <script src="~/js/Chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/ManageEmployee.js"></script>
+    <script src="~/js/Account.js"></script>
 
     <!-- Page level plugins -->
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>

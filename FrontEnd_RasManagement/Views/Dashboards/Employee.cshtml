@@ -16,26 +16,7 @@
     }
 
 </style>
-<script>
-    // Dashboard.js
-    document.addEventListener("DOMContentLoaded", function () {
-        // Ambil data dari sessionStorage atau variabel lainnya (seperti Nama)
-        //const nama = sessionStorage.getItem("Nama");
-        var token = sessionStorage.getItem("Token");
-        var decodedToken = parseJwt(token);
-        var name = decodedToken.Name;
-        if (name) {
-            Toastify({
-                text: "Hi " + name,
-                duration: 10000,
-                style: {
-                    background: "#28a745",
-                },
-            }).showToast();
-        }
-    });
 
-</script>
 <div class="row">
 
     <!-- Employee RAS Total -->
