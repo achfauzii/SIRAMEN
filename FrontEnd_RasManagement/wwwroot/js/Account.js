@@ -13,42 +13,51 @@
         body: JSON.stringify(data)
     };
 
-       // Tampilkan loader
-       const loaderContainer = document.getElementById("loaderContainer");
-       loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
-   
-       // Loader
-       const loaderResponse = await fetch("/loader/index");
-       const loaderHtml = await loaderResponse.text();
-   
-       loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-   
+/*    // Tampilkan loader
+    const loaderContainer = document.getElementById("loaderContainer");
+    loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
+
+    // Loader
+    const loaderResponse = await fetch("/loader/index");
+    const loaderHtml = await loaderResponse.text();
+
+    loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
+*/
 
     //debugger;
     try {
         const response = await fetch(url, option);
         const json = await response.json();
-        console.log(json.data);
+    
         if (response.ok) {
             var token = json.data;
-            sessionStorage.setItem("Token",token);
+            sessionStorage.setItem("Token", token);
             const decodedToken = parseJwt(json.data);
 
 
-            console.log(decodedToken.Role);
             //debugger;
 
-            loaderContainer.innerHTML = "";
+            //loaderContainer.innerHTML = "";
 
             $.post("/Accounts/Auth", { token })
-
+          
                 .done(function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Greats...',
-                        text: 'You are signed in :D',
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
                         showConfirmButton: false,
-                        timer: 1000,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Signed in successfully',
+                        text: "Hi "+decodedToken.Name,
                         didClose: () => {
                             if (decodedToken.Role === 'Admin') {
                                 window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin dashboard
@@ -57,37 +66,42 @@
                             }
                         }
                     })
+                    
                 });
 
         } else {
-            loaderContainer.innerHTML = "";
 
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong',
-                showConfirmButton: false,
-                timer: 1000,
-                didClose: () => {
-                    window.location.replace("/Accounts/Login");
-                }
-            });
+           // loaderContainer.innerHTML = "";
+
+            Toastify({
+
+                text: "Incorrect email or password !",
+
+                duration: 3000,
+                 style: {
+                     background: "#DC3545",
+                },
+
+            }).showToast();
         }
     } catch (error) {
-        loaderContainer.innerHTML = "";
+        //loaderContainer.innerHTML = "";
 
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong',
-            showConfirmButton: false,
-            timer: 1000,
-            didClose: () => {
-                window.location.replace("/Accounts/Login");
-            }
-        });
+        Toastify({  
+
+            text: "Incorrect email or password !",
+
+            duration: 3000,
+            style: {
+                background: "#DC3545",
+            },
+
+        }).showToast();
+
     }
 });
+
+
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
@@ -96,5 +110,12 @@ function parseJwt(token) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 
+
     return JSON.parse(jsonPayload);
+}
+
+function Logout() {
+    sessionStorage.removeItem('Token'); //Remove Session
+    window.location.href = 'https://localhost:7109'; //Kembali Ke halaman Awal 
+
 }

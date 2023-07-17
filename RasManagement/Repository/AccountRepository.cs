@@ -51,6 +51,8 @@ namespace RasManagement.Repository
             return CheckValidation.NullPointerAnAccount;
         }
 
+    
+
         public Account GetById(VMLogin viewLogin)
         {
 
@@ -110,6 +112,7 @@ namespace RasManagement.Repository
                 Password = registerVM.Password,
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
+                Hiredstatus = registerVM.Hiredstatus,
                 RoleId = registerVM.RoleId,
 
             };
@@ -144,6 +147,15 @@ namespace RasManagement.Repository
                 return 500;
             }
         }
+
+        public async Task<List<Account>> GetByEmail(string email)
+        {
+            var account = await _context.Accounts
+                .Where(e => e.Email == email)
+                .ToListAsync();
+
+            return account;
+        }
         public int Login(VMLogin viewLogin)
         {
             var myAcc = _context.Accounts.SingleOrDefault(a => a.Email == viewLogin.Email);
@@ -165,6 +177,26 @@ namespace RasManagement.Repository
                 }
             }
         }
+
+
+
+
+
+        //FORGOT PASSWORD UPDATE
+        public async Task<bool> UpdateForgotPassword(UpdatePasswordVM updatePassword)
+        {
+            var account = await _context.Accounts.SingleOrDefaultAsync(a => a.Email == updatePassword.Email);
+            if (account != null)
+            {
+                account.Password = updatePassword.NewPassword;
+                _context.Accounts.Update(account);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+
 
     }
     

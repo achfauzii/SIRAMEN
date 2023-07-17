@@ -6,11 +6,21 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RasManagement.Repository.Data;
+using Microsoft.Extensions.Configuration;
+using RasManagement.Services;
+using FluentAssertions.Common;
+using RasManagement.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 //Add Token Barier using JWT.
+// Configure SMTP settings from appsettings.json
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddTransient<IMailService, MailService>();
+
+
 builder.Services.AddAuthentication(options =>
 {
 
@@ -59,6 +69,7 @@ builder.Services.AddCors(c =>
 });
 var app = builder.Build();
 
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

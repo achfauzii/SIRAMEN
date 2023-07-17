@@ -34,9 +34,12 @@
             var token = sessionStorage.getItem("Token");
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
+            var role = decodedToken.Role;
 
             var userNameElement = document.getElementById("name");
+            var userRoleElement = document.getElementById("role");
             userNameElement.textContent = name;
+            userRoleElement.textContent = role;
          
         });
 
@@ -53,9 +56,8 @@
         }
     </style>
 
-   
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
 
 </head>
 
@@ -105,7 +107,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/ManageEmployee" data-target="#collapseUtilities"
+                <a class="nav-link collapsed" href="/ManageEmployee/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-tasks-alt"></i>
                     <span>Manage Employee</span>
@@ -343,7 +345,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" id ="name"></span>
-                                <img class="img-profile rounded-circle"
+                                ( <span class=" d-none d-lg-inline text-gray-600 small" id="role"></span> ) 
+                                <img class="img-profile rounded-circle pl-1"
                                      src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -417,7 +420,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="@Url.Action("Logout", "Accounts")" onclick="Logout()">Logout</a>
                 </div>
             </div>
         </div>
@@ -443,6 +446,7 @@
     <script src="~/js/Chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/ManageEmployee.js"></script>
+    <script src="~/js/Account.js"></script>
 
     <!-- Page level plugins -->
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>

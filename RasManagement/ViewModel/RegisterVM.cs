@@ -13,7 +13,7 @@
         public string Fullname { get; set; } = null!;
 
  
-
+        public string Hiredstatus { get; set; } = null!;
         public string Gender { get; set; }
 
 

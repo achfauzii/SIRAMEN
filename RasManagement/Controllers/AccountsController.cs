@@ -10,7 +10,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
-
+using RasManagement.Services;
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
@@ -21,15 +21,17 @@ namespace RasManagement.Controllers
         private readonly ProjectRasmanagementContext _context;
         private readonly AccountRepository accountRepository;
         private readonly IConfiguration _configuration;
+        //private readonly EmailService _emailService;
+        private readonly IMailService mailService;
 
-
-
-        public AccountsController(IUnitWork unitWork, ProjectRasmanagementContext context, AccountRepository accountRepository, IConfiguration configuration)
+        public AccountsController(IUnitWork unitWork, ProjectRasmanagementContext context, AccountRepository accountRepository, IConfiguration configuration, /*IEmailService emailService*/ IMailService mailService)
         {
             _context = context;
             this.accountRepository = accountRepository;
             _unitWork = unitWork;
             _configuration = configuration;
+            //_emailService = emailService;
+            this.mailService = mailService;
         }
 
         [HttpGet]
@@ -125,6 +127,120 @@ namespace RasManagement.Controllers
 
             return string.Empty;
         }
+
+      /*  [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            // Validate and verify the email address
+            var user = await accountRepository.GetByEmail(email);
+            if (user == null)
+            {
+                return NotFound("Email address not found.");
+            }
+            // Generate a password reset token
+            string resetToken = GeneratePasswordResetToken(email);
+
+
+
+
+            // Send the password reset email
+            string resetUrl = $"https://example.com/resetpassword?token={resetToken}";
+            await _emailService.SendPasswordResetEmail(email, resetUrl);
+
+            return Ok("Password reset email has been sent.");
+        }*/
+
+        private async Task <string> GeneratePasswordResetToken(string email)
+        {
+
+            using (var _context = new ProjectRasmanagementContext())
+            {
+                var _account = _context.Accounts.FirstOrDefault(a => a.Email == email);
+
+
+                var claims = new[]
+            {
+                        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        new Claim("Email", _account.Email),
+
+                    };
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    _configuration["Jwt:Issuer"],
+                    _configuration["Jwt:Audience"],
+                    claims,
+                    expires: DateTime.UtcNow.AddHours(5),
+                    signingCredentials: signIn);
+                var resetToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+                return resetToken;
+            }
+        }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> SendMail(/*[FromForm] MailRequest request*/ string email)
+        {
+            bool emailExists = await accountRepository.AccountIsExist(email, null);
+            if (emailExists == false)
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Email Address Not Found" });
+            }
+            // Generate a password reset token
+            try
+            {
+                string resetToken =await GeneratePasswordResetToken(email);
+                //string resetUrl = $"https://example.com/resetpassword?token={resetToken}";
+                //await mailService.SendEmailAsync(email, resetUrl);
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Email Found", Data = resetToken });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+
+
+        //Forgot Password Update
+        [HttpPut("UpdateForgotPassword")]
+        public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)
+        {
+            var email = updatePassword.Email;
+          
+            try
+            {
+                // Mendapatkan pengguna berdasarkan email
+                var user = await accountRepository.GetByEmail(email);
+                if (user == null)
+                {
+                    return StatusCode(404, new { status = HttpStatusCode.BadRequest, message = "Email Address Not Found" });
+                }
+
+           
+                // Update password
+               var _updatePassword = await accountRepository.UpdateForgotPassword(updatePassword);
+
+                if (_updatePassword == true)
+                {
+                    return StatusCode(200, new { status = HttpStatusCode.OK, message = "Password reset successfully." });
+                  
+                }
+                else
+                {
+                    return BadRequest("Password reset failed");
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
     }
 
 }
