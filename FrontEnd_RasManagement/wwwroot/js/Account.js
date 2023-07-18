@@ -102,6 +102,16 @@
 });
 
 
+function showPassword() {
+    let temp = document.getElementById("exampleInputPassword");
+
+    if (temp.type === "password") {
+        temp.type = "text";
+    }
+    else {
+        temp.type = "password";
+    }
+}
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
