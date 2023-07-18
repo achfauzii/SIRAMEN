@@ -29,5 +29,9 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
+        public IActionResult Qualification()
+        {
+            return View();
+        }
     }
 }
