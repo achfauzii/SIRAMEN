@@ -27,6 +27,15 @@ namespace FrontEnd_RasManagement.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Dashboard_SuperAdmin()
+        {
+            var date = await GetTimeNow();
+            int totalEmployee = await GetTotalEmployee();
+            ViewBag.FormattedDate = date;
+            ViewBag.TotalEmployee = totalEmployee;
+            return View();
+        }
+
         public async Task<string> GetTimeNow()
         {
             DateTime today = DateTime.Now;
