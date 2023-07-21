@@ -64,7 +64,7 @@ function getbyID(NonFormalId) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            debugger;
+            //debugger;
             var obj = result.data; //data yg dapet dr id
             $('#NonformalId').val(obj.nonFormalId); //ngambil data dr api
             $('#Name').val(obj.name);
