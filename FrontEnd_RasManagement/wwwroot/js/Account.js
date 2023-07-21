@@ -60,7 +60,9 @@
                         text: "Hi "+decodedToken.Name,
                         didClose: () => {
                             if (decodedToken.Role === 'Admin') {
-                                window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin dashboard
+                                window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin 
+                            } else if (decodedToken.Role === 'Super_Admin'){
+                                window.location.replace("/dashboards/dashboard_superadmin")
                             } else {
                                 window.location.replace("/dashboards/employee"); // Redirect to user dashboard
                             }
