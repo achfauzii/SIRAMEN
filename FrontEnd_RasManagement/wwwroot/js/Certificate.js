@@ -1,7 +1,7 @@
 ﻿
 var table = null;
 $(document).ready(function () {
-    debugger;
+    //debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_Certificate').DataTable({
@@ -106,6 +106,7 @@ function GetById(CertificateId) {
 }
 
 function Save() {
+    debugger;
     var Certificate = new Object(); //bikin objek baru
     Certificate.name = $('#Name').val(); //value dari database
     Certificate.publisher = $('#Publisher').val();
