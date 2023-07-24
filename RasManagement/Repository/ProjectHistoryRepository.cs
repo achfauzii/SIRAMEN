@@ -8,6 +8,7 @@
         {
             this.context = context;
         }
+
         public async Task<List<ProjectHistory>> GetProjectByAccountId(string accountId)
         {
             var projectAccount = await context.ProjectHistories
