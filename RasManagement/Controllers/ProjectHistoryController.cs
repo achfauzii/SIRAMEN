@@ -9,10 +9,10 @@ namespace RasManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[EnableCors("AllowOrigin")]
-    public class ProjectHistoryControler : BaseController<ProjectHistory, ProjectHistoryRepository, int>
+    public class ProjectHistoryController : BaseController<ProjectHistory, ProjectHistoryRepository, int>
     {
         private readonly ProjectHistoryRepository projectHistoryRepository;
-        public ProjectHistoryControler(ProjectHistoryRepository projectHistoryRepository) : base(projectHistoryRepository)
+        public ProjectHistoryController(ProjectHistoryRepository projectHistoryRepository) : base(projectHistoryRepository)
         {
             this.projectHistoryRepository = projectHistoryRepository;
         }

@@ -87,14 +87,13 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item  @(currentUrl == "/Dashboards/PersonalDetails" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Dashboards/PersonalDetails">
-                 
+            @*<li class="nav-item  @(currentUrl == "/Employee/PersonalDetails" ? "active" : "")">
+                <a class="nav-link collapsed" href="/Employee/PersonalDetails" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Personal Details</span>
                 </a>
-
-            </li>
+            </li>*@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item" @(currentUrl == "/Employee/Educations" ? "active" : "")>
@@ -106,7 +105,7 @@
             </li>
 
             <li class="nav-item  @(currentUrl == "/Employee/EmployementHistory" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Employee/EmployementHistory" data-target="#collapsePages"
+                <a class="nav-link collapsed" href="/Employee/Qualification" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Qualifications</span>
@@ -366,7 +365,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/Employee/PersonalDetails">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>

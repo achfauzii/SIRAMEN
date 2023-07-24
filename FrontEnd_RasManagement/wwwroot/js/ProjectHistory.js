@@ -1,6 +1,6 @@
 ﻿var table = null;
 $(document).ready(function () {
-    debugger;
+    //debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_ProjectHistory').DataTable({
@@ -80,8 +80,8 @@ function Save() {
     ProjectHistory.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/ProjectHistoryControler',
-        data: JSON.stringify(EmploymentHistory),
+        url: 'https://localhost:7177/api/ProjectHistory',
+        data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
         /*headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
@@ -125,9 +125,9 @@ function ClearScreen() {
 }
 
 function GetById(projectHistoryId) {
-    debugger;
+    //debugger;
     $.ajax({
-        url: "https://localhost:7177/api/ProjectHistoryControler/" + projectHistoryId,
+        url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -135,7 +135,7 @@ function GetById(projectHistoryId) {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
         },*/
         success: function (result) {
-            debugger;
+            //debugger;
             var obj = result.data; //data yg kita dapat dr API  
             $('#ProjectHistoryId').val(obj.projectHistoryId);
             $('#ProjectName').val(obj.projectName);
@@ -154,16 +154,19 @@ function GetById(projectHistoryId) {
 
 function Update() {
     var ProjectHistory = new Object(); //object baru
-    ProjectHistory.projectHistoryId = $('#ProjectHistoryId');
+    ProjectHistory.projectHistoryId = $('#ProjectHistoryId').val();
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
     ProjectHistory.jobSpec = $('#JobSpec').val();
     ProjectHistory.year = $('#Year').val();
     ProjectHistory.companyName = $('#CompanyName').val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    ProjectHistory.accountId = accid;
     debugger;
     $.ajax({
-        url: 'https://localhost:7177/api/EmploymentHistory',
+        url: 'https://localhost:7177/api/ProjectHistory',
         type: 'PUT',
-        data: JSON.stringify(EmploymentHistory),
+        data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
         /*headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
@@ -200,7 +203,7 @@ function Delete(projectHistoryId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/ProjectHistoryControler/" + projectHistoryId,
+                url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
                 type: "DELETE",
                 dataType: "json",
 

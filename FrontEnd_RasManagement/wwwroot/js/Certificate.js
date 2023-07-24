@@ -80,7 +80,7 @@ function ClearScreen() {
     $('#Save').show();
 }
 
-function getbyID(CertificateId) {
+function GetById(CertificateId) {
     //debugger;
     $.ajax({
         url: "https://localhost:7177/api/Certificate/" + CertificateId,
@@ -189,6 +189,9 @@ function Update() {
     Certificate.publisher = $('#Publisher').val();
     Certificate.publicationYear = $('#PublicationYear').val();
     Certificate.validUntil = $('#ValidUntil').val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    Certificate.accountId = accid;
     $.ajax({
         url: 'https://localhost:7177/api/Certificate',
         type: 'PUT',

@@ -14,7 +14,7 @@ function loadData() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            //debugger;
+            debugger;
             //console.log(result); 
             var obj = result.data.result; //data yg didapat dari api
             var birthDate = obj.birthdate;

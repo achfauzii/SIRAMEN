@@ -28,5 +28,11 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
         {
             return View();
         }
+
+        public IActionResult PersonalDetails()
+        {
+            return View();
+        }
+        
     }
 }

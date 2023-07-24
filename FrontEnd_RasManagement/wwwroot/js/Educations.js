@@ -79,7 +79,7 @@ function SaveFormal() {
     FormalEdu.location = $('#Location').val();
     FormalEdu.major = $('#Major').val();
     FormalEdu.degree = $('#Degree').val();
-    FormalEdu.years = $('#Years').val();
+    FormalEdu.years = $('#GraduationYears').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     FormalEdu.AccountId = accid;
@@ -92,7 +92,7 @@ function SaveFormal() {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
         },*/
     }).then((result) => {
-        debugger;
+        //debugger;
         if (result.status == 200) {
             /*alert(result.message);
             $('#TB_Department').DataTable().ajax.reload();*/
@@ -125,22 +125,21 @@ function ClearScreenFormal() {
     $('#Location').val('');
     $('#Major').val('');
     $('#Degree').val('');
-    $('#Years').val('');
-    $('#AccountId').val('');
+    $('#GraduationYears').val('');
     $('#Update').hide();
     $('#Save').show();
 }
 
 function GetById(formalEduId) {
-    debugger;
+    //debugger;
     $.ajax({
         url: "https://localhost:7177/api/Educations/" + formalEduId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },
+        /*headers: {
+            sessionStorage.getItem("Token")
+        },*/
         success: function (result) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
@@ -149,9 +148,9 @@ function GetById(formalEduId) {
             $('#Location').val(obj.location);
             $('#Major').val(obj.major);
             $('#Degree').val(obj.degree);
-            $('#Years').val(obj.years);
-            $('#AccountId').val(obj.accountId);
-            $('#Modal').modal('show');
+            $('#GraduationYears').val(obj.years);
+            $('#AccountId').accid;
+            $('#ModalFormal').modal('show');
             $('#Update').show();
             $('#Save').hide();
         },
@@ -161,21 +160,23 @@ function GetById(formalEduId) {
     })
 }
 
-function Update() {
+function UpdateFormal() {
     var FormalEdu = new Object(); //object baru
-    FormalEdu.formalEduId = $('#FormalEduId').val();
-    FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
-    FormalEdu.location = $('#Location').val();
-    FormalEdu.major = $('#Major').val();
-    FormalEdu.degree = $('#Degree').val();
-    FormalEdu.years = $('#Years').val();
-    FormalEdu.accountId = $('#AccountId').val();
+    FormalEdu.FormalEduId = $('#FormalEduId').val();
+    FormalEdu.UniversityName = $('#UniversityName').val(); //value insert dari id pada input
+    FormalEdu.Location = $('#Location').val();
+    FormalEdu.Major = $('#Major').val();
+    FormalEdu.Degree = $('#Degree').val();
+    FormalEdu.Years = $('#GraduationYears').val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    FormalEdu.AccountId = accid;
     debugger;
     $.ajax({
-        url: 'https://localhost:7177/api/Educations',
         type: 'PUT',
+        url: 'https://localhost:7177/api/Educations',
         data: JSON.stringify(FormalEdu),
-        contentType: "application/json; charset=utf-8",
+        contentType: "application/json; charset=utf-8"
         /*headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
         },*/
@@ -201,32 +202,29 @@ function Update() {
 function Delete(formalEduId) {
     debugger;
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Kamu yakin?',
+        text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Tidak'
     }).then((result) => {
         if (result.value) {
             $.ajax({
                 url: "https://localhost:7177/api/Educations/" + formalEduId,
                 type: "DELETE",
                 dataType: "json",
-
-                /*headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-                },*/
             }).then((result) => {
                 debugger;
                 if (result.status == 200) {
                     Swal.fire(
-                        'Deleted!',
-                        'Your data has been deleted.',
+                        'Berhasil',
+                        'Data sudah dihapus.',
                         'success'
                     )
-                    table.ajax.reload();
+                    $('#NonFormalEdu').DataTable().ajax.reload();
                 }
                 else {
                     Swal.fire(
