@@ -17,6 +17,7 @@ public partial class Certificate
     public string ValidUntil { get; set; } = null!;
 
     public string AccountId { get; set; } = null!;
+
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
 }

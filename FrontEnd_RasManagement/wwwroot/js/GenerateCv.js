@@ -14,8 +14,8 @@ function loadData() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            debugger;
-            console.log(result); 
+            //debugger;
+           
             var obj = result.data.result; //data yg didapat dari api
             var birthDate = obj.birthdate;
             const date = new Date(birthDate);
@@ -42,7 +42,7 @@ function loadData() {
                 success: function (educationResult) {
                     //debugger;
                     var educationObj = educationResult.data;
-                    console.log(educationObj.length);
+              
                     var tableBody = document.getElementById('educationTableBody');
                     for (var i = 0; i < educationObj.length; i++) {
                         var education = educationObj[i];
@@ -61,6 +61,40 @@ function loadData() {
                     alert(educationError.responseText);
                 }
             });
+            // API GET (NonFromalEdu By AccountId)
+            $.ajax({
+                url: "https://localhost:7177/api/NonFormalEdu/accountId?accountId=" + accountId,
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: true,
+
+                success: function (nonFormalEdu) {
+                    var nonFormalEduObj = nonFormalEdu.data;
+                    const listElement = document.getElementById("listNonEdu");
+
+                    // Bersihkan isi list sebelumnya (jika ada)
+                    listElement.innerHTML = '';
+                
+                    
+                    // Loop melalui data dan tambahkan setiap item ke dalam list
+                    nonFormalEduObj.forEach(item => {
+                        const li = document.createElement("li");
+                      
+                        li.textContent = item.name+", "+item.organizer+" ("+item.years+") : "+item.description; // Jika item adalah teks biasa
+                        li.style.color = "black";
+                        
+                        // Jika item adalah objek dan Anda ingin mengambil properti tertentu, contohnya: li.textContent = item.nama;
+                        listElement.appendChild(li);
+                    });
+                },
+                error: function (educationError) {
+                    alert(educationError.responseText);
+                }
+            });
+
+
+
         },
         error: function (errormessage) { alert(errormessage.responseText); }
     });
