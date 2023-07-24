@@ -14,7 +14,7 @@ public partial class Certificate
 
     public string PublicationYear { get; set; } = null!;
 
-    public DateTime ValidUntil { get; set; }
+    public string ValidUntil { get; set; } = null!;
 
     public string AccountId { get; set; } = null!;
 
