@@ -38,7 +38,7 @@ function Educations() {
                     var modalId = "modal-edit-" + data.formalEduId;
                     var deleteId = "modal-delete-" + data.formalEduId;
                     return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.formalEduId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.formalEduId + ')"><i class="fa fa-trash"></i></button >'
+                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return DeleteFormal(' + row.formalEduId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
         ],
@@ -199,35 +199,32 @@ function UpdateFormal() {
     });
 }
 
-function Delete(formalEduId) {
+function DeleteFormal(formalEduId) {
     debugger;
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Kamu yakin?',
+        text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Tidak'
     }).then((result) => {
         if (result.value) {
             $.ajax({
                 url: "https://localhost:7177/api/Educations/" + formalEduId,
                 type: "DELETE",
                 dataType: "json",
-
-                /*headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-                },*/
             }).then((result) => {
                 debugger;
                 if (result.status == 200) {
                     Swal.fire(
-                        'Deleted!',
-                        'Your data has been deleted.',
+                        'Berhasil',
+                        'Data sudah dihapus.',
                         'success'
                     )
-                    table.ajax.reload();
+                    $('#TB_FormalEdu').DataTable().ajax.reload();
                 }
                 else {
                     Swal.fire(
