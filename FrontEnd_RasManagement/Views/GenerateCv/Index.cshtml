@@ -176,15 +176,14 @@
                 </div>
 
                 <div class="section m-0 mt-1">
-                    <ul id="listNonEdu"  class="pl-3">
-                       
+                    <ul id="listNonEdu" class="pl-3">
                     </ul>
                 </div>
             </div>
         </div>
 
         <!--Qualifications -->
-        <div class="section mb-3">
+        <div class="section mb-4">
             <div class="border-0 rounded-0">
                 <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
                     <h6 class="m-0 font-weight-bold" style="color:black">QUALIFICATIONS </h6>
@@ -192,9 +191,10 @@
 
                 <div class="section m-0 mt-1">
                     <ul id="listQualification" class="pl-3 ">
-                        <li class="text-justify" style="color:black">Framework/Library: .Net Core API, .Net Core MVC, CodeIgniter, Bootstrap, Jquery</li>
-                        <li style="color:black">Programming Languange: C#, PHP, Javascript, Python, HTML & CSS</li>
-                        <li style="color:black">Database: SQL Server, MySQL</li>
+                        <li class="text-justify" style="color:black">Framework/Library: <span id="framework"></span></li>
+                        <li style="color:black">Programming Language: <span id="programmingLanguage"></span></li>
+                        <li style="color:black">Database: <span id="database"></span></li>
+                        <li class="text-justify" style="color:black" id="oQualification">Others: <span id="others"></span></li>
                     </ul>
 
                 </div>
@@ -211,17 +211,15 @@
                 </div>
 
                 <div class="section m-0 mt-1">
-                    <ul class="pl-3 ">
-                        <li class="text-justify" style="color:black">Occupation of Junior Web Programmer Badan Nasional Sertifikasi Profesi (BNSP) LSP Universitas Gunadarma (Valid Until 2025).</li>
-                        <li style="color:black">Building Website using HTML 5, Universitas Gunadarma.</li>
-                        <li style ="color:black">Memulai Pemrograman dengan Python, Dicoding (Valid Until 2024).</li>
+                    <ul id ="certificate" class="pl-3 ">
+                
                     </ul>
 
                 </div>
             </div>
         </div>
 
-         <!--Employement History-->
+        <!--Employement History-->
 
         <div class="section mb-3">
             <div class="border-0 rounded-0">
@@ -230,29 +228,8 @@
                 </div>
 
                 <div class="section m-0 mt-1">
-                    <ul class="pl-3 ">
-                        <li class="text-justify">
-                            <div class="row">
-                                <div class="col-3" style="color:black">Company Name </div>
-                                <div class="col-0" style="color:black">:</div>
-                                <div class="col" style="color:black">PT Berca Hardayaperkasa</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3" style="color:black">Job </div>
-                                <div class="col-0" style="color:black">:</div>
-                                <div class="col" style="color:black">Developer</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3" style="color:black">Period </div>
-                                <div class="col-0" style="color:black">:</div>
-                                <div class="col" style="color:black">March 2023</div>
-                            </div>
-                              <div class="row">
-                                <div class="col-3" style="color:black">Description </div>
-                                 <div class="col-0" style="color:black">:</div>
-                                <div class="col" style="color:black">Bootcamp program on how to develop an apps using .Net Core Framework. Learning on how to create API’s, consume API’s.</div>
-                            </div>
-                        </li>
+                    <ul id ="employeementHistory"class="pl-3 ">
+                       
                     </ul>
 
                 </div>
@@ -271,12 +248,13 @@
                 <table class="table table-responsive p-0">
                     <thead class="thead-light p-0">
                         <tr>
-                            <th class="col-3 text-dark" scope="col"><p><h6 style="color:black">Project Name</h6></th>
-                            <th class="col-8 text-dark" scope="col"><h6 style="color:black">Job Spesification</h6></th>
-                            <th class="col-3 text-dark" scope="col"><h6 style="color:black">Project Involved</h6></th>
+                            <th class="col-4 text-dark" scope="col"><p><h6 style="color:black">Project Name</h6></th>
+                            <th class="col-5 text-dark" scope="col"><h6 style="color:black">Job Spesification</h6></th>
+                            <th class="col text-dark" scope="col"><h6 style="color:black">Project Involved</h6></th>
+                            <th class="col text-dark" scope="col"><h6 style="color:black">Company Name</h6></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="projectHistoryTableBody">
                     </tbody>
                 </table>
             </div>

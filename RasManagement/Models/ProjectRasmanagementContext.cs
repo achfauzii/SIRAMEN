@@ -147,7 +147,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Period)
-                .HasMaxLength(10)
+                .HasMaxLength(30)
                 .IsUnicode(false);
         });
 
@@ -272,20 +272,20 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.Database)
-                .HasMaxLength(50)
+                .HasMaxLength(70)
                 .IsUnicode(false);
             entity.Property(e => e.Framework)
-                .HasMaxLength(50)
+                .HasMaxLength(70)
                 .IsUnicode(false);
             entity.Property(e => e.Others)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.ProgrammingLanguage)
-                .HasMaxLength(50)
+                .HasMaxLength(70)
                 .IsUnicode(false)
                 .HasColumnName("Programming_language");
             entity.Property(e => e.Tools)
-                .HasMaxLength(50)
+                .HasMaxLength(70)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.Qualifications)
