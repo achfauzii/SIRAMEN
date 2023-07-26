@@ -16,7 +16,7 @@ public partial class Qualification
 
     public string Tools { get; set; } = null!;
 
-    public string Others { get; set; } = null!;
+    public string? Others { get; set; }
 
     public string? AccountId { get; set; }
 

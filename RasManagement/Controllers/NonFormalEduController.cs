@@ -34,30 +34,5 @@ namespace RasManagement.Controllers
             }
         }
 
-        /*[HttpPost]
-        public ActionResult Insert(InsertNonFormalEdu insertNonFormalEdu)
-        {
-            var insert = nonFormalEdu_Repository.Insert(insertNonFormalEdu);
-            if (insert >= 1)
-            {
-                return StatusCode(200,
-                    new
-                    {
-                        status = HttpStatusCode.OK,
-                        message = "Data Berhasil Dimasukkan",
-                        Data = insert
-                    });
-            }
-            else
-            {
-                return StatusCode(500,
-                    new
-                    {
-                        status = HttpStatusCode.InternalServerError,
-                        message = "Gagal Memasukkan Data",
-                        Data = insert
-                    });
-            }
-        }*/
     }
 }
