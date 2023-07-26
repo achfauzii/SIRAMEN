@@ -1,3 +1,4 @@
+
 ﻿using Microsoft.EntityFrameworkCore;
 using RasManagement.Interface;
 using RasManagement.ViewModel;
@@ -12,6 +13,7 @@ namespace RasManagement.Repository
         {
             this.context = context;
         }
+
         public async Task<List<Certificate>> GetCertificateByAccountId(string accountId)
         {
             var certificateAccount = await context.Certificates
@@ -20,6 +22,5 @@ namespace RasManagement.Repository
 
             return certificateAccount;
         }
-
     }
 }

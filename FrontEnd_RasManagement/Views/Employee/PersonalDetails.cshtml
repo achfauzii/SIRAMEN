@@ -1,0 +1,148 @@
+﻿
+@{
+    ViewData["Title"] = "PersonalDetails";
+    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+}
+
+<body>
+    <style>
+        .cv {
+            font-family: Tahoma;
+            background-color: #fff;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+            page-break-after: avoid;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 5px;
+        }
+
+        /* Di dalam tag <style> */
+        #Personal_Details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #imageContainer {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+
+    </style>
+
+    <div class="Cv" id="Cv">
+        <div class="ml-5 pl-4 mt-4 pr-5">
+            <h6 class="mb-4">
+                @*PT. Berca Hardayaperkasa Curriculum Vitae*@
+                <img class="ml-4 img-fluid" src="~/img/logo_putih.png" style="height: 50px;width: 260px;">
+
+            </h6>
+
+            <!--Card CV -->  <!-- Personal Details -->
+            <div class="mb-3">
+                <div class="border-0 rounded-0">
+                    <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                        <h6 class="m-0 text-dark font-weight-bold">PERSONAL DETAILS </h6>
+                    </div>
+
+                    <!-- Personal Details -->
+                    <div id="Personal_Details" class="section card-body m-0 ">
+                        @*<div class="row">
+                            <div class="col-4 text-dark">
+                                <p>Name</p>
+                            </div>
+                            <div class="col">
+                                <span>:</span>
+                                <span id="name"> </span>
+                            </div>
+                        </div>*@
+
+                        <div class="col" id="imageContainer" style="display: flex; align-items: center; justify-content: flex-end; float: right;">
+                            <!-- Foto atau kotak foto akan ditampilkan di sini -->
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-4 text-dark">
+                                <p>Nickname</p>
+                            </div>
+                            <div class="col">
+                                <span>:</span>
+                                <span id="nickName"> </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4 text-dark">
+                                <p>Place & date of birth</p>
+                            </div>
+                            <div class="col">
+                                <span>:</span>
+                                <span id="birthPlace"> </span>
+                                <span>, </span>
+                                <span id="birthDate"> </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4 text-dark">
+                                <p>Gender</p>
+                            </div>
+                            <div class="col">
+                                <span>:</span>
+                                <span id="gender"> </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4 text-dark">
+                                <p>Religion</p>
+                            </div>
+                            <div class="col">
+                                <span>:</span>
+                                <span id="religion"> </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4 text-dark">
+                                <p>Martial Status</p>
+                            </div>
+                            <div class="col">
+                                <span>:</span>
+                                <span id="martialStatus"> </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4 text-dark">
+                                <p>Nationality</p>
+                            </div>
+                            <div class="col">
+                                <span>:</span>
+                                <span id="nationality"> </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section script{
+    <script src="~/js/personaldetails.js"></script>
+}

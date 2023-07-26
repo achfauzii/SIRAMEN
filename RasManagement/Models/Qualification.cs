@@ -13,9 +13,11 @@ public partial class Qualification
     public string? ProgrammingLanguage { get; set; } 
     public string? Database { get; set; }
 
-    public string ?Tools { get; set; } 
+ 
+    public string Tools { get; set; } = null!;
 
-    public string? Others { get; set; } 
+    public string? Others { get; set; }
+
 
     public string? AccountId { get; set; }
     [JsonIgnore]

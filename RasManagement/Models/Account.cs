@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace RasManagement.Models;
@@ -7,13 +7,13 @@ public partial class Account
 {
     public string AccountId { get; set; } = null!;
 
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; }
 
-    public string Password { get; set; } = null!;
+    public string? Password { get; set; }
 
     public string? Nickname { get; set; }
 
-    public string Fullname { get; set; } = null!;
+    public string? Fullname { get; set; }
 
     public string? Birthplace { get; set; }
 
@@ -49,3 +49,4 @@ public partial class Account
 
     public virtual Role Role { get; set; } = null!;
 }
+
