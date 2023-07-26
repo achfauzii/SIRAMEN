@@ -90,15 +90,6 @@
                 Interface
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item  @(currentUrl == "/Dashboards/PersonalDetails" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Dashboards/PersonalDetails">
-                 
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Personal Details</span>
-                </a>
-
-            </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item" @(currentUrl == "/Employee/Educations" ? "active" : "")>
@@ -479,6 +470,10 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- For Validation -->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 
 

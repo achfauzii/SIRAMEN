@@ -16,7 +16,9 @@ $(document).ready(function () {
             /*success: function (result) {
                 console.log(result)
             }*/
+
         },
+
 
         "columns": [
             {
@@ -26,8 +28,27 @@ $(document).ready(function () {
             },
             { "data": "name" },
             { "data": "publisher" },
-            { "data": "publicationYear" },
-            { "data": "validUntil" },
+            {
+                "data": null,
+                "render": function (data) {
+                    var publication = data.publicationYear;
+                    const date = new Date(publication);
+                    const options = { month: 'long', year: 'numeric' };
+                    const datep = date.toLocaleDateString('id-ID', options);
+                    return datep;
+                }
+            },
+            {
+                "data": null,
+                "render": function (data) {
+                    var valid = data.validUntil;
+                    const date = new Date(valid);
+                    const options = {  month: 'long', year: 'numeric' };
+                    const date_ = date.toLocaleDateString('id-ID', options);
+                    return date_;
+                }
+
+            },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 "data": null,
