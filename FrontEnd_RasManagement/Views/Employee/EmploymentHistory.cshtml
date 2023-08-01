@@ -35,32 +35,34 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="WorkExperienceId" hidden>
-                        </div>
-                        <div class="form-group">
                             <label for="CompanyName">Company Name</label>
-                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter Company Name">
+                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter Company Name" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Job">Job</label>
-                            <input type="text" class="form-control" id="Job" placeholder="Enter Job">
+                            <input type="text" class="form-control" id="Job" placeholder="Enter Job" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Period">Period</label>
-                            <input type="text" class="form-control" id="Period" placeholder="Enter Period">
+                            <input type="text" class="form-control" id="Period" placeholder="Enter Period" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Description">Description</label>
-                            <input type="text" class="form-control" id="Description" placeholder="Enter Description">
+                            <input type="text" class="form-control" id="Description" placeholder="Enter Description" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+
                         @*<div class="form-group">
                         <input type="hidden" class="form-control" id="AccountId">
                         </div>*@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal" id="Save" onclick="Save();">Save</button>
-                    <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update" onclick="Update();">Update</button>
+                    <button type="button" class="btn btn-success"  id="Save" onclick="Save();">Save</button>
+                    <button type="button" class="btn btn-warning"  id="Update" onclick="Update();">Update</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>

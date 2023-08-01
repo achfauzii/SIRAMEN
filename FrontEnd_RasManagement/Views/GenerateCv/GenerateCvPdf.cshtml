@@ -24,10 +24,12 @@
     <title>Hello, world!</title>
 </head>
 <body>
+
     <style>
         .cv {
             font-family: Tahoma;
-           
+            margin: 40px;
+            padding: 20px;
             background-color: #fff;
             /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
             page-break-after: avoid;
@@ -45,32 +47,52 @@
         p {
             margin-bottom: 5px;
         }
+
+        /* Media query untuk tampilan cetakan */
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .cv, .cv * {
+                visibility: visible;
+            }
+
+            .cv {
+                position: absolute;
+                left: 0;
+                top: 0;
+                margin: 0;
+                padding: 0;
+            }
+        }
     </style>
 
-    <div class="Cv" id="Cv">
+    <div class="cv" id="print-content">
+
         <div class="ml-5 pl-4 mt-4 pr-5">
             <h6 class="mb-4">
                 PT. Berca Hardayaperkasa Curriculum Vitae
-                <img class="ml-4 img-fluid" src="~/img/logo_putih.png" style="height: 50px;width: 260px;">
 
+                <img class="ml-4 img-fluid" src="~/img/logo_putih.png" style="height: 50px;width: 260px;">
             </h6>
 
             <!--Card CV -->  <!-- Personal Details -->
             <div class="mb-3">
                 <div class="border-0 rounded-0">
                     <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
-                        <h6 class="m-0 text-dark font-weight-bold">PERSONAL DETAILS </h6>
+                        <h6 class="m-0  font-weight-bold" style="color:black">PERSONAL DETAILS </h6>
                     </div>
 
                     <!-- Personal Details -->
-                    <div class="section card-body m-0 ">
+                    <div class="section mt-1 ">
                         <div class="row">
                             <div class="col-4 text-dark">
                                 <p>Name</p>
                             </div>
                             <div class="col">
                                 <span>:</span>
-                                <span id="name"> </span>
+                                <span id="fullName" style="color:black"> </span>
                             </div>
                         </div>
 
@@ -80,7 +102,7 @@
                             </div>
                             <div class="col">
                                 <span>:</span>
-                                <span id="nickName"> </span>
+                                <span id="nickName" style="color:black"> </span>
                             </div>
                         </div>
 
@@ -90,9 +112,9 @@
                             </div>
                             <div class="col">
                                 <span>:</span>
-                                <span id="birthPlace"> </span>
+                                <span id="birthPlace" style="color:black"> </span>
                                 <span>, </span>
-                                <span id="birthDate"> </span>
+                                <span id="birthDate" style="color:black"> </span>
                             </div>
                         </div>
 
@@ -102,7 +124,7 @@
                             </div>
                             <div class="col">
                                 <span>:</span>
-                                <span id="gender"> </span>
+                                <span id="gender" style="color:black"> </span>
                             </div>
                         </div>
 
@@ -112,7 +134,7 @@
                             </div>
                             <div class="col">
                                 <span>:</span>
-                                <span id="religion"> </span>
+                                <span id="religion" style="color:black"> </span>
                             </div>
                         </div>
 
@@ -122,7 +144,7 @@
                             </div>
                             <div class="col">
                                 <span>:</span>
-                                <span id="martialStatus"> </span>
+                                <span id="martialStatus" style="color:black"> </span>
                             </div>
                         </div>
 
@@ -132,7 +154,7 @@
                             </div>
                             <div class="col">
                                 <span>:</span>
-                                <span id="nationality"> </span>
+                                <span id="nationality" style="color:black"> </span>
                             </div>
                         </div>
                     </div>
@@ -144,22 +166,22 @@
             <div class=" section mb-3">
                 <div class="border-0 rounded-0">
                     <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
-                        <h6 class="m-0 text-dark font-weight-bold">EDUCATIONS </h6>
+                        <h6 class="m-0 font-weight-bold" style="color:black">EDUCATIONS </h6>
                     </div>
 
-                    <div class="section m-0 mt-4 ">
+                    <div class="section m-0 mt-2 ">
                         <table class="table table-responsive p-0">
                             <thead class="thead-light p-0">
                                 <tr>
-                                    <th class="col-1" scope="col"><p><h6>Years Graduate</h6></th>
-                                    <th class="col-6" scope="col"><h6>Name of School / University</h6></th>
-                                    <th class="col-2" scope="col"><h6>Location</h6></th>
-                                    <th class="col-2" scope="col"><h6>Major</h6></th>
-                                    <th class="col-2" scope="col"><h6>Degree</h6></th>
+                                    <th class="col-1 text-dark" scope="col"><p><h6>Years Graduate</h6></th>
+                                    <th class="col-6 text-dark" scope="col"><h6>Name of School / University</h6></th>
+                                    <th class="col-2 text-dark" scope="col"><h6>Location</h6></th>
+                                    <th class="col-2 text-dark" scope="col"><h6>Major</h6></th>
+                                    <th class="col-2 text-dark" scope="col"><h6>Degree</h6></th>
                                 </tr>
                             </thead>
                             <tbody id="educationTableBody">
-                            </tbody>    
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -171,10 +193,10 @@
             <div class="section mb-4">
                 <div class="border-0 rounded-0">
                     <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
-                        <h6 class="m-0 text-dark font-weight-bold">NON FORMAL EDUCATIONS </h6>
+                        <h6 class="m-0 text-dark font-weight-bold" style="color:black">NON FORMAL EDUCATIONS </h6>
                     </div>
 
-                    <div class="section m-0 ">
+                    <div class="section m-0 mt-1">
                         <ul class="pl-3 ">
                             <li class="text-justify">C# Training, PT. Berca Hardayaperkasa: SQL Server Database, C# Programming Language, Object Oriented Programming, ASP .NET Core, Pattern (MVC, MVVM, N-Layered Architecture), Web API, Code first, Database First, Entity Framework Core, Dapper, Asynchronous, Implement JWT, BCrypt, Dokumentasi API menggunakan swagger, JavaScript, Web Template (CSS, Bootstrap)</li>
                             <li>Item 2</li>
@@ -191,7 +213,7 @@
                         <h6 class="m-0 text-dark font-weight-bold">QUALIFICATIONS </h6>
                     </div>
 
-                    <div class="section m-0 ">
+                    <div class="section m-0 mt-1">
                         <ul class="pl-3 ">
                             <li class="text-justify">Framework/Library: .Net Core API, .Net Core MVC, CodeIgniter, Bootstrap, Jquery</li>
                             <li>Programming Languange: C#, PHP, Javascript, Python, HTML & CSS</li>
@@ -203,7 +225,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/GenerateCv.js"></script>

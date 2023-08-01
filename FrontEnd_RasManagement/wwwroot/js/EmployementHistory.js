@@ -70,7 +70,21 @@ function parseJwt(token) {
 }
 
 function Save() {
-    debugger;
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
     var EmploymentHistory = new Object(); //object baru
     EmploymentHistory.companyName = $('#CompanyName').val(); //value insert dari id pada input
     EmploymentHistory.job = $('#Job').val();
@@ -99,7 +113,7 @@ function Save() {
                 showConfirmButtom: false,
                 timer: 1500
             })
-            //$('#Modal').modal('hide');
+            $('#Modal').modal('hide');
             table.ajax.reload();
         }
         else {
