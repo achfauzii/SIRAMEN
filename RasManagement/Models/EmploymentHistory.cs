@@ -15,5 +15,6 @@ public partial class EmploymentHistory
 
     public string Description { get; set; } = null!;
 
+
     public string AccountId { get; set; } = null!;
 }

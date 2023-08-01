@@ -43,11 +43,17 @@
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
             var role = decodedToken.Role;
-            console.log(role);
+            var accountId = decodedToken.AccountId;
+
+           
             var userNameElement = document.getElementById("name");
             var userRoleElement = document.getElementById("role");
             userNameElement.textContent = name;
             userRoleElement.textContent = role;
+
+            // Set the href attribute of the link with the accountId parameter
+            var generateCvLink = document.getElementById("generateCvLink");
+            generateCvLink.href = "/GenerateCv/GenerateCvEmployee?accountId=" + accountId;
 
         });
 
@@ -94,15 +100,14 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            @*<li class="nav-item  @(currentUrl == "/Employee/PersonalDetails" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Employee/PersonalDetails" data-target="#collapseUtilities"
-                   aria-expanded="true" aria-controls="collapseUtilities">
+            <li class="nav-item  @(currentUrl == "/Dashboards/PersonalDetails" ? "active" : "")">
+                <a class="nav-link collapsed" href="/Dashboards/PersonalDetails">
+                 
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Personal Details</span>
                 </a>
-            </li>*@
 
-
+            </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item" @(currentUrl == "/Employee/Educations" ? "active" : "")>
@@ -156,7 +161,7 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#manageApplications"
+                <a class="nav-link collapsed" id="generateCvLink" href="#" 
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Generate CV</span>
@@ -483,10 +488,6 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- For Validation -->
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 
 

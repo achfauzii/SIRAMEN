@@ -10,7 +10,7 @@ namespace FrontEnd_RasManagement.Controllers
             return View();
         }
 
-        public IActionResult GenerateCvPdf(string accountId)
+        public IActionResult GenerateCvEmployee()
         {
             return View();
         }
