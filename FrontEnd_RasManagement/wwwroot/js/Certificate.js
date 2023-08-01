@@ -129,8 +129,8 @@ function GetById(CertificateId) {
 function Save() {
     debugger;
     var Certificate = new Object(); //bikin objek baru
-    Certificate.name = $('#Name').val(); //value dari database
-    Certificate.publisher = $('#Publisher').val();
+    Certificate.name = $('#Name').val(); //value dari database\
+    Certificate.publisher = $('#Publisher').val();  
     Certificate.publicationYear = $('#PublicationYear').val();
     Certificate.validUntil = $('#ValidUntil').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));

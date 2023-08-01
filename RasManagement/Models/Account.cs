@@ -52,3 +52,4 @@ public partial class Account
     public virtual ICollection<Qualification> Qualifications { get; set; } = new List<Qualification>();
 
     public virtual Role? Role { get; set; }
+}
