@@ -43,11 +43,17 @@
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
             var role = decodedToken.Role;
-            console.log(role);
+            var accountId = decodedToken.AccountId;
+
+           
             var userNameElement = document.getElementById("name");
             var userRoleElement = document.getElementById("role");
             userNameElement.textContent = name;
             userRoleElement.textContent = role;
+
+            // Set the href attribute of the link with the accountId parameter
+            var generateCvLink = document.getElementById("generateCvLink");
+            generateCvLink.href = "/GenerateCv/GenerateCvEmployee?accountId=" + accountId;
 
         });
 
@@ -155,7 +161,7 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#manageApplications"
+                <a class="nav-link collapsed" id="generateCvLink" href="#" 
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Generate CV</span>

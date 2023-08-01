@@ -119,7 +119,8 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.ValidUntil)
-                .HasColumnType("date")
+                .HasMaxLength(50)
+                .IsUnicode(false)
                 .HasColumnName("Valid_until");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Certificates)
