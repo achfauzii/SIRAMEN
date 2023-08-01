@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
-    //debugger;
-    
+    //debugger;    
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     $('#NonFormalEdu').DataTable({
@@ -192,5 +191,4 @@ function Update() {
         }
     });
 }
-
 

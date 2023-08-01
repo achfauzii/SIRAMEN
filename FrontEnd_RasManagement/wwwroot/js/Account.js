@@ -13,6 +13,7 @@
         body: JSON.stringify(data)
     };
 
+
 /*    // Tampilkan loader
     const loaderContainer = document.getElementById("loaderContainer");
     loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
@@ -24,6 +25,7 @@
     loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
 */
 
+
     //debugger;
     try {
         const response = await fetch(url, option);
@@ -33,14 +35,10 @@
             var token = json.data;
             sessionStorage.setItem("Token", token);
             const decodedToken = parseJwt(json.data);
-
-
             //debugger;
-
             //loaderContainer.innerHTML = "";
 
             $.post("/Accounts/Auth", { token })
-          
                 .done(function () {
                     const Toast = Swal.mixin({
                         toast: true,
@@ -61,7 +59,7 @@
                         didClose: () => {
                             if (decodedToken.Role === 'Admin') {
                                 window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin 
-                            } else if (decodedToken.Role === 'SuperAdmin'){
+                            } else if (decodedToken.Role === 'Super_Admin'){
                                 window.location.replace("/dashboards/dashboard_superadmin")
                             } else {
                                 window.location.replace("/dashboards/employee"); // Redirect to user dashboard

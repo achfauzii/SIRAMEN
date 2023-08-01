@@ -54,6 +54,38 @@
         </thead>
     </table>
 
+    <table id="TB_FormalEdu" class="table table-striped" style="font-size:14px; color:black">
+        <thead style="background-color:#FFFFFF">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">University Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Major</th>
+                <th scope="col">Degree</th>
+                <th scope="col">Graduation Year</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+    </table>
+
+    <hr class="mt-5">
+    <h5 class="mb-3 mt-3">Non Formal Educations</h5>
+    <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalNonFormal" onclick="ClearScreen();">
+        + Add Non Formal Education
+    </button>
+    <table id="NonFormalEdu" class="table table-striped" style="font-size:14px; color:black">
+        <thead style="background-color:#FFFFFF">
+            <tr>
+                <th scope="col">No</th>
+                <th>Name</th>
+                <th>Organizer</th>
+                <th>Years</th>
+                <th>Description</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+    </table>
+
     @*Modal*@
     <div class="modal fade" id="ModalFormal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -143,9 +175,6 @@
             </div>
         </div>
     </div>
-
-    
-
 </div>
 
 @section script

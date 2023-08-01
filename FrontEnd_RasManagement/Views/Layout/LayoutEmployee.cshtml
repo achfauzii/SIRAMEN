@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
 
     string currentUrl = Context.Request.Path;
 }
@@ -33,6 +32,7 @@
     <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <script src="~/js/JwtUtils.js"></script>
 
 
@@ -75,8 +75,11 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
+
             <li class="nav-item @(currentUrl == "/Dashboards/Employee" ? "active" : "")">
                 <a class="nav-link" href="/Dashboards/Employee">
+
+
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -373,7 +376,7 @@
                           
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/Employee/PersonalDetails">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
