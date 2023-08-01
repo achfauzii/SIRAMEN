@@ -80,7 +80,7 @@ namespace RasManagement.Controllers
                     {
                         var roleId = _context.Accounts.FirstOrDefault(a => a.Email == viewLogin.Email);
                         var roleName = GetRoleNamefromDatabase(roleId.RoleId.ToString());
-                        Claim roleClaim = new Claim("Role", roleName);
+                        Claim roleClaim = new Claim(ClaimTypes.Role, roleName);
                         var claims = new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),

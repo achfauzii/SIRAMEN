@@ -26,7 +26,7 @@
     @*  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>*@
-    <script src="~/js/JwtUtils.js"></script>
+  
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -34,7 +34,7 @@
             var token = sessionStorage.getItem("Token");
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
-            var role = decodedToken.Role;
+            var role = getRole;
 
             var userNameElement = document.getElementById("name");
             var userRoleElement = document.getElementById("role");
@@ -432,7 +432,7 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    <script src="~/js/JwtUtils.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 

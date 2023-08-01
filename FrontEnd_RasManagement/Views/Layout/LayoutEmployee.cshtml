@@ -33,7 +33,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    <script src="~/js/JwtUtils.js"></script>
+
 
 
     <script>
@@ -42,7 +42,7 @@
             var token = sessionStorage.getItem("Token");
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
-            var role = decodedToken.Role;
+            var role = getRole;
             var accountId = decodedToken.AccountId;
 
            
@@ -488,7 +488,7 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    <script src="~/js/JwtUtils.js"></script>
 
 
     <!-- Page specific script -->

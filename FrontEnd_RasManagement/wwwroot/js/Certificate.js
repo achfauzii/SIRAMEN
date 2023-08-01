@@ -10,9 +10,9 @@ $(document).ready(function () {
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
-            /*headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-            },*/
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
             /*success: function (result) {
                 console.log(result)
             }*/
@@ -119,7 +119,10 @@ function Save() {
         type: 'POST',
         url: 'https://localhost:7177/api/Certificate',
         data: JSON.stringify(Certificate), //ngirim data ke api
-        contentType: "application/json; charset=utf-8"
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         debugger;
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
@@ -160,6 +163,9 @@ function Delete(CertificateId) {
                 url: "https://localhost:7177/api/Certificate/" + CertificateId,
                 type: "DELETE",
                 dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
             }).then((result) => {
                 debugger;
                 if (result.status == 200) {
@@ -198,6 +204,9 @@ function Update() {
         type: 'PUT',
         data: JSON.stringify(Certificate),
         contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
 
     }).then((result) => {
         debugger;

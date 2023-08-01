@@ -37,8 +37,8 @@ function Educations() {
                 "render": function (data, type, row) {
                     var modalId = "modal-edit-" + data.formalEduId;
                     var deleteId = "modal-delete-" + data.formalEduId;
-                    return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.formalEduId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return DeleteFormal(' + row.formalEduId + ')"><i class="fa fa-trash"></i></button >'
+                    return '<button class="btn btn-sm btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.formalEduId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
+                        '<button class="btn btn-sm btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return DeleteFormal(' + row.formalEduId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
         ],

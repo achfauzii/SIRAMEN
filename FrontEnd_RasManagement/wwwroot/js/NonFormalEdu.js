@@ -23,8 +23,8 @@
             {
                 "data": null,
                 "render": function (data, type, row) {
-                    return '<button class="btn btn-warning " data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return getbyID(' + row.nonFormalId + ')"><i class="fa fa-pen" ></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + row.nonFormalId + ')"><i class="fa fa-trash"></i></button >'
+                    return '<button class="btn btn-sm btn-warning " data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return getbyID(' + row.nonFormalId + ')"><i class="fa fa-pen" ></i></button >' + '&nbsp;' +
+                        '<button class="btn btn-sm btn-danger" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + row.nonFormalId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
         ]

@@ -35,7 +35,8 @@
             var token = json.data;
             sessionStorage.setItem("Token", token);
             const decodedToken = parseJwt(json.data);
-            //debugger;
+            const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
+            var Role = getValueByIndex(decodeToken, 8);           
             //loaderContainer.innerHTML = "";
 
             $.post("/Accounts/Auth", { token })
@@ -57,9 +58,9 @@
                         title: 'Signed in successfully',
                         text: "Hi "+decodedToken.Name,
                         didClose: () => {
-                            if (decodedToken.Role === 'Admin') {
+                            if (Role === 'Admin') {
                                 window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin 
-                            } else if (decodedToken.Role === 'Super_Admin'){
+                            } else if (Role === 'Super_Admin'){
                                 window.location.replace("/dashboards/dashboard_superadmin")
                             } else {
                                 window.location.replace("/dashboards/employee"); // Redirect to user dashboard
