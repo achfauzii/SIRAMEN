@@ -39,19 +39,19 @@
                         </div>
                         <div class="form-group">
                             <label for="Name">Company Name</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Enter Name" name="Name">
+                            <input type="text" class="form-control" id="Name" placeholder="Enter Name">
                         </div>
                         <div class="form-group">
                             <label for="Publisher">Publisher</label>
-                            <input type="text" class="form-control" id="Publisher" placeholder="Enter Publisher" name="Publisher">
+                            <input type="text" class="form-control" id="Publisher" placeholder="Enter Publisher">
                         </div>
                         <div class="form-group">
                             <label for="PublicationYear">Publication Years</label>
-                            <input type="month" class="form-control" id="PublicationYear" placeholder="Enter Publication Years" name="PublicationYear">
+                            <input type="month" class="form-control" id="PublicationYear" placeholder="Enter Publication Years">
                         </div>
                         <div class="form-group">
                             <label for="ValidUntil">ValidUntil</label>
-                            <input type="month" class="form-control" id="ValidUntil" placeholder="Enter Valid Until">
+                            <input type="month" class="form-control" id="DescrValidUntiliption" placeholder="Enter Valid Until">
                         </div>
                     </form>
                 </div>
@@ -81,27 +81,4 @@
 
 @section script{
     <script src="~/js/Certificate.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('form').validate({
-                rules: {
-                    Name: {
-                        required: true
-                    },
-                    Publisher:{
-                        required:true
-                    },
-                },
-                messages: {
-                    Name: {
-                        required: "Nama harus diisi"
-                    },
-                    Publisher:{
-                        required:"Harus diisi"
-                    }
-                }
-            });
-        });
-    </script>
 }
