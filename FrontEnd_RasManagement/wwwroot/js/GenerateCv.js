@@ -126,6 +126,9 @@ function loadData() {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: true,
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
 
                 success: function (certificate) {
                     var certifData = certificate.data;
