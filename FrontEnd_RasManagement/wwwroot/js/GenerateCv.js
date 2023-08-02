@@ -13,6 +13,9 @@ function loadData() {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             //debugger;
 
@@ -37,10 +40,10 @@ function loadData() {
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                async: true,
                 headers: {
                     "Authorization": "Bearer " + sessionStorage.getItem("Token")
                 },
+                async: true,
 
                 success: function (educationResult) {
                     //debugger;
@@ -71,10 +74,10 @@ function loadData() {
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                async: true,
                 headers: {
                     "Authorization": "Bearer " + sessionStorage.getItem("Token")
                 },
+                async: true,
 
                 success: function (nonFormalEdu) {
                     var nonFormalEduObj = nonFormalEdu.data;
@@ -106,6 +109,9 @@ function loadData() {
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
                 async: true,
 
                 success: function (data) {
@@ -171,6 +177,9 @@ function loadData() {
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
                 async: true,
 
                 success: function (data) {
@@ -228,6 +237,9 @@ function loadData() {
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
                 async: true,
 
                 success: function (data) {
