@@ -39,25 +39,29 @@
                         </div>
                         <div class="form-group">
                             <label for="ProjectName">Project Name</label>
-                            <input type="text" class="form-control" id="ProjectName" placeholder="Enter Project Name">
+                            <input type="text" class="form-control" id="ProjectName" placeholder="Enter Project Name" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="JobSpec">Job Spesification</label>
-                            <input type="text" class="form-control" id="JobSpec" placeholder="Enter Job Spesification">
+                            <input type="text" class="form-control" id="JobSpec" placeholder="Enter Job Spesification" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Year">Year</label>
-                            <input type="text" class="form-control" id="Year" placeholder="Enter Year">
+                            <input type="text" class="form-control" id="Year" placeholder="Enter Year" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="CompanyName">Company Name</label>
-                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter CompanyName">
+                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter CompanyName" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal" id="Save" onclick="Save();">Save</button>
-                    <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update" onclick="Update();">Update</button>
+                    <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
+                    <button type="button" class="btn btn-warning" id="Update" onclick="Update();">Update</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>

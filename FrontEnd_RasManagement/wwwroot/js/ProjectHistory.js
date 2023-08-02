@@ -70,6 +70,21 @@ function parseJwt(token) {
 }
 
 function Save() {
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
     ProjectHistory.jobSpec = $('#JobSpec').val();
@@ -98,7 +113,7 @@ function Save() {
                 showConfirmButtom: false,
                 timer: 1500
             })
-            //$('#Modal').modal('hide');
+            $('#Modal').modal('hide');
             table.ajax.reload();
         }
         else {
@@ -122,6 +137,12 @@ function ClearScreen() {
     $('#CompanyName').val('');
     $('#Update').hide();
     $('#Save').show();
+    $('input[required]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message').hide();
+
+    });
 }
 
 function GetById(projectHistoryId) {

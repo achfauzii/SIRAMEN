@@ -74,6 +74,22 @@ function parseJwt(token) {
 }
 
 function SaveFormal() {
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message-formal').show();
+            isValid = false;
+        } else {
+            input.next('.error-message-formal').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
+
     var FormalEdu = new Object(); //object baru
     FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
     FormalEdu.location = $('#Location').val();
@@ -94,8 +110,6 @@ function SaveFormal() {
     }).then((result) => {
         //debugger;
         if (result.status == 200) {
-            /*alert(result.message);
-            $('#TB_Department').DataTable().ajax.reload();*/
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',
@@ -103,7 +117,7 @@ function SaveFormal() {
                 showConfirmButtom: false,
                 timer: 1500
             })
-            //$('#Modal').modal('hide');
+            $('#ModalFormal').modal('hide');
             table.ajax.reload();
         }
         else {
@@ -113,7 +127,7 @@ function SaveFormal() {
                 showConfirmButtom: false,
                 timer: 1500
             })
-            $('#Modal').modal('hide');
+            $('#ModalFormal').modal('hide');
             table.ajax.reload();
         }
     })
@@ -128,6 +142,12 @@ function ClearScreenFormal() {
     $('#GraduationYears').val('');
     $('#Update').hide();
     $('#Save').show();
+    $('input[required]').each(function () {
+        var input = $(this);
+        
+            input.next('.error-message-formal').hide();
+        
+    });
 }
 
 function GetById(formalEduId) {
@@ -190,7 +210,7 @@ function UpdateFormal() {
                 showConfirmButtom: false,
                 timer: 2000
             })
-            $('#Modal').modal('hide');
+            $('#ModalFormal').modal('hide');
             table.ajax.reload();
         }
         else {

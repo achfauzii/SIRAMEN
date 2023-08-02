@@ -137,6 +137,12 @@ function ClearScreen() {
     $('#Description').val('');
     $('#Update').hide();
     $('#Save').show();
+    $('input[required]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message').hide();
+
+    });
 }
 
 function GetById(workExperienceId) {

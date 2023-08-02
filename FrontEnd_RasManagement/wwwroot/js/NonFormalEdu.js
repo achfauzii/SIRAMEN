@@ -44,13 +44,19 @@ function parseJwt(token) {
 }
 
 function ClearScreen() {
-    debugger;
+    //debugger;
     $('#Name').val('');
     $('#Organizer').val('');
     $('#Years').val('');
     $('#Description').val('');
     $('#UpdateNonFormal').hide();
     $('#SaveNonFormal').show();
+    $('input[required-nonformal]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message').hide();
+
+    });
 }
 
 function getbyID(NonFormalId) {
@@ -82,6 +88,22 @@ function getbyID(NonFormalId) {
 }
 
 function Save() {
+    var isValid = true;
+
+    $('input[required-nonformal]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        
+        return;
+    }
     var NonFormal = new Object(); //bikin objek baru
     NonFormal.Name = $('#Name').val(); //value dari database
     NonFormal.Organizer = $('#Organizer').val();
@@ -106,14 +128,18 @@ function Save() {
                 showConfirmButton: false,
                 timer: 1500
             })
+            $('#ModalNonFormal').modal('hide');
             $('#NonFormalEdu').DataTable().ajax.reload();
         }
         else {
-            Swal.fire(
-                'Error!',
-                result.message,
-                'error'
-            )
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Gagal dimasukkan!',
+                showConfirmButtom: false,
+                timer: 1500
+            })
+            $('#ModalNonFormal').modal('hide');
+            $('#NonFormalEdu').DataTable().ajax.reload();
         }
     })
 }
