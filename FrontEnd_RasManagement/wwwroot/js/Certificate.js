@@ -102,6 +102,12 @@ function ClearScreen() {
     $('#ValidUntil').val('');
     $('#Update').hide();
     $('#Save').show();
+    $('input[required]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message').hide();
+
+    });
 }
 
 function GetById(CertificateId) {
@@ -130,10 +136,26 @@ function GetById(CertificateId) {
 }
 
 function Save() {
-    debugger;
+    //debugger;
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
+
     var Certificate = new Object(); //bikin objek baru
-    Certificate.name = $('#Name').val(); //value dari database
-    Certificate.publisher = $('#Publisher').val();
+    Certificate.name = $('#Name').val(); //value dari database\
+    Certificate.publisher = $('#Publisher').val();  
     Certificate.publicationYear = $('#PublicationYear').val();
     Certificate.validUntil = $('#ValidUntil').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -158,14 +180,18 @@ function Save() {
                 showConfirmButton: false,
                 timer: 1500
             })
+            $('#Modal').modal('hide');
             table.ajax.reload();
         }
         else {
-            Swal.fire(
-                'Error!',
-                result.message,
-                'error'
-            )
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Gagal dimasukkan!',
+                showConfirmButtom: false,
+                timer: 1500
+            })
+            $('#Modal').modal('hide');
+            table.ajax.reload();
         }
     })
 }
