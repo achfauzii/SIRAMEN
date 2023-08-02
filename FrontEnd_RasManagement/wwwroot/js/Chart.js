@@ -112,7 +112,7 @@ function chartUniv(universitiesData) {
    
     //var universityName =
     // Bar Chart Example
-    console.log(totalAccounts);
+  
     var ctx = document.getElementById("myBarChart"); 
     var myBarChart = new Chart(ctx, {
         type: 'bar',
