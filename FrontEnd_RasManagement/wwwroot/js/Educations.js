@@ -12,9 +12,9 @@ function Educations() {
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
-            /*headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-            },*/
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
             /*success: function (result) {
                 console.log(result)
             }*/
@@ -37,8 +37,8 @@ function Educations() {
                 "render": function (data, type, row) {
                     var modalId = "modal-edit-" + data.formalEduId;
                     var deleteId = "modal-delete-" + data.formalEduId;
-                    return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.formalEduId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return DeleteFormal(' + row.formalEduId + ')"><i class="fa fa-trash"></i></button >'
+                    return '<button class="btn btn-sm btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.formalEduId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
+                        '<button class="btn btn-sm btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return DeleteFormal(' + row.formalEduId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
         ],
@@ -104,9 +104,9 @@ function SaveFormal() {
         url: 'https://localhost:7177/api/Educations',
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8",
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         //debugger;
         if (result.status == 200) {
@@ -157,9 +157,9 @@ function GetById(formalEduId) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        /*headers: {
-            sessionStorage.getItem("Token")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
@@ -196,10 +196,10 @@ function UpdateFormal() {
         type: 'PUT',
         url: 'https://localhost:7177/api/Educations',
         data: JSON.stringify(FormalEdu),
-        contentType: "application/json; charset=utf-8"
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then(result => {
         debugger;
         if (result.status == 200) {
@@ -236,6 +236,9 @@ function DeleteFormal(formalEduId) {
                 url: "https://localhost:7177/api/Educations/" + formalEduId,
                 type: "DELETE",
                 dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
             }).then((result) => {
                 debugger;
                 if (result.status == 200) {

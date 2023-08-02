@@ -1,4 +1,5 @@
 ﻿using FrontEnd_RasManagement.Models;
+using FrontEnd_RasManagement.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -11,15 +12,42 @@ namespace FrontEnd_RasManagement.Controllers
 
         public IActionResult Index()
         {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+            if (role != "Admin" && role != "Super_Admin")
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            //End Validate
             return View();
         }
 
         public async Task<IActionResult> DetailEmployee(string accountId)
         {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
 
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+            if (role != "Admin" && role != "Super_Admin")
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            //End Validate
+            var accessToken = HttpContext.Session.GetString("Token");
             var url = "https://localhost:7177/api/Employees/accountId?accountId=" + accountId;
             var url2 = "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId;
             HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             try
             {
                 string jsonResponse = await client.GetStringAsync(url);
@@ -40,7 +68,7 @@ namespace FrontEnd_RasManagement.Controllers
             {
                 string jsonResponse = await client.GetStringAsync(url);
                 dynamic data = JsonConvert.DeserializeObject(jsonResponse);
-                 var result = data.data.result;
+                var result = data.data.result;
                 var placement = new
                 {
                     placementStatusId = "",

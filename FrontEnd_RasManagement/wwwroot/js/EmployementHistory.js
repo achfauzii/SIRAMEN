@@ -5,13 +5,13 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
     table = $('#TB_EmploymentHistory').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId="+accid,
+            url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
-            /*headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-            },*/
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
             /*success: function (result) {
                 console.log(result)
             }*/
@@ -20,6 +20,7 @@ $(document).ready(function () {
         "columns": [
             {
                 render: function (data, type, row, meta) {
+              
                     return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }
             },
@@ -98,9 +99,9 @@ function Save() {
         url: 'https://localhost:7177/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         debugger;
         if (result.status == 200) {
@@ -152,9 +153,9 @@ function GetById(workExperienceId) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg kita dapat dr API  
@@ -190,9 +191,9 @@ function Update() {
         url: 'https://localhost:7177/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then(result => {
         debugger;
         if (result.status == 200) {
@@ -229,9 +230,9 @@ function Delete(workExperienceId) {
                 type: "DELETE",
                 dataType: "json",
 
-                /*headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-                },*/
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
             }).then((result) => {
                 debugger;
                 if (result.status == 200) {

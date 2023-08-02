@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RasManagement.Repository;
 using RasManagement.ViewModel;
@@ -10,6 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class EmployeePlacementsController : ControllerBase
     {
         private readonly EmployeePlacementRepository employeePlacementRepository;

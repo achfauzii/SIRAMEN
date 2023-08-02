@@ -7,6 +7,9 @@
         type: "GET",
         datatype: "json",
         contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
 
 
         success: function (education) {
@@ -109,7 +112,7 @@ function chartUniv(universitiesData) {
    
     //var universityName =
     // Bar Chart Example
-    console.log(totalAccounts);
+  
     var ctx = document.getElementById("myBarChart"); 
     var myBarChart = new Chart(ctx, {
         type: 'bar',

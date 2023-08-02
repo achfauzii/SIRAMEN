@@ -34,8 +34,8 @@
         if (response.ok) {
             var token = json.data;
             sessionStorage.setItem("Token", token);
-            const decodedToken = parseJwt(json.data);
-            //debugger;
+            var decodedToken = parseJwt(token); 
+         
             //loaderContainer.innerHTML = "";
 
             $.post("/Accounts/Auth", { token })
@@ -51,15 +51,19 @@
                             toast.addEventListener('mouseleave', Swal.resumeTimer)
                         }
                     })
+          
+             
 
                     Toast.fire({
                         icon: 'success',
                         title: 'Signed in successfully',
                         text: "Hi "+decodedToken.Name,
                         didClose: () => {
-                            if (decodedToken.Role === 'Admin') {
+                            const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
+                            var Role = getValueByIndex(decodedToken, 8);
+                            if (Role === 'Admin') {
                                 window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin 
-                            } else if (decodedToken.Role === 'Super_Admin'){
+                            } else if (Role === 'Super_Admin'){
                                 window.location.replace("/dashboards/dashboard_superadmin")
                             } else {
                                 window.location.replace("/dashboards/employee"); // Redirect to user dashboard
