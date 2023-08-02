@@ -26,8 +26,32 @@ $(document).ready(function () {
             },
             { "data": "name" },
             { "data": "publisher" },
-            { "data": "publicationYear" },
-            { "data": "validUntil" },
+            {
+                "data": "publicationYear",
+                "render": function (data) {
+                    // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
+                    if (data) {
+                        const date = new Date(data);
+                        const options = { month: 'long', year: 'numeric' };
+                        return date.toLocaleDateString('en-EN', options);
+                    } else {
+                        return ""; // Jika data null atau undefined, tampilkan string kosong
+                    }
+                }
+            },
+            {
+                "data": "validUntil",
+                "render": function (data) {
+                    // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
+                    if (data) {
+                        const date = new Date(data);
+                        const options = {  month: 'long', year: 'numeric' };
+                        return date.toLocaleDateString('en-EN', options);
+                    } else {
+                        return ""; // Jika data null atau undefined, tampilkan string kosong
+                    }
+                }
+            },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 "data": null,

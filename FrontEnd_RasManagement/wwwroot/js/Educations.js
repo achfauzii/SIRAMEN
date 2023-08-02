@@ -176,8 +176,8 @@ function UpdateFormal() {
         type: 'PUT',
         url: 'https://localhost:7177/api/Educations',
         data: JSON.stringify(FormalEdu),
-        contentType: "application/json; charset=utf-8"
-       headers: {
+        contentType: "application/json; charset=utf-8",
+        headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
     }).then(result => {
