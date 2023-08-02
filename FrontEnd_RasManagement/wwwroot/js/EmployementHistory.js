@@ -5,7 +5,7 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
     table = $('#TB_EmploymentHistory').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId="+accid,
+            url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -19,7 +19,8 @@ $(document).ready(function () {
 
         "columns": [
             {
-                render: function (data, type, row, meta) {ajax
+                render: function (data, type, row, meta) {
+              
                     return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }
             },
