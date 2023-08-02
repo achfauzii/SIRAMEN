@@ -7,7 +7,10 @@
             url: "https://localhost:7177/api/NonFormalEdu/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
-            "dataSrc": "data"
+            "dataSrc": "data",
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
         },
         "columns": [
             {
@@ -62,6 +65,9 @@ function getbyID(NonFormalId) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
@@ -94,7 +100,10 @@ function Save() {
         type: 'POST',
         url: 'https://localhost:7177/api/NonFormalEdu',
         data: JSON.stringify(NonFormal), //ngirim data ke api
-        contentType: "application/json; charset=utf-8"
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         //debugger;
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
@@ -135,6 +144,9 @@ function Delete(NonFormalId) {
                 url: "https://localhost:7177/api/NonFormalEdu/" + NonFormalId,
                 type: "DELETE",
                 dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
             }).then((result) => {
                 //debugger;
                 if (result.status == 200) {
@@ -173,6 +185,9 @@ function Update() {
         type: 'PUT',
         data: JSON.stringify(NonFormal),
         contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         debugger;
         if (result.status == 200) {

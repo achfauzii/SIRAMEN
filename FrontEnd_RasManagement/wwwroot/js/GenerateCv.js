@@ -38,6 +38,9 @@ function loadData() {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: true,
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
 
                 success: function (educationResult) {
                     //debugger;
@@ -69,6 +72,9 @@ function loadData() {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: true,
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
 
                 success: function (nonFormalEdu) {
                     var nonFormalEduObj = nonFormalEdu.data;

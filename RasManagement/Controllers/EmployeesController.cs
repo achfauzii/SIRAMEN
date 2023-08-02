@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using RasManagement.Repository;
@@ -10,6 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class EmployeesController : ControllerBase
     {
         private readonly ProjectRasmanagementContext _context;

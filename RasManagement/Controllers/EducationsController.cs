@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using RasManagement.BaseController;
 using RasManagement.Repository;
@@ -9,6 +10,7 @@ namespace RasManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[EnableCors("AllowOrigin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class EducationsController : BaseController<FormalEdu, EducationRepository, int> 
     {
         private readonly EducationRepository educationRepository;

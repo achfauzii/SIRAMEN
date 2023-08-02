@@ -8,6 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//Session
+builder.Services.AddDistributedMemoryCache(); // Add a memory-based distributed cache for storing session data
+builder.Services.AddSession(options =>
+{
+    // Configure session options as needed, e.g., timeout, cookie settings, etc.
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 //package
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
@@ -29,6 +39,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "ResetPassword",

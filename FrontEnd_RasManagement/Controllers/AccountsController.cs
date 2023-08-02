@@ -162,7 +162,7 @@ namespace FrontEnd_RasManagement.Controllers
         public async Task<IActionResult> Auth(string token)
         {
 
-
+            HttpContext.Session.SetString("Token", token);
             // Mendekode token JWT
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token);
@@ -185,6 +185,8 @@ namespace FrontEnd_RasManagement.Controllers
 
 
 
+
+
         public IActionResult Register_Employee()
         {
             return View();
@@ -193,8 +195,8 @@ namespace FrontEnd_RasManagement.Controllers
         //Logout
         public IActionResult Logout()
         {
-            //HttpContext.Session.Remove("Token");
-            //HttpContext.Session.Clear();
+            HttpContext.Session.Remove("Token");
+            HttpContext.Session.Clear();
             return View("Login");
 
         }
