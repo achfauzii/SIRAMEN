@@ -7,9 +7,9 @@
             "datatype": "json",
             async: true,    
             "dataSrc": "data",
-            /* headers: {
-                 'Authorization': 'Bearer ' + sessionStorage.getItem('tokenJWT')
-             },*/
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
         },
 
         "columns": [
@@ -37,6 +37,9 @@
                         type: "GET",
                         datatype: "json",
                         async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+                        headers: {
+                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                        },
                         success: function (placementData) {
                             
                             var result = placementData.data;
@@ -108,9 +111,9 @@ function ClearScreen(accountId) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: true,    
-        /*headers: {
-            'Authorization': 'Bearer ' + sessionStorage.getItem('tokenJWT')
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
     /*    $('#modal-add').modal('hide');
         $('#modal-add').on('hidden.bs.modal', function () {
@@ -156,9 +159,9 @@ function Save(accountId) {
             url: 'https://localhost:7177/api/EmployeePlacements',
             data: JSON.stringify(placement),
             contentType: "application/json; charset=utf-8",
-            /*headers: {
-                'Authorization': 'Bearer ' + sessionStorage.getItem('tokenJWT')
-            },*/
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
         }).then((result) => {
             $('#modal-add').modal('hide');
             $('#modal-add').on('hidden.bs.modal', function () {
@@ -199,6 +202,9 @@ function Update() {
         type: 'PUT',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         debugger;
         if (result.status == 200) {

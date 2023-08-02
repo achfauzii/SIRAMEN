@@ -45,8 +45,10 @@ namespace FrontEnd_RasManagement.Controllers
 
         public async Task<int> GetTotalEmployee()
         {
+            var accessToken = HttpContext.Session.GetString("Token");
             var url = "https://localhost:7177/api/Employees";
             HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string jsonResponse = await client.GetStringAsync(url);
 
             dynamic data = JsonConvert.DeserializeObject(jsonResponse);

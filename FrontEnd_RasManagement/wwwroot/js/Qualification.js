@@ -7,6 +7,9 @@ $(document).ready(function () {
         url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
         type: 'GET',
         dataType: 'json',
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (response) {
             debugger;
             if (response.status === 200) {

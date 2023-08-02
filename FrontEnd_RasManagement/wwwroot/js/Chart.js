@@ -7,6 +7,9 @@
         type: "GET",
         datatype: "json",
         contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
 
 
         success: function (education) {

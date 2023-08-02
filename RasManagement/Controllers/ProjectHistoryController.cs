@@ -1,5 +1,6 @@
 
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RasManagement.BaseController;
 using RasManagement.Repository;
 using System.Net;
@@ -8,6 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class ProjectHistoryController : BaseController<ProjectHistory, ProjectHistoryRepository, int>
     {
         private readonly ProjectHistoryRepository projectHistoryRepository;

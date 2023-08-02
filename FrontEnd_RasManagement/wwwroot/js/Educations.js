@@ -12,9 +12,9 @@ function Educations() {
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
-            /*headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-            },*/
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
             /*success: function (result) {
                 console.log(result)
             }*/
@@ -88,9 +88,9 @@ function SaveFormal() {
         url: 'https://localhost:7177/api/Educations',
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8",
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         //debugger;
         if (result.status == 200) {
@@ -137,9 +137,9 @@ function GetById(formalEduId) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        /*headers: {
-            sessionStorage.getItem("Token")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
@@ -177,9 +177,9 @@ function UpdateFormal() {
         url: 'https://localhost:7177/api/Educations',
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8"
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+       headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then(result => {
         debugger;
         if (result.status == 200) {
@@ -216,6 +216,9 @@ function DeleteFormal(formalEduId) {
                 url: "https://localhost:7177/api/Educations/" + formalEduId,
                 type: "DELETE",
                 dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
             }).then((result) => {
                 debugger;
                 if (result.status == 200) {
