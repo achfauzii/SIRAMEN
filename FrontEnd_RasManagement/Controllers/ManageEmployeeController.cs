@@ -57,11 +57,14 @@ namespace FrontEnd_RasManagement.Controllers
                 dynamic placement_ = JsonConvert.DeserializeObject(employeePlacement);
                 var result = data.data.result;
                 var placement = placement_.data;
-
+                var startDate = placement.startDate.ToString("dd/MM/yyyy");
+                var endDate = placement.endDate.ToString("dd/MM/yyyy");
                 ViewData["EmployeeData"] = result;
 
 
                 ViewData["EmployeePlacement"] = placement;
+                ViewData["StartDate"] = startDate;
+                ViewData["EndDate"] = endDate;
                 return View();
             }
             catch (HttpRequestException ex)
@@ -83,6 +86,9 @@ namespace FrontEnd_RasManagement.Controllers
                 };
                 ViewData["EmployeeData"] = result;
                 ViewData["EmployeePlacement"] = placement;
+                ViewData["StartDate"] =placement.startDate;
+                ViewData["EndDate"] = placement.endDate;
+                Console.WriteLine(placement);   
 
             
 

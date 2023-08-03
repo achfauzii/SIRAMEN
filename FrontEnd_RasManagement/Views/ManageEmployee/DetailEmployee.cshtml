@@ -5,6 +5,9 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
     var employeeData = ViewData["EmployeeData"] as dynamic;
     var employeePlacement = ViewData["EmployeePlacement"] as dynamic;
+    var startDate = ViewData["StartDate"];
+    var endDate = ViewData["EndDate"];
+
 
 }
 
@@ -64,9 +67,11 @@
     <button type="button" class="btn btn-sm text-light mb-3" data-toggle="modal" data-target="#modalPlacement" style="background-color:#624DE3;  font-size: 12px;" onclick="ClearScreenPlacement();">
         + New Placement
     </button>
-
+ 
     @if (employeePlacement != null)
     {
+       
+       
         <div class="card shadow mb-4">
             <div class="card-header py-2 d-flex">
                 <span class="text-primary h-6 ">Placement Status :<span id="fullName" class="text-dark"> @employeePlacement.placementStatus</span> </span>
@@ -92,11 +97,11 @@
                 </div>
                 <div class="row">
                     <div class="col" style="color: black">Start Date </div>
-                    <div class="col-10">: @employeePlacement?.startDate.ToString("dd/MM/yyyy") </div>
-                </div>
+                    <div class="col-10">:  @startDate </div>
+                </div>  
                 <div class="row">
                     <div class="col" style="color: black">End Date </div>
-                    <div class="col-10">: @employeePlacement?.endDate.ToString("dd/MM/yyyy") </div>
+                    <div class="col-10">: @endDate </div>
                 </div>
                 <div class="row">
                     <div class="col  " style="color: black">Description </div>
@@ -176,8 +181,9 @@
 
                 <button type="button" class="btn btn-primary btn-add" id="Add" name="Add" onclick="Save('@employeeData.accountId')">Save</button>
                 <button type="button" class="btn btn-primary" id="Update" name="Update" data-bs-dismiss="modal" onclick="Update()">Update</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreenPlacement()">Close</button>
             </div>
         </div>
     </div>
+                
 </div>

@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+   
     $('#dataTableEmployee').DataTable({
 
         "ajax": {
@@ -60,7 +61,7 @@
                 orderable: false, // menonaktifkan order
                 "render": function (data, type, row) {
 
-                    return '<a href="#" class="text-dark pt-1" data-bs-toggle="modal" onclick = "GenerateCv(\'' + row.accountId + '\')"><i class="far fa-file-pdf" title="Curiculum Vitae"></i></a>' +
+                    return '<a href="#" class="text-dark pt-1" data-toggle="tooltip" data-placement="top" title="Curiculum Vitae" onclick = "GenerateCv(\'' + row.accountId + '\')"><i class="far fa-file-pdf"  ></i></a>' +
                         '<a href="#" class="btn  ml-2 btn-sm p-0 text-light"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId + '\')">Detail</a>';
                 }
             }
