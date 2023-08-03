@@ -117,6 +117,9 @@ function GetById(CertificateId) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
