@@ -35,6 +35,9 @@ namespace RasManagement.Repository
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
                 CompanyName = placementVM.CompanyName,
+                JobRole = placementVM.JobRole,
+                StartDate = placementVM.StartDate,
+                EndDate = placementVM.EndDate,
                 Description = placementVM.Description,
                 PlacementStatus = placementVM.PlacementStatus,
                 AccountId = placementVM.AccountId,
@@ -62,6 +65,9 @@ namespace RasManagement.Repository
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
                 CompanyName = placementVM.CompanyName,
+                JobRole = placementVM.JobRole,
+                StartDate = placementVM.StartDate,
+                EndDate = placementVM.EndDate,
                 Description = placementVM.Description,
                 PlacementStatus = placementVM.PlacementStatus,
                 AccountId = placementVM.AccountId,

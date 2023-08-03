@@ -73,6 +73,9 @@ namespace FrontEnd_RasManagement.Controllers
                 {
                     placementStatusId = "",
                     companyName = "",
+                    jobRole="",
+                    startDate = "",
+                    endDate = "",
                     description = "",
                     placementStatus = "Belum di buat status penempatan",
                     accountId = "",
@@ -80,6 +83,8 @@ namespace FrontEnd_RasManagement.Controllers
                 };
                 ViewData["EmployeeData"] = result;
                 ViewData["EmployeePlacement"] = placement;
+
+            
 
                 return View();
             }
