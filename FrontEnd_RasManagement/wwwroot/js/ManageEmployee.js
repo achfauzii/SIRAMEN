@@ -31,6 +31,7 @@
             {
                 "render": function (data, type, row) {
                     var accountId = row.accountId;
+                    var placementStatus = "Idle"; // Default value jika data tidak ditemukan
 
                     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
                     $.ajax({
@@ -42,18 +43,47 @@
                             "Authorization": "Bearer " + sessionStorage.getItem("Token")
                         },
                         success: function (placementData) {
-
-                            var result = placementData.data;
-                            placementStatus = result.placementStatus
+                            if (placementData.data && placementData.data.length > 0) {
+                                var result = placementData.data[0]; // Ambil data yang pertama dari array data
+                                placementStatus = result.placementStatus;
+                            }
                         }, error: function () {
-                            placementStatus = "Idle"
+                           
                         }
                     });
 
 
                     return placementStatus
                 }
+            },
 
+            {
+                "render": function (data, type, row) {
+                    var accountId = row.accountId;
+                    var placementStatus = "Idle"; // Default value jika data tidak ditemukan
+
+                    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
+                    $.ajax({
+                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+                        type: "GET",
+                        datatype: "json",
+                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+                        headers: {
+                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                        },
+                        success: function (placementData) {
+                            if (placementData.data && placementData.data.length > 0) {
+                                var result = placementData.data[0]; // Ambil data yang pertama dari array data
+                                placementStatus = result.companyName;
+                            }
+                        }, error: function () {
+
+                        }
+                    });
+
+
+                    return placementStatus
+                }
             },
             { "data": "hiredstatus" },
             {
@@ -61,8 +91,14 @@
                 orderable: false, // menonaktifkan order
                 "render": function (data, type, row) {
 
-                    return '<a href="#" class="text-dark pt-1" data-toggle="tooltip" data-placement="top" title="Curiculum Vitae" onclick = "GenerateCv(\'' + row.accountId + '\')"><i class="far fa-file-pdf"  ></i></a>' +
-                        '<a href="#" class="btn  ml-2 btn-sm p-0 text-light"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId + '\')">Detail</a>';
+                    return '<div class="text-center row">' +
+                        '<a href="#" class="text-dark ml-2 pt-0" data-toggle="tooltip" data-placement="top" title="Curiculum Vitae" onclick = "GenerateCv(\'' + row.accountId + '\')"><i class="far fa-file-pdf"  ></i></a>' +
+
+                        '</div>' +
+
+                        '<div class="text-center row">' +
+                        '<a href="#" class="btn  ml-2 btn-sm p-0 text-light"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId + '\')">Detail</a>' +
+                        '</div>';
                 }
             }
 
@@ -99,7 +135,7 @@ function Detail(id) {
 
 }
 
-function GetById(accountId) {
+/*function GetById(accountId) {
     const startDate = document.getElementById("showStartDate");
     const endDate = document.getElementById("showEndDate");
     startDate.style.display = "none";
@@ -148,7 +184,7 @@ function GetById(accountId) {
 
     })
 }
-
+*/
 
 function ClearScreenPlacement() {
     const startDate = document.getElementById("showStartDate");
@@ -161,15 +197,35 @@ function ClearScreenPlacement() {
     $('#Update').hide();
     $('#Add').show();
     startDate.style.display = "block";
+    $('input[required]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message').hide();
+
+    });
 
 
 }
 
 function Save(accountId) {
 
- 
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
     var placement = new Object  //object baru
-    placement.companyName = $('#companyName').val();
+    placement.companyName = $('#companyName_').val();
     placement.jobRole = $('#jobRole').val();
     placement.startDate = $('#startDate').val();
   
@@ -188,7 +244,7 @@ function Save(accountId) {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
     }).then((result) => {
-   
+        $('#modalPlacement').modal('hide');
         //debugger;
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
             //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
@@ -199,6 +255,7 @@ function Save(accountId) {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
+                
                 location.reload();
                
             });
@@ -214,10 +271,14 @@ function Update() {
     debugger;
     var placement = new Object();
     placement.placementStatusId = $('#placementStatusId').val();
-    placement.companyName = $('#companyName').val();
+    placement.companyName = $('#companyName_').val();
     placement.jobRole = $('#jobRole').val();
     placement.startDate = $('#startDate').val();
+    
     placement.endDate = $('#endDate').val();
+    if (placement.endDate == '') {
+        placement.endDate = null;
+    }
     placement.description = $('#description').val();//value insert dari id pada input
     placement.placementStatus = $('input[name="status"]:checked').val();
     placement.accountId = $('#accountId').val();;
@@ -231,7 +292,7 @@ function Update() {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
     }).then((result) => {
-        debugger;
+        $('#modalPlacement').modal('hide');
         if (result.status == 200) {
             Swal.fire({
                 title: "Success!",
@@ -240,6 +301,7 @@ function Update() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
+                
                 location.reload();
             });
         } else {

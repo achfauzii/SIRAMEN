@@ -4,9 +4,9 @@
     ViewData["Title"] = "DetailEmployee";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
     var employeeData = ViewData["EmployeeData"] as dynamic;
-    var employeePlacement = ViewData["EmployeePlacement"] as dynamic;
-    var startDate = ViewData["StartDate"];
-    var endDate = ViewData["EndDate"];
+   // var employeePlacement = ViewData["EmployeePlacement"] as dynamic;
+   // var startDate = ViewData["StartDate"];
+   // var endDate = ViewData["EndDate"];
 
 
 }
@@ -68,52 +68,15 @@
         + New Placement
     </button>
  
-    @if (employeePlacement != null)
-    {
-       
-       
-        <div class="card shadow mb-4">
-            <div class="card-header py-2 d-flex">
-                <span class="text-primary h-6 ">Placement Status :<span id="fullName" class="text-dark"> @employeePlacement.placementStatus</span> </span>
-                <span class="ml-auto">
-                    <!-- Button trigger modal -->
-                    @if (employeePlacement.placementStatus != "Belum di buat status penempatan")
-                    {
-                        <button class="btn btn-sm  pl-1 pr-1 pt-0 pb-0" style="background-color:#624DE3;" data-toggle="modal" data-target="#modalPlacement" onclick="GetById('@employeeData.accountId');">
-                            <i class="fas fa-edit text-light"></i>
-                        </button>
-                    }
-                
-                </span>
-            </div>
-            <div class="card-body m-0 pt-2">
-                <div class="row">
-                    <div class="col" style="color: black">Company Name </div>
-                    <div class="col-10">: @employeePlacement?.companyName </div>
-                </div>
-                <div class="row">
-                    <div class="col" style="color: black">Job Role </div>
-                    <div class="col-10">: @employeePlacement?.jobRole </div>
-                </div>
-                <div class="row">
-                    <div class="col" style="color: black">Start Date </div>
-                    <div class="col-10">:  @startDate </div>
-                </div>  
-                <div class="row">
-                    <div class="col" style="color: black">End Date </div>
-                    <div class="col-10">: @endDate </div>
-                </div>
-                <div class="row">
-                    <div class="col  " style="color: black">Description </div>
-                    <div class="col-10">: @employeePlacement?.description </div>
-                </div>
+
+            <div class="card shadow mb-4" id="placementData">
+               
 
 
 
             </div>
-        </div>
-
-    }
+        
+    
 </div>
 
 
@@ -133,20 +96,23 @@
                 <form>
                     <button class="btn btn-sm btn-warning"> @employeeData.accountId</button>
                     <input type="hidden" id="accountId" value="@employeeData.accountId">
-                    <input type="hidden" id="placementStatusId" value="@employeePlacement?.placementStatusId">
+                    <input type="hidden" id="placementStatusId" >
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Company Name</label>
-                        <input type="text" class="form-control " id="companyName" name="companyName" required>
+                        <input type="text" class="form-control " id="companyName_" name="companyName" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
                     <div class="form-group mb-1">
-                        <label class="m-0" for="exampleInputEmail1">Job Role</label>
+                        <label class="m-0" for="exampleInputEmail1">Job Role</label>    
                         <input type="text" class="form-control " id="jobRole" name="jobRole" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
                     <div class="form-group mb-1" id="showStartDate" style="display: none;">
                         <label class="m-0" for="exampleInputEmail1" >Start Date</label>
                         <input type="date" class="form-control" id="startDate" name="startDate" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
                     <div class="form-group mb-1" id="showEndDate" style="display: none;">
@@ -187,3 +153,7 @@
     </div>
                 
 </div>
+
+
+
+   
