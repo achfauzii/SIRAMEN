@@ -51,6 +51,11 @@
                            
                         }
                     });
+                    if (placementStatus == "Idle") {
+                        placementStatus = '<span class="badge badge-pill badge-warning">Idle</span>'
+                    } else {
+                        placementStatus = '<span class="badge badge-pill badge-success">' + placementStatus + '</span>'
+                    }
 
 
                     return placementStatus
@@ -60,7 +65,7 @@
             {
                 "render": function (data, type, row) {
                     var accountId = row.accountId;
-                    var placementStatus = "Idle"; // Default value jika data tidak ditemukan
+   
 
                     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
                     $.ajax({
@@ -74,15 +79,26 @@
                         success: function (placementData) {
                             if (placementData.data && placementData.data.length > 0) {
                                 var result = placementData.data[0]; // Ambil data yang pertama dari array data
-                                placementStatus = result.companyName;
+
+                                if (result.placementStatus == "Idle") {
+                                    placementLocation = "";
+                                } else {
+                                    placementLocation = result.companyName;
+                                }
+
+                            } else {
+                             
+                                placementLocation ="";
                             }
+                          
+
                         }, error: function () {
 
                         }
                     });
 
-
-                    return placementStatus
+                 
+                    return placementLocation
                 }
             },
             { "data": "hiredstatus" },
