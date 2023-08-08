@@ -4,6 +4,7 @@ $(document).ready(function () {
 })
 
 function Educations() {
+    debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_FormalEdu').DataTable({
@@ -76,7 +77,7 @@ function parseJwt(token) {
 function SaveFormal() {
     var isValid = true;
 
-    $('input[required]').each(function () {
+    $('input[required],select[required]').each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next('.error-message-formal').show();
@@ -89,6 +90,7 @@ function SaveFormal() {
     if (!isValid) {
         return;
     }
+
 
     var FormalEdu = new Object(); //object baru
     FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
@@ -222,14 +224,14 @@ function UpdateFormal() {
 function DeleteFormal(formalEduId) {
     debugger;
     Swal.fire({
-        title: 'Kamu yakin?',
-        text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya',
-        cancelButtonText: 'Tidak'
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No'
     }).then((result) => {
         if (result.value) {
             $.ajax({
@@ -240,8 +242,8 @@ function DeleteFormal(formalEduId) {
                 debugger;
                 if (result.status == 200) {
                     Swal.fire(
-                        'Berhasil',
-                        'Data sudah dihapus.',
+                        'Deleted!',
+                        'Your data has been deleted.',
                         'success'
                     )
                     $('#TB_FormalEdu').DataTable().ajax.reload();

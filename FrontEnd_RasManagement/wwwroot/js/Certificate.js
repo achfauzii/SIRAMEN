@@ -148,8 +148,8 @@ function Save() {
             //alert("Data Berhasil Dimasukkan");
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil dimasukkan',
+                title: 'Success...',
+                text: 'Data has been added!',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -172,14 +172,14 @@ function Save() {
 function Delete(CertificateId) {
     debugger;
     Swal.fire({
-        title: 'Kamu yakin?',
-        text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya',
-        cancelButtonText: 'Tidak'
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No'
     }).then((result) => {
         if (result.value) {
             $.ajax({
@@ -190,8 +190,8 @@ function Delete(CertificateId) {
                 debugger;
                 if (result.status == 200) {
                     Swal.fire(
-                        'Berhasil',
-                        'Data sudah dihapus.',
+                        'Deleted!',
+                        'Your data has been deleted.',
                         'success'
                     )
                     table.ajax.reload();
@@ -230,8 +230,8 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil diupdate',
+                title: 'Success...',
+                text: 'Data has been update!',
                 showConfirmButton: false,
                 timer: 1500
             })
