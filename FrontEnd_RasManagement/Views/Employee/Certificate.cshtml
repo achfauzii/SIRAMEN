@@ -1,7 +1,9 @@
 
 @{
     ViewData["Title"] = "Certificate";
-    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+    var role = ViewData["UserRole"] as string;
+    var layoutPath = $"~/Views/Layout/Layout{role}.cshtml";
+    Layout = layoutPath;
 }
 
 <style>
@@ -38,7 +40,7 @@
                             <input type="text" class="form-control" id="CertificateId" hidden>
                         </div>
                         <div class="form-group">
-                            <label for="Name">Company Name</label>
+                            <label for="Name">Certificate Name</label>
                             <input type="text" class="form-control" id="Name" placeholder="Enter Name" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>

@@ -26,7 +26,7 @@
     @*  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>*@
-    <script src="~/js/JwtUtils.js"></script>
+  
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -34,7 +34,7 @@
             var token = sessionStorage.getItem("Token");
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
-            var role = decodedToken.Role;
+            var role = getRole;
 
             var userNameElement = document.getElementById("name");
             var userRoleElement = document.getElementById("role");
@@ -57,9 +57,9 @@
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
-
+@*    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>*@
 </head>
+
 
 <body id="page-top" class="">
 
@@ -260,7 +260,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                        <img class="rounded-circle" src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile_1.svg"
                                              alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -274,7 +274,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                        <img class="rounded-circle" src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile_2.svg"
                                              alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
@@ -288,7 +288,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                        <img class="rounded-circle" src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile_3.svg"
                                              alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
@@ -332,7 +332,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                               @* <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -344,7 +344,7 @@
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
                                 </a>
-                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider"></div>*@
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -421,8 +421,8 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-area-demo.js"></script>
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>
+   @* <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-area-demo.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>*@
     <script src="~/js/Chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/ManageEmployee.js"></script>
@@ -432,7 +432,7 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    <script src="~/js/JwtUtils.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 

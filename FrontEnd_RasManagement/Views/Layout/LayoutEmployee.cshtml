@@ -33,7 +33,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    <script src="~/js/JwtUtils.js"></script>
+
 
 
     <script>
@@ -42,7 +42,7 @@
             var token = sessionStorage.getItem("Token");
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
-            var role = decodedToken.Role;
+            var role = getRole;
             var accountId = decodedToken.AccountId;
 
            
@@ -100,17 +100,17 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item  @(currentUrl == "/Dashboards/PersonalDetails" ? "active" : "")">
+         @*   <li class="nav-item  @(currentUrl == "/Dashboards/PersonalDetails" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Dashboards/PersonalDetails">
                  
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Personal Details</span>
                 </a>
 
-            </li>
+            </li>*@
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item" @(currentUrl == "/Employee/Educations" ? "active" : "")>
+            <li class="nav-item @(currentUrl == "/Employee/Educations" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/Educations"  data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-folder"></i>
@@ -218,7 +218,7 @@
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
+                    @*    <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
@@ -239,10 +239,10 @@
                                     </div>
                                 </form>
                             </div>
-                        </li>
+                        </li>*@
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
+                      @*  <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
@@ -290,10 +290,10 @@
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
-                        </li>
+                        </li>*@
 
                         <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
+                       @* <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
@@ -308,7 +308,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                        <img class="rounded-circle" src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile_1.svg"
                                              alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -322,7 +322,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                        <img class="rounded-circle" src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile_2.svg"
                                              alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
@@ -336,7 +336,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                        <img class="rounded-circle" src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile_3.svg"
                                              alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
@@ -364,7 +364,7 @@
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
-                        </li>
+                        </li>*@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -372,8 +372,12 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="name"></span>
-                                ( <span class=" d-none d-lg-inline text-gray-600 small" id="role"></span> )
+                                <span class="mr-1 d-none d-lg-inline text-gray-600 small" id="name"></span>
+                                <span class="badge badge-success text-light mr-1">
+                                    <span class=" d-none d-lg-inline" id="role"></span>
+                                </span>
+
+                               
                           
                                 <img class="img-profile rounded-circle"
                                      src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
@@ -382,7 +386,7 @@
                           
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="/Employee/PersonalDetails">
+                            @*    <a class="dropdown-item" href="/Employee/PersonalDetails">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -394,7 +398,7 @@
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
                                 </a>
-                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider"></div>*@
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -450,7 +454,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" @*href="@Url.Action("Logout", "Accounts")" *@ onclick="Logout()">Logout</a>
+                    <a class="btn btn-primary" href="@Url.Action("Logout", "Accounts")"  onclick="Logout()">Logout</a>
                 </div>
             </div>
         </div>
@@ -474,8 +478,8 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-area-demo.js"></script>
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>
+@*    <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-area-demo.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>*@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="~/js/ManageEmployee.js"></script>
@@ -488,7 +492,7 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+    <script src="~/js/JwtUtils.js"></script>
 
 
     <!-- Page specific script -->

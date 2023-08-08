@@ -9,9 +9,9 @@ $(document).ready(function () {
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
-            /*headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-            },*/
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
             /*success: function (result) {
                 console.log(result)
             }*/
@@ -98,9 +98,9 @@ function Save() {
         url: 'https://localhost:7177/api/ProjectHistory',
         data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         debugger;
         if (result.status == 200) {
@@ -152,9 +152,9 @@ function GetById(projectHistoryId) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg kita dapat dr API  
@@ -189,9 +189,9 @@ function Update() {
         type: 'PUT',
         data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
-        /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then(result => {
         debugger;
         if (result.status == 200) {
@@ -228,9 +228,9 @@ function Delete(projectHistoryId) {
                 type: "DELETE",
                 dataType: "json",
 
-                /*headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-                },*/
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
             }).then((result) => {
                 debugger;
                 if (result.status == 200) {

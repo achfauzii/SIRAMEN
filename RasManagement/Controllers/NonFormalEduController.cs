@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,12 +7,14 @@ using RasManagement.BaseController;
 using RasManagement.Models;
 using RasManagement.Repository;
 using RasManagement.ViewModel;
+using System.Data;
 using System.Net;
 
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class NonFormalEduController : BaseController<NonFormalEdu, NonFormalEduRepository, int>
     {
         private readonly NonFormalEduRepository nonFormalEduRepository;

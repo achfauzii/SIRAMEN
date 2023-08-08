@@ -108,93 +108,125 @@ namespace FrontEnd_RasManagement.Controllers
             ViewBag.Email = email;
             return View("ResetPassword");
         }
-      /*  public async Task<IActionResult> ResetPassword()
-        {
+        /*  public async Task<IActionResult> ResetPassword()
+          {
 
 
-            return View();
-            
-            // Mendekode token JWT
-           *//* JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(resetToken);
+              return View();
 
-            // Mendapatkan nilai claim yang diinginkan
-            string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
-            var expirationDate = jwtToken.ValidTo;
-            var currentTime = DateTime.UtcNow;
+              // Mendekode token JWT
+             *//* JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+              JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(resetToken);
 
-            try
-            {
-                if(currentTime > expirationDate)
-                {
-                    return View("Error");
-                }
-                HttpClient client = new HttpClient();
+              // Mendapatkan nilai claim yang diinginkan
+              string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+              var expirationDate = jwtToken.ValidTo;
+              var currentTime = DateTime.UtcNow;
 
-                // Konfigurasi URL API tujuan
-                string apiUrl = "https://localhost:7177/api/Accounts/UpdateForgotPassword";
+              try
+              {
+                  if(currentTime > expirationDate)
+                  {
+                      return View("Error");
+                  }
+                  HttpClient client = new HttpClient();
 
-                // Membuat objek yang akan dikirim sebagai request body
-                var requestBody = new { email, newPassword };
+                  // Konfigurasi URL API tujuan
+                  string apiUrl = "https://localhost:7177/api/Accounts/UpdateForgotPassword";
 
-                // Konversi objek menjadi JSON
-                var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
+                  // Membuat objek yang akan dikirim sebagai request body
+                  var requestBody = new { email, newPassword };
 
-                // Membuat konten untuk permintaan PUT
-                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                  // Konversi objek menjadi JSON
+                  var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
 
-               
+                  // Membuat konten untuk permintaan PUT
+                  var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
-            }
-            catch (Exception ex)
-            {
-                // Tangani kesalahan yang terjadi, kembalikan view yang diinginkan dengan pesan kesalahan
-                ViewBag.ErrorMessage = $"An error occurred: {ex.Message}";
-                return View("Error");
-            }*//*
 
-        }*/
+
+              }
+              catch (Exception ex)
+              {
+                  // Tangani kesalahan yang terjadi, kembalikan view yang diinginkan dengan pesan kesalahan
+                  ViewBag.ErrorMessage = $"An error occurred: {ex.Message}";
+                  return View("Error");
+              }*//*
+
+          }*/
 
 
         //FORGOT PASSWORD END
 
 
+
+        /*   public async Task<IActionResult> Auth(string token)
+                {
+
+                    HttpContext.Session.SetString("Token", token);
+                    // Mendekode token JWT
+                    JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                    JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token);
+
+                    // Mendapatkan nilai claim yang diinginkan
+                    string userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+                    string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+                    string role = jwtToken.Claims.FirstOrDefault(c => c.Type == "Role")?.Value;
+
+
+
+
+                    Console.WriteLine(userId);
+
+                    // Melakukan tindakan selanjutnya dengan token yang sudah diubah
+                    // ...
+
+                    return Ok(role);
+                }*/
+
         public async Task<IActionResult> Auth(string token)
         {
+            if (HttpContext.Session.GetString("Token") == null)
+            {
+                if (ModelState.IsValid)
+                {
+                    JwtHelper.SetToken(HttpContext, token);
+                    // Get the Role from the JWT token
+                    //string role = JwtHelper.GetRoleFromJwt(token);
+                    //return RedirectToAction("Index", "Departments");
+                }
+            }
 
+            return RedirectToAction("Login", "Accounts");
 
-            // Mendekode token JWT
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(token);
-
-            // Mendapatkan nilai claim yang diinginkan
-            string userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-            string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
-            string role = jwtToken.Claims.FirstOrDefault(c => c.Type == "Role")?.Value;
-
-
-
-
-            Console.WriteLine(userId);
-
-            // Melakukan tindakan selanjutnya dengan token yang sudah diubah
-            // ...
-
-            return Ok(role);
         }
+
 
 
 
         public IActionResult Register_Employee()
         {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+          
+            if (role != "Admin" && role != "Super_Admin")
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            //End Validate
             return View();
         }
 
         //Logout
         public IActionResult Logout()
         {
-            //HttpContext.Session.Remove("Token");
-            //HttpContext.Session.Clear();
+            HttpContext.Session.Remove("Token");
+            HttpContext.Session.Clear();
             return View("Login");
 
         }

@@ -10,9 +10,9 @@ $(document).ready(function () {
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
-            /*headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-            },*/
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
             /*success: function (result) {
                 console.log(result)
             }*/
@@ -26,8 +26,32 @@ $(document).ready(function () {
             },
             { "data": "name" },
             { "data": "publisher" },
-            { "data": "publicationYear" },
-            { "data": "validUntil" },
+            {
+                "data": "publicationYear",
+                "render": function (data) {
+                    // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
+                    if (data) {
+                        const date = new Date(data);
+                        const options = { month: 'long', year: 'numeric' };
+                        return date.toLocaleDateString('en-EN', options);
+                    } else {
+                        return ""; // Jika data null atau undefined, tampilkan string kosong
+                    }
+                }
+            },
+            {
+                "data": "validUntil",
+                "render": function (data) {
+                    // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
+                    if (data) {
+                        const date = new Date(data);
+                        const options = {  month: 'long', year: 'numeric' };
+                        return date.toLocaleDateString('en-EN', options);
+                    } else {
+                        return ""; // Jika data null atau undefined, tampilkan string kosong
+                    }
+                }
+            },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 "data": null,
@@ -93,6 +117,9 @@ function GetById(CertificateId) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
@@ -141,7 +168,10 @@ function Save() {
         type: 'POST',
         url: 'https://localhost:7177/api/Certificate',
         data: JSON.stringify(Certificate), //ngirim data ke api
-        contentType: "application/json; charset=utf-8"
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
     }).then((result) => {
         debugger;
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
@@ -186,6 +216,9 @@ function Delete(CertificateId) {
                 url: "https://localhost:7177/api/Certificate/" + CertificateId,
                 type: "DELETE",
                 dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
             }).then((result) => {
                 debugger;
                 if (result.status == 200) {
@@ -224,6 +257,9 @@ function Update() {
         type: 'PUT',
         data: JSON.stringify(Certificate),
         contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
 
     }).then((result) => {
         debugger;

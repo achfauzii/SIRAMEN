@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RasManagement.Repository;
 using RasManagement.ViewModel;
@@ -10,6 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class EmployeePlacementsController : ControllerBase
     {
         private readonly EmployeePlacementRepository employeePlacementRepository;
@@ -38,17 +40,17 @@ namespace RasManagement.Controllers
         public async Task <ActionResult> AddPlacement(PlacementVM placementVM)
         {
 
-            bool accountIdExists = await employeePlacementRepository.AccountIsExist(placementVM.AccountId);
-           
-            if (accountIdExists !=true)
+            var data = await employeePlacementRepository.AddPlacement(placementVM);
+
+            if (data>=1)
             {
-                var data = await employeePlacementRepository.AddPlacement(placementVM);
+               
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil di tambahkan", Data = data });
 
             }
             else
             {
-                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Placment sudah di tambahkan" });
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Placment gagal ditambahkan" });
             }
 
 

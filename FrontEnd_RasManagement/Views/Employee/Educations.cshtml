@@ -1,6 +1,9 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Educations";
-    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+    var role = ViewData["UserRole"] as string;
+    var layoutPath = $"~/Views/Layout/Layout{role}.cshtml";
+    Layout = layoutPath;
 }
 
 
@@ -48,7 +51,7 @@
                 <th>Name</th>
                 <th>Organizer</th>
                 <th>Years</th>
-                <th>Description</th>
+                <th class="col-5">Description</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
