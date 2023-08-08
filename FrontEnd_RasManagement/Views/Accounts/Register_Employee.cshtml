@@ -15,7 +15,7 @@
                 <div class="col-sm-6">
                     <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire" >Prohire
+                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire">Prohire
                         <label class="form-check-label" for="radio1"></label>
                     </div>
                     <div class="form-check">
@@ -210,7 +210,7 @@
             //address: 'string',
             //image: 'string',
             roleId: roleId,
-            hiredstatus : hiredStatus,
+            hiredstatus: hiredStatus,
 
 
 
@@ -226,12 +226,15 @@
         })
             .then(function (response) {
                 if (response.ok) {
-                    // Redirect atau tampilkan pesan sukses jika permintaan berhasil
-                    // ...
-                    Swal.fire('Success', 'Registration Employee successful', 'success');
-                    var form = document.getElementById('createAccountForm');
-                    form.reset(); // Reset form setelah pengiriman berhasil
-
+              
+                    $.post("/Accounts/NewAccount", {email,password })
+                        .done(function () {
+                            // Redirect atau tampilkan pesan sukses jika permintaan berhasil
+                            // ...
+                            Swal.fire('Success', 'Registration Employee successful', 'success');
+                            var form = document.getElementById('createAccountForm');
+                            form.reset(); // Reset form setelah pengiriman berhasil
+                        })
                 } else {
                     // Tampilkan pesan error jika permintaan gagal
                     response.json().then(function (data) {

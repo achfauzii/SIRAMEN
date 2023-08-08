@@ -9,6 +9,7 @@ namespace FrontEnd_RasManagement.Services
     {
         //Task SendEmailAsync(MailRequest mailRequest);
         Task SendEmailAsync(string email, string resetUrl);
+        Task SendEmailNewAccount(string email, string password);
         //Task SendWelcomeEmailAsync(WelcomeRequest request);
     }
 }
