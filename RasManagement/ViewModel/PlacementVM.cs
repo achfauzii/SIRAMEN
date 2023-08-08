@@ -5,6 +5,9 @@
         public int PlacementStatusId { get; set; }
 
         public string CompanyName { get; set; } = null!;
+        public string JobRole { get; set; } = null!;
+        public DateTime? StartDate { get; set; } 
+        public DateTime? EndDate { get; set; }
 
         public string Description { get; set; } = null!;
 
