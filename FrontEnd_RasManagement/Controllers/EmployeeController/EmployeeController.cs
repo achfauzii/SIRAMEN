@@ -23,6 +23,8 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             {
                 return RedirectToAction("Login", "Accounts");
             }
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+            ViewData["UserRole"] = role;
             //End Validate
             return View();
         }
@@ -35,6 +37,8 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
                 return RedirectToAction("Login", "Accounts");
             }
             //End Validate
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+            ViewData["UserRole"] = role;
             return View();
         }
 
@@ -46,6 +50,8 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
                 return RedirectToAction("Login", "Accounts");
             }
             //End Validate
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+            ViewData["UserRole"] = role;
             return View();
         }
 
@@ -57,6 +63,8 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
                 return RedirectToAction("Login", "Accounts");
             }
             //End Validate
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+            ViewData["UserRole"] = role;
             return View();
         }
 
@@ -68,6 +76,8 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
                 return RedirectToAction("Login", "Accounts");
             }
             //End Validate
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+            ViewData["UserRole"] = role;
             return View();
         }
 

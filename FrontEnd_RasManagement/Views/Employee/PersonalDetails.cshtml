@@ -1,7 +1,9 @@
 ﻿
 @{
     ViewData["Title"] = "PersonalDetails";
-    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+    var role = ViewData["UserRole"] as string;
+    var layoutPath = $"~/Views/Layout/Layout{role}.cshtml";
+    Layout = layoutPath;
 }
 
 <body>
