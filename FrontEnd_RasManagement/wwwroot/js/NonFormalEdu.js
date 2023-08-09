@@ -132,8 +132,8 @@ function Save() {
             //alert("Data Berhasil Dimasukkan");
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil dimasukkan',
+                title: 'Success...',
+                text: 'Data has been added!',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -156,14 +156,14 @@ function Save() {
 function Delete(NonFormalId) {
     //debugger;
     Swal.fire({
-        title: 'Kamu yakin?',
-        text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya',
-        cancelButtonText: 'Tidak'
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No'
     }).then((result) => {
         if (result.value) {
             $.ajax({
@@ -177,8 +177,8 @@ function Delete(NonFormalId) {
                 //debugger;
                 if (result.status == 200) {
                     Swal.fire(
-                        'Berhasil',
-                        'Data sudah dihapus.',
+                        'Deleted!',
+                        'Your data has been deleted.',
                         'success'
                     )
                     $('#NonFormalEdu').DataTable().ajax.reload();
@@ -219,7 +219,7 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 title: "Success!",
-                text: "Data Berhasil Di Update",
+                text: "Data has been update!",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
