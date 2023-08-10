@@ -5,7 +5,7 @@
 }
 
 
-<style>
+@*<style>
     .table-striped tbody tr:nth-of-type(odd) {
         background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
     }
@@ -78,4 +78,219 @@
     }
 
     setInterval(updateClock, 1000); // Update setiap detik
-</script>
+</script>*@
+
+<body>
+    <style>
+        .Ps {
+            font-family: Tahoma;
+            background-color: #fff;
+            page-break-after: avoid;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 5px;
+        }
+
+        #Personal_Details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #imageContainer {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+    </style>
+
+ 
+
+            <div class="Ps shadow" id="Ps">
+                <div class="ml-5 pl-4 mt-4 pr-5">
+                
+                    <!-- Personal Details -->
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <div class="border-0 rounded-0">
+                                <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                                    <h6 class="m-0 text-dark font-weight-bold">PERSONAL DETAILS </h6>
+                                </div>
+
+                                <!-- Personal Details -->
+                                <div class="col-md-12">
+                                    <div id="Personal_Details" class="section card-body m-0 ">
+                                        <div class="row">
+                                            <div class="col-4 text-dark">
+                                                <p>Name</p>
+                                            </div>
+                                            <div class="col">
+                                                <span>:</span>
+                                                <span id="nameFull"> </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4 text-dark">
+                                                <p>Nickname</p>
+                                            </div>
+                                            <div class="col">
+                                                <span>:</span>
+                                                <span id="nickName"> </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4 text-dark">
+                                                <p>Place & date of birth</p>
+                                            </div>
+                                            <div class="col">
+                                                <span>:</span>
+                                                <span id="birthPlace"> </span>
+                                                <span>, </span>
+                                                <span id="birthDate"> </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4 text-dark">
+                                                <p>Gender</p>
+                                            </div>
+                                            <div class="col">
+                                                <span>:</span>
+                                                <span id="gender"> </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4 text-dark">
+                                                <p>Religion</p>
+                                            </div>
+                                            <div class="col">
+                                                <span>:</span>
+                                                <span id="religion"> </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4 text-dark">
+                                                <p>Martial Status</p>
+                                            </div>
+                                            <div class="col">
+                                                <span>:</span>
+                                                <span id="martialStatus"> </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4 text-dark">
+                                                <p>Nationality</p>
+                                            </div>
+                                            <div class="col">
+                                                <span>:</span>
+                                                <span id="nationality"> </span>
+                                            </div>
+                                        </div>
+                                        <div id="imageContainer">
+                                            <img id="employeePhoto" src="" alt="" style="max-width: 200px;">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tombol Edit -->
+                <div class="text-right">
+                        <button type="button" class="btn btn-sm btn-primary" id="editDetailsBtn">Edit Personal Details</button>
+                </div>
+
+
+                        <!-- Modals -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="exampleModalLabel1">Personal Details</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <form>
+                                                <!-- Added id for the form -->
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="accountId" name="accountId" hidden>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="editName">Name:</label>
+                                                    <input type="text" class="form-control" id="editName" placeholder="Ketikkan Nama Lengkap" name="editName">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nickName">Nickname:</label>
+                                                    <input type="text" class="form-control" id="editNickName" placeholder="Ketikkan Nickname" name="nickName">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="birthPlace">Birth Place:</label>
+                                                    <input type="text" class="form-control" id="editBirthPlace" placeholder="Ketikkan Birth Place" name="birthPlace">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="birthDate">Birth Date:</label>
+                                                    <input type="text" class="form-control" id="editBirthDate" placeholder="Ketikkan Birth Date" name="birthDate">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="gender">Gender:</label>
+                                                    <input type="text" class="form-control" id="editGender" placeholder="Ketikkan Gender" name="gender">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="religion">Religion:</label>
+                                                    <input type="text" class="form-control" id="editReligion" placeholder="Ketikkan Religion" name="religion">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="martialStatus">Martial Status:</label>
+                                                    <input type="text" class="form-control" id="editMartialStatus" placeholder="Ketikkan Martial Status" name="martialStatus">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nationality">Nationality:</label>
+                                                    <input type="text" class="form-control" id="editNationality" placeholder="Ketikkan Nasionality" name="nationality">
+                                                </div>
+                                                <!-- ... (other form fields) ... -->
+                                                <div class="form-group">
+                                                    <label>File Gambar</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="imageFile" accept="image/png, image/gif, image/jpeg" onchange="previewImage(event)">
+                                                        <label class="custom-file-label" for="imageFile" id="imageLabel">Choose file</label>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <img id="imagePreview" src="#" alt="Preview" style="max-width: 200px; display: none;">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-warning" id="Update" onclick="updateData();">Update</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+@section script{
+    <script src="~/js/Personaldetails.js"></script>
+}
