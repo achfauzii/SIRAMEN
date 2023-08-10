@@ -215,6 +215,7 @@
 
 
         }
+  
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
@@ -226,15 +227,40 @@
         })
             .then(function (response) {
                 if (response.ok) {
-              
-                    $.post("/Accounts/NewAccount", {email,password })
-                        .done(function () {
+                   
+               
                             // Redirect atau tampilkan pesan sukses jika permintaan berhasil
                             // ...
                             Swal.fire('Success', 'Registration Employee successful', 'success');
                             var form = document.getElementById('createAccountForm');
                             form.reset(); // Reset form setelah pengiriman berhasil
-                        })
+                      
+
+                    $.post("/Accounts/NewAccount", { email,password })
+                        .done(function () {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+
+
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Email Has ben sent',
+                                text: "",
+                
+                            })
+
+                        });
+                        
                 } else {
                     // Tampilkan pesan error jika permintaan gagal
                     response.json().then(function (data) {

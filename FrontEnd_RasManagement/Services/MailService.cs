@@ -350,12 +350,12 @@ namespace FrontEnd_RasManagement.Services
                                     </html>
 
                                    ";
-           
-            _email.Body = builder.ToMessageBody();
-           
-           
 
-            
+            _email.Body = builder.ToMessageBody();
+
+
+
+
 
 
             /*_email.Body = new TextPart("plain")
@@ -392,14 +392,15 @@ namespace FrontEnd_RasManagement.Services
             smtp.Disconnect(true);
         }*/
 
-        public async Task SendEmailNewAccount(/*MailRequest mailRequest*/string email, string password) {
+        public async Task SendEmailNewAccount(/*MailRequest mailRequest*/string email, string password)
+        {
             var _email = new MimeMessage();
             _email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             _email.To.Add(MailboxAddress.Parse(email));
             //email.Subject = mailRequest.Subject;
             _email.Subject = "New Account";
             var builder = new BodyBuilder();
-      
+
 
             builder.HtmlBody = @"
                                   <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">

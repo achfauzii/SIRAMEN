@@ -204,6 +204,7 @@ function Detail(id) {
 
 function ClearScreenPlacement() {
     const startDate = document.getElementById("showStartDate");
+    const endDate = document.getElementById("showEndDate");
     $('#companyName').val('');
     $('#jobRole').val('');
     $('#startDate').val('');
@@ -213,6 +214,7 @@ function ClearScreenPlacement() {
     $('#Update').hide();
     $('#Add').show();
     startDate.style.display = "block";
+    endDate.style.display = "none";
     $('input[required]').each(function () {
         var input = $(this);
 
