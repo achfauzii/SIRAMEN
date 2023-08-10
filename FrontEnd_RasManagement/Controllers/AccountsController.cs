@@ -247,7 +247,7 @@ namespace FrontEnd_RasManagement.Controllers
                 await mailService.SendEmailNewAccount(email, password);
                 // TempData["SuccessMessage"] = "Reset password email has been sent successfully. Please Check your Email";
 
-                return View();
+                return Ok();
 
             }
             catch (Exception ex)
