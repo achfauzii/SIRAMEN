@@ -15,7 +15,7 @@
                 <div class="col-sm-6">
                     <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire" >Prohire
+                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire">Prohire
                         <label class="form-check-label" for="radio1"></label>
                     </div>
                     <div class="form-check">
@@ -35,7 +35,7 @@
                 <div class="col-sm-6">
                     <label class="text-dark" for="exampleInputEmail1">Gender</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="male" name="gender" value="Male" checked>Male
+                        <input type="radio" class="form-check-input" id="male" name="gender" value="Male">Male
                         <label class="form-check-label" for="radio1"></label>
                     </div>
                     <div class="form-check">
@@ -210,11 +210,12 @@
             //address: 'string',
             //image: 'string',
             roleId: roleId,
-            hiredstatus : hiredStatus,
+            hiredstatus: hiredStatus,
 
 
 
         }
+  
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
@@ -226,12 +227,40 @@
         })
             .then(function (response) {
                 if (response.ok) {
-                    // Redirect atau tampilkan pesan sukses jika permintaan berhasil
-                    // ...
-                    Swal.fire('Success', 'Registration Employee successful', 'success');
-                    var form = document.getElementById('createAccountForm');
-                    form.reset(); // Reset form setelah pengiriman berhasil
+                   
+               
+                            // Redirect atau tampilkan pesan sukses jika permintaan berhasil
+                            // ...
+                            Swal.fire('Success', 'Registration Employee successful', 'success');
+                            var form = document.getElementById('createAccountForm');
+                            form.reset(); // Reset form setelah pengiriman berhasil
+                      
 
+                    $.post("/Accounts/NewAccount", { email,password })
+                        .done(function () {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+
+
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Email Has ben sent',
+                                text: "",
+                
+                            })
+
+                        });
+                        
                 } else {
                     // Tampilkan pesan error jika permintaan gagal
                     response.json().then(function (data) {

@@ -1,7 +1,9 @@
 
 @{
     ViewData["Title"] = "Certificate";
-    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+    var role = ViewData["UserRole"] as string;
+    var layoutPath = $"~/Views/Layout/Layout{role}.cshtml";
+    Layout = layoutPath;
 }
 
 <style>
@@ -38,25 +40,29 @@
                             <input type="text" class="form-control" id="CertificateId" hidden>
                         </div>
                         <div class="form-group">
-                            <label for="Name">Company Name</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Enter Name">
+                            <label for="Name">Certificate Name</label>
+                            <input type="text" class="form-control" id="Name" placeholder="Enter Name" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Publisher">Publisher</label>
-                            <input type="text" class="form-control" id="Publisher" placeholder="Enter Publisher">
+                            <input type="text" class="form-control" id="Publisher" placeholder="Enter Publisher" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="PublicationYear">Publication Years</label>
-                            <input type="month" class="form-control" id="PublicationYear" placeholder="Enter Publication Years">
+                            <input type="month" class="form-control" id="PublicationYear" placeholder="Enter Publication Years" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="ValidUntil">ValidUntil</label>
-                            <input type="month" class="form-control" id="ValidUntil" placeholder="Enter Valid Until">
+                            <input type="month" class="form-control" id="ValidUntil" placeholder="Enter Valid Until" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal" id="Save" onclick="Save();">Save</button>
+                    <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
                     <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update" onclick="Update();">Update</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>

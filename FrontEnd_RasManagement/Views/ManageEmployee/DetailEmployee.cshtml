@@ -4,7 +4,10 @@
     ViewData["Title"] = "DetailEmployee";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
     var employeeData = ViewData["EmployeeData"] as dynamic;
-    var employeePlacement = ViewData["EmployeePlacement"] as dynamic;
+   // var employeePlacement = ViewData["EmployeePlacement"] as dynamic;
+   // var startDate = ViewData["StartDate"];
+   // var endDate = ViewData["EndDate"];
+
 
 }
 
@@ -45,7 +48,7 @@
         </div>
         <div class="row">
             <div class="col " style="color: black">Martial Status </div>
-            <div class="col-10">: @employeeData.martialstatus </div>
+            <div class="col-10">: @employeeData.maritalstatus </div>
         </div>
         <div class="row">
             <div class="col " style="color: black">Nationality </div>
@@ -58,35 +61,23 @@
 
     </div>
 </div>
-@if (employeePlacement != null)
-{
-    <div class="card shadow mb-4">
-        <div class="card-header py-2 d-flex">
-            <span class="text-primary h-6 ">Placement Status :<span id="fullName" class="text-dark"> @employeePlacement.placementStatus</span> </span>
-            <span class="ml-auto">
-                <!-- Button trigger modal -->
 
-                <button class="btn btn-sm  pl-1 pr-1 pt-0 pb-0" style="background-color:#624DE3;" data-toggle="modal" data-target="#modalPlacement" onclick="ClearScreen('@employeeData.accountId')">
-                    <i class="fas fa-edit text-light"></i>
+<div id="placement">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-sm text-light mb-3" data-toggle="modal" data-target="#modalPlacement" style="background-color:#624DE3;  font-size: 12px;" onclick="ClearScreenPlacement();">
+        + New Placement
+    </button>
+ 
 
-                </button>
-            </span>
-        </div>
-        <div class="card-body m-0 pt-2">
-            <div class="row">
-                <div class="col" style="color: black">Company Name </div>
-                <div class="col-10">: @employeePlacement?.companyName </div>
+            <div class="card shadow mb-4" id="placementData">
+               
+
+
+
             </div>
-            <div class="row">
-                <div class="col  " style="color: black">Description </div>
-                <div class="col-10">: @employeePlacement.description </div>
-            </div>
-
-
-
-        </div>
-    </div>
-}
+        
+    
+</div>
 
 
 
@@ -105,23 +96,41 @@
                 <form>
                     <button class="btn btn-sm btn-warning"> @employeeData.accountId</button>
                     <input type="hidden" id="accountId" value="@employeeData.accountId">
-                    <input type="hidden" id="placementStatusId" value="@employeePlacement?.placementStatusId">
-                    <div class="form-group">
+                    <input type="hidden" id="placementStatusId" >
+                    <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Company Name</label>
-                        <input type="text" class="form-control " id="companyName" name="companyName">
+                        <input type="text" class="form-control " id="companyName_" name="companyName" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Job Role</label>    
+                        <input type="text" class="form-control " id="jobRole" name="jobRole" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+                    <div class="form-group mb-1" id="showStartDate" style="display: none;">
+                        <label class="m-0" for="exampleInputEmail1" >Start Date</label>
+                        <input type="date" class="form-control" id="startDate" name="startDate" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+                    <div class="form-group mb-1" id="showEndDate" style="display: none;">
+                        <label class="m-0" for="exampleInputEmail1">End Date</label>
+                        <input type="date" class="form-control " id="endDate" name="endDate">
+                    </div>
+
+                    <div class="form-group mb-1">
                         <label for="exampleFormControlTextarea1" class=" m-0">Desscription</label>
                         <textarea class="form-control" id="description" rows="2"></textarea>
                     </div>
 
 
-                    <div class="form-group row">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <label class="text-dark" for="exampleInputEmail1">Status</label>
+                    <div class="form-group row mb-1">
+                        <div class="col-sm-6 mb-1 mb-sm-0">
+                            <label class="text-dark mb-0" for="exampleInputEmail1 ">Status</label>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite" checked>
+                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite">
                                 <label class="form-check-label" for="radio1">Onsite</label>
                             </div>
                             <div class="form-check">
@@ -130,15 +139,21 @@
                             </div>
                         </div>
 
-                      
+
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-add" id="Add" onclick="Save('@employeeData.accountId')">Add</button>
-                <button type="button" class="btn btn-primary" id="Update" data-bs-dismiss="modal" onclick="Update()">Update</button>
+
+                <button type="button" class="btn btn-primary btn-add" id="Add" name="Add" onclick="Save('@employeeData.accountId')">Save</button>
+                <button type="button" class="btn btn-primary" id="Update" name="Update" data-bs-dismiss="modal" onclick="Update()">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreenPlacement()">Close</button>
             </div>
         </div>
     </div>
+                
 </div>
+
+
+
+   

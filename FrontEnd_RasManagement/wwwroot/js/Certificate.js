@@ -102,6 +102,12 @@ function ClearScreen() {
     $('#ValidUntil').val('');
     $('#Update').hide();
     $('#Save').show();
+    $('input[required]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message').hide();
+
+    });
 }
 
 function GetById(CertificateId) {
@@ -111,6 +117,9 @@ function GetById(CertificateId) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
@@ -130,10 +139,26 @@ function GetById(CertificateId) {
 }
 
 function Save() {
-    debugger;
+    //debugger;
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
+
     var Certificate = new Object(); //bikin objek baru
-    Certificate.name = $('#Name').val(); //value dari database
-    Certificate.publisher = $('#Publisher').val();
+    Certificate.name = $('#Name').val(); //value dari database\
+    Certificate.publisher = $('#Publisher').val();  
     Certificate.publicationYear = $('#PublicationYear').val();
     Certificate.validUntil = $('#ValidUntil').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -153,19 +178,23 @@ function Save() {
             //alert("Data Berhasil Dimasukkan");
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil dimasukkan',
+                title: 'Success...',
+                text: 'Data has been added!',
                 showConfirmButton: false,
                 timer: 1500
             })
+            $('#Modal').modal('hide');
             table.ajax.reload();
         }
         else {
-            Swal.fire(
-                'Error!',
-                result.message,
-                'error'
-            )
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Gagal dimasukkan!',
+                showConfirmButtom: false,
+                timer: 1500
+            })
+            $('#Modal').modal('hide');
+            table.ajax.reload();
         }
     })
 }
@@ -173,14 +202,14 @@ function Save() {
 function Delete(CertificateId) {
     debugger;
     Swal.fire({
-        title: 'Kamu yakin?',
-        text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya',
-        cancelButtonText: 'Tidak'
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No'
     }).then((result) => {
         if (result.value) {
             $.ajax({
@@ -194,8 +223,8 @@ function Delete(CertificateId) {
                 debugger;
                 if (result.status == 200) {
                     Swal.fire(
-                        'Berhasil',
-                        'Data sudah dihapus.',
+                        'Deleted!',
+                        'Your data has been deleted.',
                         'success'
                     )
                     table.ajax.reload();
@@ -237,8 +266,8 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil diupdate',
+                title: 'Success...',
+                text: 'Data has been update!',
                 showConfirmButton: false,
                 timer: 1500
             })

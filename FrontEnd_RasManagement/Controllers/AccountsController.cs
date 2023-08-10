@@ -222,6 +222,7 @@ namespace FrontEnd_RasManagement.Controllers
             return View();
         }
 
+
         //Logout
         public IActionResult Logout()
         {
@@ -232,6 +233,31 @@ namespace FrontEnd_RasManagement.Controllers
         }
 
 
+
+        //New Account
+    
+      
+        [HttpPost]
+        public async Task<IActionResult> NewAccount(string email, string password)
+        {
+            
+            try
+            {
+                    
+                await mailService.SendEmailNewAccount(email, password);
+                // TempData["SuccessMessage"] = "Reset password email has been sent successfully. Please Check your Email";
+
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                // Tangani kesalahan yang terjadi, kembalikan view yang diinginkan dengan pesan kesalahan
+                ViewBag.ErrorMessage = $"An error occurred: {ex.Message}";
+                return View("Error");
+            }
+
+        }
 
         /* [HttpPost("register_employee")]
          public async Task<IActionResult> Register_Employee([FromForm] RegisterEmployeeViewModel model)

@@ -4,6 +4,7 @@ $(document).ready(function () {
 })
 
 function Educations() {
+    debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_FormalEdu').DataTable({
@@ -74,6 +75,23 @@ function parseJwt(token) {
 }
 
 function SaveFormal() {
+    var isValid = true;
+
+    $('input[required],select[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message-formal').show();
+            isValid = false;
+        } else {
+            input.next('.error-message-formal').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
+
+
     var FormalEdu = new Object(); //object baru
     FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
     FormalEdu.location = $('#Location').val();
@@ -94,8 +112,6 @@ function SaveFormal() {
     }).then((result) => {
         //debugger;
         if (result.status == 200) {
-            /*alert(result.message);
-            $('#TB_Department').DataTable().ajax.reload();*/
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',
@@ -103,7 +119,7 @@ function SaveFormal() {
                 showConfirmButtom: false,
                 timer: 1500
             })
-            //$('#Modal').modal('hide');
+            $('#ModalFormal').modal('hide');
             table.ajax.reload();
         }
         else {
@@ -113,7 +129,7 @@ function SaveFormal() {
                 showConfirmButtom: false,
                 timer: 1500
             })
-            $('#Modal').modal('hide');
+            $('#ModalFormal').modal('hide');
             table.ajax.reload();
         }
     })
@@ -128,6 +144,12 @@ function ClearScreenFormal() {
     $('#GraduationYears').val('');
     $('#Update').hide();
     $('#Save').show();
+    $('input[required]').each(function () {
+        var input = $(this);
+        
+            input.next('.error-message-formal').hide();
+        
+    });
 }
 
 function GetById(formalEduId) {
@@ -190,7 +212,7 @@ function UpdateFormal() {
                 showConfirmButtom: false,
                 timer: 2000
             })
-            $('#Modal').modal('hide');
+            $('#ModalFormal').modal('hide');
             table.ajax.reload();
         }
         else {
@@ -202,14 +224,14 @@ function UpdateFormal() {
 function DeleteFormal(formalEduId) {
     debugger;
     Swal.fire({
-        title: 'Kamu yakin?',
-        text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya',
-        cancelButtonText: 'Tidak'
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No'
     }).then((result) => {
         if (result.value) {
             $.ajax({
@@ -223,8 +245,8 @@ function DeleteFormal(formalEduId) {
                 debugger;
                 if (result.status == 200) {
                     Swal.fire(
-                        'Berhasil',
-                        'Data sudah dihapus.',
+                        'Deleted!',
+                        'Your data has been deleted.',
                         'success'
                     )
                     $('#TB_FormalEdu').DataTable().ajax.reload();

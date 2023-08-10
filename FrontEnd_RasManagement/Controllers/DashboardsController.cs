@@ -16,10 +16,12 @@ namespace FrontEnd_RasManagement.Controllers
             {
                 return RedirectToAction("Login", "Accounts");
             }
+
             var date = await GetTimeNow();
-            int totalEmployee = await GetTotalEmployee();
+           /* int totalEmployee = await GetTotalEmployee();*/
             ViewBag.FormattedDate = date;
-            ViewBag.TotalEmployee = totalEmployee;
+          /*  ViewBag.TotalEmployee = totalEmployee;*/
+
             return View();
         }
 

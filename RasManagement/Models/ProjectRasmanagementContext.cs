@@ -37,7 +37,6 @@ public partial class ProjectRasmanagementContext : DbContext
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("server = RAS-FAUZI; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -119,7 +118,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.ValidUntil)
-                .HasMaxLength(50)
+                .HasMaxLength(25)
                 .IsUnicode(false)
                 .HasColumnName("Valid_until");
 
@@ -229,10 +228,15 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.EndDate).HasColumnType("date");
+            entity.Property(e => e.JobRole)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.PlacementStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Placement_status");
+            entity.Property(e => e.StartDate).HasColumnType("date");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Placements)
                 .HasForeignKey(d => d.AccountId)
@@ -291,6 +295,7 @@ public partial class ProjectRasmanagementContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Qualifications)
                 .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Qualification_Account");
         });
 

@@ -35,6 +35,9 @@ namespace RasManagement.Repository
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
                 CompanyName = placementVM.CompanyName,
+                JobRole = placementVM.JobRole,
+                StartDate = placementVM.StartDate,
+                EndDate = placementVM.EndDate,
                 Description = placementVM.Description,
                 PlacementStatus = placementVM.PlacementStatus,
                 AccountId = placementVM.AccountId,
@@ -46,12 +49,15 @@ namespace RasManagement.Repository
             return insert;
         }
 
-        public Placement GetAccount(string key)
+        public List<Placement> GetAccount(string accountId)
 
         {
-            var placement = _context.Placements.SingleOrDefault(a => a.AccountId == key);
+            var placements = _context.Placements
+                     .Where(a => a.AccountId == accountId)
+                     .OrderByDescending(a => a.PlacementStatusId)
+                     .ToList();
 
-            return placement;
+            return placements;
         }
 
 
@@ -62,6 +68,9 @@ namespace RasManagement.Repository
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
                 CompanyName = placementVM.CompanyName,
+                JobRole = placementVM.JobRole,
+                StartDate = placementVM.StartDate,
+                EndDate = placementVM.EndDate,
                 Description = placementVM.Description,
                 PlacementStatus = placementVM.PlacementStatus,
                 AccountId = placementVM.AccountId,

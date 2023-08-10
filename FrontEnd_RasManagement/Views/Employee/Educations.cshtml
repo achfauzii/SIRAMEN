@@ -1,6 +1,9 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Educations";
-    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+    var role = ViewData["UserRole"] as string;
+    var layoutPath = $"~/Views/Layout/Layout{role}.cshtml";
+    Layout = layoutPath;
 }
 
 
@@ -60,7 +63,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Education</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Formal Education</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -72,33 +75,51 @@
                         </div>
                         <div class="form-group">
                             <label for="UniversityName">University Name</label>
-                            <input type="text" class="form-control" id="UniversityName" placeholder="Enter University Name">
+                            <input type="text" class="form-control" id="UniversityName" placeholder="Enter University Name" required>
+                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Location">Location</label>
-                            <input type="text" class="form-control" id="Location" placeholder="Enter Location">
+                            <input type="text" class="form-control" id="Location" placeholder="Enter Location" required>
+                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Major">Major</label>
-                            <input type="text" class="form-control" id="Major" placeholder="Enter Major">
+                            <select id="Major" class="form-control" placeholder="Select" required>
+                                <option disabled selected value="">Select your major</option>
+                                <option value="Teknik Informatika">Teknik Informatika</option>
+                                <option value="Ilmu Komputer">Ilmu Komputer</option>
+                                <option value="Manajemen Informatika">Manajemen Informatika</option>
+                                <option value="Pendidikan Teknik Informatika dan Komputer">Pendidikan Teknik Informatika dan Komputer</option>
+                                <option value="Teknologi Informasi">Teknologi Informasi</option>
+                                <option value="Cyber Security">Cyber Security</option>
+                                <option value="Sistem Informasi">Sistem Informasi</option>
+                                <option value="Informatika">Informatika</option>
+                            </select>
+                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group">                            
                             <label for="Degree">Degree</label>
-                            <input type="text" class="form-control" id="Degree" placeholder="Enter Degree">
+                            <select id="Degree" class="form-control" required>
+                                <option disabled selected value="">Select your degree</option>
+                                <option value="D3">D3</option>
+                                <option value="D4">D4</option>
+                                <option value="S1">S1</option>
+                                <option value="S2">S2</option>
+                            </select>
+                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="GraduationYears">Graduation Year</label>
-                            <input type="text" class="form-control" id="GraduationYears" placeholder="Enter Graduation Year">
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" id="AccountId">
+                            <input type="text" class="form-control" id="GraduationYears" placeholder="Enter Graduation Year" required>
+                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal" id="Save" onclick="SaveFormal();">Save</button>
+                    <button type="button" class="btn btn-success" id="Save" onclick="SaveFormal();">Save</button>
                     <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update" onclick="UpdateFormal();">Update</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreenFormal();">Close</button>
                 </div>
             </div>
         </div>
@@ -108,7 +129,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Education</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Non Formal Education</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -120,26 +141,30 @@
                         </div>
                         <div class="form-group">
                             <label for="Name">Name</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Name">
+                            <input type="text" class="form-control" id="Name" placeholder="Name" required-nonformal>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Organizer">Organizer</label>
-                            <input type="text" class="form-control" id="Organizer" placeholder="Organizer">
+                            <input type="text" class="form-control" id="Organizer" placeholder="Organizer" required-nonformal>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Years">Years</label>
-                            <input type="text" class="form-control" id="Years" placeholder="Years">
+                            <input type="text" class="form-control" id="Years" placeholder="Years" required-nonformal>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Description">Description</label>
-                            <input type="text" class="form-control" id="Description" placeholder="Description">
+                            <input type="text" class="form-control" id="Description" placeholder="Description" required-nonformal>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal" id="SaveNonFormal" onclick="Save();">Save</button>
+                    <button type="button" class="btn btn-success" id="SaveNonFormal" onclick="Save();">Save</button>
                     <button type="button" class="btn btn-warning" data-dismiss="modal" id="UpdateNonFormal" onclick="Update();">Update</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreen();">Close</button>
                 </div>
             </div>
         </div>

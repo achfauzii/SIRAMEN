@@ -47,13 +47,19 @@ function parseJwt(token) {
 }
 
 function ClearScreen() {
-    debugger;
+    //debugger;
     $('#Name').val('');
     $('#Organizer').val('');
     $('#Years').val('');
     $('#Description').val('');
     $('#UpdateNonFormal').hide();
     $('#SaveNonFormal').show();
+    $('input[required-nonformal]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message').hide();
+
+    });
 }
 
 function getbyID(NonFormalId) {
@@ -88,6 +94,22 @@ function getbyID(NonFormalId) {
 }
 
 function Save() {
+    var isValid = true;
+
+    $('input[required-nonformal]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        
+        return;
+    }
     var NonFormal = new Object(); //bikin objek baru
     NonFormal.Name = $('#Name').val(); //value dari database
     NonFormal.Organizer = $('#Organizer').val();
@@ -110,19 +132,23 @@ function Save() {
             //alert("Data Berhasil Dimasukkan");
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil dimasukkan',
+                title: 'Success...',
+                text: 'Data has been added!',
                 showConfirmButton: false,
                 timer: 1500
             })
+            $('#ModalNonFormal').modal('hide');
             $('#NonFormalEdu').DataTable().ajax.reload();
         }
         else {
-            Swal.fire(
-                'Error!',
-                result.message,
-                'error'
-            )
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Gagal dimasukkan!',
+                showConfirmButtom: false,
+                timer: 1500
+            })
+            $('#ModalNonFormal').modal('hide');
+            $('#NonFormalEdu').DataTable().ajax.reload();
         }
     })
 }
@@ -130,14 +156,14 @@ function Save() {
 function Delete(NonFormalId) {
     //debugger;
     Swal.fire({
-        title: 'Kamu yakin?',
-        text: "Anda tidak akan bisa mengembalikannya jika memilih Ya!",
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya',
-        cancelButtonText: 'Tidak'
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No'
     }).then((result) => {
         if (result.value) {
             $.ajax({
@@ -151,8 +177,8 @@ function Delete(NonFormalId) {
                 //debugger;
                 if (result.status == 200) {
                     Swal.fire(
-                        'Berhasil',
-                        'Data sudah dihapus.',
+                        'Deleted!',
+                        'Your data has been deleted.',
                         'success'
                     )
                     $('#NonFormalEdu').DataTable().ajax.reload();
@@ -193,7 +219,7 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 title: "Success!",
-                text: "Data Berhasil Di Update",
+                text: "Data has been update!",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
