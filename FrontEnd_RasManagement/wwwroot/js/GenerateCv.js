@@ -21,9 +21,15 @@ function loadData() {
 
             var obj = result.data.result; //data yg didapat dari api
             var birthDate = obj.birthdate;
-            const date = new Date(birthDate);
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            const date_ = date.toLocaleDateString('id-ID', options);
+            var date_ = "";
+            if (birthDate != null) {
+                const date = new Date(birthDate);
+                const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                date_ = date.toLocaleDateString('id-ID', options);
+            } else {
+                date_ = "";
+            }
+           
             document.getElementById('fullName').textContent = obj.fullname;
             document.getElementById('nickName').textContent = obj.nickname;
             document.getElementById('birthPlace').textContent = obj.birthplace;
