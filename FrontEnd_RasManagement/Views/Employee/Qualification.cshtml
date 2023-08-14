@@ -7,45 +7,48 @@
 
 
 <span class="badge badge-warning p-2 mb-3">Update your skills every 3 months !!!</span>
+<div id="buttonAdd" style="display: none;">
+    <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#modalAdd">
+        + Add Qualification
+    </button>
+</div>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex">
         <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Qualifications</h5>
-    @*    <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalNonFormal" onclick="ClearScreen();">
-            + Add Qualification
-        </button>     *@
+   
     </div>
     <div class="card-body m-0 pt-2">
         <div class="row pt-2 pb-2" style="background-color:#F7F6FE">
             <div class="col-2" style="color: black ; font-family:sans-serif">Framework</div>
             <div class="col-9" id="framework"></div>
             <div class="col-1">
-                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>
+                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateFramework()"  data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
+                @*<button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@
             </div>
         </div>
         <div class="row pt-2 pb-2" style="background-color:white">
             <div class="col" style="color: black ; font-family:sans-serif">Programming Language</div>
             <div class="col-9" id="programming"></div>
             <div class="col-1">
-                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>
+                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateProgramming()" data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
+                @*<button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@ 
             </div>
         </div>
         <div class="row pt-2 pb-2" style="background-color:#F7F6FE">
             <div class="col " style="color: black ; font-family:sans-serif">Database</div>
             <div class="col-9" id="databases"></div>
             <div class="col-1">
-                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>
+                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateDatabase()" data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
+                @*<button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@
             </div>
         </div>
         <div class="row pt-2 pb-2" style="background-color:white">
             <div class="col " style="color: black ; font-family:sans-serif">Tools</div>
             <div class="col-9" id="tools"></div>
             <div class="col-1">
-                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>
+                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateTools()" data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
+                @*<button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@
             </div>
         </div>
 
@@ -53,13 +56,121 @@
             <div class="col " style="color: black ; font-family:sans-serif">Others</div>
             <div class="col-9" id="others"></div>
             <div class="col-1">
-                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>
+                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateOthers()" data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
+             @*   <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal Add-->
+<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-1">
+                <h5 class="modal-title" id="exampleModalLabel">Qualification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                  
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Framework</label>
+                        <input type="text" class="form-control " id="framework_"  required_add>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Programming Language</label>
+                        <input type="text" class="form-control " id="programmingLanguage_" required_add>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Database</label>
+                        <input type="text" class="form-control " id="qualDatabase" required_add>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Tools</label>
+                        <input type="text" class="form-control " id="tools_" required_add>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Others</label>
+                        <input type="text" class="form-control " id="others_">
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary btn-add" id="Add" name="Add" onclick="Save()">Save</button>
+              
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreenPlacement()">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Framework-->
+<div class="modal fade" id="modalFramework" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-1">
+                <h5 class="modal-title" id="exampleModalLabel">Qualification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+             
+                <form>
+                
+                    <input type="hidden" id="accountId">
+                    <input type="hidden" id="qualificationId" >
+                    <div class="form-group mb-1" id="frameworkShow">
+                        <label class="m-0" for="exampleInputEmail1">Framework</label>
+                        <input type="text" class="form-control " id="frameworkUpdate">
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1" style="display: none;" id="programmingShow">
+                        <label class="m-0" for="exampleInputEmail1">Programming Language</label>
+                        <input type="text" class="form-control " id="programmingLanguageUpdate">
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1" style="display: none;" id="databaseShow">
+                        <label class="m-0" for="exampleInputEmail1">Database</label>
+                        <input type="text" class="form-control " id="databaseUpdate">
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1" style="display: none;" id="toolsShow">
+                        <label class="m-0" for="exampleInputEmail1" >Tools</label>
+                        <input type="text" class="form-control " id="toolsUpdate">
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1" style="display: none;" id="othersShow">
+                        <label class="m-0" for="exampleInputEmail1">Others</label>
+                        <input type="text" class="form-control " id="othersUpdate">
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+
+             
+                <button type="button" class="btn btn-primary" id="Update" name="Update" data-bs-dismiss="modal" onclick="Update()">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreenPlacement()">Close</button>
+            </div>
+        </div>
+    </div>
+                
+</div>
 @section script{
     <script src="~/js/Qualification.js"></script>
 }

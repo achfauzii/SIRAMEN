@@ -21,7 +21,16 @@ function loadData() {
 
             var obj = result.data.result; // Data yang diterima dari API
             var birthDate = obj.birthdate;
-            var date_ = birthDate ? new Date(birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+
+            var date_ = "";
+            if (birthDate != null) {
+                const date = new Date(birthDate);
+                const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                date_ = date.toLocaleDateString('id-ID', options);
+            } else {
+                date_ = "";
+            }
+           
 
             document.getElementById('fullName').textContent = obj.fullname;
             document.getElementById('nickName').textContent = obj.nickname;
@@ -119,6 +128,13 @@ function loadData() {
                     $("#framework").text(qualification.framework);
                     $("#programmingLanguage").text(qualification.programmingLanguage);
                     $("#database").text(qualification.database);
+                   
+                    
+                    if (qualification.others == "") {
+                        var others = document.getElementById("othersShow_");
+              
+                        others.style.display = "none";
+                    }
                     $("#others").text(qualification.others);
 
 
