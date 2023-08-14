@@ -15,6 +15,11 @@
         background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
     }
 
+    .form-group-inline {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
 </style>
 
 <!-- /.card-header -->
@@ -51,11 +56,25 @@
                             <input type="text" class="form-control" id="Job" placeholder="Enter Job" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <label for="Period">Period</label>
-                            <input type="text" class="form-control" id="Period" placeholder="Enter Period" required>
+                            <input type="text" class="form-control" id="Period" placeholder="Enter Period (e.g., 2020-2022)" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>*@
+                        <div class="form-group-inline">
+                            <div class="form-group">
+                                <label for="StartYear">Start Year</label>
+                                <input type="text" class="form-control" id="StartYear" placeholder="Enter Start Year" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="EndYear">End Year</label>
+                                <input type="text" class="form-control" id="EndYear" placeholder="Enter End Year" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
                         </div>
+
                         <div class="form-group">
                             <label for="Description">Description</label>
                             <input type="text" class="form-control" id="Description" placeholder="Enter Description" required>

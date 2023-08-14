@@ -19,8 +19,9 @@ function loadData() {
         success: function (result) {
             //debugger;
 
-            var obj = result.data.result; //data yg didapat dari api
+            var obj = result.data.result; // Data yang diterima dari API
             var birthDate = obj.birthdate;
+
             var date_ = "";
             if (birthDate != null) {
                 const date = new Date(birthDate);
@@ -30,6 +31,7 @@ function loadData() {
                 date_ = "";
             }
            
+
             document.getElementById('fullName').textContent = obj.fullname;
             document.getElementById('nickName').textContent = obj.nickname;
             document.getElementById('birthPlace').textContent = obj.birthplace;

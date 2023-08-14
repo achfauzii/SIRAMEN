@@ -23,19 +23,21 @@ function loadDataA() {
         success: function (result) {
             //debugger;
             //console.log(result); 
-            var obj = result.data.result; //data yg didapat dari api
+            var obj = result.data.result; // Data yang diterima dari API
             var birthDate = obj.birthdate;
             const date = new Date(birthDate);
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
             const date_ = date.toLocaleDateString('id-ID', options);
+
             $('#nameFull').text(obj.fullname);
             $('#nickName').text(obj.nickname);
             $('#birthPlace').text(obj.birthplace);
-            $('#birthDate').text(date_);
+            $('#birthDate').text(birthDate ? date_ : '');
             $('#gender').text(obj.gender);
             $('#religion').text(obj.religion);
             $('#martialStatus').text(obj.maritalstatus);
             $('#nationality').text(obj.nationality);
+
 
             var employeePhoto1 = document.getElementById('employeePhoto');
             if (obj.image != null) {
