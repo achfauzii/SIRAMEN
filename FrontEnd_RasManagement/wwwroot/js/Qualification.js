@@ -16,6 +16,7 @@ $(document).ready(function () {
             debugger;
             if (response.status === 200) {
                 displayQualification(response.data);
+                console.log(response.data);
                 if (response.data == "") {
                     var element = document.getElementById("buttonAdd");
                     element.style.display = "block"; // Menampilkan elemen
