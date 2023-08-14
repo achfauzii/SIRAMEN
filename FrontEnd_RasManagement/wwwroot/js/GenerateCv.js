@@ -19,11 +19,10 @@ function loadData() {
         success: function (result) {
             //debugger;
 
-            var obj = result.data.result; //data yg didapat dari api
+            var obj = result.data.result; // Data yang diterima dari API
             var birthDate = obj.birthdate;
-            const date = new Date(birthDate);
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            const date_ = date.toLocaleDateString('id-ID', options);
+            var date_ = birthDate ? new Date(birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+
             document.getElementById('fullName').textContent = obj.fullname;
             document.getElementById('nickName').textContent = obj.nickname;
             document.getElementById('birthPlace').textContent = obj.birthplace;
