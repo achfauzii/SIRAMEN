@@ -126,6 +126,13 @@ function loadData() {
                     $("#framework").text(qualification.framework);
                     $("#programmingLanguage").text(qualification.programmingLanguage);
                     $("#database").text(qualification.database);
+                   
+                    
+                    if (qualification.others == "") {
+                        var others = document.getElementById("othersShow_");
+              
+                        others.style.display = "none";
+                    }
                     $("#others").text(qualification.others);
 
 
