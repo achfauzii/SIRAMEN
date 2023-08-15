@@ -16,10 +16,22 @@ $(document).ready(function () {
             debugger;
             if (response.status === 200) {
                 displayQualification(response.data);
-                console.log(response.data);
+           
                 if (response.data == "") {
                     var element = document.getElementById("buttonAdd");
                     element.style.display = "block"; // Menampilkan elemen
+
+                    var buttonFramework = document.getElementById("buttonFramework");
+                    var buttonProgramming = document.getElementById("buttonProgramming");
+                    var buttonDatabase = document.getElementById("buttonDatabase");
+                    var buttonTools = document.getElementById("buttonTools");
+                    var buttonOthers = document.getElementById("buttonOthers");
+                    console.log(buttonFramework);
+                    buttonOthers.style.display = "none";
+                    buttonProgramming.style.display = "none";
+                    buttonDatabase.style.display = "none";
+                    buttonTools.style.display = "none";
+                    buttonFramework.style.display = "none";
 
                 }
          
