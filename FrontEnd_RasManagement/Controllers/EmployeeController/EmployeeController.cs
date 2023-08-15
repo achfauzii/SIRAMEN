@@ -1,10 +1,17 @@
 ﻿using FrontEnd_RasManagement.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrontEnd_RasManagement.Controllers.EmployeeController
 {
     public class EmployeeController : Controller
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public EmployeeController(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
         public IActionResult Index()
         {
             //Validate Role
@@ -81,6 +88,31 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
-     
+        [HttpPost]
+        public IActionResult UploadImage()
+        {
+            var files = HttpContext.Request.Form.Files;
+            if (files.Count > 0)
+            {
+                var file = files[0];
+                if (file.Length > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+
+                    // Ubah path penyimpanan menjadi '~/assets/photo/'
+                    var path = Path.Combine(_webHostEnvironment.WebRootPath, "assets", "photo", fileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    return Content("File berhasil diunggah");
+                }
+            }
+
+            return Content("Terjadi kesalahan saat mengunggah file");
+        }
+
     }
 }

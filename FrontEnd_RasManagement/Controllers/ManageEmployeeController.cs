@@ -64,7 +64,7 @@ namespace FrontEnd_RasManagement.Controllers
 
 
                 ViewData["EmployeePlacement"] = placement;
-                Console.WriteLine(ViewData["EmployeePlacement"]);
+   
               /*  ViewData["StartDate"] = startDate;
                 ViewData["EndDate"] = endDate;*/
                 return View();

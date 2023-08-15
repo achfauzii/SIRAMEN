@@ -11,7 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class EmployeesController : ControllerBase
     {
         private readonly ProjectRasmanagementContext _context;
@@ -24,9 +24,9 @@ namespace RasManagement.Controllers
             this.employeeRepository = employeeRepository;
         }
         [HttpGet]
-        public async Task <IActionResult> Employees()
+        public async Task<IActionResult> Employees()
         {
-            var get =await employeeRepository.GetEmployeeData();
+            var get = await employeeRepository.GetEmployeeData();
             if (get.Count() != 0)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = get.Count() + " Data Ditemukan", TotalData = get.Count(), Data = get });
@@ -40,7 +40,7 @@ namespace RasManagement.Controllers
         [HttpGet("accountId")]
         public IActionResult Employees(string accountId)
         {
-            var get =  employeeRepository.Get(accountId);
+            var get = employeeRepository.Get(accountId);
             if (get != null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
@@ -48,6 +48,21 @@ namespace RasManagement.Controllers
             else
             {
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
+        [HttpPut("{accountId}")]
+        public async Task<IActionResult> UpdateEmployee(string accountId,UpdateEmployeeVM updatedData)
+        {
+            var result = await employeeRepository.Update(accountId, updatedData);
+
+            if (result)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data updated successfully" });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Failed to update data" });
             }
         }
     }

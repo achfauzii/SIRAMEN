@@ -194,7 +194,7 @@
                         <li class="text-justify" style="color:black">Framework/Library: <span id="framework"></span></li>
                         <li style="color:black">Programming Language: <span id="programmingLanguage"></span></li>
                         <li style="color:black">Database: <span id="database"></span></li>
-                        <li class="text-justify" style="color:black" id="oQualification">Others: <span id="others"></span></li>
+                        <li class="text-justify" style="color:black" id="othersShow_">Others: <span id="others"></span></li>
                     </ul>
 
                 </div>
@@ -211,8 +211,7 @@
                 </div>
 
                 <div class="section m-0 mt-1">
-                    <ul id ="certificate" class="pl-3 ">
-                
+                    <ul id="certificate" class="pl-3 ">
                     </ul>
 
                 </div>
@@ -228,8 +227,7 @@
                 </div>
 
                 <div class="section m-0 mt-1">
-                    <ul id ="employeementHistory"class="pl-3 ">
-                       
+                    <ul id="employeementHistory" class="pl-3 ">
                     </ul>
 
                 </div>
@@ -261,8 +259,8 @@
         </div>
     </div>
 </div>
-<div class="text-right">
-    <a href="" onclick="printCV()" type="button" class="btn btn-primary">Download PDF</a>
+<div class="text-center mb-3">
+    <a href="" onclick="printCV()"  type="button" class="btn btn-primary">Save As PDF</a>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -274,7 +272,14 @@
         // Simpan pengaturan cetakan saat ini
         var originalBody = document.body.innerHTML;
         var originalFontSize = document.body.style.fontSize;
+        // Simpan judul halaman saat ini
+        var originalTitle = document.title;
 
+        // Ambil teks dari elemen dengan ID fullName
+        var fullName = document.getElementById('fullName').innerText;
+
+        // Ubah judul halaman sesuai dengan judul yang diinginkan
+        document.title = fullName + " Curriculum Vitae";
         // Ubah ukuran kertas cetakan menjadi A4
         document.body.style.width = "210mm";
         document.body.style.height = "297mm";
@@ -288,6 +293,7 @@
         // Kembalikan pengaturan cetakan ke nilai semula
         document.body.innerHTML = originalBody;
         document.body.style.fontSize = originalFontSize;
+        document.title = originalTitle;
     }
 
 </script>
