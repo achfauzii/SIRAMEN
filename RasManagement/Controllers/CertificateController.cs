@@ -10,7 +10,7 @@ namespace RasManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[EnableCors("AllowOrigin")]
-    [Authorize(Roles="Employee,Admin,Super_Admin")]
+    //[Authorize(Roles="Employee,Admin,Super_Admin")]
 
     public class CertificateController : BaseController<Certificate, CertificateRepository, int>
     {

@@ -56,6 +56,11 @@ function loadData() {
                 success: function (educationResult) {
                     //debugger;
                     var educationObj = educationResult.data;
+                    // Mengurutkan data berdasarkan tahun terbaru
+                    // a, b merupakan untuk perandingan datanya lalu di sortting
+                    educationObj.sort(function (a, b) {
+                        return b.years - a.years;
+                    });
 
                     var tableBody = document.getElementById('educationTableBody');
                     for (var i = 0; i < educationObj.length; i++) {
@@ -89,6 +94,9 @@ function loadData() {
 
                 success: function (nonFormalEdu) {
                     var nonFormalEduObj = nonFormalEdu.data;
+                    nonFormalEduObj.sort(function (a, b) {
+                        return b.years - a.years;
+                    });
                     const listElement = document.getElementById("listNonEdu");
 
                     // Bersihkan isi list sebelumnya (jika ada)
@@ -159,6 +167,12 @@ function loadData() {
 
                 success: function (certificate) {
                     var certifData = certificate.data;
+                    // Mengurutkan data berdasarkan tanggal terbaru
+                    certifData.sort(function (a, b) {
+                        var dateA = new Date(a.publicationYear);
+                        var dateB = new Date(b.publicationYear);
+                        return dateB - dateA; // Mengurutkan dari yang terbaru
+                    });
                     const listElement = document.getElementById("certificate");
                     const bold = document.createElement("strong");
 
@@ -260,7 +274,9 @@ function loadData() {
                 success: function (data) {
                     //debugger;
                     var projectHistor = data.data;
-
+                    projectHistor.sort(function (a, b) {
+                        return b.year - a.year;
+                    });
                     var tableBody = document.getElementById('projectHistoryTableBody');
 
                     for (var i = 0; i < projectHistor.length; i++) {

@@ -58,29 +58,35 @@
             var result = employees.data;
             for (var i = 0; i < result.length; i++) {
                 var accountId = result[i].accountId;
-                $.ajax({
-                    url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-                    type: "GET",
-                    datatype: "json",
-                    async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
-                    headers: {
-                        "Authorization": "Bearer " + sessionStorage.getItem("Token")
-                    },
-                    success: function (placementData) {
-                        if (placementData.data && placementData.data.length > 0) {
-                            var placementStatus = placementData.data[0].placementStatus; // Ambil data yang pertama dari array data
-                            if (placementStatus == "Idle") {
+                var roleId = result[i].roleId; // Ambil roleId dari data saat ini
+                if (roleId === "3") {
+                    $.ajax({
+                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+                        type: "GET",
+                        datatype: "json",
+                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+                        headers: {
+                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                        },
+                        success: function (placementData) {
+                            if (placementData.data && placementData.data.length > 0) {
+                                var placementStatus = placementData.data[0].placementStatus; // Ambil data yang pertama dari array data
+                                if (placementStatus == "Idle") {
+                                    idleCount++;
+                                } else if (placementStatus == "Onsite") {
+                                    onsiteCount++;
+                                }
+                            } else {
                                 idleCount++;
-                            } else if (placementStatus == "Onsite") {
-                                onsiteCount++;
                             }
-                        } else {
-                            idleCount++;
-                        }
-                    }, error: function () {
+                        }, error: function () {
 
-                    }
-                });
+                        }
+                    });
+
+
+                }
+               
             }
             // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
             document.getElementById("countIdle").textContent = idleCount;

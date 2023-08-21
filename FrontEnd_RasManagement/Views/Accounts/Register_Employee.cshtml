@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+    @*        <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Password</label>
                     <input type="password" class="form-control"
@@ -56,7 +56,7 @@
                     <input type="password" class="form-control "
                            id="repeatPassword" name="repeatPassword">
                 </div>
-            </div>
+            </div>*@
 
             <div class="form-group">
 
@@ -175,8 +175,8 @@
         var fullName = document.getElementById('fullName').value;
         //var nickName = document.getElementById('nickName').value;
         var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
-        var repeatPassword = document.getElementById('repeatPassword').value;
+        //var password = document.getElementById('password').value;
+        //var repeatPassword = document.getElementById('repeatPassword').value;
         //var birthPlace = document.getElementById('birthPlace').value;
         //var birthDate = document.getElementById('birthDate').value;
         //var religion = document.getElementById('religion').value;
@@ -186,12 +186,18 @@
         var hiredStatus = document.querySelector('input[name="hiredStatus"]:checked').value;
         // ...
         // Melakukan validasi repeat password
-        if (password !== repeatPassword) {
+        //if (password !== repeatPassword) {
             // Password dan repeat password tidak sama, tampilkan pesan error
-            alert('Password and Repeat Password do not match.');
-            return; // Hentikan eksekusi lebih lanjut
-        }
+            //alert('Password and Repeat Password do not match.');
+           // return; // Hentikan eksekusi lebih lanjut
+       // }
         // Menggabungkan data input menjadi objek yang akan dikirim ke API
+
+        // Generate a random UUID
+        const password = uuidv4();
+     
+        // Print the UUID
+      
 
         var data = {
             accountId: accountId,
@@ -215,7 +221,7 @@
 
 
         }
-  
+
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
@@ -227,16 +233,16 @@
         })
             .then(function (response) {
                 if (response.ok) {
-                   
-               
-                            // Redirect atau tampilkan pesan sukses jika permintaan berhasil
-                            // ...
-                            Swal.fire('Success', 'Registration Employee successful', 'success');
-                            var form = document.getElementById('createAccountForm');
-                            form.reset(); // Reset form setelah pengiriman berhasil
-                      
 
-                    $.post("/Accounts/NewAccount", { email,password })
+
+                    // Redirect atau tampilkan pesan sukses jika permintaan berhasil
+                    // ...
+                    Swal.fire('Success', 'Registration Employee successful', 'success');
+                    var form = document.getElementById('createAccountForm');
+                    form.reset(); // Reset form setelah pengiriman berhasil
+
+
+                    $.post("/Accounts/NewAccount", { email, password })
                         .done(function () {
                             const Toast = Swal.mixin({
                                 toast: true,
@@ -256,11 +262,11 @@
                                 icon: 'success',
                                 title: 'Email Has ben sent',
                                 text: "",
-                
+
                             })
 
                         });
-                        
+
                 } else {
                     // Tampilkan pesan error jika permintaan gagal
                     response.json().then(function (data) {
@@ -278,5 +284,14 @@
                 // ...
             });
     });
+
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+            .replace(/[xy]/g, function (c) {
+                const r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+    }
 </script>
 
