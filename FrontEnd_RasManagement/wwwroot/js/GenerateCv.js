@@ -224,6 +224,31 @@ function loadData() {
                     empHistory.forEach(item => {
                         const li = document.createElement("li");
 
+                        const parts = item.period.split(" - ");
+                        const startDate = parts[0]; // "2023-08"
+                        const endDate = parts[1];  // "Now"
+                        // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
+                        if (startDate) {
+
+                            var startDate_ = new Date(startDate);
+                            if (endDate != "Now") {
+                                var endDate_ = new Date(endDate);
+                                const options = { month: 'long', year: 'numeric' };
+                                endDate_ = endDate_.toLocaleDateString('en-EN', options);
+                            }
+                            else {
+                                endDate_ = "Now";
+                            }
+
+                            const options = { month: 'long', year: 'numeric' };
+                            startDate_ = startDate_.toLocaleDateString('en-EN', options);
+                            date = startDate_ + " - " + endDate_;
+                        
+
+                        } else {
+                            return ""; // Jika data null atau undefined, tampilkan string kosong
+                        }
+
                         li.innerHTML = `
                              <li class="text-justify">
                             <div class="row">
@@ -239,7 +264,7 @@ function loadData() {
                             <div class="row">
                                 <div class="col-3" style="color:black">Period </div>
                                 <div class="col-0" style="color:black">:</div>
-                                <div class="col" style="color:black">${item.period}</div>
+                                <div class="col" style="color:black">${date}</div>
                             </div>
                             <div class="row">
                                 <div class="col-3" style="color:black">Description </div>

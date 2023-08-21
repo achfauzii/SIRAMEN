@@ -3,7 +3,7 @@ $(document).ready(function () {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
  
-
+   
 
     $.ajax({
         url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
@@ -43,6 +43,15 @@ $(document).ready(function () {
             console.error('Error fetching data from API:', error);
         }
     });
+    $(".frameworkOptions").change(function () {
+        if ($(this).val().includes("other")) {
+            $("#customFramework").show();
+        } else {
+            $('.frameworkOptions').select2();
+            $("#customFramework").hide();
+        }
+    });
+   
 });
 
 
