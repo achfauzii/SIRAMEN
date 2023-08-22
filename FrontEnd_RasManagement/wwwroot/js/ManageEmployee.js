@@ -28,6 +28,7 @@
             { "data": "fullname", },
             { "data": "email" },
             { "data": "gender" },
+            { "data": "address" },
             {
                 "render": function (data, type, row) {
                     var accountId = row.accountId;

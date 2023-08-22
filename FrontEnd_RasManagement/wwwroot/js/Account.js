@@ -66,7 +66,7 @@
                             } else if (Role === 'Super_Admin'){
                                 window.location.replace("/dashboards/dashboard_superadmin")
                             } else {
-                                window.location.replace("/dashboards/employee"); // Redirect to user dashboard
+                                window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
                             }
                         }
                     })
