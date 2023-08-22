@@ -2,8 +2,8 @@
 $(document).ready(function () {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
- 
-   
+
+
 
     $.ajax({
         url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
@@ -16,7 +16,7 @@ $(document).ready(function () {
             debugger;
             if (response.status === 200) {
                 displayQualification(response.data);
-           
+
                 if (response.data == "") {
                     var element = document.getElementById("buttonAdd");
                     element.style.display = "block"; // Menampilkan elemen
@@ -26,7 +26,7 @@ $(document).ready(function () {
                     var buttonDatabase = document.getElementById("buttonDatabase");
                     var buttonTools = document.getElementById("buttonTools");
                     var buttonOthers = document.getElementById("buttonOthers");
-                    console.log(buttonFramework);
+
                     buttonOthers.style.display = "none";
                     buttonProgramming.style.display = "none";
                     buttonDatabase.style.display = "none";
@@ -34,7 +34,7 @@ $(document).ready(function () {
                     buttonFramework.style.display = "none";
 
                 }
-         
+
             } else {
                 console.error('Error fetching data from API:', response.message);
             }
@@ -43,15 +43,10 @@ $(document).ready(function () {
             console.error('Error fetching data from API:', error);
         }
     });
-    $(".frameworkOptions").change(function () {
-        if ($(this).val().includes("other")) {
-            $("#customFramework").show();
-        } else {
-            $('.frameworkOptions').select2();
-            $("#customFramework").hide();
-        }
-    });
-   
+    $('.frameworkOptions').select2();
+
+
+
 });
 
 
@@ -71,68 +66,61 @@ function displayQualification(data) {
 
 function ClearScreen() {
 
-    /* $('#departmentId').val('');
-     $('#departmentName').val('');*/
+    $('#framework_').val(null).trigger('change');// Kosongkan pilihan select
+    $('#customFramework').val(''); // Kosongkan input teks
+    $('#programmingLanguage_').val(''); // Kosongkan input teks
+    $('#qualDatabase').val(''); // Kosongkan input teks
+    $('#tools_').val(''); // Kosongkan input teks
+    $('#others_').val(''); // Kosongkan input teks
+    $('.frameworkOptions').closest('.form-group').find('.error-message').hide();
 
-    var accountId = accountId;
-    $.ajax({
-        type: 'GET',
-        url: 'https://localhost:7177/api/Qualification/accountId?accountId=' + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: true,
-        /*headers: {
-            'Authorization': 'Bearer ' + sessionStorage.getItem('tokenJWT')
-        },*/
-    }).then((result) => {
-        /*    $('#modal-add').modal('hide');
-            $('#modal-add').on('hidden.bs.modal', function () {
-                $(this).data('bs.modal', null);
-            });*/
-        //debugger;
+    $('input[required_add]').each(function () {
+        var input = $(this);
+        input.next('.error-message').hide();
+    });
 
-        //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
-        var obj = result.data; //data yg didapat dari api
-        $('#companyName').val(obj.companyName);
-
-        $('#Update').show();
-        $('#Add').hide();
-
-    })
-    /*  $('#companyName').val('');
-      $('#placementStatus').val('');
-      $('#description').val('');
-      $('#accountId').val('');*/
-    $('#Update').hide();
-    $('#Add').show();
 
 
 }
 
 function Save() {
-    debugger;
-    var isValid = true;
+/*      debugger;
+      var isValid = true;
+  
+      $('input[required_add]').each(function () {
+          var input = $(this);
+          if (!input.val()) {
+              input.next('.error-message').show();  
+              isValid = false;
+          } else {
+              input.next('.error-message').hide();
+          }
+      });*/
 
-    $('input[required_add]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message').show();
-            isValid = false;
-        } else {
-            input.next('.error-message').hide();
-        }
-    });
+    // Validasi select options
+    var selectedFrameworks = $('#framework_').val();
+    var selectedProgramming = $('#programmingLanguage_').val();
+    var selectedDatabase = $('#qualDatabase').val();
 
-    if (!isValid) {
-
-        return;
+    if (!selectedFrameworks?.some(Boolean) || !selectedProgramming?.some(Boolean) || !selectedDatabase?.some(Boolean)) {
+        $('.frameworkOptions').closest('.form-group').find('.error-message').show();
+        isValid = false;
+    } else {
+        $('.frameworkOptions').closest('.form-group').find('.error-message').hide();
     }
-    var qualifications= new Object(); //bikin objek baru
-    qualifications.framework = $('#framework_').val();
-    qualifications.programmingLanguage = $('#programmingLanguage_').val();
-    qualifications.database = $('#qualDatabase').val();
-    qualifications.tools = $('#tools_').val();
+
+    /*
+        if (!isValid) {
+    
+            return;
+        }*/
+    var qualifications = new Object(); //bikin objek baru
+
+    qualifications.framework = $('#framework_').val().join(", ");
+
+    qualifications.programmingLanguage = $('#programmingLanguage_').val().join(", ");
+    qualifications.database = $('#qualDatabase').val().join(", ");
+    qualifications.tools = $('#tools_').val().join(", ");
     qualifications.others = $('#others_').val();
 
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -175,7 +163,9 @@ function Save() {
 
 
 function updateFramework() {
+
     getbyID();
+
     var frameworkInput = document.getElementById("frameworkShow");
     var programmingInput = document.getElementById("programmingShow");
     var databaseInput = document.getElementById("databaseShow");
@@ -259,15 +249,54 @@ function getbyID() {
         success: function (result) {
             //debugger;
             var obj = result.data[0]; //data yg dapet dr id
-            $('#accountId').val(accid); 
-            $('#qualificationId').val(obj.qualificationId); 
-            $('#frameworkUpdate').val(obj.framework); 
-            $('#programmingLanguageUpdate').val(obj.programmingLanguage); 
-            $('#databaseUpdate').val(obj.database); 
-            $('#toolsUpdate').val(obj.tools); 
-            $('#othersUpdate').val(obj.others); 
-            
-     
+            $('#accountId').val(accid);
+            $('#qualificationId').val(obj.qualificationId);
+            // Memecah string menjadi array dan mengisi nilai ke dalam Select2
+            const selectedOptionsFramework = obj.framework;
+            const selectedOptionsProgramming = obj.programmingLanguage;
+            const selectedOptionsDatabase = obj.database;
+            const selectedOptionsTools = obj.tools;
+            const selectedOptionsOthers = obj.others;
+
+            const frameworkSelect = $('#frameworkUpdate');
+            const programmingLanguageSelect = $('#programmingLanguageUpdate');
+            const databaseSelect = $('#databaseUpdate');
+            const toolsSelect = $('#toolsUpdate');
+
+            // Setiap nilai yang perlu diisi dalam Select2 diperlakukan sebagai array
+            const selectedFrameworkArray = selectedOptionsFramework.split(', ');
+            const selectedProgrammingArray = selectedOptionsProgramming.split(', ');
+            const selectedDatabaseArray = selectedOptionsDatabase.split(', ');
+            const selectedToolsArray = selectedOptionsTools.split(', ');
+
+            // Menambahkan opsi baru ke dalam Select2
+            selectedFrameworkArray.forEach(option => {
+                frameworkSelect.append(new Option(option, option, true, true));
+            });
+
+            selectedProgrammingArray.forEach(option => {
+                programmingLanguageSelect.append(new Option(option, option, true, true));
+            });
+
+            selectedDatabaseArray.forEach(option => {
+                databaseSelect.append(new Option(option, option, true, true));
+            });
+
+            selectedToolsArray.forEach(option => {
+                toolsSelect.append(new Option(option, option, true, true));
+            });
+
+            // Memanggil fungsi select2() untuk menginisialisasi Select2 kembali
+            frameworkSelect.select2();
+            programmingLanguageSelect.select2();
+            databaseSelect.select2();
+            toolsSelect.select2();
+
+
+
+            $('#othersUpdate').val(obj.others);
+
+
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -276,20 +305,22 @@ function getbyID() {
 }
 
 function Update() {
-    //debugger;
-  
+    debugger;
+
     var qualifications = new Object(); //bikin objek baru
     qualifications.accountId = $('#accountId').val();
+
     qualifications.qualificationId = $('#qualificationId').val();
-    qualifications.framework = $('#frameworkUpdate').val();
-    qualifications.programmingLanguage = $('#programmingLanguageUpdate').val();
-    qualifications.database = $('#databaseUpdate').val();
-    qualifications.tools = $('#toolsUpdate').val();
+    qualifications.framework = $('#frameworkUpdate').val().join(", ");
+
+    qualifications.programmingLanguage = $('#programmingLanguageUpdate').val().join(", ");
+    qualifications.database = $('#databaseUpdate').val().join(", ");
+    qualifications.tools = $('#toolsUpdate').val().join(", ");
     qualifications.others = $('#othersUpdate').val();
-/*    qualifications.programmingLanguage = $('#programmingLanguage_').val();
-    qualifications.database = $('#qualDatabase').val();
-    qualifications.tools = $('#tools_').val();
-    qualifications.others = $('#others_').val();*/
+    /*    qualifications.programmingLanguage = $('#programmingLanguage_').val();
+        qualifications.database = $('#qualDatabase').val();
+        qualifications.tools = $('#tools_').val();
+        qualifications.others = $('#others_').val();*/
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     console.log(qualifications);
@@ -311,7 +342,7 @@ function Update() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-             
+
                 location.reload();
             });
         } else {
