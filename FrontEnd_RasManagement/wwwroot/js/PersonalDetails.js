@@ -244,6 +244,16 @@ function updateData() {
     debugger;
     var accountId = $('#accountId').val();
 
+    // Validasi data sebelum update
+    if (!validateFormData()) {
+        return;
+    }
+
+    // Validasi data sebelum update
+    if (!validateImage()) {
+        return;
+    }
+
     uploadImage(accountId);
 
     var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
@@ -292,6 +302,29 @@ function updateData() {
             alert("Data gagal Diperbaharui");
         }
     });
+}
+
+function validateFormData() {
+    var fullname = $('#editName').val();
+    var nickname = $('#editNickName').val();
+    var birthplace = $('#editBirthPlace').val();
+    var birthdate = $('#editBirthDate').val();
+    var gender = $('#editGender').val();
+    var religion = $('#editReligion').val();
+    var martialStatus = $('#editMartialStatus').val();
+    var nationality = $('#editNationality').val();
+    var address = $('#editAddress').val();
+
+    if (fullname === '' || nickname === '' || birthplace === '' || birthdate === '' || gender === '' || religion === '' || martialStatus === '' || nationality === '' || address === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error...',
+            text: 'Data tidak boleh kosong'
+        });
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -355,6 +388,7 @@ function validateImage(event) {
     var imageLabel = document.getElementById('imageLabel');
     var imagePreview = document.getElementById('imagePreview');
     var fileSizeError = document.getElementById('fileSizeError');
+    var updateButton = document.getElementById('Update'); // Get the Update button element
 
     if (imageInput.files && imageInput.files[0]) {
         var fileSize = imageInput.files[0].size; // File size in bytes
@@ -375,6 +409,9 @@ function validateImage(event) {
 
             reader.readAsDataURL(imageInput.files[0]);
             imageLabel.innerText = imageInput.files[0].name;
+
+            // Enable the Update button
+            updateButton.disabled = false;
         }
     }
 }
