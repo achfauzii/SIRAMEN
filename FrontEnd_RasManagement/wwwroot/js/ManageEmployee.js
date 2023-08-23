@@ -1,6 +1,12 @@
 ﻿$(document).ready(function () {
-   
+    $('#dataTableEmployee thead tr').clone(true).addClass('filters').appendTo('#dataTableEmployee thead');
     $('#dataTableEmployee').DataTable({
+
+        paging: true,
+        scrollX: true,
+        orderCellsTop: true,
+        fixedHeader: true,
+
 
         "ajax": {
             url: "https://localhost:7177/api/Employees",
@@ -12,7 +18,41 @@
                 "Authorization": "Bearer " + sessionStorage.getItem("Token")
             },
         },
-
+        initComplete: function () {
+            var api = this.api();
+            // For each column
+            api.columns().eq(0).each(function (colIdx) {
+                // Set the header cell to contain the input element
+                var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
+                var title = $(cell).text();
+                // Check if the column is "No", "Gender", or "Placement Status"
+                if (title !== "No" && title !== "Gender" && title !== "Placement Status" && title !== "Action") {
+                    $(cell).html('<input type="text" placeholder="' + title + '" />');
+                    // On every keypress in this input
+                    $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
+                        .off('keyup change')
+                        .on('keyup change', function (e) {
+                            e.stopPropagation();
+                            // Get the search value
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})'; //$(this).parents('th').find('select').val();
+                            var cursorPosition = this.selectionStart;
+                            // Search the column for that value
+                            api
+                                .column(colIdx)
+                                .search((this.value != "") ? regexr.replace('{search}', '(((' + this.value + ')))') : "", this.value != "", this.value == "")
+                                .draw();
+                            $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
+                        });
+                } else {
+                    // For columns "No", "Gender", and "Placement Status", leave the header cell empty
+                    var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
+                    $(cell).html('');
+                }
+               
+                
+            });
+        },
         "columns": [
             //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
@@ -49,7 +89,7 @@
                                 placementStatus = result.placementStatus;
                             }
                         }, error: function () {
-                           
+
                         }
                     });
                     if (placementStatus == "Idle") {
@@ -66,7 +106,7 @@
             {
                 "render": function (data, type, row) {
                     var accountId = row.accountId;
-   
+
 
                     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
                     $.ajax({
@@ -88,17 +128,17 @@
                                 }
 
                             } else {
-                             
-                                placementLocation ="";
+
+                                placementLocation = "";
                             }
-                          
+
 
                         }, error: function () {
 
                         }
                     });
 
-                 
+
                     return placementLocation
                 }
             },
@@ -247,12 +287,12 @@ function Save(accountId) {
     placement.companyName = $('#companyName_').val();
     placement.jobRole = $('#jobRole').val();
     placement.startDate = $('#startDate').val();
-  
+
     placement.description = $('#description').val();//value insert dari id pada input
 
     placement.placementStatus = $('input[name="status"]:checked').val();
     placement.accountId = accountId;
-    
+
 
     $.ajax({
         type: 'POST',
@@ -274,9 +314,9 @@ function Save(accountId) {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                
+
                 location.reload();
-               
+
             });
         }
         else {
@@ -293,7 +333,7 @@ function Update() {
     placement.companyName = $('#companyName_').val();
     placement.jobRole = $('#jobRole').val();
     placement.startDate = $('#startDate').val();
-    
+
     placement.endDate = $('#endDate').val();
     if (placement.endDate == '') {
         placement.endDate = null;
@@ -320,7 +360,7 @@ function Update() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                
+
                 location.reload();
             });
         } else {
