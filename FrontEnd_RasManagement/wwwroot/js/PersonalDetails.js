@@ -8,6 +8,7 @@
     });
 });
 
+
 function loadDataA() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
@@ -21,8 +22,6 @@ function loadDataA() {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            //debugger;
-            //console.log(result); 
             var obj = result.data.result; // Data yang diterima dari API
             var birthDate = obj.birthdate;
             const date = new Date(birthDate);
@@ -32,37 +31,47 @@ function loadDataA() {
             $('#nameFull').text(obj.fullname);
             $('#nickName').text(obj.nickname);
             $('#birthPlace').text(obj.birthplace);
+
             $('#birthDate').text(birthDate ? date_ : '');
+            // Set birth date input value
+            if (obj.birthdate) {
+                $('#editBirthDate').val(obj.birthdate.substring(0, 10));
+            } else {
+                $('#editBirthDate').val('');
+            }
+
             $('#gender').text(obj.gender);
             $('#religion').text(obj.religion);
             $('#martialStatus').text(obj.maritalstatus);
             $('#nationality').text(obj.nationality);
+            $('#address').text(obj.address);
 
-
-            var employeePhoto1 = document.getElementById('employeePhoto');
+            // Set employee photo
             if (obj.image != null) {
-                employeePhoto1.src = obj.image;
-                employeePhoto.alt = obj.fullname + "'s photo";
+                imgElement.attr("src", obj.image);
+                imgElement.attr("alt", obj.fullname + "'s photo");
+            } else {
+                imgElement.attr("src", "");
+                imgElement.attr("alt", "");
             }
-          
-
 
             // Populate the form fields in the modal with the retrieved data
             $('#accountId').val(obj.accountId);
             $('#editName').val(obj.fullname);
             $('#editNickName').val(obj.nickname);
             $('#editBirthPlace').val(obj.birthplace);
-            $('#editBirthDate').val(obj.birthdate);
             $('#editGender').val(obj.gender);
             $('#editReligion').val(obj.religion);
             $('#editMartialStatus').val(obj.maritalstatus);
             $('#editNationality').val(obj.nationality);
-            // Assuming you have an "image" field in the data, set the file name in the label
-            $('#imageLabel').text(obj.image);
+            $('#editAddress').val(obj.address);
         },
-        error: function (errormessage) { alert(errormessage.responseText); }
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
     });
 }
+
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
@@ -74,8 +83,9 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-function GetById(accountId) {
-    //debugger;
+
+/*function GetById(accountId) {
+    debugger;
     $.ajax({
         url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
@@ -85,33 +95,103 @@ function GetById(accountId) {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            //debugger;
-            var obj = result.data; //data yg kita dapat dr API  
-            $('#accountId').val(obj.workExperienceId);
-            $('#editName').val(obj.companyName);
-            $('#editNickName').val(obj.job);
-            $('#editBirthPlace').val(obj.period);
-            $('#editBirthDate').val(obj.description);
-            $('#editGender').val(obj.companyName);
-            $('#editReligion').val(obj.job);
-            $('#editMartialStatus').val(obj.period);
-            $('#editNationality').val(obj.description);
-            $('#imageFile').val(obj.image);
+            debugger;
+            var obj = result.data.result; // Perhatikan penggunaan .result di sini
+
+            $('#accountId').val(obj.accountId);
+            $('#editName').val(obj.fullname);
+            $('#editNickName').val(obj.nickname);
+            $('#editBirthPlace').val(obj.birthplace);
+
+            // Set birth date input value
+            if (obj.birthdate) {
+                $('#editBirthDate').val(obj.birthdate.substring(0, 10));
+            } else {
+                $('#editBirthDate').val('');
+            }
+
+            $('#editGender').val(obj.gender);
+            $('#editReligion').val(obj.religion);
+            $('#editMartialStatus').val(obj.maritalstatus);
+            $('#editNationality').val(obj.nationality);
+            $('#editAddress').val(obj.address);
+            // Set the image input value
+            // $('#imageFile').val(obj.image);
+
+            var imageInput = document.getElementById('imageFile');
+            if (obj.image != null) {
+                // Set the value of image input to an empty string
+                // This is done because you can't set the value of a file input for security reasons
+                imageInput.value = '';
+            }
+
             $('#Modal').modal('show');
             $('#Update').show();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
-    })
+    });
+}*/
+
+function GetById(accountId) {
+    debugger;
+    $.ajax({
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            debugger;
+            var obj = result.data.result;
+
+            $('#accountId').val(obj.accountId);
+            $('#editName').val(obj.fullname);
+            $('#editNickName').val(obj.nickname);
+            $('#editBirthPlace').val(obj.birthplace);
+            $('#editBirthDate').val(obj.birthdate.substring(0, 10)); // Set birth date input value
+            $('#editGender').val(obj.gender);
+            $('#editReligion').val(obj.religion);
+            $('#editMartialStatus').val(obj.maritalstatus);
+            $('#editNationality').val(obj.nationality);
+            $('#editAddress').val(obj.address);
+
+            // Set the image input value
+            var imageInput = document.getElementById('imageFile');
+            if (obj.image != null) {
+                imageInput.value = ''; // Clear the file input
+                $('#imagePath').val(obj.image); // Set image path value
+
+                // Set the image preview using the image path
+                $('#imagePreview').attr('src', obj.image);
+                $('#imagePreview').css('display', 'block'); // Show the image preview
+            } else {
+                imageInput.value = '';
+                $('#imagePath').val(''); // Clear image path value
+                $('#imagePreview').attr('src', ''); // Clear image preview source
+                $('#imagePreview').css('display', 'none'); // Hide the image preview
+            }
+
+            $('#Modal').modal('show');
+            $('#Update').show();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
 }
 
-// Fungsi untuk menyimpan data yang diubah ke server
-function updateData() {
+
+
+/*function updateData() {
     debugger;
     //upload gambar ke assets project
     var accountId = $('#accountId').val();
     uploadImage(accountId);
+
     var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
 
     var formData = {
@@ -119,20 +199,18 @@ function updateData() {
         Fullname: $('#editName').val(),
         Nickname: $('#editNickName').val(),
         Birthplace: $('#editBirthPlace').val(),
+
+        // Set birth date to yyyy-mm-dd format
         Birthdate: $('#editBirthDate').val(),
+
         Gender: $('#editGender').val(),
         Religion: $('#editReligion').val(),
         MaritalStatus: $('#editMartialStatus').val(),
         Nationality: $('#editNationality').val(),
+        Address: $('#editAddress').val(),
         Image: imagePath
     };
     console.log(formData);
-
-    //// Add image file to FormData if selected
-    //const imageFileInput = document.getElementById('imageFile');
-    //if (imageFileInput.files.length > 0) {
-    //    formData.append('ImageFile', imageFileInput.files[0]);
-    //}
 
     $.ajax({
         url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
@@ -142,38 +220,113 @@ function updateData() {
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
-        success: function (result) {
-            alert('Data updated successfully');
-            $('#myModal').modal('hide'); // Close the modal
-            loadDataA(); // Reload the data
+    }).then(result => {
+        //debugger;
+        if (result.status == 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Data Behasil Diperbaharui!',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                $('#myModal').modal('hide'); // Modal ditutup
+
+                location.reload();
+            });
+        } else {
+            alert("Data gagal Diperbaharui");
+        }
+    });
+}*/
+
+function updateData() {
+    debugger;
+    var accountId = $('#accountId').val();
+
+    // Validasi data sebelum update
+    if (!validateFormData()) {
+        return;
+    }
+
+    // Validasi data sebelum update
+    if (!validateImage()) {
+        return;
+    }
+
+    uploadImage(accountId);
+
+    var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
+    console.log(imagePath);
+    var formData = {
+        AccountId: $('#accountId').val(),
+        Fullname: $('#editName').val(),
+        Nickname: $('#editNickName').val(),
+        Birthplace: $('#editBirthPlace').val(),
+
+        // Set birth date to yyyy-mm-dd format
+        Birthdate: $('#editBirthDate').val(),
+
+        Gender: $('#editGender').val(),
+        Religion: $('#editReligion').val(),
+        MaritalStatus: $('#editMartialStatus').val(),
+        Nationality: $('#editNationality').val(),
+        Address: $('#editAddress').val(),
+        Image: imagePath
+    };
+
+
+    $.ajax({
+        url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
+        type: "PUT",
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
-        error: function (errormessage) {
-            alert('Failed to update data');
-            console.error(errormessage);
+    }).then(result => {
+        //debugger;
+        if (result.status == 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Data Behasil Diperbaharui!',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                $('#myModal').modal('hide'); // Modal ditutup
+
+                location.reload(); // Halaman direload untuk memperbarui data
+            });
+        } else {
+            alert("Data gagal Diperbaharui");
         }
     });
 }
 
+function validateFormData() {
+    var fullname = $('#editName').val();
+    var nickname = $('#editNickName').val();
+    var birthplace = $('#editBirthPlace').val();
+    var birthdate = $('#editBirthDate').val();
+    var gender = $('#editGender').val();
+    var religion = $('#editReligion').val();
+    var martialStatus = $('#editMartialStatus').val();
+    var nationality = $('#editNationality').val();
+    var address = $('#editAddress').val();
 
-/*function previewImage(event) {
-    const imageFile = event.target.files[0];
-    const imagePreview = document.getElementById('imagePreview');
-    const imageLabel = document.getElementById('imageLabel');
-
-    if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = function () {
-            imagePreview.src = reader.result;
-            imagePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(imageFile);
-        imageLabel.textContent = imageFile.name;
-    } else {
-        imagePreview.src = '#';
-        imagePreview.style.display = 'none';
-        imageLabel.textContent = 'Choose file';
+    if (fullname === '' || nickname === '' || birthplace === '' || birthdate === '' || gender === '' || religion === '' || martialStatus === '' || nationality === '' || address === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error...',
+            text: 'Data tidak boleh kosong'
+        });
+        return false;
     }
-}*/
+
+    return true;
+}
+
 
 function previewImage(event) {
     var imageInput = event.target;
@@ -195,29 +348,70 @@ function previewImage(event) {
     }
 }
 
+
 function uploadImage(accountId) {
     var imageFile = $("#imageFile")[0].files[0];
-    var formData = new FormData();
-    var fileName = `photo-${accountId}.jpg`; // Nama file disesuaikan dengan accountId
-    formData.append("imageFile", imageFile, fileName);
 
-    $.ajax({
-        url: "/Employee/UploadImage",
-        type: "POST",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            console.log(response);
-            if (response.success) {
-                $("#uploadMessage").text(response.message);
-            } else {
-                $("#uploadMessage").text("Upload failed: " + response.message);
+    // Cek apakah ada file yang diunggah sebelum mengirimkan data ke server
+    if (imageFile) {
+        var formData = new FormData();
+        var fileName = `photo-${accountId}.jpg`;
+        formData.append("imageFile", imageFile, fileName);
+
+        $.ajax({
+            url: "/Employee/UploadImage",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    $("#uploadMessage").text(response.message);
+                } else {
+                    $("#uploadMessage").text("Upload failed: " + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                $("#uploadMessage").text("An error occurred while uploading the image.");
+                console.log(error);
             }
-        },
-        error: function (xhr, status, error) {
-            $("#uploadMessage").text("An error occurred while uploading the image.");
-            console.log(error);
+        });
+    } else {
+        // Handle case when no file is uploaded
+        $("#uploadMessage").text("No image selected.");
+    }
+}
+
+function validateImage(event) {
+    var imageInput = event.target;
+    var imageLabel = document.getElementById('imageLabel');
+    var imagePreview = document.getElementById('imagePreview');
+    var fileSizeError = document.getElementById('fileSizeError');
+    var updateButton = document.getElementById('Update'); // Get the Update button element
+
+    if (imageInput.files && imageInput.files[0]) {
+        var fileSize = imageInput.files[0].size; // File size in bytes
+
+        if (fileSize > 512 * 1024) { // 512 KB in bytes
+            fileSizeError.textContent = "File size must be 512 KB or smaller.";
+            imageInput.value = ''; // Clear the input
+            imageLabel.innerText = 'Choose file';
+            imagePreview.style.display = 'none';
+        } else {
+            fileSizeError.textContent = '';
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+
+            reader.readAsDataURL(imageInput.files[0]);
+            imageLabel.innerText = imageInput.files[0].name;
+
+            // Enable the Update button
+            updateButton.disabled = false;
         }
-    });
+    }
 }

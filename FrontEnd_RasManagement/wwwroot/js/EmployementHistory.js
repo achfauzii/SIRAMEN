@@ -20,13 +20,42 @@ $(document).ready(function () {
         "columns": [
             {
                 render: function (data, type, row, meta) {
-              
+
                     return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }
             },
             { "data": "companyName" },
             { "data": "job" },
-            { "data": "period" },
+            {
+                "data": "period",
+                "render": function (data) {
+                    const parts = data.split(" - ");
+
+                    const startDate = parts[0]; // "2023-08"
+                    const endDate = parts[1];  // "Now"
+                    // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
+                    if (startDate) {
+                       
+                        var  startDate_ = new Date(startDate);
+                        if (endDate != "Now") {
+                            var endDate_ = new Date(endDate);
+                            const options = { month: 'long', year: 'numeric' };
+                            endDate_ = endDate_.toLocaleDateString('en-EN', options);
+                        }
+                        else {
+                            endDate_ = "Now";
+                        }
+                     
+                        const options = { month: 'long', year: 'numeric' };
+                        startDate_ = startDate_.toLocaleDateString('en-EN', options);
+                        date = startDate_ + " - " + endDate_;
+                        return date;
+
+                    } else {
+                        return ""; // Jika data null atau undefined, tampilkan string kosong
+                    }
+                }
+            },
             { "data": "description" },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
@@ -40,7 +69,7 @@ $(document).ready(function () {
             }
         ],
 
-        "order": [[1, "asc"], [3, "desc"]],
+        "order": [[2, "desc"]],
         //"responsive": true,
         //Buat ngilangin order kolom yang dipilih
         "columnDefs": [
@@ -89,7 +118,11 @@ function Save() {
 
     var startYear = $('#StartYear').val();
     var endYear = $('#EndYear').val();
+    if (endYear == "") {
+        endYear = "Now";
+    }
     var period = startYear + ' - ' + endYear;
+
 
     var EmploymentHistory = {
         companyName: $('#CompanyName').val(),
@@ -97,7 +130,7 @@ function Save() {
         period: period,
         description: $('#Description').val()
     };
-
+    console.log(endYear);
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
@@ -189,6 +222,10 @@ function Update() {
     debugger;
     var startYear = $('#StartYear').val();
     var endYear = $('#EndYear').val();
+    if (endYear == "") {
+        endYear = "Now";
+    }
+
     var period = startYear + ' - ' + endYear;
 
     var EmploymentHistory = {

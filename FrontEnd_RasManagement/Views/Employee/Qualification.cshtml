@@ -8,7 +8,7 @@
 
 <span class="badge badge-warning p-2 mb-3">Update your skills every 3 months !!!</span>
 <div id="buttonAdd" style="display: none;">
-    <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#modalAdd">
+    <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#modalAdd" onclick="ClearScreen()">
         + Add Qualification
     </button>
 </div>
@@ -16,23 +16,23 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex">
         <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Qualifications</h5>
-   
+
     </div>
     <div class="card-body m-0 pt-2">
         <div class="row pt-2 pb-2" style="background-color:#F7F6FE">
             <div class="col-2" style="color: black ; font-family:sans-serif">Framework</div>
             <div class="col-9" id="framework"></div>
             <div class="col-1" id="buttonFramework">
-                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateFramework()"  data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
+                <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateFramework()" data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
                 @*<button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@
             </div>
-        </div> 
+        </div>
         <div class="row pt-2 pb-2" style="background-color:white">
             <div class="col" style="color: black ; font-family:sans-serif">Programming Language</div>
             <div class="col-9" id="programming"></div>
-            <div class="col-1"  id="buttonProgramming">
+            <div class="col-1" id="buttonProgramming">
                 <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateProgramming()" data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
-                @*<button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@ 
+                @*<button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@
             </div>
         </div>
         <div class="row pt-2 pb-2" style="background-color:#F7F6FE">
@@ -57,7 +57,7 @@
             <div class="col-9" id="others"></div>
             <div class="col-1" id="buttonOthers">
                 <button style="background-color:#624DE3" class=" btn btn-sm pl-1 pr-1 pt-0 pb-0 text-light" onclick="updateOthers()" data-toggle="modal" data-target="#modalFramework"><i class="fas fa-edit"></i></button>
-             @*   <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@
+                @*   <button class="btn btn-sm btn-danger pl-1 pr-1 pt-0 pb-0"><i class="fas fa-trash"></i></button>*@
             </div>
         </div>
     </div>
@@ -76,26 +76,110 @@
             <div class="modal-body">
 
                 <form>
-                  
+                    @*     <div class="form-group mb-1">
+                    <label class="m-0" for="exampleInputEmail1">Framework</label>
+                    <input type="text" class="form-control " id="framework_"  required_add>
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>*@
                     <div class="form-group mb-1">
-                        <label class="m-0" for="exampleInputEmail1">Framework</label>
-                        <input type="text" class="form-control " id="framework_"  required_add>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <label class="m-0" for="inputGroupSelect01">Framework / Library</label>
+                        <p class="p-0 m-0">
+                            <select class="frameworkOptions form-control" id="framework_" name="framework[]" multiple="multiple" style="width: 100%;" required_add>
+                                <option value="Laravel">Laravel</option>
+                                <option value="Yii Framework">Yii Framework</option>
+                                <option value="CodeIgniter">CodeIgniter</option>
+                                <option value="React">React</option>
+                                <option value="Vue">Vue</option>
+                                <option value="Node.js">Node.js</option>
+                                <option value="React Native">React Native</option>
+                                <option value="Next.js">Next.js</option>
+                                <option value="Express.js">Express.js</option>
+                                <option value="Backbone.js">Backbone.js</option>
+                                <option value="Vue.js">Vue.js</option>
+                                <option value="Flask">Flask</option>
+                                <option value="Django">Django</option>
+                                <option value="Falcon">Falcon</option>
+                                <option value="Dash">Dash</option>
+                                <option value="Web2Py">Web2Py</option>
+                                <option value="Hibernate">Hibernate</option>
+                                <option value="Spring">Spring</option>
+                                <option value=".Net Core API">.Net Core API</option>
+                                <option value=".Net Core MVC">.Net Core MVC</option>
+                                <option value="Bootstrap">Bootstrap</option>
+                                <option value="other">Others..</option>
+
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one framework.</span>
+                        </p>
+
                     </div>
+
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Programming Language</label>
-                        <input type="text" class="form-control " id="programmingLanguage_" required_add>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+
+                        <p class="p-0 m-0">
+                            <select class="frameworkOptions form-control" id="programmingLanguage_" name="programmingLanguage[]" multiple="multiple" style="width: 100%;">
+                                <option value="PHP">PHP</option>
+                                <option value="C">C</option>
+                                <option value="C#">C#</option>
+                                <option value="C++">C++</option>
+                                <option value="Python">Python</option>
+                                <option value="Java">Java</option>
+                                <option value="Javascript">Javascript</option>
+                                <option value="R">R</option>
+                                <option value="Pascal">Pascal</option>
+                                <option value="Pascal">Visual Basic</option>
+                                <option value="Swift">Swift</option>
+                                <option value="Go">Go</option>
+                                <option value="Matlab">Matlab</option>
+                                <option value="Ruby">Ruby</option>
+
+
+                                <option value="other">Others..</option>
+
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one Programming Language.</span>
+                        </p>
+
                     </div>
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Database</label>
-                        <input type="text" class="form-control " id="qualDatabase" required_add>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+
+                        <p class="p-0 m-0">
+                            <select class="frameworkOptions form-control" id="qualDatabase" name="programmingLanguage[]" multiple="multiple" style="width: 100%;">
+                                <option value="MySql">MySql</option>
+                                <option value="SQL Server">SQL Server</option>
+                                <option value="MariaDB">MariaDB</option>
+                                <option value="Oracle">Oracle</option>
+                                <option value="PostgreSQL">PostgreSQL</option>
+
+                                <option value="other">Others..</option>
+
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one database.</span>
+                        </p>
                     </div>
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Tools</label>
-                        <input type="text" class="form-control " id="tools_" required_add>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+
+                        <p class="p-0 m-0">
+                            <select class="frameworkOptions form-control" id="tools_" name="programmingLanguage[]" multiple="multiple" style="width: 100%;">
+                                <option value="Ui Path">Ui Path</option>
+                                <option value="Visual Studio Code">Visual Studio Code</option>
+                                <option value="Visual Studio">Visual Studio</option>
+                                <option value="Azure">Azure</option>
+                                <option value="Unity">Unity</option>
+                                <option value="Odoo">Odoo</option>
+                                <option value="Power BI">Power BI</option>
+                                <option value="Jupyter Notebook">Jupyter Notebook</option>
+                                <option value="Google Colab">Google Colab</option>
+                                <option value="Microsoft Office">Microsoft Office</option>
+
+                                <option value="other">Others..</option>
+
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one tools.</span>
+                        </p>
                     </div>
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Others</label>
@@ -108,8 +192,8 @@
             <div class="modal-footer">
 
                 <button type="button" class="btn btn-primary btn-add" id="Add" name="Add" onclick="Save()">Save</button>
-              
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreenPlacement()">Close</button>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen()">Close</button>
             </div>
         </div>
     </div>
@@ -127,30 +211,106 @@
                 </button>
             </div>
             <div class="modal-body">
-             
+
                 <form>
-                
+
                     <input type="hidden" id="accountId">
-                    <input type="hidden" id="qualificationId" >
+                    <input type="hidden" id="qualificationId">
                     <div class="form-group mb-1" id="frameworkShow">
-                        <label class="m-0" for="exampleInputEmail1">Framework</label>
-                        <input type="text" class="form-control " id="frameworkUpdate">
+                        <label class="m-0" for="exampleInputEmail1">Framework / Library</label>
+                        <p>
+                            <select class=" updateOptions" form-control" id="frameworkUpdate" name="framework[]" multiple="multiple" style="width: 100%;">
+                                <option value="Laravel">Laravel</option>
+                                <option value="Yii Framework">Yii Framework</option>
+                                <option value="CodeIgniter">CodeIgniter</option>
+                                <option value="React">React</option>
+                                <option value="Vue">Vue</option>
+                                <option value="Node.js">Node.js</option>
+                                <option value="React Native">React Native</option>
+                                <option value="Next.js">Next.js</option>
+                                <option value="Express.js">Express.js</option>
+                                <option value="Backbone.js">Backbone.js</option>
+                                <option value="Vue.js">Vue.js</option>
+                                <option value="Flask">Flask</option>
+                                <option value="Django">Django</option>
+                                <option value="Falcon">Falcon</option>
+                                <option value="Dash">Dash</option>
+                                <option value="Web2Py">Web2Py</option>
+                                <option value="Hibernate">Hibernate</option>
+                                <option value="Spring">Spring</option>
+                                <option value=".Net Core API">.Net Core API</option>
+                                <option value=".Net Core MVC">.Net Core MVC</option>
+                                <option value="Bootstrap">Bootstrap</option>
+                                <option value="other">Others..</option>
+                            </select>
+
+                        </p>
+                        @* <input type="text" class="form-control " id="frameworkUpdate">*@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group mb-1" style="display: none;" id="programmingShow">
                         <label class="m-0" for="exampleInputEmail1">Programming Language</label>
-                        <input type="text" class="form-control " id="programmingLanguageUpdate">
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+
+                        <p class="p-0 m-0">
+                            <select class="updateOptions form-control" id="programmingLanguageUpdate" name="programmingLanguage[]" multiple="multiple" style="width: 100%;">
+                                <option value="PHP">PHP</option>
+                                <option value="C">C</option>
+                                <option value="C#">C#</option>
+                                <option value="C++">C++</option>
+                                <option value="Python">Python</option>
+                                <option value="Java">Java</option>
+                                <option value="Javascript">Javascript</option>
+                                <option value="R">R</option>
+                                <option value="Pascal">Pascal</option>
+                                <option value="Pascal">Visual Basic</option>
+                                <option value="Swift">Swift</option>
+                                <option value="Go">Go</option>
+                                <option value="Matlab">Matlab</option>
+                                <option value="Ruby">Ruby</option>
+
+                                <option value="other">Others..</option>
+
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one Programming Language.</span>
+                        </p>
+
                     </div>
                     <div class="form-group mb-1" style="display: none;" id="databaseShow">
                         <label class="m-0" for="exampleInputEmail1">Database</label>
-                        <input type="text" class="form-control " id="databaseUpdate">
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+
+                        <p class="p-0 m-0">
+                            <select class="updateOptions form-control" id="databaseUpdate" name="programmingLanguage[]" multiple="multiple" style="width: 100%;">
+                                <option value="MySql">MySql</option>
+                                <option value="SQL Server">SQL Server</option>
+                                <option value="MariaDB">MariaDB</option>
+                                <option value="Oracle">Oracle</option>
+                                <option value="PostgreSQL">PostgreSQL</option>
+
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one database.</span>
+                        </p>
                     </div>
                     <div class="form-group mb-1" style="display: none;" id="toolsShow">
-                        <label class="m-0" for="exampleInputEmail1" >Tools</label>
-                        <input type="text" class="form-control " id="toolsUpdate">
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <label class="m-0" for="exampleInputEmail1">Tools</label>
+
+                        <p class="p-0 m-0">
+                            <select class="updateOptions form-control" id="toolsUpdate" name="programmingLanguage[]" multiple="multiple" style="width: 100%;">
+                                <option value="Ui Path">Ui Path</option>
+                                <option value="Visual Studio Code">Visual Studio Code</option>
+                                <option value="Visual Studio">Visual Studio</option>
+                                <option value="Azure">Azure</option>
+                                <option value="Unity">Unity</option>
+                                <option value="Odoo">Odoo</option>
+                                <option value="Power BI">Power BI</option>
+                                <option value="Jupyter Notebook">Jupyter Notebook</option>
+                                <option value="Google Colab">Google Colab</option>
+                                <option value="Microsoft Office">Microsoft Office</option>
+                                <option value="other">Others..</option>
+
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one database.</span>
+                        </p>
+
                     </div>
                     <div class="form-group mb-1" style="display: none;" id="othersShow">
                         <label class="m-0" for="exampleInputEmail1">Others</label>
@@ -163,13 +323,13 @@
             </div>
             <div class="modal-footer">
 
-             
+
                 <button type="button" class="btn btn-primary" id="Update" name="Update" data-bs-dismiss="modal" onclick="Update()">Update</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreenPlacement()">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen()">Close</button>
             </div>
         </div>
     </div>
-                
+
 </div>
 @section script{
     <script src="~/js/Qualification.js"></script>

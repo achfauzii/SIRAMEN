@@ -56,6 +56,11 @@ function loadData() {
                 success: function (educationResult) {
                     //debugger;
                     var educationObj = educationResult.data;
+                    // Mengurutkan data berdasarkan tahun terbaru
+                    // a, b merupakan untuk perandingan datanya lalu di sortting
+                    educationObj.sort(function (a, b) {
+                        return b.years - a.years;
+                    });
 
                     var tableBody = document.getElementById('educationTableBody');
                     for (var i = 0; i < educationObj.length; i++) {
@@ -89,6 +94,9 @@ function loadData() {
 
                 success: function (nonFormalEdu) {
                     var nonFormalEduObj = nonFormalEdu.data;
+                    nonFormalEduObj.sort(function (a, b) {
+                        return b.years - a.years;
+                    });
                     const listElement = document.getElementById("listNonEdu");
 
                     // Bersihkan isi list sebelumnya (jika ada)
@@ -159,6 +167,12 @@ function loadData() {
 
                 success: function (certificate) {
                     var certifData = certificate.data;
+                    // Mengurutkan data berdasarkan tanggal terbaru
+                    certifData.sort(function (a, b) {
+                        var dateA = new Date(a.publicationYear);
+                        var dateB = new Date(b.publicationYear);
+                        return dateB - dateA; // Mengurutkan dari yang terbaru
+                    });
                     const listElement = document.getElementById("certificate");
                     const bold = document.createElement("strong");
 
@@ -210,6 +224,31 @@ function loadData() {
                     empHistory.forEach(item => {
                         const li = document.createElement("li");
 
+                        const parts = item.period.split(" - ");
+                        const startDate = parts[0]; // "2023-08"
+                        const endDate = parts[1];  // "Now"
+                        // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
+                        if (startDate) {
+
+                            var startDate_ = new Date(startDate);
+                            if (endDate != "Now") {
+                                var endDate_ = new Date(endDate);
+                                const options = { month: 'long', year: 'numeric' };
+                                endDate_ = endDate_.toLocaleDateString('en-EN', options);
+                            }
+                            else {
+                                endDate_ = "Now";
+                            }
+
+                            const options = { month: 'long', year: 'numeric' };
+                            startDate_ = startDate_.toLocaleDateString('en-EN', options);
+                            date = startDate_ + " - " + endDate_;
+                        
+
+                        } else {
+                            return ""; // Jika data null atau undefined, tampilkan string kosong
+                        }
+
                         li.innerHTML = `
                              <li class="text-justify">
                             <div class="row">
@@ -225,7 +264,7 @@ function loadData() {
                             <div class="row">
                                 <div class="col-3" style="color:black">Period </div>
                                 <div class="col-0" style="color:black">:</div>
-                                <div class="col" style="color:black">${item.period}</div>
+                                <div class="col" style="color:black">${date}</div>
                             </div>
                             <div class="row">
                                 <div class="col-3" style="color:black">Description </div>
@@ -260,7 +299,9 @@ function loadData() {
                 success: function (data) {
                     //debugger;
                     var projectHistor = data.data;
-
+                    projectHistor.sort(function (a, b) {
+                        return b.year - a.year;
+                    });
                     var tableBody = document.getElementById('projectHistoryTableBody');
 
                     for (var i = 0; i < projectHistor.length; i++) {
