@@ -41,6 +41,23 @@ namespace FrontEnd_RasManagement.Controllers.SuperAdmin
             return View();
         }
 
+        public IActionResult CreateAccount()
+        {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+            if (role != "Super_Admin")
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            //End Validate
+            return View();
+        }
 
 
     }

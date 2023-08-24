@@ -6,8 +6,7 @@
         //T GetValue(object view);
         IEnumerable<T> GetAll();
         int Insert(Account account);
-        int Update(Account account);
 
-
+        
     }
 }

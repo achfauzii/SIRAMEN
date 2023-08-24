@@ -64,7 +64,7 @@ namespace FrontEnd_RasManagement.Controllers
 
 
                 ViewData["EmployeePlacement"] = placement;
-   
+                Console.WriteLine(ViewData["EmployeePlacement"]);
               /*  ViewData["StartDate"] = startDate;
                 ViewData["EndDate"] = endDate;*/
                 return View();
@@ -97,24 +97,6 @@ namespace FrontEnd_RasManagement.Controllers
                 return View();
             }
 
-        }
-
-        public IActionResult RegisNonRAS()
-        {
-            //Validate Role
-            if (!JwtHelper.IsAuthenticated(HttpContext))
-            {
-                return RedirectToAction("Login", "Accounts");
-            }
-
-            var role = JwtHelper.GetRoleFromJwt(HttpContext);
-
-            if (role != "Admin" && role != "Super_Admin")
-            {
-                return RedirectToAction("Login", "Accounts");
-            }
-            //End Validate
-            return View();
         }
     }
 }
