@@ -1,12 +1,18 @@
 ﻿$(document).ready(function () {
-    $('#dataTableEmployee thead tr').clone(true).addClass('filters').appendTo('#dataTableEmployee thead');
-    $('#dataTableEmployee').DataTable({
+
+    $('#dataTableEmployee thead tr').clone(true).addClass('filters').attr('id', 'filterRow').appendTo('#dataTableEmployee thead');
+
+   // $('#loader').show();
+
+
+    var table= $('#dataTableEmployee').on('processing.dt', function (e, settings, processing) {
+        $('#loader').css('display', processing ? 'block' : 'none');
+    }).DataTable({
 
         paging: true,
         scrollX: true,
         orderCellsTop: true,
         fixedHeader: true,
-
 
         "ajax": {
             url: "https://localhost:7177/api/Employees",
@@ -17,7 +23,11 @@
             headers: {
                 "Authorization": "Bearer " + sessionStorage.getItem("Token")
             },
+
+
+
         },
+
         initComplete: function () {
             var api = this.api();
             // For each column
@@ -27,7 +37,7 @@
                 var title = $(cell).text();
                 // Check if the column is "No", "Gender", or "Placement Status"
                 if (title !== "No" && title !== "Gender" && title !== "Placement Status" && title !== "Action") {
-                    $(cell).html('<input type="text" placeholder="' + title + '" />');
+                    $(cell).html('<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="'+ title +'" />');
                     // On every keypress in this input
                     $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
                         .off('keyup change')
@@ -49,8 +59,8 @@
                     var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
                     $(cell).html('');
                 }
-               
-                
+
+
             });
         },
         "columns": [
@@ -179,6 +189,21 @@
                });s
            }*/
 
+
+    });
+
+
+
+    $("#resetFilters").on("click", function () {
+        // Reset input pencarian dan filter DataTable
+        $("#searchInput").val("");
+        table.search("").columns().search("").draw();
+
+        // Hapus elemen baris filter dari DOM
+        $(".filters input").val("").keyup().change();
+
+        // Lakukan reload data
+        table.ajax.reload();
 
     });
 });
