@@ -44,7 +44,7 @@ function Educations() {
             }
         ],
 
-        "order": [[5, "desc"]],
+        "order": [[1, "asc"]],
         //"responsive": true,
         //Buat ngilangin order kolom No dan Action
         "columnDefs": [
@@ -146,9 +146,9 @@ function ClearScreenFormal() {
     $('#Save').show();
     $('input[required]').each(function () {
         var input = $(this);
-
-        input.next('.error-message-formal').hide();
-
+        
+            input.next('.error-message-formal').hide();
+        
     });
 }
 

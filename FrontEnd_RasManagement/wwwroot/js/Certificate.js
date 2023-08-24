@@ -64,24 +64,15 @@ $(document).ready(function () {
             }
         ],
 
-        "order": [[2, "desc"], [3, "desc_nulls_last"]], 
+        "order": [[1, "asc"]],
         //"responsive": true,
         //Buat ngilangin order kolom No dan Action
         "columnDefs": [
             {
-                "targets": [0, 4, 5],
+                "targets": [0, 2, 3, 4, 5],
                 "orderable": false
-            }   
-        ],
-        "aoColumnDefs": [
-            {
-                "sType": "date",  // Menggunakan pengurutan tanggal
-                "aTargets": [3, 4]  // Terapkan pada kolom "Publication Year" dan "Valid Until"
             }
         ],
-
-
-        
         //Agar nomor tidak berubah
         "drawCallback": function (settings) {
             var api = this.api();

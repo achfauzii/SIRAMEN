@@ -3,7 +3,6 @@ using Microsoft.Identity.Client;
 using RasManagement.Interface;
 using System.Collections.Generic;
 using System.Linq;
-using RasManagement.ViewModel;
 namespace RasManagement.Repository
 {
     public class EmployeeRepository: GeneralRepository<ProjectRasmanagementContext, Account, string>
@@ -27,58 +26,6 @@ namespace RasManagement.Repository
 
             return account;
         }
-        public async Task<bool> Update(string accountId,UpdateEmployeeVM updatedData)
-        {
-            var existingEmployee = await _context.Accounts.SingleOrDefaultAsync(a => a.AccountId == accountId && (a.RoleId == "2" || a.RoleId == "3"));
-
-            if (existingEmployee == null)
-            {
-                return false; // Employee not found or doesn't have the correct role
-            }
-
-            if (!string.IsNullOrEmpty(updatedData.Fullname))
-            {
-                existingEmployee.Fullname = updatedData.Fullname;
-            }
-            if (!string.IsNullOrEmpty(updatedData.Nickname))
-            {
-                existingEmployee.Nickname = updatedData.Nickname;
-            }
-            if (!string.IsNullOrEmpty(updatedData.Birthplace))
-            {
-                existingEmployee.Birthplace = updatedData.Birthplace;
-            }
-            if (updatedData.Birthdate.HasValue)
-            {
-                existingEmployee.Birthdate = updatedData.Birthdate.Value;
-            }
-            if (!string.IsNullOrEmpty(updatedData.Gender))
-            {
-                existingEmployee.Gender = updatedData.Gender;
-            }
-            if (!string.IsNullOrEmpty(updatedData.Religion))
-            {
-                existingEmployee.Religion = updatedData.Religion;
-            }
-            if (!string.IsNullOrEmpty(updatedData.Maritalstatus))
-            {
-                existingEmployee.Maritalstatus = updatedData.Maritalstatus;
-            }
-            if (!string.IsNullOrEmpty(updatedData.Nationality))
-            {
-                existingEmployee.Nationality = updatedData.Nationality;
-            }
-            if (!string.IsNullOrEmpty(updatedData.Image))
-            {
-                existingEmployee.Image = updatedData.Image;
-            }
-
-            _context.Update(existingEmployee);
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
 
 
         //Employeement
