@@ -21,10 +21,6 @@ namespace RasManagement.Repository
             throw new NotImplementedException();
         }
 
-        public int Update(Account account)
-        {
-            throw new NotImplementedException();
-        }
         public class CheckValidation
         {
             public const Account[] NullPounterAccount = null;

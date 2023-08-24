@@ -20,42 +20,13 @@ $(document).ready(function () {
         "columns": [
             {
                 render: function (data, type, row, meta) {
-
+              
                     return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }
             },
             { "data": "companyName" },
             { "data": "job" },
-            {
-                "data": "period",
-                "render": function (data) {
-                    const parts = data.split(" - ");
-
-                    const startDate = parts[0]; // "2023-08"
-                    const endDate = parts[1];  // "Now"
-                    // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
-                    if (startDate) {
-                       
-                        var  startDate_ = new Date(startDate);
-                        if (endDate != "Now") {
-                            var endDate_ = new Date(endDate);
-                            const options = { month: 'long', year: 'numeric' };
-                            endDate_ = endDate_.toLocaleDateString('en-EN', options);
-                        }
-                        else {
-                            endDate_ = "Now";
-                        }
-                     
-                        const options = { month: 'long', year: 'numeric' };
-                        startDate_ = startDate_.toLocaleDateString('en-EN', options);
-                        date = startDate_ + " - " + endDate_;
-                        return date;
-
-                    } else {
-                        return ""; // Jika data null atau undefined, tampilkan string kosong
-                    }
-                }
-            },
+            { "data": "period" },
             { "data": "description" },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
@@ -69,12 +40,12 @@ $(document).ready(function () {
             }
         ],
 
-        "order": [[2, "desc"]],
+        "order": [[1, "asc"]],
         //"responsive": true,
-        //Buat ngilangin order kolom yang dipilih
+        //Buat ngilangin order kolom No dan Action
         "columnDefs": [
             {
-                "targets": [0, 2, 4, 5],
+                "targets": [0, 2, 3, 4, 5],
                 "orderable": false
             }
         ],
@@ -115,22 +86,11 @@ function Save() {
     if (!isValid) {
         return;
     }
-
-    var startYear = $('#StartYear').val();
-    var endYear = $('#EndYear').val();
-    if (endYear == "") {
-        endYear = "Now";
-    }
-    var period = startYear + ' - ' + endYear;
-
-
-    var EmploymentHistory = {
-        companyName: $('#CompanyName').val(),
-        job: $('#Job').val(),
-        period: period,
-        description: $('#Description').val()
-    };
-    console.log(endYear);
+    var EmploymentHistory = new Object(); //object baru
+    EmploymentHistory.companyName = $('#CompanyName').val(); //value insert dari id pada input
+    EmploymentHistory.job = $('#Job').val();
+    EmploymentHistory.period = $('#Period').val();
+    EmploymentHistory.description = $('#Description').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
@@ -174,19 +134,20 @@ function ClearScreen() {
     $('#WorkExperienceId').val('');
     $('#CompanyName').val('');
     $('#Job').val('');
-    $('#StartYear').val('');
-    $('#EndYear').val('');
+    $('#Period').val('');
     $('#Description').val('');
     $('#Update').hide();
     $('#Save').show();
     $('input[required]').each(function () {
         var input = $(this);
+
         input.next('.error-message').hide();
+
     });
 }
 
-
 function GetById(workExperienceId) {
+    //debugger;
     $.ajax({
         url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
         type: "GET",
@@ -196,16 +157,12 @@ function GetById(workExperienceId) {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            var obj = result.data; // Data yang diterima dari API
+            //debugger;
+            var obj = result.data; //data yg kita dapat dr API  
             $('#WorkExperienceId').val(obj.workExperienceId);
             $('#CompanyName').val(obj.companyName);
             $('#Job').val(obj.job);
-
-            // Pisahkan Start Year dan End Year
-            var periods = obj.period.split(' - ');
-            $('#StartYear').val(periods[0]);
-            $('#EndYear').val(periods[1]);
-
+            $('#Period').val(obj.period);
             $('#Description').val(obj.description);
             $('#Modal').modal('show');
             $('#Update').show();
@@ -214,32 +171,20 @@ function GetById(workExperienceId) {
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
-    });
+    })
 }
-
 
 function Update() {
     debugger;
-    var startYear = $('#StartYear').val();
-    var endYear = $('#EndYear').val();
-    if (endYear == "") {
-        endYear = "Now";
-    }
-
-    var period = startYear + ' - ' + endYear;
-
-    var EmploymentHistory = {
-        workExperienceId: $('#WorkExperienceId').val(),
-        companyName: $('#CompanyName').val(),
-        job: $('#Job').val(),
-        period: period,
-        description: $('#Description').val()
-    };
-
+    var EmploymentHistory = new Object(); //object baru
+    EmploymentHistory.workExperienceId = $('#WorkExperienceId').val();
+    EmploymentHistory.companyName = $('#CompanyName').val(); //value insert dari id pada input
+    EmploymentHistory.job = $('#Job').val();
+    EmploymentHistory.period = $('#Period').val();
+    EmploymentHistory.description = $('#Description').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
-
     debugger;
     $.ajax({
         type: 'PUT',
@@ -255,18 +200,18 @@ function Update() {
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',
-                text: 'Data has been updated!',
-                showConfirmButton: false,
+                text: 'Data has been update!',
+                showConfirmButtom: false,
                 timer: 2000
-            });
+            })
             $('#Modal').modal('hide');
             table.ajax.reload();
-        } else {
-            alert("Data failed to update.");
+        }
+        else {
+            alert("Data gagal Diperbaharui");
         }
     });
 }
-
 
 function Delete(workExperienceId) {
     debugger;
