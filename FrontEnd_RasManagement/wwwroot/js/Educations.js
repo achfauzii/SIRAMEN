@@ -1,7 +1,7 @@
 ﻿var table = null;
 $(document).ready(function () {
     Educations();
-    formInputLocation();
+    //formInputLocation();
 })
 
 function Educations() {
