@@ -39,7 +39,7 @@ $(document).ready(function () {
             }
         ],
 
-        "order": [[1, "asc"]],
+        "order": [[3, "desc"]],
         //"responsive": true,
         //Buat ngilangin order kolom No dan Action
         "columnDefs": [

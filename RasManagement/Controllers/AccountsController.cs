@@ -203,6 +203,8 @@ namespace RasManagement.Controllers
 
         }
 
+
+
         //Forgot Password Update
         [HttpPut("UpdateForgotPassword")]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)
@@ -239,33 +241,6 @@ namespace RasManagement.Controllers
             }
         }
 
-        [HttpPut("UpdateRole")]
-        public IActionResult UpdateRoles(RoleVM roleVM)
-        {
-            var get = accountRepository.UpdateRole(roleVM);
-            if (get != null)
-            {
-                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil diubah", Data = get });
-            }
-            else
-            {
-                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak bisa diubah", Data = get });
-            }
-        }
-
-        [HttpGet("AccountId")]
-        public IActionResult GetAccountId(string accountId)
-        {
-            var get = accountRepository.GetAccountId(accountId);
-            if (get != null)
-            {
-                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil ditemukan", Data = get });
-            }
-            else
-            {
-                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak dapat ditemukan", Data = get });
-            }
-        }
     }
 
 }

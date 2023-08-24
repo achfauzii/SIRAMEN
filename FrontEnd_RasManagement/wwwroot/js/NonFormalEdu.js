@@ -30,7 +30,16 @@
                         '<button class="btn btn-sm btn-danger" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' + row.nonFormalId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
-        ]
+        ],
+        "order": [[3, "desc"]],
+        //Agar nomor tidak berubah
+        "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            api.column(1, { page: 'current' }).data().each(function (group, i) {
+                $(rows).eq(i).find('td:first').html(i + 1);
+            });
+        }
     })
 
 })

@@ -14,7 +14,6 @@
         orderCellsTop: true,
         fixedHeader: true,
 
-
         "ajax": {
             url: "https://localhost:7177/api/Employees",
             type: "GET",
@@ -28,7 +27,6 @@
 
 
         },
-
 
         initComplete: function () {
             var api = this.api();
@@ -65,7 +63,6 @@
 
             });
         },
-
         "columns": [
             //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
@@ -81,6 +78,7 @@
             { "data": "fullname", },
             { "data": "email" },
             { "data": "gender" },
+            { "data": "address" },
             {
                 "render": function (data, type, row) {
                     var accountId = row.accountId;
@@ -101,7 +99,7 @@
                                 placementStatus = result.placementStatus;
                             }
                         }, error: function () {
-                           
+
                         }
                     });
                     if (placementStatus == "Idle") {
@@ -118,7 +116,7 @@
             {
                 "render": function (data, type, row) {
                     var accountId = row.accountId;
-   
+
 
                     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
                     $.ajax({
@@ -140,17 +138,17 @@
                                 }
 
                             } else {
-                             
-                                placementLocation ="";
+
+                                placementLocation = "";
                             }
-                          
+
 
                         }, error: function () {
 
                         }
                     });
 
-                 
+
                     return placementLocation
                 }
             },
@@ -272,6 +270,7 @@ function Detail(id) {
 
 function ClearScreenPlacement() {
     const startDate = document.getElementById("showStartDate");
+    const endDate = document.getElementById("showEndDate");
     $('#companyName').val('');
     $('#jobRole').val('');
     $('#startDate').val('');
@@ -281,6 +280,7 @@ function ClearScreenPlacement() {
     $('#Update').hide();
     $('#Add').show();
     startDate.style.display = "block";
+    endDate.style.display = "none";
     $('input[required]').each(function () {
         var input = $(this);
 
@@ -312,12 +312,12 @@ function Save(accountId) {
     placement.companyName = $('#companyName_').val();
     placement.jobRole = $('#jobRole').val();
     placement.startDate = $('#startDate').val();
-  
+
     placement.description = $('#description').val();//value insert dari id pada input
 
     placement.placementStatus = $('input[name="status"]:checked').val();
     placement.accountId = accountId;
-    
+
 
     $.ajax({
         type: 'POST',
@@ -339,9 +339,9 @@ function Save(accountId) {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                
+
                 location.reload();
-               
+
             });
         }
         else {
@@ -358,7 +358,7 @@ function Update() {
     placement.companyName = $('#companyName_').val();
     placement.jobRole = $('#jobRole').val();
     placement.startDate = $('#startDate').val();
-    
+
     placement.endDate = $('#endDate').val();
     if (placement.endDate == '') {
         placement.endDate = null;
@@ -385,7 +385,7 @@ function Update() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                
+
                 location.reload();
             });
         } else {
