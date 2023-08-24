@@ -176,7 +176,8 @@ function GetById(accountId) {
             }
 
             $('#Modal').modal('show');
-            $('#Update').show();
+            /$('#Update').show();/
+            $('#Update').prop('disabled', false); // Enable the Update button
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -244,13 +245,17 @@ function updateData() {
     debugger;
     var accountId = $('#accountId').val();
 
-    // Validasi data sebelum update
+    /*// Validasi data sebelum update
     if (!validateFormData()) {
         return;
     }
 
     // Validasi data sebelum update
     if (!validateImage()) {
+        return;
+    }*/
+
+    if (!validateFormData() || !validateImage()) {
         return;
     }
 
@@ -284,22 +289,42 @@ function updateData() {
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
-    }).then(result => {
-        //debugger;
-        if (result.status == 200) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Data Behasil Diperbaharui!',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                $('#myModal').modal('hide'); // Modal ditutup
-
-                location.reload(); // Halaman direload untuk memperbarui data
-            });
-        } else {
-            alert("Data gagal Diperbaharui");
+        /*}).then(result => {
+            //debugger;
+            if (result.status == 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success...',
+                    text: 'Data Behasil Diperbaharui!',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    $('#myModal').modal('hide'); // Modal ditutup
+    
+                    location.reload(); // Halaman direload untuk memperbarui data
+                });
+            } else {
+                alert("Data gagal Diperbaharui");
+            }
+        });*/
+        success: function (result) {
+            if (result.status == 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success...',
+                    text: 'Data Berhasil Diperbaharui!',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    $('#myModal').modal('hide');
+                    location.reload();
+                });
+            } else {
+                alert("Data gagal Diperbaharui");
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
         }
     });
 }
@@ -383,7 +408,7 @@ function uploadImage(accountId) {
     }
 }
 
-function validateImage(event) {
+/*function validateImage(event) {
     var imageInput = event.target;
     var imageLabel = document.getElementById('imageLabel');
     var imagePreview = document.getElementById('imagePreview');
@@ -413,5 +438,44 @@ function validateImage(event) {
             // Enable the Update button
             updateButton.disabled = false;
         }
+    }
+}*/
+
+
+function validateImage() {
+    var imageInput = document.getElementById('imageFile');
+    var imageLabel = document.getElementById('imageLabel');
+    var imagePreview = document.getElementById('imagePreview');
+    var fileSizeError = document.getElementById('fileSizeError');
+    var updateButton = document.getElementById('Update');
+
+    if (imageInput.files && imageInput.files[0]) {
+        var fileSize = imageInput.files[0].size;
+
+        if (fileSize > 512 * 1024) {
+            fileSizeError.textContent = "File size must be 512 KB or smaller.";
+            imageInput.value = '';
+            imageLabel.innerText = 'Choose file';
+            imagePreview.style.display = 'none';
+            updateButton.disabled = true; // Disable the Update button
+            return false;
+        } else {
+            fileSizeError.textContent = '';
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            }
+
+            reader.readAsDataURL(imageInput.files[0]);
+            imageLabel.innerText = imageInput.files[0].name;
+            updateButton.disabled = false; // Enable the Update button
+            return true;
+        }
+    } else {
+        fileSizeError.textContent = '';
+        updateButton.disabled = false; // Enable the Update button if no file is selected
+        return true;
     }
 }
