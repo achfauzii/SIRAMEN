@@ -36,7 +36,7 @@
                 var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
                 var title = $(cell).text();
                 // Check if the column is "No", "Gender", or "Placement Status"
-                if (title !== "No" && title !== "Gender" && title !== "Placement Status" && title !== "Action") {
+                if (title !== "No"  && title !== "Placement Status" && title !== "Action") {
                     $(cell).html('<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="'+ title +'" />');
                     // On every keypress in this input
                     $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))

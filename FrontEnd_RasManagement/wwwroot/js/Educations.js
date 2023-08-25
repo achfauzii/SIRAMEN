@@ -1,7 +1,9 @@
 ﻿var table = null;
 $(document).ready(function () {
     Educations();
-    //formInputLocation();
+    $('.selectProvinces').select2({
+        searchInputPlaceholder: 'Search...'
+    });
 })
 
 function Educations() {
@@ -66,18 +68,9 @@ function Educations() {
 }
 
 function formInputLocation() {
-    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
-        .then(response => response.json())
-        .then(provinces => {
-            // Ambil elemen select menggunakan ID
-            var selectElement = document.getElementById('provinceSelect');
-/*
-            // Loop melalui data provinsi dan tambahkan opsi ke elemen select
-          
-*/
-            // Inisialisasi Select2 pada elemen select
-            $(selectElement).select2();
-        });
+
+    
+  
 }
 
 

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Educations";
     var role = ViewData["UserRole"] as string;
     var layoutPath = $"~/Views/Layout/Layout{role}.cshtml";
@@ -24,7 +23,7 @@
     <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalFormal" onclick="ClearScreenFormal();">
         + Add Education
     </button>
-    
+
     <table id="TB_FormalEdu" class="table table-striped" style="font-size:14px; color:black">
         <thead style="background-color:#FFFFFF">
             <tr>
@@ -38,7 +37,7 @@
             </tr>
         </thead>
     </table>
-    
+
     <hr class="mt-5">
     <h5 class="mb-3 mt-3">Non Formal Educations</h5>
     <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalNonFormal" onclick="ClearScreen();">
@@ -80,8 +79,16 @@
                         </div>
                         <div class="form-group">
                             <label for="Location">Location</label>
-                            <input type="text" class="form-control" id="Location" placeholder="Enter Location" required>
-                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
+                            <select class="selectProvinces" name="state">
+                                <option value="AL">Alabama</option>
+                                ...
+                                <option value="WY">Wyoming</option>
+                            </select>
+
+
+
+                            @*          <input type="text" class="form-control" id="Location" placeholder="Enter Location" required>
+                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>*@
                         </div>
                         <div class="form-group">
                             <label for="Major">Major</label>
@@ -98,7 +105,7 @@
                             </select>
                             <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        <div class="form-group">                            
+                        <div class="form-group">
                             <label for="Degree">Degree</label>
                             <select id="Degree" class="form-control" required>
                                 <option disabled selected value="">Select your degree</option>
