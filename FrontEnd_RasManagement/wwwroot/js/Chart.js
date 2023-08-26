@@ -1,4 +1,4 @@
-﻿$(document).ready( function (){
+﻿$(document).ready(function () {
     //debugger;
 
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
@@ -30,11 +30,68 @@
                         totalAccounts: 1
                     };
                 }
-               
+
             });
             tableUniv(universitiesData);
             chartUniv(universitiesData);
-            
+
+        }, error: function (errormessage) {
+            alert(errormessage.responseText);
+
+        }
+
+    });
+
+    var idleCount = 0;
+    var onsiteCount = 0;
+    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
+    $.ajax({
+        url: "https://localhost:7177/api/Employees",
+        type: "GET",
+        "datatype": "json",
+        async: true,
+        "dataSrc": "data",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (employees) {
+            var result = employees.data;
+            for (var i = 0; i < result.length; i++) {
+                var accountId = result[i].accountId;
+                var roleId = result[i].roleId; // Ambil roleId dari data saat ini
+                if (roleId === "3") {
+                    $.ajax({
+                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+                        type: "GET",
+                        datatype: "json",
+                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+                        headers: {
+                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                        },
+                        success: function (placementData) {
+                            if (placementData.data && placementData.data.length > 0) {
+                                var placementStatus = placementData.data[0].placementStatus; // Ambil data yang pertama dari array data
+                                if (placementStatus == "Idle") {
+                                    idleCount++;
+                                } else if (placementStatus == "Onsite") {
+                                    onsiteCount++;
+                                }
+                            } else {
+                                idleCount++;
+                            }
+                        }, error: function () {
+
+                        }
+                    });
+
+
+                }
+               
+            }
+            // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
+            document.getElementById("countIdle").textContent = idleCount;
+            document.getElementById("countOnsite").textContent = onsiteCount;
+
         }, error: function (errormessage) {
             alert(errormessage.responseText);
 
@@ -54,7 +111,7 @@ function tableUniv(universitiesData) {
     var count = 1;
     for (const universityName in universitiesData) {
         var totalAccounts = universitiesData[universityName].totalAccounts;
-     
+
         // Buat elemen baris (tr) dan kolom (td) baru untuk setiap entri universitas
         var row = document.createElement("tr");
         row.innerHTML = `
@@ -104,26 +161,26 @@ function chartUniv(universitiesData) {
 
     //array univName
     var univName = [];
-    var totalAccounts =[];
+    var totalAccounts = [];
     for (const universityName in universitiesData) {
         univName.push(universityName);
         totalAccounts.push(universitiesData[universityName].totalAccounts);
     }
-   
+
     //var universityName =
     // Bar Chart Example
-  
-    var ctx = document.getElementById("myBarChart"); 
+
+    var ctx = document.getElementById("myBarChart");
     var myBarChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels:   univName  ,
+            labels: univName,
             datasets: [{
                 label: "Employee",
                 backgroundColor: "#4e73df",
                 hoverBackgroundColor: "#2e59d9",
                 borderColor: "#4e73df",
-                data: totalAccounts ,
+                data: totalAccounts,
             }],
         },
         options: {
@@ -158,7 +215,7 @@ function chartUniv(universitiesData) {
                         padding: 10,
                         // Include a dollar sign in the ticks
                         callback: function (value, index, values) {
-                            return  number_format(value);
+                            return number_format(value);
                         }
                     },
                     gridLines: {

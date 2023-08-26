@@ -2,14 +2,92 @@
     //debugger;
     // Mendapatkan nilai parameter accountId dari URL
     loadDataA();
+    $("#editDetailsBtn").on("click", function () {
+        loadDataA(); // Reload the data before opening the modal
+        $("#myModal").modal("show"); // Show the modal after loading the data
+    });
 });
 
+
 function loadDataA() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var accountId = urlParams.get('accountId');
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    var imgElement = $("#employeePhoto");
     $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=1",
-        //url: "https://localhost:7177/api/Employees/accountId?accountId=${accountId}",
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var obj = result.data.result; // Data yang diterima dari API
+            var birthDate = obj.birthdate;
+            const date = new Date(birthDate);
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const date_ = date.toLocaleDateString('id-ID', options);
+
+            $('#nameFull').text(obj.fullname);
+            $('#nickName').text(obj.nickname);
+            $('#birthPlace').text(obj.birthplace);
+
+            $('#birthDate').text(birthDate ? date_ : '');
+            // Set birth date input value
+            if (obj.birthdate) {
+                $('#editBirthDate').val(obj.birthdate.substring(0, 10));
+            } else {
+                $('#editBirthDate').val('');
+            }
+
+            $('#gender').text(obj.gender);
+            $('#religion').text(obj.religion);
+            $('#martialStatus').text(obj.maritalstatus);
+            $('#nationality').text(obj.nationality);
+            $('#address').text(obj.address);
+
+            // Set employee photo
+            if (obj.image != null) {
+                imgElement.attr("src", obj.image);
+                imgElement.attr("alt", obj.fullname + "'s photo");
+            } else {
+                imgElement.attr("src", "");
+                imgElement.attr("alt", "");
+            }
+
+            // Populate the form fields in the modal with the retrieved data
+            $('#accountId').val(obj.accountId);
+            $('#editName').val(obj.fullname);
+            $('#editNickName').val(obj.nickname);
+            $('#editBirthPlace').val(obj.birthplace);
+            $('#editGender').val(obj.gender);
+            $('#editReligion').val(obj.religion);
+            $('#editMartialStatus').val(obj.maritalstatus);
+            $('#editNationality').val(obj.nationality);
+            $('#editAddress').val(obj.address);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+
+/*function GetById(accountId) {
+    debugger;
+    $.ajax({
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -18,72 +96,74 @@ function loadDataA() {
         },
         success: function (result) {
             debugger;
-            console.log(result); 
-            var obj = result.data.result; //data yg didapat dari api
-            var birthDate = obj.birthdate;
-            const date = new Date(birthDate);
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            const date_ = date.toLocaleDateString('id-ID', options);
-            document.getElementById('nickName').textContent = obj.nickname;
-            document.getElementById('birthPlace').textContent = obj.birthplace;
-            document.getElementById('birthDate').textContent = date_;
-            document.getElementById('gender').textContent = obj.gender;
-            document.getElementById('religion').textContent = obj.religion;
-            document.getElementById('martialStatus').textContent = obj.maritalstatus;
-            document.getElementById('nationality').textContent = obj.nationality;
+            var obj = result.data.result; // Perhatikan penggunaan .result di sini
 
-            // Menampilkan foto jika tersedia, atau kotak foto jika tidak
-            var imageContainer = document.getElementById('imageContainer');
-            if (obj.image) {
-                var imgElement = document.createElement('img');
-                imgElement.src = obj.image;
-                imgElement.style.height = '100px';
-                imgElement.style.width = '100px';
-                imgElement.alt = 'Profile Picture';
-                imageContainer.appendChild(imgElement);
+            $('#accountId').val(obj.accountId);
+            $('#editName').val(obj.fullname);
+            $('#editNickName').val(obj.nickname);
+            $('#editBirthPlace').val(obj.birthplace);
+
+            // Set birth date input value
+            if (obj.birthdate) {
+                $('#editBirthDate').val(obj.birthdate.substring(0, 10));
             } else {
-                var defaultImageBox = document.createElement('div');
-                defaultImageBox.style.height = '100px';
-                defaultImageBox.style.width = '100px';
-                defaultImageBox.style.border = '1px solid #ccc';
-                defaultImageBox.style.backgroundColor = '#f1f1f1';
-                imageContainer.appendChild(defaultImageBox);
+                $('#editBirthDate').val('');
             }
 
+            $('#editGender').val(obj.gender);
+            $('#editReligion').val(obj.religion);
+            $('#editMartialStatus').val(obj.maritalstatus);
+            $('#editNationality').val(obj.nationality);
+            $('#editAddress').val(obj.address);
+            // Set the image input value
+            // $('#imageFile').val(obj.image);
+
+            var imageInput = document.getElementById('imageFile');
+            if (obj.image != null) {
+                // Set the value of image input to an empty string
+                // This is done because you can't set the value of a file input for security reasons
+                imageInput.value = '';
+            }
+
+            $('#Modal').modal('show');
+            $('#Update').show();
         },
-        error: function (errormessage) { alert(errormessage.responseText); }
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
     });
-}
+}*/
 
-
-
-/*// Fungsi untuk mendapatkan data dari API
-async function getDataFromAPI(accountId) {
-    try {
-        const response = await fetch('https://localhost:7177/api/Employees/accountId?accountId=${accountId}');
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        return null;
-    }
-}
-
-// Fungsi untuk mengisi nilai-nilai di dalam HTML
-async function fillPersonalDetails() {
+function GetById(accountId) {
     debugger;
-    // Ganti 'accountId' dengan nilai yang sesuai, misalnya id karyawan
-    const accountId = 'accountId';
-    const personalDetails = await getDataFromAPI(accountId);
+    $.ajax({
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            debugger;
+            var obj = result.data.result;
 
-    if (personalDetails) {
-        document.getElementById("nickName").innerText = personalDetails.nickname;
-        document.getElementById("birthPlace").innerText = personalDetails.birthplace;
-        document.getElementById("birthDate").innerText = personalDetails.birthdate;
-        document.getElementById("gender").innerText = personalDetails.gender;
-        document.getElementById("religion").innerText = personalDetails.religion;
-        document.getElementById("martialStatus").innerText = personalDetails.maritalstatus;
-        document.getElementById("nationality").innerText = personalDetails.nationality;
+            $('#accountId').val(obj.accountId);
+            $('#editName').val(obj.fullname);
+            $('#editNickName').val(obj.nickname);
+            $('#editBirthPlace').val(obj.birthplace);
+            $('#editBirthDate').val(obj.birthdate.substring(0, 10)); // Set birth date input value
+            $('#editGender').val(obj.gender);
+            $('#editReligion').val(obj.religion);
+            $('#editMartialStatus').val(obj.maritalstatus);
+            $('#editNationality').val(obj.nationality);
+            $('#editAddress').val(obj.address);
+
+            // Set the image input value
+            var imageInput = document.getElementById('imageFile');
+            if (obj.image != null) {
+                imageInput.value = ''; // Clear the file input
+                $('#imagePath').val(obj.image); // Set image path value
 
                 // Set the image preview using the image path
                 $('#imagePreview').attr('src', obj.image);
@@ -105,9 +185,13 @@ async function fillPersonalDetails() {
     });
 }
 
-// Panggil fungsi untuk mengisi nilai-nilai pada saat halaman dimuat
-fillPersonalDetails();
-*/
+
+
+/*function updateData() {
+    debugger;
+    //upload gambar ke assets project
+    var accountId = $('#accountId').val();
+    uploadImage(accountId);
 
     var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
 

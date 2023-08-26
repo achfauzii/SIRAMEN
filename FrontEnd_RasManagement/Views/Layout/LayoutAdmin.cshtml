@@ -55,7 +55,6 @@
             }
         }
 
-
         thead input {
             width: 100%;
         }
@@ -74,12 +73,15 @@
                 align-items: center;
             }
 
-
     </style>
+   
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 
-
+    <!-- Select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
 </head>
 
 <body id="page-top" class="">
@@ -137,7 +139,7 @@
             </li>*@
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item @(currentUrl == "/ManageEmployee/Index" ? "active" : "")">
                 <a class="nav-link collapsed" href="/ManageEmployee/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-tasks-alt"></i>
@@ -505,9 +507,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.min.js"></script>
-
+  
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -525,7 +525,7 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>*@
     <script src="~/js/Chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/js/ManageEmployee.js"></script>
+  @*  <script src="~/js/ManageEmployee.js"></script>*@
     <script src="~/js/Account.js"></script>
 
     <!-- Page level plugins -->
@@ -539,8 +539,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
-
-        <!-- Page specific script -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Page specific script -->
     @RenderSection("script",required:false)
 </body>
 

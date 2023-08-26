@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
@@ -9,7 +8,6 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Employee Table</h6>
     </div>
-
     <div class="card-body table-responsive">
         <div class="text-right mb-1 mt-0">
             <!-- Tombol reset filter -->
@@ -32,13 +30,12 @@
 
         </table>
 
-
     </div>
 </div>
 
 <!-- Loader-->
 <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0;">
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+    <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
         <!-- Icon spinner -->
         <div class="spinner-grow text-primary" role="status">
             <span class="sr-only">Loading...</span>

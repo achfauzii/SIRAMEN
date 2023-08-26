@@ -203,6 +203,8 @@ namespace RasManagement.Controllers
 
         }
 
+
+
         //Forgot Password Update
         [HttpPut("UpdateForgotPassword")]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)
@@ -266,6 +268,7 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak dapat ditemukan", Data = get });
             }
         }
+
     }
 
 }

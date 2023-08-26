@@ -1,109 +1,112 @@
-﻿document.getElementById("loginForm").addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const url = "https://localhost:7177/api/Accounts";
-    const data = {
-        email: $('#exampleInputEmail').val(),
-        password: $('#exampleInputPassword').val()
-    };
-    const option = {
-        method: "POST",
-        headers: new Headers({
-            "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(data)
-    };
+﻿$(document).ready(function () {
+    $("#loginForm").on("submit", async function (event) {
+        event.preventDefault();
+        const url = "https://localhost:7177/api/Accounts";
+        const data = {
+            email: $('#exampleInputEmail').val(),
+            password: $('#exampleInputPassword').val()
+        };
+        const option = {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify(data)
+        };
 
 
-/*    // Tampilkan loader
-    const loaderContainer = document.getElementById("loaderContainer");
-    loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
+        /*    // Tampilkan loader
+            const loaderContainer = document.getElementById("loaderContainer");
+            loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
+        
+            // Loader
+            const loaderResponse = await fetch("/loader/index");
+            const loaderHtml = await loaderResponse.text();
+        
+            loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
+        */
 
-    // Loader
-    const loaderResponse = await fetch("/loader/index");
-    const loaderHtml = await loaderResponse.text();
 
-    loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-*/
+        //debugger;
+        try {
+            const response = await fetch(url, option);
+            const json = await response.json();
 
+            if (response.ok) {
+                var token = json.data;
+                sessionStorage.setItem("Token", token);
+                var decodedToken = parseJwt(token);
 
-    //debugger;
-    try {
-        const response = await fetch(url, option);
-        const json = await response.json();
-    
-        if (response.ok) {
-            var token = json.data;
-            sessionStorage.setItem("Token", token);
-            var decodedToken = parseJwt(token); 
-         
-            //loaderContainer.innerHTML = "";
+                //loaderContainer.innerHTML = "";
 
-            $.post("/Accounts/Auth", { token })
-                .done(function () {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-          
-             
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Signed in successfully',
-                        text: "Hi "+decodedToken.Name,
-                        didClose: () => {
-                            const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
-                            var Role = getValueByIndex(decodedToken, 8);
-                            if (Role === 'Admin') {
-                                window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin 
-                            } else if (Role === 'Super_Admin'){
-                                window.location.replace("/dashboards/dashboard_superadmin")
-                            } else {
-                                window.location.replace("/dashboards/employee"); // Redirect to user dashboard
+                $.post("/Accounts/Auth", { token })
+                    .done(function () {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
                             }
-                        }
-                    })
-                    
-                });
+                        })
 
-        } else {
 
-           // loaderContainer.innerHTML = "";
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Signed in successfully',
+                            text: "Hi " + decodedToken.Name,
+                            didClose: () => {
+                                const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
+                                var Role = getValueByIndex(decodedToken, 8);
+                                if (Role === 'Admin') {
+                                    window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin 
+                                } else if (Role === 'Super_Admin') {
+                                    window.location.replace("/dashboards/dashboard_superadmin")
+                                } else {
+                                    window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
+                                }
+                            }
+                        })
+
+                    });
+
+            } else {
+
+                // loaderContainer.innerHTML = "";
+
+                Toastify({
+
+                    text: "Incorrect email or password !",
+
+                    duration: 3000,
+                    style: {
+                        background: "#DC3545",
+                    },
+
+                }).showToast();
+            }
+        } catch (error) {
+            //loaderContainer.innerHTML = "";
 
             Toastify({
 
                 text: "Incorrect email or password !",
 
                 duration: 3000,
-                 style: {
-                     background: "#DC3545",
+                style: {
+                    background: "#DC3545",
                 },
 
             }).showToast();
+
         }
-    } catch (error) {
-        //loaderContainer.innerHTML = "";
-
-        Toastify({  
-
-            text: "Incorrect email or password !",
-
-            duration: 3000,
-            style: {
-                background: "#DC3545",
-            },
-
-        }).showToast();
-
-    }
+    });
 });
+
 
 
 function showPassword() {

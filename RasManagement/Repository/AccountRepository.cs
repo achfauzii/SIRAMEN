@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-//using Microsoft.Identity.Client;
 using RasManagement.Interface;
 using RasManagement.ViewModel;
 
@@ -15,7 +14,7 @@ namespace RasManagement.Repository
         }
 
         //Generate Account Id
-        public async Task<string> GenerateId()
+        public async Task <string> GenerateId()
         {
             var currentDate = DateTime.Now.ToString("ddMMyyy");
             int countAccount = _context.Accounts.Count();
@@ -31,7 +30,7 @@ namespace RasManagement.Repository
 
             return $"{ras}{currentDate}{countAccount.ToString("D3")}";
 
-
+           
         }
 
         public Account GetByView(VMLogin viewLogin)
@@ -52,7 +51,7 @@ namespace RasManagement.Repository
             return CheckValidation.NullPointerAnAccount;
         }
 
-
+    
 
         public Account GetById(VMLogin viewLogin)
         {
@@ -66,7 +65,7 @@ namespace RasManagement.Repository
             return CheckValidation.NullPointerAnAccount;
         }
 
-        public async Task<bool> AccountIsExist(string email, string accountId)
+        public async Task<bool>  AccountIsExist(string email, string accountId)
         {
 
             var emailIsExist = _context.Accounts.SingleOrDefault(a => a.Email == email);
@@ -74,12 +73,12 @@ namespace RasManagement.Repository
 
             if (accountIdIsExist != null)
             {
-
+           
                 return true;
             }
             else if (emailIsExist != null)
             {
-
+             
                 return true;
             }
             return false;
@@ -119,7 +118,7 @@ namespace RasManagement.Repository
             };
             _context.Entry(account).State = EntityState.Added;
 
-
+           
 
             // myContext.Entry(employee).State = EntityState.Added;
             var save = _context.SaveChanges();
@@ -197,7 +196,6 @@ namespace RasManagement.Repository
             return false;
         }
 
-
         public async Task<int> UpdateRole(RoleVM roleVM)
         {
             var account = await _context.Accounts.FindAsync(roleVM.AccountId);
@@ -206,7 +204,7 @@ namespace RasManagement.Repository
             {
                 // Update nilai RoleId pada entitas Account
                 account.RoleId = roleVM.RoleId;
-                
+
 
                 _context.Accounts.Update(account);
 
@@ -228,25 +226,16 @@ namespace RasManagement.Repository
                 return 0; // Atau kode lain yang sesuai
             }
 
-            /*var account = new Account
-            {
-                AccountId = roleVM.AccountId,
-                RoleId = roleVM.RoleId,
-            };
-
-            _context.Accounts.Update(account);
-            return await _context.SaveChangesAsync();
-
-                /*_context.Entry(account).State = EntityState.Modified;
-                return _context.SaveChanges();*/
-
         }
 
         public Account GetAccountId(string accountId)
         {
             return _context.Accounts.Find(accountId);
         }
-    }
 
+
+
+    }
+    
 
 }

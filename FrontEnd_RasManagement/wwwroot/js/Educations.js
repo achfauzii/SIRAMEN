@@ -1,6 +1,7 @@
 ﻿var table = null;
 $(document).ready(function () {
     Educations();
+    formInputLocation();
 })
 
 function Educations() {
@@ -28,7 +29,21 @@ function Educations() {
                 }
             },
             { "data": "universityName" },
-            { "data": "location" },
+            {
+                "data": null,
+                "render": function (data, type, row) {
+                    var cityOrRegency = data.location;
+                    const cityRemove = cityOrRegency.replace('KOTA', '').replace('KABUPATEN', '').trim();
+                    const words = cityRemove.split(' ');
+                    const formattedCity = words
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                        .join(' ');
+                    return formattedCity;
+                }
+                      
+     
+
+            },
             { "data": "major" },
             { "data": "degree" },
             { "data": "years" },
@@ -44,7 +59,7 @@ function Educations() {
             }
         ],
 
-        "order": [[1, "asc"]],
+        "order": [[5, "desc"]],
         //"responsive": true,
         //Buat ngilangin order kolom No dan Action
         "columnDefs": [
@@ -63,6 +78,71 @@ function Educations() {
         }
     })
 }
+
+function formInputLocation() {
+
+    const selectProvinces = document.getElementById('selectProvinces');
+    const selectRegencies = document.getElementById('selectRegencies');
+    //Ini untuk tanpa display none jadi langsung di tampilkan ()
+    $(selectRegencies).select2({
+        placeholder: 'Select City or County',
+        width: '100%'
+    });
+
+    fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+        .then(response => response.json())
+        .then(provinces => {
+            provinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province.id;
+                option.textContent = province.name;
+                selectProvinces.appendChild(option);
+            });
+
+            // Inisialisasi Select2 untuk select provinsi
+            $(selectProvinces).select2({
+                placeholder: 'Select Province',
+                width: '100%'
+            });
+            //selectRegencies.style.display = 'none';
+
+            // Event listener ketika provinsi dipilih
+            $(selectProvinces).on('change', function () {
+                const selectedProvinceId = $(this).val();
+
+                // Hapus pilihan sebelumnya di select regencies
+                $(selectRegencies).empty();
+
+                if (selectedProvinceId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${selectedProvinceId}.json`)
+                        .then(response => response.json())
+                        .then(regencies => {
+                            regencies.forEach(regency => {
+                                const option = document.createElement('option');
+                                option.value = regency.name;
+                                option.textContent = regency.name;
+                                selectRegencies.appendChild(option);
+                            });
+
+                            // Inisialisasi Select2 untuk select regencies
+                            $(selectRegencies).select2({
+                                placeholder: 'Select City or County',
+                                width: '100%'
+                            });
+                            //  selectRegencies.style.display = 'block';
+                        })
+                        .catch(error => {
+                            console.error('Error fetching regencies data:', error);
+                        });
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching provinces data:', error);
+        });
+
+}
+
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
@@ -86,15 +166,26 @@ function SaveFormal() {
             input.next('.error-message-formal').hide();
         }
     });
+    // Validasi select options
+    var selectedRegencies= $('#selectRegencies').val();
+ 
+    if (!selectedRegencies) {
+        $('.selectRegencies').closest('.form-group').find('.error-message').show();
+        isValid = false;
+    } else {
+        $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+
+    }
 
     if (!isValid) {
         return;
     }
 
 
+
     var FormalEdu = new Object(); //object baru
     FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
-    FormalEdu.location = $('#Location').val();
+    FormalEdu.location = $('#selectRegencies').val();;
     FormalEdu.major = $('#Major').val();
     FormalEdu.degree = $('#Degree').val();
     FormalEdu.years = $('#GraduationYears').val();
@@ -136,9 +227,10 @@ function SaveFormal() {
 }
 
 function ClearScreenFormal() {
+    $('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
     $('#FormalEduId').val('');
     $('#UniversityName').val('');
-    $('#Location').val('');
+    //$('#Location').val('');
     $('#Major').val('');
     $('#Degree').val('');
     $('#GraduationYears').val('');
@@ -146,14 +238,18 @@ function ClearScreenFormal() {
     $('#Save').show();
     $('input[required]').each(function () {
         var input = $(this);
-        
-            input.next('.error-message-formal').hide();
-        
+
+        input.next('.error-message-formal').hide();
+
     });
 }
 
 function GetById(formalEduId) {
     //debugger;
+    //GET SEMUA Kota atau kabupaten untuk di tampilkan berdasarkan Get By Id
+
+    ClearScreenFormal();
+
     $.ajax({
         url: "https://localhost:7177/api/Educations/" + formalEduId,
         type: "GET",
@@ -165,9 +261,14 @@ function GetById(formalEduId) {
         success: function (result) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
+            const option = document.createElement('option');
+            option.value = obj.location;
+            option.textContent = obj.location;
+            selectRegencies.appendChild(option);
+
             $('#FormalEduId').val(obj.formalEduId);
             $('#UniversityName').val(obj.universityName);
-            $('#Location').val(obj.location);
+            $('#selectRegencies').val(obj.location);
             $('#Major').val(obj.major);
             $('#Degree').val(obj.degree);
             $('#GraduationYears').val(obj.years);
@@ -183,17 +284,36 @@ function GetById(formalEduId) {
 }
 
 function UpdateFormal() {
+    var isValid = true;
+
+    $('input[required],select[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message-formal').show();
+            isValid = false;
+        } else {
+            input.next('.error-message-formal').hide();
+        }
+    });
+
+    if (!isValid) {
+        // Jika validasi tidak berhasil, jangan tutup modal
+        return;
+
+       
+    }
+
     var FormalEdu = new Object(); //object baru
     FormalEdu.FormalEduId = $('#FormalEduId').val();
     FormalEdu.UniversityName = $('#UniversityName').val(); //value insert dari id pada input
-    FormalEdu.Location = $('#Location').val();
+    FormalEdu.Location = $('#selectRegencies').val();
     FormalEdu.Major = $('#Major').val();
     FormalEdu.Degree = $('#Degree').val();
     FormalEdu.Years = $('#GraduationYears').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     FormalEdu.AccountId = accid;
-    debugger;
+  
     $.ajax({
         type: 'PUT',
         url: 'https://localhost:7177/api/Educations',
@@ -211,7 +331,7 @@ function UpdateFormal() {
                 text: 'Data has been update!',
                 showConfirmButtom: false,
                 timer: 2000
-            })
+            });
             $('#ModalFormal').modal('hide');
             table.ajax.reload();
         }

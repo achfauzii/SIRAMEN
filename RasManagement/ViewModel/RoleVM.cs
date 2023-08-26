@@ -4,6 +4,7 @@
     {
         public string AccountId { get; set; } = null!;
         public string RoleId { get; set; } = null!;
+        public string Fullname { get; set; } = null!;
 
     }
 }
