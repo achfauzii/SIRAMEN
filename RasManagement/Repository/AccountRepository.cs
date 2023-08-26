@@ -196,6 +196,43 @@ namespace RasManagement.Repository
             return false;
         }
 
+        public async Task<int> UpdateRole(RoleVM roleVM)
+        {
+            var account = await _context.Accounts.FindAsync(roleVM.AccountId);
+
+            if (account != null)
+            {
+                // Update nilai RoleId pada entitas Account
+                account.RoleId = roleVM.RoleId;
+
+
+                _context.Accounts.Update(account);
+
+                // Simpan perubahan ke database
+                try
+                {
+                    return await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Tangani kesalahan jika diperlukan
+                    Console.WriteLine($"Error updating data: {ex.Message}");
+                    return 0; // Atau return -1 atau kode yang sesuai untuk menandakan kesalahan
+                }
+            }
+            else
+            {
+                // Tidak ditemukan akun dengan AccountId yang sesuai
+                return 0; // Atau kode lain yang sesuai
+            }
+
+        }
+
+        public Account GetAccountId(string accountId)
+        {
+            return _context.Accounts.Find(accountId);
+        }
+
 
 
     }

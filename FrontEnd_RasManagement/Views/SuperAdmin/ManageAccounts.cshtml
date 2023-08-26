@@ -11,16 +11,16 @@
             <div class="form-group row ">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Full Name</label>
-                    <input type="text" class="form-control " id="fullName" name="fullName">
+                    <input type="text" class="form-control " id="fullName" name="fullName" required>
                 </div>
                 <div class="col-sm-6">
                     <label class="text-dark" for="exampleInputEmail1">Role</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="admin" name="roleId" value="2" onclick="showHiredStatus('admin')">Admin
+                        <input type="radio" class="form-check-input" id="admin" name="roleId" value="2" onclick="showHiredStatus('admin')" required>Admin
                         <label class="form-check-label" for="radio1"></label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="employee" name="roleId" value="3" onclick="showHiredStatus('employee')">Employee
+                        <input type="radio" class="form-check-input" id="employee" name="roleId" value="3" onclick="showHiredStatus('employee')" required>Employee
                         <label class="form-check-label" for="radio2"></label>
                     </div>
                 </div>
@@ -30,17 +30,18 @@
 
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Email</label>
-                    <input type="email" class="form-control " id="email" name="email">
+                    <input type="email" class="form-control " id="email" name="email" required>
+                    <span class="error-message" id="validateEmail" style="color: red; display: none;">The field must use the email domain @@berca.co.id.</span>
                 </div>
 
                 <div class="col-sm-6">
                     <label class="text-dark" for="exampleInputEmail1">Gender</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="male" name="gender" value="Male">Male
+                        <input type="radio" class="form-check-input" id="male" name="gender" value="Male" required>Male
                         <label class="form-check-label" for="radio1"></label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="radio2" name="gender" value="Female">Female
+                        <input type="radio" class="form-check-input" id="radio2" name="gender" value="Female" required>Female
                         <label class="form-check-label" for="radio2"></label>
                     </div>
                 </div>
@@ -52,11 +53,11 @@
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire">Prohire
+                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire" required>Prohire
                         <label class="form-check-label" for="radio1"></label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="bootcamp" name="hiredStatus" value="Bootcamp">Bootcamp
+                        <input type="radio" class="form-check-input" id="bootcamp" name="hiredStatus" value="Bootcamp" required>Bootcamp
                         <label class="form-check-label" for="radio2"></label>
                     </div>
                 </div>
@@ -205,6 +206,13 @@
         //    alert('Password and Repeat Password do not match.');
         //    return; // Hentikan eksekusi lebih lanjut
         //}
+           //validasi email
+        if (validateEmail(email)) {
+            $('#validateEmail').hide();
+        } else {
+           $('#validateEmail').show();
+           return;
+        }
         const password = uuidv4();
 
         var hiredStatusElement = document.querySelector('input[name="hiredStatus"]:checked');
@@ -303,5 +311,12 @@
                 return v.toString(16);
             });
     }
+
+    function validateEmail(email) {
+        // Regular expression untuk memeriksa email dengan domain berca.co.id
+        const regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
+        return regex.test(email);
+    }
 </script>
+
 
