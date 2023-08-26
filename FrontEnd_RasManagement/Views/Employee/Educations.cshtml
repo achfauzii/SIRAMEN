@@ -58,7 +58,7 @@
 
 
     @*Modal*@
-    <div class="modal fade" id="ModalFormal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ModalFormal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -69,9 +69,9 @@
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div class="form-group">
+                    
                             <input type="text" class="form-control" id="FormalEduId" hidden>
-                        </div>
+                  
                         <div class="form-group">
                             <label for="UniversityName">University Name</label>
                             <input type="text" class="form-control" id="UniversityName" placeholder="Enter University Name" required>
@@ -79,11 +79,18 @@
                         </div>
                         <div class="form-group">
                             <label for="Location">Location</label>
-                            <select class="selectProvinces" name="state">
-                                <option value="AL">Alabama</option>
-                                ...
-                                <option value="WY">Wyoming</option>
-                            </select>
+                            <p>
+                                <select class="selectProvinces form-control" style="width:100%" id="selectProvinces" placeholder="Select Provinces" name="state">
+                                    <option></option>
+                                </select>
+                            </p>
+                            <p>
+                                <select class="selectRegencies form-control" style="width:100%;" id="selectRegencies" placeholder="City ​​or County" name="state">
+                                    <option></option>
+                                </select>
+                                <span class="error-message" style="color: red; display: none;">Please select university location.</span>
+                            </p>
+
 
 
 
@@ -118,14 +125,14 @@
                         </div>
                         <div class="form-group">
                             <label for="GraduationYears">Graduation Year</label>
-                            <input type="text" class="form-control" id="GraduationYears" placeholder="Enter Graduation Year" required>
+                            <input type="number" class="form-control" id="GraduationYears" placeholder="Enter Graduation Year" required>
                             <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="Save" onclick="SaveFormal();">Save</button>
-                    <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update" onclick="UpdateFormal();">Update</button>
+                    <button type="button" class="btn btn-warning" id="Update" onclick="UpdateFormal();">Update</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreenFormal();">Close</button>
                 </div>
             </div>
