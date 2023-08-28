@@ -79,7 +79,22 @@ function ClearScreen() {
         input.next('.error-message').hide();
     });
 
+}
 
+function ClearScreenUpdate() {
+
+    $('#frameworkUpdate').val(null).trigger('change');// Kosongkan pilihan select
+    $('#programmingLanguageUpdate').val(''); // Kosongkan input teks
+
+    $('#databaseUpdate').val(''); // Kosongkan input teks
+    $('#toolsUpdate').val(''); // Kosongkan input teks
+    $('#othersUpdate').val(''); // Kosongkan input teks
+    $('.frameworkOptions').closest('.form-group').find('.error-message').hide();
+
+    $('input[required_add]').each(function () {
+        var input = $(this);
+        input.next('.error-message').hide();
+    });
 
 }
 
@@ -236,6 +251,7 @@ function updateOthers() {
 
 function getbyID() {
     debugger;
+
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     $.ajax({

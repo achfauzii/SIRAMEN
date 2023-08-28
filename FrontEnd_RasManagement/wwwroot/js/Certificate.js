@@ -252,6 +252,21 @@ function Delete(CertificateId) {
 
 function Update() {
     debugger;
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
     var Certificate = new Object();
     Certificate.certificateId = $('#CertificateId').val();
     Certificate.name = $('#Name').val();

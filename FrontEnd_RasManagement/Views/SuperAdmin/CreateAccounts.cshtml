@@ -1,9 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Register";
-    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+    ViewData["Title"] = "CreateAccounts";
+    Layout = "~/Views/Layout/LayoutSuperAdmin.cshtml";
 }
 
-<h4 style="color: #624DE3;">Create Account Employee <i class="fas fa-users"></i></h4>
+<h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Create Accounts</h5>
+
 <div class="card mb-5 border-left-primary shadow">
     <div class="card-body">
         <form class="user" method="post" id="createAccountForm">
@@ -11,20 +12,17 @@
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Full Name</label>
                     <input type="text" class="form-control " id="fullName" name="fullName" required>
-                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
                 <div class="col-sm-6">
-                    <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
+                    <label class="text-dark" for="exampleInputEmail1">Role</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire" required>Prohire
+                        <input type="radio" class="form-check-input" id="admin" name="roleId" value="2" onclick="showHiredStatus('admin')" required>Admin
                         <label class="form-check-label" for="radio1"></label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="bootcamp" name="hiredStatus" value="Bootcamp" required>Bootcamp
+                        <input type="radio" class="form-check-input" id="employee" name="roleId" value="3" onclick="showHiredStatus('employee')" required>Employee
                         <label class="form-check-label" for="radio2"></label>
-                        
                     </div>
-
                 </div>
             </div>
 
@@ -33,7 +31,7 @@
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Email</label>
                     <input type="email" class="form-control " id="email" name="email" required>
-                    <span class="error-message" id ="validateEmail" style="color: red; display: none;">The field must use the email domain @@berca.co.id.</span>
+                    <span class="error-message" id="validateEmail" style="color: red; display: none;">The field must use the email domain @@berca.co.id.</span>
                 </div>
 
                 <div class="col-sm-6">
@@ -49,24 +47,23 @@
                 </div>
             </div>
 
-            @*        <div class="form-group row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-            <label class="text-dark" for="exampleInputEmail1">Password</label>
-            <input type="password" class="form-control"
-            id="password" name="password">
-            </div>
-            <div class="col-sm-6">
-            <label class="text-dark" for="exampleInputEmail1"> Repeat Password</label>
-            <input type="password" class="form-control "
-            id="repeatPassword" name="repeatPassword">
-            </div>
-            </div>*@
+       
 
-            <div class="form-group">
-
-                <input type="hidden" class="form-control " id="roleId" name="roleId" value="3">
+            <div class="form-group row" id="formHiring" style="display: none;">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire">Prohire
+                        <label class="form-check-label" for="radio1"></label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="bootcamp" name="hiredStatus" value="Bootcamp">Bootcamp
+                        <label class="form-check-label" for="radio2"></label>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <button type="submit" class="btn btn-primary ">Submit</button>
         </form>
 
 
@@ -170,10 +167,25 @@
 
 
 <script>
+    function showHiredStatus(role) {
+        const status = document.getElementById("formHiring");
+        const radioButtons = document.getElementsByName("hiredStatus");
+        if(role=='admin'){
+            
+            status.style.display = "none";
+            radioButtons.forEach((radio) => {
+                radio.checked = false;
+            });
+        }else{
+            status.style.display = "block";
+        }
+       
+    }
+
 
     document.getElementById('createAccountForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Mencegah pengiriman formulir secara default
-
+        debugger;
         // Mengambil nilai input dari formulir
         var accountId = "";
         var fullName = document.getElementById('fullName').value;
@@ -186,32 +198,29 @@
         //var religion = document.getElementById('religion').value;
         var gender = document.querySelector('input[name="gender"]:checked').value;
         //var martialStatus = document.getElementById('martialStatus').value;
-        var roleId = document.getElementById('roleId').value;
-        var hiredStatus = document.querySelector('input[name="hiredStatus"]:checked').value;
+        var roleId = document.querySelector('input[name="roleId"]:checked').value;
         // ...
         // Melakukan validasi repeat password
         //if (password !== repeatPassword) {
-        // Password dan repeat password tidak sama, tampilkan pesan error
-        //alert('Password and Repeat Password do not match.');
-        // return; // Hentikan eksekusi lebih lanjut
-        // }
-        // Menggabungkan data input menjadi objek yang akan dikirim ke API
-
-        // Generate a random UUID
-
-   
-        //validasi email
+        //    // Password dan repeat password tidak sama, tampilkan pesan error
+        //    alert('Password and Repeat Password do not match.');
+        //    return; // Hentikan eksekusi lebih lanjut
+        //}
+           //validasi email
         if (validateEmail(email)) {
             $('#validateEmail').hide();
         } else {
            $('#validateEmail').show();
            return;
         }
-      
         const password = uuidv4();
 
-        // Print the UUID
+        var hiredStatusElement = document.querySelector('input[name="hiredStatus"]:checked');
+        var hiredStatus = hiredStatusElement ? hiredStatusElement.value : null;
 
+      
+
+        // Menggabungkan data input menjadi objek yang akan dikirim ke API
 
         var data = {
             accountId: accountId,
@@ -236,7 +245,6 @@
 
         }
 
-
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
             method: 'POST',
@@ -247,14 +255,11 @@
         })
             .then(function (response) {
                 if (response.ok) {
-
-
                     // Redirect atau tampilkan pesan sukses jika permintaan berhasil
                     // ...
                     Swal.fire('Success', 'Registration Employee successful', 'success');
                     var form = document.getElementById('createAccountForm');
                     form.reset(); // Reset form setelah pengiriman berhasil
-
 
                     $.post("/Accounts/NewAccount", { email, password })
                         .done(function () {
@@ -298,7 +303,6 @@
                 // ...
             });
     });
-
     function uuidv4() {
         return 'xxxxxxxx'
             .replace(/[x]/g, function (c) {
@@ -306,12 +310,13 @@
                     v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
-    };
+    }
+
     function validateEmail(email) {
         // Regular expression untuk memeriksa email dengan domain berca.co.id
         const regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
         return regex.test(email);
     }
-   
 </script>
+
 

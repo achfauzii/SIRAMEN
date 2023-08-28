@@ -73,15 +73,20 @@
                 align-items: center;
             }
 
+        .logo-container {
+            background-color: white; /* Ganti warna latar belakang sesuai kebutuhan */
+            padding: 10px; /* Sesuaikan padding sesuai kebutuhan */
+        }
+
     </style>
-   
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    
+
 </head>
 
 <body id="page-top" class="">
@@ -93,8 +98,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion no-print" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-
+            <a class="sidebar-brand d-flex align-items-center justify-content-center logo-container" href="index.html">
                 <img src="~/img/logo_putih.png" width="290" height="38">
             </a>
 
@@ -129,12 +133,12 @@
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-       @*     <li class="nav-item  @(currentUrl == "/ManageEmployee/RegisNonRAS" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/RegisNonRAS"
-                   aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Non RAS Employee</span>
-                </a>
+            @*     <li class="nav-item  @(currentUrl == "/ManageEmployee/RegisNonRAS" ? "active" : "")">
+            <a class="nav-link collapsed" href="/ManageEmployee/RegisNonRAS"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-user-circle"></i>
+            <span>Non RAS Employee</span>
+            </a>
 
             </li>*@
 
@@ -507,8 +511,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript -->
-    
 
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -527,12 +529,12 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>*@
     <script src="~/js/Chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  @*  <script src="~/js/ManageEmployee.js"></script>*@
+    @*  <script src="~/js/ManageEmployee.js"></script>*@
     <script src="~/js/Account.js"></script>
 
     <!-- Page level plugins -->
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
-     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
 
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
