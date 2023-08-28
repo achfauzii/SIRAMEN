@@ -59,6 +59,7 @@ function loadData() {
                 success: function (educationResult) {
                     //debugger;
                     var educationObj = educationResult.data;
+
                     // Mengurutkan data berdasarkan tahun terbaru
                     // a, b merupakan untuk perandingan datanya lalu di sortting
                     educationObj.sort(function (a, b) {
@@ -69,11 +70,17 @@ function loadData() {
                     for (var i = 0; i < educationObj.length; i++) {
                         var education = educationObj[i];
                         var row = tableBody.insertRow(i);
-
+                        var cityOrRegency = education.location;
+                        const cityRemove = cityOrRegency.replace('KOTA', '').replace('KABUPATEN', '').trim();
+                        const words = cityRemove.split(' ');
+                        const formattedCity = words
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                            .join(' ');
+                 
                         row.innerHTML =
                             "<td>" + education.years + "</td>" +
                             "<td>" + education.universityName + "</td>" +
-                            "<td>" + education.location + "</td>" +
+                            "<td>" + formattedCity + "</td>" +
                             "<td>" + education.major + "</td>" +
                             "<td>" + education.degree + "</td>";
                     }

@@ -408,6 +408,10 @@
                                 Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>*@
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#chagnePasswordModal" onclick="clearScreen()">
+                                    <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
+                                </a>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -468,6 +472,57 @@
             </div>
         </div>
     </div>
+    <!-- Change Password Modal-->
+    <div class="modal" id="chagnePasswordModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header pt-2 pb-1">
+                    <h5 class="modal-title">Change Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="text-center pt-0 pb-3">
+                        <span style="height: 110px;"><img src="~/img/logo_putih.png" alt="Berca Hardayaperkasa" height="45px" width="225px" /></span>
+                    </div>
+                 
+             
+                  
+                    <form class="user" id="resetPassword">
+
+                        <div class="form-group">
+                           @* <input type="text" id="accountId" name="accountId"  readonly hidden />*@
+
+                            <input type="password" class="form-control form-control-user" id="currentPassword" placeholder="Current Password" req>
+                            <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control form-control-user" id="newPassword" name="newPassword" placeholder="New Password" req>
+                            <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="password" class="form-control form-control-user" id="repeatPassword" name="repeatPassword" placeholder="Repeate Password" req>
+                            <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                    
+                   
+
+                    </form>
+    
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updatePassword();">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Custom script with url-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -494,6 +549,8 @@
 
     <script src="~/js/ManageEmployee.js"></script>
     <script src="~/js/Account.js"></script>
+    <script src="~/js/ChangePassword.js"></script>
+
 
     <!--SweetAlert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -504,7 +561,7 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="~/js/JwtUtils.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Page specific script -->
     @RenderSection("script",required:false)
