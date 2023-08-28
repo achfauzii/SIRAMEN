@@ -206,7 +206,7 @@ namespace RasManagement.Controllers
 
 
         //Forgot Password Update
-        [HttpPut("UpdateForgotPassword")]
+        [HttpPut("UpdatePassword")]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)
         {
             var email = updatePassword.Email;
@@ -222,7 +222,7 @@ namespace RasManagement.Controllers
 
            
                 // Update password
-               var _updatePassword = await accountRepository.UpdateForgotPassword(updatePassword);
+               var _updatePassword = await accountRepository.UpdatePassword(updatePassword);
 
                 if (_updatePassword == true)
                 {

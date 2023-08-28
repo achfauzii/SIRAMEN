@@ -183,7 +183,7 @@ namespace RasManagement.Repository
 
 
         //FORGOT PASSWORD UPDATE
-        public async Task<bool> UpdateForgotPassword(UpdatePasswordVM updatePassword)
+        public async Task<bool> UpdatePassword(UpdatePasswordVM updatePassword)
         {
             var account = await _context.Accounts.SingleOrDefaultAsync(a => a.Email == updatePassword.Email);
             if (account != null)
