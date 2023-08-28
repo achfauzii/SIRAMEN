@@ -297,6 +297,12 @@ namespace FrontEnd_RasManagement.Controllers
                  return StatusCode(500, $"An error occurred: {ex.Message}");
              }
          }*/
+
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
     }
 
 
