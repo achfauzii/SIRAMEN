@@ -33,8 +33,8 @@ $(document).ready(function () {
                 "render": function (data, type, row) {
                     var modalId = "modal-edit-" + data.projectHistoryId;
                     var deleteId = "modal-delete-" + data.projectHistoryId;
-                    return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.projectHistoryId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.projectHistoryId + ')"><i class="fa fa-trash"></i></button >'
+                    return '<button class="btn btn-sm btn-warning p-1 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.projectHistoryId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
+                        '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.projectHistoryId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
         ],
@@ -174,6 +174,21 @@ function GetById(projectHistoryId) {
 }
 
 function Update() {
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectHistoryId = $('#ProjectHistoryId').val();
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
