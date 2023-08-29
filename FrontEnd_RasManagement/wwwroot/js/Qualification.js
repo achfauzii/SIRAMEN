@@ -275,15 +275,22 @@ function getbyID() {
             const selectedOptionsOthers = obj.others;
 
             const frameworkSelect = $('#frameworkUpdate');
+
             const programmingLanguageSelect = $('#programmingLanguageUpdate');
             const databaseSelect = $('#databaseUpdate');
             const toolsSelect = $('#toolsUpdate');
-
+            debugger;
             // Setiap nilai yang perlu diisi dalam Select2 diperlakukan sebagai array
             const selectedFrameworkArray = selectedOptionsFramework.split(', ');
             const selectedProgrammingArray = selectedOptionsProgramming.split(', ');
             const selectedDatabaseArray = selectedOptionsDatabase.split(', ');
             const selectedToolsArray = selectedOptionsTools.split(', ');
+
+            // Menghapus semua opsi sebelumnya
+            frameworkSelect.empty();
+            programmingLanguageSelect.empty();
+            databaseSelect.empty();
+            toolsSelect.empty();
 
             // Menambahkan opsi baru ke dalam Select2
             selectedFrameworkArray.forEach(option => {
@@ -302,15 +309,55 @@ function getbyID() {
                 toolsSelect.append(new Option(option, option, true, true));
             });
 
-            // Memanggil fungsi select2() untuk menginisialisasi Select2 kembali
-            frameworkSelect.select2();
-            programmingLanguageSelect.select2();
-            databaseSelect.select2();
-            toolsSelect.select2();
+            // Menginisialisasi Select2 dengan opsi tag
+            frameworkSelect.select2({
+                tags: true,
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
 
+            programmingLanguageSelect.select2({
+                tags: true,
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
 
+            databaseSelect.select2({
+                tags: true,
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
 
-            $('#othersUpdate').val(obj.others);
+            toolsSelect.select2({
+                tags: true,
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
+
+           
+
+ 
+
 
 
         },
