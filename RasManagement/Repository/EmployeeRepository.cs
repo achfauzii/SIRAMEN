@@ -15,7 +15,7 @@ namespace RasManagement.Repository
         }
         public async Task<IEnumerable<Object>> GetEmployeeData()
         {
-            var employees = _context.Accounts.Where(a => a.RoleId == "3" || a.RoleId == "2");
+            var employees = _context.Accounts.Where(a => a.RoleId == "3");
             return employees;
 
         }
