@@ -72,13 +72,13 @@ function parseJwt(token) {
 function Save() {
     var isValid = true;
 
-    $('input[required]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message').show();
+    $('input[required], textarea[required]').each(function () {
+        var element = $(this);
+        if (!element.val()) {
+            element.next('.error-message').show();
             isValid = false;
         } else {
-            input.next('.error-message').hide();
+            element.next('.error-message').hide();
         }
     });
 
@@ -137,10 +137,12 @@ function ClearScreen() {
     $('#CompanyName').val('');
     $('#Update').hide();
     $('#Save').show();
-    $('input[required]').each(function () {
+    $('input[required],textarea[required]').each(function () {
         var input = $(this);
+        var textarea = $(this);
 
         input.next('.error-message').hide();
+        textarea.next('.error-message').hide();
 
     });
 }
@@ -176,13 +178,13 @@ function GetById(projectHistoryId) {
 function Update() {
     var isValid = true;
 
-    $('input[required]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message').show();
+    $('input[required], textarea[required]').each(function () {
+        var element = $(this);
+        if (!element.val()) {
+            element.next('.error-message').show();
             isValid = false;
         } else {
-            input.next('.error-message').hide();
+            element.next('.error-message').hide();
         }
     });
 

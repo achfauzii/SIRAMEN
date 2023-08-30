@@ -46,8 +46,10 @@
                         </div>
                         <div class="form-group">
                             <label for="JobSpec">Job Spesification</label>
-                            <input type="text" class="form-control" id="JobSpec" placeholder="Enter Job Spesification" required>
+                            <textarea class="form-control" id="JobSpec" rows="4" placeholder="Enter Job Spesification" required></textarea>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <small class="form-text text-muted text-primary">You can include a GitHub link or your portfolio.</small>
+                            
                         </div>
                         <div class="form-group">
                             <label for="Year">Year</label>
@@ -64,7 +66,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
                     <button type="button" class="btn btn-warning" id="Update" onclick="Update();">Update</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" ClearScreen()">Close</button>
                 </div>
             </div>
         </div>
