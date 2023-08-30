@@ -4,7 +4,6 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
 
 
-
     $.ajax({
         url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
         type: 'GET',
@@ -82,6 +81,7 @@ function ClearScreen() {
 }
 
 function ClearScreenUpdate() {
+
 
     $('#frameworkUpdate').val(null).trigger('change');// Kosongkan pilihan select
     $('#programmingLanguageUpdate').val(''); // Kosongkan input teks
@@ -287,15 +287,13 @@ function getbyID() {
             const selectedToolsArray = selectedOptionsTools.split(', ');
 
             // Menghapus semua opsi sebelumnya
-            frameworkSelect.empty();
-            programmingLanguageSelect.empty();
-            databaseSelect.empty();
-            toolsSelect.empty();
+          
 
             // Menambahkan opsi baru ke dalam Select2
             selectedFrameworkArray.forEach(option => {
                 frameworkSelect.append(new Option(option, option, true, true));
             });
+
 
             selectedProgrammingArray.forEach(option => {
                 programmingLanguageSelect.append(new Option(option, option, true, true));
@@ -311,7 +309,9 @@ function getbyID() {
 
             // Menginisialisasi Select2 dengan opsi tag
             frameworkSelect.select2({
+                
                 tags: true,
+              
                 createTag: function (params) {
                     return {
                         id: params.term,
@@ -353,7 +353,10 @@ function getbyID() {
                     };
                 }
             });
-
+   /*         frameworkSelect.val(selectedOptionsFramework).trigger('change');
+            programmingLanguageSelect.val(selectedOptionsProgramming).trigger('change');
+            databaseSelect.val(selectedOptionsDatabase).trigger('change');
+            toolsSelect.val(selectedOptionsTools).trigger('change');*/
            
 
  
