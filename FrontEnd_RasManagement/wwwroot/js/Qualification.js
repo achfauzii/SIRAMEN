@@ -272,40 +272,97 @@ function getbyID() {
             const selectedOptionsProgramming = obj.programmingLanguage;
             const selectedOptionsDatabase = obj.database;
             const selectedOptionsTools = obj.tools;
-            const selectedOptionsOthers = obj.others;
+            const othersObj = obj.others;
 
             const frameworkSelect = $('#frameworkUpdate');
 
             const programmingLanguageSelect = $('#programmingLanguageUpdate');
             const databaseSelect = $('#databaseUpdate');
             const toolsSelect = $('#toolsUpdate');
-            debugger;
+            const othersInput = $('#othersUpdate');
+           
+        
             // Setiap nilai yang perlu diisi dalam Select2 diperlakukan sebagai array
             const selectedFrameworkArray = selectedOptionsFramework.split(', ');
             const selectedProgrammingArray = selectedOptionsProgramming.split(', ');
             const selectedDatabaseArray = selectedOptionsDatabase.split(', ');
             const selectedToolsArray = selectedOptionsTools.split(', ');
 
-            // Menghapus semua opsi sebelumnya
-          
+         
+         
+    
 
-            // Menambahkan opsi baru ke dalam Select2
-            selectedFrameworkArray.forEach(option => {
-                frameworkSelect.append(new Option(option, option, true, true));
+        /*    frameworkSelect.val(selectedFrameworkArray);
+            frameworkSelect.trigger('change');*/
+        /*    selectedFrameworkArray.forEach(value => {
+                const optionExists = frameworkSelect.find("option[value='"+value+"']").length;
+
+                if (optionExists) {
+                    frameworkSelect.val(value).trigger('change');
+                } else {
+                    const newOption = new Option(value, value, true, true);
+                    frameworkSelect.append(newOption).trigger('change');
+                }
+            });*/
+
+            // Set the value, creating a new option if necessary
+            selectedFrameworkArray.forEach(value => {
+                const optionNotExists = frameworkSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    frameworkSelect.append(newOption).trigger('change');
+                }
             });
 
+            // Set value to selectedFrameworkArray
+            frameworkSelect.val(selectedFrameworkArray).trigger('change');
 
-            selectedProgrammingArray.forEach(option => {
-                programmingLanguageSelect.append(new Option(option, option, true, true));
+            selectedProgrammingArray.forEach(value => {
+                const optionNotExists = programmingLanguageSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    programmingLanguageSelect.append(newOption).trigger('change');
+                }
             });
 
-            selectedDatabaseArray.forEach(option => {
-                databaseSelect.append(new Option(option, option, true, true));
+            // Set value to selectedFrameworkArray
+            programmingLanguageSelect.val(selectedProgrammingArray).trigger('change');
+
+                 
+
+
+            selectedDatabaseArray.forEach(value => {
+                const optionNotExists = databaseSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    databaseSelect.append(newOption).trigger('change');
+                }
             });
 
-            selectedToolsArray.forEach(option => {
-                toolsSelect.append(new Option(option, option, true, true));
+            // Set value to selectedFrameworkArray
+            databaseSelect.val(selectedDatabaseArray).trigger('change');
+
+
+            selectedToolsArray.forEach(value => {
+                const optionNotExists = toolsSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    toolsSelect.append(newOption).trigger('change');
+                }
             });
+
+            // Set value to selectedFrameworkArray
+            toolsSelect.val(selectedToolsArray).trigger('change');   
+
+
+        
+         
+
+        
 
             // Menginisialisasi Select2 dengan opsi tag
             frameworkSelect.select2({
@@ -353,6 +410,8 @@ function getbyID() {
                     };
                 }
             });
+
+            othersInput.val(othersObj);
    /*         frameworkSelect.val(selectedOptionsFramework).trigger('change');
             programmingLanguageSelect.val(selectedOptionsProgramming).trigger('change');
             databaseSelect.val(selectedOptionsDatabase).trigger('change');
