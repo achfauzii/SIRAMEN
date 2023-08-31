@@ -60,6 +60,8 @@ builder.Services.AddScoped<NonFormalEduRepository>();
 builder.Services.AddScoped<QualificationRepository>();
 builder.Services.AddScoped<CertificateRepository>();
 builder.Services.AddScoped<ProjectHistoryRepository>();
+builder.Services.AddScoped<UniversitasRepository>();
+
 //builder.Services.AddTransient<EducationRepository>();
 
 builder.Services.AddCors(c =>

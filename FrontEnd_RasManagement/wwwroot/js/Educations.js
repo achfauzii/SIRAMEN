@@ -12,6 +12,15 @@ $(document).ready(function () {
 
     });
 
+    $('#ModalFormal').on('show.bs.modal', function (e) {
+        getUniversitasList();
+    });
+
+    $('#UniversityName').select2({
+        placeholder: 'Enter University Name',
+        width: '100%',
+        tags: true // Aktifkan fitur tagging
+    });
 
 })
 
@@ -89,6 +98,32 @@ function Educations() {
         }
     })
 }
+
+function getUniversitasList() {
+    $.ajax({
+        url: "https://localhost:7177/api/Universitas",
+        type: "GET",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var universities = result.data;
+            var selectUniversity = $('#UniversityName');
+
+            selectUniversity.empty(); // Kosongkan pilihan sebelumnya
+            selectUniversity.append('<option value="" selected disabled>Select University</option>');
+
+            universities.forEach(function (university) {
+                selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
 
 function formInputLocation() {
 

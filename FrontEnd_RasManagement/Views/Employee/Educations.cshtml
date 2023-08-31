@@ -71,12 +71,20 @@
                     <form>
                     
                             <input type="text" class="form-control" id="FormalEduId" hidden>
-                  
+
                         <div class="form-group">
+                            <label for="UniversityName">University Name</label>
+                            <select id="UniversityName" class="form-control" required>
+                                <option></option>
+                            </select>
+                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        @*<div class="form-group">
                             <label for="UniversityName">University Name</label>
                             <input type="text" class="form-control" id="UniversityName" placeholder="Enter University Name" required>
                             <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
-                        </div>
+                        </div>*@
                         <div class="form-group">
                             <label for="Location">Location</label>
                             <p>
