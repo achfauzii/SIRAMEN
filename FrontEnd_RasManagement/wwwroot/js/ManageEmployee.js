@@ -59,6 +59,11 @@
                     var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
                     $(cell).html('');
                 }
+                if (title === "Placement Status") {
+                    // Filter Placement Status column to show only "Idle"
+                    var placementStatusColumn = api.column(colIdx);
+                    placementStatusColumn.search("^(Idle|Onsite)$", true, false).draw();
+                }
 
 
             });

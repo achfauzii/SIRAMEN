@@ -19,7 +19,12 @@ namespace RasManagement.Repository
             return employees;
 
         }
+        public async Task<IEnumerable<Object>> GetAccountData()
+        {
+            var accounts = _context.Accounts.Where(a => a.RoleId == "3" || a.RoleId == "2");
+            return accounts;
 
+        }
         public Task<Account> Get(string key)
 
         {
