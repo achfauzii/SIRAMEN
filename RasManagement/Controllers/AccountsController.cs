@@ -11,6 +11,8 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using RasManagement.Services;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
@@ -252,6 +254,23 @@ namespace RasManagement.Controllers
             else
             {
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak bisa diubah", Data = get });
+            }
+        }
+
+        
+
+        [HttpPut("UpdateTurnOver")]
+        public async Task<IActionResult> UpdateTurnOver(TurnOverVM turnOverVM)
+        {
+            var get = await accountRepository.UpdateTurnOver(turnOverVM);
+                
+            if (get >= 1)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil di perbarui", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data gagal di perbaharui" });
             }
         }
 

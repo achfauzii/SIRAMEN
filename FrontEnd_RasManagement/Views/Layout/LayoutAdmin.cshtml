@@ -150,6 +150,14 @@
                     <span>Manage Resource</span>
                 </a>
             </li>
+
+            <li class="nav-item @(currentUrl == "/ManageEmployee/TurnOverEmployee" ? "active" : "")">
+                <a class="nav-link collapsed" href="/ManageEmployee/TurnOverEmployee" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-tasks-alt"></i>
+                    <span>Turn Over Employee</span>
+                </a>
+            </li>
             @*
             <li class="nav-item  @(currentUrl == "/jobvacancies/JobVacancy_Admin" ? "active" : "")">
             <a class="nav-link collapsed" href="/JobVacancies/JobVacancy_Admin" data-target="#collapsePages"

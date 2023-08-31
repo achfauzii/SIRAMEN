@@ -5,7 +5,7 @@
     const accid = decodedtoken.AccountId;*/
     $('#dataTableAccounts').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/Employees",
+            url: "https://localhost:7177/api/Employees/EmployeeAdmin",
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -30,10 +30,10 @@
                     var roleId = row.roleId;
 
                     if (roleId == "3") {
-                        role = '<button class="badge badge-pill badge-primary" data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetById(\'' + row.accountId + '\')">Employee</button>'
+                        role = '<button class="badge badge-pill badge-primary" data - placement="right" data - toggle="modal" data - animation="false" style="outline: none; border: none;" title="Edit" onclick="return GetById(\'' + row.accountId + '\')">Employee</button>'
 
                     } else {
-                        role = '<button class="badge badge-pill badge-warning" data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetById(\'' + row.accountId + '\')">Admin</button>'
+                        role = '<button class="badge badge-pill badge-warning" data - placement="right" data - toggle="modal" data - animation="false" style="outline: none; border: none;" title="Edit" onclick="return GetById(\'' + row.accountId + '\')">Admin</button>'
                     }
 
 

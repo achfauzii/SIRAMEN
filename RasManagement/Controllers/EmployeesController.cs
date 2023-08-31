@@ -36,6 +36,38 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = get.Count() + " Data Ditemukan", Data = get });
             }
         }
+        
+        [HttpGet("EmployeeAdmin")]
+        public async Task<IActionResult> GetAccountsEmployeeAdmin()
+        {
+            var get = await employeeRepository.GetAccountData();
+         
+
+            if (get.Count() != 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = get.Count() + " Data Ditemukan", TotalData = get.Count(), Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = get.Count() + " Data Ditemukan", Data = get });
+            }
+          }
+
+
+        [HttpGet("TurnOff")]
+        public async Task<IActionResult> TurnOff()
+        {
+            var get = await employeeRepository.GetTurnOff();
+
+            if (get.Count() != 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = get.Count() + " Data Ditemukan", TotalData = get.Count(), Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = get.Count() + " Data Ditemukan", Data = get });
+            }
+        }
 
         [HttpGet("accountId")]
         public IActionResult Employees(string accountId)
