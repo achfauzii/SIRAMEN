@@ -19,6 +19,8 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<Certificate> Certificates { get; set; }
 
+    public virtual DbSet<DataUniversita> DataUniversitas { get; set; }
+
     public virtual DbSet<EmploymentHistory> EmploymentHistories { get; set; }
 
     public virtual DbSet<FormalEdu> FormalEdus { get; set; }
@@ -126,6 +128,19 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Certificate_Account");
+        });
+
+        modelBuilder.Entity<DataUniversita>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Data_uni__3213E83FDAF93A95");
+
+            entity.ToTable("Data_Universitas");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.NamaUniversitas)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("nama_universitas");
         });
 
         modelBuilder.Entity<EmploymentHistory>(entity =>
