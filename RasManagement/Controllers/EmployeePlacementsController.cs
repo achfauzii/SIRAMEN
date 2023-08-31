@@ -50,6 +50,26 @@ namespace RasManagement.Controllers
 
         }
 
+        [HttpPost("TurnOver")]
+        public async Task<ActionResult> AddTurnOver(TurnOverVM turnOverVM)
+        {
+
+            var data = await employeePlacementRepository.AddTurnOver(turnOverVM);
+
+            if (data >= 1)
+            {
+
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil di tambahkan", Data = data });
+
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Placment gagal ditambahkan" });
+            }
+
+
+        }
+
         // PUT api/<EmployeePlacementsController>/5
         [HttpGet("accountId")]
         public IActionResult EmployeePlacement(string accountId)

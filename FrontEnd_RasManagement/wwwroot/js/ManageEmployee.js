@@ -253,30 +253,24 @@ function GetByIdPlacement(accountId, placementStatus) {
         success: function (result) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
-            var placementStatusSelect = document.getElementById("PlacementStatus");
-            var option = document.createElement("option");
+      /*      var placementStatusSelect = document.getElementById("PlacementStatus");
+            var option = document.createElement("option");*/
 
-                if (placementStatus == "Onsite") {
-                 
+              /*  if (placementStatus == "Onsite") {
+             
                     option.value = placementStatus;
                     option.text = placementStatus;
                     placementStatusSelect.appendChild(option);
                 } else {
-                 
+                  
                     option.value = "Idle";
                     option.text = "Idle";
 
                     placementStatusSelect.appendChild(option);
                 }
+*/        
 
-
-            
-
-
-
-
-
-            $('#AccountId').accid;
+            $('#AccountId').val(accountId)
             $('#PlacementID').val(obj.placementStatusId);
             $('#PlacementStatus').val(placementStatus);
             $('#CompanyName').val(obj.companyName);
@@ -287,6 +281,46 @@ function GetByIdPlacement(accountId, placementStatus) {
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
+    })
+}
+
+function SaveTurnOver() {
+    debugger;
+    var placement = new Object  //object baru
+    placement.placementStatusId = $('#PlacementID').val();
+    placement.placementStatus = $('#PlacementStatus').val();
+    placement.companyName = $('#CompanyName').val();
+    placement.description = $('#Description').val();
+    placement.accountId = $('#AccountId').val();
+    console.log(placement);
+    $.ajax({
+        type: 'POST',
+        url: 'https://localhost:7177/api/EmployeePlacements/TurnOver',
+        data: JSON.stringify(placement),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+    }).then((result) => {
+        //debugger;
+        if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
+            //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+            Swal.fire({
+                title: "Success!",
+                text: "Data Berhasil Dimasukkan",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+
+                location.reload();
+
+            });
+        }
+        else {
+            alert("Data gagal dimasukkan");
+        }
+
     })
 }
 
