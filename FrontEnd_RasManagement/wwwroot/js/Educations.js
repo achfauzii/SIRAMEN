@@ -2,6 +2,15 @@
 $(document).ready(function () {
     Educations();
     formInputLocation();
+
+    const selectMajor = $('#Major');
+    //Ini untuk tanpa display none jadi langsung di tampilkan ()
+    $(selectMajor).select2({
+        placeholder: 'Select your Major',
+        width: '100%'
+    });
+
+
 })
 
 function Educations() {
@@ -167,13 +176,22 @@ function SaveFormal() {
         }
     });
     // Validasi select options
-    var selectedRegencies= $('#selectRegencies').val();
+    var selectedRegencies = $('#selectRegencies').val();
+    var selectedMajor = $('#Major').val();
  
     if (!selectedRegencies) {
         $('.selectRegencies').closest('.form-group').find('.error-message').show();
         isValid = false;
     } else {
         $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+
+    }
+
+    if (!selectedMajor) {
+        $('.selectMajor').closest('.form-group').find('.error-message-major').show();
+        isValid = false;
+    } else {
+        $('.selectMajor').closest('.form-group').find('.error-message-major').hide();
 
     }
 
@@ -270,6 +288,7 @@ function GetById(formalEduId) {
             $('#UniversityName').val(obj.universityName);
             $('#selectRegencies').val(obj.location);
             $('#Major').val(obj.major);
+            $('#Major').trigger('change');
             $('#Degree').val(obj.degree);
             $('#GraduationYears').val(obj.years);
             $('#AccountId').accid;
