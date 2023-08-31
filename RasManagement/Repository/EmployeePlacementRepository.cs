@@ -2,6 +2,7 @@
 using RasManagement.Models;
 using RasManagement.Interface;
 using RasManagement.ViewModel;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 
 namespace RasManagement.Repository
 {
@@ -26,6 +27,11 @@ namespace RasManagement.Repository
             }
 
             return false;
+        }
+
+        public Placement GetPlacementId(int PlacementStatusId)
+        {
+            return _context.Placements.Find(PlacementStatusId);
         }
 
 

@@ -34,6 +34,41 @@
     </div>
 </div>
 
+@*Modal*@
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Role</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="AccountId" hidden>
+                        <input type="text" class="form-control" id="PlacementID" hidden>
+                        <label for="PlacementStatus">Status</label>
+                        <select id="PlacementStatus" class="form-control" required>
+                            <option value="Blacklist">Blacklist</option>
+                            <option value="Resign">Resign</option>
+
+                        </select>
+                        <span class="error-message-framework" style="color: red; display: none;">This field is required!</span>
+                        <input type="text" class="form-control" id="CompanyName" hidden>
+                        <input type="text" class="form-control" id="Description" hidden>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="Update" onclick="UpdatePlacement();">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Loader-->
 <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0;">
     <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
