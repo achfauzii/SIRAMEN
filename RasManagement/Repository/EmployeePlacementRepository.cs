@@ -55,6 +55,23 @@ namespace RasManagement.Repository
             return insert;
         }
 
+        public async Task<int> AddTurnOver(TurnOverVM turnOverVM)
+        {
+            var placement = new Placement
+            {
+                PlacementStatusId = turnOverVM.PlacementStatusId,
+                CompanyName = turnOverVM.CompanyName,
+                PlacementStatus = turnOverVM.PlacementStatus,
+                Description = turnOverVM.Description,
+                AccountId = turnOverVM.AccountId,
+
+            };
+            _context.Placements.Add(placement);
+
+            var insert = _context.SaveChanges();
+            return insert;
+        }
+
         public List<Placement> GetAccount(string accountId)
 
         {
