@@ -7,7 +7,9 @@ $(document).ready(function () {
     //Ini untuk tanpa display none jadi langsung di tampilkan ()
     $(selectMajor).select2({
         placeholder: 'Select your Major',
-        width: '100%'
+        width: '100%',
+        tags: true
+
     });
 
 

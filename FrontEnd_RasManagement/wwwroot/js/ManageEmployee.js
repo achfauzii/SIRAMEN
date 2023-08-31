@@ -307,7 +307,7 @@ function SaveTurnOver() {
             //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
             Swal.fire({
                 title: "Success!",
-                text: "Data Berhasil Dimasukkan",
+                text: "Turn Over Status has Updated",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
