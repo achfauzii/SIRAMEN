@@ -65,6 +65,20 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpGet("PlacementID")]
+        public IActionResult GetById(int placementStatusId)
+        {
+            var get = employeePlacementRepository.GetPlacementId(placementStatusId);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
         [HttpPut]
         public async Task <IActionResult> UpdatePlacement(PlacementVM placementVM)
         {
