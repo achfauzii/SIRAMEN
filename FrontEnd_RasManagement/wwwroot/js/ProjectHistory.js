@@ -72,19 +72,20 @@ function parseJwt(token) {
 function Save() {
     var isValid = true;
 
-    $('input[required]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message').show();
+    $('input[required], textarea[required]').each(function () {
+        var element = $(this);
+        if (!element.val()) {
+            element.next('.error-message').show();
             isValid = false;
         } else {
-            input.next('.error-message').hide();
+            element.next('.error-message').hide();
         }
     });
 
     if (!isValid) {
         return;
     }
+
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
     ProjectHistory.jobSpec = $('#JobSpec').val();
@@ -176,19 +177,20 @@ function GetById(projectHistoryId) {
 function Update() {
     var isValid = true;
 
-    $('input[required]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message').show();
+    $('input[required], textarea[required]').each(function () {
+        var element = $(this);
+        if (!element.val()) {
+            element.next('.error-message').show();
             isValid = false;
         } else {
-            input.next('.error-message').hide();
+            element.next('.error-message').hide();
         }
     });
 
     if (!isValid) {
         return;
     }
+
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectHistoryId = $('#ProjectHistoryId').val();
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
