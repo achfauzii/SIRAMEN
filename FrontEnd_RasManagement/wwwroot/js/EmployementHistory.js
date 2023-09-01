@@ -219,7 +219,22 @@ function GetById(workExperienceId) {
 
 
 function Update() {
-    debugger;
+    debugger
+    var isValid = true;
+
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
     var startYear = $('#StartYear').val();
     var endYear = $('#EndYear').val();
     if (endYear == "") {

@@ -33,8 +33,8 @@ $(document).ready(function () {
                 "render": function (data, type, row) {
                     var modalId = "modal-edit-" + data.projectHistoryId;
                     var deleteId = "modal-delete-" + data.projectHistoryId;
-                    return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.projectHistoryId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.projectHistoryId + ')"><i class="fa fa-trash"></i></button >'
+                    return '<button class="btn btn-sm btn-warning p-1 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.projectHistoryId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
+                        '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.projectHistoryId + ')"><i class="fa fa-trash"></i></button >'
                 }
             }
         ],
@@ -72,19 +72,20 @@ function parseJwt(token) {
 function Save() {
     var isValid = true;
 
-    $('input[required]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message').show();
+    $('input[required], textarea[required]').each(function () {
+        var element = $(this);
+        if (!element.val()) {
+            element.next('.error-message').show();
             isValid = false;
         } else {
-            input.next('.error-message').hide();
+            element.next('.error-message').hide();
         }
     });
 
     if (!isValid) {
         return;
     }
+
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
     ProjectHistory.jobSpec = $('#JobSpec').val();
@@ -137,10 +138,12 @@ function ClearScreen() {
     $('#CompanyName').val('');
     $('#Update').hide();
     $('#Save').show();
-    $('input[required]').each(function () {
+    $('input[required],textarea[required]').each(function () {
         var input = $(this);
+        var textarea = $(this);
 
         input.next('.error-message').hide();
+        textarea.next('.error-message').hide();
 
     });
 }
@@ -174,6 +177,22 @@ function GetById(projectHistoryId) {
 }
 
 function Update() {
+    var isValid = true;
+
+    $('input[required], textarea[required]').each(function () {
+        var element = $(this);
+        if (!element.val()) {
+            element.next('.error-message').show();
+            isValid = false;
+        } else {
+            element.next('.error-message').hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
+
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectHistoryId = $('#ProjectHistoryId').val();
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input

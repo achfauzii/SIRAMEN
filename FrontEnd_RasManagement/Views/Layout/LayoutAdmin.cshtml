@@ -73,15 +73,20 @@
                 align-items: center;
             }
 
+        .logo-container {
+            background-color: white; /* Ganti warna latar belakang sesuai kebutuhan */
+            padding: 10px; /* Sesuaikan padding sesuai kebutuhan */
+        }
+
     </style>
-   
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    
+
 </head>
 
 <body id="page-top" class="">
@@ -93,8 +98,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion no-print" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-
+            <a class="sidebar-brand d-flex align-items-center justify-content-center logo-container" href="index.html">
                 <img src="~/img/logo_putih.png" width="290" height="38">
             </a>
 
@@ -129,12 +133,12 @@
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-       @*     <li class="nav-item  @(currentUrl == "/ManageEmployee/RegisNonRAS" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/RegisNonRAS"
-                   aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Non RAS Employee</span>
-                </a>
+            @*     <li class="nav-item  @(currentUrl == "/ManageEmployee/RegisNonRAS" ? "active" : "")">
+            <a class="nav-link collapsed" href="/ManageEmployee/RegisNonRAS"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-user-circle"></i>
+            <span>Non RAS Employee</span>
+            </a>
 
             </li>*@
 
@@ -143,7 +147,15 @@
                 <a class="nav-link collapsed" href="/ManageEmployee/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-tasks-alt"></i>
-                    <span>Manage Employee</span>
+                    <span>Manage Resource</span>
+                </a>
+            </li>
+
+            <li class="nav-item @(currentUrl == "/ManageEmployee/TurnOverEmployee" ? "active" : "")">
+                <a class="nav-link collapsed" href="/ManageEmployee/TurnOverEmployee" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-tasks-alt"></i>
+                    <span>Turn Over Employee</span>
                 </a>
             </li>
             @*
@@ -190,7 +202,7 @@
             </a>
             </li>*@
             <!-- Divider -->
-            <hr class="sidebar-divider">
+           @* <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -235,7 +247,7 @@
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Project History</span>
                 </a>
-            </li>
+            </li>*@
         </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
@@ -446,6 +458,10 @@
                                 Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>*@
+                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#chagnePasswordModal" onclick="clearScreen()">
+                                   <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
+                                </a>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -507,7 +523,57 @@
         </div>
     </div>
 
-  
+    <!-- Change Password Modal-->
+    <div class="modal" id="chagnePasswordModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header pt-2 pb-1">
+                    <h5 class="modal-title">Change Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="text-center pt-0 pb-3">
+                        <span style="height: 110px;"><img src="~/img/logo_putih.png" alt="Berca Hardayaperkasa" height="45px" width="225px" /></span>
+                    </div>
+
+
+
+                    <form class="user" id="resetPassword">
+
+                        <div class="form-group">
+                            @* <input type="text" id="accountId" name="accountId"  readonly hidden />*@
+
+                            <input type="password" class="form-control form-control-user" id="currentPassword" placeholder="Current Password" req>
+                            <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control form-control-user" id="newPassword" name="newPassword" placeholder="New Password" req>
+                            <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="password" class="form-control form-control-user" id="repeatPassword" name="repeatPassword" placeholder="Repeate Password" req>
+                            <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+
+
+
+                    </form>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updatePassword();">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -525,18 +591,18 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>*@
     <script src="~/js/Chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  @*  <script src="~/js/ManageEmployee.js"></script>*@
+    @*  <script src="~/js/ManageEmployee.js"></script>*@
     <script src="~/js/Account.js"></script>
 
     <!-- Page level plugins -->
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
-     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
 
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="~/js/JwtUtils.js"></script>
     <script src="~/js/DetailEmployee.js"></script>
-
+     <script src="~/js/ChangePassword.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

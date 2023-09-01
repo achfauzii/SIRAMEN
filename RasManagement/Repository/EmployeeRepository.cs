@@ -15,11 +15,32 @@ namespace RasManagement.Repository
         }
         public async Task<IEnumerable<Object>> GetEmployeeData()
         {
-            var employees = _context.Accounts.Where(a => a.RoleId == "3" || a.RoleId == "2");
+            var employees = _context.Accounts.Where(a => a.RoleId == "3");
+            return employees;
+            /*var blacklist = _context.Placements
+                .Where(p => p.PlacementStatus == "Onsite" || p.PlacementStatus == "Idle")
+                .Select(p => p.AccountId);
+
+            var employees = _context.Accounts.Where(a => (a.RoleId == "3" || a.RoleId == "2") && blacklist.Contains(a.AccountId));
+            return employees;*/
+        }
+
+        public async Task<IEnumerable<Object>> GetTurnOff()
+        {
+            var blacklist = _context.Placements
+                .Where(p => p.PlacementStatus == "Blacklist" || p.PlacementStatus == "Resign")
+                .Select(p => p.AccountId);
+
+            var employees = _context.Accounts.Where(a => (a.RoleId == "3" || a.RoleId == "2")&& blacklist.Contains(a.AccountId));
             return employees;
 
         }
+        public async Task<IEnumerable<Object>> GetAccountData()
+        {
+            var accounts = _context.Accounts.Where(a => a.RoleId == "3" || a.RoleId == "2");
+            return accounts;
 
+        }
         public Task<Account> Get(string key)
 
         {

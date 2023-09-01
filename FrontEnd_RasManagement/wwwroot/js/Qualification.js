@@ -4,7 +4,6 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
 
 
-
     $.ajax({
         url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
         type: 'GET',
@@ -83,12 +82,17 @@ function ClearScreen() {
 
 function ClearScreenUpdate() {
 
+
     $('#frameworkUpdate').val(null).trigger('change');// Kosongkan pilihan select
     $('#programmingLanguageUpdate').val(''); // Kosongkan input teks
 
     $('#databaseUpdate').val(''); // Kosongkan input teks
     $('#toolsUpdate').val(''); // Kosongkan input teks
     $('#othersUpdate').val(''); // Kosongkan input teks
+    $('#frameworkShow .error-message').hide();
+    $('#programmingShow .error-message').hide();
+    $('#databaseShow .error-message').hide();
+    $('#toolsShow .error-message').hide();
     $('.frameworkOptions').closest('.form-group').find('.error-message').hide();
 
     $('input[required_add]').each(function () {
@@ -272,45 +276,154 @@ function getbyID() {
             const selectedOptionsProgramming = obj.programmingLanguage;
             const selectedOptionsDatabase = obj.database;
             const selectedOptionsTools = obj.tools;
-            const selectedOptionsOthers = obj.others;
+            const othersObj = obj.others;
 
             const frameworkSelect = $('#frameworkUpdate');
+
             const programmingLanguageSelect = $('#programmingLanguageUpdate');
             const databaseSelect = $('#databaseUpdate');
             const toolsSelect = $('#toolsUpdate');
-
+            const othersInput = $('#othersUpdate');
+           
+        
             // Setiap nilai yang perlu diisi dalam Select2 diperlakukan sebagai array
             const selectedFrameworkArray = selectedOptionsFramework.split(', ');
             const selectedProgrammingArray = selectedOptionsProgramming.split(', ');
             const selectedDatabaseArray = selectedOptionsDatabase.split(', ');
             const selectedToolsArray = selectedOptionsTools.split(', ');
 
-            // Menambahkan opsi baru ke dalam Select2
-            selectedFrameworkArray.forEach(option => {
-                frameworkSelect.append(new Option(option, option, true, true));
+         
+         
+    
+
+        /*    frameworkSelect.val(selectedFrameworkArray);
+            frameworkSelect.trigger('change');*/
+        /*    selectedFrameworkArray.forEach(value => {
+                const optionExists = frameworkSelect.find("option[value='"+value+"']").length;
+
+                if (optionExists) {
+                    frameworkSelect.val(value).trigger('change');
+                } else {
+                    const newOption = new Option(value, value, true, true);
+                    frameworkSelect.append(newOption).trigger('change');
+                }
+            });*/
+
+            // Set the value, creating a new option if necessary
+            selectedFrameworkArray.forEach(value => {
+                const optionNotExists = frameworkSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    frameworkSelect.append(newOption).trigger('change');
+                }
             });
 
-            selectedProgrammingArray.forEach(option => {
-                programmingLanguageSelect.append(new Option(option, option, true, true));
+            // Set value to selectedFrameworkArray
+            frameworkSelect.val(selectedFrameworkArray).trigger('change');
+
+            selectedProgrammingArray.forEach(value => {
+                const optionNotExists = programmingLanguageSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    programmingLanguageSelect.append(newOption).trigger('change');
+                }
             });
 
-            selectedDatabaseArray.forEach(option => {
-                databaseSelect.append(new Option(option, option, true, true));
+            // Set value to selectedFrameworkArray
+            programmingLanguageSelect.val(selectedProgrammingArray).trigger('change');
+
+                 
+
+
+            selectedDatabaseArray.forEach(value => {
+                const optionNotExists = databaseSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    databaseSelect.append(newOption).trigger('change');
+                }
             });
 
-            selectedToolsArray.forEach(option => {
-                toolsSelect.append(new Option(option, option, true, true));
+            // Set value to selectedFrameworkArray
+            databaseSelect.val(selectedDatabaseArray).trigger('change');
+
+
+            selectedToolsArray.forEach(value => {
+                const optionNotExists = toolsSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    toolsSelect.append(newOption).trigger('change');
+                }
             });
 
-            // Memanggil fungsi select2() untuk menginisialisasi Select2 kembali
-            frameworkSelect.select2();
-            programmingLanguageSelect.select2();
-            databaseSelect.select2();
-            toolsSelect.select2();
+            // Set value to selectedFrameworkArray
+            toolsSelect.val(selectedToolsArray).trigger('change');   
 
 
+        
+         
 
-            $('#othersUpdate').val(obj.others);
+        
+
+            // Menginisialisasi Select2 dengan opsi tag
+            frameworkSelect.select2({
+                
+                tags: true,
+              
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
+
+            programmingLanguageSelect.select2({
+                tags: true,
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
+
+            databaseSelect.select2({
+                tags: true,
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
+
+            toolsSelect.select2({
+                tags: true,
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
+
+            othersInput.val(othersObj);
+   /*         frameworkSelect.val(selectedOptionsFramework).trigger('change');
+            programmingLanguageSelect.val(selectedOptionsProgramming).trigger('change');
+            databaseSelect.val(selectedOptionsDatabase).trigger('change');
+            toolsSelect.val(selectedOptionsTools).trigger('change');*/
+           
+
+ 
+
 
 
         },
@@ -322,6 +435,46 @@ function getbyID() {
 
 function Update() {
     debugger;
+    var isValid = true;
+    // Validasi apakah field frameworkUpdate memiliki nilai yang dipilih
+    var selectedFrameworks = $('#frameworkUpdate').val();
+    if (!selectedFrameworks || selectedFrameworks.length === 0) {
+        $('#frameworkShow .error-message').show();
+        isValid = false;
+    } else {
+        $('#frameworkShow .error-message').hide();
+    }
+
+    // Validasi apakah field programmingLanguageUpdate memiliki nilai yang dipilih
+    var selectedProgrammingLanguages = $('#programmingLanguageUpdate').val();
+    if (!selectedProgrammingLanguages || selectedProgrammingLanguages.length === 0) {
+        $('#programmingShow .error-message').show();
+        isValid = false;
+    } else {
+        $('#programmingShow .error-message').hide();
+    }
+
+    // Validasi apakah field databaseUpdate memiliki nilai yang dipilih
+    var selectedDatabases = $('#databaseUpdate').val();
+    if (!selectedDatabases || selectedDatabases.length === 0) {
+        $('#databaseShow .error-message').show();
+        isValid = false;
+    } else {
+        $('#databaseShow .error-message').hide();
+    }
+
+    // Validasi apakah field toolsUpdate memiliki nilai yang dipilih
+    var selectedTools = $('#toolsUpdate').val();
+    if (!selectedTools || selectedTools.length === 0) {
+        $('#toolsShow .error-message').show();
+        isValid = false;
+    } else {
+        $('#toolsShow .error-message').hide();
+    }
+
+    if (!isValid) {
+        return;
+    }
 
     var qualifications = new Object(); //bikin objek baru
     qualifications.accountId = $('#accountId').val();

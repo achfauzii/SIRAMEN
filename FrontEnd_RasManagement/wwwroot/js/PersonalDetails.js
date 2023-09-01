@@ -244,21 +244,24 @@ function GetById(accountId) {
 function updateData() {
     debugger;
     var accountId = $('#accountId').val();
+    var isValid = true;
 
-    /*// Validasi data sebelum update
-    if (!validateFormData()) {
+    $('input[required]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message').show();
+            isValid = false;
+        } else {
+            input.next('.error-message').hide();
+        }
+    });
+    if (!isValid) {
         return;
     }
 
-    // Validasi data sebelum update
     if (!validateImage()) {
         return;
-    }*/
-
-    if (!validateFormData() || !validateImage()) {
-        return;
     }
-
     uploadImage(accountId);
 
     var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto

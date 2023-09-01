@@ -69,7 +69,7 @@
         <div class="modal-content">
             <div class="modal-header pb-1">
                 <h5 class="modal-title" id="exampleModalLabel">Qualification</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" nclick="clearScreen()" >
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -106,7 +106,7 @@
                                 <option value=".Net Core API">.Net Core API</option>
                                 <option value=".Net Core MVC">.Net Core MVC</option>
                                 <option value="Bootstrap">Bootstrap</option>
-                                <option value="other">Others..</option>
+                           
 
                             </select>
                             <span class="error-message" style="color: red; display: none;">Please select at least one framework.</span>
@@ -135,7 +135,6 @@
                                 <option value="Ruby">Ruby</option>
 
 
-                                <option value="other">Others..</option>
 
                             </select>
                             <span class="error-message" style="color: red; display: none;">Please select at least one Programming Language.</span>
@@ -153,7 +152,7 @@
                                 <option value="Oracle">Oracle</option>
                                 <option value="PostgreSQL">PostgreSQL</option>
 
-                                <option value="other">Others..</option>
+                               
 
                             </select>
                             <span class="error-message" style="color: red; display: none;">Please select at least one database.</span>
@@ -175,7 +174,7 @@
                                 <option value="Google Colab">Google Colab</option>
                                 <option value="Microsoft Office">Microsoft Office</option>
 
-                                <option value="other">Others..</option>
+                    
 
                             </select>
                             <span class="error-message" style="color: red; display: none;">Please select at least one tools.</span>
@@ -206,7 +205,7 @@
         <div class="modal-content">
             <div class="modal-header pb-1">
                 <h5 class="modal-title" id="exampleModalLabel">Qualification</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearScreenUpdate()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -241,7 +240,7 @@
                                 <option value=".Net Core API">.Net Core API</option>
                                 <option value=".Net Core MVC">.Net Core MVC</option>
                                 <option value="Bootstrap">Bootstrap</option>
-                                <option value="other">Others..</option>
+                          
                             </select>
 
                         </p>
@@ -268,7 +267,7 @@
                                 <option value="Matlab">Matlab</option>
                                 <option value="Ruby">Ruby</option>
 
-                                <option value="other">Others..</option>
+                          
 
                             </select>
                             <span class="error-message" style="color: red; display: none;">Please select at least one Programming Language.</span>
@@ -305,7 +304,7 @@
                                 <option value="Jupyter Notebook">Jupyter Notebook</option>
                                 <option value="Google Colab">Google Colab</option>
                                 <option value="Microsoft Office">Microsoft Office</option>
-                                <option value="other">Others..</option>
+                              
 
                             </select>
                             <span class="error-message" style="color: red; display: none;">Please select at least one database.</span>
@@ -314,7 +313,7 @@
                     </div>
                     <div class="form-group mb-1" style="display: none;" id="othersShow">
                         <label class="m-0" for="exampleInputEmail1">Others</label>
-                        <input type="text" class="form-control " id="othersUpdate">
+                        <input type="text" class="form-control " id="othersUpdate"placeholder="Enter Your Skill (Ex. English)">
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 

@@ -30,13 +30,14 @@
 
         initComplete: function () {
             var api = this.api();
+
             // For each column
             api.columns().eq(0).each(function (colIdx) {
                 // Set the header cell to contain the input element
                 var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
                 var title = $(cell).text();
                 // Check if the column is "No", "Gender", or "Placement Status"
-                if (title !== "No"  && title !== "Placement Status" && title !== "Action") {
+                if (title !== "No"  &&  title !== "Action") {
                     $(cell).html('<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="'+ title +'" />');
                     // On every keypress in this input
                     $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
@@ -54,14 +55,23 @@
                                 .draw();
                             $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
                         });
+
                 } else {
                     // For columns "No", "Gender", and "Placement Status", leave the header cell empty
                     var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
                     $(cell).html('');
                 }
+                if (title === "Placement Status") {
+                    // Filter Placement Status column to show only "Idle"
+                    var placementStatusColumn = api.column(colIdx);
+                    placementStatusColumn.search("^(Idle|Onsite)$", true, false).draw();
+                }
 
 
             });
+         
+
+   
         },
         "columns": [
             //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
@@ -103,9 +113,11 @@
                         }
                     });
                     if (placementStatus == "Idle") {
-                        placementStatus = '<span class="badge badge-pill badge-warning">Idle</span>'
+                        placementStatus = '<button class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' + row.accountId + '\', \'Idle\')">Idle</button>'
+                        //placementStatus = '<span class="badge badge-pill badge-warning">Idle</span>'
                     } else {
-                        placementStatus = '<span class="badge badge-pill badge-success">' + placementStatus + '</span>'
+                        placementStatus = '<button class="badge badge-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' + row.accountId + '\', \'' + placementStatus + '\')">' + placementStatus + '</button>'
+                        //placementStatus = '<span class="badge badge-pill badge-success">' + placementStatus + '</span>'
                     }
 
 
@@ -164,7 +176,7 @@
                         '</div>' +
 
                         '<div class="text-center row">' +
-                        '<a href="#" class="btn  ml-2 btn-sm p-0 text-light"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId + '\')">Detail</a>' +
+                        '<a href="#" class="btn  ml-2 btn-sm p-0 text-light"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId+ '\')">Detail</a>' +
                         '</div>';
                 }
             }
@@ -215,6 +227,145 @@ function Detail(id) {
 
 
 
+}
+function parseJwt(token) {
+    //debugger;
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+function GetByIdPlacement(accountId, placementStatus) {
+    debugger;
+    console.log(placementStatus);
+    $.ajax({
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            debugger;
+            var obj = result.data; //data yg kita dapat dr API  
+      /*      var placementStatusSelect = document.getElementById("PlacementStatus");
+            var option = document.createElement("option");*/
+
+              /*  if (placementStatus == "Onsite") {
+             
+                    option.value = placementStatus;
+                    option.text = placementStatus;
+                    placementStatusSelect.appendChild(option);
+                } else {
+                  
+                    option.value = "Idle";
+                    option.text = "Idle";
+
+                    placementStatusSelect.appendChild(option);
+                }
+*/        
+
+            $('#AccountId').val(accountId)
+            $('#PlacementID').val(obj.placementStatusId);
+            $('#PlacementStatus').val(placementStatus);
+            $('#CompanyName').val(obj.companyName);
+            $('#Description').val(obj.description);
+            $('#Modal').modal('show');
+            $('#Update').show();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    })
+}
+
+function SaveTurnOver() {
+    debugger;
+    var placement = new Object  //object baru
+    placement.placementStatusId = $('#PlacementID').val();
+    placement.placementStatus = $('#PlacementStatus').val();
+    placement.companyName = $('#CompanyName').val();
+    placement.description = $('#Description').val();
+    placement.accountId = $('#AccountId').val();
+    console.log(placement);
+    $.ajax({
+        type: 'POST',
+        url: 'https://localhost:7177/api/EmployeePlacements/TurnOver',
+        data: JSON.stringify(placement),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+    }).then((result) => {
+        //debugger;
+        if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
+            //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+            Swal.fire({
+                title: "Success!",
+                text: "Turn Over Status has Updated",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+
+                location.reload();
+
+            });
+        }
+        else {
+            alert("Data gagal dimasukkan");
+        }
+
+    })
+}
+
+function UpdatePlacement() {
+    debugger;
+    var Placement = new Object();
+    Placement.accountId = $('#AccountId').val();
+    Placement.placementStatusId = $('#PlacementID').val();
+    Placement.placementStatus = $('#PlacementStatus').val();
+    Placement.companyName = $('#CompanyName').val();
+    Placement.description = $('#Description').val();
+    /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    Account.accountId = accid;*/
+    $.ajax({
+        url: 'https://localhost:7177/api/Accounts/UpdateTurnOver',
+        type: 'PUT',
+        data: JSON.stringify(Placement),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+
+    }).then((result) => {
+        debugger;
+        if (result.status == 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Data has been update!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            $('#Modal').modal('hide');
+            table.ajax.reload();
+        }
+        else {
+            Swal.fire(
+                'Error!',
+                result.message,
+                'error'
+            )
+            table.ajax.reload();
+        }
+    });
 }
 
 /*function GetById(accountId) {

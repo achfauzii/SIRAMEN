@@ -19,6 +19,8 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<Certificate> Certificates { get; set; }
 
+    public virtual DbSet<DataUniversita> DataUniversitas { get; set; }
+
     public virtual DbSet<EmploymentHistory> EmploymentHistories { get; set; }
 
     public virtual DbSet<FormalEdu> FormalEdus { get; set; }
@@ -35,7 +37,7 @@ public partial class ProjectRasmanagementContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server = RAS-FAUZI; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        => optionsBuilder.UseSqlServer("server = RAS-HIJRIANANDA; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -126,6 +128,19 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Certificate_Account");
+        });
+
+        modelBuilder.Entity<DataUniversita>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Data_uni__3213E83FDAF93A95");
+
+            entity.ToTable("Data_Universitas");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.NamaUniversitas)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("nama_universitas");
         });
 
         modelBuilder.Entity<EmploymentHistory>(entity =>

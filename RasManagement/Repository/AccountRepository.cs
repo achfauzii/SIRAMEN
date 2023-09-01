@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RasManagement.Interface;
+using RasManagement.Models;
 using RasManagement.ViewModel;
 
 namespace RasManagement.Repository
@@ -14,7 +15,7 @@ namespace RasManagement.Repository
         }
 
         //Generate Account Id
-        public async Task <string> GenerateId()
+        public async Task<string> GenerateId()
         {
             var currentDate = DateTime.Now.ToString("ddMMyyy");
             int countAccount = _context.Accounts.Count();
@@ -30,7 +31,7 @@ namespace RasManagement.Repository
 
             return $"{ras}{currentDate}{countAccount.ToString("D3")}";
 
-           
+
         }
 
         public Account GetByView(VMLogin viewLogin)
@@ -51,7 +52,7 @@ namespace RasManagement.Repository
             return CheckValidation.NullPointerAnAccount;
         }
 
-    
+
 
         public Account GetById(VMLogin viewLogin)
         {
@@ -65,7 +66,7 @@ namespace RasManagement.Repository
             return CheckValidation.NullPointerAnAccount;
         }
 
-        public async Task<bool>  AccountIsExist(string email, string accountId)
+        public async Task<bool> AccountIsExist(string email, string accountId)
         {
 
             var emailIsExist = _context.Accounts.SingleOrDefault(a => a.Email == email);
@@ -73,12 +74,12 @@ namespace RasManagement.Repository
 
             if (accountIdIsExist != null)
             {
-           
+
                 return true;
             }
             else if (emailIsExist != null)
             {
-             
+
                 return true;
             }
             return false;
@@ -118,7 +119,7 @@ namespace RasManagement.Repository
             };
             _context.Entry(account).State = EntityState.Added;
 
-           
+
 
             // myContext.Entry(employee).State = EntityState.Added;
             var save = _context.SaveChanges();
@@ -183,7 +184,7 @@ namespace RasManagement.Repository
 
 
         //FORGOT PASSWORD UPDATE
-        public async Task<bool> UpdateForgotPassword(UpdatePasswordVM updatePassword)
+        public async Task<bool> UpdatePassword(UpdatePasswordVM updatePassword)
         {
             var account = await _context.Accounts.SingleOrDefaultAsync(a => a.Email == updatePassword.Email);
             if (account != null)
@@ -228,6 +229,64 @@ namespace RasManagement.Repository
 
         }
 
+        public async Task<int> UpdateTurnOver(TurnOverVM turnOverVM)
+        {
+            var placement = new Placement
+            {
+                PlacementStatusId = turnOverVM.PlacementStatusId,
+                PlacementStatus = turnOverVM.PlacementStatus,
+                CompanyName=turnOverVM.CompanyName,
+                Description=turnOverVM.Description,
+                AccountId = turnOverVM.AccountId,
+
+            };
+
+            _context.Entry(placement).State = EntityState.Modified;
+            return _context.SaveChanges();
+
+            /*if (int.TryParse(turnOverVM.AccountId, out int accountId))
+            {
+
+                var turnover = await _context.Placements.FindAsync(turnOverVM.AccountId);
+
+                if (turnover != null)
+                {
+                    // Update placement status
+                    turnover.PlacementStatusId = turnOverVM.PlacementStatusId;
+                    turnover.PlacementStatus = turnOverVM.PlacementStatus;
+
+                    try
+                    {
+                        return await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        // Tangani kesalahan jika diperlukan
+                        Console.WriteLine($"Error updating data: {ex.Message}");
+                        return 0; // Atau return -1 atau kode yang sesuai untuk menandakan kesalahan
+                    }
+
+                    *//*//_context.Entry(turnover).State = EntityState.Modified;
+
+                    _context.Placements.Update(placements);
+
+                    return await _context.SaveChangesAsync();
+                    // Simpan perubahan ke database*//*
+
+                }
+                else
+                {
+                    // Tidak ditemukan akun dengan AccountId yang sesuai
+                    return 0; // Atau kode lain yang sesuai
+                }
+            }
+            else
+            {
+                return 0;
+            }*/
+
+        }
+
         public Account GetAccountId(string accountId)
         {
             return _context.Accounts.Find(accountId);
@@ -236,6 +295,6 @@ namespace RasManagement.Repository
 
 
     }
-    
+
 
 }
