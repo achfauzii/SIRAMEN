@@ -55,22 +55,32 @@
 
 
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Signed in successfully',
-                            text: "Hi " + decodedToken.Name,
-                            didClose: () => {
-                                const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
-                                var Role = getValueByIndex(decodedToken, 8);
-                                if (Role === 'Admin') {
-                                    window.location.replace("/dashboards/dashboard_admin"); // Redirect to admin 
-                                } else if (Role === 'Super_Admin') {
-                                    window.location.replace("/dashboards/dashboard_superadmin")
-                                } else {
-                                    window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
+
+                        const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
+                        var Role = getValueByIndex(decodedToken, 8);
+                        if (Role === 'Admin') {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Signed in successfully',
+                                text: "Hi " + decodedToken.Name,
+                                didClose: () => {
+                                    window.location.replace("/dashboards/dashboard_admin");
                                 }
-                            }
-                        })
+                            })// Redirect to admin
+                        } else if (Role === 'Super_Admin') {
+                            window.location.replace("/dashboards/dashboard_superadmin")
+                        } else if (Role === 'Employee') {
+                            window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
+                        } else {
+                            Swal.fire({
+                                icon: 'danger',
+                                title:'Failed Login',
+                                text: 'Your Account Has Ben Suspended',
+                                showConfirmButtom: false,
+                                timer: 1500
+                            })
+                        }
+
 
                     });
 

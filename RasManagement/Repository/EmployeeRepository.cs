@@ -15,12 +15,14 @@ namespace RasManagement.Repository
         }
         public async Task<IEnumerable<Object>> GetEmployeeData()
         {
-            var blacklist = _context.Placements
+            var employees = _context.Accounts.Where(a => a.RoleId == "3");
+            return employees;
+            /*var blacklist = _context.Placements
                 .Where(p => p.PlacementStatus == "Onsite" || p.PlacementStatus == "Idle")
                 .Select(p => p.AccountId);
 
             var employees = _context.Accounts.Where(a => (a.RoleId == "3" || a.RoleId == "2") && blacklist.Contains(a.AccountId));
-            return employees;
+            return employees;*/
         }
 
         public async Task<IEnumerable<Object>> GetTurnOff()
