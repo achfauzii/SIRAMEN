@@ -7,9 +7,20 @@ $(document).ready(function () {
     //Ini untuk tanpa display none jadi langsung di tampilkan ()
     $(selectMajor).select2({
         placeholder: 'Select your Major',
-        width: '100%'
+        width: '100%',
+        tags: true
+
     });
 
+    $('#ModalFormal').on('show.bs.modal', function (e) {
+        getUniversitasList();
+    });
+
+    $('#UniversityName').select2({
+        placeholder: 'Enter University Name',
+        width: '100%',
+        tags: true // Aktifkan fitur tagging
+    });
 
 })
 
@@ -87,6 +98,32 @@ function Educations() {
         }
     })
 }
+
+function getUniversitasList() {
+    $.ajax({
+        url: "https://localhost:7177/api/Universitas",
+        type: "GET",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var universities = result.data;
+            var selectUniversity = $('#UniversityName');
+
+            selectUniversity.empty(); // Kosongkan pilihan sebelumnya
+            selectUniversity.append('<option value="" selected disabled>Select University</option>');
+
+            universities.forEach(function (university) {
+                selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
 
 function formInputLocation() {
 
@@ -175,9 +212,12 @@ function SaveFormal() {
             input.next('.error-message-formal').hide();
         }
     });
+  
     // Validasi select options
     var selectedRegencies = $('#selectRegencies').val();
     var selectedMajor = $('#Major').val();
+    var selectedUniversity = $('#UniversityName').val();
+    
  
     if (!selectedRegencies) {
         $('.selectRegencies').closest('.form-group').find('.error-message').show();
@@ -194,6 +234,15 @@ function SaveFormal() {
         $('.selectMajor').closest('.form-group').find('.error-message-major').hide();
 
     }
+
+    if (!selectedUniversity) {
+        $('.selectUniversity').closest('.form-group').find('.error-message-university').show();
+        isValid = false;
+    } else {
+        $('.selectUniversity').closest('.form-group').find('.error-message-university').hide();
+
+    }
+
 
     if (!isValid) {
         return;

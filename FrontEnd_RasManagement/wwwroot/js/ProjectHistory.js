@@ -85,6 +85,7 @@ function Save() {
     if (!isValid) {
         return;
     }
+
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
     ProjectHistory.jobSpec = $('#JobSpec').val();
@@ -191,6 +192,7 @@ function Update() {
     if (!isValid) {
         return;
     }
+
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectHistoryId = $('#ProjectHistoryId').val();
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
