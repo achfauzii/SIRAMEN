@@ -296,7 +296,7 @@ function SaveTurnOver() {
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
     updateRole.roleId = "4";
-    console.log(placement);
+   // console.log(placement);
     $.ajax({
         type: 'POST',
         url: 'https://localhost:7177/api/EmployeePlacements/TurnOver',
@@ -316,7 +316,7 @@ function SaveTurnOver() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                if (placement.placementStatus == "Blacklist" || placement.placementStatus == "Resign" || placement.placementStatus=="Transfer") {
+                if (placement.placementStatus == "Blacklist" || placement.placementStatus == "Resign" || placement.placementStatus == "Transfer") {
                     $.ajax({
                         url: 'https://localhost:7177/api/Accounts/UpdateRole',
                         type: 'PUT',
