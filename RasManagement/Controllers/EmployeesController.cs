@@ -97,5 +97,41 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Failed to update data" });
             }
         }
+
+        [HttpPost("DataTableGetEmployee")]
+        public async Task<IActionResult> GetData([FromBody] DataTablesRequest request)
+        {
+            //var employees = await employeeRepository.GetEmployeeData();
+            var query = _context.Accounts.AsQueryable();
+
+            // Implementasi pencarian
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchTerm = request.Search.Value.ToLower();
+                query = query.Where(e =>
+                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin Anda cari
+                    e.Email.ToLower().Contains(searchTerm) ||
+                    e.AccountId.Contains(searchTerm)
+                   
+                    
+                );
+            }
+       
+
+           
+            // Filter, sort, dan paging data berdasarkan permintaan dari DataTables
+            // Anda perlu mengimplementasikan logika ini sesuai dengan permintaan DataTables
+            // Contoh: products = products.Where(...).OrderBy(...).Skip(...).Take(...);
+            var employees = await query.ToListAsync();
+            var response = new DataTablesResponse
+            {
+                Draw = request.Draw,
+                RecordsTotal = employees.Count(),
+                RecordsFiltered = employees.Count(), // Anda perlu mengganti ini dengan jumlah data yang sesuai setelah diterapkan filter
+                Data = employees // Data hasil filter dan paging
+            };
+
+            return Ok(response);
+        }
     }
 }

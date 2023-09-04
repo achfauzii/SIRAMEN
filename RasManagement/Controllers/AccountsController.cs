@@ -243,6 +243,41 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpPut("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePassVM changePassVM)
+        {
+            var email = changePassVM.Email;
+
+            try
+            {
+                // Mendapatkan pengguna berdasarkan email
+                var user = await accountRepository.GetByEmail(email);
+                if (user == null)
+                {
+                    return StatusCode(404, new { status = HttpStatusCode.BadRequest, message = "Email Address Not Found" });
+                }
+
+
+                // Update password
+                var _updatePassword = await accountRepository.ChangePassword(changePassVM);
+
+                if (_updatePassword == true)
+                {
+                    return StatusCode(200, new { status = HttpStatusCode.OK, message = "Password reset successfully." });
+
+                }
+                else
+                {
+                    return BadRequest("Password reset failed");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
         [HttpPut("UpdateRole")]
         public IActionResult UpdateRoles(RoleVM roleVM)
         {
