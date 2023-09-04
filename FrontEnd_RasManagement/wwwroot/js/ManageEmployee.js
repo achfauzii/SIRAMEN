@@ -316,7 +316,7 @@ function SaveTurnOver() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                if (placement.placementStatus == "Blacklist" || placement.placementStatus == "Resign") {
+                if (placement.placementStatus == "Blacklist" || placement.placementStatus == "Resign" || placement.placementStatus=="Transfer") {
                     $.ajax({
                         url: 'https://localhost:7177/api/Accounts/UpdateRole',
                         type: 'PUT',
