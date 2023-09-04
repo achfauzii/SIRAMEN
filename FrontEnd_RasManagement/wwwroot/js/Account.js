@@ -66,14 +66,30 @@
                                 didClose: () => {
                                     window.location.replace("/dashboards/dashboard_admin");
                                 }
-                            })// Redirect to admin
+                            })
                         } else if (Role === 'Super_Admin') {
-                            window.location.replace("/dashboards/dashboard_superadmin")
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Signed in successfully',
+                                text: "Hi " + decodedToken.Name,
+                                didClose: () => {
+                                    window.location.replace("/dashboards/dashboard_superadmin")
+                                }
+                            })
+                           
                         } else if (Role === 'Employee') {
-                            window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Signed in successfully',
+                                text: "Hi " + decodedToken.Name,
+                                didClose: () => {
+                                    window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
+                                }
+                            })
+                           
                         } else {
                             Swal.fire({
-                                icon: 'danger',
+                                icon: 'warning',
                                 title:'Failed Login',
                                 text: 'Your Account Has Ben Suspended',
                                 showConfirmButtom: false,
