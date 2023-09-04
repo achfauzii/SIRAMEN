@@ -292,6 +292,10 @@ function SaveTurnOver() {
     placement.companyName = $('#CompanyName').val();
     placement.description = $('#Description').val();
     placement.accountId = $('#AccountId').val();
+
+    var updateRole = new Object
+    updateRole.accountId = $('#AccountId').val();
+    updateRole.roleId = "4";
     console.log(placement);
     $.ajax({
         type: 'POST',
@@ -312,6 +316,23 @@ function SaveTurnOver() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
+                if (placement.placementStatus == "Blacklist" || placement.placementStatus == "Resign") {
+                    $.ajax({
+                        url: 'https://localhost:7177/api/Accounts/UpdateRole',
+                        type: 'PUT',
+                        data: JSON.stringify(updateRole),
+                        contentType: "application/json; charset=utf-8",
+                        headers: {
+                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                        },
+                    }).then((updateResult) => {
+                        if (updateResult.status === 200) {
+                            // Handle the success of roleId update if needed
+                        } else {
+                            // Handle any errors that occur during roleId update
+                        }
+                    });
+                }
 
                 location.reload();
 

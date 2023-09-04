@@ -29,6 +29,26 @@ namespace RasManagement.Controllers
             return "value";
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Get()
+        {
+
+            var data = await employeePlacementRepository.Get();
+
+            if (data != null)
+            {
+
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil di tambahkan", Data = data });
+
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Placment gagal ditambahkan" });
+            }
+
+
+        }
+
         // POST api/<EmployeePlacementsController>
         [HttpPost]
         public async Task <ActionResult> AddPlacement(PlacementVM placementVM)
