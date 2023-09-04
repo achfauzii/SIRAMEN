@@ -212,9 +212,12 @@ function SaveFormal() {
             input.next('.error-message-formal').hide();
         }
     });
+  
     // Validasi select options
     var selectedRegencies = $('#selectRegencies').val();
     var selectedMajor = $('#Major').val();
+    var selectedUniversity = $('#UniversityName').val();
+    
  
     if (!selectedRegencies) {
         $('.selectRegencies').closest('.form-group').find('.error-message').show();
@@ -231,6 +234,15 @@ function SaveFormal() {
         $('.selectMajor').closest('.form-group').find('.error-message-major').hide();
 
     }
+
+    if (!selectedUniversity) {
+        $('.selectUniversity').closest('.form-group').find('.error-message-university').show();
+        isValid = false;
+    } else {
+        $('.selectUniversity').closest('.form-group').find('.error-message-university').hide();
+
+    }
+
 
     if (!isValid) {
         return;
