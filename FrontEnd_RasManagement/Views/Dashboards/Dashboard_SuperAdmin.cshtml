@@ -21,18 +21,20 @@
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-1">
             <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-3" style="margin: -25px 0;">
-                        <span style="font-size: 10px;">RAS Department</span>
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Resource
+                 <a class="nav-link collapsed" href="/ManageEmployee/Index">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-3" style="margin: -25px 0;">
+                            <span style="font-size: 10px;">RAS Department</span>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Resource
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.TotalEmployee</div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.TotalEmployee</div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-users fa-2x text-gray-300"></i>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
@@ -41,19 +43,21 @@
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-1">
             <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-3" style="margin: -25px 0;">
-                        <span style="font-size: 10px;">Placement Status</span>
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Idle
+                <a class="nav-link collapsed" href="/ManageEmployee/Index">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-3" style="margin: -25px 0;">
+                            <span style="font-size: 10px;">Placement Status</span>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Idle
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="countIdle"></div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="countIdle"></div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-user-clock fa-2x text-gray-300"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-user-clock fa-2x text-gray-300"></i>
 
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
@@ -62,19 +66,21 @@
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-1">
             <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-3" style="margin: -25px 0;">
-                        <span style="font-size: 10px;">Placement Status</span>
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Onsite
+                <a class="nav-link collapsed" href="/ManageEmployee/Index">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-3" style="margin: -25px 0;">
+                            <span style="font-size: 10px;">Placement Status</span>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Onsite
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="countOnsite"></div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="countOnsite"></div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-map-marker-alt fa-2x text-gray-300"></i>
+                        <div class="col-auto">
+                            <i class="fas fa-map-marker-alt fa-2x text-gray-300"></i>
 
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
