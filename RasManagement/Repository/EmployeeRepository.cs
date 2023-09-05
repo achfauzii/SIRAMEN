@@ -81,6 +81,10 @@ namespace RasManagement.Repository
             {
                 existingEmployee.Nationality = updatedData.Nationality;
             }
+            if (!string.IsNullOrEmpty(updatedData.Address))
+            {
+                existingEmployee.Address = updatedData.Address;
+            }
             if (!string.IsNullOrEmpty(updatedData.Image))
             {
                 existingEmployee.Image = updatedData.Image;
