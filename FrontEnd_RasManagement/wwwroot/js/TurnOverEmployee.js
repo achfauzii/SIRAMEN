@@ -116,7 +116,7 @@
                                 if (result.placementStatus === "Blacklist") {
                                     placementStatus = result.placementStatus;
                                 } else {
-                                    placementStatus = result.placementStatus; // Jika bukan "Blacklist", kosongkan placementStatus
+                                    placementStatus = result.placementStatus; 
                                 }
                             }
                         },
@@ -126,8 +126,10 @@
                     });
                     if (placementStatus === "Blacklist") {
                         return '<span class="badge badge-pill badge-danger">' + placementStatus + '</span>';
+                    } else if (placementStatus === "Resign") {
+                        return '<span class="badge badge-pill badge-dark">' + placementStatus + '</span>'; 
                     } else {
-                        return '<span class="badge badge-pill badge-dark">' + placementStatus + '</span>'; // Jika bukan "Blacklist", tidak akan menampilkan apa pun
+                        return '<span class="badge badge-pill badge-primary">' + placementStatus + '</span>';
                     }
 
 

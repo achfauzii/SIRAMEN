@@ -27,7 +27,7 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> Employees()
         {
             var get = await employeeRepository.GetEmployeeData();
-            if (get.Count() != 0)
+            if (get.Count() >= 0)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = get.Count() + " Data Ditemukan", TotalData = get.Count(), Data = get });
             }
