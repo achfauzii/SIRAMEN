@@ -34,6 +34,10 @@ namespace RasManagement.Repository
             return _context.Placements.Find(PlacementStatusId);
         }
 
+        public async Task<IEnumerable<Placement>> Get()
+        {
+            return await _context.Placements.ToListAsync();
+        }
 
         public async Task<int> AddPlacement(PlacementVM placementVM)
         {
