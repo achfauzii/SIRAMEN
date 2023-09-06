@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Crypto;
 using RasManagement.Interface;
 using RasManagement.Models;
 using RasManagement.ViewModel;
@@ -47,6 +48,7 @@ namespace RasManagement.Repository
                 {
                     return myAcc;
                 }
+                
                 return CheckValidation.PasswordNotPassed;
             }
             return CheckValidation.NullPointerAnAccount;
@@ -89,6 +91,7 @@ namespace RasManagement.Repository
         public async Task<int> Register(RegisterVM registerVM)
         {
             var generateId = await GenerateId();
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerVM.Password);
             Account account = new Account
             {
                 /* AccountId = registerVM.AccountId,
@@ -110,7 +113,7 @@ namespace RasManagement.Repository
 
                 AccountId = generateId,
                 Email = registerVM.Email,
-                Password = registerVM.Password,
+                Password = passwordHash,
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
                 Hiredstatus = registerVM.Hiredstatus,
@@ -165,9 +168,10 @@ namespace RasManagement.Repository
             {
                 return emailNotFound;
             }
+
             else
             {
-                var myPass = viewLogin.Password == myAcc.Password;
+                var myPass = BCrypt.Net.BCrypt.Verify(viewLogin.Password, myAcc.Password);
                 if (myPass)
                 {
                     return successful;
@@ -188,8 +192,24 @@ namespace RasManagement.Repository
         {
             var account = await _context.Accounts.SingleOrDefaultAsync(a => a.Email == updatePassword.Email);
             if (account != null)
+
             {
-                account.Password = updatePassword.NewPassword;
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(updatePassword.NewPassword);
+                account.Password = passwordHash;
+                _context.Accounts.Update(account);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+        public async Task<bool> ChangePassword(ChangePassVM changePass)
+        {
+            var account = await _context.Accounts.SingleOrDefaultAsync(a => a.Email == changePass.Email);
+
+            if (account != null && BCrypt.Net.BCrypt.Verify(changePass.CurrentPassword, account.Password))
+            {
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(changePass.NewPassword);
+                account.Password = passwordHash;
                 _context.Accounts.Update(account);
                 await _context.SaveChangesAsync();
                 return true;

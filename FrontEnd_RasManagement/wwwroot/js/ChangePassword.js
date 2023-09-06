@@ -20,7 +20,7 @@ function clearScreen() {
 
 
 function updatePassword() {
- 
+
     var isValid = true;
 
     $('input[req]').each(function () {
@@ -50,69 +50,50 @@ function updatePassword() {
         alert('Password and Repeat Password do not match.');
         return; // Hentikan eksekusi lebih lanjut
     }
-    debugger;
-    fetch('https://localhost:7177/api/Accounts/AccountId?accountId='+accountId, {
-        method: 'GET', // Atur metode sesuai kebutuhan
+    //debugger;
 
+
+    fetch('https://localhost:7177/api/Accounts/ChangePassword', {
+        method: 'PUT', // Atur metode sesuai kebutuhan
         headers: {
+            'Content-Type': 'application/json', // Atur tipe konten sesuai kebutuhan
+            // Atur header lain yang diperlukan, seperti token
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
- 
+        body: JSON.stringify({
+            email: email,
+            currentPassword: currentPassword,
+            newPassword: newPassword
+        })
     })
         .then(response => response.json())
         .then(data => {
-            // Lakukan sesuatu dengan data yang diterima
-            console.log(currentPassword);
-            if (data.data.password !== currentPassword) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Failed',
-                    text: 'Failed to update password. Please check your current password.',
-                 
-                })
-                return; 
-            }
-
-            fetch('https://localhost:7177/api/Accounts/UpdatePassword', {
-                method: 'PUT', // Atur metode sesuai kebutuhan
-                headers: {
-                    'Content-Type': 'application/json', // Atur tipe konten sesuai kebutuhan
-                    // Atur header lain yang diperlukan, seperti token
-                },
-                body: JSON.stringify({
-                    email: email,
-                    newPassword: newPassword
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success...',
-                        text: 'Password has been updated successfully!',
-                        showConfirmButton: false,
-                        timer: 2000
-                    }).then(() => {
-                        $('#changePasswordModal').modal('hide');
-                        location.reload();
-                    });
-                })
-                .catch(error => {
-                    console.error('Error updating password:', error);
-                    // Tampilkan pesan error jika terjadi kesalahan
-                });
-
-
-
-            
+            Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Password has been updated successfully!',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                $('#changePasswordModal').modal('hide');
+                location.reload();
+            });
         })
         .catch(error => {
-            console.error('Error fetching specific data:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'Failed to update password. Please check your current password.',
+
+            })
             // Tampilkan pesan error jika terjadi kesalahan
         });
 
 
-   
+
+
+
+
 
 }
 

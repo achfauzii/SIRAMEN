@@ -17,22 +17,14 @@ namespace RasManagement.Repository
         {
             var employees = _context.Accounts.Where(a => a.RoleId == "3");
             return employees;
-            /*var blacklist = _context.Placements
-                .Where(p => p.PlacementStatus == "Onsite" || p.PlacementStatus == "Idle")
-                .Select(p => p.AccountId);
 
-            var employees = _context.Accounts.Where(a => (a.RoleId == "3" || a.RoleId == "2") && blacklist.Contains(a.AccountId));
-            return employees;*/
         }
 
         public async Task<IEnumerable<Object>> GetTurnOff()
         {
-            var blacklist = _context.Placements
-                .Where(p => p.PlacementStatus == "Blacklist" || p.PlacementStatus == "Resign")
-                .Select(p => p.AccountId);
-
-            var employees = _context.Accounts.Where(a => (a.RoleId == "3" || a.RoleId == "2")&& blacklist.Contains(a.AccountId));
-            return employees;
+            
+            var accounts = _context.Accounts.Where(a => a.RoleId == "4");
+            return accounts;
 
         }
         public async Task<IEnumerable<Object>> GetAccountData()

@@ -73,11 +73,14 @@
                         <input type="text" class="form-control" id="FormalEduId" hidden>
 
                         <div class="form-group">
-                            <label for="universitySelect">University Name</label>
-                            <select id="universitySelect" class="selectUniv form-control" name="state" required>
-                                <option></option>
-                            </select>
-                            <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
+                            <label for="UniversityName">University Name</label>
+                            <p>
+                                <select id="UniversityName" class="selectUniversity form-control" required>
+                                    <option></option>
+                                </select>
+                            </p>
+                           
+                            <span class="error-message-university" style="color: red; display: none;">Please select university name.</span>
                         </div>
 
                         @*<div class="form-group">
