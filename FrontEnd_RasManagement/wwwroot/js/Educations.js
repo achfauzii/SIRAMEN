@@ -17,10 +17,11 @@ $(document).ready(function () {
 
 
 
+
 })
 
 function Educations() {
-    //debugger;
+    debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_FormalEdu').DataTable({
@@ -96,7 +97,7 @@ function Educations() {
 
 function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
-  
+
     $.ajax({
         url: "https://localhost:7177/api/Universitas",
         type: "GET",
@@ -107,10 +108,8 @@ function getUniversitasList() {
         success: function (result) {
             var universities = result.data;
 
-      
             //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-           //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-          
+            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
 
             universities.forEach(function (university) {
                 console.log(university);
@@ -123,7 +122,7 @@ function getUniversitasList() {
             $(selectUniversity).select2({
                 placeholder: 'Select University',
                 width: '100%',
-                
+
             });
         },
         error: function (errormessage) {
@@ -131,7 +130,6 @@ function getUniversitasList() {
         }
     });
 }
-
 
 
 function formInputLocation() {
@@ -221,13 +219,13 @@ function SaveFormal() {
             input.next('.error-message-formal').hide();
         }
     });
-  
+
     // Validasi select options
     var selectedRegencies = $('#selectRegencies').val();
     var selectedMajor = $('#Major').val();
     var selectedUniversity = $('#UniversityName').val();
-    
- 
+
+
     if (!selectedRegencies) {
         $('.selectRegencies').closest('.form-group').find('.error-message').show();
         isValid = false;
@@ -260,7 +258,7 @@ function SaveFormal() {
 
 
     var FormalEdu = new Object(); //object baru
-    FormalEdu.universityName = $('#universitySelect').val(); //value insert dari id pada input
+    FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
     FormalEdu.location = $('#selectRegencies').val();;
     FormalEdu.major = $('#Major').val();
     FormalEdu.degree = $('#Degree').val();
@@ -305,9 +303,7 @@ function SaveFormal() {
 function ClearScreenFormal() {
     $('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
     $('#FormalEduId').val('');
-
     $('#UniversityName').val('').trigger('change');
-
     //$('#Location').val('');
     $('#Major').val('').trigger('change');
     $('#Degree').val('');
@@ -331,7 +327,7 @@ function ClearScreenFormal() {
 }
 
 function GetById(formalEduId) {
-    debugger;
+    //debugger;
     //GET SEMUA Kota atau kabupaten untuk di tampilkan berdasarkan Get By Id
 
     ClearScreenFormal();
@@ -351,7 +347,7 @@ function GetById(formalEduId) {
             option.value = obj.location;
             option.textContent = obj.location;
             selectRegencies.appendChild(option);
-      
+
             const optionUniv = document.createElement('option');
             optionUniv.value = obj.universityName;
             optionUniv.textContent = obj.universityName;
@@ -361,10 +357,10 @@ function GetById(formalEduId) {
             const selectUniversities = $('#UniversityName');
             selectUniversities.val(obj.universityName).trigger('change');
             selectUniversities.select2({
-           
-                  
-                    width: '100%',
-               
+
+
+                width: '100%',
+
                 tags: true,
 
                 createTag: function (params) {
@@ -378,18 +374,13 @@ function GetById(formalEduId) {
             // Kosongkan pilihan sebelumnya
             //selectUniversity.append('<option selected value="' + obj.universityName + '">' + obj.universityName + '</option>');*/
 
-         /*   universities.forEach(function (university) {
-                selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
-            });*/
+            /*   universities.forEach(function (university) {
+                   selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
+               });*/
 
             $('#FormalEduId').val(obj.formalEduId);
-
-            console.log(obj.universityName)
-            $('#universitySelect').val(obj.universityName);
-            $('#universitySelect').trigger('change');
-
+            $('#UniversityName').val(obj.universityName);
             $('#selectRegencies').val(obj.location);
-            $('#selectRegencies').trigger('change');
             $('#Major').val(obj.major);
             $('#Major').trigger('change');
             $('#Degree').val(obj.degree);
@@ -426,15 +417,15 @@ function UpdateFormal() {
     }
 
     var FormalEdu = new Object(); //object baru
-    FormalEdu.formalEduId = $('#FormalEduId').val();
-    FormalEdu.universityName = $('#universitySelect').val(); //value insert dari id pada input
-    FormalEdu.location = $('#selectRegencies').val();
-    FormalEdu.major = $('#Major').val();
-    FormalEdu.degree = $('#Degree').val();
-    FormalEdu.years = $('#GraduationYears').val();
+    FormalEdu.FormalEduId = $('#FormalEduId').val();
+    FormalEdu.UniversityName = $('#UniversityName').val(); //value insert dari id pada input
+    FormalEdu.Location = $('#selectRegencies').val();
+    FormalEdu.Major = $('#Major').val();
+    FormalEdu.Degree = $('#Degree').val();
+    FormalEdu.Years = $('#GraduationYears').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
-    FormalEdu.accountId = accid;
+    FormalEdu.AccountId = accid;
 
     $.ajax({
         type: 'PUT',
