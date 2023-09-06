@@ -12,20 +12,22 @@ $(document).ready(function () {
 
     });
 
+    const selectUniversity = $('#universitySelect');
+    $(selectUniversity).select2({
+        placeholder: 'Enter University Name',
+        width: '100%',
+        tags: true
+    });
+
     $('#ModalFormal').on('show.bs.modal', function (e) {
         getUniversitasList();
     });
 
-    $('#UniversityName').select2({
-        placeholder: 'Enter University Name',
-        width: '100%',
-        tags: true 
-    });
 
 })
 
 function Educations() {
-    debugger;
+    //debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_FormalEdu').DataTable({
@@ -60,8 +62,8 @@ function Educations() {
                         .join(' ');
                     return formattedCity;
                 }
-                      
-     
+
+
 
             },
             { "data": "major" },
@@ -109,7 +111,7 @@ function getUniversitasList() {
         },
         success: function (result) {
             var universities = result.data;
-            var selectUniversity = $('#UniversityName'); // Menggunakan ID
+            var selectUniversity = $('#universitySelect'); // Menggunakan ID
 
             selectUniversity.empty(); // Kosongkan pilihan sebelumnya
             selectUniversity.append('<option value="" selected disabled>Select University</option>');
@@ -216,7 +218,7 @@ function SaveFormal() {
     // Validasi select options
     var selectedRegencies = $('#selectRegencies').val();
     var selectedMajor = $('#Major').val();
- 
+
     if (!selectedRegencies) {
         $('.selectRegencies').closest('.form-group').find('.error-message').show();
         isValid = false;
@@ -240,7 +242,7 @@ function SaveFormal() {
 
 
     var FormalEdu = new Object(); //object baru
-    FormalEdu.universityName = $('#UniversityName').val(); //value insert dari id pada input
+    FormalEdu.universityName = $('#universitySelect').val(); //value insert dari id pada input
     FormalEdu.location = $('#selectRegencies').val();;
     FormalEdu.major = $('#Major').val();
     FormalEdu.degree = $('#Degree').val();
@@ -301,7 +303,7 @@ function ClearScreenFormal() {
 }
 
 function GetById(formalEduId) {
-    //debugger;
+    debugger;
     //GET SEMUA Kota atau kabupaten untuk di tampilkan berdasarkan Get By Id
 
     ClearScreenFormal();
@@ -322,9 +324,19 @@ function GetById(formalEduId) {
             option.textContent = obj.location;
             selectRegencies.appendChild(option);
 
+            const optionUniv = document.createElement('option');
+            optionUniv.value = obj.universityName;
+            optionUniv.textContent = obj.universityName;
+            $('#universitySelect').append(optionUniv);
+
             $('#FormalEduId').val(obj.formalEduId);
-            $('#UniversityName').val(obj.universityName);
+
+            console.log(obj.universityName)
+            $('#universitySelect').val(obj.universityName);
+            $('#universitySelect').trigger('change');
+
             $('#selectRegencies').val(obj.location);
+            $('#selectRegencies').trigger('change');
             $('#Major').val(obj.major);
             $('#Major').trigger('change');
             $('#Degree').val(obj.degree);
@@ -357,20 +369,20 @@ function UpdateFormal() {
         // Jika validasi tidak berhasil, jangan tutup modal
         return;
 
-       
+
     }
 
     var FormalEdu = new Object(); //object baru
-    FormalEdu.FormalEduId = $('#FormalEduId').val();
-    FormalEdu.UniversityName = $('#universitySelect').val(); //value insert dari id pada input
-    FormalEdu.Location = $('#selectRegencies').val();
-    FormalEdu.Major = $('#Major').val();
-    FormalEdu.Degree = $('#Degree').val();
-    FormalEdu.Years = $('#GraduationYears').val();
+    FormalEdu.formalEduId = $('#FormalEduId').val();
+    FormalEdu.universityName = $('#universitySelect').val(); //value insert dari id pada input
+    FormalEdu.location = $('#selectRegencies').val();
+    FormalEdu.major = $('#Major').val();
+    FormalEdu.degree = $('#Degree').val();
+    FormalEdu.years = $('#GraduationYears').val();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
-    FormalEdu.AccountId = accid;
-  
+    FormalEdu.accountId = accid;
+
     $.ajax({
         type: 'PUT',
         url: 'https://localhost:7177/api/Educations',
