@@ -182,14 +182,6 @@
             }
 
         ],
-        //Agar nomor tidak berubah
-        "drawCallback": function (settings) {
-            var api = this.api();
-            var rows = api.rows({ page: 'current' }).nodes();
-            api.column(1, { page: 'current' }).data().each(function (group, i) {
-                $(rows).eq(i).find('td:first').html(i + 1);
-            });
-        }
         //"order": [], // menonaktifkan order pada semua kolom
         /*   "fnDrawCallback": function (oSettings) {
                  // mengatur nomor urut berdasarkan halaman dan pengurutan yang aktif, menetapkan nomor urut menjadi 1

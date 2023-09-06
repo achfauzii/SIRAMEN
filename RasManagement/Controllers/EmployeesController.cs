@@ -59,7 +59,7 @@ namespace RasManagement.Controllers
         {
             var get = await employeeRepository.GetTurnOff();
 
-            if (get.Count() != 0)
+            if (get.Count() >= 0)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = get.Count() + " Data Ditemukan", TotalData = get.Count(), Data = get });
             }

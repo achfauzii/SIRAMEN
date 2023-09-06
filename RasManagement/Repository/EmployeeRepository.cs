@@ -81,7 +81,7 @@ namespace RasManagement.Repository
             {
                 existingEmployee.Nationality = updatedData.Nationality;
             }
-            if (!string.IsNullOrEmpty(updatedData.Nationality))
+            if (!string.IsNullOrEmpty(updatedData.Address))
             {
                 existingEmployee.Address = updatedData.Address;
             }
