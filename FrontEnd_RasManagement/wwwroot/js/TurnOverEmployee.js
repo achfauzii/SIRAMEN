@@ -32,12 +32,12 @@
                 });
 
                 *//*var table = $('#dataTableEmployee').DataTable({
-                    // konfigurasi DataTables lainnya
-                    data: filteredData,
-                    // ...
-                });*//*
+                // konfigurasi DataTables lainnya
+                data: filteredData,
+                // ...
+            });*//*
 
-            }*/
+        }*/
         },
 
         initComplete: function () {
@@ -99,7 +99,7 @@
             {
                 "render": function (data, type, row) {
                     var accountId = row.accountId;
-                    
+
 
                     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
                     $.ajax({
@@ -116,7 +116,7 @@
                                 if (result.placementStatus === "Blacklist") {
                                     placementStatus = result.placementStatus;
                                 } else {
-                                    placementStatus = result.placementStatus; 
+                                    placementStatus = result.placementStatus;
                                 }
                             }
                         },
@@ -125,11 +125,11 @@
                         }
                     });
                     if (placementStatus === "Blacklist") {
-                        return '<span class="badge badge-pill badge-danger">' + placementStatus + '</span>';
+                        return '<span type="button" class="badge badge-pill badge-danger"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.accountId + '\')">' + placementStatus + '</span>';
                     } else if (placementStatus === "Resign") {
-                        return '<span class="badge badge-pill badge-dark">' + placementStatus + '</span>'; 
+                        return '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.accountId + '\')">' + placementStatus + '</span>';
                     } else {
-                        return '<span class="badge badge-pill badge-primary">' + placementStatus + '</span>';
+                        return '<span type="button" class="badge badge-pill badge-primary"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.accountId + '\')" >' + placementStatus + '</span>';
                     }
 
 
@@ -137,7 +137,7 @@
                 }
             },
 
-            
+
             { "data": "hiredstatus" }
 
         ],
@@ -167,4 +167,35 @@
         table.ajax.reload();
 
     });
+
+
 });
+
+function showDescription(accountId) {
+    debugger;
+    $.ajax({
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (placementData) {
+            if (placementData.data && placementData.data.length > 0) {
+            
+                var result = placementData.data[0];
+             
+                if (result.description === "") {
+                    var desc ="No Description."
+                    $("#showInfo").text(desc);
+                } else {
+                    $("#showInfo").text(result.description);
+                }
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    })
+}

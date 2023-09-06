@@ -242,7 +242,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Company_name");
             entity.Property(e => e.Description)
-                .HasMaxLength(50)
+                .HasMaxLength(225)
                 .IsUnicode(false);
             entity.Property(e => e.EndDate).HasColumnType("date");
             entity.Property(e => e.JobRole)
