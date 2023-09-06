@@ -48,17 +48,19 @@
                 <form>
                     <div class="form-group">
                         <input type="text" class="form-control" id="AccountId" hidden>
-                        @*<input type="text" class="form-control" id="PlacementID" hidden>*@
                         <label for="PlacementStatus">Turn Over Employee Status</label>
-                        <select id="PlacementStatus" class="form-control" placeholder="Select Turn Over Status" required>
-                            <option value="" disabled selected>Select Turn Over Status</option>
+                        <select id="PlacementStatus" class="form-control" placeholder="Select Turn Over Status" required>                            
                             <option value="Blacklist">Blacklist</option>
                             <option value="Resign">Resign</option>
+                            <option value="Transfer">Transfer</option>
 
                         </select>
                         <span class="error-message-framework" style="color: red; display: none;">This field is required!</span>
                         <input type="text" class="form-control" id="CompanyName" hidden>
-                        <input type="text" class="form-control" id="Description" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="Description" placeholder="Fill if necessary">
                     </div>
                 </form>
             </div>
