@@ -2,10 +2,10 @@
 
     $('#dataTableEmployee thead tr').clone(true).addClass('filters').attr('id', 'filterRow').appendTo('#dataTableEmployee thead');
 
-   // $('#loader').show();
+    // $('#loader').show();
 
 
-    var table= $('#dataTableEmployee').on('processing.dt', function (e, settings, processing) {
+    var table = $('#dataTableEmployee').on('processing.dt', function (e, settings, processing) {
         $('#loader').css('display', processing ? 'block' : 'none');
     }).DataTable({
 
@@ -37,8 +37,8 @@
                 var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
                 var title = $(cell).text();
                 // Check if the column is "No", "Gender", or "Placement Status"
-                if (title !== "No"  &&  title !== "Action") {
-                    $(cell).html('<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="'+ title +'" />');
+                if (title !== "No" && title !== "Action") {
+                    $(cell).html('<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="' + title + '" />');
                     // On every keypress in this input
                     $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
                         .off('keyup change')
@@ -69,9 +69,9 @@
 
 
             });
-         
 
-   
+
+
         },
         "columns": [
             //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
@@ -176,7 +176,7 @@
                         '</div>' +
 
                         '<div class="text-center row">' +
-                        '<a href="#" class="btn  ml-2 btn-sm p-0 text-light"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId+ '\')">Detail</a>' +
+                        '<a href="#" class="btn  ml-2 btn-sm p-0 text-light"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId + '\')">Detail</a>' +
                         '</div>';
                 }
             }
@@ -239,9 +239,66 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+/*function GetByIdPlacement(accountId, placementStatus) {
+    debugger;
+
+    var fullName = ''; // Untuk menyimpan fullname dari kedua pemanggilan API
+
+    // Pemanggilan pertama
+    var firstApiCall = $.ajax({
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            debugger;
+            var obj = result.data;
+            fullName = obj.fullname; // Simpan fullname dari pemanggilan pertama
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    // Pemanggilan kedua
+    var secondApiCall = $.ajax({
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            debugger;
+            var obj = result.data;
+            $('#AccountId').val(accountId);
+            $('#PlacementID').val(obj.placementStatusId);
+            $('#PlacementStatus').val(placementStatus);
+            $('#CompanyName').val(obj.companyName);
+            $('#Description').val(obj.description);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    // Menunggu kedua pemanggilan API selesai
+    $.when(firstApiCall, secondApiCall).done(function () {
+        // Setelah keduanya selesai, tampilkan fullname
+        $('#FullName').text(fullName);
+        console.log(fullName);
+        $('#Modal').modal('show');
+        $('#Update').show();
+    });
+}*/
+
+
 function GetByIdPlacement(accountId, placementStatus) {
     debugger;
-    console.log(placementStatus);
     $.ajax({
         url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
@@ -253,30 +310,30 @@ function GetByIdPlacement(accountId, placementStatus) {
         success: function (result) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
-      /*      var placementStatusSelect = document.getElementById("PlacementStatus");
-            var option = document.createElement("option");*/
-
-              /*  if (placementStatus == "Onsite") {
-             
-                    option.value = placementStatus;
-                    option.text = placementStatus;
-                    placementStatusSelect.appendChild(option);
-                } else {
-                  
-                    option.value = "Idle";
-                    option.text = "Idle";
-
-                    placementStatusSelect.appendChild(option);
+            $.ajax({
+                url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                },
+                success: function (result) {
+                    debugger;
+                    var employee = result.data;
+                    console.log(employee.result.fullname);
+                    //document.getElementById('FullName').text = employee.result.fullname;
+                    $('#Fullname').text(employee.result.fullname);
                 }
-*/        
-
-            $('#AccountId').val(accountId)
+            })
+            $('#AccountId').val(accountId);
             $('#PlacementID').val(obj.placementStatusId);
             $('#PlacementStatus').val(placementStatus);
             $('#CompanyName').val(obj.companyName);
             $('#Description').val(obj.description);
             $('#Modal').modal('show');
             $('#Update').show();
+
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -296,7 +353,7 @@ function SaveTurnOver() {
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
     updateRole.roleId = "4";
-   // console.log(placement);
+    // console.log(placement);
     $.ajax({
         type: 'POST',
         url: 'https://localhost:7177/api/EmployeePlacements/TurnOver',

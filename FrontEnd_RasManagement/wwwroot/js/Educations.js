@@ -7,7 +7,7 @@ $(document).ready(function () {
     const selectMajor = $('#Major');
     //Ini untuk tanpa display none jadi langsung di tampilkan ()
     $(selectMajor).select2({
-        placeholder: 'Select your Major',
+        placeholder: 'Select your major',
         width: '100%',
         allowClear: true,
         tags: true
@@ -120,7 +120,7 @@ function getUniversitasList() {
             });
 
             $(selectUniversity).select2({
-                placeholder: 'Select University',
+                placeholder: 'Select university',
                 width: '100%',
                 
             });
@@ -316,6 +316,11 @@ function ClearScreenFormal() {
         input.next('.error-message-formal').hide();
 
     });
+    $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+    $('.selectUniversity').closest('.form-group').find('.error-message-university').hide();
+    $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+    $('.selectMajor').closest('.form-group').find('.error-message-major').hide();
+    $('.selectDegree').closest('.form-group').find('.error-message-formal').hide();
     const selectUniversities = $('#UniversityName');
     $(selectUniversities).select2({
         placeholder: 'Select your University',
