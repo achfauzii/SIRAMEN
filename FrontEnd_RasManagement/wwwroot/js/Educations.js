@@ -15,6 +15,7 @@ $(document).ready(function () {
     });
 
 
+   
 
 
 })
@@ -106,12 +107,10 @@ function getUniversitasList() {
         },
         success: function (result) {
             var universities = result.data;
-
       
             //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
           
-
             universities.forEach(function (university) {
                 console.log(university);
                 const option = document.createElement('option');
@@ -131,7 +130,6 @@ function getUniversitasList() {
         }
     });
 }
-
 
 
 function formInputLocation() {
@@ -305,9 +303,7 @@ function SaveFormal() {
 function ClearScreenFormal() {
     $('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
     $('#FormalEduId').val('');
-
     $('#UniversityName').val('').trigger('change');
-
     //$('#Location').val('');
     $('#Major').val('').trigger('change');
     $('#Degree').val('');
@@ -422,7 +418,7 @@ function UpdateFormal() {
 
     var FormalEdu = new Object(); //object baru
     FormalEdu.FormalEduId = $('#FormalEduId').val();
-    FormalEdu.UniversityName = $('#universitySelect').val(); //value insert dari id pada input
+    FormalEdu.UniversityName = $('#UniversityName').val(); //value insert dari id pada input
     FormalEdu.Location = $('#selectRegencies').val();
     FormalEdu.Major = $('#Major').val();
     FormalEdu.Degree = $('#Degree').val();
