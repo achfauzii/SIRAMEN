@@ -95,7 +95,7 @@ namespace FrontEnd_RasManagement.Controllers
         public async Task<int> GetTotalEmployeeByRoleId(int roleId)
         {
             var accessToken = HttpContext.Session.GetString("Token");
-            var url = "https://localhost:7177/api/Employees";
+            var url = "https://rasmanagement-001-site1.atempurl.com/api/Employees";
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string jsonResponse = await client.GetStringAsync(url);

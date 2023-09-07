@@ -64,7 +64,7 @@
                                 title: 'Signed in successfully',
                                 text: "Hi " + decodedToken.Name,
                                 didClose: () => {
-                                    window.location.replace("/dashboards/dashboard_admin");
+                                    window.location.replace("/Dashboards/Dashboard_Admin");
                                 }
                             })
                         } else if (Role === 'Super_Admin') {
@@ -73,7 +73,7 @@
                                 title: 'Signed in successfully',
                                 text: "Hi " + decodedToken.Name,
                                 didClose: () => {
-                                    window.location.replace("/dashboards/dashboard_superadmin")
+                                    window.location.replace("/Dashboards/Dashboard_Superadmin")
                                 }
                             })
                            
