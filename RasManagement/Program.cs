@@ -83,7 +83,7 @@ app.UseStaticFiles();
 }*/
 //If Deploy use 
 app.UseSwagger();
-app.UseSwaggerUI();
+//app.UseSwaggerUI();
 
 
 //IMPLEMENTASI CORS

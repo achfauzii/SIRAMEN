@@ -49,7 +49,7 @@
         url: "https://rasmanagement-001-site1.atempurl.com/api/Employees",
         type: "GET",
         "datatype": "json",
-        async: true,
+        async: false,
         "dataSrc": "data",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")

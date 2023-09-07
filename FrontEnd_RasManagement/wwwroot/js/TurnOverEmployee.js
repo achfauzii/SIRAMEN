@@ -16,7 +16,7 @@
         fixedHeader: true,
 
         "ajax": {
-            url: "https://localhost:7177/api/Employees/TurnOff",
+            url: "https://rasmanagement-001-site1.atempurl.com/api/Employees/TurnOff",
             type: "GET",
             "datatype": "json",
             async: true,
@@ -103,7 +103,7 @@
 
                     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
                     $.ajax({
-                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+                        url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
                         type: "GET",
                         datatype: "json",
                         async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
@@ -167,7 +167,7 @@
 function showDescription(accountId) {
     debugger;
     $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
