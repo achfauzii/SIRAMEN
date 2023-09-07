@@ -85,6 +85,7 @@ app.UseStaticFiles();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+
 //IMPLEMENTASI CORS
 app.UseCors(options => options
 .AllowAnyOrigin()

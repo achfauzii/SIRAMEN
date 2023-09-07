@@ -3,24 +3,20 @@ $(document).ready(function () {
     Educations();
     formInputLocation();
 
+    getUniversitasList();
     const selectMajor = $('#Major');
     //Ini untuk tanpa display none jadi langsung di tampilkan ()
     $(selectMajor).select2({
-        placeholder: 'Select your Major',
+        placeholder: 'Select your major',
         width: '100%',
+        allowClear: true,
         tags: true
 
     });
 
-    $('#ModalFormal').on('show.bs.modal', function (e) {
-        getUniversitasList();
-    });
 
-    $('#UniversityName').select2({
-        placeholder: 'Enter University Name',
-        width: '100%',
-        tags: true // Aktifkan fitur tagging
-    });
+   
+
 
 })
 
@@ -100,6 +96,8 @@ function Educations() {
 }
 
 function getUniversitasList() {
+    const selectUniversity = document.getElementById('UniversityName');
+  
     $.ajax({
         url: "https://localhost:7177/api/Universitas",
         type: "GET",
@@ -109,13 +107,22 @@ function getUniversitasList() {
         },
         success: function (result) {
             var universities = result.data;
-            var selectUniversity = $('#UniversityName');
-
-            selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-            selectUniversity.append('<option value="" selected disabled>Select University</option>');
-
+      
+            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
+           //selectUniversity.append('<option value="" selected disabled>Select University</option>');
+          
             universities.forEach(function (university) {
-                selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
+                console.log(university);
+                const option = document.createElement('option');
+                option.value = university.namaUniversitas;
+                option.textContent = university.namaUniversitas;
+                selectUniversity.appendChild(option);
+            });
+
+            $(selectUniversity).select2({
+                placeholder: 'Select university',
+                width: '100%',
+                
             });
         },
         error: function (errormessage) {
@@ -296,9 +303,9 @@ function SaveFormal() {
 function ClearScreenFormal() {
     $('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
     $('#FormalEduId').val('');
-    $('#UniversityName').val('');
+    $('#UniversityName').val('').trigger('change');
     //$('#Location').val('');
-    $('#Major').val('');
+    $('#Major').val('').trigger('change');
     $('#Degree').val('');
     $('#GraduationYears').val('');
     $('#Update').hide();
@@ -309,6 +316,19 @@ function ClearScreenFormal() {
         input.next('.error-message-formal').hide();
 
     });
+    $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+    $('.selectUniversity').closest('.form-group').find('.error-message-university').hide();
+    $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+    $('.selectMajor').closest('.form-group').find('.error-message-major').hide();
+    $('.selectDegree').closest('.form-group').find('.error-message-formal').hide();
+    const selectUniversities = $('#UniversityName');
+    $(selectUniversities).select2({
+        placeholder: 'Select your University',
+        width: '100%',
+        allowClear: true,
+        tags: true
+
+    });
 }
 
 function GetById(formalEduId) {
@@ -316,7 +336,7 @@ function GetById(formalEduId) {
     //GET SEMUA Kota atau kabupaten untuk di tampilkan berdasarkan Get By Id
 
     ClearScreenFormal();
-
+    const selectUniversity = document.getElementById('UniversityName');
     $.ajax({
         url: "https://localhost:7177/api/Educations/" + formalEduId,
         type: "GET",
@@ -332,6 +352,36 @@ function GetById(formalEduId) {
             option.value = obj.location;
             option.textContent = obj.location;
             selectRegencies.appendChild(option);
+      
+            const optionUniv = document.createElement('option');
+            optionUniv.value = obj.universityName;
+            optionUniv.textContent = obj.universityName;
+            selectUniversity.appendChild(optionUniv);
+
+
+            const selectUniversities = $('#UniversityName');
+            selectUniversities.val(obj.universityName).trigger('change');
+            selectUniversities.select2({
+           
+                  
+                    width: '100%',
+               
+                tags: true,
+
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term,
+                        newTag: true
+                    };
+                }
+            });
+            // Kosongkan pilihan sebelumnya
+            //selectUniversity.append('<option selected value="' + obj.universityName + '">' + obj.universityName + '</option>');*/
+
+         /*   universities.forEach(function (university) {
+                selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
+            });*/
 
             $('#FormalEduId').val(obj.formalEduId);
             $('#UniversityName').val(obj.universityName);

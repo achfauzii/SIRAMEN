@@ -35,8 +35,8 @@ $(document).ready(function () {
                     const endDate = parts[1];  // "Now"
                     // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
                     if (startDate) {
-                       
-                        var  startDate_ = new Date(startDate);
+
+                        var startDate_ = new Date(startDate);
                         if (endDate != "Now") {
                             var endDate_ = new Date(endDate);
                             const options = { month: 'long', year: 'numeric' };
@@ -45,7 +45,7 @@ $(document).ready(function () {
                         else {
                             endDate_ = "Now";
                         }
-                     
+
                         const options = { month: 'long', year: 'numeric' };
                         startDate_ = startDate_.toLocaleDateString('en-EN', options);
                         date = startDate_ + " - " + endDate_;
@@ -134,6 +134,7 @@ function Save() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
+    console.log(EmploymentHistory);
     $.ajax({
         type: 'POST',
         url: 'https://localhost:7177/api/EmploymentHistory',
