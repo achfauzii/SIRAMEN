@@ -6,7 +6,7 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
     table = $('#TB_Certificate').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/Certificate/accountId?accountId=" + accid,
+            url: "https://rasmanagement-001-site1.atempurl.com/api/Certificate/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -122,7 +122,7 @@ function ClearScreen() {
 function GetById(CertificateId) {
     //debugger;
     $.ajax({
-        url: "https://localhost:7177/api/Certificate/" + CertificateId,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/Certificate/" + CertificateId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -175,7 +175,7 @@ function Save() {
     Certificate.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Certificate',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/Certificate',
         data: JSON.stringify(Certificate), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -222,7 +222,7 @@ function Delete(CertificateId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Certificate/" + CertificateId,
+                url: "https://rasmanagement-001-site1.atempurl.com/api/Certificate/" + CertificateId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {
@@ -277,7 +277,7 @@ function Update() {
     const accid = decodedtoken.AccountId;
     Certificate.accountId = accid;
     $.ajax({
-        url: 'https://localhost:7177/api/Certificate',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/Certificate',
         type: 'PUT',
         data: JSON.stringify(Certificate),
         contentType: "application/json; charset=utf-8",
