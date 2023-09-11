@@ -4,6 +4,7 @@ $(document).ready(function () {
     formInputLocation();
 
     getUniversitasList();
+
     const selectMajor = $('#Major');
     //Ini untuk tanpa display none jadi langsung di tampilkan ()
     $(selectMajor).select2({
@@ -11,7 +12,6 @@ $(document).ready(function () {
         width: '100%',
         allowClear: true,
         tags: true
-
     });
 })
 
