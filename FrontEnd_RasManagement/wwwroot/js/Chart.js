@@ -64,7 +64,7 @@
                         url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
                         type: "GET",
                         datatype: "json",
-                        async: true, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
                         headers: {
                             "Authorization": "Bearer " + sessionStorage.getItem("Token")
                         },
@@ -86,7 +86,7 @@
 
 
                 }
-               
+
             }
             // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
             document.getElementById("countIdle").textContent = idleCount;
@@ -181,8 +181,6 @@ function chartUniv(universitiesData) {
                 hoverBackgroundColor: "#2e59d9",
                 borderColor: "#4e73df",
                 data: totalAccounts,
-                maxBarThickness: 25,
-
             }],
         },
         options: {
@@ -207,7 +205,7 @@ function chartUniv(universitiesData) {
                     ticks: {
                         maxTicksLimit: 6
                     },
-                    //maxBarThickness: 25,
+                    maxBarThickness: 25,
                 }],
                 yAxes: [{
                     ticks: {

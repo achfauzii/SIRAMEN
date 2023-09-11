@@ -110,7 +110,7 @@ namespace RasManagement.Controllers
                             expires: DateTime.UtcNow.AddHours(5),
                             signingCredentials: signIn);
                         var userToken = new JwtSecurityTokenHandler().WriteToken(token);
-                        Console.WriteLine(userToken);
+            
                         return StatusCode(200, new { status = HttpStatusCode.OK, message = "Login Successfully", Data = userToken });
                     }
                 case 3:
