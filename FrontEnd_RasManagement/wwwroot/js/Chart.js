@@ -181,6 +181,8 @@ function chartUniv(universitiesData) {
                 hoverBackgroundColor: "#2e59d9",
                 borderColor: "#4e73df",
                 data: totalAccounts,
+                maxBarThickness: 25,
+
             }],
         },
         options: {
@@ -205,7 +207,7 @@ function chartUniv(universitiesData) {
                     ticks: {
                         maxTicksLimit: 6
                     },
-                    maxBarThickness: 25,
+                    //maxBarThickness: 25,
                 }],
                 yAxes: [{
                     ticks: {

@@ -13,6 +13,7 @@
         scrollX: true,
         orderCellsTop: true,
         fixedHeader: true,
+   
 
         "ajax": {
             url: "https://rasmanagement-001-site1.atempurl.com/api/Employees",
@@ -93,13 +94,13 @@
                 "render": function (data, type, row) {
                     var accountId = row.accountId;
                     var placementStatus = "Idle"; // Default value jika data tidak ditemukan
-
+                    
                     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
                     $.ajax({
                         url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
                         type: "GET",
                         datatype: "json",
-                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+                        async: true, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
                         headers: {
                             "Authorization": "Bearer " + sessionStorage.getItem("Token")
                         },

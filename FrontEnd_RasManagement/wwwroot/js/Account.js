@@ -15,17 +15,7 @@
         };
 
 
-        /*    // Tampilkan loader
-            const loaderContainer = document.getElementById("loaderContainer");
-            loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
-        
-            // Loader
-            const loaderResponse = await fetch("/loader/index");
-            const loaderHtml = await loaderResponse.text();
-        
-            loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-        */
-
+     
 
         //debugger;
         try {

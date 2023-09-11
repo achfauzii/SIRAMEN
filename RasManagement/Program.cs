@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using RasManagement.Services;
 using FluentAssertions.Common;
 using RasManagement.Settings;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,7 +84,7 @@ app.UseStaticFiles();
 }*/
 //If Deploy use 
 app.UseSwagger();
-//app.UseSwaggerUI();
+app.UseSwaggerUI();
 
 
 //IMPLEMENTASI CORS

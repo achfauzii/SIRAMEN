@@ -18,7 +18,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class AccountsController : ControllerBase
     {
         private readonly IUnitWork _unitWork;
@@ -73,6 +73,7 @@ namespace RasManagement.Controllers
         }
 
         // Add Login POST api/<AccountController>
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Post(VMLogin viewLogin)
         {
@@ -210,6 +211,7 @@ namespace RasManagement.Controllers
 
 
         //Forgot Password Update
+        [AllowAnonymous]
         [HttpPut("UpdatePassword")]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)
         {
