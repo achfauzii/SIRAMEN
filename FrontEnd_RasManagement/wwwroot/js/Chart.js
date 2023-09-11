@@ -49,7 +49,7 @@
         url: "https://localhost:7177/api/Employees",
         type: "GET",
         "datatype": "json",
-        async: true,
+        async: false,
         "dataSrc": "data",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
