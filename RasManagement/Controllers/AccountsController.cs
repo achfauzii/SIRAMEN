@@ -13,11 +13,13 @@ using System.Text;
 using RasManagement.Services;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class AccountsController : ControllerBase
     {
@@ -71,9 +73,9 @@ namespace RasManagement.Controllers
             await accountRepository.Register(registerVM);
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = registerVM });
         }
-
+        
         // Add Login POST api/<AccountController>
-        [AllowAnonymous]
+       [AllowAnonymous]
         [HttpPost]
         public IActionResult Post(VMLogin viewLogin)
         {
