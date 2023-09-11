@@ -12,11 +12,13 @@ using System.Security.Claims;
 using System.Text;
 using RasManagement.Services;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class AccountsController : ControllerBase
     {
         private readonly IUnitWork _unitWork;

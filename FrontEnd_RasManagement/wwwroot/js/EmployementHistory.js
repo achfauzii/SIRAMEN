@@ -5,7 +5,7 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
     table = $('#TB_EmploymentHistory').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" + accid,
+            url: "https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -137,7 +137,7 @@ function Save() {
     console.log(EmploymentHistory);
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/EmploymentHistory',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -189,7 +189,7 @@ function ClearScreen() {
 
 function GetById(workExperienceId) {
     $.ajax({
-        url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory/" + workExperienceId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -259,7 +259,7 @@ function Update() {
     debugger;
     $.ajax({
         type: 'PUT',
-        url: 'https://localhost:7177/api/EmploymentHistory',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -297,7 +297,7 @@ function Delete(workExperienceId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
+                url: "https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory/" + workExperienceId,
                 type: "DELETE",
                 dataType: "json",
 

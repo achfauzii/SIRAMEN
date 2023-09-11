@@ -5,7 +5,7 @@ $(document).ready(function () {
 
 
     $.ajax({
-        url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/Qualification/accountId?accountId=" + accid,
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -147,7 +147,7 @@ function Save() {
     qualifications.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Qualification',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/Qualification',
         data: JSON.stringify(qualifications), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -259,7 +259,7 @@ function getbyID() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     $.ajax({
-        url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/Qualification/accountId?accountId=" + accid,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -494,7 +494,7 @@ function Update() {
     const accid = decodedtoken.AccountId;
     console.log(qualifications);
     $.ajax({
-        url: 'https://localhost:7177/api/Qualification',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/Qualification',
         type: 'PUT',
         data: JSON.stringify(qualifications),
         contentType: "application/json; charset=utf-8",
