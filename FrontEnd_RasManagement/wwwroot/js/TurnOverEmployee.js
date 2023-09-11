@@ -98,32 +98,18 @@
             { "data": "address" },
             {
                 "render": function (data, type, row) {
-                    var accountId = row.accountId;
 
+                    
+                    var placementStatus = "Blacklist";
+                    row.placements.forEach(function (placement) {
+                        if (placement.placementStatus !== "Blacklist") {
+                            placementStatus = placement.placementStatus;
 
-                    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
-                    $.ajax({
-                        url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
-                        type: "GET",
-                        datatype: "json",
-                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
-                        headers: {
-                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-                        },
-                        success: function (placementData) {
-                            if (placementData.data && placementData.data.length > 0) {
-                                var result = placementData.data[0];
-                                if (result.placementStatus === "Blacklist") {
-                                    placementStatus = result.placementStatus;
-                                } else {
-                                    placementStatus = result.placementStatus;
-                                }
-                            }
-                        },
-                        error: function () {
-                            // Tangani error jika diperlukan
                         }
                     });
+
+                    /*console.log(row.placements.placementStatus);
+                    var placementStatus = row.placements.placementStatus;*/
                     if (placementStatus === "Blacklist") {
                         return '<span type="button" class="badge badge-pill badge-danger"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.accountId + '\')">' + placementStatus + '</span>';
                     } else if (placementStatus === "Resign") {

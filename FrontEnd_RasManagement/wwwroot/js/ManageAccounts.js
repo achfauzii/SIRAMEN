@@ -62,8 +62,10 @@ function GetById(accountId) {
             var obj = result.data; //data yg kita dapat dr API  
             $('#AccountId').val(obj.accountId);
             $('#Role').val(obj.roleId);
-            
-            $('#Fullname').text(obj.fullname);
+            //document.getElementById('fullname').text(obj.fullname);
+            console.log(obj.fullname);
+            //document.getElementById('fullName').text = obj.fullname;
+            $('#FullName').text(obj.fullname);
             $('#Modal').modal('show');
             $('#Update').show();
         },
