@@ -13,11 +13,6 @@ $(document).ready(function () {
         tags: true
 
     });
-
-
-
-
-
 })
 
 function Educations() {
