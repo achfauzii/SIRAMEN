@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $("#loginForm").on("submit", async function (event) {
         event.preventDefault();
-        const url = "https://rasmanagement-001-site1.atempurl.com/api/Accounts";
+        const url = "https://localhost:7177/api/Accounts";
         const data = {
             email: $('#exampleInputEmail').val(),
             password: $('#exampleInputPassword').val()
@@ -54,7 +54,7 @@
                                 title: 'Signed in successfully',
                                 text: "Hi " + decodedToken.Name,
                                 didClose: () => {
-                                    window.location.replace("/Dashboards/Dashboard_Admin");
+                                    window.location.replace("/dashboards/dashboard_admin");
                                 }
                             })
                         } else if (Role === 'Super_Admin') {
@@ -63,7 +63,7 @@
                                 title: 'Signed in successfully',
                                 text: "Hi " + decodedToken.Name,
                                 didClose: () => {
-                                    window.location.replace("/Dashboards/Dashboard_Superadmin")
+                                    window.location.replace("/dashboards/dashboard_superadmin")
                                 }
                             })
                            
@@ -149,6 +149,6 @@ function parseJwt(token) {
 
 function Logout() {
     sessionStorage.removeItem('Token'); //Remove Session
-    window.location.href = 'http://rasmanagement2-001-site1.etempurl.com/'; //Kembali Ke halaman Awal 
+    window.location.href = 'https://localhost:7109'; //Kembali Ke halaman Awal 
 
 }
