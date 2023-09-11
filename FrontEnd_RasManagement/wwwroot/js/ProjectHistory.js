@@ -5,7 +5,7 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
     table = $('#TB_ProjectHistory').DataTable({
         "ajax": {
-            url: "https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory/accountId?accountId=" + accid,
+            url: "https://localhost:7177/api/ProjectHistory/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -96,7 +96,7 @@ function Save() {
     ProjectHistory.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory',
+        url: 'https://localhost:7177/api/ProjectHistory',
         data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -151,7 +151,7 @@ function ClearScreen() {
 function GetById(projectHistoryId) {
     //debugger;
     $.ajax({
-        url: "https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory/" + projectHistoryId,
+        url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -204,7 +204,7 @@ function Update() {
     ProjectHistory.accountId = accid;
     debugger;
     $.ajax({
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory',
+        url: 'https://localhost:7177/api/ProjectHistory',
         type: 'PUT',
         data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
@@ -243,7 +243,7 @@ function Delete(projectHistoryId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory/" + projectHistoryId,
+                url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
                 type: "DELETE",
                 dataType: "json",
 

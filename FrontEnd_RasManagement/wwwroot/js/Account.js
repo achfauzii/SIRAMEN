@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     $("#loginForm").on("submit", async function (event) {
         event.preventDefault();
+        $('#loader').show();
         const url = "https://localhost:7177/api/Accounts";
         const data = {
             email: $('#exampleInputEmail').val(),
@@ -14,20 +15,6 @@
             body: JSON.stringify(data)
         };
 
-
-        /*    // Tampilkan loader
-            const loaderContainer = document.getElementById("loaderContainer");
-            loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
-        
-            // Loader
-            const loaderResponse = await fetch("/loader/index");
-            const loaderHtml = await loaderResponse.text();
-        
-            loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-        */
-
-
-        //debugger;
         try {
             const response = await fetch(url, option);
             const json = await response.json();
@@ -41,6 +28,7 @@
 
                 $.post("/Accounts/Auth", { token })
                     .done(function () {
+                        $('#loader').hide();
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',

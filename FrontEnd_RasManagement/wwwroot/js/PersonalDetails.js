@@ -10,11 +10,12 @@
 
 
 function loadDataA() {
+    $('#loader').show();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     var imgElement = $("#employeePhoto");
     $.ajax({
-        url: "https://rasmanagement-001-site1.atempurl.com/api/Employees/accountId?accountId=" + accid,
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -70,6 +71,7 @@ function loadDataA() {
             alert(errormessage.responseText);
         }
     });
+    $('#loader').hide();
 }
 
 
