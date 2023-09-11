@@ -562,8 +562,9 @@ function Save(accountId) {
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
             //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
             Swal.fire({
+                icon:"success",
                 title: "Success!",
-                text: "Data Berhasil Dimasukkan",
+                text: "Data has been added!",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
@@ -609,7 +610,7 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 title: "Success!",
-                text: "Data Berhasil Di Update",
+                text: "Data has been updated!",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
