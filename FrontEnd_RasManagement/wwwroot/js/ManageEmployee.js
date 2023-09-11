@@ -91,27 +91,17 @@
             { "data": "address" },
             {
                 "render": function (data, type, row) {
-                    var accountId = row.accountId;
+
+                    //var accountId = row.accountId;
                     var placementStatus = "Idle"; // Default value jika data tidak ditemukan
 
-                    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
-                    $.ajax({
-                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-                        type: "GET",
-                        datatype: "json",
-                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
-                        headers: {
-                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-                        },
-                        success: function (placementData) {
-                            if (placementData.data && placementData.data.length > 0) {
-                                var result = placementData.data[0]; // Ambil data yang pertama dari array data
-                                placementStatus = result.placementStatus;
-                            }
-                        }, error: function () {
-
+                    row.placements.forEach(function (placement) {
+                        if (placement.placementStatus !== "Idle") {
+                            placementStatus = placement.placementStatus;
                         }
                     });
+                
+
                     if (placementStatus == "Idle") {
                         placementStatus = '<button class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' + row.accountId + '\', \'Idle\')">Idle</button>'
                         //placementStatus = '<span class="badge badge-pill badge-warning">Idle</span>'
@@ -127,38 +117,24 @@
 
             {
                 "render": function (data, type, row) {
-                    var accountId = row.accountId;
+         
 
-
-                    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
-                    $.ajax({
-                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-                        type: "GET",
-                        datatype: "json",
-                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
-                        headers: {
-                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-                        },
-                        success: function (placementData) {
-                            if (placementData.data && placementData.data.length > 0) {
-                                var result = placementData.data[0]; // Ambil data yang pertama dari array data
-
-                                if (result.placementStatus == "Idle") {
-                                    placementLocation = "";
-                                } else {
-                                    placementLocation = result.companyName;
-                                }
-
-                            } else {
-
-                                placementLocation = "";
-                            }
-
-
-                        }, error: function () {
-
+                
+                    var placementStatus = "Idle";
+                    row.placements.forEach(function (placement) {
+                        if (placement.placementStatus !== "Idle") {
+                            placementStatus = placement.placementStatus;
+                            placementLocation = placement.companyName;
                         }
+                       
                     });
+                
+                           
+                    if (placementStatus == "Idle") {
+                        placementLocation = "";
+                    } else {
+                        placementLocation = placementLocation;
+                    }
 
 
                     return placementLocation
