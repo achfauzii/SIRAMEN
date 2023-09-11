@@ -190,7 +190,7 @@ function chartUniv(universitiesData) {
                     left: 10,
                     right: 25,
                     top: 25,
-                    bottom: 0
+                    bottom: 50
                 }
             },
             scales: {
@@ -203,7 +203,8 @@ function chartUniv(universitiesData) {
                         drawBorder: false
                     },
                     ticks: {
-                        maxTicksLimit: 6
+                        maxTicksLimit: univName.length, 
+                       // maxRotation: 0, // Jangan memutar label
                     },
                     maxBarThickness: 25,
                 }],
