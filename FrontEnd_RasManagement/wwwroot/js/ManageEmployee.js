@@ -14,6 +14,7 @@
         orderCellsTop: true,
         fixedHeader: true,
 
+
         "ajax": {
             url: "https://localhost:7177/api/Employees",
             type: "GET",
@@ -102,7 +103,7 @@
                             placementStatus = placement.placementStatus;
                         }
                     });
-                
+
 
                     if (placementStatus == "Idle") {
                         placementStatus = '<button class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' + row.accountId + '\', \'Idle\')">Idle</button>'
@@ -119,7 +120,7 @@
 
             {
                 "render": function (data, type, row) {
-        
+
                     var placementStatus = "Idle";
                     row.placements.forEach(function (placement) {
                         if (placement.placementStatus !== "Idle") {
@@ -127,10 +128,10 @@
                             placementLocation = placement.companyName;
 
                         }
-                       
+
                     });
-                
-                           
+
+
                     if (placementStatus == "Idle") {
                         placementLocation = "";
                     } else {
@@ -539,9 +540,8 @@ function Save(accountId) {
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
             //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
             Swal.fire({
-                icon:"success",
                 title: "Success!",
-                text: "Data has been added!",
+                text: "Data Berhasil Dimasukkan",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
@@ -587,7 +587,7 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 title: "Success!",
-                text: "Data has been updated!",
+                text: "Data Berhasil Di Update",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500

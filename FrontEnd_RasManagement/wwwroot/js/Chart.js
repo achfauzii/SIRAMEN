@@ -64,7 +64,7 @@
                         url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
                         type: "GET",
                         datatype: "json",
-                        async: true, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+                        async:false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
                         headers: {
                             "Authorization": "Bearer " + sessionStorage.getItem("Token")
                         },
