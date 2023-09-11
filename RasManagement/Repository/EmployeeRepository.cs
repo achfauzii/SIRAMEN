@@ -23,7 +23,7 @@ namespace RasManagement.Repository
         public async Task<IEnumerable<Object>> GetTurnOff()
         {
             
-            var accounts = _context.Accounts.Where(a => a.RoleId == "4");
+            var accounts = _context.Accounts.Include(a => a.Placements).Where(a => a.RoleId == "4");
             return accounts;
 
         }
