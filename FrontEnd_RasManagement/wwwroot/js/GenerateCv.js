@@ -320,12 +320,31 @@ function loadData() {
 
                         var row = tableBody.insertRow(i);
 
+                        // Menghilangkan bullet dari data jobSpec
+                        var jobSpecWithoutBullet = project.jobSpec.replace(/•/g, '');
+
+                        // Memisahkan data jobSpec dengan baris baru (enter)
+                        var jobSpecItems = jobSpecWithoutBullet.split('\n');
+
+                        // Membuat elemen ul untuk menampilkan jobSpec
+                        var ul = document.createElement('ul');
+
+                        ul.classList.add('pl-3'); 
+                        // Mengisi elemen ul dengan item-item jobSpec
+                        jobSpecItems.forEach(function (item) {
+                            var li = document.createElement('li');
+                            li.innerHTML = item;
+                            ul.appendChild(li);
+                        });
+
                         row.innerHTML =
                             "<td>" + project.projectName + "</td>" +
-                            "<td>" + project.jobSpec + "</td>" +
-                        
+                            "<td></td>" + // Kosongkan sel ini, kami akan menambahkan ul di bawah
                             "<td>" + project.year + "</td>" +
                             "<td>" + project.companyName + "</td>";
+
+                        // Tambahkan elemen ul ke sel kedua (indeks 1)
+                        row.cells[1].appendChild(ul);
                     }
 
                 },
