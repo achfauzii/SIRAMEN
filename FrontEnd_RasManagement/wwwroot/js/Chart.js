@@ -49,7 +49,7 @@
         url: "https://localhost:7177/api/Employees",
         type: "GET",
         "datatype": "json",
-        async: true,
+        async: false,
         "dataSrc": "data",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -64,7 +64,7 @@
                         url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
                         type: "GET",
                         datatype: "json",
-                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+                        async:false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
                         headers: {
                             "Authorization": "Bearer " + sessionStorage.getItem("Token")
                         },
@@ -203,7 +203,7 @@ function chartUniv(universitiesData) {
                         drawBorder: false
                     },
                     ticks: {
-                        maxTicksLimit: 6
+                        maxTicksLimit: univName.length
                     },
                     maxBarThickness: 25,
                 }],

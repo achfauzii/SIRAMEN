@@ -9,6 +9,7 @@
 });
 
 function loadData() {
+    $('#loader').show();
     var urlParams = new URLSearchParams(window.location.search);
     var accountId = urlParams.get('accountId');
     $.ajax({
@@ -354,6 +355,7 @@ function loadData() {
         },
         error: function (errormessage) { alert(errormessage.responseText); }
     });
+    $('#loader').hide();
 
 
 }

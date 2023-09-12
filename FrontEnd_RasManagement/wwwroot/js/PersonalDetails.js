@@ -10,6 +10,7 @@
 
 
 function loadDataA() {
+    $('#loader').show();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     var imgElement = $("#employeePhoto");
@@ -70,6 +71,7 @@ function loadDataA() {
             alert(errormessage.responseText);
         }
     });
+    $('#loader').hide();
 }
 
 
@@ -137,7 +139,7 @@ function parseJwt(token) {
 function GetById(accountId) {
     debugger;
     $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -285,7 +287,7 @@ function updateData() {
 
 
     $.ajax({
-        url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
+        url: `https://rasmanagement-001-site1.atempurl.com/api/Employees/${formData.AccountId}`,
         type: "PUT",
         data: JSON.stringify(formData),
         contentType: "application/json",

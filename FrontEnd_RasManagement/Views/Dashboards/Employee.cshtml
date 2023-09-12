@@ -172,27 +172,27 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="editName">Name:</label>
-                                        <input type="text" class="form-control" id="editName" placeholder="Ketikkan Nama Lengkap" name="editName" required>
+                                        <input type="text" class="form-control" id="editName" placeholder="Enter your full name" name="editName" required>
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="nickName">Nickname:</label>
-                                        <input type="text" class="form-control" id="editNickName" placeholder="Ketikkan Nickname" name="nickName" required>
+                                        <input type="text" class="form-control" id="editNickName" placeholder="Enter your nick name" name="nickName" required>
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="birthPlace">Birth Place:</label>
-                                        <input type="text" class="form-control" id="editBirthPlace" placeholder="Ketikkan Birth Place" name="birthPlace" required>
+                                        <label for="birthPlace">Place of Birth:</label>
+                                        <input type="text" class="form-control" id="editBirthPlace" placeholder="Enter your place of birth" name="birthPlace" required>
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="birthDate">Birth Date:</label>
-                                        <input type="date" class="form-control" id="editBirthDate" placeholder="Ketikkan Birth Date" name="birthDate" required>
+                                        <label for="birthDate">Date of Birth:</label>
+                                        <input type="date" class="form-control" id="editBirthDate" placeholder="Enter your date of birth" name="birthDate" required>
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="gender">Gender:</label>
-                                        <select type="text" class="form-control" id="editGender" placeholder="Ketikkan Gender" name="gender" required>
+                                        <select type="text" class="form-control" id="editGender" name="gender" required>
                                             <option>Male</option>
                                             <option>Female</option>
                                         </select>
@@ -211,8 +211,8 @@
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="martialStatus">Martial Status:</label>
-                                        <select type="text" class="form-control" id="editMartialStatus" placeholder="Ketikkan Martial Status" name="martialStatus" required>
+                                        <label for="martialStatus">Marital Status:</label>
+                                        <select type="text" class="form-control" id="editMartialStatus" name="martialStatus" required>
                                             <option>Single</option>
                                             <option>Married</option>
                                         </select>
@@ -220,7 +220,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="nationality">Nationality:</label>
-                                        <select type="text" class="form-control" id="editNationality" placeholder="Ketikkan Nasionality" name="nationality" required>
+                                        <select type="text" class="form-control" id="editNationality" name="nationality" required>
                                             <option value="WNI">WNI (Warga Negara Indonesia)</option>
                                             <option value="WNA">WNA (Warga Negara Asing)</option>
                                         </select>
@@ -228,7 +228,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="address">Address:</label>
-                                        <input type="text" class="form-control" id="editAddress" placeholder="Ketikkan Alamat" name="address" required>
+                                        <input type="text" class="form-control" id="editAddress" placeholder="Enter your address" name="address" required>
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
@@ -638,6 +638,16 @@
 
     </div>
 </div>*@
+
+<!-- Loader-->
+<div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0; ">
+    <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
+        <!-- Icon spinner -->
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

@@ -35,8 +35,8 @@ $(document).ready(function () {
                     const endDate = parts[1];  // "Now"
                     // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
                     if (startDate) {
-                       
-                        var  startDate_ = new Date(startDate);
+
+                        var startDate_ = new Date(startDate);
                         if (endDate != "Now") {
                             var endDate_ = new Date(endDate);
                             const options = { month: 'long', year: 'numeric' };
@@ -45,7 +45,7 @@ $(document).ready(function () {
                         else {
                             endDate_ = "Now";
                         }
-                     
+
                         const options = { month: 'long', year: 'numeric' };
                         startDate_ = startDate_.toLocaleDateString('en-EN', options);
                         date = startDate_ + " - " + endDate_;
@@ -134,9 +134,10 @@ function Save() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
+    console.log(EmploymentHistory);
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/EmploymentHistory',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -188,7 +189,7 @@ function ClearScreen() {
 
 function GetById(workExperienceId) {
     $.ajax({
-        url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory/" + workExperienceId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -258,7 +259,7 @@ function Update() {
     debugger;
     $.ajax({
         type: 'PUT',
-        url: 'https://localhost:7177/api/EmploymentHistory',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -296,7 +297,7 @@ function Delete(workExperienceId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
+                url: "https://rasmanagement-001-site1.atempurl.com/api/EmploymentHistory/" + workExperienceId,
                 type: "DELETE",
                 dataType: "json",
 
