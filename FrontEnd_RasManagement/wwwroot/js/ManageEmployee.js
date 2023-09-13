@@ -15,8 +15,9 @@
         fixedHeader: true,
    
 
+
         "ajax": {
-            url: "https://rasmanagement-001-site1.atempurl.com/api/Employees",
+            url: "https://localhost:7177/api/Employees",
             type: "GET",
             "datatype": "json",
             async: true,
@@ -82,7 +83,7 @@
                 "data": null,
                 "width": "4%",
                 "render": function (data, type, row, meta) {
-                    return meta.row + 1 + ".";
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 }
             },
 
@@ -103,7 +104,7 @@
                             placementStatus = placement.placementStatus;
                         }
                     });
-                
+
 
                     if (placementStatus == "Idle") {
                         placementStatus = '<button class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' + row.accountId + '\', \'Idle\')">Idle</button>'
@@ -120,7 +121,7 @@
 
             {
                 "render": function (data, type, row) {
-        
+
                     var placementStatus = "Idle";
                     row.placements.forEach(function (placement) {
                         if (placement.placementStatus !== "Idle") {
@@ -128,10 +129,10 @@
                             placementLocation = placement.companyName;
 
                         }
-                       
+
                     });
-                
-                           
+
+
                     if (placementStatus == "Idle") {
                         placementLocation = "";
                     } else {
@@ -178,7 +179,13 @@
                    $(rows).eq(i).find('td:first').html(i + 1);
                });s
            }*/
-
+        "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            api.column(1, { page: 'current' }).data().each(function (group, i) {
+                $(rows).eq(i).find('td:first').html(i + 1);
+            });
+        }
 
     });
 
@@ -278,7 +285,7 @@ function parseJwt(token) {
 function GetByIdPlacement(accountId, placementStatus) {
     debugger;
     $.ajax({
-        url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -289,7 +296,7 @@ function GetByIdPlacement(accountId, placementStatus) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
             $.ajax({
-                url: "https://rasmanagement-001-site1.atempurl.com/api/Employees/accountId?accountId=" + accountId,
+                url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -334,7 +341,7 @@ function SaveTurnOver() {
     // console.log(placement);
     $.ajax({
         type: 'POST',
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/TurnOver',
+        url: 'https://localhost:7177/api/EmployeePlacements/TurnOver',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -353,7 +360,7 @@ function SaveTurnOver() {
             }).then(() => {
                 if (placement.placementStatus == "Blacklist" || placement.placementStatus == "Resign" || placement.placementStatus == "Transfer") {
                     $.ajax({
-                        url: 'https://rasmanagement-001-site1.atempurl.com/api/Accounts/UpdateRole',
+                        url: 'https://localhost:7177/api/Accounts/UpdateRole',
                         type: 'PUT',
                         data: JSON.stringify(updateRole),
                         contentType: "application/json; charset=utf-8",
@@ -392,7 +399,7 @@ function UpdatePlacement() {
     const accid = decodedtoken.AccountId;
     Account.accountId = accid;*/
     $.ajax({
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/Accounts/UpdateTurnOver',
+        url: 'https://localhost:7177/api/Accounts/UpdateTurnOver',
         type: 'PUT',
         data: JSON.stringify(Placement),
         contentType: "application/json; charset=utf-8",
@@ -528,7 +535,7 @@ function Save(accountId) {
 
     $.ajax({
         type: 'POST',
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements',
+        url: 'https://localhost:7177/api/EmployeePlacements',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -575,7 +582,7 @@ function Update() {
     placement.accountId = $('#accountId').val();;
     console.log(placement)
     $.ajax({
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements',
+        url: 'https://localhost:7177/api/EmployeePlacements',
         type: 'PUT',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",

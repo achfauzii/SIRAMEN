@@ -1,7 +1,11 @@
 ﻿$(document).ready(function () {
     $("#loginForm").on("submit", async function (event) {
         event.preventDefault();
+
+        $('#loader').show();
+
         const url = "https://rasmanagement-001-site1.atempurl.com/api/Accounts";
+
         const data = {
             email: $('#exampleInputEmail').val(),
             password: $('#exampleInputPassword').val()
@@ -15,9 +19,9 @@
         };
 
 
-     
 
         //debugger;
+
         try {
             const response = await fetch(url, option);
             const json = await response.json();
@@ -31,6 +35,7 @@
 
                 $.post("/Accounts/Auth", { token })
                     .done(function () {
+                      
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
@@ -120,7 +125,9 @@
             }).showToast();
 
         }
+        $('#loader').hide();
     });
+
 });
 
 

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     //debugger;
-
+    $('#loader').show();
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
     $.ajax({
         url: "https://rasmanagement-001-site1.atempurl.com/api/Educations",
@@ -98,6 +98,8 @@
         }
 
     });
+    $('#loader').hide();
+   
 
 })
 
@@ -203,8 +205,9 @@ function chartUniv(universitiesData) {
                         drawBorder: false
                     },
                     ticks: {
-                        maxTicksLimit: univName.length, 
-                       // maxRotation: 0, // Jangan memutar label
+
+                        maxTicksLimit: univName.length
+
                     },
                     maxBarThickness: 25,
                 }],

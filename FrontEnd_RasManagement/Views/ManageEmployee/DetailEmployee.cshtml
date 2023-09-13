@@ -132,12 +132,14 @@
                         <div class="col-sm-6 mb-1 mb-sm-0">
                             <label class="text-dark mb-0" for="exampleInputEmail1 ">Status</label>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite">
+                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite" required>
                                 <label class="form-check-label" for="radio1">Onsite</label>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="idle" name="status" value="Idle">
+                                <input type="radio" class="form-check-input" id="idle" name="status" value="Idle" required>
                                 <label class="form-check-label" for="radio2">Idle</label>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
 
@@ -149,7 +151,7 @@
 
                 <button type="button" class="btn btn-primary btn-add" id="Add" name="Add" onclick="Save('@employeeData.accountId')">Save</button>
                 <button type="button" class="btn btn-primary" id="Update" name="Update" data-bs-dismiss="modal" onclick="Update()">Update</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreenPlacement()">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ClearScreenPlacement()">Close</button>
             </div>
         </div>
     </div>

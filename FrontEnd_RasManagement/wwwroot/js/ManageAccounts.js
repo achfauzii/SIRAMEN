@@ -5,7 +5,7 @@
     const accid = decodedtoken.AccountId;*/
     $('#dataTableAccounts').DataTable({
         "ajax": {
-            url: "https://rasmanagement-001-site1.atempurl.com/api/Employees/EmployeeAdmin",
+            url: "https://localhost:7177/api/Employees/EmployeeAdmin",
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -17,7 +17,7 @@
             {
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    return meta.row + 1;
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 }
             },
             { "data": "fullname" },
@@ -40,7 +40,14 @@
                     return role;
                 }
             }
-        ]
+        ],
+         "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            api.column(1, { page: 'current' }).data().each(function (group, i) {
+                $(rows).eq(i).find('td:first').html(i + 1);
+            });
+        }
     })
 
 });
@@ -50,7 +57,7 @@ function GetById(accountId) {
     /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;*/
     $.ajax({
-        url: "https://rasmanagement-001-site1.atempurl.com/api/Accounts/AccountId?accountId=" + accountId,
+        url: "https://localhost:7177/api/Accounts/AccountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -62,8 +69,10 @@ function GetById(accountId) {
             var obj = result.data; //data yg kita dapat dr API  
             $('#AccountId').val(obj.accountId);
             $('#Role').val(obj.roleId);
-            
-            $('#Fullname').text(obj.fullname);
+            //document.getElementById('fullname').text(obj.fullname);
+            console.log(obj.fullname);
+            //document.getElementById('fullName').text = obj.fullname;
+            $('#FullName').text(obj.fullname);
             $('#Modal').modal('show');
             $('#Update').show();
         },
@@ -82,7 +91,7 @@ function UpdateRole() {
     const accid = decodedtoken.AccountId;
     Account.accountId = accid;*/
     $.ajax({
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/Accounts/UpdateRole',
+        url: 'https://localhost:7177/api/Accounts/UpdateRole',
         type: 'PUT',
         data: JSON.stringify(Account),
         contentType: "application/json; charset=utf-8",
