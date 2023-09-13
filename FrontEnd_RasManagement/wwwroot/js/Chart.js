@@ -10,8 +10,6 @@
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
-
-
         success: function (education) {
             var result = education.data;
 
@@ -35,9 +33,13 @@
             tableUniv(universitiesData);
             chartUniv(universitiesData);
 
+            // Sembunyikan loader setelah permintaan selesai
+            $('#loader').hide();
         }, error: function (errormessage) {
             alert(errormessage.responseText);
 
+            // Sembunyikan loader jika ada kesalahan dalam permintaan
+            $('#loader').hide();
         }
 
     });
@@ -45,6 +47,7 @@
     var idleCount = 0;
     var onsiteCount = 0;
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
+
     $.ajax({
         url: "https://rasmanagement-001-site1.atempurl.com/api/Employees",
         type: "GET",
@@ -81,6 +84,10 @@
                             }
                         }, error: function () {
 
+                        },
+                        complete: function () {
+                            // Sembunyikan loader setelah permintaan selesai
+                            $('#loader').hide();
                         }
                     });
 
@@ -92,17 +99,16 @@
             document.getElementById("countIdle").textContent = idleCount;
             document.getElementById("countOnsite").textContent = onsiteCount;
 
+            // Sembunyikan loader setelah semua permintaan selesai
+            $('#loader').hide();
         }, error: function (errormessage) {
             alert(errormessage.responseText);
 
+            // Sembunyikan loader jika ada kesalahan dalam permintaan
+            $('#loader').hide();
         }
-
     });
-    $('#loader').hide();
-   
-
-})
-
+});
 
 
 //Table

@@ -15,7 +15,7 @@ function loadDataA() {
     const accid = decodedtoken.AccountId;
     var imgElement = $("#employeePhoto");
     $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/Employees/accountId?accountId=" + accid,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",

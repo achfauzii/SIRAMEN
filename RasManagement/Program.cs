@@ -82,7 +82,7 @@ app.UseStaticFiles();
     app.UseSwagger();
     app.UseSwaggerUI();
 
-}
+}*/
 //If Deploy use 
 
 app.UseSwagger();
