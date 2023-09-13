@@ -203,7 +203,7 @@ function chartUniv(universitiesData) {
                         drawBorder: false
                     },
                     ticks: {
-                        maxTicksLimit: 6
+                        maxTicksLimit: univName.length
                     },
                     maxBarThickness: 25,
                 }],

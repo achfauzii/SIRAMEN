@@ -9,7 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class ProjectHistoryController : BaseController<ProjectHistory, ProjectHistoryRepository, int>
     {
         private readonly ProjectHistoryRepository projectHistoryRepository;
