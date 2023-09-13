@@ -85,16 +85,20 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-// Mendengarkan acara input pada textarea
+// Proses input pada textarea JobSpesification
 $('#JobSpec').on('input', function () {
     var jobSpecValue = $(this).val();
 
     // Memecah teks menjadi baris-baris
     var lines = jobSpecValue.split('\n');
 
-    // Menambahkan bullet pada setiap baris jika belum ada
+    // Memeriksa dan menghapus bullet dari setiap baris jika tidak dibutuhkan
     for (var i = 0; i < lines.length; i++) {
-        if (!lines[i].startsWith('• ')) {
+        // Menghapus bullet ('• ') dari awal baris jika ada
+        lines[i] = lines[i].replace(/^•\s*/, '');
+
+        // Menambahkan kembali bullet jika teks baris tidak kosong
+        if (lines[i].trim() !== '') {
             lines[i] = '• ' + lines[i];
         }
     }
