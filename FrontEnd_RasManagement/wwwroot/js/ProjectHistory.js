@@ -5,7 +5,7 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
     table = $('#TB_ProjectHistory').DataTable({
         "ajax": {
-            url: "https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory/accountId?accountId=" + accid,
+            url: "https://localhost:7177/api/ProjectHistory/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -24,7 +24,23 @@ $(document).ready(function () {
                 }
             },
             { "data": "projectName" },
-            { "data": "jobSpec" },
+            /*{ "data": "jobSpec" },*/
+            {
+                "data": "jobSpec",
+                render: function (data) {
+                    // Split data menjadi item-item dalam daftar
+                    var items = data.split('• ');
+
+                    // Buat daftar HTML
+                    var list = '<ul>';
+                    for (var i = 1; i < items.length; i++) {
+                        list += '<li>' + items[i] + '</li>';
+                    }
+                    list += '</ul>';
+
+                    return list;
+                }
+            },
             { "data": "year" },
             { "data": "companyName" },
             {
@@ -69,6 +85,27 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+// Mendengarkan acara input pada textarea
+$('#JobSpec').on('input', function () {
+    var jobSpecValue = $(this).val();
+
+    // Memecah teks menjadi baris-baris
+    var lines = jobSpecValue.split('\n');
+
+    // Menambahkan bullet pada setiap baris jika belum ada
+    for (var i = 0; i < lines.length; i++) {
+        if (!lines[i].startsWith('• ')) {
+            lines[i] = '• ' + lines[i];
+        }
+    }
+
+    // Menggabungkan baris-baris kembali menjadi satu teks
+    var formattedJobSpec = lines.join('\n');
+
+    // Setel nilai textarea dengan teks yang sudah diformat
+    $(this).val(formattedJobSpec);
+});
+
 function Save() {
     var isValid = true;
 
@@ -86,6 +123,27 @@ function Save() {
         return;
     }
 
+   /* var jobSpecValue = $('#JobSpec').val();
+
+    // Pastikan data dimulai dengan bullet ('• ') jika belum
+    if (!jobSpecValue.startsWith('• ')) {
+        jobSpecValue = '• ' + jobSpecValue;
+    }
+
+    // Pisahkan entri dengan bullet ('• ') sebagai pemisah
+    var jobSpecEntries = jobSpecValue.split('\n');
+
+    // Hapus elemen yang kosong dari daftar
+    jobSpecEntries = jobSpecEntries.filter(function (entry) {
+        return entry.trim() !== '';
+    });
+
+    // Gabungkan dengan bullet untuk menampilkan data di textarea
+    var formattedJobSpec = jobSpecEntries.join('\n• ');
+
+    // Setel nilai textarea dengan data yang diformat
+    $('#JobSpec').val(formattedJobSpec);*/
+
     var ProjectHistory = new Object(); //object baru
     ProjectHistory.projectName = $('#ProjectName').val(); //value insert dari id pada input
     ProjectHistory.jobSpec = $('#JobSpec').val();
@@ -96,7 +154,7 @@ function Save() {
     ProjectHistory.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory',
+        url: 'https://localhost:7177/api/ProjectHistory',
         data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -151,7 +209,7 @@ function ClearScreen() {
 function GetById(projectHistoryId) {
     //debugger;
     $.ajax({
-        url: "https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory/" + projectHistoryId,
+        url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -204,7 +262,7 @@ function Update() {
     ProjectHistory.accountId = accid;
     debugger;
     $.ajax({
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory',
+        url: 'https://localhost:7177/api/ProjectHistory',
         type: 'PUT',
         data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
@@ -243,7 +301,7 @@ function Delete(projectHistoryId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://rasmanagement-001-site1.atempurl.com/api/ProjectHistory/" + projectHistoryId,
+                url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
                 type: "DELETE",
                 dataType: "json",
 

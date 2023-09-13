@@ -14,8 +14,9 @@
         orderCellsTop: true,
         fixedHeader: true,
 
+
         "ajax": {
-            url: "https://rasmanagement-001-site1.atempurl.com/api/Employees",
+            url: "https://localhost:7177/api/Employees",
             type: "GET",
             "datatype": "json",
             async: true,
@@ -102,7 +103,7 @@
                             placementStatus = placement.placementStatus;
                         }
                     });
-                
+
 
                     if (placementStatus == "Idle") {
                         placementStatus = '<button class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' + row.accountId + '\', \'Idle\')">Idle</button>'
@@ -119,7 +120,7 @@
 
             {
                 "render": function (data, type, row) {
-        
+
                     var placementStatus = "Idle";
                     row.placements.forEach(function (placement) {
                         if (placement.placementStatus !== "Idle") {
@@ -127,10 +128,10 @@
                             placementLocation = placement.companyName;
 
                         }
-                       
+
                     });
-                
-                           
+
+
                     if (placementStatus == "Idle") {
                         placementLocation = "";
                     } else {
@@ -283,7 +284,7 @@ function parseJwt(token) {
 function GetByIdPlacement(accountId, placementStatus) {
     debugger;
     $.ajax({
-        url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -294,7 +295,7 @@ function GetByIdPlacement(accountId, placementStatus) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
             $.ajax({
-                url: "https://rasmanagement-001-site1.atempurl.com/api/Employees/accountId?accountId=" + accountId,
+                url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -339,7 +340,7 @@ function SaveTurnOver() {
     // console.log(placement);
     $.ajax({
         type: 'POST',
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/TurnOver',
+        url: 'https://localhost:7177/api/EmployeePlacements/TurnOver',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -358,7 +359,7 @@ function SaveTurnOver() {
             }).then(() => {
                 if (placement.placementStatus == "Blacklist" || placement.placementStatus == "Resign" || placement.placementStatus == "Transfer") {
                     $.ajax({
-                        url: 'https://rasmanagement-001-site1.atempurl.com/api/Accounts/UpdateRole',
+                        url: 'https://localhost:7177/api/Accounts/UpdateRole',
                         type: 'PUT',
                         data: JSON.stringify(updateRole),
                         contentType: "application/json; charset=utf-8",
@@ -397,7 +398,7 @@ function UpdatePlacement() {
     const accid = decodedtoken.AccountId;
     Account.accountId = accid;*/
     $.ajax({
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/Accounts/UpdateTurnOver',
+        url: 'https://localhost:7177/api/Accounts/UpdateTurnOver',
         type: 'PUT',
         data: JSON.stringify(Placement),
         contentType: "application/json; charset=utf-8",
@@ -533,7 +534,7 @@ function Save(accountId) {
 
     $.ajax({
         type: 'POST',
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements',
+        url: 'https://localhost:7177/api/EmployeePlacements',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -545,9 +546,8 @@ function Save(accountId) {
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
             //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
             Swal.fire({
-                icon:"success",
                 title: "Success!",
-                text: "Data has been added!",
+                text: "Data Berhasil Dimasukkan",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
@@ -581,7 +581,7 @@ function Update() {
     placement.accountId = $('#accountId').val();;
     console.log(placement)
     $.ajax({
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements',
+        url: 'https://localhost:7177/api/EmployeePlacements',
         type: 'PUT',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
@@ -593,7 +593,7 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 title: "Success!",
-                text: "Data has been updated!",
+                text: "Data Berhasil Di Update",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
