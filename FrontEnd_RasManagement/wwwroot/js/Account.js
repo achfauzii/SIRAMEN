@@ -28,7 +28,7 @@
 
                 $.post("/Accounts/Auth", { token })
                     .done(function () {
-                        $('#loader').hide();
+                      
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
@@ -118,7 +118,9 @@
             }).showToast();
 
         }
+        $('#loader').hide();
     });
+
 });
 
 

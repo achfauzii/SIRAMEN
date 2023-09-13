@@ -17,7 +17,7 @@
             {
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    return meta.row + 1;
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 }
             },
             { "data": "fullname" },
@@ -40,7 +40,14 @@
                     return role;
                 }
             }
-        ]
+        ],
+         "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            api.column(1, { page: 'current' }).data().each(function (group, i) {
+                $(rows).eq(i).find('td:first').html(i + 1);
+            });
+        }
     })
 
 });
