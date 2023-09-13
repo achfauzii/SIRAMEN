@@ -1,8 +1,11 @@
 ﻿$(document).ready(function () {
     $("#loginForm").on("submit", async function (event) {
         event.preventDefault();
+
         $('#loader').show();
-        const url = "https://localhost:7177/api/Accounts";
+
+        const url = "https://rasmanagement-001-site1.atempurl.com/api/Accounts";
+
         const data = {
             email: $('#exampleInputEmail').val(),
             password: $('#exampleInputPassword').val()
@@ -14,6 +17,10 @@
             }),
             body: JSON.stringify(data)
         };
+
+
+
+        //debugger;
 
         try {
             const response = await fetch(url, option);
@@ -149,6 +156,6 @@ function parseJwt(token) {
 
 function Logout() {
     sessionStorage.removeItem('Token'); //Remove Session
-    window.location.href = 'https://localhost:7109'; //Kembali Ke halaman Awal 
+    window.location.href = 'http://rasmanagement2-001-site1.etempurl.com'; //Kembali Ke halaman Awal 
 
 }
