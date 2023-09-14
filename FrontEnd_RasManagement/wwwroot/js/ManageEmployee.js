@@ -282,7 +282,7 @@ function parseJwt(token) {
 
 
 function GetByIdPlacement(accountId, placementStatus) {
-    debugger;
+    $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
     $.ajax({
         url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
@@ -305,7 +305,7 @@ function GetByIdPlacement(accountId, placementStatus) {
                 success: function (result) {
                     debugger;
                     var employee = result.data;
-                    console.log(employee.result.fullname);
+                  
                     //document.getElementById('FullName').text = employee.result.fullname;
                     $('#Fullname').text(employee.result.fullname);
                 }
@@ -327,12 +327,34 @@ function GetByIdPlacement(accountId, placementStatus) {
 
 function SaveTurnOver() {
     debugger;
+    var isValid = true;
+
+ 
+    // Validasi select options
+    var placementStatus = $('#PlacementStatus').val();
+
+
+
+    if (!placementStatus) {
+        $('.PlacementStatus').closest('.form-group').find('.error-message-status').show();
+        isValid = false;
+
+    } else {
+        $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
+
+    }
+
+    if (!isValid) {
+        return;
+    }
+
     var placement = new Object  //object baru
     placement.placementStatusId = $('#PlacementID').val();
     placement.placementStatus = $('#PlacementStatus').val();
     placement.companyName = $('#CompanyName').val();
     placement.description = $('#Description').val();
     placement.accountId = $('#AccountId').val();
+
 
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
@@ -578,8 +600,8 @@ function Update() {
     }
     placement.description = $('#description').val();//value insert dari id pada input
     placement.placementStatus = $('input[name="status"]:checked').val();
-    placement.accountId = $('#accountId').val();;
-    console.log(placement)
+    placement.accountId = $('#accountId').val();
+
     $.ajax({
         url: 'https://localhost:7177/api/EmployeePlacements',
         type: 'PUT',

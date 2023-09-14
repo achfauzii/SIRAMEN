@@ -85,8 +85,10 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+
 // Proses input pada textarea JobSpesification
 $('#JobSpec').on('input', function () {
+
     var jobSpecValue = $(this).val();
 
     // Memecah teks menjadi baris-baris
@@ -108,7 +110,7 @@ $('#JobSpec').on('input', function () {
 
     // Setel nilai textarea dengan teks yang sudah diformat
     $(this).val(formattedJobSpec);
-});
+});*/
 
 $('#JobSpec').on('keypress', function (e) {
     if (e.keyCode === 13) {
