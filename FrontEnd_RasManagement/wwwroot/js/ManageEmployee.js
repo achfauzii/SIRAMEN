@@ -13,6 +13,7 @@
         scrollX: true,
         orderCellsTop: true,
         fixedHeader: true,
+   
 
 
         "ajax": {

@@ -13,12 +13,14 @@ using System.Text;
 using RasManagement.Services;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
+
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class AccountsController : ControllerBase
     {
         private readonly IUnitWork _unitWork;
@@ -71,8 +73,9 @@ namespace RasManagement.Controllers
             await accountRepository.Register(registerVM);
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = registerVM });
         }
-
+        
         // Add Login POST api/<AccountController>
+       [AllowAnonymous]
         [HttpPost]
         public IActionResult Post(VMLogin viewLogin)
         {
@@ -107,7 +110,7 @@ namespace RasManagement.Controllers
                             expires: DateTime.UtcNow.AddHours(5),
                             signingCredentials: signIn);
                         var userToken = new JwtSecurityTokenHandler().WriteToken(token);
-                        Console.WriteLine(userToken);
+            
                         return StatusCode(200, new { status = HttpStatusCode.OK, message = "Login Successfully", Data = userToken });
                     }
                 case 3:
@@ -210,6 +213,7 @@ namespace RasManagement.Controllers
 
 
         //Forgot Password Update
+        [AllowAnonymous]
         [HttpPut("UpdatePassword")]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)
         {
