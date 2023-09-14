@@ -97,8 +97,8 @@ $('#JobSpec').on('input', function () {
         // Menghapus bullet ('• ') dari awal baris jika ada
         lines[i] = lines[i].replace(/^•\s*/, '');
 
-        // Menambahkan kembali bullet jika teks baris tidak kosong
-        if (lines[i].trim() !== '') {
+        // Menambahkan kembali bullet jika teks baris tidak kosong dan tidak sudah memiliki bullet
+        if (lines[i].trim() !== '' && !lines[i].startsWith('• ')) {
             lines[i] = '• ' + lines[i];
         }
     }
@@ -108,6 +108,18 @@ $('#JobSpec').on('input', function () {
 
     // Setel nilai textarea dengan teks yang sudah diformat
     $(this).val(formattedJobSpec);
+});
+
+$('#JobSpec').on('keypress', function (e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        var currentValue = $(this).val();
+        if (currentValue.trim() !== '') {
+            // Jika teks tidak kosong, tambahkan baris baru dengan bullet
+            currentValue += '\n• ';
+            $(this).val(currentValue);
+        }
+    }
 });
 
 function Save() {
