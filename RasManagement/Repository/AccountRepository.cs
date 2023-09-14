@@ -162,26 +162,25 @@ namespace RasManagement.Repository
         }
         public int Login(VMLogin viewLogin)
         {
-            var myAcc = _context.Accounts.FirstOrDefault(a => a.Email == viewLogin.Email);
+            var myAcc = _context.Accounts.SingleOrDefault(a => a.Email == viewLogin.Email);
 
             if (myAcc == null)
             {
                 return emailNotFound;
             }
 
-            var passwordMatch = BCrypt.Net.BCrypt.Verify(viewLogin.Password, myAcc.Password);
-
-            if (passwordMatch)
-            {
-                // Kata sandi cocok
-                return successful;
-            }
             else
             {
-                // Kata sandi salah
-                return wrongPassword;
+                var myPass = BCrypt.Net.BCrypt.Verify(viewLogin.Password, myAcc.Password);
+                if (myPass)
+                {
+                    return successful;
+                }
+                else
+                {
+                    return wrongPassword;
+                }
             }
-
         }
 
 

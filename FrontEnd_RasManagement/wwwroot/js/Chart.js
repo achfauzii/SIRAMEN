@@ -3,7 +3,7 @@
     $('#loader').show();
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
     $.ajax({
-        url: "https://rasmanagement-001-site1.atempurl.com/api/Educations",
+        url: "https://localhost:7177/api/Educations",
         type: "GET",
         datatype: "json",
         contentType: "application/json; charset=utf-8",
@@ -46,7 +46,7 @@
     var onsiteCount = 0;
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
     $.ajax({
-        url: "https://rasmanagement-001-site1.atempurl.com/api/Employees",
+        url: "https://localhost:7177/api/Employees",
         type: "GET",
         "datatype": "json",
         async: false,
@@ -61,7 +61,7 @@
                 var roleId = result[i].roleId; // Ambil roleId dari data saat ini
                 if (roleId === "3") {
                     $.ajax({
-                        url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
+                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
                         type: "GET",
                         datatype: "json",
                         async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
@@ -86,7 +86,7 @@
 
 
                 }
-
+               
             }
             // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
             document.getElementById("countIdle").textContent = idleCount;
@@ -192,7 +192,7 @@ function chartUniv(universitiesData) {
                     left: 10,
                     right: 25,
                     top: 25,
-                    bottom: 50
+                    bottom: 0
                 }
             },
             scales: {
@@ -205,9 +205,7 @@ function chartUniv(universitiesData) {
                         drawBorder: false
                     },
                     ticks: {
-
                         maxTicksLimit: univName.length
-
                     },
                     maxBarThickness: 25,
                 }],

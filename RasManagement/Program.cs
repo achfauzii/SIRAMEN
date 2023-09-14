@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using RasManagement.Services;
 using FluentAssertions.Common;
 using RasManagement.Settings;
-using Org.BouncyCastle.Pqc.Crypto.Lms;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,17 +76,15 @@ var app = builder.Build();
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
-/*if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 
 }
 //If Deploy use 
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
+//app.UseSwagger();
+//app.UseSwaggerUI();
 
 
 

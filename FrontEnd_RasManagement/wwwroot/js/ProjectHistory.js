@@ -86,7 +86,7 @@ function parseJwt(token) {
 }
 
 // Mendengarkan acara input pada textarea
-$('#JobSpec').on('input', function () {
+/*$('#JobSpec').on('input', function () {
     var jobSpecValue = $(this).val();
 
     // Memecah teks menjadi baris-baris
@@ -104,7 +104,7 @@ $('#JobSpec').on('input', function () {
 
     // Setel nilai textarea dengan teks yang sudah diformat
     $(this).val(formattedJobSpec);
-});
+});*/
 
 function Save() {
     var isValid = true;
