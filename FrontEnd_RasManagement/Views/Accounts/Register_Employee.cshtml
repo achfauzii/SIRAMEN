@@ -181,20 +181,20 @@
 
 
 <script>
-    function showBatch() {
-        const batch = document.getElementById("batch");
-        const radioButtons = document.getElementsByName("hiredStatus");
-        if (role == 'admin') {
+    //function showBatch() {
+    //    const batch = document.getElementById("batch");
+    //    const radioButtons = document.getElementsByName("hiredStatus");
+    //    if (role == 'admin') {
 
-            status.style.display = "none";
-            radioButtons.forEach((radio) => {
-                radio.checked = false;
-            });
-        } else {
-            status.style.display = "block";
-        }
+    //        status.style.display = "none";
+    //        radioButtons.forEach((radio) => {
+    //            radio.checked = false;
+    //        });
+    //    } else {
+    //        status.style.display = "block";
+    //    }
 
-    }
+    //}
 
     document.getElementById('createAccountForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Mencegah pengiriman formulir secara default
