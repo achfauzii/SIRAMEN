@@ -1,5 +1,14 @@
 ﻿$(document).ready(function () {
 
+
+    // Tambahkan penanganan acara ke elemen PlacementStatus
+    document.getElementById('PlacementStatus').addEventListener('change', handlePlacementStatusChange);
+
+    // Panggil fungsi saat halaman dimuat untuk mengatur keadaan awal
+    window.addEventListener('load', function () {
+        // Periksa nilai awal dropdown saat halaman dimuat
+        handlePlacementStatusChange();
+    });
     $('#dataTableEmployee thead tr').clone(true).addClass('filters').attr('id', 'filterRow').appendTo('#dataTableEmployee thead');
 
     // $('#loader').show();
@@ -283,6 +292,9 @@ function parseJwt(token) {
 
 function GetByIdPlacement(accountId, placementStatus) {
     $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
+    $('#date').val('');
+    var inputCompany = document.getElementById('inputCompany');
+    inputCompany.style.display = 'none';
     $.ajax({
         url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
@@ -347,14 +359,15 @@ function SaveTurnOver() {
     if (!isValid) {
         return;
     }
-
+        
     var placement = new Object  //object baru
     placement.placementStatusId = $('#PlacementID').val();
     placement.placementStatus = $('#PlacementStatus').val();
     placement.companyName = $('#CompanyName').val();
     placement.description = $('#Description').val();
     placement.accountId = $('#AccountId').val();
-
+    placement.endDate = $('#date').val();
+    
 
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
@@ -406,6 +419,20 @@ function SaveTurnOver() {
         }
 
     })
+}
+
+
+// Fungsi yang dipanggil saat nilai dropdown PlacementStatus berubah
+function handlePlacementStatusChange() {
+    var selectedOption = document.getElementById('PlacementStatus').value;
+    var inputCompany = document.getElementById('inputCompany');
+
+    // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
+    if (selectedOption === 'Transfer') {
+        inputCompany.style.display = 'block';
+    } else {
+        inputCompany.style.display = 'none';
+    }
 }
 
 function UpdatePlacement() {

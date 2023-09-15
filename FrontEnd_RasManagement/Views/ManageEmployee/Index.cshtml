@@ -50,15 +50,23 @@
                     <div class="form-group">
                         <input type="text" class="form-control" id="AccountId" hidden>
                         <label for="PlacementStatus">Change Status</label>
-                        <select id="PlacementStatus" class="form-control PlacementStatus" placeholder="Select Turn Over Status">                            
+                        <select id="PlacementStatus" class="form-control PlacementStatus" placeholder="Select Turn Over Status">
                             <option value="Blacklist">Blacklist</option>
                             <option value="Resign">Resign</option>
                             <option value="Transfer">Transfer</option>
 
                         </select>
                         <span class="error-message-status" style="color: red; display: none;">This field is required!</span>
-                  
-                        <input type="text" class="form-control" id="CompanyName" hidden>
+
+
+                    </div>
+                    <div class="form-group" style="display: none;" id="inputCompany">
+                        <label for="Description">Company Name</label>
+                        <input type="text" class="form-control" id="CompanyName">
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Date</label>
+                        <input type="date" class="form-control" id="date" placeholder="Turn Over Date">
                     </div>
                     <div class="form-group">
                         <label for="Description">Description</label>
