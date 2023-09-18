@@ -134,6 +134,7 @@ namespace RasManagement.Repository
         public const int notfound = 2;
         public const int emailNotFound = 3;
         public const int wrongPassword = 4;
+        public const int suspend = 5;
 
         public int FindbyEmail(string email)
         {
@@ -168,7 +169,10 @@ namespace RasManagement.Repository
             {
                 return emailNotFound;
             }
-
+            else if (myAcc.RoleId == "4")
+            {
+                return suspend;
+            }
             else
             {
                 var myPass = BCrypt.Net.BCrypt.Verify(viewLogin.Password, myAcc.Password);

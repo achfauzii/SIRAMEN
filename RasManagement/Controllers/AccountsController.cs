@@ -114,6 +114,8 @@ namespace RasManagement.Controllers
                     return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Please cek your email", Data = vMlogin });
                 case 4:
                     return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Please cek your password", Data = vMlogin });
+                case 5:
+                    return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Account Suspended", Data = vMlogin });
                 default:
                     return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "I'm sorry, something wrong", Data = vMlogin });
             }
