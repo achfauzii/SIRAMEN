@@ -110,7 +110,7 @@ $('#JobSpec').on('input', function () {
 
     // Setel nilai textarea dengan teks yang sudah diformat
     $(this).val(formattedJobSpec);
-});*/
+});
 
 $('#JobSpec').on('keypress', function (e) {
     if (e.keyCode === 13) {
