@@ -18,7 +18,7 @@
         try {
             const response = await fetch(url, option);
             const json = await response.json();
-
+            console.log(response);
             if (response.ok) {
                 var token = json.data;
                 sessionStorage.setItem("Token", token);
@@ -28,7 +28,7 @@
 
                 $.post("/Accounts/Auth", { token })
                     .done(function () {
-                      
+
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
@@ -64,7 +64,7 @@
                                     window.location.replace("/dashboards/dashboard_superadmin")
                                 }
                             })
-                           
+
                         } else if (Role === 'Employee') {
                             Toast.fire({
                                 icon: 'success',
@@ -74,20 +74,29 @@
                                     window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
                                 }
                             })
-                           
+
                         } else {
                             Swal.fire({
                                 icon: 'warning',
-                                title:'Failed Login',
+                                title: 'Failed Login',
                                 text: 'Your Account Has Ben Suspended',
                                 showConfirmButtom: false,
                                 timer: 1500
                             })
                         }
 
-
+                       
                     });
 
+            } else if (response.status == 400) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Failed Login',
+                    text: 'Your Account Has Ben Suspended',
+                    showConfirmButtom: false,
+            
+                })
             } else {
 
                 // loaderContainer.innerHTML = "";
