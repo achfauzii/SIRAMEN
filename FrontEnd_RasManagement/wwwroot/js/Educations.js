@@ -432,7 +432,7 @@ function UpdateFormal() {
 
     $.ajax({
         type: 'PUT',
-        url: 'https://rasmanagement-001-site1.atempurl.com/api/Educations',
+        url: 'https://localhost:7177/api/Educations',
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -471,7 +471,7 @@ function DeleteFormal(formalEduId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://rasmanagement-001-site1.atempurl.com/api/Educations/" + formalEduId,
+                url: "https://localhost:7177/api/Educations/" + formalEduId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {

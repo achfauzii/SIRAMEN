@@ -21,6 +21,8 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<DataUniversita> DataUniversitas { get; set; }
 
+    public virtual DbSet<Department> Departments { get; set; }
+
     public virtual DbSet<EmploymentHistory> EmploymentHistories { get; set; }
 
     public virtual DbSet<FormalEdu> FormalEdus { get; set; }
@@ -35,9 +37,11 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<TurnOver> TurnOvers { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server = RAS-FAUZI; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        => optionsBuilder.UseSqlServer("server = RAS-HIJRIANANDA; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,6 +63,9 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.EndContract)
+                .HasColumnType("date")
+                .HasColumnName("End_contract");
             entity.Property(e => e.Fullname)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -93,6 +100,9 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(4)
                 .IsUnicode(false)
                 .HasColumnName("Role_Id");
+            entity.Property(e => e.StartContract)
+                .HasColumnType("date")
+                .HasColumnName("Start_contract");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
@@ -141,6 +151,18 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("nama_universitas");
+        });
+
+        modelBuilder.Entity<Department>(entity =>
+        {
+            entity.HasKey(e => e.DeptId);
+
+            entity.ToTable("Department");
+
+            entity.Property(e => e.DeptId).HasColumnName("Dept_Id");
+            entity.Property(e => e.NamaDept)
+                .IsUnicode(false)
+                .HasColumnName("Nama_Dept");
         });
 
         modelBuilder.Entity<EmploymentHistory>(entity =>
@@ -325,6 +347,36 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Rolename)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<TurnOver>(entity =>
+        {
+            entity.ToTable("TurnOver");
+
+            entity.Property(e => e.TurnOverId)
+                .ValueGeneratedNever()
+                .HasColumnName("TurnOver_Id");
+            entity.Property(e => e.AccountId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Account_Id");
+            entity.Property(e => e.DeptId).HasColumnName("Dept_Id");
+            entity.Property(e => e.Description).IsUnicode(false);
+            entity.Property(e => e.ExitDate)
+                .HasColumnType("date")
+                .HasColumnName("Exit_date");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Account).WithMany(p => p.TurnOvers)
+                .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TurnOver_Account");
+
+            entity.HasOne(d => d.Dept).WithMany(p => p.TurnOvers)
+                .HasForeignKey(d => d.DeptId)
+                .HasConstraintName("FK_TurnOver_Department");
         });
 
         OnModelCreatingPartial(modelBuilder);
