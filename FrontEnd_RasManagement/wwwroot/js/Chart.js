@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     //debugger;
-
+    $('#loader').show();
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
     $.ajax({
         url: "https://localhost:7177/api/Educations",
@@ -98,6 +98,8 @@
         }
 
     });
+    $('#loader').hide();
+   
 
 })
 

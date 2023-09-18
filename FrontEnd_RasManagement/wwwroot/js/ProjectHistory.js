@@ -85,8 +85,10 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+
 // Proses input pada textarea JobSpesification
 $('#JobSpec').on('input', function () {
+
     var jobSpecValue = $(this).val();
 
     // Memecah teks menjadi baris-baris
