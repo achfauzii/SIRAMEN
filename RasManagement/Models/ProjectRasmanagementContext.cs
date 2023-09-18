@@ -348,7 +348,7 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.ToTable("TurnOver");
 
             entity.Property(e => e.TurnOverId)
-                .ValueGeneratedNever()
+             
                 .HasColumnName("TurnOver_Id");
             entity.Property(e => e.AccountId)
                 .HasMaxLength(50)
