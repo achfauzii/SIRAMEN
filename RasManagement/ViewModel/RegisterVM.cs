@@ -8,11 +8,12 @@
 
         public string Password { get; set; } = null!;
 
-      
+        public DateTime? StartContract { get; set; }
+
+        public DateTime? EndContract { get; set; }
 
         public string Fullname { get; set; } = null!;
 
- 
         public string? Hiredstatus { get; set; }
         public string Gender { get; set; }
 
