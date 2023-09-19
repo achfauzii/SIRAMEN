@@ -147,9 +147,16 @@
 });
 
 function showDescription(namaDept, description, date) {
-    debugger;
+ 
     const showDept = document.getElementById("showDept");
-    console.log(namaDept);
+    // Buat objek Date dari string tanggal awal
+    var dateFormat = new Date(date);
+
+    // Buat opsi untuk pemformatan tanggal yang diinginkan
+    var formatOpt = { year: 'numeric', month: 'long', day: 'numeric' };
+
+    // Gunakan fungsi toLocaleDateString() dengan opsi pemformatan
+    var newDate = dateFormat.toLocaleDateString('id-ID', formatOpt);
     if (namaDept === "null") {
         showDept.style.display = 'none';
        
@@ -165,7 +172,7 @@ function showDescription(namaDept, description, date) {
     } else {
         $("#description").text(description);
     }
-    $("#date").text(date);
+    $("#date").text(newDate);
     
 
 }

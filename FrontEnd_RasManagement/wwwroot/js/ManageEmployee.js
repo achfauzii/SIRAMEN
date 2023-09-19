@@ -301,11 +301,11 @@ function fetchDepartments() {
         },
         success: function (result) {
             // Menghapus semua opsi yang ada dalam elemen select
-            $('#NamaDept').empty();
+            $('#deptId').empty();
 
             // Mengisi opsi dengan data departemen dari API
             $.each(result.data, function (index, department) {
-                $('#NamaDept').append($('<option>', {
+                $('#deptId').append($('<option>', {
                     value: department.deptId,
                     text: department.namaDept
                 }));
@@ -378,7 +378,7 @@ function SaveTurnOver() {
 
     if (!status) {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').show();
-        isValid = false;
+        isValid = false;    
 
     } else {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
@@ -388,7 +388,7 @@ function SaveTurnOver() {
     if (!isValid) {
         return;
     }
-    var deptIdValue = $('#DeptId').val();
+    var deptIdValue = $('#deptId').val();
     var TurnOver = new Object  //object baru
  
     TurnOver.status = $('#Status').val();
@@ -397,7 +397,7 @@ function SaveTurnOver() {
     TurnOver.description = $('#Description').val();
     TurnOver.accountId = $('#AccountId').val();
     TurnOver.exitDate = $('#date').val();
-    console.log(TurnOver);
+
 
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
