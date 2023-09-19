@@ -41,7 +41,9 @@ public partial class ProjectRasmanagementContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server = RAS-AURORA; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+
+        => optionsBuilder.UseSqlServer("server = RAS-HIJRIANANDA; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -158,7 +160,7 @@ public partial class ProjectRasmanagementContext : DbContext
 
             entity.ToTable("Department");
 
-            entity.HasIndex(e => e.DeptId, "IX_Department");
+            //entity.HasIndex(e => e.DeptId, "IX_Department");
 
             entity.Property(e => e.DeptId).HasColumnName("Dept_Id");
             entity.Property(e => e.NamaDept)
@@ -364,7 +366,9 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.ToTable("TurnOver");
 
 
+
             entity.Property(e => e.TurnOverId).HasColumnName("TurnOver_Id");
+
 
             entity.Property(e => e.AccountId)
                 .HasMaxLength(50)

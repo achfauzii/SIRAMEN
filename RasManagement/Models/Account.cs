@@ -55,7 +55,7 @@ public partial class Account
 
     public virtual ICollection<Qualification> Qualifications { get; set; } = new List<Qualification>();
 
-    public virtual Role? Role { get; set; }
+    public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<TurnOver> TurnOvers { get; set; } = new List<TurnOver>();
 }

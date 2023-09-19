@@ -19,6 +19,8 @@ public partial class TurnOver
     public int? DeptId { get; set; }
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
+
     [JsonIgnore]
+
     public virtual Department? Dept { get; set; }
 }
