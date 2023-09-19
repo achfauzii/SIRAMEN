@@ -18,5 +18,5 @@ public partial class NonFormalEdu
 
     public string AccountId { get; set; } = null!;
     [JsonIgnore]
-    public virtual Account Account { get; set; } = null!;
+    public virtual Account? Account { get; set; } = null!;
 }

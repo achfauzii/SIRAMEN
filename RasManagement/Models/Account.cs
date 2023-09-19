@@ -33,11 +33,17 @@ public partial class Account
 
     public string? Address { get; set; }
 
+    public DateTime? StartContract { get; set; }
+
+    public DateTime? EndContract { get; set; }
+
     public string? Image { get; set; }
 
-    public string RoleId { get; set; } = null!;
+    public string? RoleId { get; set; }
 
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+
+    public virtual ICollection<EmploymentHistory> EmploymentHistories { get; set; } = new List<EmploymentHistory>();
 
     public virtual ICollection<FormalEdu> FormalEdus { get; set; } = new List<FormalEdu>();
 
@@ -45,9 +51,11 @@ public partial class Account
 
     public virtual ICollection<Placement> Placements { get; set; } = new List<Placement>();
 
+    public virtual ICollection<ProjectHistory> ProjectHistories { get; set; } = new List<ProjectHistory>();
+
     public virtual ICollection<Qualification> Qualifications { get; set; } = new List<Qualification>();
 
-    public virtual Role Role { get; set; } = null!;
+    public virtual Role? Role { get; set; }
 
     public virtual ICollection<TurnOver> TurnOvers { get; set; } = new List<TurnOver>();
 }

@@ -30,6 +30,10 @@
 
         public string? Address { get; set; }
 
+        public DateTime? StartContract { get; set; }
+
+        public DateTime? EndContract { get; set; }
+
         public string? Image { get; set; }
 
         public string RoleId { get; set; } = null!;
