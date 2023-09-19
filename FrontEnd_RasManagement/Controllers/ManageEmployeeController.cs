@@ -150,7 +150,7 @@ namespace FrontEnd_RasManagement.Controllers
                 return RedirectToAction("Login", "Accounts");
             }
             //End Validate
-            return View();
+            return View("DepartmentEmployee");
         }
     }
 }
