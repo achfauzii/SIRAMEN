@@ -2,7 +2,7 @@
 
 
     // Tambahkan penanganan acara ke elemen PlacementStatus
-    document.getElementById('PlacementStatus').addEventListener('change', handlePlacementStatusChange);
+    document.getElementById('Status').addEventListener('change', handlePlacementStatusChange);
 
     // Panggil fungsi saat halaman dimuat untuk mengatur keadaan awal
     window.addEventListener('load', function () {
@@ -291,6 +291,7 @@ function parseJwt(token) {
 
 
 function GetByIdPlacement(accountId, placementStatus) {
+
     $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
     $('#date').val('');
     var inputCompany = document.getElementById('inputCompany');
@@ -317,14 +318,14 @@ function GetByIdPlacement(accountId, placementStatus) {
                 success: function (result) {
                     debugger;
                     var employee = result.data;
-                  
+
                     //document.getElementById('FullName').text = employee.result.fullname;
                     $('#Fullname').text(employee.result.fullname);
                 }
             })
             $('#AccountId').val(accountId);
             $('#PlacementID').val(obj.placementStatusId);
-            $('#PlacementStatus').val(placementStatus);
+            $('#Status').val(placementStatus);
             $('#CompanyName').val(obj.companyName);
             $('#Description').val(obj.description);
             $('#Modal').modal('show');
@@ -341,13 +342,13 @@ function SaveTurnOver() {
     debugger;
     var isValid = true;
 
- 
+
     // Validasi select options
-    var placementStatus = $('#PlacementStatus').val();
+    var status = $('#Status').val();
 
 
 
-    if (!placementStatus) {
+    if (!status) {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').show();
         isValid = false;
 
@@ -359,15 +360,16 @@ function SaveTurnOver() {
     if (!isValid) {
         return;
     }
-        
-    var placement = new Object  //object baru
-    placement.placementStatusId = $('#PlacementID').val();
-    placement.placementStatus = $('#PlacementStatus').val();
-    placement.companyName = $('#CompanyName').val();
-    placement.description = $('#Description').val();
-    placement.accountId = $('#AccountId').val();
-    placement.endDate = $('#date').val();
-    
+    var deptIdValue = $('#DeptId').val();
+    var TurnOver = new Object  //object baru
+ 
+    TurnOver.status = $('#Status').val();
+   // TurnOver.deptId = $('#DeptId').val();
+    TurnOver.deptId = deptIdValue ? deptIdValue : null;
+    TurnOver.description = $('#Description').val();
+    TurnOver.accountId = $('#AccountId').val();
+    TurnOver.exitDate = $('#date').val();
+    console.log(TurnOver);
 
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
@@ -375,8 +377,8 @@ function SaveTurnOver() {
     // console.log(placement);
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/EmployeePlacements/TurnOver',
-        data: JSON.stringify(placement),
+        url: 'https://localhost:7177/api/TurnOver',
+        data: JSON.stringify(TurnOver),
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -392,7 +394,7 @@ function SaveTurnOver() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                if (placement.placementStatus == "Blacklist" || placement.placementStatus == "Resign" || placement.placementStatus == "Transfer") {
+                if (TurnOver.status == "Blacklist" || TurnOver.status == "Resign" || TurnOver.status == "Transfer") {
                     $.ajax({
                         url: 'https://localhost:7177/api/Accounts/UpdateRole',
                         type: 'PUT',
@@ -424,7 +426,7 @@ function SaveTurnOver() {
 
 // Fungsi yang dipanggil saat nilai dropdown PlacementStatus berubah
 function handlePlacementStatusChange() {
-    var selectedOption = document.getElementById('PlacementStatus').value;
+    var selectedOption = document.getElementById('Status').value;
     var inputCompany = document.getElementById('inputCompany');
 
     // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan

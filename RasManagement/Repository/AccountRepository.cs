@@ -117,6 +117,8 @@ namespace RasManagement.Repository
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
                 Hiredstatus = registerVM.Hiredstatus,
+                StartContract=registerVM.StartContract,
+                EndContract=registerVM.EndContract,
                 RoleId = registerVM.RoleId,
 
             };
