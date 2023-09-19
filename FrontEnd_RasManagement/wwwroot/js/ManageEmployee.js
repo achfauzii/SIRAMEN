@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
 
+    fetchDepartments();
 
     // Tambahkan penanganan acara ke elemen PlacementStatus
     document.getElementById('Status').addEventListener('change', handlePlacementStatusChange);
@@ -288,6 +289,33 @@ function parseJwt(token) {
         $('#Update').show();
     });
 }*/
+
+function fetchDepartments() {
+    $.ajax({
+        url: "https://localhost:7177/api/Department",
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            // Menghapus semua opsi yang ada dalam elemen select
+            $('#NamaDept').empty();
+
+            // Mengisi opsi dengan data departemen dari API
+            $.each(result.data, function (index, department) {
+                $('#NamaDept').append($('<option>', {
+                    value: department.deptId,
+                    text: department.namaDept
+                }));
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 
 
 function GetByIdPlacement(accountId, placementStatus) {
