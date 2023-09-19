@@ -16,7 +16,7 @@
                 <div class="col-sm-3">
                     <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus"  value="Prohire" required>Prohire
+                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire" required>Prohire
                         <label class="form-check-label" for="radio1"></label>
                     </div>
                     <div class="form-check" id="batch">
@@ -27,20 +27,19 @@
 
                 </div>
 
-               @* <div class="col-sm-3">
-                    <div class="form-group row" id="formHiring" style="display: none;">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <label class="text-dark" for="exampleInputEmail1">Batch</label>
-                            <input type="number" class="form-control " id="fullName" name="fullName" required>
-                            <span class="error-message" style="color: red; display: none;">Field is required.</span>
-                            
-                        </div>
-                    </div>
+                @* <div class="col-sm-3">
+                <div class="form-group row" id="formHiring" style="display: none;">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                <label class="text-dark" for="exampleInputEmail1">Batch</label>
+                <input type="number" class="form-control " id="fullName" name="fullName" required>
+                <span class="error-message" style="color: red; display: none;">Field is required.</span>
+
+                </div>
+                </div>
                 </div>*@
             </div>
 
             <div class="form-group row">
-
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Email</label>
                     <input type="email" class="form-control " id="email" name="email" required>
@@ -60,120 +59,24 @@
                 </div>
             </div>
 
-            @*        <div class="form-group row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-            <label class="text-dark" for="exampleInputEmail1">Password</label>
-            <input type="password" class="form-control"
-            id="password" name="password">
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Start Contract</label>
+                    <input type="date" class="form-control " id="start" name="start" required>
+                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
+                </div>
+                <div class="col-sm-6">
+                    <label class="text-dark" for="exampleInputEmail1">End Contract</label>
+                    <input type="date" class="form-control " id="end" name="end" required>
+                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
+                </div>
             </div>
-            <div class="col-sm-6">
-            <label class="text-dark" for="exampleInputEmail1"> Repeat Password</label>
-            <input type="password" class="form-control "
-            id="repeatPassword" name="repeatPassword">
-            </div>
-            </div>*@
-
             <div class="form-group">
 
                 <input type="hidden" class="form-control " id="roleId" name="roleId" value="3">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
-
-
-        @*<div class="form-group row">
-
-        <div class="col-sm-6 mb-3 mb-sm-0">
-        <label class="text-dark" for="exampleInputEmail1">AccountId</label>
-        <input type="text" class="form-control " id="accountId" name="accountId">
-        </div>
-
-        <div class="col-sm-6">
-        <label class="text-dark" for="exampleInputEmail1">Hired Status</label>
-        <input type="text" class="form-control " id="hiredStatus" name="hiredStatus">
-        </div>
-        </div>
-        <div class="form-group row">
-
-        <div class="col-sm-6 mb-3 mb-sm-0">
-        <label class="text-dark" for="exampleInputEmail1">Full Name</label>
-        <input type="text" class="form-control " id="fullName" name="fullName">
-        </div>
-
-        <div class="col-sm-6">
-        <label class="text-dark" for="exampleInputEmail1">Nickname</label>
-        <input type="text" class="form-control " id="nickName" name="nickName">
-        </div>
-        </div>
-        <div class="form-group row">
-
-        <div class="col-sm-6 mb-3 mb-sm-0">
-        <label class="text-dark" for="exampleInputEmail1">Email</label>
-        <input type="email" class="form-control " id="email" name="email">
-        </div>
-
-        <div class="col-sm-6">
-        <label class="text-dark" for="exampleInputEmail1">Religion</label>
-        <input type="text" class="form-control " id="hiredStatus" name="religion">
-        </div>
-        </div>
-
-        <div class="form-group row">
-        <div class="col-sm-6 mb-3 mb-sm-0">
-        <label class="text-dark"  for="exampleInputEmail1">Password</label>
-        <input type="password" class="form-control"
-        id="password" name="password">
-        </div>
-        <div class="col-sm-6">
-        <label class="text-dark" for="exampleInputEmail1"> Repeat Password</label>
-        <input type="password" class="form-control "
-        id="repeatPassword" name="repeatPassword">
-        </div>
-        </div>
-        <div class="form-group row">
-        <div class="col-sm-6 mb-3 mb-sm-0">
-        <label class="text-dark"  for="exampleInputEmail1">Gender</label>
-        <div class="form-check">
-        <input type="radio" class="form-check-input" id="male" name="gender" value="Male" checked>Male
-        <label class="form-check-label" for="radio1"></label>
-        </div>
-        <div class="form-check">
-        <input type="radio" class="form-check-input" id="radio2" name="gender" value="Female">Female
-        <label class="form-check-label" for="radio2"></label>
-        </div>
-        </div>
-        <div class="col-sm-6">
-        <label class="text-dark" for="exampleInputEmail1"> Nationality</label>
-        <input type="text" class="form-control "
-        id="nationality" name="nationality">
-        </div>
-        </div>
-        <div class="form-group row">
-        <div class="col-sm-6 mb-3 mb-sm-0">
-        <label class="text-dark" for="exampleInputEmail1">Birth Place</label>
-
-        <input type="text" class="form-control "
-        id="birthPlace" name="birthPlace">
-
-        </div>
-        <div class="col-sm-6">
-        <label class="text-dark" for="exampleInputEmail1"> Birth Date</label>
-        <input type="date" class="form-control "
-        id="birthDate" name="birthDate">
-        </div>
-        <div class="col-sm-6">
-
-        <input type="hidden"  class="form-control " id="roleId" name="roleId" value="3">
-        </div>
-
-        </div>
-        <div class="form-group">
-        <label class="text-dark" for="exampleInputEmail1">Address</label>
-        <input type="text" class="form-control" id="address" name="address">
-        </div>*@
-
-
 
 
     </div>
@@ -204,6 +107,8 @@
         var fullName = document.getElementById('fullName').value;
         //var nickName = document.getElementById('nickName').value;
         var email = document.getElementById('email').value;
+        var startContract = document.getElementById('start').value;
+        var endContract = document.getElementById('end').value;
         //var password = document.getElementById('password').value;
         //var repeatPassword = document.getElementById('repeatPassword').value;
         //var birthPlace = document.getElementById('birthPlace').value;
@@ -248,6 +153,8 @@
             //birthdate: '2023-06-23T07:21:40.243Z',
             //religion: 'string',
             gender: gender,
+            startcontract: startContract,
+            endcontract: endContract,
             //maritalstatus: 'string',
             //hiredstatus: 'string',
             //nationality: 'string',
