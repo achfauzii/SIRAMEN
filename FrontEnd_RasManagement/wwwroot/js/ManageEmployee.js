@@ -360,11 +360,12 @@ function SaveTurnOver() {
     if (!isValid) {
         return;
     }
-
+    var deptIdValue = $('#DeptId').val();
     var TurnOver = new Object  //object baru
  
     TurnOver.status = $('#Status').val();
-    TurnOver.deptId = parseInt($('#DeptId').val());
+   // TurnOver.deptId = $('#DeptId').val();
+    TurnOver.deptId = deptIdValue ? deptIdValue : null;
     TurnOver.description = $('#Description').val();
     TurnOver.accountId = $('#AccountId').val();
     TurnOver.exitDate = $('#date').val();
@@ -377,7 +378,7 @@ function SaveTurnOver() {
     $.ajax({
         type: 'POST',
         url: 'https://localhost:7177/api/TurnOver',
-        data: JSON.stringify(placement),
+        data: JSON.stringify(TurnOver),
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")

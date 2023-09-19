@@ -120,7 +120,7 @@ $('#JobSpec').on('keypress', function (e) {
             // Jika teks tidak kosong, tambahkan baris baru dengan bullet
             currentValue += '\n• ';
             $(this).val(currentValue);
-        }
+        } 
     }
 });
 
