@@ -15,7 +15,8 @@ namespace RasManagement.Repository
         {
             var query = from turnOver in context.TurnOvers
                         join account in context.Accounts on turnOver.AccountId equals account.AccountId
-                        join department in context.Departments on turnOver.DeptId equals department.DeptId
+                        join department in context.Departments on turnOver.DeptId equals department.DeptId into deptGroup
+                        from dept in deptGroup.DefaultIfEmpty() // Ini adalah left join
                         select new
                         {
                             turnOver.TurnOverId,
@@ -28,7 +29,7 @@ namespace RasManagement.Repository
                             account.Email,
                             account.Address,
                             account.Gender,
-                            department.NamaDept // Ambil kolom nama departemen dari tabel Departments
+                            DeptName = dept != null ? dept.NamaDept : null // Ambil nama departemen jika dept tidak null, atau null jika dept null
                         };
             return query.ToList();
 

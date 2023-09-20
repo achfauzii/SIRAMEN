@@ -106,11 +106,11 @@
                     /*console.log(row.placements.placementStatus);
                     var placementStatus = row.placements.placementStatus;*/
                     if (placementStatus === "Blacklist") {
-                        return '<span type="button" class="badge badge-pill badge-danger"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.namaDept + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
+                        return '<span type="button" class="badge badge-pill badge-danger"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.deptName + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
                     } else if (placementStatus === "Resign") {
-                        return '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.namaDept + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
+                        return '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.deptName + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
                     } else {
-                        return '<span type="button" class="badge badge-pill badge-primary"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.namaDept + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
+                        return '<span type="button" class="badge badge-pill badge-primary"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.deptName + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
                     }
 
 
@@ -147,22 +147,32 @@
 });
 
 function showDescription(namaDept, description, date) {
+ 
     const showDept = document.getElementById("showDept");
-    if (namaDept === "") {
-      //  showDept.style.display = 'none';
-     
-    
+    // Buat objek Date dari string tanggal awal
+    var dateFormat = new Date(date);
+
+    // Buat opsi untuk pemformatan tanggal yang diinginkan
+    var formatOpt = { year: 'numeric', month: 'long', day: 'numeric' };
+
+    // Gunakan fungsi toLocaleDateString() dengan opsi pemformatan
+    var newDate = dateFormat.toLocaleDateString('id-ID', formatOpt);
+    if (namaDept === "null") {
+        showDept.style.display = 'none';
+       
     } else {
-       // showDept.style.display = 'block';
+       showDept.style.display = 'block';
         $("#namaDept").text(namaDept);
     }
+
+
     if (description === "") {
         var description = "No Description."
         $("#description").text(desc);
     } else {
         $("#description").text(description);
     }
-    $("#date").text(date);
+    $("#date").text(newDate);
     
 
 }

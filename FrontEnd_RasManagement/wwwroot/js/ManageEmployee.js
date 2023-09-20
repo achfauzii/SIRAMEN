@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
 
+    fetchDepartments();
 
     // Tambahkan penanganan acara ke elemen PlacementStatus
     document.getElementById('Status').addEventListener('change', handlePlacementStatusChange);
@@ -329,6 +330,33 @@ function parseJwt(token) {
     });
 }*/
 
+function fetchDepartments() {
+    $.ajax({
+        url: "https://localhost:7177/api/Department",
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            // Menghapus semua opsi yang ada dalam elemen select
+            $('#deptId').empty();
+
+            // Mengisi opsi dengan data departemen dari API
+            $.each(result.data, function (index, department) {
+                $('#deptId').append($('<option>', {
+                    value: department.deptId,
+                    text: department.namaDept
+                }));
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
 
 function GetByIdPlacement(accountId, placementStatus) {
 
@@ -390,7 +418,7 @@ function SaveTurnOver() {
 
     if (!status) {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').show();
-        isValid = false;
+        isValid = false;    
 
     } else {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
@@ -400,7 +428,7 @@ function SaveTurnOver() {
     if (!isValid) {
         return;
     }
-    var deptIdValue = $('#DeptId').val();
+    var deptIdValue = $('#deptId').val();
     var TurnOver = new Object  //object baru
 
     TurnOver.status = $('#Status').val();
@@ -409,7 +437,7 @@ function SaveTurnOver() {
     TurnOver.description = $('#Description').val();
     TurnOver.accountId = $('#AccountId').val();
     TurnOver.exitDate = $('#date').val();
-    console.log(TurnOver);
+
 
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
