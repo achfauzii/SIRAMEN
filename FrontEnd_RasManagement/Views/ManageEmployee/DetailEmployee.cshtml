@@ -4,9 +4,9 @@
     ViewData["Title"] = "DetailEmployee";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
     var employeeData = ViewData["EmployeeData"] as dynamic;
-   // var employeePlacement = ViewData["EmployeePlacement"] as dynamic;
-   // var startDate = ViewData["StartDate"];
-   // var endDate = ViewData["EndDate"];
+    // var employeePlacement = ViewData["EmployeePlacement"] as dynamic;
+    // var startDate = ViewData["StartDate"];
+    // var endDate = ViewData["EndDate"];
 
 
 }
@@ -67,6 +67,19 @@
         <div class="row">
             <div class="col " style="color: black">End Contract </div>
             <div class="col-10">: @employeeData.endContract.ToString("dd/MM/yyyy") </div>
+
+        </div>
+        <div class="d-flex">
+            @*  <span class="text-primary h-6 ">Placement Status : ${placement.placementStatus}<span id="fullName" class="text-dark"></span> </span>*@
+            <span class="ml-auto">
+                <!-- Button trigger modal -->
+
+                <button class="btn btn-sm text-light" style="background-color:#624DE3;" data-toggle="modal" data-target="#modalContract" onclick="GetContract('@employeeData.accountId');">
+                    Update Contract
+                </button>
+
+
+            </span>
         </div>
     </div>
 </div>
@@ -76,26 +89,59 @@
     <button type="button" class="btn btn-sm text-light mb-3" data-toggle="modal" data-target="#modalPlacement" style="background-color:#624DE3;  font-size: 12px;" onclick="ClearScreenPlacement();">
         + New Placement
     </button>
- 
-
-            <div class="card shadow mb-4" id="placementData">
-               
 
 
+    <div class="card shadow mb-4" id="placementData">
+    </div>
 
-            </div>
-        
-    
+
 </div>
 
+<!-- Modal Contract-->
+<div class="modal fade" id="modalContract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-1">
+                <h5 class="modal-title" id="exampleModalLabel">Employee Placement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="alert-companyName" class="alert alert-danger" role="alert" style="display:none"> Company Name Tidak Boleh Kosong! </div>
+                <form>
+                    <button class="btn btn-sm btn-warning"> @employeeData.accountId</button>
+                    <input type="hidden" id="AccountId">
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Start Contract</label>
+                        <input type="date" class="form-control " id="StartContract" name="StartContract" requiredContract>
+                        <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
+                    </div>
 
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Job Role</label>
+                        <input type="date" class="form-control " id="EndContract" name="EndContract" requiredContract>
+                        <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" id="UpdateContrac" name="UpdateContrac" data-bs-dismiss="modal" onclick="UpdateContract()">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ClearScreenContract()">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="modalPlacement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header pb-1">
-                <h5 class="modal-title" id="exampleModalLabel">Job Vacancy</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Employee Placement</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,7 +151,7 @@
                 <form>
                     <button class="btn btn-sm btn-warning"> @employeeData.accountId</button>
                     <input type="hidden" id="accountId" value="@employeeData.accountId">
-                    <input type="hidden" id="placementStatusId" >
+                    <input type="hidden" id="placementStatusId">
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Company Name</label>
                         <input type="text" class="form-control " id="companyName_" name="companyName" required>
@@ -113,13 +159,13 @@
                     </div>
 
                     <div class="form-group mb-1">
-                        <label class="m-0" for="exampleInputEmail1">Job Role</label>    
+                        <label class="m-0" for="exampleInputEmail1">Job Role</label>
                         <input type="text" class="form-control " id="jobRole" name="jobRole" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
                     <div class="form-group mb-1" id="showStartDate" style="display: none;">
-                        <label class="m-0" for="exampleInputEmail1" >Start Date</label>
+                        <label class="m-0" for="exampleInputEmail1">Start Date</label>
                         <input type="date" class="form-control" id="startDate" name="startDate" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
@@ -162,9 +208,9 @@
             </div>
         </div>
     </div>
-                
+
 </div>
 
 <script src="~/js/ManageEmployee.js"></script>
 
-   
+

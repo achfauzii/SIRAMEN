@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Crypto;
 using RasManagement.Interface;
 using RasManagement.Models;
@@ -48,7 +49,7 @@ namespace RasManagement.Repository
                 {
                     return myAcc;
                 }
-                
+
                 return CheckValidation.PasswordNotPassed;
             }
             return CheckValidation.NullPointerAnAccount;
@@ -117,8 +118,8 @@ namespace RasManagement.Repository
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
                 Hiredstatus = registerVM.Hiredstatus,
-                StartContract=registerVM.StartContract,
-                EndContract=registerVM.EndContract,
+                StartContract = registerVM.StartContract,
+                EndContract = registerVM.EndContract,
                 RoleId = registerVM.RoleId,
 
             };
@@ -261,8 +262,8 @@ namespace RasManagement.Repository
             {
                 PlacementStatusId = turnOverVM.PlacementStatusId,
                 PlacementStatus = turnOverVM.PlacementStatus,
-                CompanyName=turnOverVM.CompanyName,
-                Description=turnOverVM.Description,
+                CompanyName = turnOverVM.CompanyName,
+                Description = turnOverVM.Description,
                 AccountId = turnOverVM.AccountId,
 
             };
@@ -311,6 +312,25 @@ namespace RasManagement.Repository
                 return 0;
             }*/
 
+        }
+
+        public async Task<int> UpdateContract(ContractVM contractVM)
+        {
+            // Kueri SQL untuk melakukan update
+            string sql = "UPDATE Account " +
+                         "SET Start_contract = @StartContract, " +
+                         "    End_contract = @EndContract " +
+                         "WHERE Account_Id = @AccountId";
+
+            // Parameter untuk kueri SQL
+            object[] parameters = {
+        new SqlParameter("@StartContract", contractVM.StartContract),
+        new SqlParameter("@EndContract", contractVM.EndContract),
+        new SqlParameter("@AccountId", contractVM.AccountId)
+    };
+
+            // Jalankan kueri SQL secara async
+            return await _context.Database.ExecuteSqlRawAsync(sql, parameters);
         }
 
         public Account GetAccountId(string accountId)
