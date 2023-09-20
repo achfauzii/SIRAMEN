@@ -156,10 +156,10 @@
             { "data": "hiredstatus" },
             {
                 "render": function (data, type, row) {
-                    var startc = new Date(row.startContract);
+                    var startc = Date.now();
                     var endc = new Date(row.endContract);
              
-                    var timeDiff = endc.getTime() - startc.getTime(); // Menghitung selisih dalam milidetik
+                    var timeDiff = endc.getTime() - startc; // Menghitung selisih dalam milidetik
                     var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
                     console.log(daysremain);
                     /*if (daysremain >= 30) {
@@ -177,7 +177,7 @@
                      console.log(daysInMonth)
                     var result = "";
 
-                    if (monthsRemaining > 0) {
+                    /*if (monthsRemaining > 0) {
                         result += monthsRemaining + " months ";
                     }
 
@@ -185,11 +185,23 @@
                         if (monthsRemaining > 0) {
                             result += daysInMonth + " days";
                         } else {
-                            result = daysInMonth + " days";
+                            result = '<span class="badge badge-pill badge-danger">' + daysInMonth + ' days' + '</span > '
+                        }                     
+                    }*/
+
+                    if (monthsRemaining > 2) {
+                        // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
+                        result = '<span class="badge badge-success" style="font-size: 13px;">' + monthsRemaining + ' bulan ' + daysInMonth+' hari</span>';
+                    } else if (monthsRemaining >= 1) {
+                        // Jika sisa kontrak 1-3 bulan, beri warna kuning
+                        result = '<span class="badge badge-warning" style="font-size: 13px;">' + monthsRemaining + ' bulan '+daysInMonth+' hari</span>';
+                    } else {
+                        // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
+                        if (daysInMonth > 0) {
+                            result = '<span class="badge badge-danger" style="font-size: 13px;">' + daysInMonth + ' hari</span>';
                         }
-                     
                     }
-                    console.log(result);
+                    
                     return result;
                 }
             },
