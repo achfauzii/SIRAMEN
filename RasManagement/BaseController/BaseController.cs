@@ -21,7 +21,7 @@ namespace RasManagement.BaseController
         public virtual ActionResult Get()
         {
             var get = repository.Get();
-            if (get.Count() != 0)
+            if (get.Count() >= 0)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = get.Count() + " Data Ditemukan", Data = get });
             }

@@ -296,7 +296,19 @@ namespace RasManagement.Controllers
             }
         }
 
-        
+        [HttpPut("UpdateContract")]
+        public IActionResult UpdateContracts(ContractVM contractVM)
+        {
+            var get = accountRepository.UpdateContract(contractVM);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil diubah", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak bisa diubah", Data = get });
+            }
+        }
 
         [HttpPut("UpdateTurnOver")]
         public async Task<IActionResult> UpdateTurnOver(TurnOverVM turnOverVM)
