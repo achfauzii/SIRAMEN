@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace RasManagement.Models;
 
@@ -17,10 +16,8 @@ public partial class TurnOver
     public string AccountId { get; set; } = null!;
 
     public int? DeptId { get; set; }
-    [JsonIgnore]
-    public virtual Account? Account { get; set; } = null!;
 
-    [JsonIgnore]
+    public virtual Account Account { get; set; } = null!;
 
     public virtual Department? Dept { get; set; }
 }
