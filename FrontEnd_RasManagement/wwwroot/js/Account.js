@@ -18,7 +18,7 @@
         try {
             const response = await fetch(url, option);
             const json = await response.json();
-            console.log(response);
+
             if (response.ok) {
                 var token = json.data;
                 sessionStorage.setItem("Token", token);
