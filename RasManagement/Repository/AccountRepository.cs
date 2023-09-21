@@ -117,6 +117,7 @@ namespace RasManagement.Repository
                 Password = passwordHash,
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
+                JoinDate=registerVM.JoinDate,
                 Hiredstatus = registerVM.Hiredstatus,
                 StartContract = registerVM.StartContract,
                 EndContract = registerVM.EndContract,

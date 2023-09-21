@@ -71,6 +71,13 @@
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
             </div>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Join Date</label>
+                    <input type="date" class="form-control " id="join" name="join" required>
+                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
+                </div>
+            </div>
             <div class="form-group">
 
                 <input type="hidden" class="form-control " id="roleId" name="roleId" value="3">
@@ -109,6 +116,7 @@
         var email = document.getElementById('email').value;
         var startContract = document.getElementById('start').value;
         var endContract = document.getElementById('end').value;
+        var joinDate = document.getElementById('join').value;
         //var password = document.getElementById('password').value;
         //var repeatPassword = document.getElementById('repeatPassword').value;
         //var birthPlace = document.getElementById('birthPlace').value;
@@ -155,6 +163,7 @@
             gender: gender,
             startcontract: startContract,
             endcontract: endContract,
+            joindate: joinDate,
             //maritalstatus: 'string',
             //hiredstatus: 'string',
             //nationality: 'string',

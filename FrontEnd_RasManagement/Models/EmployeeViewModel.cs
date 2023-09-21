@@ -30,6 +30,8 @@
 
         public string? Address { get; set; }
 
+        public DateTime? JoinDate { get; set; }
+
         public DateTime? StartContract { get; set; }
 
         public DateTime? EndContract { get; set; }
