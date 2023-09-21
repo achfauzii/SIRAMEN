@@ -9,22 +9,23 @@
             }
             return response.json();
         })
-        .then(data => {
+        .then(data => { 
             const resource = data.data
           
-            // Extract only the 'fullname' and 'email' columns from the API response
-            const filteredData = resource.map(item => ({
-                fullname: item.fullname,
-                email: item.email
-            }));
           
+         
             const hot = new Handsontable(container, {
-                data: filteredData,
-                colWidths: 100,
+               data: resource,
+               dataSchema: {fullname:null, email: null, nickname:null },
+               //colWidths: auto,
+                height: 'auto',
+                width: 'auto',
                 rowHeaders: true,
-                colHeaders: ['Full name', 'Email'],
+                colHeaders: ['Full name', 'Email', 'Nickname'],
                 height: 'auto',
                 fixedColumnsStart: 1,
+            
+                minSpareRows: 1,
 
                 licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
             });
