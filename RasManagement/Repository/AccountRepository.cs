@@ -19,19 +19,20 @@ namespace RasManagement.Repository
         //Generate Account Id
         public async Task<string> GenerateId()
         {
-            var currentDate = DateTime.Now.ToString("ddMMyyy");
+            //var currentDate = DateTime.Now.ToString("ddMMyyy");
             int countAccount = _context.Accounts.Count();
             /* var lastEmployee = myContext.Employees
                  .OrderByDescending(e => e.NIK)
                  .FirstOrDefault();*/
-            var ras = "RAS";
+            var ras = "98";
             if (countAccount == 0)
             {
                 // Jika belum ada data sama sekali, maka ID dimulai dari 0
-                return DateTime.Now.ToString("ddMMyyyy") + "000";
+                //return DateTime.Now.ToString("ddMMyyyy") + "000";
+                return ras + "00";
             }
 
-            return $"{ras}{currentDate}{countAccount.ToString("D3")}";
+            return $"{ras}{countAccount.ToString("D2")}";
 
 
         }
