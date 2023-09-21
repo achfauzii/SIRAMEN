@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace RasManagement.Models;
 
@@ -44,7 +45,7 @@ public partial class ShortlistCandidate
     public string? LevelRekom { get; set; }
 
     public string? Notes { get; set; }
-
+    [JsonIgnore]
     public virtual Account? Account { get; set; }
 
     public virtual ICollection<OfferCandidate> OfferCandidates { get; set; } = new List<OfferCandidate>();

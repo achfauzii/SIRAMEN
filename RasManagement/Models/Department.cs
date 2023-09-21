@@ -9,5 +9,8 @@ public partial class Department
 
     public string NamaDept { get; set; } = null!;
 
-    public virtual ICollection<TurnOver> TurnOvers { get; set; } = new List<TurnOver>();
+
+    [JsonIgnore]
+    public virtual ICollection<TurnOver>? TurnOvers { get; set; } = new List<TurnOver>();
+
 }

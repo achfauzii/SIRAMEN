@@ -19,5 +19,6 @@ public partial class FormalEdu
 
     public string AccountId { get; set; } = null!;
 
-    public virtual Account Account { get; set; } = null!;
+    [JsonIgnore]
+    public virtual Account? Account { get; set; } = null!;
 }

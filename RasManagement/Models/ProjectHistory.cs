@@ -16,4 +16,7 @@ public partial class ProjectHistory
     public string CompanyName { get; set; } = null!;
 
     public string AccountId { get; set; } = null!;
+
+    [JsonIgnore]
+    public virtual Account? Account { get; set; } = null!;
 }
