@@ -49,6 +49,8 @@ public partial class Account
 
     public virtual ICollection<FormalEdu> FormalEdus { get; set; } = new List<FormalEdu>();
 
+    public virtual ICollection<LastModified> LastModifieds { get; set; } = new List<LastModified>();
+
     public virtual ICollection<NonFormalEdu> NonFormalEdus { get; set; } = new List<NonFormalEdu>();
 
     public virtual ICollection<Placement> Placements { get; set; } = new List<Placement>();
@@ -58,6 +60,8 @@ public partial class Account
     public virtual ICollection<Qualification> Qualifications { get; set; } = new List<Qualification>();
 
     public virtual Role? Role { get; set; }
+
+    public virtual ICollection<ShortlistCandidate> ShortlistCandidates { get; set; } = new List<ShortlistCandidate>();
 
     public virtual ICollection<TurnOver> TurnOvers { get; set; } = new List<TurnOver>();
 }
