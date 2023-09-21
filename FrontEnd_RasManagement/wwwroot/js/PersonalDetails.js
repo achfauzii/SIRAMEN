@@ -10,6 +10,7 @@
 
 
 function loadDataA() {
+    $('#loader').show();
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     var imgElement = $("#employeePhoto");
@@ -70,6 +71,7 @@ function loadDataA() {
             alert(errormessage.responseText);
         }
     });
+    $('#loader').hide();
 }
 
 

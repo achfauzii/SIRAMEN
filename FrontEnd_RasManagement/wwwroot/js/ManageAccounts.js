@@ -17,7 +17,7 @@
             {
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    return meta.row + 1;
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 }
             },
             { "data": "fullname" },
@@ -40,7 +40,14 @@
                     return role;
                 }
             }
-        ]
+        ],
+         "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: 'current' }).nodes();
+            api.column(1, { page: 'current' }).data().each(function (group, i) {
+                $(rows).eq(i).find('td:first').html(i + 1);
+            });
+        }
     })
 
 });
@@ -62,8 +69,10 @@ function GetById(accountId) {
             var obj = result.data; //data yg kita dapat dr API  
             $('#AccountId').val(obj.accountId);
             $('#Role').val(obj.roleId);
-            
-            $('#Fullname').text(obj.fullname);
+            //document.getElementById('fullname').text(obj.fullname);
+            console.log(obj.fullname);
+            //document.getElementById('fullName').text = obj.fullname;
+            $('#FullName').text(obj.fullname);
             $('#Modal').modal('show');
             $('#Update').show();
         },

@@ -16,7 +16,7 @@
         fixedHeader: true,
 
         "ajax": {
-            url: "https://localhost:7177/api/Employees/TurnOff",
+            url: "https://localhost:7177/api/TurnOver/TurnOverEmployee",
             type: "GET",
             "datatype": "json",
             async: true,
@@ -32,10 +32,10 @@
                 });
 
                 *//*var table = $('#dataTableEmployee').DataTable({
-                // konfigurasi DataTables lainnya
-                data: filteredData,
-                // ...
-            });*//*
+            // konfigurasi DataTables lainnya
+            data: filteredData,
+            // ...
+        });*//*
 
         }*/
         },
@@ -98,38 +98,19 @@
             { "data": "address" },
             {
                 "render": function (data, type, row) {
-                    var accountId = row.accountId;
 
 
-                    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
-                    $.ajax({
-                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-                        type: "GET",
-                        datatype: "json",
-                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
-                        headers: {
-                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-                        },
-                        success: function (placementData) {
-                            if (placementData.data && placementData.data.length > 0) {
-                                var result = placementData.data[0];
-                                if (result.placementStatus === "Blacklist") {
-                                    placementStatus = result.placementStatus;
-                                } else {
-                                    placementStatus = result.placementStatus;
-                                }
-                            }
-                        },
-                        error: function () {
-                            // Tangani error jika diperlukan
-                        }
-                    });
+                    var placementStatus = row.status;
+
+
+                    /*console.log(row.placements.placementStatus);
+                    var placementStatus = row.placements.placementStatus;*/
                     if (placementStatus === "Blacklist") {
-                        return '<span type="button" class="badge badge-pill badge-danger"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.accountId + '\')">' + placementStatus + '</span>';
+                        return '<span type="button" class="badge badge-pill badge-danger"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.deptName + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
                     } else if (placementStatus === "Resign") {
-                        return '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.accountId + '\')">' + placementStatus + '</span>';
+                        return '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.deptName + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
                     } else {
-                        return '<span type="button" class="badge badge-pill badge-primary"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.accountId + '\')" >' + placementStatus + '</span>';
+                        return '<span type="button" class="badge badge-pill badge-primary"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' + row.deptName + '\', \'' + row.description + '\', \'' + row.exitDate + '\')">' + placementStatus + '</span>';
                     }
 
 
@@ -138,10 +119,11 @@
             },
 
 
-            { "data": "hiredstatus" }
+
+
 
         ],
-        
+
 
 
     });
@@ -164,31 +146,33 @@
 
 });
 
-function showDescription(accountId) {
-    debugger;
-    $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (placementData) {
-            if (placementData.data && placementData.data.length > 0) {
-            
-                var result = placementData.data[0];
-             
-                if (result.description === "") {
-                    var desc ="No Description."
-                    $("#showInfo").text(desc);
-                } else {
-                    $("#showInfo").text(result.description);
-                }
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    })
+function showDescription(namaDept, description, date) {
+ 
+    const showDept = document.getElementById("showDept");
+    // Buat objek Date dari string tanggal awal
+    var dateFormat = new Date(date);
+
+    // Buat opsi untuk pemformatan tanggal yang diinginkan
+    var formatOpt = { year: 'numeric', month: 'long', day: 'numeric' };
+
+    // Gunakan fungsi toLocaleDateString() dengan opsi pemformatan
+    var newDate = dateFormat.toLocaleDateString('id-ID', formatOpt);
+    if (namaDept === "null") {
+        showDept.style.display = 'none';
+       
+    } else {
+       showDept.style.display = 'block';
+        $("#namaDept").text(namaDept);
+    }
+
+
+    if (description === "") {
+        var description = "No Description."
+        $("#description").text(desc);
+    } else {
+        $("#description").text(description);
+    }
+    $("#date").text(newDate);
+    
+
 }

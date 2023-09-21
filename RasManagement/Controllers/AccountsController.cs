@@ -12,11 +12,13 @@ using System.Security.Claims;
 using System.Text;
 using RasManagement.Services;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class AccountsController : ControllerBase
     {
         private readonly IUnitWork _unitWork;
@@ -112,6 +114,8 @@ namespace RasManagement.Controllers
                     return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Please cek your email", Data = vMlogin });
                 case 4:
                     return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Please cek your password", Data = vMlogin });
+                case 5:
+                    return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Account Suspended", Data = vMlogin });
                 default:
                     return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "I'm sorry, something wrong", Data = vMlogin });
             }
@@ -292,7 +296,19 @@ namespace RasManagement.Controllers
             }
         }
 
-        
+        [HttpPut("UpdateContract")]
+        public IActionResult UpdateContracts(ContractVM contractVM)
+        {
+            var get = accountRepository.UpdateContract(contractVM);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil diubah", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak bisa diubah", Data = get });
+            }
+        }
 
         [HttpPut("UpdateTurnOver")]
         public async Task<IActionResult> UpdateTurnOver(TurnOverVM turnOverVM)

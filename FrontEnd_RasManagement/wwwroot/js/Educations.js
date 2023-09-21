@@ -4,6 +4,7 @@ $(document).ready(function () {
     formInputLocation();
 
     getUniversitasList();
+
     const selectMajor = $('#Major');
     //Ini untuk tanpa display none jadi langsung di tampilkan ()
     $(selectMajor).select2({
@@ -11,12 +12,7 @@ $(document).ready(function () {
         width: '100%',
         allowClear: true,
         tags: true
-
     });
-
-
-   
-
 
 })
 
@@ -56,8 +52,8 @@ function Educations() {
                         .join(' ');
                     return formattedCity;
                 }
-                      
-     
+
+
 
             },
             { "data": "major" },
@@ -97,7 +93,7 @@ function Educations() {
 
 function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
-  
+
     $.ajax({
         url: "https://localhost:7177/api/Universitas",
         type: "GET",
@@ -107,10 +103,12 @@ function getUniversitasList() {
         },
         success: function (result) {
             var universities = result.data;
+
       
             //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
           
+
             universities.forEach(function (university) {
                 console.log(university);
                 const option = document.createElement('option');
@@ -122,7 +120,7 @@ function getUniversitasList() {
             $(selectUniversity).select2({
                 placeholder: 'Select university',
                 width: '100%',
-                
+
             });
         },
         error: function (errormessage) {
@@ -219,13 +217,13 @@ function SaveFormal() {
             input.next('.error-message-formal').hide();
         }
     });
-  
+
     // Validasi select options
     var selectedRegencies = $('#selectRegencies').val();
     var selectedMajor = $('#Major').val();
     var selectedUniversity = $('#UniversityName').val();
-    
- 
+
+
     if (!selectedRegencies) {
         $('.selectRegencies').closest('.form-group').find('.error-message').show();
         isValid = false;
@@ -352,7 +350,7 @@ function GetById(formalEduId) {
             option.value = obj.location;
             option.textContent = obj.location;
             selectRegencies.appendChild(option);
-      
+
             const optionUniv = document.createElement('option');
             optionUniv.value = obj.universityName;
             optionUniv.textContent = obj.universityName;
@@ -362,10 +360,10 @@ function GetById(formalEduId) {
             const selectUniversities = $('#UniversityName');
             selectUniversities.val(obj.universityName).trigger('change');
             selectUniversities.select2({
-           
-                  
-                    width: '100%',
-               
+
+
+                width: '100%',
+
                 tags: true,
 
                 createTag: function (params) {
@@ -379,9 +377,9 @@ function GetById(formalEduId) {
             // Kosongkan pilihan sebelumnya
             //selectUniversity.append('<option selected value="' + obj.universityName + '">' + obj.universityName + '</option>');*/
 
-         /*   universities.forEach(function (university) {
-                selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
-            });*/
+            /*   universities.forEach(function (university) {
+                   selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
+               });*/
 
             $('#FormalEduId').val(obj.formalEduId);
             $('#UniversityName').val(obj.universityName);
@@ -418,7 +416,7 @@ function UpdateFormal() {
         // Jika validasi tidak berhasil, jangan tutup modal
         return;
 
-       
+
     }
 
     var FormalEdu = new Object(); //object baru
@@ -431,7 +429,7 @@ function UpdateFormal() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     FormalEdu.AccountId = accid;
-  
+
     $.ajax({
         type: 'PUT',
         url: 'https://localhost:7177/api/Educations',

@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     $("#loginForm").on("submit", async function (event) {
         event.preventDefault();
+        $('#loader').show();
         const url = "https://localhost:7177/api/Accounts";
         const data = {
             email: $('#exampleInputEmail').val(),
@@ -14,20 +15,6 @@
             body: JSON.stringify(data)
         };
 
-
-        /*    // Tampilkan loader
-            const loaderContainer = document.getElementById("loaderContainer");
-            loaderContainer.innerHTML = ""; // Bersihkan konten sebelumnya
-        
-            // Loader
-            const loaderResponse = await fetch("/loader/index");
-            const loaderHtml = await loaderResponse.text();
-        
-            loaderContainer.insertAdjacentHTML("beforeend", loaderHtml);
-        */
-
-
-        //debugger;
         try {
             const response = await fetch(url, option);
             const json = await response.json();
@@ -41,6 +28,7 @@
 
                 $.post("/Accounts/Auth", { token })
                     .done(function () {
+
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
@@ -76,7 +64,7 @@
                                     window.location.replace("/dashboards/dashboard_superadmin")
                                 }
                             })
-                           
+
                         } else if (Role === 'Employee') {
                             Toast.fire({
                                 icon: 'success',
@@ -86,20 +74,29 @@
                                     window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
                                 }
                             })
-                           
+
                         } else {
                             Swal.fire({
                                 icon: 'warning',
-                                title:'Failed Login',
+                                title: 'Failed Login',
                                 text: 'Your Account Has Ben Suspended',
                                 showConfirmButtom: false,
                                 timer: 1500
                             })
                         }
 
-
+                       
                     });
 
+            } else if (response.status == 400) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Failed Login',
+                    text: 'Your Account Has Ben Suspended',
+                    showConfirmButtom: false,
+            
+                })
             } else {
 
                 // loaderContainer.innerHTML = "";
@@ -130,7 +127,9 @@
             }).showToast();
 
         }
+        $('#loader').hide();
     });
+
 });
 
 

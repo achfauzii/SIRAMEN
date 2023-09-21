@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Crypto;
 using RasManagement.Interface;
 using RasManagement.Models;
@@ -18,19 +19,20 @@ namespace RasManagement.Repository
         //Generate Account Id
         public async Task<string> GenerateId()
         {
-            var currentDate = DateTime.Now.ToString("ddMMyyy");
+            //var currentDate = DateTime.Now.ToString("ddMMyyy");
             int countAccount = _context.Accounts.Count();
             /* var lastEmployee = myContext.Employees
                  .OrderByDescending(e => e.NIK)
                  .FirstOrDefault();*/
-            var ras = "RAS";
+            var ras = "98";
             if (countAccount == 0)
             {
                 // Jika belum ada data sama sekali, maka ID dimulai dari 0
-                return DateTime.Now.ToString("ddMMyyyy") + "000";
+                //return DateTime.Now.ToString("ddMMyyyy") + "000";
+                return ras + "00";
             }
 
-            return $"{ras}{currentDate}{countAccount.ToString("D3")}";
+            return $"{ras}{countAccount.ToString("D2")}";
 
 
         }
@@ -48,7 +50,7 @@ namespace RasManagement.Repository
                 {
                     return myAcc;
                 }
-                
+
                 return CheckValidation.PasswordNotPassed;
             }
             return CheckValidation.NullPointerAnAccount;
@@ -116,7 +118,10 @@ namespace RasManagement.Repository
                 Password = passwordHash,
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
+                JoinDate=registerVM.JoinDate,
                 Hiredstatus = registerVM.Hiredstatus,
+                StartContract = registerVM.StartContract,
+                EndContract = registerVM.EndContract,
                 RoleId = registerVM.RoleId,
 
             };
@@ -134,6 +139,7 @@ namespace RasManagement.Repository
         public const int notfound = 2;
         public const int emailNotFound = 3;
         public const int wrongPassword = 4;
+        public const int suspend = 5;
 
         public int FindbyEmail(string email)
         {
@@ -168,7 +174,10 @@ namespace RasManagement.Repository
             {
                 return emailNotFound;
             }
-
+            else if (myAcc.RoleId == "4")
+            {
+                return suspend;
+            }
             else
             {
                 var myPass = BCrypt.Net.BCrypt.Verify(viewLogin.Password, myAcc.Password);
@@ -255,8 +264,8 @@ namespace RasManagement.Repository
             {
                 PlacementStatusId = turnOverVM.PlacementStatusId,
                 PlacementStatus = turnOverVM.PlacementStatus,
-                CompanyName=turnOverVM.CompanyName,
-                Description=turnOverVM.Description,
+                CompanyName = turnOverVM.CompanyName,
+                Description = turnOverVM.Description,
                 AccountId = turnOverVM.AccountId,
 
             };
@@ -305,6 +314,25 @@ namespace RasManagement.Repository
                 return 0;
             }*/
 
+        }
+
+        public async Task<int> UpdateContract(ContractVM contractVM)
+        {
+            // Kueri SQL untuk melakukan update
+            string sql = "UPDATE Account " +
+                         "SET Start_contract = @StartContract, " +
+                         "    End_contract = @EndContract " +
+                         "WHERE Account_Id = @AccountId";
+
+            // Parameter untuk kueri SQL
+            object[] parameters = {
+        new SqlParameter("@StartContract", contractVM.StartContract),
+        new SqlParameter("@EndContract", contractVM.EndContract),
+        new SqlParameter("@AccountId", contractVM.AccountId)
+    };
+
+            // Jalankan kueri SQL secara async
+            return await _context.Database.ExecuteSqlRawAsync(sql, parameters);
         }
 
         public Account GetAccountId(string accountId)

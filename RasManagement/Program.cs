@@ -61,6 +61,8 @@ builder.Services.AddScoped<QualificationRepository>();
 builder.Services.AddScoped<CertificateRepository>();
 builder.Services.AddScoped<ProjectHistoryRepository>();
 builder.Services.AddScoped<UniversitasRepository>();
+builder.Services.AddScoped<TurnOverRepository>();
+builder.Services.AddScoped<DepartmentRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 
@@ -80,7 +82,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
+//If Deploy use 
+//app.UseSwagger();
+//app.UseSwaggerUI();
+
+
 
 //IMPLEMENTASI CORS
 app.UseCors(options => options

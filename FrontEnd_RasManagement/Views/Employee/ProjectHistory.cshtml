@@ -46,7 +46,9 @@
                         </div>
                         <div class="form-group">
                             <label for="JobSpec">Job Spesification</label>
-                            <textarea class="form-control" id="JobSpec" rows="4" placeholder="Enter job spesification" required></textarea>
+
+                            <textarea class="form-control" id="JobSpec" rows="4" placeholder="&bull; Enter Job Spesification" required></textarea>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             <small class="form-text text-muted text-primary">You can include a GitHub link or your portfolio.</small>
                             
@@ -86,8 +88,17 @@
     </table>
 
 </div>
-
+@*<script>
+    tinymce.init({
+        selector: '#JobSpec',
+        height: 500, // Tinggi editor
+        plugins: 'lists link image', // Plugin yang ingin Anda aktifkan
+        toolbar: 'undo redo | formatselect | bold italic | bullist numlist | link image', // Toolbar yang ditampilkan
+        menubar: 'file edit view insert format tools table help', // Menu bar
+    });
+</script>*@
 @section script
     {
     <script src="~/js/projecthistory.js"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
 }

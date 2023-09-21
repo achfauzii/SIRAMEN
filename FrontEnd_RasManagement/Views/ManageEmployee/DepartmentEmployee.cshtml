@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "DepartmentEmployee";
+    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+}
+
+<style>
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
+    }
+
+</style>
+
+<!-- /.card-header -->
+<div class="card-body">
+    <h5 class="mb-3">Manage Department</h5>
+    <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
+        + Add Department
+    </button>
+
+    <table id="TB_Department" class="table table-striped" style="font-size:14px; color:black">
+        <thead style="background-color:#FFFFFF">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Department Name</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+    </table>
+
+    @*Modal*@
+    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Department</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="DeptId" hidden>
+                        </div>
+                        <div class="form-group">
+                            <label for="NamaDept">Department Name</label>
+                            <input type="text" class="form-control" id="NamaDept" placeholder="Enter department name" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
+                    <button type="button" class="btn btn-warning" id="UpdateDept" onclick="UpdateDept();">Update</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" ClearScreen()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+
+<script src="~/js/Department.js"></script>
