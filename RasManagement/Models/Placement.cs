@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace RasManagement.Models;
 
@@ -20,6 +21,6 @@ public partial class Placement
     public DateTime? EndDate { get; set; }
 
     public string AccountId { get; set; } = null!;
-
-    public virtual Account Account { get; set; } = null!;
+    [JsonIgnore]
+    public virtual Account? Account { get; set; } = null!;
 }
