@@ -5,7 +5,7 @@ namespace RasManagement.Models;
 
 public partial class Account
 {
-    public string AccountId { get; set; } = null!;
+    public string? AccountId { get; set; } = null!;
 
     public string? Email { get; set; }
 
@@ -13,7 +13,7 @@ public partial class Account
 
     public string? Nickname { get; set; }
 
-    public string Fullname { get; set; } = null!;
+    public string? Fullname { get; set; } = null!;
 
     public string? Birthplace { get; set; }
 

@@ -2,7 +2,7 @@
 {
     public class UpdateEmployeeVM
     {
-        public string AccountId { get; set; } = null!;
+        public string? AccountId { get; set; } = null!;
         public string? Fullname { get; set; }
         public string? Nickname { get; set; }
         public string? Birthplace { get; set; }

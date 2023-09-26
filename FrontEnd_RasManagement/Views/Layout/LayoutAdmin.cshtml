@@ -47,7 +47,11 @@
     </script>
 
     <!-- Custom styles for this page -->
-    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+@*    <link href="https://cdn.datatables.net/v/dt/dt-1.13.6/b-2.4.2/datatables.min.css" rel="stylesheet">*@
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
+
     <style>
         @@media print {
             .no-print {
@@ -88,6 +92,11 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
+
+
+    
+
+
 
 </head>
 
@@ -153,7 +162,7 @@
                 </a>
             </li>
 
-            
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -167,7 +176,14 @@
                     <span>Turn Over Employee</span>
                 </a>
             </li>
-            
+
+            <li class="nav-item @(currentUrl == "/ResourceReport/Index" ? "active" : "")">
+                <a class="nav-link collapsed" href="/ResourceReport/Index" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-list-ul"></i>
+                    <span>Shortlist Candidate  Datatable</span>
+                </a>
+            </li>
 
             <li class="nav-item @(currentUrl == "/ResourceReport/ShorlistCandidate" ? "active" : "")">
                 <a class="nav-link collapsed" href="/ResourceReport/ShorlistCandidate" data-target="#collapseUtilities"
@@ -375,17 +391,21 @@
     <script src="~/js/Account.js"></script>
 
     <!-- Page level plugins -->
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
+@*    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>*@
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.6/b-2.4.2/datatables.min.js"></script>
+    <sc@*ript src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>*@
     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
 
 
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  @*  <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>*@
     <script src="~/js/JwtUtils.js"></script>
     <script src="~/js/DetailEmployee.js"></script>
     <script src="~/js/ChangePassword.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
 
 
     <!-- Page specific script -->
