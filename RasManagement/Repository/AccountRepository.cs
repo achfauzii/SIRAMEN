@@ -20,7 +20,9 @@ namespace RasManagement.Repository
         public async Task<string> GenerateId()
         {
             //var currentDate = DateTime.Now.ToString("ddMMyyy");
+
             int countAccount = _context.Accounts.Count(account => account.RoleId != "5");
+
             /* var lastEmployee = myContext.Employees
                  .OrderByDescending(e => e.NIK)
                  .FirstOrDefault();*/
@@ -355,8 +357,10 @@ namespace RasManagement.Repository
             return _context.Accounts.Find(accountId);
         }
 
-
-
+        internal string GetAccountId()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

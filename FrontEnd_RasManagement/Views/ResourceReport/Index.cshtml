@@ -2,16 +2,48 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
+<style>
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
+    }
 
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
+    }
+    /* Mengurangi ukuran teks "Show [jumlah] entries" */
+    #resource_length label {
+        font-size: 14px; /* Ganti '12px' dengan ukuran font yang Anda inginkan */
+    }
 
+    /* Mengurangi ukuran teks kotak pencarian */
+    #resource_filter label {
+        font-size: 14px; /* Ganti '12px' dengan ukuran font yang Anda inginkan */
+    }
 
-<table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%;" cellspacing="0">
+    /* Mengurangi ukuran teks input kotak pencarian */
+    #resource_filter input[type="search"] {
+        font-size: 14px; /* Ganti '12px' dengan ukuran font yang Anda inginkan */
+        height: 26px; /* Sesuaikan tinggi input jika diperlukan */
+    }
+
+    #resource {
+        font-size: 14px; /* Ganti '14px' dengan ukuran font yang diinginkan */
+    }
+
+</style>
+
+<div class="btn-group mb-2" role="group" aria-label="Basic example" >
+    <button type="button" class="btn text-light " style="background-color:#D80032">Left</button>
+    <button type="button" class="btn text-light" style="background-color:#D80032">Middle</button>
+    <button type="button" class="btn text-light" style="background-color:#D80032">Right</button>
+</div>
+<table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Nama</th>
+            <th style="font-size:15px">No</th>
+            <th style="font-size:15px">Fullname</th>
 
-            <th>Email</th>
+            <th style="font-size:15px">Position</th>
         </tr>
     </thead>
     <tbody>
@@ -22,16 +54,17 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 
 <script>
     $(document).ready(function () {
         $('#resource').DataTable({
-             scrollX: true,
+           
+            scrollX: true,
             processing: true,
             serverSide: true,
+        
             ajax: {
                 url: 'https://localhost:7177/api/Employees/DataTableGetEmployee', // Your API endpoint
                 type: 'POST',
@@ -43,12 +76,19 @@
                 }
             },
             columns: [
-                { data: 'accountId' },
+                {
+                    "data": "id",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
                 { data: 'fullname' },
-                { data: 'email' },
+                { data: '' },
                 // ... other columns ...
             ],
             searching: true,
+          
+
         });
     });
 </script>
