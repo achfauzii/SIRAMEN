@@ -357,10 +357,10 @@ namespace RasManagement.Repository
             return _context.Accounts.Find(accountId);
         }
 
-        internal string GetAccountId()
+     /*   internal string GetAccountId()
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 
 
