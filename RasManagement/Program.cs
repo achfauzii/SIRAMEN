@@ -63,6 +63,7 @@ builder.Services.AddScoped<ProjectHistoryRepository>();
 builder.Services.AddScoped<UniversitasRepository>();
 builder.Services.AddScoped<TurnOverRepository>();
 builder.Services.AddScoped<DepartmentRepository>();
+builder.Services.AddScoped<ShortlistRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 

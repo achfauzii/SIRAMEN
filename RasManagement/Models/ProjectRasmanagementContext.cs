@@ -31,6 +31,8 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<NonFormalEdu> NonFormalEdus { get; set; }
 
+    public virtual DbSet<NonRasCandidate> NonRasCandidates { get; set; }
+
     public virtual DbSet<OfferCandidate> OfferCandidates { get; set; }
 
     public virtual DbSet<Placement> Placements { get; set; }
@@ -277,6 +279,100 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_NonFormal_Edu_Account");
+        });
+
+        modelBuilder.Entity<NonRasCandidate>(entity =>
+        {
+            entity.HasKey(e => e.NonRasId);
+
+            entity.ToTable("NonRAS_Candidate");
+
+            entity.Property(e => e.NonRasId)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("NonRAS_Id");
+            entity.Property(e => e.Birthdate).HasColumnType("date");
+            entity.Property(e => e.CurrentSalary)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("Current_Salary");
+            entity.Property(e => e.CvBerca)
+                .IsUnicode(false)
+                .HasColumnName("CV_Berca");
+            entity.Property(e => e.Domisili)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.Education)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.EnglishLevel)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("English_Level");
+            entity.Property(e => e.ExpectedSalary)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Expected_Salary");
+            entity.Property(e => e.ExperienceInYear).HasColumnName("Experience_In_Year");
+            entity.Property(e => e.FilteringBy)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("Filtering_By");
+            entity.Property(e => e.FinancialIndustry)
+                .HasMaxLength(5)
+                .IsUnicode(false)
+                .HasColumnName("Financial_Industry");
+            entity.Property(e => e.Fullname)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.IntwByRas)
+                .HasMaxLength(12)
+                .IsUnicode(false)
+                .HasColumnName("Intw_ByRAS");
+            entity.Property(e => e.IntwDateByRas)
+                .HasColumnType("date")
+                .HasColumnName("IntwDate_ByRAS");
+            entity.Property(e => e.IntwDateUser)
+                .IsUnicode(false)
+                .HasColumnName("IntwDate_User");
+            entity.Property(e => e.IntwUser)
+                .IsUnicode(false)
+                .HasColumnName("Intw_User");
+            entity.Property(e => e.LastModified)
+                .HasColumnType("date")
+                .HasColumnName("Last_Modified");
+            entity.Property(e => e.Level)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.LevelRekom)
+                .HasMaxLength(8)
+                .IsUnicode(false)
+                .HasColumnName("Level_Rekom");
+            entity.Property(e => e.NameOfUser)
+                .IsUnicode(false)
+                .HasColumnName("NameOf_User");
+            entity.Property(e => e.Negotiable)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.Notes).IsUnicode(false);
+            entity.Property(e => e.NoticePeriode)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("Notice_Periode");
+            entity.Property(e => e.Position)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.RawCv)
+                .IsUnicode(false)
+                .HasColumnName("Raw_CV");
+            entity.Property(e => e.Skillset).IsUnicode(false);
+            entity.Property(e => e.University)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkStatus)
+                .HasMaxLength(5)
+                .IsUnicode(false)
+                .HasColumnName("Work_Status");
         });
 
         modelBuilder.Entity<OfferCandidate>(entity =>

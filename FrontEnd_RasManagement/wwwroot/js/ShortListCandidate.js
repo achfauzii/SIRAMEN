@@ -4,7 +4,7 @@
 
 
     // Melakukan permintaan GET ke API
-    fetch('https://localhost:7177/api/Employees')
+    fetch('https://localhost:7177/api/Shortlist')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -18,6 +18,9 @@
          
             const hot = new Handsontable(container, {
                 data: resource,
+
+                dataSchema: { fullname: null, position: null, skillset: null, education: null, university: null, domisili: null, birthdate: null, level: null, experienceInYear: null, filteringBy: null, workStatus: null, noticePeriode: null, financialIndustry: null, rawCv: null, cvBerca: null, englishLevel: null, currentSalary: null, expectedSalary: null, negotiable: null, intwByRas: null, intwDateByRas: null, intwUser: null, nameOfUser: null, intwDateUser: null, levelRekom: null, notes: null},
+
                 columns: [
                     {
                         title: 'Full Name',
@@ -26,13 +29,13 @@
                     
                     },
                     {
-                        title: 'Email',
+                        title: 'Position',
                         type: 'text',
                         data: 'email',
                    
                     },
                     {
-                        title: 'Nickname',
+                        title: 'Skillset',
                         type: 'dropdown',
                         data: 'nickname',
                         source: ['Add New','Close']
@@ -45,12 +48,12 @@
                   
                    
                 ],
-               //dataSchema: {fullname:null, email: null, nickname:null },
+
                //colWidths: auto,
                 height: 'auto',
                 width: 'auto',
                 rowHeaders: true,
-                colHeaders: ['Full name', 'Email', 'Nickname'],
+                colHeaders: ['Full Name', 'Position', 'Skill Set', 'Major', 'University', 'Domicile', 'Age', 'Level', 'Filtering By', 'Acive?', 'Notice Period', 'Financial Industry', 'Raw CV', 'Berca CV', 'English', 'Current Salary', 'Expected Salary', 'Negotiable', 'Interview by RAS', 'Interview Date by RAS', 'Interview by User', 'Name of User', 'Interview Date by User', 'Level Recomendation','Status','Notes'],
                 height: 'auto',
                 fixedColumnsStart: 1,
 

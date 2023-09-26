@@ -3,15 +3,23 @@ using System.Collections.Generic;
 
 namespace RasManagement.Models;
 
-public partial class ShortlistCandidate
+public partial class NonRasCandidate
 {
-    public int ShortlistId { get; set; }
+    public string NonRasId { get; set; } = null!;
 
-    public string? AccountId { get; set; }
+    public string? Fullname { get; set; }
 
     public string? Position { get; set; }
 
+    public string? Skillset { get; set; }
+
+    public string? Education { get; set; }
+
+    public string? University { get; set; }
+
     public string? Domisili { get; set; }
+
+    public DateTime? Birthdate { get; set; }
 
     public string? Level { get; set; }
 
@@ -41,11 +49,15 @@ public partial class ShortlistCandidate
 
     public DateTime? IntwDateByRas { get; set; }
 
+    public string? IntwUser { get; set; }
+
+    public string? NameOfUser { get; set; }
+
+    public string? IntwDateUser { get; set; }
+
     public string? LevelRekom { get; set; }
 
     public string? Notes { get; set; }
 
-    public virtual Account? Account { get; set; }
-
-    public virtual ICollection<OfferCandidate> OfferCandidates { get; set; } = new List<OfferCandidate>();
+    public DateTime? LastModified { get; set; }
 }
