@@ -10,33 +10,27 @@ namespace RasManagement.Controllers
     public class ShortlistController : BaseController<NonRasCandidate, ShortlistRepository, int>
     {
         private readonly ShortlistRepository shortlistRepository;
-        public ShortlistController(ShortlistRepository shortlistRepository) : base(shortlistRepository)
+        private readonly ProjectRasmanagementContext _context;
+        public ShortlistController(ShortlistRepository shortlistRepository, ProjectRasmanagementContext context) : base(shortlistRepository)
         {
             this.shortlistRepository = shortlistRepository;
+            _context = context;
         }
-       /* [HttpPost("CreateOrUpdateEmployee")]
-        public IActionResult CreateOrUpdateEmployee([FromBody] EmployeeModel employee)
+        [HttpPost("ShortListCandidate")]
+        public IActionResult ShortListCandidate([FromBody] NonRasCandidate candidate )
         {
             try
             {
-                if (employee.AccountId == "")
+                if (candidate.NonRasId =="")
                 {
                     // Ini adalah operasi penambahan, karena EmployeeId baru.
-                    // Ini adalah operasi penambahan, karena EmployeeId baru.
-                    var account = new Account
-                    {
-                        AccountId = accountRepository.GetAccountId(),
-                        Fullname = employee.FullName,
-                        Email = employee.Email,
-                        Nickname = employee.NickName,
-
-                    };
-                    _context.Accounts.Add(account);
+                    _context.NonRasCandidates.Add(candidate);
+             
                 }
                 else
                 {
                     // Ini adalah operasi pembaruan, karena EmployeeId sudah ada.
-                    //_context.Accounts.Update(employee);
+                    _context.NonRasCandidates.Update(candidate);
                 }
 
                 _context.SaveChanges();
@@ -46,6 +40,6 @@ namespace RasManagement.Controllers
             {
                 return BadRequest($"Gagal menyimpan data: {ex.Message}");
             }
-        }*/
+        }
     }
 }
