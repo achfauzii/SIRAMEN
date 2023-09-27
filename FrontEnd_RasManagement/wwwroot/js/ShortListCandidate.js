@@ -18,221 +18,137 @@
          
             const hot = new Handsontable(container, {
                 data: resource,
+                colHeaders: ['Full Name', 'Position', 'Skill Set', 'Major', 'University', 'Domicile', 'Age', 'Level','Experience (Year)', 'Filtering By', 'Acive?', 'Notice Period', 'Financial Industry', 'Raw CV', 'Berca CV', 'English', 'Current Salary', 'Expected Salary', 'Negotiable', 'Interview by RAS', 'Interview Date by RAS', 'Interview by User', 'Name of User', 'Interview Date by User', 'Level Recomendation', 'Status', 'Notes','Last Modified'],
+                //dataSchema: { fullname: null, position: null, skillset: null, education: null, university: null, domisili: null, birthdate: null, level: null, experienceInYear: null, filteringBy: null, workStatus: null, noticePeriode: null, financialIndustry: null, rawCv: null, cvBerca: null, englishLevel: null, currentSalary: null, expectedSalary: null, negotiable: null, intwByRas: null, intwDateByRas: null, intwUser: null, nameOfUser: null, intwDateUser: null, levelRekom: null, notes: null},
                 columns: [
-                  
+                   
                     {
-                        title: 'Full Name',
-                        type: 'text',
                         data: 'fullname',
-                       
+                        type: 'text',
                     },
                     {
-                        title: 'Position',
-                        type: 'text',
                         data: 'position',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Skill Set',
-                        type: 'text',
                         data: 'skillset',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Major',
-                        type: 'text',
                         data: 'education',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'University',
-                        type: 'text',
                         data: 'university',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Domicile',
-                        type: 'text',
                         data: 'domisili',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Age',
-                        type: 'numeric',
                         data: 'birthdate',
-                        filter: true,
-                        filter_type: 'numeric',
+                        type: 'date',
+                        dateFormat: 'YYYY-MM-DD',
                     },
                     {
-                        title: 'Level',
-                        type: 'text',
                         data: 'level',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Experience (Years)',
-                        type: 'numeric',
                         data: 'experienceInYear',
-                        filter: true,
-                        filter_type: 'numeric',
+                        type: 'numeric',
                     },
                     {
-                        title: 'Filtering By',
-                        type: 'dropdown',
                         data: 'filteringBy',
-                        source: ['RAS', 'Recruitment'],
-                      
+                        type: 'dropdown',
+                        source: ['Team RAS', 'Team Recruitment'],
                     },
                     {
-                        title: 'Work Status',
-                        type: 'checkbox',
                         data: 'workStatus',
-                        filter: true,
-                        filter_type: 'checkbox',
+                        type: 'checkbox',
                     },
                     {
-                        title: 'Notice Period',
-                        type: 'text',
                         data: 'noticePeriode',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Financial Industry',
-                        type: 'checkbox',
                         data: 'financialIndustry',
-                        filter: true,
-                        filter_type: 'checkbox',
-                    },
-                    {
-                        title: 'Raw CV',
-                        type: 'text',
-                        data: 'rawCv',
-                        filter: true,
-                        filter_type: 'input',
-                    },
-                    {
-                        title: 'Berca CV',
-                        type: 'text',
-                        data: 'cvBerca',
-                        filter: true,
-                        filter_type: 'input',
-                    },
-                    {
-                        title: 'English Level',
-                        type: 'text',
-                        data: 'englishLevel',
-                        filter: true,
-                        filter_type: 'input',
-                    },
-                    {
-                        title: 'Current Salary',
-                        type: 'text',
-                        data: 'currentSalary',
-                        filter: true,
-                        filter_type: 'input',
-                    },
-                    {
-                        title: 'Expected Salary',
-                        type: 'text',
-                        data: 'expectedSalary',
-                        filter: true,
-                        filter_type: 'input',
-                    },
-                    {
-                        title: 'Negotiable',
                         type: 'checkbox',
+                    },
+                    {
+                        data: 'rawCv',
+                        type: 'text',
+                    },
+                    {
+                        data: 'cvBerca',
+                        type: 'text',
+                    },
+                    {
+                        data: 'englishLevel',
+                        type: 'text',
+                    },
+                    {
+                        data: 'currentSalary',
+                        type: 'text',
+                    },
+                    {
+                        data: 'expectedSalary',
+                        type: 'text',
+                    },
+                    {
                         data: 'negotiable',
-                        filter: true,
-                        filter_type: 'checkbox',
+                        type: 'checkbox',
                     },
                     {
-                        title: 'Interview by RAS',
-                        type: 'text',
                         data: 'intwByRas',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Interview Date by RAS',
-                        type: 'date',
                         data: 'intwDateByRas',
-                        filter: true,
-                        filter_type: 'date',
-                        dateFormat: 'YYYY-MM-DD', // Modify the date format as needed
+                        type: 'date',
+                        dateFormat: 'YYYY-MM-DD HH:mm:ss', // Adjust the date and time format as needed
                     },
                     {
-                        title: 'Interview by User',
-                        type: 'text',
                         data: 'intwUser',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Name of User',
-                        type: 'text',
                         data: 'nameOfUser',
-                        filter: true,
-                        filter_type: 'input',
+                        type: 'text',
                     },
                     {
-                        title: 'Interview Date by User',
-                        type: 'date',
                         data: 'intwDateUser',
-                        filter: true,
-                        filter_type: 'date',
-                        dateFormat: 'YYYY-MM-DD', // Modify the date format as needed
-                    },
-                    {
-                        title: 'Level Recommendation',
-                        type: 'text',
-                        data: 'levelRekom',
-                        filter: true,
-                        filter_type: 'input',
-                    },
-                    {
-                        title: 'Status',
-                        type: 'text',
-                        data: 'status',
-                        filter: true,
-                        filter_type: 'input',
-                    },
-                    {
-                        title: 'Notes',
-                        type: 'text',
-                        data: 'notes',
-                        filter: true,
-                        filter_type: 'input',
-                    },
-                    {
-                        title: 'Last Modified',
                         type: 'date',
+                        dateFormat: 'YYYY-MM-DD HH:mm:ss', // Adjust the date and time format as needed
+                    },
+                    {
+                        data: 'levelRekom',
+                        type: 'text',
+                    },
+                    {
+                        data: 'notes',
+                        type: 'text',
+                    },
+                    {
                         data: 'lastModified',
-                        filter: true,
-                        filter_type: 'date',
-                        dateFormat: 'YYYY-MM-DD', // Modify the date format as needed
+                        type: 'date',
+                        dateFormat: 'YYYY-MM-DD HH:mm:ss', // Adjust the date and time format as needed
                     },
                 ],
-               
-                
+  // Othe
+       
+
                //colWidths: auto,
                 height: 'auto',
                 width: 'auto',
                 rowHeaders: true,
-                colHeaders: ['Full Name', 'Position', 'Skill Set', 'Major', 'University', 'Domicile', 'Age', 'Level', 'Filtering By', 'Acive?', 'Notice Period', 'Financial Industry', 'Raw CV', 'Berca CV', 'English', 'Current Salary', 'Expected Salary', 'Negotiable', 'Interview by RAS', 'Interview Date by RAS', 'Interview by User', 'Name of User', 'Interview Date by User', 'Level Recomendation','Status','Notes'],
+               
                 height: 'auto',
                 fixedColumnsStart: 1,
 
             
                 minSpareRows: 1,
-
-
 
                 licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
             });
