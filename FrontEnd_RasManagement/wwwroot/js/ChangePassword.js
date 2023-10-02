@@ -53,7 +53,7 @@ function updatePassword() {
     //debugger;
 
 
-    fetch('https://localhost:7177/api/Accounts/ChangePassword', {
+    fetch('https://rasmanagement-001-site1.atempurl.com/api/Accounts/ChangePassword', {
         method: 'PUT', // Atur metode sesuai kebutuhan
         headers: {
             'Content-Type': 'application/json', // Atur tipe konten sesuai kebutuhan
