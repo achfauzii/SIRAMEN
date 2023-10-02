@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     const container = document.querySelector('#example');
-
+    const save = document.querySelector('#save');
 
     // Melakukan permintaan GET ke API
     fetch('https://localhost:7177/api/Shortlist')
@@ -150,14 +150,72 @@
             
                 minSpareRows: 1,
 
-                licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+                licenseKey: 'non-commercial-and-evaluation', // for non-commercial use only
+                afterChange: function (changes, source) {
+                    if (source === 'loadData') {
+                        return; // Jangan simpan perubahan saat data dimuat
+                    }
+
+                    if (!autosave.checked) {
+                        return; // Jangan simpan perubahan jika autosave tidak diaktifkan
+                    }
+
+                    // Buat objek yang berisi perubahan yang akan dikirim ke server
+                    const dataToSend = {
+                        changes: changes, // Perubahan dari Handsontable
+                        source: source // Sumber perubahan
+                    };
+                    
+        // Simpan perubahan dalam variabel
+        changesToSave.push(...changes);
+                  
+
+                    // Kirim data perubahan ke server untuk disimpan
+                    fetch('URL_API_ANDA', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dataToSend)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Handle respon dari server jika perlu
+                            console.log('Perubahan berhasil disimpan di server:', data);
+                        })
+                        .catch(error => {
+                            console.error('Ada masalah dengan permintaan ke server:', error);
+                        });
+                }
             });
 
+
             // Sekarang, Anda dapat memasukkan data ini ke dalam Handsontable atau melakukan apa yang Anda inginkan.
+            save.addEventListener('click', () => {
+                // save all cell's data
+                fetch('https://localhost:7177/api/Shortlist/ShortlistCandidate', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ data: hot.getData() })
+                })
+                    .then(response => {
+                       
+                        console.log({ data: hot.getData() });
+                    });
+            });
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
         });
+
 
 
 })

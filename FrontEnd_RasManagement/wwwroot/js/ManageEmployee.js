@@ -922,16 +922,17 @@ function SaveTurnOver() {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
 
     }
-
+    
     if (!isValid) {
         return;
     }
-    var deptIdValue = $('#DeptId').val();
+    var deptIdValue = $('#deptId').val();
     var TurnOver = new Object  //object baru
 
     TurnOver.status = $('#Status').val();
     // TurnOver.deptId = $('#DeptId').val();
     TurnOver.deptId = deptIdValue ? deptIdValue : null;
+    TurnOver.description = $('#Description').val();
     TurnOver.description = $('#Description').val();
     TurnOver.accountId = $('#AccountId').val();
     TurnOver.exitDate = $('#date').val();
