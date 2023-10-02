@@ -5,7 +5,7 @@ namespace RasManagement.Models;
 
 public partial class NonRasCandidate
 {
-    public string NonRasId { get; set; }
+    public string NonRasId { get; set; } = null!;
 
     public string? Fullname { get; set; }
 
@@ -56,6 +56,8 @@ public partial class NonRasCandidate
     public string? IntwDateUser { get; set; }
 
     public string? LevelRekom { get; set; }
+
+    public string? Status { get; set; }
 
     public string? Notes { get; set; }
 

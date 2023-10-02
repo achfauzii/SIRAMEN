@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
 
     const container = document.querySelector('#example');
     const save = document.querySelector('#save');
@@ -11,17 +11,18 @@
             }
             return response.json();
         })
-        .then(data => { 
+        .then(data => {
             const resource = data.data
-          
-          
-         
             const hot = new Handsontable(container, {
                 data: resource,
-                colHeaders: ['Full Name', 'Position', 'Skill Set', 'Major', 'University', 'Domicile', 'Age', 'Level','Experience (Year)', 'Filtering By', 'Acive?', 'Notice Period', 'Financial Industry', 'Raw CV', 'Berca CV', 'English', 'Current Salary', 'Expected Salary', 'Negotiable', 'Interview by RAS', 'Interview Date by RAS', 'Interview by User', 'Name of User', 'Interview Date by User', 'Level Recomendation', 'Status', 'Notes','Last Modified'],
+                colHeaders: ['NonRasID', 'Full Name', 'Position', 'Skill Set', 'Major', 'University', 'Domicile', 'Age', 'Level', 'Experience (Year)', 'Filtering By', 'Acive?', 'Notice Period', 'Financial Industry', 'Raw CV', 'Berca CV', 'English', 'Current Salary', 'Expected Salary', 'Negotiable', 'Interview by RAS', 'Interview Date by RAS', 'Interview by User', 'Name of User', 'Interview Date by User', 'Level Recomendation', 'Status', 'Notes', 'Last Modified'],
                 //dataSchema: { fullname: null, position: null, skillset: null, education: null, university: null, domisili: null, birthdate: null, level: null, experienceInYear: null, filteringBy: null, workStatus: null, noticePeriode: null, financialIndustry: null, rawCv: null, cvBerca: null, englishLevel: null, currentSalary: null, expectedSalary: null, negotiable: null, intwByRas: null, intwDateByRas: null, intwUser: null, nameOfUser: null, intwDateUser: null, levelRekom: null, notes: null},
                 columns: [
-                   
+                    {
+                        data: 'nonRasId',
+                        type: 'text',
+                        //hidden:true,
+                    },
                     {
                         data: 'fullname',
                         type: 'text',
@@ -127,6 +128,10 @@
                         type: 'text',
                     },
                     {
+                        data: 'status',
+                        type: 'text',
+                    },
+                    {
                         data: 'notes',
                         type: 'text',
                     },
@@ -136,87 +141,77 @@
                         dateFormat: 'YYYY-MM-DD HH:mm:ss', // Adjust the date and time format as needed
                     },
                 ],
-  // Othe
-       
 
-               //colWidths: auto,
+                //colWidths: auto,
                 height: 'auto',
                 width: 'auto',
                 rowHeaders: true,
-               
+
                 height: 'auto',
                 fixedColumnsStart: 1,
 
-            
-                minSpareRows: 1,
+                //minSpareRows: 1,
+                allowInsertRow: true,
 
                 licenseKey: 'non-commercial-and-evaluation', // for non-commercial use only
-                afterChange: function (changes, source) {
+                afterChange: function (change, source) {
                     if (source === 'loadData') {
-                        return; // Jangan simpan perubahan saat data dimuat
+                        return; //don't save this change
                     }
+
 
                     if (!autosave.checked) {
-                        return; // Jangan simpan perubahan jika autosave tidak diaktifkan
+                        return;
                     }
 
-                    // Buat objek yang berisi perubahan yang akan dikirim ke server
-                    const dataToSend = {
-                        changes: changes, // Perubahan dari Handsontable
-                        source: source // Sumber perubahan
-                    };
-                    
-        // Simpan perubahan dalam variabel
-        changesToSave.push(...changes);
-                  
-
-                    // Kirim data perubahan ke server untuk disimpan
-                    fetch('URL_API_ANDA', {
+                    fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
                         method: 'POST',
+                        mode: 'no-cors',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(dataToSend)
+                        body: JSON.stringify({ data: change })
                     })
                         .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // Handle respon dari server jika perlu
-                            console.log('Perubahan berhasil disimpan di server:', data);
-                        })
-                        .catch(error => {
-                            console.error('Ada masalah dengan permintaan ke server:', error);
+                            /*exampleConsole.innerText = `Autosaved (${change.length} cell${change.length > 1 ? 's' : ''})`;*/
+                            console.log('The POST request is only used here for the demo purposes');
+
                         });
                 }
             });
 
 
-            // Sekarang, Anda dapat memasukkan data ini ke dalam Handsontable atau melakukan apa yang Anda inginkan.
             save.addEventListener('click', () => {
                 // save all cell's data
-                fetch('https://localhost:7177/api/Shortlist/ShortlistCandidate', {
+
+
+                fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
                     method: 'POST',
-                    mode: 'no-cors',
+                    //contentType: 'application/json',
+                    //mode: 'no-cors',
+                    body: JSON.stringify( hot.getSourceData() ),
+                    //contentType: "application/json",
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + sessionStorage.getItem("Token")
                     },
-                    body: JSON.stringify({ data: hot.getData() })
                 })
                     .then(response => {
-                       
-                        console.log({ data: hot.getData() });
+                        var a = JSON.stringify( hot.getSourceData() )
+                        console.log(a);
                     });
             });
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+
+
+            /*autosave.addEventListener('click', () => {
+                if (autosave.checked) {
+                    exampleConsole.innerText = 'Changes will be autosaved';
+                } else {
+                    exampleConsole.innerText = 'Changes will not be autosaved';
+                }
+            });*/
         });
 
 
-
-})
-
+    // Sekarang, Anda dapat memasukkan data ini ke dalam Handsontable atau melakukan apa yang Anda inginkan.
+});
