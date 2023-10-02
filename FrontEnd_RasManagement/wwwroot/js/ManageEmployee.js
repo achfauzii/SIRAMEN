@@ -923,6 +923,16 @@ function SaveTurnOver() {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
 
     }
+
+    $('input[required_]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message-turnOver').show();
+            isValid = false;
+        } else {
+            input.next('.error-message-turnOver').hide();
+        }
+    });
     
     if (!isValid) {
         return;
