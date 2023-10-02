@@ -1,68 +1,3 @@
-﻿/*const candidatesArray = [
-    {
-        nonRasId: "sring",
-        fullname: "string",
-        position: "string",
-        skillset: "string",
-        education: "string",
-        university: "string",
-        domisili: "string",
-        birthdate: "2023-09-27T06:49:00.925Z",
-        level: "string",
-        experienceInYear: 0,
-        filteringBy: "string",
-        workStatus: "stri",
-        noticePeriode: "string",
-        financialIndustry: "strng",
-        rawCv: "string",
-        cvBerca: "string",
-        englishLevel: "string",
-        currentSalary: "string",
-        expectedSalary: "string",
-        negotiable: "strig",
-        intwByRas: "string",
-        intwDateByRas: "2023-09-27T06:49:00.925Z",
-        intwUser: "string",
-        nameOfUser: "string",
-        intwDateUser: "string",
-        levelRekom: "string",
-        status:"string",
-        notes: "string",
-        lastModified: "2023-09-27T06:49:00.925Z"
-    },
-    {
-        nonRasId: "srin",
-        fullname: "string",
-        position: "string",
-        skillset: "string",
-        education: "string",
-        university: "string",
-        domisili: "string",
-        birthdate: "2023-09-27T06:49:00.925Z",
-        level: "string",
-        experienceInYear: 0,
-        filteringBy: "string",
-        workStatus: "stri",
-        noticePeriode: "string",
-        financialIndustry: "strng",
-        rawCv: "string",
-        cvBerca: "string",
-        englishLevel: "string",
-        currentSalary: "string",
-        expectedSalary: "string",
-        negotiable: "strig",
-        intwByRas: "string",
-        intwDateByRas: "2023-09-27T06:49:00.925Z",
-        intwUser: "string",
-        nameOfUser: "string",
-        intwDateUser: "string",
-        levelRekom: "string",
-        status: "string",
-        notes: "string",
-        lastModified: "2023-09-27T06:49:00.925Z"
-    }
-];*/
-
 $(document).ready(function () {
 
     const container = document.querySelector('#example');
@@ -224,6 +159,7 @@ $(document).ready(function () {
                         return; //don't save this change
                     }
 
+
                     if (!autosave.checked) {
                         return;
                     }
@@ -239,12 +175,15 @@ $(document).ready(function () {
                         .then(response => {
                             /*exampleConsole.innerText = `Autosaved (${change.length} cell${change.length > 1 ? 's' : ''})`;*/
                             console.log('The POST request is only used here for the demo purposes');
+
                         });
                 }
             });
 
+
             save.addEventListener('click', () => {
                 // save all cell's data
+
 
                 fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
                     method: 'POST',
@@ -263,6 +202,7 @@ $(document).ready(function () {
                     });
             });
 
+
             /*autosave.addEventListener('click', () => {
                 if (autosave.checked) {
                     exampleConsole.innerText = 'Changes will be autosaved';
@@ -271,6 +211,7 @@ $(document).ready(function () {
                 }
             });*/
         });
+
 
     // Sekarang, Anda dapat memasukkan data ini ke dalam Handsontable atau melakukan apa yang Anda inginkan.
 });
