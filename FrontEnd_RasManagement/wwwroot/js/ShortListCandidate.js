@@ -1,7 +1,72 @@
-﻿$(document).ready(function () {
+﻿/*const candidatesArray = [
+    {
+        nonRasId: "sring",
+        fullname: "string",
+        position: "string",
+        skillset: "string",
+        education: "string",
+        university: "string",
+        domisili: "string",
+        birthdate: "2023-09-27T06:49:00.925Z",
+        level: "string",
+        experienceInYear: 0,
+        filteringBy: "string",
+        workStatus: "stri",
+        noticePeriode: "string",
+        financialIndustry: "strng",
+        rawCv: "string",
+        cvBerca: "string",
+        englishLevel: "string",
+        currentSalary: "string",
+        expectedSalary: "string",
+        negotiable: "strig",
+        intwByRas: "string",
+        intwDateByRas: "2023-09-27T06:49:00.925Z",
+        intwUser: "string",
+        nameOfUser: "string",
+        intwDateUser: "string",
+        levelRekom: "string",
+        status:"string",
+        notes: "string",
+        lastModified: "2023-09-27T06:49:00.925Z"
+    },
+    {
+        nonRasId: "srin",
+        fullname: "string",
+        position: "string",
+        skillset: "string",
+        education: "string",
+        university: "string",
+        domisili: "string",
+        birthdate: "2023-09-27T06:49:00.925Z",
+        level: "string",
+        experienceInYear: 0,
+        filteringBy: "string",
+        workStatus: "stri",
+        noticePeriode: "string",
+        financialIndustry: "strng",
+        rawCv: "string",
+        cvBerca: "string",
+        englishLevel: "string",
+        currentSalary: "string",
+        expectedSalary: "string",
+        negotiable: "strig",
+        intwByRas: "string",
+        intwDateByRas: "2023-09-27T06:49:00.925Z",
+        intwUser: "string",
+        nameOfUser: "string",
+        intwDateUser: "string",
+        levelRekom: "string",
+        status: "string",
+        notes: "string",
+        lastModified: "2023-09-27T06:49:00.925Z"
+    }
+];*/
+
+$(document).ready(function () {
 
     const container = document.querySelector('#example');
-
+    const save = document.querySelector('#save');
 
     // Melakukan permintaan GET ke API
     fetch('https://localhost:7177/api/Shortlist')
@@ -11,17 +76,18 @@
             }
             return response.json();
         })
-        .then(data => { 
+        .then(data => {
             const resource = data.data
-          
-          
-         
             const hot = new Handsontable(container, {
                 data: resource,
-                colHeaders: ['Full Name', 'Position', 'Skill Set', 'Major', 'University', 'Domicile', 'Age', 'Level','Experience (Year)', 'Filtering By', 'Acive?', 'Notice Period', 'Financial Industry', 'Raw CV', 'Berca CV', 'English', 'Current Salary', 'Expected Salary', 'Negotiable', 'Interview by RAS', 'Interview Date by RAS', 'Interview by User', 'Name of User', 'Interview Date by User', 'Level Recomendation', 'Status', 'Notes','Last Modified'],
+                colHeaders: ['NonRasID', 'Full Name', 'Position', 'Skill Set', 'Major', 'University', 'Domicile', 'Age', 'Level', 'Experience (Year)', 'Filtering By', 'Acive?', 'Notice Period', 'Financial Industry', 'Raw CV', 'Berca CV', 'English', 'Current Salary', 'Expected Salary', 'Negotiable', 'Interview by RAS', 'Interview Date by RAS', 'Interview by User', 'Name of User', 'Interview Date by User', 'Level Recomendation', 'Status', 'Notes', 'Last Modified'],
                 //dataSchema: { fullname: null, position: null, skillset: null, education: null, university: null, domisili: null, birthdate: null, level: null, experienceInYear: null, filteringBy: null, workStatus: null, noticePeriode: null, financialIndustry: null, rawCv: null, cvBerca: null, englishLevel: null, currentSalary: null, expectedSalary: null, negotiable: null, intwByRas: null, intwDateByRas: null, intwUser: null, nameOfUser: null, intwDateUser: null, levelRekom: null, notes: null},
                 columns: [
-                   
+                    {
+                        data: 'nonRasId',
+                        type: 'text',
+                        //hidden:true,
+                    },
                     {
                         data: 'fullname',
                         type: 'text',
@@ -127,6 +193,10 @@
                         type: 'text',
                     },
                     {
+                        data: 'status',
+                        type: 'text',
+                    },
+                    {
                         data: 'notes',
                         type: 'text',
                     },
@@ -136,29 +206,71 @@
                         dateFormat: 'YYYY-MM-DD HH:mm:ss', // Adjust the date and time format as needed
                     },
                 ],
-  // Othe
-       
 
-               //colWidths: auto,
+                //colWidths: auto,
                 height: 'auto',
                 width: 'auto',
                 rowHeaders: true,
-               
+
                 height: 'auto',
                 fixedColumnsStart: 1,
 
-            
-                minSpareRows: 1,
+                //minSpareRows: 1,
+                allowInsertRow: true,
 
-                licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
+                licenseKey: 'non-commercial-and-evaluation', // for non-commercial use only
+                afterChange: function (change, source) {
+                    if (source === 'loadData') {
+                        return; //don't save this change
+                    }
+
+                    if (!autosave.checked) {
+                        return;
+                    }
+
+                    fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ data: change })
+                    })
+                        .then(response => {
+                            /*exampleConsole.innerText = `Autosaved (${change.length} cell${change.length > 1 ? 's' : ''})`;*/
+                            console.log('The POST request is only used here for the demo purposes');
+                        });
+                }
             });
 
-            // Sekarang, Anda dapat memasukkan data ini ke dalam Handsontable atau melakukan apa yang Anda inginkan.
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+            save.addEventListener('click', () => {
+                // save all cell's data
+
+                fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
+                    method: 'POST',
+                    //contentType: 'application/json',
+                    //mode: 'no-cors',
+                    body: JSON.stringify( hot.getSourceData() ),
+                    //contentType: "application/json",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    },
+                })
+                    .then(response => {
+                        var a = JSON.stringify( hot.getSourceData() )
+                        console.log(a);
+                    });
+            });
+
+            /*autosave.addEventListener('click', () => {
+                if (autosave.checked) {
+                    exampleConsole.innerText = 'Changes will be autosaved';
+                } else {
+                    exampleConsole.innerText = 'Changes will not be autosaved';
+                }
+            });*/
         });
 
-
-})
-
+    // Sekarang, Anda dapat memasukkan data ini ke dalam Handsontable atau melakukan apa yang Anda inginkan.
+});
