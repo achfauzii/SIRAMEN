@@ -99,12 +99,14 @@ namespace RasManagement.Controllers
                     {
                         // Ini adalah operasi penambahan, karena NonRasId baru.
                         //_context.Entry(candidate.NonRasId).State = EntityState.Detached;
+                        candidate.LastModified = DateTime.Now;
                         _context.NonRasCandidates.Add(candidate);
                     }
                     else
                     {
                         // Ini adalah operasi pembaruan, karena NonRasId sudah ada.
                         //_context.Entry(candidate.NonRasId).State = EntityState.Detached;
+                        candidate.LastModified = DateTime.Now;
                         _context.NonRasCandidates.Update(candidate);
                     }
                 }

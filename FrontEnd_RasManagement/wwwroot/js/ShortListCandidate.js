@@ -166,9 +166,10 @@ $(document).ready(function () {
 
                     fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
                         method: 'POST',
-                        mode: 'no-cors',
+                        //mode: 'no-cors',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
                         },
                         body: JSON.stringify({ data: change })
                     })
@@ -179,7 +180,16 @@ $(document).ready(function () {
                         });
                 }
             });
-
+            load.addEventListener('click', () => {
+                fetch('https://localhost:7177/api/Shortlist')
+                    .then(response => {
+                        response.json().then(data => {
+                            hot.loadData(data.data);
+                            // or, use `updateData()` to replace `data` without resetting states
+                            exampleConsole.innerText = 'Data loaded';
+                        });
+                    });
+            });
 
             save.addEventListener('click', () => {
                 // save all cell's data
