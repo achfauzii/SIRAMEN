@@ -32,7 +32,7 @@
 
 </style>
 
-<div class="btn-group mb-2" role="group" aria-label="Basic example" >
+<div class="btn-group mb-2" role="group" aria-label="Basic example">
     <button type="button" class="btn text-light " style="background-color:#D80032">Left</button>
     <button type="button" class="btn text-light" style="background-color:#D80032">Middle</button>
     <button type="button" class="btn text-light" style="background-color:#D80032">Right</button>
@@ -60,13 +60,13 @@
 <script>
     $(document).ready(function () {
         $('#resource').DataTable({
-           
+
             scrollX: true,
             processing: true,
             serverSide: true,
-        
+
             ajax: {
-                url: 'https://localhost:7177/api/Employees/DataTableGetEmployee', // Your API endpoint
+                url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint
                 type: 'POST',
                 contentType: 'application/json',
                 data: function (d) {
@@ -82,13 +82,21 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                { data: 'fullname' },
+                {
+                    data: 'fullname'
+                   
+                },
+             
                 { data: '' },
                 // ... other columns ...
             ],
             searching: true,
-          
 
+
+        });
+        // Activate an inline edit on click of a table cell
+        table.on('click', 'tbody td:not(:first-child)', function (e) {
+            editor.inline(this);
         });
     });
 </script>
