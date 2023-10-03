@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     const container = document.querySelector('#example');
     const save = document.querySelector('#save');
-
+    const autosave = document.querySelector('#autosave');
     // Melakukan permintaan GET ke API
     fetch('https://localhost:7177/api/Shortlist')
         .then(response => {
@@ -150,7 +150,7 @@ $(document).ready(function () {
                 height: 'auto',
                 fixedColumnsStart: 1,
 
-                //minSpareRows: 1,
+                minSpareRows: 1,
                 allowInsertRow: true,
 
                 licenseKey: 'non-commercial-and-evaluation', // for non-commercial use only
@@ -158,7 +158,7 @@ $(document).ready(function () {
                     if (source === 'loadData') {
                         return; //don't save this change
                     }
-
+                    console.log(change);
 
                     if (!autosave.checked) {
                         return;
@@ -166,7 +166,7 @@ $(document).ready(function () {
 
                     fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
                         method: 'POST',
-                        mode: 'no-cors',
+                  
                         headers: {
                             'Content-Type': 'application/json'
                         },
@@ -201,6 +201,13 @@ $(document).ready(function () {
                         console.log(a);
                     });
             });
+           /* autosave.addEventListener('click', () => {
+                if (autosave.checked) {
+                    exampleConsole.innerText = 'Changes will be autosaved';
+                } else {
+                    exampleConsole.innerText = 'Changes will not be autosaved';
+                }
+            });*/
 
 
             /*autosave.addEventListener('click', () => {

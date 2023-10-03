@@ -22,7 +22,7 @@ function Educations() {
     const accid = decodedtoken.AccountId;
     table = $('#TB_FormalEdu').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/Educations/accountId?accountId=" + accid,
+            url: "https://rasmanagement-001-site1.atempurl.com/api/Educations/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -95,7 +95,7 @@ function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
 
     $.ajax({
-        url: "https://localhost:7177/api/Universitas",
+        url: "https://rasmanagement-001-site1.atempurl.com/api/Universitas",
         type: "GET",
         dataType: "json",
         headers: {
@@ -266,7 +266,7 @@ function SaveFormal() {
     FormalEdu.AccountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Educations',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/Educations',
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -336,7 +336,7 @@ function GetById(formalEduId) {
     ClearScreenFormal();
     const selectUniversity = document.getElementById('UniversityName');
     $.ajax({
-        url: "https://localhost:7177/api/Educations/" + formalEduId,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/Educations/" + formalEduId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",

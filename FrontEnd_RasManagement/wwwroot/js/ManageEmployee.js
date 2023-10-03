@@ -26,7 +26,7 @@
 
 
         "ajax": {
-            url: "https://localhost:7177/api/Employees",
+            url: "https://rasmanagement-001-site1.atempurl.com/api/Employees",
             type: "GET",
             "datatype": "json",
             async: true,
@@ -377,7 +377,7 @@ function GetByIdPlacement(accountId, placementStatus) {
     var inputCompany = document.getElementById('inputCompany');
     inputCompany.style.display = 'none';
     $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        url: "https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -388,7 +388,7 @@ function GetByIdPlacement(accountId, placementStatus) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
             $.ajax({
-                url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+                url: "https://rasmanagement-001-site1.atempurl.com/api/Employees/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -458,8 +458,10 @@ function SaveTurnOver() {
     // console.log(placement);
     $.ajax({
         type: 'POST',
+
         url: 'https://localhost:7177/api/TurnOver',
         data: JSON.stringify(TurnOver),
+
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -477,7 +479,7 @@ function SaveTurnOver() {
             }).then(() => {
                 if (TurnOver.status == "Blacklist" || TurnOver.status == "Resign" || TurnOver.status == "Transfer") {
                     $.ajax({
-                        url: 'https://localhost:7177/api/Accounts/UpdateRole',
+                        url: 'https://rasmanagement-001-site1.atempurl.com/api/Accounts/UpdateRole',
                         type: 'PUT',
                         data: JSON.stringify(updateRole),
                         contentType: "application/json; charset=utf-8",
@@ -705,7 +707,7 @@ function Save(accountId) {
 
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/EmployeePlacements',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -1303,7 +1305,7 @@ function Update() {
     placement.accountId = $('#accountId').val();
 
     $.ajax({
-        url: 'https://localhost:7177/api/EmployeePlacements',
+        url: 'https://rasmanagement-001-site1.atempurl.com/api/EmployeePlacements',
         type: 'PUT',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",

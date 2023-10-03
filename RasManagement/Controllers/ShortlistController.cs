@@ -99,12 +99,15 @@ namespace RasManagement.Controllers
                     {
                         // Ini adalah operasi penambahan, karena NonRasId baru.
                         //_context.Entry(candidate.NonRasId).State = EntityState.Detached;
+                        candidate.LastModified = DateTime.Now;
                         _context.NonRasCandidates.Add(candidate);
                     }
                     else
                     {
                         // Ini adalah operasi pembaruan, karena NonRasId sudah ada.
                         //_context.Entry(candidate.NonRasId).State = EntityState.Detached;
+                        //_context.Entry(candidate.NonRasId).State = EntityState.Detached;
+                        candidate.LastModified = DateTime.Now;
                         _context.NonRasCandidates.Update(candidate);
                     }
                 }
@@ -116,6 +119,44 @@ namespace RasManagement.Controllers
             {
                 return BadRequest($"Gagal menyimpan data: {ex.Message}");
             }
+        }
+
+        [HttpPost("NonRasDatatable")]
+        public async Task<IActionResult> GetData([FromBody] DataTablesRequest request)
+        {
+            //var employees = await employeeRepository.GetEmployeeData();
+            var query = _context.NonRasCandidates.AsQueryable();
+
+            // Implementasi pencarian
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchTerm = request.Search.Value.ToLower();
+                query = query.Where(e =>
+                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin Anda cari
+                    e.Position.ToLower().Contains(searchTerm) 
+
+
+
+                );
+            }
+
+
+
+            // Filter, sort, dan paging data berdasarkan permintaan dari DataTables
+            // Anda perlu mengimplementasikan logika ini sesuai dengan permintaan DataTables
+            // Contoh: products = products.Where(...).OrderBy(...).Skip(...).Take(...);
+            var shortList = await query.ToListAsync();
+            // Menambahkan nomor urut pada setiap baris
+
+            var response = new DataTablesResponse
+            {
+                Draw = request.Draw,
+                RecordsTotal = shortList.Count(),
+                RecordsFiltered = shortList.Count(), // Anda perlu mengganti ini dengan jumlah data yang sesuai setelah diterapkan filter
+                Data = shortList// Data hasil filter dan paging
+            };
+
+            return Ok(response);
         }
 
     }
