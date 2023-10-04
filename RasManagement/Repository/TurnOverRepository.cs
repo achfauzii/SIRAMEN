@@ -1,5 +1,4 @@
-﻿using RasManagement.Controllers;
-
+﻿
 namespace RasManagement.Repository
 {
     public class TurnOverRepository : GeneralRepository<ProjectRasmanagementContext, TurnOver, int>
