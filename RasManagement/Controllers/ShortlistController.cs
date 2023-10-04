@@ -83,7 +83,7 @@ namespace RasManagement.Controllers
 
         [HttpPost("ShortListCandidate")]
       
-        public IActionResult ShortListCandidate([FromBody] List<NonRasCandidate> candidates)
+        public IActionResult ShortListCandidate([FromBody]List<List<object>> candidates)
         {
             Console.WriteLine(candidates);
             try
@@ -95,21 +95,29 @@ namespace RasManagement.Controllers
                 
                 foreach (var candidate in candidates)
                 {
-                    if (string.IsNullOrEmpty(candidate.NonRasId))
+					int row = Convert.ToInt32(candidate[0]);
+					int col = Convert.ToInt32(candidate[1]);
+					string newValue = candidate[2].ToString();
+
+					// Cari data di database berdasarkan row dan col
+					var existingRecord = _context.NonRasCandidates.FirstOrDefault(r => r.NonRasId == newValue);
+					if (existingRecord == null )
                     {
                         // Ini adalah operasi penambahan, karena NonRasId baru.
-                        //_context.Entry(candidate.NonRasId).State = EntityState.Detached;
-                        candidate.LastModified = DateTime.Now;
-                        _context.NonRasCandidates.Add(candidate);
-                    }
+                       
+                        existingRecord.LastModified = DateTime.Now;
+						// Perbarui nilai yang sesuai di dalam database
+						//existingRecord. = newValue;
+						_context.SaveChanges();
+					}
                     else
                     {
-                        // Ini adalah operasi pembaruan, karena NonRasId sudah ada.
-                        //_context.Entry(candidate.NonRasId).State = EntityState.Detached;
-                        //_context.Entry(candidate.NonRasId).State = EntityState.Detached;
-                        candidate.LastModified = DateTime.Now;
-                        _context.NonRasCandidates.Update(candidate);
-                    }
+					
+						existingRecord.LastModified = DateTime.Now;
+						// Perbarui nilai yang sesuai di dalam database
+						//existingRecord.Value = newValue;
+						_context.SaveChanges();
+					}
                 }
                 
                 _context.SaveChanges();
@@ -159,5 +167,7 @@ namespace RasManagement.Controllers
             return Ok(response);
         }
 
-    }
+		
+
+	}
 }
