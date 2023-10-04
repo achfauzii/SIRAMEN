@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    var changedRows = {};
     const container = document.querySelector('#example');
     const save = document.querySelector('#save');
     const autosave = document.querySelector('#autosave');
@@ -154,15 +154,16 @@ $(document).ready(function () {
                 allowInsertRow: true,
 
                 licenseKey: 'non-commercial-and-evaluation', // for non-commercial use only
-                afterChange: function (change, source) {
+                afterChange: function (changes, source) {
                     if (source === 'loadData') {
                         return; //don't save this change
                     }
-                    console.log(change);
+                  
 
                     if (!autosave.checked) {
                         return;
                     }
+                 
 
                     fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
                         method: 'POST',
@@ -180,13 +181,23 @@ $(document).ready(function () {
                         });
                 }
             });
+ 
+
 
 
             save.addEventListener('click', () => {
-                // save all cell's data
+                const dataToSave = hot.getData(); // Ambil semua data dari tabel
 
+                // Sekarang, Anda hanya perlu mengambil baris yang berubah
+                const changedData = [];
+                for (const row in changedRows) {
+                    if (Object.hasOwnProperty.call(changedRows, row)) {
+                        changedData.push(dataToSave[row]);
+                    }
+                }
+                console.log(changedData);
 
-                fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
+              /*  fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
                     method: 'POST',
                     //contentType: 'application/json',
                     //mode: 'no-cors',
@@ -199,8 +210,8 @@ $(document).ready(function () {
                 })
                     .then(response => {
                         var a = JSON.stringify( hot.getSourceData() )
-                        console.log(a);
-                    });
+                        console.log(array_);
+                    });*/
             });
            /* autosave.addEventListener('click', () => {
                 if (autosave.checked) {

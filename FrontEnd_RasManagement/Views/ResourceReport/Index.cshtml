@@ -25,10 +25,18 @@
         font-size: 14px; /* Ganti '12px' dengan ukuran font yang Anda inginkan */
         height: 26px; /* Sesuaikan tinggi input jika diperlukan */
     }
+	#resource td {
+    font-size: 12px; /* Ganti dengan ukuran font yang Anda inginkan */
 
-    #resource {
-        font-size: 14px; /* Ganti '14px' dengan ukuran font yang diinginkan */
-    }
+}
+
+	th {
+		font-size: 12px;
+	}
+
+   
+
+
 
 </style>
 
@@ -40,10 +48,34 @@
 <table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
     <thead>
         <tr>
-            <th style="font-size:15px">No</th>
-            <th style="font-size:15px">Fullname</th>
-
-            <th style="font-size:15px">Position</th>
+            <th>Fllname</th>
+            <th>Position</th>
+            <th>Skillset</th>
+            <th>Education</th>
+            <th>University</th>
+            <th>Domisili</th>
+            <th>Birthdate</th>
+            <th>Level</th>
+            <th>Experience_In_Year</th>
+            <th>Filtering_By</th>
+            <th>Work_Status</th>
+            <th>Notice_Periode</th>
+            <th>Financial_Industry</th>
+            <th>Raw_CV</th>
+            <th>CV_Berca</th>
+            <th>English_Level</th>
+            <th>Current_Salary</th>
+            <th>Expected_Salary</th>
+            <th>Negotiable</th>
+            <th>Intw_ByRAS</th>
+            <th>IntwDate_ByRAS</th>
+            <th>Intw_User</th>
+            <th>NameOf_User</th>
+            <th>IntwDate_User</th>
+            <th>Level_Rekom</th>
+            <th>Status</th>
+            <th>Notes</th>
+            <th>Last_Modified</th>
         </tr>
     </thead>
     <tbody>
@@ -54,7 +86,10 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+
 
 
 <script>
@@ -64,6 +99,11 @@
             scrollX: true,
             processing: true,
             serverSide: true,
+			fixedColumns: {
+				left: 1,
+			
+			},
+			
 
             ajax: {
                 url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint
@@ -75,29 +115,102 @@
                     return JSON.stringify(d);
                 }
             },
-            columns: [
-                {
-                    "data": "id",
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                {
-                    data: 'fullname'
-                   
-                },
-             
-                { data: '' },
-                // ... other columns ...
-            ],
+			dom: 'Bfrtip',
+		
+			columns: [
+
+				{
+					"data": "fullname"
+				},
+				{
+					"data": "position"
+				},
+				{
+					"data": "skillset"
+				},
+				{
+					"data": "education"
+				},
+				{
+					"data": "university"
+				},
+				{
+					"data": "domisili"
+				},
+				{
+					"data": "birthdate"
+				},
+				{
+					"data": "level"
+				},
+				{
+					"data": "experienceInYear"
+				},
+				{
+					"data": "filteringBy"
+				},
+				{
+					"data": "workStatus"
+				},
+				{
+					"data": "noticePeriode"
+				},
+				{
+					"data": "financialIndustry"
+				},
+				{
+					"data": "rawCv"
+				},
+				{
+					"data": "cvBerca"
+				},
+				{
+					"data": "englishLevel"
+				},
+				{
+					"data": "currentSalary"
+				},
+				{
+					"data": "expectedSalary"
+				},
+				{
+					"data": "negotiable"
+				},
+				{
+					"data": "intwByRas"
+				},
+				{
+					"data": "intwDateByRas"
+				},
+				{
+					"data": "intwUser"
+				},
+				{
+					"data": "nameOfUser"
+				},
+				{
+					"data": "intwDateUser"
+				},
+				{
+					"data": "levelRekom"
+				},
+				{
+					"data": "status"
+				},
+				{
+					"data": "notes"
+				},
+				{
+					"data": "lastModified"
+				}
+			],
+	
+		
             searching: true,
-
+			
 
         });
-        // Activate an inline edit on click of a table cell
-        table.on('click', 'tbody td:not(:first-child)', function (e) {
-            editor.inline(this);
-        });
+      
     });
 </script>
 
