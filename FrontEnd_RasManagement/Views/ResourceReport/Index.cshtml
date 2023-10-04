@@ -3,6 +3,7 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
 <style>
+
     .table-striped tbody tr:nth-of-type(odd) {
         background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
     }
@@ -33,7 +34,7 @@
 	th {
 		font-size: 12px;
 	}
-
+	
    
 
 
@@ -48,7 +49,8 @@
 <table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
     <thead>
         <tr>
-            <th>Fllname</th>
+
+            <th>Fullname</th>
             <th>Position</th>
             <th>Skillset</th>
             <th>Education</th>
@@ -89,20 +91,22 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 
 
 <script>
     $(document).ready(function () {
         $('#resource').DataTable({
+			fixedColumns: {
+				left: 1,
 
+			},
             scrollX: true,
             processing: true,
             serverSide: true,
-			fixedColumns: {
-				left: 1,
+			fixedColumns: true,
 			
-			},
 			
 
             ajax: {
@@ -115,10 +119,10 @@
                     return JSON.stringify(d);
                 }
             },
-			dom: 'Bfrtip',
+			//dom: 'Bfrtip',
 		
 			columns: [
-
+		
 				{
 					"data": "fullname"
 				},
@@ -177,7 +181,8 @@
 					"data": "negotiable"
 				},
 				{
-					"data": "intwByRas"
+					"data": "intwByRas",
+					
 				},
 				{
 					"data": "intwDateByRas"
@@ -201,7 +206,15 @@
 					"data": "notes"
 				},
 				{
-					"data": "lastModified"
+					"data": "lastModified",
+					"render": function (data, type, row) {
+						if (type === 'display' || type === 'filter') {
+							// Format tanggal dalam format yang diinginkan
+							return moment(data).format('YYYY-MM-DD ');
+						}
+						// Untuk tipe data lain, kembalikan data aslinya
+						return data;
+					}
 				}
 			],
 	
