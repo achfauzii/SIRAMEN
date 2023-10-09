@@ -108,14 +108,41 @@
 			{
 				"data": "negotiable"
 			},
-			{
-				"data": "intwByRas",
+				{
+					data: 'intwByRas',
+					render: function (data, type, row) {
+						if (type === 'display' || type === 'filter') {
+							// Set nilai awal (value) elemen <select> berdasarkan data dari API
+							var selectHtml = '<select class="intwByRas-select" data-id="' + row.id + '">';
 
-			},
+							if (data === null || data =="") {
+								selectHtml += '<option value="" selected></option>'; // Opsi default jika data null
+							}
+
+							selectHtml += '<option value="Done" ' + (data === 'Done' ? 'selected' : '') + '>Done</option>' +
+								'<option value="string" ' + (data === 'string' ? 'selected' : '') + '>string</option>' +
+								'<option value="Whitdraw" ' + (data === 'Whitdraw' ? 'selected' : '') + '>Whitdraw</option>' +
+								'</select>';
+
+							return selectHtml;
+						}
+						// Untuk tipe data lain, kembalikan data aslinya
+						return data;
+					}
+
+				},
 			{
-				"data": "intwDateByRas"
-			},
-			{
+					data: 'intwDateByRas',
+					render: function (data, type, row) {
+						if (type === 'display' || type === 'filter') {
+							// Tambahkan elemen input tanggal
+							return '<input type="date" class="intwDateByRas-input" data-id="' + row.id + '" value="' + data + '">';
+						}
+						// Untuk tipe data lain, kembalikan data aslinya
+						return data;
+					}
+				},
+				{
 				"data": "intwUser"
 			},
 			{
@@ -170,5 +197,32 @@
 		}
 	}
 
+	// Event handler untuk elemen <select>
+	$('#resource').on('change', '.intwByRas-select', function () {
+		var selectedValue = $(this).val(); // Nilai yang dipilih dari elemen <select>
+		var rowId = $(this).data('id'); // ID baris terkait
+
+		// Kirim perubahan ke server (ganti dengan implementasi sesuai kebutuhan)
+		// Misalnya, Anda bisa menggunakan AJAX untuk mengirim perubahan ini ke API.
+		// Anda juga perlu mengupdate data di DataTable dengan nilai yang baru.
+
+		// Contoh:
+		$.ajax({
+			url: 'https://contoh-api.com/update-data', // Ganti dengan URL API yang sesuai
+			type: 'POST', // Atau sesuaikan dengan metode yang sesuai
+			data: {
+				id: rowId,
+				newValue: selectedValue
+			},
+			success: function (response) {
+				// Tanggapi respons dari server jika perlu
+				// Update data di DataTable jika perlu
+				// tblResource.ajax.reload(); // Contoh penggunaan untuk me-reload data tabel
+			},
+			error: function (error) {
+				console.error('Gagal melakukan pembaruan:', error);
+			}
+		});
+	});
 
 });
