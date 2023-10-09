@@ -1,5 +1,13 @@
-﻿$(document).ready(function () {
-	$('#resource').DataTable({
+﻿var table = null;
+$(document).ready(function () {
+	Src();
+
+	getUniversitasList();
+
+});
+
+function Src() {
+	table = $('#resource').DataTable({
 		fixedColumns: {
 			left: 1,
 
@@ -178,6 +186,46 @@
 
 
 	});
+}
+
+function getUniversitasList() {
+	const selectUniversity = document.getElementById('UniversityName');
+
+	$.ajax({
+		url: "https://localhost:7177/api/Universitas",
+		type: "GET",
+		dataType: "json",
+		headers: {
+			"Authorization": "Bearer " + sessionStorage.getItem("Token")
+		},
+		success: function (result) {
+			var universities = result.data;
+
+
+
+			//selectUniversity.empty(); // Kosongkan pilihan sebelumnya
+			//selectUniversity.append('<option value="" selected disabled>Select University</option>');
+
+
+			universities.forEach(function (university) {
+				console.log(university);
+				const option = document.createElement('option');
+				option.value = university.namaUniversitas;
+				option.textContent = university.namaUniversitas;
+				selectUniversity.appendChild(option);
+			});
+
+			$(selectUniversity).select2({
+				placeholder: 'Select university',
+				width: '100%',
+
+			});
+		},
+		error: function (errormessage) {
+			alert(errormessage.responseText);
+		}
+	});
+}
 
 	function getBadgeColor(skill) {
 		// Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
