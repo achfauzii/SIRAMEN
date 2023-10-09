@@ -40,6 +40,7 @@ function updatePassword() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accountId = decodedtoken.AccountId;
     const email = decodedtoken.Email;
+    console.log(email);
     var currentPassword = document.getElementById('currentPassword').value;
     var newPassword = document.getElementById('newPassword').value;
     var repeatPassword = document.getElementById('repeatPassword').value;
@@ -53,7 +54,7 @@ function updatePassword() {
     //debugger;
 
 
-    fetch('https://rasmanagement-001-site1.atempurl.com/api/Accounts/ChangePassword', {
+    fetch('https://localhost:7177/api/Accounts/ChangePassword', {
         method: 'PUT', // Atur metode sesuai kebutuhan
         headers: {
             'Content-Type': 'application/json', // Atur tipe konten sesuai kebutuhan
@@ -65,6 +66,7 @@ function updatePassword() {
             currentPassword: currentPassword,
             newPassword: newPassword
         })
+   
     })
         .then(response => response.json())
         .then(data => {
@@ -80,6 +82,7 @@ function updatePassword() {
             });
         })
         .catch(error => {
+         
             Swal.fire({
                 icon: 'error',
                 title: 'Failed',
