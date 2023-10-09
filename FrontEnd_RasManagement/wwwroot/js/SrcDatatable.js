@@ -197,32 +197,39 @@
 		}
 	}
 
-	// Event handler untuk elemen <select>
-	$('#resource').on('change', '.intwByRas-select', function () {
-		var selectedValue = $(this).val(); // Nilai yang dipilih dari elemen <select>
-		var rowId = $(this).data('id'); // ID baris terkait
+/*	$(document).on('change', '.intwDateByRas-input, .intwByRas-select', function () {
+		// Ambil nilai yang diubah
+		var newValue = $(this).val();
 
-		// Kirim perubahan ke server (ganti dengan implementasi sesuai kebutuhan)
-		// Misalnya, Anda bisa menggunakan AJAX untuk mengirim perubahan ini ke API.
-		// Anda juga perlu mengupdate data di DataTable dengan nilai yang baru.
+		// Ambil data ID dari elemen
+		var dataId = $(this).data('nonRasId');
 
-		// Contoh:
+		// Tentukan tipe data (tanggal atau select)
+		var isDate = $(this).hasClass('intwDateByRas-input');  // Dapatkan nama kolom dari atribut data
+		var columnName = $(this).data('column'); // Sesuaikan nama atributnya dengan apa yang Anda gunakan
+		console.log(columnName);
+		// Buat objek yang berisi data yang akan dikirim ke server
+		var postData = {
+			id: dataId,
+			newValue: newValue,
+		
+		};
+		console.log(postData);
+		// Kirim permintaan POST ke server
 		$.ajax({
-			url: 'https://contoh-api.com/update-data', // Ganti dengan URL API yang sesuai
-			type: 'POST', // Atau sesuaikan dengan metode yang sesuai
-			data: {
-				id: rowId,
-				newValue: selectedValue
-			},
+			url: 'URL_API_UPDATE_DATA', // Ganti dengan URL endpoint API Anda
+			type: 'POST',
+			data: postData,
 			success: function (response) {
-				// Tanggapi respons dari server jika perlu
-				// Update data di DataTable jika perlu
-				// tblResource.ajax.reload(); // Contoh penggunaan untuk me-reload data tabel
+				// Tanggapi respons dari server jika diperlukan
+				console.log('Data berhasil diperbarui:', response);
 			},
 			error: function (error) {
-				console.error('Gagal melakukan pembaruan:', error);
+				// Tanggapi kesalahan jika diperlukan
+				console.error('Terjadi kesalahan:', error);
 			}
 		});
-	});
+	});*/
+
 
 });
