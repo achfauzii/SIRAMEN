@@ -1,7 +1,6 @@
 ﻿var table = null;
 $(document).ready(function () {
 	Src();
-
 	getUniversitasList();
 
 });
@@ -244,7 +243,6 @@ function getUniversitasList() {
 			return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
 		}
 	}
-
 /*	$(document).on('change', '.intwDateByRas-input, .intwByRas-select', function () {
 		// Ambil nilai yang diubah
 		var newValue = $(this).val();
@@ -279,4 +277,89 @@ function getUniversitasList() {
 		});
 	});*/
 
+function Save() {
+	var isValid = true;
 
+	$('input[required],select[required]').each(function () {
+		var input = $(this);
+		if (!input.val()) {
+			input.next('.error-message').show();
+			isValid = false;
+		} else {
+			input.next('.error-message').hide();
+		}
+	});
+
+	// Validasi select options
+	var selectedUniversity = $('#UniversityName').val();
+
+
+	if (!selectedUniversity) {
+		$('.selectUniversity').closest('.form-group').find('.error-message-university').show();
+		isValid = false;
+	} else {
+		$('.selectUniversity').closest('.form-group').find('.error-message-university').hide();
+
+	}
+
+
+	if (!isValid) {
+		return;
+	}
+
+
+
+	var NonRasCandidate = new Object(); //object baru
+	NonRasCandidate.fullname = $('#Name').val(); //value insert dari id pada input
+	NonRasCandidate.position = $('#position').val();;
+	NonRasCandidate.skillset = $('#skillset').val();
+	NonRasCandidate.education = $('#degree').val();
+	NonRasCandidate.university = $('#Name').val(); //value insert dari id pada input
+	NonRasCandidate.domisili = $('#position').val();;
+	NonRasCandidate.birthdate = $('#skillset').val();
+	NonRasCandidate.level = $('#level').val();
+	NonRasCandidate.experienceInYear = $('#experience').val(); //value insert dari id pada input
+	NonRasCandidate.filteringBy = $('#filteringby').val();;
+	NonRasCandidate.workStatus = $('#skillset').val();
+	NonRasCandidate.noticePeriode = $('#notice').val();
+	NonRasCandidate.financialIndustry = $('#financial').val(); //value insert dari id pada input
+	NonRasCandidate.rawCv = $('#rawcv').val();;
+	NonRasCandidate.cvBerca = $('#bercacv').val();
+	NonRasCandidate.englishLevel = $('#english').val();
+	NonRasCandidate.currentSalary = $('#current').val(); //value insert dari id pada input
+	NonRasCandidate.expectedSalary = $('#expected').val();;
+	NonRasCandidate.negotiable = $('#negotiable').val();
+	NonRasCandidate.lastModified = Date.now;
+	$.ajax({
+		type: 'POST',
+		url: 'https://localhost:7177/api/Shortlist',
+		data: JSON.stringify(NonRasCandidate),
+		contentType: "application/json; charset=utf-8",
+		headers: {
+			"Authorization": "Bearer " + sessionStorage.getItem("Token")
+		},
+	}).then((result) => {
+		//debugger;
+		if (result.status == 200) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Success...',
+				text: 'Data has been added!',
+				showConfirmButtom: false,
+				timer: 1500
+			})
+			$('#Modal').modal('hide');
+			table.ajax.reload();
+		}
+		else {
+			Swal.fire({
+				icon: 'warning',
+				title: 'Data Gagal dimasukkan!',
+				showConfirmButtom: false,
+				timer: 1500
+			})
+			$('#Modal').modal('hide');
+			table.ajax.reload();
+		}
+	})
+}
