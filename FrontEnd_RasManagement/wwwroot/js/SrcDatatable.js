@@ -3,6 +3,10 @@ $(document).ready(function () {
     Src();
     getUniversitasList();
 
+
+
+	
+
 });
 
 function Src() {
@@ -137,54 +141,60 @@ function Src() {
                     return data;
                 }
 
-            },
-            {
-                data: 'intwDateByRas',
-                render: function (data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        // Tambahkan elemen input tanggal
-                        return '<input type="date" class="intwDateByRas-input" data-id="' + row.id + '" value="' + data + '">';
-                    }
-                    // Untuk tipe data lain, kembalikan data aslinya
-                    return data;
-                }
-            },
-            {
-                "data": "intwUser"
-            },
-            {
-                "data": "nameOfUser"
-            },
-            {
-                "data": "intwDateUser"
-            },
-            {
-                "data": "levelRekom"
-            },
-            {
-                "data": "status"
-            },
-            {
-                "data": "notes"
-            },
-            {
-                "data": "lastModified",
-                "render": function (data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        // Format tanggal dalam format yang diinginkan
-                        return moment(data).format('YYYY-MM-DD ');
-                    }
-                    // Untuk tipe data lain, kembalikan data aslinya
-                    return data;
-                }
-            }
-        ],
+				},
+			{
+					data: 'intwDateByRas',
+					render: function (data, type, row) {
+						if (type === 'display' || type === 'filter') {
+							// Format tanggal dalam format yang diinginkan
+							return moment(data).format('YYYY-MM-DD ');
+						}
+						// Untuk tipe data lain, kembalikan data aslinya
+						return data;
+					}
+				},
+				{
+				"data": "intwUser"
+			},
+			{
+				"data": "nameOfUser"
+			},
+			{
+				"data": "intwDateUser"
+			},
+			{
+				"data": "levelRekom"
+			},
+			{
+				"data": "status"
+			},
+			{
+				"data": "notes"
+			},
+			{
+				"data": "lastModified",
+				"render": function (data, type, row) {
+					if (type === 'display' || type === 'filter') {
+						// Format tanggal dalam format yang diinginkan
+						return moment(data).format('YYYY-MM-DD ');
+					}
+					// Untuk tipe data lain, kembalikan data aslinya
+					return data;
+				}
+			}
+		],
 
 
         searching: true,
 
 
-    });
+	});
+	table.on('click', 'tbody tr', function () {
+		let data = table.row(this).data();
+		$('#offeringSourceList').modal('show');
+		document.getElementById('displayName').textContent = data.fullname;
+		//alert('You clicked on ' + data.fullname + "'s row");
+	});
 }
 
 function getUniversitasList() {
