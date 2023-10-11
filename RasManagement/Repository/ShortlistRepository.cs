@@ -29,5 +29,55 @@ namespace RasManagement.Repository
             }
             return $"{ras}{countNonRas.ToString("D3")}";
         }
+
+        public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
+        {
+            var nonRas = await _context.NonRasCandidates.FindAsync(nonRasCandidate.NonRasId);
+
+            if (nonRas != null)
+            {
+
+                _context.NonRasCandidates.Update(nonRasCandidate);
+
+                // Simpan perubahan ke database
+                try
+                {
+                    return await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Tangani kesalahan jika diperlukan
+                    Console.WriteLine($"Error updating data: {ex.Message}");
+                    return 0; // Atau return -1 atau kode yang sesuai untuk menandakan kesalahan
+                }
+            }
+            else
+            {
+                // Tidak ditemukan akun dengan AccountId yang sesuai
+                return 0; // Atau kode lain yang sesuai
+            }
+
+        }
+
+        /*     public async Task<int> AddNewCandidate(NonRasCandidate nonRasCandidate)
+             {
+                 var generateId = await GenerateId();
+
+                 NonRasCandidate nonRasCandidate = new nonRasCandidate
+                 {
+
+
+
+                     NonRasId = generateId,
+
+
+                 };
+                 _context.Entry(nonRasCandidate).State = EntityState.Added;
+
+                 // myContext.Entry(employee).State = EntityState.Added;
+                 var save = _context.SaveChanges();
+                 return save;
+             }*/
+
     }
 }

@@ -16,6 +16,89 @@ namespace RasManagement.Controllers
             this.shortlistRepository = shortlistRepository;
             _context = context;
         }
+        public async Task<string> GenerateNonId()
+        {
+            //var currentDate = DateTime.Now.ToString("ddMMyyy");
+            int countAccount = _context.Accounts.Count(account => account.RoleId == "5");
+            /* var lastEmployee = myContext.Employees
+                 .OrderByDescending(e => e.NIK)
+                 .FirstOrDefault();*/
+            var ras = "NonRAS";
+            if (countAccount == 0)
+            {
+                // Jika belum ada data sama sekali, maka ID dimulai dari 0
+                //return DateTime.Now.ToString("ddMMyyyy") + "000";
+                return ras + "00";
+            }
+            return $"{ras}{countAccount.ToString("D3")}";
+        }
+
+
+        [HttpPut("UpdateNonRAS")]
+        public IActionResult UpdateNonRAS(NonRasCandidate nonRasCandidate)
+        {
+            var get = accountRepository.UpdateRole(nonRasCandidate);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil diubah", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak bisa diubah", Data = get });
+            }
+        }
+        /*       [HttpPost]
+               public override ActionResult Insert(ShortlistRepository entity)
+               {
+                   // Panggil GenerateNonId untuk mendapatkan ID
+                   string newId = GenerateNonId();
+
+                   // Set ID yang dihasilkan ke properti ID dari entitas
+                   entity.NonRasId = newId;
+
+                   // Lakukan penambahan entitas ke database
+                   var insert = repository.Insert(entity);
+
+                   if (insert >= 1)
+                   {
+                       return StatusCode(200,
+                           new
+                           {
+                               status = HttpStatusCode.OK,
+                               message = "Data Berhasil Dimasukkan",
+                               Data = insert
+                           });
+                   }
+                   else
+                   {
+                       return StatusCode(500,
+                           new
+                           {
+                               status = HttpStatusCode.InternalServerError,
+                               message = "Gagal Memasukkan Data",
+                               Data = insert
+                           });
+                   }
+               }
+       */
+
+        /*    [HttpPost("AddNewCandidate")]
+            public async Task<ActionResult> AddNewCandidate(NonRasCandidate nonRasCandidate)
+            {
+
+               var data =  await shortlistRepository.AddNewCandidate(nonRasCandidate);
+                if (data >= 1)
+                {
+
+                    return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil di tambahkan", Data = data });
+
+                }
+                else
+                {
+                    return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Placment gagal ditambahkan" });
+                }
+
+            }*/
 
         /*[HttpPost("ShortListCandidate")]
         public IActionResult PostShortListCandidate([FromBody] NonRasCandidate candidate)
@@ -80,55 +163,55 @@ namespace RasManagement.Controllers
                 return BadRequest($"Gagal menyimpan data: {ex.Message}");
             }
         }*/
+        /*
+                [HttpPost("ShortListCandidate")]
 
-        [HttpPost("ShortListCandidate")]
-      
-        public IActionResult ShortListCandidate([FromBody]List<List<object>> candidates)
-        {
-            Console.WriteLine(candidates);
-            try
-            {
-                if (candidates == null || candidates.Count == 0)
+                public IActionResult ShortListCandidate([FromBody]List<List<object>> candidates)
                 {
-                    return BadRequest("Permintaan tidak berisi data JSON yang valid.");
-                }
-                
-                foreach (var candidate in candidates)
-                {
-					int row = Convert.ToInt32(candidate[0]);
-					int col = Convert.ToInt32(candidate[1]);
-					string newValue = candidate[2].ToString();
 
-					// Cari data di database berdasarkan row dan col
-					var existingRecord = _context.NonRasCandidates.FirstOrDefault(r => r.NonRasId == newValue);
-					if (existingRecord == null )
+                    try
                     {
-                        // Ini adalah operasi penambahan, karena NonRasId baru.
-                       
-                        existingRecord.LastModified = DateTime.Now;
-						// Perbarui nilai yang sesuai di dalam database
-						//existingRecord. = newValue;
-						_context.SaveChanges();
-					}
-                    else
-                    {
-					
-						existingRecord.LastModified = DateTime.Now;
-						// Perbarui nilai yang sesuai di dalam database
-						//existingRecord.Value = newValue;
-						_context.SaveChanges();
-					}
-                }
-                
-                _context.SaveChanges();
-                return Ok("Data berhasil disimpan");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Gagal menyimpan data: {ex.Message}");
-            }
-        }
+                        if (candidates == null || candidates.Count == 0)
+                        {
+                            return BadRequest("Permintaan tidak berisi data JSON yang valid.");
+                        }
 
+                        foreach (var candidate in candidates)
+                        {
+                            int row = Convert.ToInt32(candidate[0]);
+                            int col = Convert.ToInt32(candidate[1]);
+                            string newValue = candidate[2].ToString();
+
+                            // Cari data di database berdasarkan row dan col
+                            var existingRecord = _context.NonRasCandidates.FirstOrDefault(r => r.NonRasId == newValue);
+                            if (existingRecord == null )
+                            {
+                                // Ini adalah operasi penambahan, karena NonRasId baru.
+
+                                existingRecord.LastModified = DateTime.Now;
+                                // Perbarui nilai yang sesuai di dalam database
+                                //existingRecord. = newValue;
+                                _context.SaveChanges();
+                            }
+                            else
+                            {
+
+                                existingRecord.LastModified = DateTime.Now;
+                                // Perbarui nilai yang sesuai di dalam database
+                                //existingRecord.Value = newValue;
+                                _context.SaveChanges();
+                            }
+                        }
+
+                        _context.SaveChanges();
+                        return Ok("Data berhasil disimpan");
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest($"Gagal menyimpan data: {ex.Message}");
+                    }
+                }
+        */
         [HttpPost("NonRasDatatable")]
         public async Task<IActionResult> GetData([FromBody] DataTablesRequest request)
         {
