@@ -5,7 +5,7 @@ $(document).ready(function () {
 
 
 
-	
+
 
 });
 
@@ -142,60 +142,66 @@ function Src() {
                     return data;
                 }
 
-				},
-			{
-					data: 'intwDateByRas',
-					render: function (data, type, row) {
-						if (type === 'display' || type === 'filter') {
-							// Format tanggal dalam format yang diinginkan
-							return moment(data).format('YYYY-MM-DD ');
-						}
-						// Untuk tipe data lain, kembalikan data aslinya
-						return data;
-					}
-				},
-				{
-				"data": "intwUser"
-			},
-			{
-				"data": "nameOfUser"
-			},
-			{
-				"data": "intwDateUser"
-			},
-			{
-				"data": "levelRekom"
-			},
-			{
-				"data": "status"
-			},
-			{
-				"data": "notes"
-			},
-			{
-				"data": "lastModified",
-				"render": function (data, type, row) {
-					if (type === 'display' || type === 'filter') {
-						// Format tanggal dalam format yang diinginkan
-						return moment(data).format('YYYY-MM-DD ');
-					}
-					// Untuk tipe data lain, kembalikan data aslinya
-					return data;
-				}
-			}
-		],
+            },
+            {
+                data: 'intwDateByRas',
+                render: function (data, type, row) {
+                    if (data == null) {
+                        return " ";
+                    } else {
+                        if (type === 'display' || type === 'filter') {
+                            // Format tanggal dalam format yang diinginkan
+                            return moment(data).format('YYYY-MM-DD ');
+                        }
+                        // Untuk tipe data lain, kembalikan data aslinya
+
+                        return data;
+                    }
+                }x
+            },
+            {
+                "data": "intwUser"
+            },
+            {
+                "data": "nameOfUser"
+            },
+            {
+                "data": "intwDateUser",
+
+            },
+            {
+                "data": "levelRekom"
+            },
+            {
+                "data": "status"
+            },
+            {
+                "data": "notes"
+            },
+            {
+                "data": "lastModified",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Format tanggal dalam format yang diinginkan
+                        return moment(data).format('YYYY-MM-DD ');
+                    }
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                }
+            }
+        ],
 
 
         searching: true,
 
 
-	});
-	table.on('click', 'tbody tr', function () {
-		let data = table.row(this).data();
-		$('#offeringSourceList').modal('show');
-		document.getElementById('displayName').textContent = data.fullname;
-		//alert('You clicked on ' + data.fullname + "'s row");
-	});
+    });
+    table.on('click', 'tbody tr', function () {
+        let data = table.row(this).data();
+        $('#offeringSourceList').modal('show');
+        document.getElementById('displayName').textContent = data.fullname;
+        //alert('You clicked on ' + data.fullname + "'s row");
+    });
 }
 
 function getUniversitasList() {
@@ -218,7 +224,7 @@ function getUniversitasList() {
 
 
             universities.forEach(function (university) {
-                
+
                 const option = document.createElement('option');
                 option.value = university.namaUniversitas;
                 option.textContent = university.namaUniversitas;
@@ -363,7 +369,7 @@ function Save() {
     console.log(NonRasCandidate);
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Shortlist',
+        url: 'https://localhost:7177/api/Shortlist/Add',
         data: JSON.stringify(NonRasCandidate),
         contentType: "application/json; charset=utf-8",
         headers: {
