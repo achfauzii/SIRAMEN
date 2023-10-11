@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 using RasManagement.Interface;
+using RasManagement.Models;
 using RasManagement.ViewModel;
 
 namespace RasManagement.Repository
@@ -29,5 +31,15 @@ namespace RasManagement.Repository
             }
             return $"{ras}{countNonRas.ToString("D3")}";
         }
+
+        public int Add(NonRasCandidate nonRasCandidate)
+        {
+            nonRasCandidate.NonRasId = GenerateNonId();
+            nonRasCandidate.IntwDateByRas = null;
+            _context.Entry(nonRasCandidate).State = EntityState.Added;
+            var save = _context.SaveChanges();
+            return save;
+        }
+
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RasManagement.BaseController;
+using RasManagement.Interface;
 using RasManagement.Repository;
+using System.Net;
 
 namespace RasManagement.Controllers
 {
@@ -142,9 +144,6 @@ namespace RasManagement.Controllers
                 query = query.Where(e =>
                     e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin Anda cari
                     e.Position.ToLower().Contains(searchTerm) 
-
-
-
                 );
             }
 
@@ -167,7 +166,31 @@ namespace RasManagement.Controllers
             return Ok(response);
         }
 
-		
+        [HttpPost("Add")]
+        public virtual ActionResult Add(NonRasCandidate nonRasCandidate)
+        {
+            var insert = shortlistRepository.Add(nonRasCandidate);
+            if (insert >= 1)
+            {
+                return StatusCode(200,
+                    new
+                    {
+                        status = HttpStatusCode.OK,
+                        message = "Data Berhasil Dimasukkan",
+                        Data = insert
+                    });
+            }
+            else
+            {
+                return StatusCode(500,
+                    new
+                    {
+                        status = HttpStatusCode.InternalServerError,
+                        message = "Gagal Memasukkan Data",
+                        Data = insert
+                    });
+            }
+        }
 
-	}
+    }
 }
