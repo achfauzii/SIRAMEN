@@ -47,6 +47,7 @@ function Src() {
                 "render": function (data) {
                     // Pisahkan data skillset menjadi array berdasarkan koma
                     var skillsetArray = data.split(',');
+                    //console.log(data);
 
                     // Container untuk pill badges
                     var badgeContainer = $('<div class="badge-container"></div>');
@@ -291,7 +292,7 @@ function Save() {
     debugger;
     var isValid = true;
 
-    $('input[required],select[required]').each(function () {
+    /*$('input[required],select[required]').each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next('.error-message').show();
@@ -299,7 +300,7 @@ function Save() {
         } else {
             input.next('.error-message').hide();
         }
-    });
+    });*/
 
     // Validasi select options
     var selectedUniversity = $('#UniversityName').val();
@@ -351,10 +352,10 @@ function Save() {
     NonRasCandidate.expectedSalary = $('#expected').val();;
     NonRasCandidate.negotiable = negotiable;
     NonRasCandidate.intwByRas = "";
-    NonRasCandidate.intwDateByRas = "";
+    NonRasCandidate.intwDateByRas = null;
     NonRasCandidate.intwUser = "";
     NonRasCandidate.nameOfUser = "";
-    NonRasCandidate.intwDateUser = null;
+    NonRasCandidate.intwDateUser = "";
     NonRasCandidate.levelRekom = "";
     NonRasCandidate.status = "";
     NonRasCandidate.notes = "";
