@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 using RasManagement.Interface;
+using RasManagement.Models;
 using RasManagement.ViewModel;
 
 namespace RasManagement.Repository
@@ -30,6 +32,15 @@ namespace RasManagement.Repository
             return $"{ras}{countNonRas.ToString("D3")}";
         }
 
+        public int Add(NonRasCandidate nonRasCandidate)
+        {
+            nonRasCandidate.NonRasId = GenerateNonId();
+            nonRasCandidate.IntwDateByRas = null;
+            _context.Entry(nonRasCandidate).State = EntityState.Added;
+            var save = _context.SaveChanges();
+            return save;
+        }
+
         public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
         {
             var nonRas = await _context.NonRasCandidates.FindAsync(nonRasCandidate.NonRasId);
@@ -58,26 +69,6 @@ namespace RasManagement.Repository
             }
 
         }
-
-        /*     public async Task<int> AddNewCandidate(NonRasCandidate nonRasCandidate)
-             {
-                 var generateId = await GenerateId();
-
-                 NonRasCandidate nonRasCandidate = new nonRasCandidate
-                 {
-
-
-
-                     NonRasId = generateId,
-
-
-                 };
-                 _context.Entry(nonRasCandidate).State = EntityState.Added;
-
-                 // myContext.Entry(employee).State = EntityState.Added;
-                 var save = _context.SaveChanges();
-                 return save;
-             }*/
 
     }
 }
