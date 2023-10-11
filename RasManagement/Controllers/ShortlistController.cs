@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RasManagement.BaseController;
 using RasManagement.Repository;
+using System.Net;
 
 namespace RasManagement.Controllers
 {
@@ -37,7 +38,7 @@ namespace RasManagement.Controllers
         [HttpPut("UpdateNonRAS")]
         public IActionResult UpdateNonRAS(NonRasCandidate nonRasCandidate)
         {
-            var get = accountRepository.UpdateRole(nonRasCandidate);
+            var get = shortlistRepository.UpdateNonRAS(nonRasCandidate);
             if (get != null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil diubah", Data = get });
