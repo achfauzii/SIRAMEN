@@ -4,6 +4,10 @@ $(document).ready(function () {
 
 	getUniversitasList();
 
+
+
+	
+
 });
 
 function Src() {
@@ -143,8 +147,8 @@ function Src() {
 					data: 'intwDateByRas',
 					render: function (data, type, row) {
 						if (type === 'display' || type === 'filter') {
-							// Tambahkan elemen input tanggal
-							return '<input type="date" class="intwDateByRas-input" data-id="' + row.id + '" value="' + data + '">';
+							// Format tanggal dalam format yang diinginkan
+							return moment(data).format('YYYY-MM-DD ');
 						}
 						// Untuk tipe data lain, kembalikan data aslinya
 						return data;
@@ -186,6 +190,12 @@ function Src() {
 
 
 	});
+	table.on('click', 'tbody tr', function () {
+		let data = table.row(this).data();
+		$('#offeringSourceList').modal('show');
+		document.getElementById('displayName').textContent = data.fullname;
+		//alert('You clicked on ' + data.fullname + "'s row");
+	});
 }
 
 function getUniversitasList() {
@@ -208,7 +218,7 @@ function getUniversitasList() {
 
 
 			universities.forEach(function (university) {
-				console.log(university);
+				
 				const option = document.createElement('option');
 				option.value = university.namaUniversitas;
 				option.textContent = university.namaUniversitas;
