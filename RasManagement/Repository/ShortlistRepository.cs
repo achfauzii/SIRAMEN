@@ -41,7 +41,7 @@ namespace RasManagement.Repository
             return save;
         }
 
-        public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
+    /*    public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
         {
             var nonRas = await _context.NonRasCandidates.FindAsync(nonRasCandidate.NonRasId);
 
@@ -68,7 +68,7 @@ namespace RasManagement.Repository
                 return 0; // Atau kode lain yang sesuai
             }
 
-        }
+        }*/
 
     }
 }
