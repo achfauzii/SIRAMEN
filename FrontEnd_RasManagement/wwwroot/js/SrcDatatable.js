@@ -199,13 +199,49 @@ function Src() {
         let data = table.row(this).data();
         $('#offeringSourceList').modal('show');
         document.getElementById('displayName').textContent = data.fullname;
+        $('#nonrasid').val(data.nonRasId);
+        $('#Name2').val(data.fullname);
+        $('#position2').val(data.position);
+        $('#skillset2').val(data.skillset);
+        $('#degree2').val(data.education);
+        $('#UniversityName2').val(data.university);
+        $('#domicile2').val(data.domisili);
+        date = formatDate2(data.birthdate)
+      
+        $('#birthdate2').val(data.date);
+/*
+        NonRasCandidate.level = $('#level').val();
+        NonRasCandidate.experienceInYear = $('#experience').val();
+        NonRasCandidate.filteringBy = $('#filteringby').val();;
+        NonRasCandidate.workStatus = $('input[name="workstatus"]:checked').val();
+        NonRasCandidate.noticePeriode = $('#notice').val();
+        NonRasCandidate.financialIndustry = financial;
+        NonRasCandidate.rawCv = $('#rawcv').val();;
+        NonRasCandidate.cvBerca = $('#bercacv').val();
+        NonRasCandidate.englishLevel = $('#english').val();
+        NonRasCandidate.currentSalary = $('#current').val();
+        NonRasCandidate.expectedSalary = $('#expected').val();;*/
         //alert('You clicked on ' + data.fullname + "'s row");
     });
+    function formatDate2(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('/');
+    }
+
 }
 
 function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
-
+    const selectUniversity2 = document.getElementById('UniversityName2');
     $.ajax({
         url: "https://localhost:7177/api/Universitas",
         type: "GET",
@@ -227,9 +263,15 @@ function getUniversitasList() {
                 option.value = university.namaUniversitas;
                 option.textContent = university.namaUniversitas;
                 selectUniversity.appendChild(option);
+                selectUniversity2.appendChild(option);
             });
 
             $(selectUniversity).select2({
+                placeholder: 'Select university',
+                width: '100%',
+
+            });
+            $(selectUniversity2).select2({
                 placeholder: 'Select university',
                 width: '100%',
 
@@ -352,7 +394,7 @@ function Save() {
     NonRasCandidate.cvBerca = $('#bercacv').val();
     NonRasCandidate.englishLevel = $('#english').val();
     NonRasCandidate.currentSalary = $('#current').val();
-    NonRasCandidate.expectedSalary = $('#expected').val();;
+    NonRasCandidate.expectedSalary = $('#expected').val();
     NonRasCandidate.negotiable = negotiable;
     NonRasCandidate.intwByRas = "";
     NonRasCandidate.intwDateByRas = null;
@@ -409,4 +451,9 @@ function Save() {
 
         return [year, month, day].join('-');
     }
+
+   
+
+
+
 }
