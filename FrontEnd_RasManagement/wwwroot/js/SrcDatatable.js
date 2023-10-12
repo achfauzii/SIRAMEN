@@ -297,7 +297,7 @@ function ClearScreenSave() {
 function ClearScreenUpt() {
     $('#nonrasid').val('');
     $('#Name').val(''); //value insert dari id pada input
-    $('#position').val('');;
+    $('#position').val('');
     $('#skillset').val('');
     $('#degree').val('');
     $('#UniversityName').val('');
