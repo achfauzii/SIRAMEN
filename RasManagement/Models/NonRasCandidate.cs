@@ -23,7 +23,7 @@ public partial class NonRasCandidate
 
     public string? Level { get; set; }
 
-    public int? ExperienceInYear { get; set; }
+    public string? ExperienceInYear { get; set; }
 
     public string? FilteringBy { get; set; }
 

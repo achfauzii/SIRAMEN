@@ -169,7 +169,7 @@
 
 @*Modal*@
 <div class="modal fade bd-example-modal-lg" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-target="#ModalNonFormal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header pt-3  pb-3">
                 <h5 class="modal-title" id="exampleModalLabel">Shortlist Candidate</h5>
@@ -186,8 +186,8 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Full Name </div>
                             <div class="col-9">
-                                <input type="text" class="form-control " id="Name" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control " id="Name" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -195,8 +195,8 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Position </div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="position" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="position" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -204,17 +204,17 @@
                         <div class="row">
                             <div class="col" style="color: black">Skillset </div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="skillset" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="skillset" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="form-group">
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Degree </div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="degree" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="degree" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -222,10 +222,12 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">University </div>
                             <div class="col-9">
-                                <select id="UniversityName" class="selectUniversity form-control" required>
-                                    <option></option>
-                                </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <p>
+                                    <select id="UniversityName" class="selectUniversity form-control" required>
+                                        <option></option>
+                                    </select>
+                                </p>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -233,8 +235,8 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Domicile</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="domicile" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="domicile" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -242,8 +244,8 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Birthdate </div>
                             <div class="col-9">
-                                <input type="date" class="form-control" id="birthdate" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="date" class="form-control" id="birthdate" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -251,13 +253,13 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Level </div>
                             <div class="col-9">
-                                <select id="level" class="selectLevel form-control" name="state" required>
+                                <select id="level" class="selectLevel form-control" name="state" required_>
                                     <option value="Fresh Graduate">Fresh Graduate</option>
                                     <option value="Junior">Junior</option>
                                     <option value="Middle">Middle</option>
                                     <option value="Senior">Senior</option>
                                 </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -265,16 +267,16 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Experience</div>
                             <div class="col-9">
-                                <input type="number" class="form-control" id="experience" required>
-                                @*<select id="experience" class="selectExperience form-control" name="state" required>
+                                @*<input type="number" class="form-control" id="experience" required>*@
+                                <select id="experience" class="selectExperience form-control" name="state" required_>
                                     <option value="< 1 Years">< 1 Year</option>
                                     <option value="1 Year">1 Year</option>
                                     <option value="2 Years">2 Years</option>
                                     <option value="4 Years">4 Years</option>
                                     <option value="5 Years">5 Years</option>
                                     <option value="> 5 Years">> 5 Years</option>
-                                </select>*@
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </select>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -282,11 +284,11 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Filtering By </div>
                             <div class="col-9">
-                                <select id="filteringby" class="selectFiltering form-control" name="state" required>
+                                <select id="filteringby" class="selectFiltering form-control" name="state" required_>
                                     <option value="Recruitment">Recruitment</option>
                                     <option value="RAS">RAS</option>
                                 </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -411,7 +413,7 @@
                 <div class="fieldLabel quiet text-dark truncate pr-4 pl-4">Name</div>
                 <div class="fieldLabel quiet text-dark truncate pr-4 pl-4 text-lg" id="displayName"></div>
                 <div class="pr-4 pl-4 pb-1">  <hr></div>
-                <form>                  
+                <form>
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Interview By Ras</label>
                         <div class="col-sm-5">
@@ -496,211 +498,211 @@
                     <div class="collapse mt-2" id="collapseExample">
 
                         <div class="form-group">
-                        <input type="text" class="form-control" id="nonrasid2" hidden>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Full Name </div>
-                            <div class="col-9">
-                                <input type="text" class="form-control " id="Name2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
+                            <input type="text" class="form-control" id="nonrasid2" hidden>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Position </div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="position2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group pl-5 pr-5">
-                        <div class="row">
-                            <div class="col" style="color: black">Skillset </div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="skillset2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Domicile</div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="domicile2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Degree </div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="degree2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">University </div>
-                            <div class="col-9">
-                                <select id="UniversityName2" class="selectUniversity form-control" required>
-                                    <option></option>
-                                </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Birthdate </div>
-                            <div class="col-9">
-                                <input type="date" class="form-control" id="birthdate2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Level </div>
-                            <div class="col-9">
-                                <select id="level2" class="selectLevel form-control" name="state" required>
-                                    <option value="Fresh Graduate">Fresh Graduate</option>
-                                    <option value="Junior">Junior</option>
-                                    <option value="Middle">Middle</option>
-                                    <option value="Senior">Senior</option>
-                                </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Experience</div>
-                            <div class="col-9">
-                                <select id="experience2" class="selectExperience form-control" name="state" required>
-                                    <option value="< 1 Years">< 1 Year</option>
-                                    <option value="1 Year">1 Year</option>
-                                    <option value="2 Years">2 Years</option>
-                                    <option value="4 Years">4 Years</option>
-                                    <option value="5 Years">5 Years</option>
-                                    <option value="> 5 Years">> 5 Years</option>
-                                </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Filtering By </div>
-                            <div class="col-9">
-                                <select id="filteringby2" class="selectFiltering form-control" name="state" required>
-                                    <option value="Recruitment">Recruitment</option>
-                                    <option value="RAS">RAS</option>
-                                </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Work Status</div>
-                            <div class="col-9">
-                                <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="Active2" name="workstatus2" value="Active" required>
-                                    <label class="form-check-label" for="radio1">Active</label>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Full Name </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control " id="Name2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
-                                <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="Inactive2" name="workstatus2" value="Inactive" required>
-                                    <label class="form-check-label" for="radio2">Inactive</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Position </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="position2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5 ">
-                            <div class="col" style="color: black">Notice Period</div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="notice2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Financial Industry</div>
-                            <div class="col-9">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="financial2" name="financial" value="True" required>
+                        <div class="form-group pl-5 pr-5">
+                            <div class="row">
+                                <div class="col" style="color: black">Skillset </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="skillset2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Raw CV</div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="rawcv2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Berca CV</div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="bercacv2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">English</div>
-                            <div class="col-9">
-                                <select id="english2" class="selectFiltering form-control" name="state" required>
-                                    <option value="Advanced">Advanced</option>
-                                    <option value="Intermediate">Intermediate</option>
-                                    <option value="Low">RAS</option>
-                                </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Current Salary</div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="current2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Expected Salary</div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="expected2" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Negotiable</div>
-                            <div class="col-9">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="negotiable2" name="negotiable" value="True" required>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Domicile</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="domicile2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Degree </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="degree2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">University </div>
+                                <div class="col-9">
+                                    <select id="UniversityName2" class="selectUniversity form-control" required>
+                                        <option></option>
+                                    </select>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Birthdate </div>
+                                <div class="col-9">
+                                    <input type="date" class="form-control" id="birthdate2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Level </div>
+                                <div class="col-9">
+                                    <select id="level2" class="selectLevel form-control" name="state" required>
+                                        <option value="Fresh Graduate">Fresh Graduate</option>
+                                        <option value="Junior">Junior</option>
+                                        <option value="Middle">Middle</option>
+                                        <option value="Senior">Senior</option>
+                                    </select>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Experience</div>
+                                <div class="col-9">
+                                    <select id="experience2" class="selectExperience form-control" name="state" required>
+                                        <option value="< 1 Years">< 1 Year</option>
+                                        <option value="1 Year">1 Year</option>
+                                        <option value="2 Years">2 Years</option>
+                                        <option value="4 Years">4 Years</option>
+                                        <option value="5 Years">5 Years</option>
+                                        <option value="> 5 Years">> 5 Years</option>
+                                    </select>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Filtering By </div>
+                                <div class="col-9">
+                                    <select id="filteringby2" class="selectFiltering form-control" name="state" required>
+                                        <option value="Recruitment">Recruitment</option>
+                                        <option value="RAS">RAS</option>
+                                    </select>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Work Status</div>
+                                <div class="col-9">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="Active2" name="workstatus2" value="Active" required>
+                                        <label class="form-check-label" for="radio1">Active</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="Inactive2" name="workstatus2" value="Inactive" required>
+                                        <label class="form-check-label" for="radio2">Inactive</label>
+                                    </div>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5 ">
+                                <div class="col" style="color: black">Notice Period</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="notice2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Financial Industry</div>
+                                <div class="col-9">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="financial2" name="financial" value="True" required>
+                                    </div>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Raw CV</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="rawcv2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Berca CV</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="bercacv2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">English</div>
+                                <div class="col-9">
+                                    <select id="english2" class="selectFiltering form-control" name="state" required>
+                                        <option value="Advanced">Advanced</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Low">RAS</option>
+                                    </select>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Current Salary</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="current2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Expected Salary</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="expected2" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">Negotiable</div>
+                                <div class="col-9">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="negotiable2" name="negotiable" value="True" required>
+                                    </div>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -723,6 +725,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<!-- Select2 -->
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+*@
 <script>
     $(document).ready(function () {
         $('#collapseExample').on('show.bs.collapse', function () {

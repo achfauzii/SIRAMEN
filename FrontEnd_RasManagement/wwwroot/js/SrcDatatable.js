@@ -157,7 +157,7 @@ function Src() {
 
                         return data;
                     }
-                }x
+                }
             },
             {
                 "data": "intwUser"
@@ -167,7 +167,6 @@ function Src() {
             },
             {
                 "data": "intwDateUser",
-
             },
             {
                 "data": "levelRekom"
@@ -218,13 +217,12 @@ function getUniversitasList() {
             var universities = result.data;
 
 
-
             //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
             //selectUniversity.append('<option value="" selected disabled>Select University</option>');
 
 
             universities.forEach(function (university) {
-
+                //console.log(university);
                 const option = document.createElement('option');
                 option.value = university.namaUniversitas;
                 option.textContent = university.namaUniversitas;
@@ -242,7 +240,6 @@ function getUniversitasList() {
         }
     });
 }
-
 function getBadgeColor(skill) {
     // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
     if (skill.toLowerCase().includes(".net web api")) {
@@ -298,7 +295,7 @@ function Save() {
     debugger;
     var isValid = true;
 
-    /*$('input[required],select[required]').each(function () {
+    $('input[required],select[required]').each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next('.error-message').show();
@@ -306,7 +303,7 @@ function Save() {
         } else {
             input.next('.error-message').hide();
         }
-    });*/
+    });
 
     // Validasi select options
     var selectedUniversity = $('#UniversityName').val();
