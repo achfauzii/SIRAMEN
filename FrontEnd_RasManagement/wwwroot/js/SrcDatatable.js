@@ -82,7 +82,15 @@ function Src() {
                 "data": "domisili"
             },
             {
-                "data": "birthdate"
+                "data": "birthdate",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Format tanggal dalam format yang diinginkan
+                        return moment(data).format('YYYY-MM-DD ');
+                    }
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                }
             },
             {
                 "data": "level"
@@ -94,7 +102,14 @@ function Src() {
                 "data": "filteringBy"
             },
             {
-                "data": "workStatus"
+                data: 'workStatus',
+                render: function (data) {
+                    if (data === "Active") {
+                        return data = '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>'
+                    } else {
+                        return data = '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false"></span>'
+                    }
+                }
             },
             {
                 "data": "noticePeriode"
@@ -239,6 +254,86 @@ function Src() {
 
 }
 
+function ClearScreenSave() {
+    $('#nonrasid').val('');
+    $('#Name').val(''); //value insert dari id pada input
+    $('#position').val('');;
+    $('#skillset').val('');
+    $('#degree').val('');
+    $('#UniversityName').val('');
+    $('#domicile').val('');
+    $('#birthdate').val('');
+    $('#level').val('');
+    $('#experience').val('');
+    $('#filteringby').val('');
+    $('input[name="workstatus"]').prop('checked', false);
+    $('#notice').val('');
+    $('#negotiable').prop('checked', false);
+    $('#financial').prop('checked', false);
+    $('#rawcv').val('');
+    $('#bercacv').val('');
+    $('#english').val('');
+    $('#current').val('');
+    $('#expected').val('');
+    $('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
+    $('#UniversityName').val('').trigger('change');
+    $('input[required_]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message_').hide();
+
+    });
+    $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+    $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
+    $(selectUniversities).select2({
+        placeholder: 'Select your University',
+        width: '100%',
+        allowClear: true,
+        tags: true
+
+    });
+}
+
+function ClearScreenUpt() {
+    $('#nonrasid').val('');
+    $('#Name').val(''); //value insert dari id pada input
+    $('#position').val('');;
+    $('#skillset').val('');
+    $('#degree').val('');
+    $('#UniversityName').val('');
+    $('#domicile').val('');
+    $('#birthdate').val('');
+    $('#level').val('');
+    $('#experience').val('');
+    $('#filteringby').val('');
+    $('input[name="workstatus"]').prop('checked', false);
+    $('#notice').val('');
+    $('#negotiable').prop('checked', false);
+    $('#financial').prop('checked', false);
+    $('#rawcv').val('');
+    $('#bercacv').val('');
+    $('#english').val('');
+    $('#current').val('');
+    $('#expected').val('');
+    $('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
+    $('#UniversityName').val('').trigger('change');
+    $('input[required_]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message_').hide();
+
+    });
+    $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+    $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
+    $(selectUniversities).select2({
+        placeholder: 'Select your University',
+        width: '100%',
+        allowClear: true,
+        tags: true
+
+    });
+}
+
 function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
     const selectUniversity2 = document.getElementById('UniversityName2');
@@ -282,6 +377,71 @@ function getUniversitasList() {
         }
     });
 }
+
+function formInputLocation() {
+
+    const selectProvinces = document.getElementById('selectProvinces');
+    const selectRegencies = document.getElementById('selectRegencies');
+    //Ini untuk tanpa display none jadi langsung di tampilkan ()
+    $(selectRegencies).select2({
+        placeholder: 'Select City or County',
+        width: '100%'
+    });
+
+    fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+        .then(response => response.json())
+        .then(provinces => {
+            provinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province.id;
+                option.textContent = province.name;
+                selectProvinces.appendChild(option);
+            });
+
+            // Inisialisasi Select2 untuk select provinsi
+            $(selectProvinces).select2({
+                placeholder: 'Select Province',
+                width: '100%'
+            });
+            //selectRegencies.style.display = 'none';
+
+            // Event listener ketika provinsi dipilih
+            $(selectProvinces).on('change', function () {
+                const selectedProvinceId = $(this).val();
+
+                // Hapus pilihan sebelumnya di select regencies
+                $(selectRegencies).empty();
+
+                if (selectedProvinceId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${selectedProvinceId}.json`)
+                        .then(response => response.json())
+                        .then(regencies => {
+                            regencies.forEach(regency => {
+                                const option = document.createElement('option');
+                                option.value = regency.name;
+                                option.textContent = regency.name;
+                                selectRegencies.appendChild(option);
+                            });
+
+                            // Inisialisasi Select2 untuk select regencies
+                            $(selectRegencies).select2({
+                                placeholder: 'Select City or County',
+                                width: '100%'
+                            });
+                            //  selectRegencies.style.display = 'block';
+                        })
+                        .catch(error => {
+                            console.error('Error fetching regencies data:', error);
+                        });
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching provinces data:', error);
+        });
+
+}
+
 function getBadgeColor(skill) {
     // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
     if (skill.toLowerCase().includes(".net web api")) {
@@ -337,25 +497,35 @@ function Save() {
     debugger;
     var isValid = true;
 
-    $('input[required],select[required]').each(function () {
+    $('input[required_],select[required]').each(function () {
         var input = $(this);
         if (!input.val()) {
-            input.next('.error-message').show();
+            input.next('.error-message_').show();
             isValid = false;
         } else {
-            input.next('.error-message').hide();
+            input.next('.error-message_').hide();
         }
     });
 
     // Validasi select options
+    var selectedRegencies = $('#selectRegencies').val();
     var selectedUniversity = $('#UniversityName').val();
 
 
-    if (!selectedUniversity) {
-        $('.selectUniversity').closest('.form-group').find('.error-message-university').show();
+    if (!selectedRegencies) {
+        $('.selectRegencies').closest('.form-group').find('.error-message-r').show();
         isValid = false;
     } else {
-        $('.selectUniversity').closest('.form-group').find('.error-message-university').hide();
+        $('.selectRegencies').closest('.form-group').find('.error-message-r').hide();
+
+    }
+
+
+    if (!selectedUniversity) {
+        $('.selectUniversity').closest('.form-group').find('.error-message-u').show();
+        isValid = false;
+    } else {
+        $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
 
     }
 
