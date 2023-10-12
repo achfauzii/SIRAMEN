@@ -221,21 +221,63 @@ function Src() {
         $('#degree2').val(data.education);
         $('#UniversityName2').val(data.university);
         $('#domicile2').val(data.domisili);
-        date = formatDate2(data.birthdate)
+
+        if (data.birthdate) {
+            $('#birthdate2').val(data.birthdate.substring(0, 10));
+        } else {
+            $('#birthdate2').val('');
+        }
+
+        $('#level2').val(data.level);
+        $('#experience2').val(data.experienceInYear);
+        $('#filteringby2').val(data.filteringBy);
+        if (data.workStatus == "Active") {
+            $("#Active2").prop("checked", true);
+        } else if (data.workStatus == "Inactive") {
+            $("#Inactive2").prop("checked", true);
+        }
+        
+        $('#notice2').val(data.noticePeriode);
       
-        $('#birthdate2').val(data.date);
-/*
-        NonRasCandidate.level = $('#level').val();
-        NonRasCandidate.experienceInYear = $('#experience').val();
-        NonRasCandidate.filteringBy = $('#filteringby').val();;
-        NonRasCandidate.workStatus = $('input[name="workstatus"]:checked').val();
-        NonRasCandidate.noticePeriode = $('#notice').val();
-        NonRasCandidate.financialIndustry = financial;
-        NonRasCandidate.rawCv = $('#rawcv').val();;
-        NonRasCandidate.cvBerca = $('#bercacv').val();
-        NonRasCandidate.englishLevel = $('#english').val();
-        NonRasCandidate.currentSalary = $('#current').val();
-        NonRasCandidate.expectedSalary = $('#expected').val();;*/
+        var checkbox = document.getElementById("financial2");
+        if (data.financialIndustry=="true") {
+            checkbox.checked = true;
+        } else {
+            checkbox.checked = false;
+        }
+        $('#rawcv2').val(data.rawCv);
+        $('#bercacv2').val(data.cvBerca);
+        $('#english2').val(data.englishLevel);
+        $('#current2').val(data.currentSalary);
+        $('#expected2').val(data.expectedSalary);
+        var checkbox2 = document.getElementById("negotiable2");
+        if (data.negotiable == "true") {
+            checkbox2.checked = true;
+        } else {
+            checkbox2.checked = false;
+        }
+
+        $('#intwByRas').val(data.intwByRas);
+
+        if (data.intwDateByRas) {
+            $('#dateIntwRAS').val(data.intwDateByRas.substring(0, 10));
+        } else {
+            $('#dateIntwRAS').val('');
+        }
+
+        $('#intwUser').val(data.intwUser);
+       
+        if (data.intwDateUser) {
+            $('#dateIntwUser').val(data.intwDateUser.substring(0, 10));
+        } else {
+            $('#dateIntwUser').val('');
+        }
+        $('#nameUser').val(data.nameOfUser);
+        $('#levelRekom').val(data.levelRekom);
+        $('#status').val(data.status);
+        $('#notes').val(data.notes);
+       
+      
         //alert('You clicked on ' + data.fullname + "'s row");
     });
     function formatDate2(date) {
