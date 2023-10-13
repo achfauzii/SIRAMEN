@@ -4,7 +4,7 @@ $(document).ready(function () {
     getUniversitasList();
     getUniversitasListt();
 });
-
+un
 function Src() {
     table = $('#resource').DataTable({
         fixedColumns: {
@@ -15,8 +15,9 @@ function Src() {
         processing: true,
         serverSide: true,
         fixedColumns: true,
-
-
+        "lengthMenu": [5,10,50, 75, 100],
+       pageLength: 5,
+  
 
         ajax: {
             url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint
@@ -42,6 +43,10 @@ function Src() {
                 "data": "skillset",
                 "render": function (data) {
                     // Pisahkan data skillset menjadi array berdasarkan koma
+                    if (data == null) {
+                        var a = "b"
+                        return a;
+                    }
                     var skillsetArray = data.split(',');
                     //console.log(data);
 
