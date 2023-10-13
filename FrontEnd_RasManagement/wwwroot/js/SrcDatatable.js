@@ -2,9 +2,12 @@
 $(document).ready(function () {
     Src();
     getUniversitasList();
+
     getUniversitasListt();
+
 });
-un
+
+
 function Src() {
     table = $('#resource').DataTable({
         fixedColumns: {
@@ -729,8 +732,12 @@ function Save() {
         return [year, month, day].join('-');
     }
 
-   
-
-
-
 }
+
+function newOfferingFields() {
+        document.getElementById('displayIntwUser2').style.display = "block";
+        document.getElementById('displayDateIntwUser2').style.display = "block";
+        document.getElementById('displayNameUser2').style.display = "block";
+       
+    }
+
