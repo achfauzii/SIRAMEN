@@ -314,7 +314,10 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Expected_Salary");
-            entity.Property(e => e.ExperienceInYear).HasColumnName("Experience_In_Year");
+            entity.Property(e => e.ExperienceInYear)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("Experience_In_Year");
             entity.Property(e => e.FilteringBy)
                 .HasMaxLength(15)
                 .IsUnicode(false)
