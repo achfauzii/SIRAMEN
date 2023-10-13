@@ -45,25 +45,22 @@ namespace RasManagement.Controllers
             {
                 var searchTerm = request.Search.Value.ToLower();
                 query = query.Where(e =>
-                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin Anda cari
+                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
                     e.Position.ToLower().Contains(searchTerm) 
                 );
             }
 
 
-
-            // Filter, sort, dan paging data berdasarkan permintaan dari DataTables
-            // Anda perlu mengimplementasikan logika ini sesuai dengan permintaan DataTables
-            // Contoh: products = products.Where(...).OrderBy(...).Skip(...).Take(...);
             var shortList = await query.ToListAsync();
-            // Menambahkan nomor urut pada setiap baris
+            var displayResult = shortList.Skip(request.Start)
+                .Take(request.Length).ToList();
 
             var response = new DataTablesResponse
             {
                 Draw = request.Draw,
                 RecordsTotal = shortList.Count(),
-                RecordsFiltered = shortList.Count(), // Anda perlu mengganti ini dengan jumlah data yang sesuai setelah diterapkan filter
-                Data = shortList// Data hasil filter dan paging
+                RecordsFiltered = displayResult.Count(), // Count total
+                Data = displayResult// Data hasil 
             };
 
             return Ok(response);
