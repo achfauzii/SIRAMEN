@@ -235,9 +235,9 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Domicile</div>
                             <div class="col-9">
-                                @*<input type="text" class="form-control" id="domicile" required_>*@
-                                @*<span class="error-message_" style="color: red; display: none;">This field is required!</span>*@
-                                <p>
+                                <input type="text" class="form-control" id="domicile" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                                @*<p>
                                     <select class="selectProvinces form-control" style="width:100%" id="selectProvinces" placeholder="Select Provinces" name="state">
                                         <option></option>
                                     </select>
@@ -247,7 +247,7 @@
                                         <option></option>
                                     </select>
                                     <span class="error-message-r" style="color: red; display: none;">This field is required!</span>
-                                </p>
+                                </p>*@
                             </div>
                         </div>
                     </div>
@@ -570,7 +570,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">University </div>
                             <div class="col-9">
-                                <select id="UniversityName2" class="selectUniversity form-control" required>
+                                <select id="UniversityName2" class="selectUniversity2 form-control" required>
                                     <option></option>
                                 </select>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
@@ -731,7 +731,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ClearScreenSaveUpt();">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ClearScreenUpt();">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>

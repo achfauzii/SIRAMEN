@@ -2,11 +2,7 @@
 $(document).ready(function () {
     Src();
     getUniversitasList();
-
-
-
-
-
+    getUniversitasListt();
 });
 
 function Src() {
@@ -105,9 +101,9 @@ function Src() {
                 data: 'workStatus',
                 render: function (data) {
                     if (data === "Active") {
-                        return data = '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>'
+                        return data = '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>'
                     } else {
-                        return data = '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false"></span>'
+                        return data = '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">'+data+'</span>'
                     }
                 }
             },
@@ -133,7 +129,25 @@ function Src() {
                 "data": "expectedSalary"
             },
             {
-                "data": "negotiable"
+                //"data":"negotiable"
+                data: negotiable,
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkboxHtml = '<input type="checkbox" class="intwByRas-checkbox" ';
+
+                        if (data === "true") {
+                            checkboxHtml += ' checked'; // Jika data adalah true, centang checkbox
+                        }
+
+                        checkboxHtml += '>'; // Tutup elemen checkbox
+
+                        return checkboxHtml;
+                    }
+
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                }
             },
             {
                 data: 'intwByRas',
@@ -337,7 +351,7 @@ function ClearScreenSave() {
 }
 
 function ClearScreenUpt() {
-    $('#nonrasid').val('');
+    /*$('#nonrasid').val('');
     $('#Name').val(''); //value insert dari id pada input
     $('#position').val('');
     $('#skillset').val('');
@@ -356,8 +370,8 @@ function ClearScreenUpt() {
     $('#bercacv').val('');
     $('#english').val('');
     $('#current').val('');
-    $('#expected').val('');
-    $('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
+    $('#expected').val('');*/
+    /*$('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
     $('#UniversityName').val('').trigger('change');
     $('input[required_]').each(function () {
         var input = $(this);
@@ -366,18 +380,20 @@ function ClearScreenUpt() {
 
     });
     $('.selectRegencies').closest('.form-group').find('.error-message').hide();
-    $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
-    $(selectUniversities).select2({
+    $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();*/
+    /*$(selectUniversities).select2({
         placeholder: 'Select your University',
         width: '100%',
         allowClear: true,
         tags: true
 
-    });
+    });*/
+    $('.btn[data-target="#collapseExample"]').text('Show 19 hidden fields');
+    $('#collapseExample').collapse('hide');
 }
 
-function getUniversitasList() {
-    const selectUniversity = document.getElementById('UniversityName');
+function getUniversitasListt() {
+    //const selectUniversity = document.getElementById('UniversityName');
     const selectUniversity2 = document.getElementById('UniversityName2');
     $.ajax({
         url: "https://localhost:7177/api/Universitas",
@@ -399,8 +415,52 @@ function getUniversitasList() {
                 const option = document.createElement('option');
                 option.value = university.namaUniversitas;
                 option.textContent = university.namaUniversitas;
-                selectUniversity.appendChild(option);
+                //selectUniversity.appendChild(option);
                 selectUniversity2.appendChild(option);
+            });
+
+            /*$(selectUniversity).select2({
+                placeholder: 'Select university',
+                width: '100%',
+
+            });*/
+             $(selectUniversity2).select2({
+                 placeholder: 'Select university',
+                 width: '100%',
+ 
+             });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function getUniversitasList() {
+    const selectUniversity = document.getElementById('UniversityName');
+    //const selectUniversity2 = document.getElementById('UniversityName2');
+    $.ajax({
+        url: "https://localhost:7177/api/Universitas",
+        type: "GET",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var universities = result.data;
+
+
+            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
+            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
+
+
+            universities.forEach(function (university) {
+                //console.log(university);
+                const option = document.createElement('option');
+                option.value = university.namaUniversitas;
+                option.textContent = university.namaUniversitas;
+                selectUniversity.appendChild(option);
+                //selectUniversity2.appendChild(option);
             });
 
             $(selectUniversity).select2({
@@ -408,11 +468,11 @@ function getUniversitasList() {
                 width: '100%',
 
             });
-            $(selectUniversity2).select2({
+           /* $(selectUniversity2).select2({
                 placeholder: 'Select university',
                 width: '100%',
 
-            });
+            });*/
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -537,7 +597,7 @@ function getBadgeColor(skill) {
 
 function Save() {
     debugger;
-    var isValid = true;
+    /*var isValid = true;
 
     $('input[required_],select[required]').each(function () {
         var input = $(this);
@@ -547,20 +607,20 @@ function Save() {
         } else {
             input.next('.error-message_').hide();
         }
-    });
+    });*/
 
     // Validasi select options
-    var selectedRegencies = $('#selectRegencies').val();
-    var selectedUniversity = $('#UniversityName').val();
+    //var selectedRegencies = $('#selectRegencies').val();
+    /*var selectedUniversity = $('#UniversityName').val();
 
 
-    if (!selectedRegencies) {
+    *//*if (!selectedRegencies) {
         $('.selectRegencies').closest('.form-group').find('.error-message-r').show();
         isValid = false;
     } else {
         $('.selectRegencies').closest('.form-group').find('.error-message-r').hide();
 
-    }
+    }*//*
 
 
     if (!selectedUniversity) {
@@ -574,7 +634,7 @@ function Save() {
 
     if (!isValid) {
         return;
-    }
+    }*/
 
     var negotiable = $('#negotiable').is(':checked');
     var financial = $('#financial').is(':checked');
