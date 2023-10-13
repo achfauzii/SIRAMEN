@@ -20,7 +20,8 @@ function Src() {
         serverSide: true,
         fixedColumns: true,
         "lengthMenu": [5,10,50, 75, 100],
-        pageLength: 5,
+       pageLength: 5,
+  
 
         ajax: {
             url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint

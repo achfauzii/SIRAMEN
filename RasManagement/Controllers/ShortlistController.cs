@@ -59,7 +59,7 @@ namespace RasManagement.Controllers
             {
                 Draw = request.Draw,
                 RecordsTotal = shortList.Count(),
-                RecordsFiltered = displayResult.Count(), // Count total
+                RecordsFiltered = shortList.Count(), // Count total
                 Data = displayResult// Data hasil 
             };
 
