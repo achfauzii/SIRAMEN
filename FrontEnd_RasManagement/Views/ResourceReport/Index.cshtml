@@ -445,20 +445,24 @@
                             </select>
                       
                              <!--New Offering Process-->
-                           
-                       @*      <div class ="mt-1">
+                             <div class ="mt-2" style="display:none" id="displayIntwUser2">
                                 <select class=" form-control form-control-sm" id="intwUser2">
                                 <option selected>Choose...</option>
                                 <option value="Done">Done</option>
                                 <option value="Hold">Hold</option>
-                                <option value="Scheduling">Scheduling</opti on>
+                                <option value="Scheduling">Scheduling</option>
                                 <option value="Reject">Reject</option>
                                 </select>
-                            </div>*@
+                            </div>
              
                         </div>
                         <div class="col-sm-5">
                             <input type="date" class="form-control form-control-sm" id="dateIntwUser">
+
+                             <!--New Offering Process-->
+                            <div class="mt-2"  style="display:none" id="displayDateIntwUser2">
+                                 <input type="date" class="form-control form-control-sm" id="dateIntwUser2">
+                            </div>
                         </div>
                     </div>
 
@@ -467,9 +471,14 @@
                         <label for="" class="col-sm-2 col-form-label">Name Of User</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control form-control-sm" id="nameUser">
+
+                              <!--New Offering Process-->
+                            <div class="mt-2" style="display:none" id="displayNameUser2">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Name Of User"  id="nameUser2">
+                            </div>
                         </div>
                         <div class="col-sm-5">
-                        <button type="button" class="btn btn-sm btn-outline-info" onclick="newOffering">+ Offering Process</button>
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="newOfferingFields();">+ Offering Process</button>
                         </div>
                     </div>
 
