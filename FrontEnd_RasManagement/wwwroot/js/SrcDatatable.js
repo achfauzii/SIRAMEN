@@ -775,7 +775,7 @@ function Update() {
     NonRasCandidate.currentSalary = $('#current2').val();
     NonRasCandidate.expectedSalary = $('#expected2').val();
     NonRasCandidate.negotiable = negotiable;
-    NonRasCandidate.intwByRas = $('intwByRAS').val();
+    NonRasCandidate.intwByRas = $('#intwByRAS').val();
     console.log(NonRasCandidate.intwByRas);
     NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();;
     NonRasCandidate.intwUser = $('#intwUser').val();;
