@@ -19,7 +19,7 @@ function Src() {
         serverSide: true,
         fixedColumns: true,
         "lengthMenu": [5,10,50, 75, 100],
-       pageLength: 5,
+       pageLength: 10,
   
 
         ajax: {
@@ -86,14 +86,19 @@ function Src() {
                 "data": "domisili"
             },
             {
-                "data": "birthdate",
-                "render": function (data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        // Format tanggal dalam format yang diinginkan
-                        return moment(data).format('YYYY-MM-DD ');
-                    }
-                    // Untuk tipe data lain, kembalikan data aslinya
-                    return data;
+                data: 'birthdate',
+                render: function (data, type, row) {
+                    var datenow = Date.now();
+                    var birth = new Date(data);
+
+                    var milidetik = datenow - birth.getTime();
+                    var daysremain = Math.ceil(milidetik / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
+                    var years = Math.floor(daysremain / 365); // Menghitung bulan
+                    var age= years+" tahun"
+                    
+                    
+                    console.log(age);
+                    return age;
                 }
             },
             {
@@ -119,7 +124,24 @@ function Src() {
                 "data": "noticePeriode"
             },
             {
-                "data": "financialIndustry"
+                data: 'financialIndustry',
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkTrue = '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
+                        var checkFalse = '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
+
+
+                        if (data === "true") {
+
+                            return '<div class="text-center">' + checkTrue + '</div>';
+                        }
+                        return '<div class="text-center">' + checkFalse + '</div>';
+                    }
+
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                }
             },
             {
                 "data": "rawCv"
@@ -158,26 +180,7 @@ function Src() {
                 }
             },
             {
-                data: 'intwByRas',
-                render: function (data, type, row) {
-                    if (type === 'display' || type === 'filter') {
-                        // Set nilai awal (value) elemen <select> berdasarkan data dari API
-                        var selectHtml = '<select class="intwByRas-select" data-id="' + row.id + '">';
-
-                        if (data === null || data == "") {
-                            selectHtml += '<option value="" selected></option>'; // Opsi default jika data null
-                        }
-
-                        selectHtml += '<option value="Done" ' + (data === 'Done' ? 'selected' : '') + '>Done</option>' +
-                            '<option value="string" ' + (data === 'string' ? 'selected' : '') + '>string</option>' +
-                            '<option value="Whitdraw" ' + (data === 'Whitdraw' ? 'selected' : '') + '>Whitdraw</option>' +
-                            '</select>';
-
-                        return selectHtml;
-                    }
-                    // Untuk tipe data lain, kembalikan data aslinya
-                    return data;
-                }
+                "data": "intwByRas"
 
             },
             {
@@ -188,7 +191,7 @@ function Src() {
                     } else {
                         if (type === 'display' || type === 'filter') {
                             // Format tanggal dalam format yang diinginkan
-                            return moment(data).format('YYYY-MM-DD ');
+                            return moment(data).format('DD MMMM YYYY');
                         }
                         // Untuk tipe data lain, kembalikan data aslinya
 
