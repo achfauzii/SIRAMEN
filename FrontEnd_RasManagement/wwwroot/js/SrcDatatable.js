@@ -18,9 +18,9 @@ function Src() {
         processing: true,
         serverSide: true,
         fixedColumns: true,
-        "lengthMenu": [5,10,50, 75, 100],
-       pageLength: 10,
-  
+        "lengthMenu": [5, 10, 50, 75, 100],
+        pageLength: 10,
+
 
         ajax: {
             url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint
@@ -35,7 +35,6 @@ function Src() {
         //dom: 'Bfrtip',
 
         columns: [
-
             {
                 "data": "fullname"
             },
@@ -94,9 +93,9 @@ function Src() {
                     var milidetik = datenow - birth.getTime();
                     var daysremain = Math.ceil(milidetik / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
                     var years = Math.floor(daysremain / 365); // Menghitung bulan
-                    var age= years+" tahun"
-                    
-                    
+                    var age = years + " tahun"
+
+
                     console.log(age);
                     return age;
                 }
@@ -116,7 +115,7 @@ function Src() {
                     if (data === "Active") {
                         return data = '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>'
                     } else {
-                        return data = '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">'+data+'</span>'
+                        return data = '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">' + data + '</span>'
                     }
                 }
             },
@@ -170,7 +169,7 @@ function Src() {
 
                         if (data === "true") {
 
-                            return '<div class="text-center">'+checkTrue+'</div>';
+                            return '<div class="text-center">' + checkTrue + '</div>';
                         }
                         return '<div class="text-center">' + checkFalse + '</div>';
                     }
@@ -261,11 +260,11 @@ function Src() {
         } else if (data.workStatus == "Inactive") {
             $("#Inactive2").prop("checked", true);
         }
-        
+
         $('#notice2').val(data.noticePeriode);
-      
+
         var checkbox = document.getElementById("financial2");
-        if (data.financialIndustry=="true") {
+        if (data.financialIndustry == "true") {
             checkbox.checked = true;
         } else {
             checkbox.checked = false;
@@ -291,7 +290,7 @@ function Src() {
         }
 
         $('#intwUser').val(data.intwUser);
-       
+
         if (data.intwDateUser) {
             $('#dateIntwUser').val(data.intwDateUser.substring(0, 10));
         } else {
@@ -301,8 +300,8 @@ function Src() {
         $('#levelRekom').val(data.levelRekom);
         $('#status').val(data.status);
         $('#notes').val(data.notes);
-       
-      
+
+
         //alert('You clicked on ' + data.fullname + "'s row");
     });
     function formatDate2(date) {
@@ -344,13 +343,13 @@ function ClearScreenSave() {
     $('#expected').val('');
     $('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
     $('#UniversityName').val('').trigger('change');
-    $('input[required_]').each(function () {
+    $('input[required_],select[required_]').each(function () {
         var input = $(this);
 
         input.next('.error-message_').hide();
 
     });
-    $('.selectRegencies').closest('.form-group').find('.error-message').hide();
+    /*$('.selectRegencies').closest('.form-group').find('.error-message').hide();
     $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
     $(selectUniversities).select2({
         placeholder: 'Select your University',
@@ -358,47 +357,40 @@ function ClearScreenSave() {
         allowClear: true,
         tags: true
 
-    });
+    });*/
 }
 
 function ClearScreenUpt() {
-    /*$('#nonrasid').val('');
-    $('#Name').val(''); //value insert dari id pada input
-    $('#position').val('');
-    $('#skillset').val('');
-    $('#degree').val('');
-    $('#UniversityName').val('');
-    $('#domicile').val('');
-    $('#birthdate').val('');
-    $('#level').val('');
-    $('#experience').val('');
-    $('#filteringby').val('');
-    $('input[name="workstatus"]').prop('checked', false);
-    $('#notice').val('');
-    $('#negotiable').prop('checked', false);
-    $('#financial').prop('checked', false);
-    $('#rawcv').val('');
-    $('#bercacv').val('');
-    $('#english').val('');
-    $('#current').val('');
-    $('#expected').val('');*/
-    /*$('#selectProvinces').val(null).trigger('change');// Kosongkan pilihan select
-    $('#UniversityName').val('').trigger('change');
-    $('input[required_]').each(function () {
-        var input = $(this);
+    $('#nonrasid2').val('');
+    $('#Name2').val(''); //value insert dari id pada input
+    $('#position2').val('');
+    $('#skillset2').val('');
+    $('#degree2').val('');
+    $('#UniversityName2').val('');
+    $('#domicile2').val('');
+    $('#birthdate2').val('');
+    $('#level2').val('');
+    $('#experience2').val('');
+    $('#filteringby2').val('');
+    $('input[name="workstatus2"]').prop('checked', false);
+    $('#notice2').val('');
+    $('#negotiable2').prop('checked', false);
+    $('#financial2').prop('checked', false);
+    $('#rawcv2').val('');;
+    $('#bercacv2').val('');
+    $('#english2').val('');
+    $('#current2').val('');
+    $('#expected2').val('');
+    $('#intwByRAS').val('');
+    ('#dateIntwRAS').val('');
+    $('#intwUser').val('');
+    $('#nameUser').val('');
+    $('#dateIntwUser').val('');
+    $('#levelRekom').val('');
+    $('#statusOffering').val('');
+    $('#notes').val('');
 
-        input.next('.error-message_').hide();
 
-    });
-    $('.selectRegencies').closest('.form-group').find('.error-message').hide();
-    $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();*/
-    /*$(selectUniversities).select2({
-        placeholder: 'Select your University',
-        width: '100%',
-        allowClear: true,
-        tags: true
-
-    });*/
     $('.btn[data-target="#collapseExample"]').text('Show 19 hidden fields');
     $('#collapseExample').collapse('hide');
 }
@@ -435,11 +427,11 @@ function getUniversitasListt() {
                 width: '100%',
 
             });*/
-             $(selectUniversity2).select2({
-                 placeholder: 'Select university',
-                 width: '100%',
- 
-             });
+            $(selectUniversity2).select2({
+                placeholder: 'Select university',
+                width: '100%',
+
+            });
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -479,11 +471,11 @@ function getUniversitasList() {
                 width: '100%',
 
             });
-           /* $(selectUniversity2).select2({
-                placeholder: 'Select university',
-                width: '100%',
-
-            });*/
+            /* $(selectUniversity2).select2({
+                 placeholder: 'Select university',
+                 width: '100%',
+ 
+             });*/
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -610,9 +602,9 @@ function getBadgeColor(skill) {
 
 function Save() {
     debugger;
-    /*var isValid = true;
+    var isValid = true;
 
-    $('input[required_],select[required]').each(function () {
+    $('input[required_],select[required_]').each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next('.error-message_').show();
@@ -620,20 +612,20 @@ function Save() {
         } else {
             input.next('.error-message_').hide();
         }
-    });*/
+    });
 
     // Validasi select options
-    //var selectedRegencies = $('#selectRegencies').val();
-    /*var selectedUniversity = $('#UniversityName').val();
+    /*var selectedRegencies = $('#selectRegencies').val();
+    var selectedUniversity = $('#UniversityName').val();*/
 
 
-    *//*if (!selectedRegencies) {
+    /*if (!selectedRegencies) {
         $('.selectRegencies').closest('.form-group').find('.error-message-r').show();
         isValid = false;
     } else {
         $('.selectRegencies').closest('.form-group').find('.error-message-r').hide();
 
-    }*//*
+    }
 
 
     if (!selectedUniversity) {
@@ -642,12 +634,12 @@ function Save() {
     } else {
         $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
 
-    }
+    }*/
 
 
     if (!isValid) {
         return;
-    }*/
+    }
 
     var negotiable = $('#negotiable').is(':checked');
     var financial = $('#financial').is(':checked');
@@ -721,6 +713,7 @@ function Save() {
             })
             $('#Modal').modal('hide');
             table.ajax.reload();
+            ClearScreenSave();
         }
     })
     function formatDate(date) {
@@ -837,9 +830,16 @@ function Update() {
 }
 
 function newOfferingFields() {
-        document.getElementById('displayIntwUser2').style.display = "block";
-        document.getElementById('displayDateIntwUser2').style.display = "block";
-        document.getElementById('displayNameUser2').style.display = "block";
-       
-    }
+    document.getElementById('displayIntwUser2').style.display = "block";
+    document.getElementById('displayDateIntwUser2').style.display = "block";
+    document.getElementById('displayNameUser2').style.display = "block";
 
+}
+
+function formatCurrency(input) {
+    // Menghapus semua karakter selain angka
+    var value = input.value.replace(/\D/g, '');
+    // Menambahkan titik setelah tiga angka dari belakang
+    var formattedValue = 'Rp ' + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    input.value = formattedValue;
+}
