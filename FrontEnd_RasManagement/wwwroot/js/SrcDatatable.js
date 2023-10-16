@@ -236,7 +236,7 @@ function Src() {
         let data = table.row(this).data();
         $('#offeringSourceList').modal('show');
         document.getElementById('displayName').textContent = data.fullname;
-        $('#nonrasid').val(data.nonRasId);
+        $('#nonrasid2').val(data.nonRasId);
         $('#Name2').val(data.fullname);
         $('#position2').val(data.position);
         $('#skillset2').val(data.skillset);
@@ -279,7 +279,7 @@ function Src() {
             checkbox2.checked = false;
         }
 
-        $('#intwByRas').val(data.intwByRas);
+        $('#intwByRAS').val(data.intwByRas);
 
         if (data.intwDateByRas) {
             $('#dateIntwRAS').val(data.intwDateByRas.substring(0, 10));
@@ -552,6 +552,8 @@ function formInputLocation() {
 
 }
 
+
+
 function getBadgeColor(skill) {
     // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
     if (skill.toLowerCase().includes(".net web api")) {
@@ -718,6 +720,102 @@ function Save() {
             table.ajax.reload();
         }
     })
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
+}
+
+function Update() {
+
+
+    var negotiable = $('#negotiable2').is(':checked');
+    var financial = $('#financial2').is(':checked');
+    if (!negotiable) {
+        negotiable = false;
+    }
+    if (!financial) {
+        financial = false;
+    }
+    negotiable = negotiable.toString();
+    financial = financial.toString();
+
+    var NonRasCandidate = new Object(); //object baru
+    NonRasCandidate.nonRasId = $('#nonrasid2').val();
+
+    NonRasCandidate.fullname = $('#Name2').val(); //value insert dari id pada input
+    NonRasCandidate.position = $('#position2').val();;
+    NonRasCandidate.skillset = $('#skillset2').val();
+    NonRasCandidate.education = $('#degree2').val();
+    NonRasCandidate.university = $('#UniversityName2').val();
+    NonRasCandidate.domisili = $('#domicile2').val();;
+    NonRasCandidate.birthdate = $('#birthdate2').val();
+    NonRasCandidate.level = $('#level2').val();
+    NonRasCandidate.experienceInYear = $('#experience2').val();
+    NonRasCandidate.filteringBy = $('#filteringby2').val();;
+    NonRasCandidate.workStatus = $('input[name="workstatus2"]:checked').val();
+    NonRasCandidate.noticePeriode = $('#notice2').val();
+    NonRasCandidate.financialIndustry = financial;
+    NonRasCandidate.rawCv = $('#rawcv2').val();;
+    NonRasCandidate.cvBerca = $('#bercacv2').val();
+    NonRasCandidate.englishLevel = $('#english2').val();
+    NonRasCandidate.currentSalary = $('#current2').val();
+    NonRasCandidate.expectedSalary = $('#expected2').val();
+    NonRasCandidate.negotiable = negotiable;
+    NonRasCandidate.intwByRas = $('intwByRAS').val();
+    NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();;
+    NonRasCandidate.intwUser = $('#intwUser').val();;
+    NonRasCandidate.nameOfUser = $('#nameUser').val();
+    NonRasCandidate.intwDateUser = $('#dateIntwUser').val();
+    NonRasCandidate.levelRekom = $('#levelRekom').val();
+    NonRasCandidate.status = $('#statusOffering').val();
+    NonRasCandidate.notes = $('#notes').val();
+    NonRasCandidate.lastModified = formatDate(Date());
+    console.log(NonRasCandidate);
+    $.ajax({
+        type: 'PUT',
+        url: 'https://localhost:7177/api/Shortlist',
+        data: JSON.stringify(NonRasCandidate),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+    }).then((result) => {
+        //debugger;
+        if (result.status == 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Data has been added!',
+                showConfirmButtom: false,
+                timer: 1500
+            })
+            $('#Modal').modal('hide');
+            table.ajax.reload();
+        }
+        else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Gagal dimasukkan!',
+                showConfirmButtom: false,
+                timer: 1500
+            })
+            $('#Modal').modal('hide');
+            table.ajax.reload();
+        }
+    })
+
+
     function formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),

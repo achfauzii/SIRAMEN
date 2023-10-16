@@ -428,6 +428,7 @@
                 
                 <div class="pr-4 pl-4 pb-1">  <hr></div>
                 <form>
+                     <input type="text" class="form-control" id="nonrasid2" hidden>
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Interview By Ras</label>
                         <div class="col-sm-5">
@@ -488,7 +489,7 @@
                         <label for="" class="col-sm-2 col-form-label">Name Of User</label>
 
                         <div class="col-sm-5">
-                               <input type="text" class="form-control form-control-sm" id="nameUSer" required>
+                               <input type="text" class="form-control form-control-sm" id="nameUser" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
                               <!--New Offering Process-->
@@ -764,7 +765,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ClearScreenUpt();">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="Update();">Save changes</button>
             </div>
         </div>
     </div>
