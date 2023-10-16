@@ -775,7 +775,8 @@ function Update() {
     NonRasCandidate.currentSalary = $('#current2').val();
     NonRasCandidate.expectedSalary = $('#expected2').val();
     NonRasCandidate.negotiable = negotiable;
-    NonRasCandidate.intwByRas = $('intwByRAS').val();
+    NonRasCandidate.intwByRas = $('#intwByRAS').val();
+    console.log(NonRasCandidate.intwByRas);
     NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();;
     NonRasCandidate.intwUser = $('#intwUser').val();;
     NonRasCandidate.nameOfUser = $('#nameUser').val();
@@ -799,7 +800,7 @@ function Update() {
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',
-                text: 'Data has been added!',
+                text: 'Data has been Update!',
                 showConfirmButtom: false,
                 timer: 1500
             })
