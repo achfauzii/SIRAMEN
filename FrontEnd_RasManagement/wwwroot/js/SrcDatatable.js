@@ -191,7 +191,7 @@ function Src() {
                     } else {
                         if (type === 'display' || type === 'filter') {
                             // Format tanggal dalam format yang diinginkan
-                            return moment(data).format('YYYY-MM-DD ');
+                            return moment(data).format('DD MMMM YYYY');
                         }
                         // Untuk tipe data lain, kembalikan data aslinya
 
