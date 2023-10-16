@@ -33,11 +33,11 @@
 
 
     #resource td {
-        font-size: 12px; /* Ganti dengan ukuran font yang Anda inginkan */
+        font-size: 13px; /* Ganti dengan ukuran font yang Anda inginkan */
     }
 
     th {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     /* Badge Styles with Pastel Colors and Black Text */
@@ -118,6 +118,39 @@
         font-size: 14.5px; /* Ganti ukuran font sesuai preferensi Anda */
     }
 
+
+    .dataTables_info {
+     font-size: 14.5px /* Sesuaikan dengan jumlah margin yang diinginkan */
+    }
+
+    .dataTables_filter {
+    margin-right: 16px; /* Sesuaikan dengan jumlah margin yang diinginkan */
+}
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+        font-size: 14.5px;
+    }
+
+     .paginate_button {
+        font-size: 14px; /* Sesuaikan ukuran font sesuai kebutuhan */
+        padding: 4px 8px;
+    }
+
+@@media (min-width: 768px) {
+    .dataTables_filter {
+        margin-right: 10px; /* Sesuaikan dengan jumlah margin yang diinginkan */
+    }
+}
+
+
+
+
+
+
+
+
+
 </style>
 
 @*<div class="btn-group mb-2" role="group" aria-label="Basic example">
@@ -125,47 +158,73 @@
     <button type="button" class="btn text-light" style="background-color:#D80032">Middle</button>
     <button type="button" class="btn text-light" style="background-color:#D80032">Right</button>
 </div>*@
-<button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal">
-    New
+<div>
+    <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal">
+    Add New
 </button>
-<table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Fullname</th>
-            <th>Position</th>
-            <th>Skillset</th>
-            <th>Education</th>
-            <th>University</th>
-            <th>Domisili</th>
-            <th>Age</th>
-            <th>Level</th>
-            <th>Experience</th>
-            <th>Filtering by</th>
-            <th>Work Status</th>
-            <th>Notice Periode</th>
-            <th>Financial Industry</th>
-            <th>Raw CV</th>
-            <th>CV Berca</th>
-            <th>English Level</th>
-            <th>Current Salary</th>
-            <th>Expected Salary</th>
-            <th>Negotiable</th>
-            <th>Interview by RAS</th>
-            <th>Interview Date by RAS</th>
-            <th>Interview User</th>
-            <th>Name of User</th>
-            <th>Interview Date by User</th>
-            <th>Level Rekomendation</th>
-            <th>Status</th>
-            <th>Notes</th>
-            <th>Last Modified</th>
-        </tr>
-    </thead>
-    <tbody>
+</div>
+<div class="card mb-3 rounded-bottom border-0">
 
-        <!-- Tambahkan baris-baris data lainnya di sini -->
-    </tbody>
-</table>
+        <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link text-sm " href="#">Fullstack</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-sm active" href="#">Frontend</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-sm" href="#">Backend</a>
+                </li>
+
+            </ul>
+        </nav>
+
+  <div class="card-body pr-0 pb-1 pl-3">
+        <table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Fullname</th>
+                    <th>Position</th>
+                    <th>Skillset</th>
+                    <th>Education</th>
+                    <th>University</th>
+                    <th>Domisili</th>
+                    <th>Age</th>
+                    <th>Level</th>
+                    <th>Experience</th>
+                    <th>Filtering by</th>
+                    <th>Work Status</th>
+                    <th>Notice Periode</th>
+                    <th>Financial Industry</th>
+                    <th>Raw CV</th>
+                    <th>CV Berca</th>
+                    <th>English Level</th>
+                    <th>Current Salary</th>
+                    <th>Expected Salary</th>
+                    <th>Negotiable</th>
+                    <th>Interview by RAS</th>
+                    <th>Interview Date by RAS</th>
+                    <th>Interview User</th>
+                    <th>Name of User</th>
+                    <th>Interview Date by User</th>
+                    <th>Level Rekomendation</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Last Modified</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- Tambahkan baris-baris data lainnya di sini -->
+            </tbody>
+        </table>
+  </div>
+</div>
+
+
+
+
 
 @*Modal*@
 <div class="modal fade bd-example-modal-lg" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-target="#ModalNonFormal" aria-hidden="true">
