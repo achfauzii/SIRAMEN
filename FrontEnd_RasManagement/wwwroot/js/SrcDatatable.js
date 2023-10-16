@@ -138,19 +138,19 @@ function Src() {
             },
             {
                 //"data":"negotiable"
-                data: negotiable,
+                data: 'negotiable',
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkboxHtml = '<input type="checkbox" class="intwByRas-checkbox" ';
+                        var checkTrue = '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
+                        var checkFalse = '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
+
 
                         if (data === "true") {
-                            checkboxHtml += ' checked'; // Jika data adalah true, centang checkbox
+
+                            return '<div class="text-center">'+checkTrue+'</div>';
                         }
-
-                        checkboxHtml += '>'; // Tutup elemen checkbox
-
-                        return checkboxHtml;
+                        return '<div class="text-center">' + checkFalse + '</div>';
                     }
 
                     // Untuk tipe data lain, kembalikan data aslinya
