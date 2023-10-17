@@ -7,6 +7,18 @@ $(document).ready(function () {
 
 });
 
+function htmlspecialchars(str) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+
+    var outp = str.replace(/[&<>"']/g, function (m) { return map[m]; });
+    return outp;
+}
 
 function Src() {
     table = $('#resource').DataTable({
@@ -36,7 +48,26 @@ function Src() {
 
         columns: [
             {
-                "data": "fullname"
+                data: 'fullname',
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var icon = '<div class="row"><div class="col-4 text-left mr-4">' + data + '</div><div class="col text-right"><i class="far fa-edit" style="color: #0011ff; visibility: hidden;"></i></div></div>';                          
+                      
+                        $(document).on("mouseover", ".row", function () {
+                            $(this).find("i").css("visibility", "visible");
+                        });
+
+                        $(document).on("mouseout", ".row", function () {
+                            $(this).find("i").css("visibility", "hidden");
+                        });
+                        var expand = icon;
+                        return expand;
+                    }
+
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                }
             },
             {
                 "data": "position"
@@ -77,6 +108,9 @@ function Src() {
             },
             {
                 "data": "education"
+                /*render: function (data, type, row) {
+                    return htmlspecialchars(data);
+                }*/
             },
             {
                 "data": "university"
@@ -132,9 +166,8 @@ function Src() {
 
 
                         if (data === "true") {
-
                             return '<div class="text-center">' + checkTrue + '</div>';
-                        }
+                        } 
                         return '<div class="text-center">' + checkFalse + '</div>';
                     }
 
@@ -143,7 +176,18 @@ function Src() {
                 }
             },
             {
-                "data": "rawCv"
+                data: 'rawCv',
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkTrue = '<a href ="'+data+'">'+data+'</a>';
+                        
+                        return checkTrue;
+                    }
+
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                }
             },
             {
                 "data": "cvBerca"
@@ -170,6 +214,8 @@ function Src() {
                         if (data === "true") {
 
                             return '<div class="text-center">' + checkTrue + '</div>';
+                        } else if (row.expectedSalary === "") {
+                            return " ";
                         }
                         return '<div class="text-center">' + checkFalse + '</div>';
                     }
@@ -234,8 +280,10 @@ function Src() {
 
 
     });
-    table.on('click', 'tbody tr', function () {
-        let data = table.row(this).data();
+    table.on('click', 'tbody tr i', function () {
+        // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
+        let row = $(this).closest('tr');
+        let data = table.row(row).data();
         $('#offeringSourceList').modal('show');
         document.getElementById('displayName').textContent = data.fullname;
         $('#nonrasid2').val(data.nonRasId);
@@ -304,6 +352,7 @@ function Src() {
 
         //alert('You clicked on ' + data.fullname + "'s row");
     });
+
     function formatDate2(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
