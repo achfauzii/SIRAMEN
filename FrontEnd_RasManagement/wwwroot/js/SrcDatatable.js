@@ -21,6 +21,7 @@ function htmlspecialchars(str) {
 }
 
 function Src() {
+    $('#all').addClass('active'); 
     table = $('#resource').DataTable({
         fixedColumns: {
             left: 1,
@@ -41,6 +42,17 @@ function Src() {
             data: function (d) {
                 // Customize request parameters here if needed
                 // Example: d.customParam = 'value';
+                // Mengambil kategori yang dipilih dari filter-navigation
+                var selectedCategory = $('#filterNavigation .nav-link.active').data('category');
+                console.log(selectedCategory);
+                // Menambahkan parameter 'category' ke data yang dikirim ke server
+                if (selectedCategory != null) {
+                    d.search.value = selectedCategory;
+                    console.log(d);
+
+                }
+           
+             
                 return JSON.stringify(d);
             }
         },
@@ -366,6 +378,15 @@ function Src() {
 
         //alert('You clicked on ' + data.fullname + "'s row");
     });
+
+    $('#filterNavigation .nav-link').click(function () {
+        $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
+        $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
+
+        // Mereload data DataTables dengan kategori yang baru
+        table.ajax.reload();
+    });
+
 
     function formatDate2(date) {
         var d = new Date(date),
@@ -849,7 +870,7 @@ function Update() {
     NonRasCandidate.expectedSalary = $('#expected2').val();
     NonRasCandidate.negotiable = negotiable;
     NonRasCandidate.intwByRas = $('#intwByRAS').val();
-    console.log(NonRasCandidate.intwByRas);
+   
     NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();;
     NonRasCandidate.intwUser = $('#intwUser').val();;
     NonRasCandidate.nameOfUser = $('#nameUser').val();
@@ -858,7 +879,7 @@ function Update() {
     NonRasCandidate.status = $('#statusOffering').val();
     NonRasCandidate.notes = $('#notes').val();
     NonRasCandidate.lastModified = formatDate(Date());
-    console.log(NonRasCandidate);
+
     $.ajax({
         type: 'PUT',
         url: 'https://localhost:7177/api/Shortlist',
@@ -923,3 +944,4 @@ function formatCurrency(input) {
     var formattedValue = 'Rp ' + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     input.value = formattedValue;
 }
+

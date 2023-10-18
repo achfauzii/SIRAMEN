@@ -179,16 +179,19 @@
 </div>
 <div class="card mb-3 rounded-bottom border-0">
 
-    <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link text-sm " href="#">Fullstack</a>
+        <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
+            <ul class="nav nav-tabs">
+            <li class="nav-item" >
+                <a class="nav-link text-sm " id = "all" href="#">All</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-sm active" href="#">Frontend</a>
+                <a class="nav-link text-sm " href="#" data-category="Fullstack">Fullstack</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-sm" href="#">Backend</a>
+                <a class="nav-link text-sm" href="#" data-category="Frontend">Frontend</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-sm" href="#" data-category="Backend">Backend</a>
             </li>
 
         </ul>
@@ -471,7 +474,7 @@
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="negotiable" name="negotiable" value="True">
                                 </div>
-                                S
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>

@@ -39,6 +39,9 @@ namespace RasManagement.Controllers
         {
             //var employees = await employeeRepository.GetEmployeeData();
             var query = _context.NonRasCandidates.AsQueryable();
+            // Filter berdasarkan kategori (Category)
+    
+
 
             // Implementasi pencarian
             if (!string.IsNullOrEmpty(request.Search?.Value))
@@ -50,8 +53,10 @@ namespace RasManagement.Controllers
                 );
             }
 
+           
 
             var shortList = await query.ToListAsync();
+        
             var displayResult = shortList.Skip(request.Start)
                 .Take(request.Length).ToList();
 
