@@ -172,15 +172,18 @@ table.dataTable tbody td:nth-child(3) {
 
         <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
             <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link text-sm " href="#">Fullstack</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-sm active" href="#">Frontend</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-sm" href="#">Backend</a>
-                </li>
+            <li class="nav-item" >
+                <a class="nav-link text-sm " id = "all" href="#">All</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-sm " href="#" data-category="Fullstack">Fullstack</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-sm" href="#" data-category="Frontend">Frontend</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-sm" href="#" data-category="Backend">Backend</a>
+            </li>
 
             </ul>
         </nav>
@@ -191,7 +194,7 @@ table.dataTable tbody td:nth-child(3) {
                 <tr>
                     <th>Fullname</th>
                     <th>Position</th>
-                    <th class="skillset">Skillset</th>
+                    <th>Skillset</th>
                     <th>Education</th>
                     <th>University</th>
                     <th>Domisili</th>
