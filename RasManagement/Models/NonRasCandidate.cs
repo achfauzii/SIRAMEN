@@ -19,7 +19,7 @@ public partial class NonRasCandidate
 
     public string? Domisili { get; set; }
 
-    public DateTime? Birthdate { get; set; }
+    public string? Birthdate { get; set; }
 
     public string? Level { get; set; }
 

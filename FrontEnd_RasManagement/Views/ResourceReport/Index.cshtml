@@ -120,41 +120,50 @@
 
 
     .dataTables_info {
-     font-size: 14.5px /* Sesuaikan dengan jumlah margin yang diinginkan */
+        font-size: 14.5px /* Sesuaikan dengan jumlah margin yang diinginkan */
     }
 
     .dataTables_filter {
-    margin-right: 18px; /* Sesuaikan dengan jumlah margin yang diinginkan */
-}
+        margin-right: 18px; /* Sesuaikan dengan jumlah margin yang diinginkan */
+    }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
     .dataTables_wrapper .dataTables_paginate .paginate_button.next {
         font-size: 14.5px;
     }
 
-     .paginate_button {
+    .paginate_button {
         font-size: 14px; /* Sesuaikan ukuran font sesuai kebutuhan */
         padding: 4px 8px;
     }
 
-@@media (min-width: 768px) {
-    .dataTables_filter {
-        margin-right: 10px; /* Sesuaikan dengan jumlah margin yang diinginkan */
+    @@media (min-width: 768px) {
+        .dataTables_filter {
+            margin-right: 10px; /* Sesuaikan dengan jumlah margin yang diinginkan */
+        }
     }
-}
 
-/* CSS untuk mengatur lebar kolom Skillset */
-table.dataTable tbody td:nth-child(3) {
-    max-width: 100%; /* Lebar maksimum yang diinginkan */
-   
-    overflow: hidden;
+    /* CSS untuk mengatur lebar kolom Skillset */
+    table.dataTable tbody td:nth-child(3) {
+        max-width: 400px; /* Lebar maksimum yang diinginkan */
+        word-wrap: break-word;
+        /*white-space: nowrap;*/
+        overflow: hidden;
+    }
 
-}
+    table.dataTable tbody td:nth-child(14) {
+        max-width: 150px; /* Lebar maksimum yang diinginkan */
+        word-wrap: break-word;
+        /*white-space: nowrap;*/
+        overflow: hidden;
+    }
 
-
-
-
-
+    table.dataTable tbody td:nth-child(15) {
+        max-width: 150px; /* Lebar maksimum yang diinginkan */
+        word-wrap: break-word;
+        /*white-space: nowrap;*/
+        overflow: hidden;
+    }
 
 </style>
 
@@ -165,33 +174,33 @@ table.dataTable tbody td:nth-child(3) {
 </div>*@
 <div>
     <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal">
-    Add New
-</button>
+        Add New
+    </button>
 </div>
 <div class="card mb-3 rounded-bottom border-0">
 
-        <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link text-sm " href="#">Fullstack</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-sm active" href="#">Frontend</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-sm" href="#">Backend</a>
-                </li>
+    <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link text-sm " href="#">Fullstack</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-sm active" href="#">Frontend</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-sm" href="#">Backend</a>
+            </li>
 
-            </ul>
-        </nav>
+        </ul>
+    </nav>
 
-  <div class="card-body pr-0 pb-1 pl-3">
+    <div class="card-body pr-0 pb-1 pl-3">
         <table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
             <thead>
                 <tr>
                     <th>Fullname</th>
                     <th>Position</th>
-                    <th class="skillset">Skillset</th>
+                    <th>Skillset</th>
                     <th>Education</th>
                     <th>University</th>
                     <th>Domisili</th>
@@ -224,7 +233,7 @@ table.dataTable tbody td:nth-child(3) {
                 <!-- Tambahkan baris-baris data lainnya di sini -->
             </tbody>
         </table>
-  </div>
+    </div>
 </div>
 
 
@@ -286,12 +295,12 @@ table.dataTable tbody td:nth-child(3) {
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">University </div>
                             <div class="col-9">
-                                <p>
-                                    <select id="UniversityName" class="selectUniversity form-control" required_>
-                                        <option></option>
-                                    </select>
-                                </p>
+
+                                <select id="UniversityName" class="selectUniversity form-control">
+                                    <option></option>
+                                </select>
                                 <span class="error-message-u" style="color: red; display: none;">This field is required!</span>
+
                             </div>
                         </div>
                     </div>
@@ -299,8 +308,8 @@ table.dataTable tbody td:nth-child(3) {
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Domicile</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="domicile" required_>
-                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="domicile">
+                                @*<span class="error-message_" style="color: red; display: none;">This field is required!</span>*@
                                 @*<p>
                                 <select class="selectProvinces form-control" style="width:100%" id="selectProvinces" placeholder="Select Provinces" name="state">
                                 <option></option>
@@ -329,6 +338,7 @@ table.dataTable tbody td:nth-child(3) {
                             <div class="col" style="color: black">Level </div>
                             <div class="col-9">
                                 <select id="level" class="selectLevel form-control" name="state" required_>
+                                    <option selected disabled>Choose...</option>
                                     <option value="Fresh Graduate">Fresh Graduate</option>
                                     <option value="Junior">Junior</option>
                                     <option value="Middle">Middle</option>
@@ -344,6 +354,7 @@ table.dataTable tbody td:nth-child(3) {
                             <div class="col-9">
                                 @*<input type="number" class="form-control" id="experience" required>*@
                                 <select id="experience" class="selectExperience form-control" name="state" required_>
+                                    <option selected disabled>Choose...</option>
                                     <option value="< 1 Years">< 1 Year</option>
                                     <option value="1 Year">1 Year</option>
                                     <option value="2 Years">2 Years</option>
@@ -360,6 +371,7 @@ table.dataTable tbody td:nth-child(3) {
                             <div class="col" style="color: black">Filtering By </div>
                             <div class="col-9">
                                 <select id="filteringby" class="selectFiltering form-control" name="state" required_>
+                                    <option selected disabled>Choose...</option>
                                     <option value="Recruitment">Recruitment</option>
                                     <option value="RAS">RAS</option>
                                 </select>
@@ -372,14 +384,14 @@ table.dataTable tbody td:nth-child(3) {
                             <div class="col" style="color: black">Work Status</div>
                             <div class="col-9">
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="Active" name="workstatus" value="Active" required_>
+                                    <input type="radio" class="form-check-input" id="Active" name="workstatus" value="Active" required>
                                     <label class="form-check-label" for="radio1">Active</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="Inactive" name="workstatus" value="Inactive" required_>
+                                    <input type="radio" class="form-check-input" id="Inactive" name="workstatus" value="Inactive" required>
                                     <label class="form-check-label" for="radio2">Inactive</label>
+                                    <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                                 </div>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -387,8 +399,8 @@ table.dataTable tbody td:nth-child(3) {
                         <div class="row pl-5 pr-5 ">
                             <div class="col" style="color: black">Notice Period</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="notice" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="notice" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -397,9 +409,8 @@ table.dataTable tbody td:nth-child(3) {
                             <div class="col" style="color: black">Financial Industry</div>
                             <div class="col-9">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="financial" name="financial" value="True" required>
+                                    <input type="checkbox" class="form-check-input" id="financial" name="financial" value="True">
                                 </div>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -407,8 +418,8 @@ table.dataTable tbody td:nth-child(3) {
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Raw CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="rawcv" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="rawcv" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -416,8 +427,8 @@ table.dataTable tbody td:nth-child(3) {
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Berca CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="bercacv" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="bercacv" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -425,7 +436,8 @@ table.dataTable tbody td:nth-child(3) {
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">English</div>
                             <div class="col-9">
-                                <select id="english" class="selectFiltering form-control" name="state" required>
+                                <select id="english" class="form-control" name="state">
+                                    <option selected disabled>Choose...</option>
                                     <option value="Advanced">Advanced</option>
                                     <option value="Intermediate">Intermediate</option>
                                     <option value="Low">Low</option>
@@ -438,8 +450,8 @@ table.dataTable tbody td:nth-child(3) {
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Current Salary</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="current" required onkeyup="formatCurrency(this);" placeholder="Rp ">
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="current" required_ onkeyup="formatCurrency(this);" placeholder="Rp ">
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -447,8 +459,8 @@ table.dataTable tbody td:nth-child(3) {
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Expected Salary</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="expected" required onkeyup="formatCurrency(this);" placeholder="Rp ">
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <input type="text" class="form-control" id="expected" required_ onkeyup="formatCurrency(this);" placeholder="Rp ">
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
@@ -457,9 +469,9 @@ table.dataTable tbody td:nth-child(3) {
                             <div class="col" style="color: black">Negotiable</div>
                             <div class="col-9">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="negotiable" name="negotiable" value="True" required>
+                                    <input type="checkbox" class="form-check-input" id="negotiable" name="negotiable" value="True">
                                 </div>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                S
                             </div>
                         </div>
                     </div>
@@ -831,7 +843,7 @@ table.dataTable tbody td:nth-child(3) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ClearScreenUpt();">Close</button>
-                <button type="button" class="btn btn-primary" onclick="Update();">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Update();">Save changes</button>
             </div>
         </div>
     </div>
