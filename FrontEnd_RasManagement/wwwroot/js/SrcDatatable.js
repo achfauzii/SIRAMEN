@@ -133,6 +133,9 @@ function Src() {
             {
                 data: 'birthdate',
                 render: function (data, type, row) {
+                    if (data === "") {
+                        return "";
+                    }
                     var datenow = Date.now();
                     var birth = new Date(data);
 
@@ -142,7 +145,7 @@ function Src() {
                     var age = years + " tahun"
 
 
-                    console.log(age);
+                   //console.log(age);
                     return age;
                 }
             },
@@ -202,7 +205,18 @@ function Src() {
                 }
             },
             {
-                "data": "cvBerca"
+                data: 'cvBerca',
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkTrue = '<a href ="' + data + '">' + data + '</a>';
+
+                        return checkTrue;
+                    }
+
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                }
             },
             {
                 "data": "englishLevel"
@@ -419,7 +433,7 @@ function ClearScreenSave() {
         input.next('.error-message_').hide();
 
     });
-    /*$('.selectRegencies').closest('.form-group').find('.error-message').hide();
+    //$('.selectRegencies').closest('.form-group').find('.error-message').hide();
     $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
     $(selectUniversities).select2({
         placeholder: 'Select your University',
@@ -427,7 +441,7 @@ function ClearScreenSave() {
         allowClear: true,
         tags: true
 
-    });*/
+    });
 }
 
 function ClearScreenUpt() {
@@ -684,9 +698,25 @@ function Save() {
         }
     });
 
+    $('input[type="radio"][name="workstatus"]').each(function () {
+        if ($(this).is(':checked')) {
+            isValid = true;
+        }
+    });
+
+    /*$('select[required_]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message_').show();
+            isValid = false;
+        } else {
+            input.next('.error-message_').hide();
+        }
+    });*/
+
     // Validasi select options
-    /*var selectedRegencies = $('#selectRegencies').val();
-    var selectedUniversity = $('#UniversityName').val();*/
+    //var selectedRegencies = $('#selectRegencies').val();
+    var selectedUniversity = $('#UniversityName').val();
 
 
     /*if (!selectedRegencies) {
@@ -695,7 +725,7 @@ function Save() {
     } else {
         $('.selectRegencies').closest('.form-group').find('.error-message-r').hide();
 
-    }
+    }*/
 
 
     if (!selectedUniversity) {
@@ -704,7 +734,7 @@ function Save() {
     } else {
         $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
 
-    }*/
+    }
 
 
     if (!isValid) {
@@ -773,6 +803,7 @@ function Save() {
             })
             $('#Modal').modal('hide');
             table.ajax.reload();
+            ClearScreenSave();
         }
         else {
             Swal.fire({
@@ -783,7 +814,7 @@ function Save() {
             })
             $('#Modal').modal('hide');
             table.ajax.reload();
-            ClearScreenSave();
+            
         }
     })
     function formatDate(date) {
