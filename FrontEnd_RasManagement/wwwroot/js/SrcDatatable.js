@@ -638,7 +638,7 @@ function getBadgeColor(skill) {
     if (skill.toLowerCase().includes(".net web api")) {
         return "badge-pastel-teal"; // Warna biru
     } else if (skill.toLowerCase().includes(".net web mvc")) {
-        return "badge-pastel-mustard"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+        return "badge-pastel-mustard";
     } else if (skill.toLowerCase().includes("codeigniter")) {
         return "badge-pastel-coral"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     } else if (skill.toLowerCase().includes("bootstrap")) {
@@ -646,7 +646,11 @@ function getBadgeColor(skill) {
     }
     else if (skill.toLowerCase().includes("php")) {
         return "badge-pastel-indigo"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    } else {
+    }
+    else if (skill.toLowerCase().includes("python")) {
+        return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    } 
+    else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
 }
