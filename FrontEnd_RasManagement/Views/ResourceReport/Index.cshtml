@@ -541,13 +541,13 @@
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Interview User</label>
                         <div class="col-sm-5">
+                            <input type="text" id="intwuserHiden" class="form-control form-control-sm" hidden>
                             <select class=" form-control form-control-sm" id="intwUser" required>
                                 <option selected disabled>Choose...</option>
                                 <option value="Done">Done</option>
                                 <option value="Hold">Hold</option>
                                 <option value="Scheduling">Scheduling</option>
                                 <option value="Reject">Reject</option>
-
                             </select>
 
                             <!--New Offering Process-->
@@ -563,9 +563,8 @@
 
                         </div>
                         <div class="col-sm-5">
-
+                            <input type="text" class="form-control form-control-sm" id="dateintwuserHiden" hidden>
                             <input type="date" class="form-control form-control-sm" id="dateIntwUser" required>
-
 
                             <!--New Offering Process-->
                             <div class="mt-2" style="display:none" id="displayDateIntwUser2">
@@ -581,6 +580,7 @@
                         <label for="" class="col-sm-2 col-form-label">Name Of User</label>
 
                         <div class="col-sm-5">
+                            <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
                             <input type="text" class="form-control form-control-sm" id="nameUser" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
