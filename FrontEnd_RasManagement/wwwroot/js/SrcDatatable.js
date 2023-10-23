@@ -21,7 +21,7 @@ function htmlspecialchars(str) {
 }
 
 function Src() {
-    $('#all').addClass('active'); 
+    $('#all').addClass('active');
     table = $('#resource').DataTable({
         fixedColumns: {
             left: 1,
@@ -51,8 +51,8 @@ function Src() {
                     console.log(d);
 
                 }
-           
-             
+
+
                 return JSON.stringify(d);
             }
         },
@@ -64,8 +64,8 @@ function Src() {
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var icon = '<div class="row"><div class="col-4 text-left mr-4">' + data + '</div><div class="col text-right"><i class="far fa-edit" style="color: #0011ff; visibility: hidden;"></i></div></div>';                          
-                      
+                        var icon = '<div class="row"><div class="col-4 text-left mr-4">' + data + '</div><div class="col text-right"><i class="far fa-edit" style="color: #0011ff; visibility: hidden;"></i></div></div>';
+
                         $(document).on("mouseover", ".row", function () {
                             $(this).find("i").css("visibility", "visible");
                         });
@@ -145,7 +145,7 @@ function Src() {
                     var age = years + " tahun"
 
 
-                   //console.log(age);
+                    //console.log(age);
                     return age;
                 }
             },
@@ -161,10 +161,10 @@ function Src() {
             {
                 data: 'workStatus',
                 render: function (data) {
-                    if (data === "Active") {
+                    if (data === "true") {
                         return data = '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>'
                     } else {
-                        return data = '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">' + data + '</span>'
+                        return data = '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>'
                     }
                 }
             },
@@ -182,7 +182,7 @@ function Src() {
 
                         if (data === "true") {
                             return '<div class="text-center">' + checkTrue + '</div>';
-                        } 
+                        }
                         return '<div class="text-center">' + checkFalse + '</div>';
                     }
 
@@ -195,8 +195,8 @@ function Src() {
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="'+data+'">'+data+'</a>';
-                        
+                        var checkTrue = '<a href ="' + data + '">' + data + '</a>';
+
                         return checkTrue;
                     }
 
@@ -222,10 +222,22 @@ function Src() {
                 "data": "englishLevel"
             },
             {
-                "data": "currentSalary"
+                data: 'currentSalary',
+                render: function (data) {
+                    if (data === "Rp ") {
+                        return " ";
+                    }
+                    return data;
+                }
             },
             {
-                "data": "expectedSalary"
+                data: "expectedSalary",
+                render: function (data) {
+                    if (data === "Rp ") {
+                        return " ";
+                    }
+                    return data;
+                }
             },
             {
                 //"data":"negotiable"
@@ -240,7 +252,7 @@ function Src() {
                         if (data === "true") {
 
                             return '<div class="text-center">' + checkTrue + '</div>';
-                        } else if (row.expectedSalary === "") {
+                        } else if (data === null) {
                             return " ";
                         }
                         return '<div class="text-center">' + checkFalse + '</div>';
@@ -258,7 +270,7 @@ function Src() {
                 data: 'intwDateByRas',
                 render: function (data, type, row) {
                     if (data == null) {
-                        return " ";
+                        return "";
                     } else {
                         if (type === 'display' || type === 'filter') {
                             // Format tanggal dalam format yang diinginkan
@@ -271,13 +283,59 @@ function Src() {
                 }
             },
             {
-                "data": "intwUser"
+                data: 'intwUser',
+                render: function (data) {
+                    if (data == null) {
+                        return " ";
+                    } else {
+
+                    var intw = data.split('<br/>');
+                    var filterintw = intw.filter(function (intw) {
+                        return intw.trim() !== 'null';
+                    });
+                    return filterintw.join('<br/>');
+                    }
+
+                }
+
             },
             {
-                "data": "nameOfUser"
+                data: 'nameOfUser',
+                render: function (data) {
+                    if (data == null) {
+                        return " ";
+                    } else {
+
+                    var intw = data.split('<br/>');
+                    var filterintw = intw.filter(function (intw) {
+                        return intw.trim() !== 'null';
+                    });
+                    }
+
+                    return filterintw.join('<br/>');
+                }
             },
             {
-                "data": "intwDateUser",
+                data: 'intwDateUser',
+                render: function (data, type, row) {
+                    if (data == null) {
+                        return " ";
+                    } else {
+
+                    var dates = data.split('<br/>');
+                    var formattedDates = [];
+
+                    // Filter nilai null dan "<br/>"
+                    for (var i = 0; i < dates.length; i++) {
+                        if (dates[i] && dates[i] !== '<br/>') {
+                            formattedDates.push(dates[i]);
+                        }
+                    }
+                    }
+
+                    // Menggabungkan data yang telah diformat kembali
+                    return formattedDates.join('<br/>');
+                }
             },
             {
                 "data": "levelRekom"
@@ -306,6 +364,11 @@ function Src() {
 
 
     });
+    function getLastValue(data, key) {
+        const regex = new RegExp(`([^<br/>]+)(?!.*<br\/>)`);
+        const match = data[key].match(regex);
+        return match ? match[0] : null;
+    }
     table.on('click', 'tbody tr i', function () {
         // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
         let row = $(this).closest('tr');
@@ -329,10 +392,11 @@ function Src() {
         $('#level2').val(data.level);
         $('#experience2').val(data.experienceInYear);
         $('#filteringby2').val(data.filteringBy);
-        if (data.workStatus == "Active") {
-            $("#Active2").prop("checked", true);
-        } else if (data.workStatus == "Inactive") {
-            $("#Inactive2").prop("checked", true);
+        var checkbox2 = document.getElementById("workstatus2");
+        if (data.workStatus == "true") {
+            checkbox2.checked = true;
+        } else {
+            checkbox2.checked = false;
         }
 
         $('#notice2').val(data.noticePeriode);
@@ -348,12 +412,12 @@ function Src() {
         $('#english2').val(data.englishLevel);
         $('#current2').val(data.currentSalary);
         $('#expected2').val(data.expectedSalary);
-        var checkbox2 = document.getElementById("negotiable2");
         if (data.negotiable == "true") {
-            checkbox2.checked = true;
-        } else {
-            checkbox2.checked = false;
+            $("#Yes2").prop("checked", true);
+        } else if (data.workStatus == "false") {
+            $("#No2").prop("checked", true);
         }
+        
 
         $('#intwByRAS').val(data.intwByRas);
 
@@ -362,15 +426,57 @@ function Src() {
         } else {
             $('#dateIntwRAS').val('');
         }
+        // Ambil nilai data #intwByRAS dari database
+        //var intwByRAS = data.intwByRas; // Gantilah dengan data sebenarnya dari database
 
-        $('#intwUser').val(data.intwUser);
+        // Cek apakah data #intwByRAS sudah ada
+        if (data.intwByRas) {
+            // Jika data #intwByRAS ada, atur nilai #intwUser dan tampilkan elemen #intwUser
+            //$('#intwByRAS').val(intwByRAS);
+           /* $('#intwUser').val(data.intwUser).prop('disabled', false);
+            if (data.intwDateUser) {
+                $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
+            } else {
+                $('#dateIntwUser').val('').prop('disabled', false);
+            }
+            $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
+            const intwUserArray = data.intwUser.split('<br/>');
+            const nameOfUserArray = data.nameOfUser.split('<br/>');
+            const intwDateUserArray = data.intwDateUser.split('<br/>');
 
-        if (data.intwDateUser) {
+            const lastIntwUser = intwUserArray[intwUserArray.length - 1];
+            const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
+            const lastIntwDateUser = intwDateUserArray[intwDateUserArray.length - 1];
+
+            $('#intwUser').val(lastIntwUser).prop('disabled', false);
+            $('#nameUser').val(lastNameOfUser).prop('disabled', false);
+
+            if (lastIntwDateUser) {
+                $('#dateIntwUser').val(lastIntwDateUser.substring(0, 10)).prop('disabled', false);
+            } else {
+                $('#dateIntwUser').val('').prop('disabled', false);
+            }
+        } else if(data.intwByRas===""){
+            // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
+            $('#intwUser').prop('disabled', true);
+            $('#nameUser').prop('disabled', true);
+            $('#dateIntwUser').prop('disabled', true);
+        }
+
+        if (data.intwUser) {
+            /*var offer = document.getElementById("formoffer");
+            offer.show();*/
+            $('#offer').show();
+        } else {
+            $('#offer').hide();
+        }
+
+        /*if (data.intwDateUser) {
             $('#dateIntwUser').val(data.intwDateUser.substring(0, 10));
         } else {
             $('#dateIntwUser').val('');
-        }
-        $('#nameUser').val(data.nameOfUser);
+        }*/
+
         $('#levelRekom').val(data.levelRekom);
         $('#status').val(data.status);
         $('#notes').val(data.notes);
@@ -416,7 +522,7 @@ function ClearScreenSave() {
     $('#level').val('');
     $('#experience').val('');
     $('#filteringby').val('');
-    $('input[name="workstatus"]').prop('checked', false);
+    $('input[name="nego"]').prop('checked', false);
     $('#notice').val('');
     $('#negotiable').prop('checked', false);
     $('#financial').prop('checked', false);
@@ -445,6 +551,7 @@ function ClearScreenSave() {
 }
 
 function ClearScreenUpt() {
+    //let data = table.row(row).data();
     $('#nonrasid2').val('');
     $('#Name2').val(''); //value insert dari id pada input
     $('#position2').val('');
@@ -466,14 +573,20 @@ function ClearScreenUpt() {
     $('#current2').val('');
     $('#expected2').val('');
     $('#intwByRAS').val('');
-    ('#dateIntwRAS').val('');
+    $('#dateIntwRAS').val('');
     $('#intwUser').val('');
     $('#nameUser').val('');
     $('#dateIntwUser').val('');
     $('#levelRekom').val('');
     $('#statusOffering').val('');
     $('#notes').val('');
-
+    /*if (data.intwByRas) {
+        $('#displayIntwUser2').val('').show();
+    } else {
+    }*/
+    $('#displayIntwUser2').val('').hide();
+    $('#displayDateIntwUser2').val('').hide();
+    $('#displayNameUser2').val('').hide();
 
     $('.btn[data-target="#collapseExample"]').text('Show 19 hidden fields');
     $('#collapseExample').collapse('hide');
@@ -702,11 +815,11 @@ function Save() {
         }
     });
 
-    $('input[type="radio"][name="workstatus"]').each(function () {
+    /*$('input[type="radio"][name="workstatus"]').each(function () {
         if ($(this).is(':checked')) {
             isValid = true;
         }
-    });
+    });*/
 
     /*$('select[required_]').each(function () {
         var input = $(this);
@@ -745,15 +858,15 @@ function Save() {
         return;
     }
 
-    var negotiable = $('#negotiable').is(':checked');
+    var workstatus = $('#workstatus').is(':checked');
     var financial = $('#financial').is(':checked');
-    if (!negotiable) {
-        negotiable = false;
+    if (!workstatus) {
+        workstatus = false;
     }
     if (!financial) {
         financial = false;
     }
-    negotiable = negotiable.toString();
+    workstatus = workstatus.toString();
     financial = financial.toString();
 
     var NonRasCandidate = new Object(); //object baru
@@ -768,7 +881,7 @@ function Save() {
     NonRasCandidate.level = $('#level').val();
     NonRasCandidate.experienceInYear = $('#experience').val();
     NonRasCandidate.filteringBy = $('#filteringby').val();;
-    NonRasCandidate.workStatus = $('input[name="workstatus"]:checked').val();
+    NonRasCandidate.workStatus = workstatus;
     NonRasCandidate.noticePeriode = $('#notice').val();
     NonRasCandidate.financialIndustry = financial;
     NonRasCandidate.rawCv = $('#rawcv').val();;
@@ -776,7 +889,7 @@ function Save() {
     NonRasCandidate.englishLevel = $('#english').val();
     NonRasCandidate.currentSalary = $('#current').val();
     NonRasCandidate.expectedSalary = $('#expected').val();
-    NonRasCandidate.negotiable = negotiable;
+    NonRasCandidate.negotiable = $('input[name="nego"]:checked').val();;
     NonRasCandidate.intwByRas = "";
     NonRasCandidate.intwDateByRas = null;
     NonRasCandidate.intwUser = "";
@@ -785,8 +898,17 @@ function Save() {
     NonRasCandidate.levelRekom = "";
     NonRasCandidate.status = "";
     NonRasCandidate.notes = "";
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    // This arrangement can be altered based on how we want the date's format to appear.
+    let currentDate = `${day}-${month}-${year}`;
+    console.log(currentDate);
     NonRasCandidate.lastModified = formatDate(Date());
-    console.log(NonRasCandidate);
+    //console.log(NonRasCandidate);
     $.ajax({
         type: 'POST',
         url: 'https://localhost:7177/api/Shortlist/Add',
@@ -818,7 +940,7 @@ function Save() {
             })
             $('#Modal').modal('hide');
             table.ajax.reload();
-            
+
         }
     })
     function formatDate(date) {
@@ -840,45 +962,80 @@ function Save() {
 function Update() {
 
 
-    var negotiable = $('#negotiable2').is(':checked');
+    var workstatus = $('#workstatus2').is(':checked');
     var financial = $('#financial2').is(':checked');
-    if (!negotiable) {
-        negotiable = false;
+    if (!workstatus) {
+        workstatus = false;
     }
     if (!financial) {
         financial = false;
     }
-    negotiable = negotiable.toString();
+    workstatus = workstatus.toString();
     financial = financial.toString();
 
     var NonRasCandidate = new Object(); //object baru
     NonRasCandidate.nonRasId = $('#nonrasid2').val();
 
     NonRasCandidate.fullname = $('#Name2').val(); //value insert dari id pada input
-    NonRasCandidate.position = $('#position2').val();;
+    NonRasCandidate.position = $('#position2').val();
     NonRasCandidate.skillset = $('#skillset2').val();
     NonRasCandidate.education = $('#degree2').val();
     NonRasCandidate.university = $('#UniversityName2').val();
-    NonRasCandidate.domisili = $('#domicile2').val();;
+    NonRasCandidate.domisili = $('#domicile2').val();
     NonRasCandidate.birthdate = $('#birthdate2').val();
     NonRasCandidate.level = $('#level2').val();
     NonRasCandidate.experienceInYear = $('#experience2').val();
-    NonRasCandidate.filteringBy = $('#filteringby2').val();;
-    NonRasCandidate.workStatus = $('input[name="workstatus2"]:checked').val();
+    NonRasCandidate.filteringBy = $('#filteringby2').val();
+    NonRasCandidate.workStatus = workstatus;
     NonRasCandidate.noticePeriode = $('#notice2').val();
     NonRasCandidate.financialIndustry = financial;
-    NonRasCandidate.rawCv = $('#rawcv2').val();;
+    NonRasCandidate.rawCv = $('#rawcv2').val();
     NonRasCandidate.cvBerca = $('#bercacv2').val();
     NonRasCandidate.englishLevel = $('#english2').val();
     NonRasCandidate.currentSalary = $('#current2').val();
     NonRasCandidate.expectedSalary = $('#expected2').val();
-    NonRasCandidate.negotiable = negotiable;
+    NonRasCandidate.negotiable = $('input[name="nego2"]:checked').val();;
     NonRasCandidate.intwByRas = $('#intwByRAS').val();
+    debugger;
+    var date1 = $('#dateIntwUser').val();
+    var date2 = $('#dateIntwUser2').val();
+    var dataToSave = null;
+    if (date1 == "") {
+        dataToSave;
+    } else if (date1 != "" && date2 == "") {
+        dataToSave = date1;
+    } else if (date2 != null) {
+        dataToSave = date1 + "<br/>" + date2;
+    }
+  
    
-    NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();;
-    NonRasCandidate.intwUser = $('#intwUser').val();;
-    NonRasCandidate.nameOfUser = $('#nameUser').val();
-    NonRasCandidate.intwDateUser = $('#dateIntwUser').val();
+
+    var intwuser1 = $('#intwUser').val();
+    var intwuser2 = $('#intwUser2').val();
+    var intwuser = null;
+    if (intwuser1 == "") {
+        intwuser;
+    } else if (intwuser1 !== "" && intwuser2 == null) {
+        intwuser = intwuser1;
+    } else if (intwuser2 != null) {
+        intwuser = intwuser1 + "<br/>" + intwuser2;
+    }
+
+    var nameuser1 = $('#nameUser').val();
+    var nameuser2 = $('#nameUser2').val();
+    var nameuser = null;
+    if (nameuser1 == "") {
+        nameuser;
+    } else if (nameuser1 != "" && nameuser2 == "") {
+        nameuser = nameuser1;
+    } else if (nameuser2 != null) {
+        nameuser = nameuser1 + "<br/>" + nameuser2;
+    }
+    console.log(intwuser);
+    NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();
+    NonRasCandidate.intwUser = intwuser;
+    NonRasCandidate.nameOfUser = nameuser;
+    NonRasCandidate.intwDateUser = dataToSave;
     NonRasCandidate.levelRekom = $('#levelRekom').val();
     NonRasCandidate.status = $('#statusOffering').val();
     NonRasCandidate.notes = $('#notes').val();
@@ -904,6 +1061,7 @@ function Update() {
             })
             $('#Modal').modal('hide');
             table.ajax.reload();
+            ClearScreenUpt();
         }
         else {
             Swal.fire({
