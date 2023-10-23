@@ -414,8 +414,11 @@ function Src() {
         $('#expected2').val(data.expectedSalary);
         if (data.negotiable == "true") {
             $("#Yes2").prop("checked", true);
-        } else if (data.workStatus == "false") {
+        } else if (data.negotiable == "false") {
             $("#No2").prop("checked", true);
+        } else if (data.negotiable == null) {
+            $("#Yes2").prop("checked", false);
+            $("#No2").prop("checked", false);
         }
         
 
@@ -431,6 +434,61 @@ function Src() {
 
         // Cek apakah data #intwByRAS sudah ada
         if (data.intwByRas) {
+            if (data.intwUser == null) {
+                $('#intwUser').val(data.intwUser).prop('disabled', false);
+                $('#nameUser').val(data.nameOfUser).prop('disabled', false);
+                $('#dateIntwUser').val('').prop('disabled', false);
+                if (data.intwDateUser) {
+                    $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
+                } else {
+                    $('#dateIntwUser').val('').prop('disabled', false);
+                }
+            } else if (!data.intwUser.includes('<br/>')) {
+                $('#intwUser').val(data.intwUser).prop('disabled', false);
+                $('#nameUser').val(data.nameOfUser).prop('disabled', false);
+                $('#dateIntwUser').val('').prop('disabled', false);
+                if (data.intwDateUser) {
+                    $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
+                } else {
+                    $('#dateIntwUser').val('').prop('disabled', false);
+                }
+            } else {
+                const intwUserArray = data.intwUser.split('<br/>');
+                const nameOfUserArray = data.nameOfUser.split('<br/>');
+                const intwDateUserArray = data.intwDateUser.split('<br/>');
+
+                const lastIntwUser = intwUserArray[intwUserArray.length - 1];
+                const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
+                const lastIntwDateUser = intwDateUserArray[intwDateUserArray.length - 1];
+                console.log(lastIntwUser);
+                $('#intwUser').val(lastIntwUser).prop('disabled', false);
+                $('#nameUser').val(lastNameOfUser).prop('disabled', false);
+                let beforeLastIntwUser = "";
+                let beforeLastDateIntwUser = "";
+                let beforeLastNameOfUser = "";
+
+                // Menggunakan loop untuk mengumpulkan semua data sebelum data terakhir
+                for (let i = 0; i < intwUserArray.length - 1; i++) {
+                    beforeLastIntwUser += intwUserArray[i] + "<br/>";
+                    beforeLastDateIntwUser += intwDateUserArray[i] + "<br/>";
+                    beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
+                }
+
+                // Menghapus karakter "<br/>" ekstra di akhir string
+                beforeLastIntwUser = beforeLastIntwUser.slice(0, -5);
+                beforeLastDateIntwUser = beforeLastDateIntwUser.slice(0, -5);
+                beforeLastNameOfUser = beforeLastNameOfUser.slice(0, -5);
+
+                // Menyimpan data sebelum data terakhir ke elemen tersembunyi
+                $('#intwuserHiden').val(beforeLastIntwUser);
+                $('#dateintwuserHiden').val(beforeLastDateIntwUser);
+                $('#nameUserhidden').val(beforeLastNameOfUser);
+                if (lastIntwDateUser) {
+                    $('#dateIntwUser').val(lastIntwDateUser.substring(0, 10)).prop('disabled', false);
+                } else {
+                    $('#dateIntwUser').val('').prop('disabled', false);
+                }
+            }
             // Jika data #intwByRAS ada, atur nilai #intwUser dan tampilkan elemen #intwUser
             //$('#intwByRAS').val(intwByRAS);
            /* $('#intwUser').val(data.intwUser).prop('disabled', false);
@@ -439,23 +497,8 @@ function Src() {
             } else {
                 $('#dateIntwUser').val('').prop('disabled', false);
             }
+            
             $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
-            const intwUserArray = data.intwUser.split('<br/>');
-            const nameOfUserArray = data.nameOfUser.split('<br/>');
-            const intwDateUserArray = data.intwDateUser.split('<br/>');
-
-            const lastIntwUser = intwUserArray[intwUserArray.length - 1];
-            const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
-            const lastIntwDateUser = intwDateUserArray[intwDateUserArray.length - 1];
-
-            $('#intwUser').val(lastIntwUser).prop('disabled', false);
-            $('#nameUser').val(lastNameOfUser).prop('disabled', false);
-
-            if (lastIntwDateUser) {
-                $('#dateIntwUser').val(lastIntwDateUser.substring(0, 10)).prop('disabled', false);
-            } else {
-                $('#dateIntwUser').val('').prop('disabled', false);
-            }
         } else if(data.intwByRas===""){
             // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
             $('#intwUser').prop('disabled', true);
@@ -580,6 +623,9 @@ function ClearScreenUpt() {
     $('#levelRekom').val('');
     $('#statusOffering').val('');
     $('#notes').val('');
+    $('#intwuserHiden').val('');
+    $('#dateintwuserHiden').val('');
+    $('#nameUserhidden').val('');
     /*if (data.intwByRas) {
         $('#displayIntwUser2').val('').show();
     } else {
@@ -743,8 +789,6 @@ function formInputLocation() {
         });
 
 }
-
-
 
 function getBadgeColor(skill) {
     // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
@@ -956,8 +1000,6 @@ function Save() {
 }
 
 function Update() {
-
-
     var workstatus = $('#workstatus2').is(':checked');
     var financial = $('#financial2').is(':checked');
     if (!workstatus) {
@@ -995,38 +1037,47 @@ function Update() {
     debugger;
     var date1 = $('#dateIntwUser').val();
     var date2 = $('#dateIntwUser2').val();
-    var dataToSave = null;
+    var datehidden = $('#dateintwuserHiden').val();
+    //var dataToSave = null;
     if (date1 == "") {
-        dataToSave;
+        var dataToSave=null;
     } else if (date1 != "" && date2 == "") {
-        dataToSave = date1;
+        var dataToSave = date1;
+    } else if (datehidden != "" && date2 != null) {
+        var dataToSave = datehidden + "<br/>" + date1 + "<br/>" + date2;
     } else if (date2 != null) {
-        dataToSave = date1 + "<br/>" + date2;
-    }
+        var dataToSave = date1 + "<br/>" + date2;
+    } 
   
    
 
     var intwuser1 = $('#intwUser').val();
     var intwuser2 = $('#intwUser2').val();
-    var intwuser = null;
+    var intwuserhidden = $('#intwuserHiden').val();
+    //var intwuser = null;
     if (intwuser1 == "") {
-        intwuser;
+        var intwuser=null;
     } else if (intwuser1 !== "" && intwuser2 == null) {
-        intwuser = intwuser1;
+        var intwuser = intwuser1;
+    } else if (intwuserhidden != "" && intwuser2 != null) {
+        var intwuser = intwuserhidden + "<br/>" + intwuser1 + "<br/>" + intwuser2;
     } else if (intwuser2 != null) {
-        intwuser = intwuser1 + "<br/>" + intwuser2;
-    }
+        var intwuser = intwuser1 + "<br/>" + intwuser2;
+    } 
 
     var nameuser1 = $('#nameUser').val();
     var nameuser2 = $('#nameUser2').val();
-    var nameuser = null;
+    var nameuserhidden = $('#nameUserhidden').val();
+    //var nameuser = null;
     if (nameuser1 == "") {
-        nameuser;
+        var nameuser=null;
     } else if (nameuser1 != "" && nameuser2 == "") {
-        nameuser = nameuser1;
+        var nameuser = nameuser1;
+    } else if (nameuserhidden != "" && nameuser2 != null) {
+        var nameuser = nameuserhidden + "<br/>" + nameuser1 + "<br/>" + nameuser2;
     } else if (nameuser2 != null) {
-        nameuser = nameuser1 + "<br/>" + nameuser2;
-    }
+        var nameuser = nameuser1 + "<br/>" + nameuser2;
+    } 
     console.log(intwuser);
     NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();
     NonRasCandidate.intwUser = intwuser;
