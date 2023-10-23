@@ -386,7 +386,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Work Status</div>
                             <div class="col-9">
-                                <div class="form-check">
+                                @*<div class="form-check">
                                     <input type="radio" class="form-check-input" id="Active" name="workstatus" value="Active" required>
                                     <label class="form-check-label" for="radio1">Active</label>
                                 </div>
@@ -394,6 +394,9 @@
                                     <input type="radio" class="form-check-input" id="Inactive" name="workstatus" value="Inactive" required>
                                     <label class="form-check-label" for="radio2">Inactive</label>
                                     <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                                </div>*@
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="workstatus" name="workstatus" value="True">
                                 </div>
                             </div>
                         </div>
@@ -472,9 +475,17 @@
                             <div class="col" style="color: black">Negotiable</div>
                             <div class="col-9">
                                 <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="Yes" name="nego" value="true">
+                                    <label class="form-check-label" for="radio1">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="No" name="nego" value="false">
+                                    <label class="form-check-label" for="radio2">No</label>
+                                </div>
+                                @*<div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="negotiable" name="negotiable" value="True">
                                 </div>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>*@
                             </div>
                         </div>
                     </div>
@@ -579,15 +590,15 @@
                             </div>
 
                         </div>
-                        <div class="col-sm-5">
-                            <button type="button" class="btn btn-sm btn-outline-info" onclick="newOfferingFields();">+ Offering Process</button>
+                        <div class="col-sm-5" id="formoffer">
+                            <button type="button" id="offer" class="btn btn-sm btn-outline-info" onclick="newOfferingFields();">+ Offering Process</button>
                         </div>
                     </div>
 
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Level Rekom</label>
                         <div class="col-sm-10">
-                            <select class=" form-control form-control-sm" id="levelRekom" required>
+                            <select class=" form-control form-control-sm" id="levelRekom" >
                                 <option selected disabled>Choose...</option>
                                 <option value="High">High</option>
                                 <option value="Medium">Medium</option>
@@ -604,7 +615,7 @@
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Status</label>
                         <div class="col-sm-10">
-                            <select class=" form-control form-control-sm" id="statusOffering" required>
+                            <select class=" form-control form-control-sm" id="statusOffering" >
                                 <option selected disabled>Status Offering...</option>
                                 <option value="Offering">Offering</option>
                                 <option value="Offering Done">Offering Done</option>
@@ -747,14 +758,8 @@
                                 <div class="col" style="color: black">Work Status</div>
                                 <div class="col-9">
                                     <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="Active2" name="workstatus2" value="Active" required>
-                                        <label class="form-check-label" for="radio1">Active</label>
+                                        <input type="checkbox" class="form-check-input" id="workstatus2" name="workstatus2" value="true">
                                     </div>
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="Inactive2" name="workstatus2" value="Inactive" required>
-                                        <label class="form-check-label" for="radio2">Inactive</label>
-                                    </div>
-                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
@@ -832,9 +837,13 @@
                                 <div class="col" style="color: black">Negotiable</div>
                                 <div class="col-9">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="negotiable2" name="negotiable" value="True" required>
+                                        <input type="radio" class="form-check-input" id="Yes2" name="nego2" value="true">
+                                        <label class="form-check-label" for="radio1">Yes</label>
                                     </div>
-                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="No2" name="nego2" value="false">
+                                        <label class="form-check-label" for="radio2">No</label>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
