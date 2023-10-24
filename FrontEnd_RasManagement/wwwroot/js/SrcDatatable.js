@@ -364,11 +364,13 @@ function Src() {
 
 
     });
+
     function getLastValue(data, key) {
         const regex = new RegExp(`([^<br/>]+)(?!.*<br\/>)`);
         const match = data[key].match(regex);
         return match ? match[0] : null;
     }
+
     table.on('click', 'tbody tr i', function () {
         // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
         let row = $(this).closest('tr');
@@ -684,7 +686,7 @@ function getUniversitasListt() {
 
 function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
-    //const selectUniversity2 = document.getElementById('UniversityName2');
+
     $.ajax({
         url: "https://localhost:7177/api/Universitas",
         type: "GET",
@@ -701,12 +703,11 @@ function getUniversitasList() {
 
 
             universities.forEach(function (university) {
-                //console.log(university);
+                console.log(university);
                 const option = document.createElement('option');
                 option.value = university.namaUniversitas;
                 option.textContent = university.namaUniversitas;
                 selectUniversity.appendChild(option);
-                //selectUniversity2.appendChild(option);
             });
 
             $(selectUniversity).select2({
@@ -714,11 +715,6 @@ function getUniversitasList() {
                 width: '100%',
 
             });
-            /* $(selectUniversity2).select2({
-                 placeholder: 'Select university',
-                 width: '100%',
- 
-             });*/
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
