@@ -47,7 +47,7 @@ public partial class NonRasCandidate
 
     public string? IntwByRas { get; set; }
 
-    public DateTime? IntwDateByRas { get; set; }
+    public string? IntwDateByRas { get; set; }
 
     public string? IntwUser { get; set; }
 

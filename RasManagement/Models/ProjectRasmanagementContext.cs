@@ -337,7 +337,8 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Intw_ByRAS");
             entity.Property(e => e.IntwDateByRas)
-                .HasColumnType("date")
+                 .HasMaxLength(25)
+                 .IsUnicode(false)
                 .HasColumnName("IntwDate_ByRAS");
             entity.Property(e => e.IntwDateUser)
                 .IsUnicode(false)
