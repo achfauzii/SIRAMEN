@@ -24,13 +24,13 @@ function Src() {
     $('#all').addClass('active');
     table = $('#resource').DataTable({
         fixedColumns: {
-            left: 1,
+            left: 2,
 
         },
         scrollX: true,
         processing: true,
         serverSide: true,
-        fixedColumns: true,
+        //fixedColumns: true,
         "lengthMenu": [5, 10, 50, 75, 100],
         pageLength: 10,
 
@@ -82,7 +82,38 @@ function Src() {
                 }
             },
             {
-                "data": "position"
+                "data": "position",
+                "render": function (data) {
+                    // Pisahkan data skillset menjadi array berdasarkan koma
+                    if (data == null) {
+                        var a = "b"
+                        return a;
+                    }
+                    var posisitionSplit = data.split(',');
+                    //console.log(data);
+
+                    // Container untuk pill badges
+                    var badgeContainer = $('<div class="badge-container"></div>');
+
+                    // Loop melalui setiap elemen dalam array
+                    for (var i = 0; i < posisitionSplit.length; i++) {
+                        // Tentukan warna badge berdasarkan data
+                        var badgeColor = getBadgeColorPosition(posisitionSplit[i]);
+
+                        // Buat pill badge dengan warna yang sesuai
+                        var badge = $('<span class="badge badge-pill ' + badgeColor + '">' + posisitionSplit[i] + '</span>');
+
+                        // Tambahkan badge ke dalam container
+                        badgeContainer.append(badge);
+                        // Tambahkan pemisah spasi setelah setiap badge, kecuali untuk yang terakhir
+                        if (i < posisitionSplit.length - 1) {
+                            badgeContainer.append(' '); // Ini adalah pemisah spasi
+                        }
+                    }
+
+                    // Kembalikan HTML dari container badge
+                    return badgeContainer.html();
+                }
             },
             {
                 "data": "skillset",
@@ -435,8 +466,9 @@ function Src() {
         //var intwByRAS = data.intwByRas; // Gantilah dengan data sebenarnya dari database
 
         // Cek apakah data #intwByRAS sudah ada
+        debugger;
         if (data.intwByRas) {
-            if (data.intwUser == null) {
+            if (data.intwUser == null  || data.nameOfUser ==null || data.intwDateUser ==null) {
                 $('#intwUser').val(data.intwUser).prop('disabled', false);
                 $('#nameUser').val(data.nameOfUser).prop('disabled', false);
                 $('#dateIntwUser').val('').prop('disabled', false);
@@ -445,7 +477,7 @@ function Src() {
                 } else {
                     $('#dateIntwUser').val('').prop('disabled', false);
                 }
-            } else if (!data.intwUser.includes('<br/>')) {
+            } else if (!data.intwUser.includes('<br/>') || !data.nameOfUser.includes('<br/>') || !data.intwDateUser.includes('<br/>')) {
                 $('#intwUser').val(data.intwUser).prop('disabled', false);
                 $('#nameUser').val(data.nameOfUser).prop('disabled', false);
                 $('#dateIntwUser').val('').prop('disabled', false);
@@ -462,13 +494,12 @@ function Src() {
                 const lastIntwUser = intwUserArray[intwUserArray.length - 1];
                 const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
                 const lastIntwDateUser = intwDateUserArray[intwDateUserArray.length - 1];
-                console.log(lastIntwUser);
-                $('#intwUser').val(lastIntwUser).prop('disabled', false);
-                $('#nameUser').val(lastNameOfUser).prop('disabled', false);
+
                 let beforeLastIntwUser = "";
                 let beforeLastDateIntwUser = "";
                 let beforeLastNameOfUser = "";
-
+                $('#intwUser').val(lastIntwUser).prop('disabled', false);
+                $('#nameUser').val(lastNameOfUser).prop('disabled', false);
                 // Menggunakan loop untuk mengumpulkan semua data sebelum data terakhir
                 for (let i = 0; i < intwUserArray.length - 1; i++) {
                     beforeLastIntwUser += intwUserArray[i] + "<br/>";
@@ -476,10 +507,8 @@ function Src() {
                     beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
                 }
 
-                // Menghapus karakter "<br/>" ekstra di akhir string
-                beforeLastIntwUser = beforeLastIntwUser.slice(0, -5);
-                beforeLastDateIntwUser = beforeLastDateIntwUser.slice(0, -5);
-                beforeLastNameOfUser = beforeLastNameOfUser.slice(0, -5);
+
+      
 
                 // Menyimpan data sebelum data terakhir ke elemen tersembunyi
                 $('#intwuserHiden').val(beforeLastIntwUser);
@@ -623,11 +652,17 @@ function ClearScreenUpt() {
     $('#nameUser').val('');
     $('#dateIntwUser').val('');
     $('#levelRekom').val('');
-    $('#statusOffering').val('');
+    $('#statusOffering').val('');   
     $('#notes').val('');
     $('#intwuserHiden').val('');
     $('#dateintwuserHiden').val('');
     $('#nameUserhidden').val('');
+    $('#nameuser1').val('');
+    $('#nameUser2').val('');
+    $('#intwUser1').val('');
+    $('#intwUser2').val('');
+    $('#dateIntwUser1').val('');
+    $('#dateIntwUser2').val('');
     /*if (data.intwByRas) {
         $('#displayIntwUser2').val('').show();
     } else {
@@ -703,7 +738,7 @@ function getUniversitasList() {
 
 
             universities.forEach(function (university) {
-                console.log(university);
+               
                 const option = document.createElement('option');
                 option.value = university.namaUniversitas;
                 option.textContent = university.namaUniversitas;
@@ -803,6 +838,28 @@ function getBadgeColor(skill) {
     else if (skill.toLowerCase().includes("python")) {
         return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     } 
+    else {
+        return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    }
+}
+
+function getBadgeColorPosition(position) {
+    // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
+    if (position.toLowerCase().includes("fullstack")) {
+        return "badge-pastel-teal"; // Warna biru
+    } else if (position.toLowerCase().includes("front end")) {
+        return "badge-pastel-mustard";
+    } else if (position.toLowerCase().includes("backend")) {
+        return "badge-pastel-coral"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    } else if (position.toLowerCase().includes("data science")) {
+        return "badge-pastel-purple"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    }
+    else if (position.toLowerCase().includes("android")) {
+        return "badge-pastel-indigo"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    }
+    else if (position.toLowerCase().includes("ios")) {
+        return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    }
     else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
@@ -1000,6 +1057,7 @@ function Save() {
 }
 
 function Update() {
+    debugger;
     var workstatus = $('#workstatus2').is(':checked');
     var financial = $('#financial2').is(':checked');
     if (!workstatus) {
@@ -1032,52 +1090,58 @@ function Update() {
     NonRasCandidate.englishLevel = $('#english2').val();
     NonRasCandidate.currentSalary = $('#current2').val();
     NonRasCandidate.expectedSalary = $('#expected2').val();
-    NonRasCandidate.negotiable = $('input[name="nego2"]:checked').val();;
+    NonRasCandidate.negotiable = $('input[name="nego2"]:checked').val();
     NonRasCandidate.intwByRas = $('#intwByRAS').val();
-    debugger;
+    //debugger;
+
+
     var date1 = $('#dateIntwUser').val();
     var date2 = $('#dateIntwUser2').val();
     var datehidden = $('#dateintwuserHiden').val();
     //var dataToSave = null;
-    if (date1 == "") {
-        var dataToSave=null;
-    } else if (date1 != "" && date2 == "") {
-        var dataToSave = date1;
-    } else if (datehidden != "" && date2 != null) {
-        var dataToSave = datehidden + "<br/>" + date1 + "<br/>" + date2;
-    } else if (date2 != null) {
+    if (date1 !== "" && date2 == "" && datehidden == "") {
+       var dataToSave = date1;
+    } else if (date1 !== "" && date2 !== "" && datehidden == "") {
         var dataToSave = date1 + "<br/>" + date2;
+    } else if (date1 !== "" && date2 == "" && datehidden !== "") {
+       var  dataToSave = datehidden + date1;
+    }
+    else if (date1 !== "" && date2 !== "" && datehidden !== "") {
+        var dataToSave = datehidden + date1 + "<br/>" + date2;
     } 
-  
    
 
     var intwuser1 = $('#intwUser').val();
     var intwuser2 = $('#intwUser2').val();
     var intwuserhidden = $('#intwuserHiden').val();
     //var intwuser = null;
-    if (intwuser1 == "") {
-        var intwuser=null;
-    } else if (intwuser1 !== "" && intwuser2 == null) {
+
+    
+    if (intwuser1 !== "" && intwuser2 == null && intwuserhidden == "") {
         var intwuser = intwuser1;
-    } else if (intwuserhidden != "" && intwuser2 != null) {
-        var intwuser = intwuserhidden + "<br/>" + intwuser1 + "<br/>" + intwuser2;
-    } else if (intwuser2 != null) {
+    } else if (intwuser1 !== "" && intwuser2 !== "" && intwuserhidden == "") {
         var intwuser = intwuser1 + "<br/>" + intwuser2;
+    } else if (intwuser1 !== "" && intwuser2 == null && intwuserhidden !== "") {
+        var intwuser = intwuserhidden + intwuser1;
+    } else if (intwuser1 !== "" && intwuser2 !== null && intwuserhidden !== "") {
+        var intwuser = intwuserhidden + intwuser1 + "<br/>" + intwuser2;
     } 
 
+    debugger;
     var nameuser1 = $('#nameUser').val();
     var nameuser2 = $('#nameUser2').val();
     var nameuserhidden = $('#nameUserhidden').val();
-    //var nameuser = null;
-    if (nameuser1 == "") {
-        var nameuser=null;
-    } else if (nameuser1 != "" && nameuser2 == "") {
+    
+    if (nameuser1 !== "" && nameuser2 == "" && nameuserhidden == "") {
         var nameuser = nameuser1;
-    } else if (nameuserhidden != "" && nameuser2 != null) {
-        var nameuser = nameuserhidden + "<br/>" + nameuser1 + "<br/>" + nameuser2;
-    } else if (nameuser2 != null) {
+    } else if (nameuser1 !== "" && nameuser2 !== "" && nameuserhidden == "") {
         var nameuser = nameuser1 + "<br/>" + nameuser2;
+    } else if (nameuser1 !== "" && nameuser2 == "" && nameuserhidden !== "") {
+        var nameuser = nameuserhidden +  nameuser1;
+    } else if (nameuser1 !== "" && nameuser2 !== "" && nameuserhidden !== "") {
+        var nameuser = nameuserhidden + nameuser1 + "<br/>" + nameuser2;
     } 
+
     console.log(intwuser);
     NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();
     NonRasCandidate.intwUser = intwuser;
@@ -1087,7 +1151,7 @@ function Update() {
     NonRasCandidate.status = $('#statusOffering').val();
     NonRasCandidate.notes = $('#notes').val();
     NonRasCandidate.lastModified = formatDate(Date());
-
+    console.log(NonRasCandidate);
     $.ajax({
         type: 'PUT',
         url: 'https://localhost:7177/api/Shortlist',

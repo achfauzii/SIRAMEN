@@ -147,14 +147,14 @@
     table.dataTable tbody td:nth-child(3) {
         max-width: 400px; /* Lebar maksimum yang diinginkan */
         word-wrap: break-word;
-        text-overflow:unset;
+        text-overflow: unset;
         /*white-space: nowrap;*/
         /*overflow: clip;*/
     }
 
     table.dataTable tbody td:nth-child(14) {
         max-width: 180px; /* Lebar maksimum yang diinginkan */
-        word-wrap: break-word;        
+        word-wrap: break-word;
         /*white-space: nowrap;*/
         overflow: hidden;
     }
@@ -180,10 +180,10 @@
 </div>
 <div class="card mb-3 rounded-bottom border-0">
 
-        <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
-            <ul class="nav nav-tabs">
-            <li class="nav-item" >
-                <a class="nav-link text-sm " id = "all" href="#">All</a>
+    <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link text-sm " id="all" href="#">All</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-sm " href="#" data-category="Fullstack">Fullstack</a>
@@ -274,6 +274,7 @@
                             <div class="col-9">
                                 <input type="text" class="form-control" id="position" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                                <small class="form-text text-muted text-primary">If more than one position (Fullstack, Data Science, ...).</small>
                             </div>
                         </div>
                     </div>
@@ -388,13 +389,13 @@
                             <div class="col" style="color: black">Work Status</div>
                             <div class="col-9">
                                 @*<div class="form-check">
-                                    <input type="radio" class="form-check-input" id="Active" name="workstatus" value="Active" required>
-                                    <label class="form-check-label" for="radio1">Active</label>
+                                <input type="radio" class="form-check-input" id="Active" name="workstatus" value="Active" required>
+                                <label class="form-check-label" for="radio1">Active</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="Inactive" name="workstatus" value="Inactive" required>
-                                    <label class="form-check-label" for="radio2">Inactive</label>
-                                    <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                                <input type="radio" class="form-check-input" id="Inactive" name="workstatus" value="Inactive" required>
+                                <label class="form-check-label" for="radio2">Inactive</label>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                                 </div>*@
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="workstatus" name="workstatus" value="True">
@@ -484,7 +485,7 @@
                                     <label class="form-check-label" for="radio2">No</label>
                                 </div>
                                 @*<div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="negotiable" name="negotiable" value="True">
+                                <input type="checkbox" class="form-check-input" id="negotiable" name="negotiable" value="True">
                                 </div>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>*@
                             </div>
@@ -543,12 +544,13 @@
                         <label for="" class="col-sm-2 col-form-label">Interview User</label>
                         <div class="col-sm-5">
                             <input type="text" id="intwuserHiden" class="form-control form-control-sm" hidden>
-                            <select class=" form-control form-control-sm" id="intwUser" required>
+                            <select class=" form-control form-control-sm" id="intwUser">
                                 <option selected disabled>Choose...</option>
                                 <option value="Done">Done</option>
                                 <option value="Hold">Hold</option>
                                 <option value="Scheduling">Scheduling</option>
                                 <option value="Reject">Reject</option>
+                                <option value="Submitted Cv">Submitted Cv</option>
                             </select>
 
                             <!--New Offering Process-->
@@ -559,13 +561,14 @@
                                     <option value="Hold">Hold</option>
                                     <option value="Scheduling">Scheduling</option>
                                     <option value="Reject">Reject</option>
+                                    <option value="Submitted Cv">Submitted Cv</option>
                                 </select>
                             </div>
 
                         </div>
                         <div class="col-sm-5">
                             <input type="text" class="form-control form-control-sm" id="dateintwuserHiden" hidden>
-                            <input type="date" class="form-control form-control-sm" id="dateIntwUser" required>
+                            <input type="date" class="form-control form-control-sm" id="dateIntwUser">
 
                             <!--New Offering Process-->
                             <div class="mt-2" style="display:none" id="displayDateIntwUser2">
@@ -582,7 +585,7 @@
 
                         <div class="col-sm-5">
                             <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
-                            <input type="text" class="form-control form-control-sm" id="nameUser" required>
+                            <input type="text" class="form-control form-control-sm" id="nameUser">
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
                             <!--New Offering Process-->
@@ -599,7 +602,7 @@
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Level Rekom</label>
                         <div class="col-sm-10">
-                            <select class=" form-control form-control-sm" id="levelRekom" >
+                            <select class=" form-control form-control-sm" id="levelRekom">
                                 <option selected disabled>Choose...</option>
                                 <option value="High">High</option>
                                 <option value="Medium">Medium</option>
@@ -616,7 +619,7 @@
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Status</label>
                         <div class="col-sm-10">
-                            <select class=" form-control form-control-sm" id="statusOffering" >
+                            <select class=" form-control form-control-sm" id="statusOffering">
                                 <option selected disabled>Status Offering...</option>
                                 <option value="Offering">Offering</option>
                                 <option value="Offering Done">Offering Done</option>
@@ -631,7 +634,7 @@
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Notes</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control form-control-sm" id="notes">
+                            <textarea type="text" class="form-control form-control-sm" id="notes"> </textarea>
                         </div>
                     </div>
 
@@ -662,6 +665,7 @@
                                 <div class="col-9">
                                     <input type="text" class="form-control" id="position2" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                      <small class="form-text text-muted text-primary">If more than one position ( Fullstack, Data Science, ... )</small>
                                 </div>
                             </div>
                         </div>
@@ -844,7 +848,7 @@
                                     <div class="form-check">
                                         <input type="radio" class="form-check-input" id="No2" name="nego2" value="false">
                                         <label class="form-check-label" for="radio2">No</label>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -861,6 +865,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
