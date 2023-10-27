@@ -324,7 +324,8 @@ function Src() {
                     var filterintw = intw.filter(function (intw) {
                         return intw.trim() !== 'null';
                     });
-                    return filterintw.join('<br/>');
+
+                        return '<li>' + filterintw.join("</li><li>"); + '</li>';
                     }
 
                 }
@@ -337,13 +338,14 @@ function Src() {
                         return " ";
                     } else {
 
-                    var intw = data.split('<br/>');
-                    var filterintw = intw.filter(function (intw) {
-                        return intw.trim() !== 'null';
+                    var nameOfUser = data.split('<br/>');
+                        var nameUser = nameOfUser.filter(function (name) {
+                           
+                        return name.trim() !== 'null';
                     });
                     }
 
-                    return filterintw.join('<br/>');
+                    return '<li>' + nameUser.join("</li><li>") + '</li>';
                 }
             },
             {
@@ -365,7 +367,7 @@ function Src() {
                     }
 
                     // Menggabungkan data yang telah diformat kembali
-                    return formattedDates.join('<br/>');
+                    return '<li>' + formattedDates.join("</li><li>") + '</li>';
                 }
             },
             {
@@ -614,14 +616,9 @@ function ClearScreenSave() {
 
     });
     //$('.selectRegencies').closest('.form-group').find('.error-message').hide();
+  
     $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
-    $(selectUniversities).select2({
-        placeholder: 'Select your University',
-        width: '100%',
-        allowClear: true,
-        tags: true
-
-    });
+   
 }
 
 function ClearScreenUpt() {
@@ -710,6 +707,7 @@ function getUniversitasListt() {
             $(selectUniversity2).select2({
                 placeholder: 'Select university',
                 width: '100%',
+                dropdownParent: $('#offeringSourceList')
 
             });
         },
@@ -745,9 +743,10 @@ function getUniversitasList() {
                 selectUniversity.appendChild(option);
             });
 
-            $(selectUniversity).select2({
+            $('.selectUniversity').select2({
                 placeholder: 'Select university',
                 width: '100%',
+                dropdownParent: $('#Modal')
 
             });
         },
@@ -1003,7 +1002,7 @@ function Save() {
 
     // This arrangement can be altered based on how we want the date's format to appear.
     let currentDate = `${day}-${month}-${year}`;
-    console.log(currentDate);
+
     NonRasCandidate.lastModified = formatDate(Date());
     //console.log(NonRasCandidate);
     $.ajax({
@@ -1142,7 +1141,7 @@ function Update() {
         var nameuser = nameuserhidden + nameuser1 + "<br/>" + nameuser2;
     } 
 
-    console.log(intwuser);
+  
     NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();
     NonRasCandidate.intwUser = intwuser;
     NonRasCandidate.nameOfUser = nameuser;
