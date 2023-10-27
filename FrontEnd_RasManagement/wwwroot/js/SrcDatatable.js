@@ -40,6 +40,9 @@ function Src() {
             url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint
             type: 'POST',
             contentType: 'application/json',
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
             data: function (d) {
                 // Customize request parameters here if needed
                 // Example: d.customParam = 'value';
@@ -475,7 +478,7 @@ function Src() {
         //var intwByRAS = data.intwByRas; // Gantilah dengan data sebenarnya dari database
 
         // Cek apakah data #intwByRAS sudah ada
-        debugger;
+    
         if (data.intwByRas) {
             if (data.intwUser == null || data.nameOfUser == null || data.intwDateUser == null) {
                 $('#intwUser').val(data.intwUser).prop('disabled', false);
@@ -905,7 +908,7 @@ function getBadgeColorPosition(position) {
     });*/
 
 function Save() {
-    debugger;
+   
     var isValid = true;
 
     $('input[required_],select[required_]').each(function () {
@@ -1063,7 +1066,7 @@ function Save() {
 }
 
 function Update() {
-    debugger;
+
     var workstatus = $('#workstatus2').is(':checked');
     var financial = $('#financial2').is(':checked');
     if (!workstatus) {
@@ -1133,7 +1136,7 @@ function Update() {
         var intwuser = intwuserhidden + intwuser1 + "<br/>" + intwuser2;
     }
 
-    debugger;
+
     var nameuser1 = $('#nameUser').val();
     var nameuser2 = $('#nameUser2').val();
     var nameuserhidden = $('#nameUserhidden').val();
