@@ -3,37 +3,36 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
 <style>
-    /* Atur ukuran font untuk badge dengan kelas khusus */
+
     .badge {
-        font-size: 12px; /* Replace with your desired font size */
+        font-size: 12px; 
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
+        background-color: #F7F6FE; 
     }
 
     .table-striped tbody tr:nth-of-type(even) {
-        background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
+        background-color: #FFFFFF; 
     }
-    /* Mengurangi ukuran teks "Show [jumlah] entries" */
+ 
     #resource_length label {
-        font-size: 14px; /* Ganti '12px' dengan ukuran font yang Anda inginkan */
+        font-size: 14px; 
     }
 
-    /* Mengurangi ukuran teks kotak pencarian */
     #resource_filter label {
-        font-size: 14px; /* Ganti '12px' dengan ukuran font yang Anda inginkan */
+        font-size: 14px;
     }
 
-    /* Mengurangi ukuran teks input kotak pencarian */
+   
     #resource_filter input[type="search"] {
-        font-size: 14px; /* Ganti '12px' dengan ukuran font yang Anda inginkan */
-        height: 26px; /* Sesuaikan tinggi input jika diperlukan */
+        font-size: 14px; 
+        height: 26px; 
     }
 
 
     #resource td {
-        font-size: 13px; /* Ganti dengan ukuran font yang Anda inginkan */
+        font-size: 13px; 
     }
 
     th {
@@ -44,8 +43,8 @@
 
     /* Pastel Teal */
     .badge-pastel-teal {
-        background-color: #b2dbd5; /* Pastel teal background color */
-        color: black; /* Black text color */
+        background-color: #b2dbd5;
+        color: black; 
     }
 
     /* Pastel Purple */
@@ -102,29 +101,23 @@
         color: black; /* Black text color */
     }
 
-    /* You can use these pastel badge styles as needed. */
 
-
-
-
-
-    /* Mengurangi tinggi input dalam formulir */
     .form-control {
-        height: 31px; /* Sesuaikan dengan tinggi yang Anda inginkan */
+        height: 31px; 
     }
 
-    /* Ganti ukuran font untuk opsi-opsi dalam elemen <select> */
+  
     select.form-control {
-        font-size: 14.5px; /* Ganti ukuran font sesuai preferensi Anda */
+        font-size: 14.5px;
     }
 
 
     .dataTables_info {
-        font-size: 14.5px /* Sesuaikan dengan jumlah margin yang diinginkan */
+        font-size: 14.5px ;
     }
 
     .dataTables_filter {
-        margin-right: 18px; /* Sesuaikan dengan jumlah margin yang diinginkan */
+        margin-right: 18px;
     }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
@@ -133,19 +126,19 @@
     }
 
     .paginate_button {
-        font-size: 14px; /* Sesuaikan ukuran font sesuai kebutuhan */
+        font-size: 14px;
         padding: 4px 8px;
     }
 
     @@media (min-width: 768px) {
         .dataTables_filter {
-            margin-right: 10px; /* Sesuaikan dengan jumlah margin yang diinginkan */
+            margin-right: 10px;
         }
     }
 
     /* CSS untuk mengatur lebar kolom Skillset */
     table.dataTable tbody td:nth-child(3) {
-        max-width: 400px; /* Lebar maksimum yang diinginkan */
+        max-width: 400px; 
         word-wrap: break-word;
         text-overflow: unset;
         /*white-space: nowrap;*/
@@ -153,14 +146,14 @@
     }
 
     table.dataTable tbody td:nth-child(14) {
-        max-width: 180px; /* Lebar maksimum yang diinginkan */
+        max-width: 180px; 
         word-wrap: break-word;
         /*white-space: nowrap;*/
         overflow: hidden;
     }
 
     table.dataTable tbody td:nth-child(15) {
-        max-width: 180px; /* Lebar maksimum yang diinginkan */
+        max-width: 180px;
         word-wrap: break-word;
         /*white-space: nowrap;*/
         overflow: hidden;
@@ -168,11 +161,7 @@
 
 </style>
 
-@*<div class="btn-group mb-2" role="group" aria-label="Basic example">
-    <button type="button" class="btn text-light " style="background-color:#D80032">New</button>
-    <button type="button" class="btn text-light" style="background-color:#D80032">Middle</button>
-    <button type="button" class="btn text-light" style="background-color:#D80032">Right</button>
-</div>*@
+
 <div>
     <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal">
         Add New

@@ -1,6 +1,7 @@
 ﻿var table = null;
 $(document).ready(function () {
     Src();
+
     getUniversitasList();
 
     getUniversitasListt();
@@ -44,7 +45,7 @@ function Src() {
                 // Example: d.customParam = 'value';
                 // Mengambil kategori yang dipilih dari filter-navigation
                 var selectedCategory = $('#filterNavigation .nav-link.active').data('category');
-                console.log(selectedCategory);
+               
                 // Menambahkan parameter 'category' ke data yang dikirim ke server
                 if (selectedCategory != null) {
                     d.search.value = selectedCategory;
@@ -79,7 +80,8 @@ function Src() {
 
                     // Untuk tipe data lain, kembalikan data aslinya
                     return data;
-                }
+                },
+
             },
             {
                 "data": "position",
@@ -226,7 +228,7 @@ function Src() {
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '">' + data + '</a>';
+                        var checkTrue = '<a href ="' + data + '"> Raw Cv </a>';
 
                         return checkTrue;
                     }
@@ -234,13 +236,14 @@ function Src() {
                     // Untuk tipe data lain, kembalikan data aslinya
                     return data;
                 }
+               
             },
             {
                 data: 'cvBerca',
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '">' + data + '</a>';
+                        var checkTrue = '<a href ="' + data + '"> Cv Berca </a>';
 
                         return checkTrue;
                     }
@@ -248,6 +251,7 @@ function Src() {
                     // Untuk tipe data lain, kembalikan data aslinya
                     return data;
                 }
+
             },
             {
                 "data": "englishLevel"
@@ -320,10 +324,10 @@ function Src() {
                         return " ";
                     } else {
 
-                    var intw = data.split('<br/>');
-                    var filterintw = intw.filter(function (intw) {
-                        return intw.trim() !== 'null';
-                    });
+                        var intw = data.split('<br/>');
+                        var filterintw = intw.filter(function (intw) {
+                            return intw.trim() !== 'null';
+                        });
 
                         return '<li>' + filterintw.join("</li><li>"); + '</li>';
                     }
@@ -338,11 +342,11 @@ function Src() {
                         return " ";
                     } else {
 
-                    var nameOfUser = data.split('<br/>');
+                        var nameOfUser = data.split('<br/>');
                         var nameUser = nameOfUser.filter(function (name) {
-                           
-                        return name.trim() !== 'null';
-                    });
+
+                            return name.trim() !== 'null';
+                        });
                     }
 
                     return '<li>' + nameUser.join("</li><li>") + '</li>';
@@ -355,15 +359,15 @@ function Src() {
                         return " ";
                     } else {
 
-                    var dates = data.split('<br/>');
-                    var formattedDates = [];
+                        var dates = data.split('<br/>');
+                        var formattedDates = [];
 
-                    // Filter nilai null dan "<br/>"
-                    for (var i = 0; i < dates.length; i++) {
-                        if (dates[i] && dates[i] !== '<br/>') {
-                            formattedDates.push(dates[i]);
+                        // Filter nilai null dan "<br/>"
+                        for (var i = 0; i < dates.length; i++) {
+                            if (dates[i] && dates[i] !== '<br/>') {
+                                formattedDates.push(dates[i]);
+                            }
                         }
-                    }
                     }
 
                     // Menggabungkan data yang telah diformat kembali
@@ -418,6 +422,8 @@ function Src() {
         $('#UniversityName2').val(data.university);
         $('#domicile2').val(data.domisili);
 
+
+
         if (data.birthdate) {
             $('#birthdate2').val(data.birthdate.substring(0, 10));
         } else {
@@ -425,6 +431,7 @@ function Src() {
         }
 
         $('#level2').val(data.level);
+        $('#statusOffering').val(data.status);
         $('#experience2').val(data.experienceInYear);
         $('#filteringby2').val(data.filteringBy);
         var checkbox2 = document.getElementById("workstatus2");
@@ -455,7 +462,7 @@ function Src() {
             $("#Yes2").prop("checked", false);
             $("#No2").prop("checked", false);
         }
-        
+
 
         $('#intwByRAS').val(data.intwByRas);
 
@@ -470,7 +477,7 @@ function Src() {
         // Cek apakah data #intwByRAS sudah ada
         debugger;
         if (data.intwByRas) {
-            if (data.intwUser == null  || data.nameOfUser ==null || data.intwDateUser ==null) {
+            if (data.intwUser == null || data.nameOfUser == null || data.intwDateUser == null) {
                 $('#intwUser').val(data.intwUser).prop('disabled', false);
                 $('#nameUser').val(data.nameOfUser).prop('disabled', false);
                 $('#dateIntwUser').val('').prop('disabled', false);
@@ -510,7 +517,7 @@ function Src() {
                 }
 
 
-      
+
 
                 // Menyimpan data sebelum data terakhir ke elemen tersembunyi
                 $('#intwuserHiden').val(beforeLastIntwUser);
@@ -524,15 +531,15 @@ function Src() {
             }
             // Jika data #intwByRAS ada, atur nilai #intwUser dan tampilkan elemen #intwUser
             //$('#intwByRAS').val(intwByRAS);
-           /* $('#intwUser').val(data.intwUser).prop('disabled', false);
-            if (data.intwDateUser) {
-                $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
-            } else {
-                $('#dateIntwUser').val('').prop('disabled', false);
-            }
-            
-            $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
-        } else if(data.intwByRas===""){
+            /* $('#intwUser').val(data.intwUser).prop('disabled', false);
+             if (data.intwDateUser) {
+                 $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
+             } else {
+                 $('#dateIntwUser').val('').prop('disabled', false);
+             }
+             
+             $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
+        } else if (data.intwByRas === "") {
             // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
             $('#intwUser').prop('disabled', true);
             $('#nameUser').prop('disabled', true);
@@ -616,9 +623,9 @@ function ClearScreenSave() {
 
     });
     //$('.selectRegencies').closest('.form-group').find('.error-message').hide();
-  
+
     $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
-   
+
 }
 
 function ClearScreenUpt() {
@@ -649,7 +656,7 @@ function ClearScreenUpt() {
     $('#nameUser').val('');
     $('#dateIntwUser').val('');
     $('#levelRekom').val('');
-    $('#statusOffering').val('');   
+    $('#statusOffering').val('');
     $('#notes').val('');
     $('#intwuserHiden').val('');
     $('#dateintwuserHiden').val('');
@@ -736,7 +743,7 @@ function getUniversitasList() {
 
 
             universities.forEach(function (university) {
-               
+
                 const option = document.createElement('option');
                 option.value = university.namaUniversitas;
                 option.textContent = university.namaUniversitas;
@@ -836,7 +843,7 @@ function getBadgeColor(skill) {
     }
     else if (skill.toLowerCase().includes("python")) {
         return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    } 
+    }
     else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
@@ -1099,23 +1106,23 @@ function Update() {
     var datehidden = $('#dateintwuserHiden').val();
     //var dataToSave = null;
     if (date1 !== "" && date2 == "" && datehidden == "") {
-       var dataToSave = date1;
+        var dataToSave = date1;
     } else if (date1 !== "" && date2 !== "" && datehidden == "") {
         var dataToSave = date1 + "<br/>" + date2;
     } else if (date1 !== "" && date2 == "" && datehidden !== "") {
-       var  dataToSave = datehidden + date1;
+        var dataToSave = datehidden + date1;
     }
     else if (date1 !== "" && date2 !== "" && datehidden !== "") {
         var dataToSave = datehidden + date1 + "<br/>" + date2;
-    } 
-   
+    }
+
 
     var intwuser1 = $('#intwUser').val();
     var intwuser2 = $('#intwUser2').val();
     var intwuserhidden = $('#intwuserHiden').val();
     //var intwuser = null;
 
-    
+
     if (intwuser1 !== "" && intwuser2 == null && intwuserhidden == "") {
         var intwuser = intwuser1;
     } else if (intwuser1 !== "" && intwuser2 !== "" && intwuserhidden == "") {
@@ -1124,24 +1131,24 @@ function Update() {
         var intwuser = intwuserhidden + intwuser1;
     } else if (intwuser1 !== "" && intwuser2 !== null && intwuserhidden !== "") {
         var intwuser = intwuserhidden + intwuser1 + "<br/>" + intwuser2;
-    } 
+    }
 
     debugger;
     var nameuser1 = $('#nameUser').val();
     var nameuser2 = $('#nameUser2').val();
     var nameuserhidden = $('#nameUserhidden').val();
-    
+
     if (nameuser1 !== "" && nameuser2 == "" && nameuserhidden == "") {
         var nameuser = nameuser1;
     } else if (nameuser1 !== "" && nameuser2 !== "" && nameuserhidden == "") {
         var nameuser = nameuser1 + "<br/>" + nameuser2;
     } else if (nameuser1 !== "" && nameuser2 == "" && nameuserhidden !== "") {
-        var nameuser = nameuserhidden +  nameuser1;
+        var nameuser = nameuserhidden + nameuser1;
     } else if (nameuser1 !== "" && nameuser2 !== "" && nameuserhidden !== "") {
         var nameuser = nameuserhidden + nameuser1 + "<br/>" + nameuser2;
-    } 
+    }
 
-  
+
     NonRasCandidate.intwDateByRas = $('#dateIntwRAS').val();
     NonRasCandidate.intwUser = intwuser;
     NonRasCandidate.nameOfUser = nameuser;
@@ -1150,7 +1157,7 @@ function Update() {
     NonRasCandidate.status = $('#statusOffering').val();
     NonRasCandidate.notes = $('#notes').val();
     NonRasCandidate.lastModified = formatDate(Date());
-    console.log(NonRasCandidate);
+   
     $.ajax({
         type: 'PUT',
         url: 'https://localhost:7177/api/Shortlist',
@@ -1216,4 +1223,3 @@ function formatCurrency(input) {
     var formattedValue = 'Rp ' + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     input.value = formattedValue;
 }
-
