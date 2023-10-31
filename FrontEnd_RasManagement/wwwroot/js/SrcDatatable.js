@@ -34,7 +34,7 @@ function Src() {
         //fixedColumns: true,
         "lengthMenu": [5, 10, 50, 75, 100],
         pageLength: 10,
-
+        order: [[0, "asc"]],
 
         ajax: {
             url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint
@@ -48,17 +48,18 @@ function Src() {
                 // Example: d.customParam = 'value';
                 // Mengambil kategori yang dipilih dari filter-navigation
                 var selectedCategory = $('#filterNavigation .nav-link.active').data('category');
-               
+                d.order = d.order[0];
                 // Menambahkan parameter 'category' ke data yang dikirim ke server
                 if (selectedCategory != null) {
                     d.search.category = selectedCategory;
-
+                    console.log(d);
 
                 }
                 else {
                     d.search.category = "";
+                    console.log(d);
                 }
-            
+                
 
                 return JSON.stringify(d);
             }
