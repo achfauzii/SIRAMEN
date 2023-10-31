@@ -46,7 +46,14 @@ namespace RasManagement.Controllers
 
 
             // Implementasi pencarian
-            
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchTerm = request.Search.Value.ToLower();
+                query = query.Where(e =>
+                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
+                    e.Position.ToLower().Contains(searchTerm)
+                );
+            }
 
             if (!string.IsNullOrEmpty(request.Search?.Category))
             {
@@ -64,18 +71,6 @@ namespace RasManagement.Controllers
                         e.Position.ToLower().Contains(category)
                     );
                 }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(request.Search?.Value))
-                {
-                    var searchTerm = request.Search.Value.ToLower();
-                    query = query.Where(e =>
-                        e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
-                        e.Position.ToLower().Contains(searchTerm)
-                    );
-                }
-
             }
 
 
@@ -133,7 +128,15 @@ namespace RasManagement.Controllers
 
 
             // Implementasi pencarian
-          
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchTerm = request.Search.Value.ToLower();
+                query = query.Where(e =>
+                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
+                    e.Position.ToLower().Contains(searchTerm)
+                );
+            }
+
             if (!string.IsNullOrEmpty(request.Search?.Category))
             {
                 var category = request.Search.Category.ToLower();
@@ -150,18 +153,6 @@ namespace RasManagement.Controllers
                         e.Position.ToLower().Contains(category)
                     );
                 }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(request.Search?.Value))
-                {
-                    var searchTerm = request.Search.Value.ToLower();
-                    query = query.Where(e =>
-                        e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
-                        e.Position.ToLower().Contains(searchTerm)
-                    );
-                }
-
             }
 
 
