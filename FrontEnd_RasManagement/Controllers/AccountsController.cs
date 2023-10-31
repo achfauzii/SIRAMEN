@@ -89,6 +89,24 @@ namespace FrontEnd_RasManagement.Controllers
             }
 
         }
+        //RESET PASSWORD AFTER FORGOT PASSWORD
+        public IActionResult ResetPassword(string resetToken)
+        {
+            // Mendekode token JWT
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(resetToken);
+
+            // Mendapatkan nilai claim yang diinginkan
+            string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
+            var expirationDate = jwtToken.ValidTo;
+            var currentTime = DateTime.UtcNow;
+            if (currentTime > expirationDate)
+            {
+                return View("Error");
+            }
+            ViewBag.Email = email;
+            return View("ResetPassword");
+        }
         /*  public async Task<IActionResult> ResetPassword()
           {
 
@@ -98,7 +116,7 @@ namespace FrontEnd_RasManagement.Controllers
               // Mendekode token JWT
              *//* JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
               JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(resetToken);
-
+            
               // Mendapatkan nilai claim yang diinginkan
               string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
               var expirationDate = jwtToken.ValidTo;

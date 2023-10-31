@@ -10,7 +10,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,Super_Admin")]
+    //[Authorize(Roles = "Admin,Super_Admin")]
     public class ShortlistController : BaseController<NonRasCandidate, ShortlistRepository, int>
     {
         private readonly ShortlistRepository shortlistRepository;
@@ -46,13 +46,36 @@ namespace RasManagement.Controllers
 
 
             // Implementasi pencarian
-            if (!string.IsNullOrEmpty(request.Search?.Value))
+            
+
+            if (!string.IsNullOrEmpty(request.Search?.Category))
             {
-                var searchTerm = request.Search.Value.ToLower();
+                var category= request.Search.Category.ToLower();
                 query = query.Where(e =>
-                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
-                    e.Position.ToLower().Contains(searchTerm)
+
+                    e.Position.ToLower().Contains(category)
                 );
+              
+                if (!string.IsNullOrEmpty(request.Search?.Value))
+                {
+                    var searchTerm = request.Search.Value.ToLower();
+                    query = query.Where(e =>
+                        e.Fullname.ToLower().Contains(searchTerm) ||
+                        e.Position.ToLower().Contains(category)
+                    );
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(request.Search?.Value))
+                {
+                    var searchTerm = request.Search.Value.ToLower();
+                    query = query.Where(e =>
+                        e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
+                        e.Position.ToLower().Contains(searchTerm)
+                    );
+                }
+
             }
 
 
@@ -110,14 +133,37 @@ namespace RasManagement.Controllers
 
 
             // Implementasi pencarian
-            if (!string.IsNullOrEmpty(request.Search?.Value))
+          
+            if (!string.IsNullOrEmpty(request.Search?.Category))
             {
-                var searchTerm = request.Search.Value.ToLower();
+                var category = request.Search.Category.ToLower();
                 query = query.Where(e =>
-                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
-                    e.Position.ToLower().Contains(searchTerm)
+
+                    e.Position.ToLower().Contains(category)
                 );
+
+                if (!string.IsNullOrEmpty(request.Search?.Value))
+                {
+                    var searchTerm = request.Search.Value.ToLower();
+                    query = query.Where(e =>
+                        e.Fullname.ToLower().Contains(searchTerm) ||
+                        e.Position.ToLower().Contains(category)
+                    );
+                }
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(request.Search?.Value))
+                {
+                    var searchTerm = request.Search.Value.ToLower();
+                    query = query.Where(e =>
+                        e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
+                        e.Position.ToLower().Contains(searchTerm)
+                    );
+                }
+
+            }
+
 
 
 
@@ -126,7 +172,7 @@ namespace RasManagement.Controllers
                 .Take(request.Length)
                 .Select(e => new
                 {
-                   
+
                     e.Fullname,
                     e.Position,
                     e.Skillset,
@@ -141,8 +187,8 @@ namespace RasManagement.Controllers
                     e.FinancialIndustry,
                     e.CvBerca,
                     e.LevelRekom
-                    
-                    
+
+
                 })
                 .ToList();
 

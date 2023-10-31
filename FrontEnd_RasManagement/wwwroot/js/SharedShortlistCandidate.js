@@ -35,9 +35,12 @@ function SharedShortListCandidate() {
 
                 // Menambahkan parameter 'category' ke data yang dikirim ke server
                 if (selectedCategory != null) {
-                    d.search.value = selectedCategory;
-                  
+                    d.search.category = selectedCategory;
 
+
+                }
+                else {
+                    d.search.category = "";
                 }
 
 

@@ -51,11 +51,14 @@ function Src() {
                
                 // Menambahkan parameter 'category' ke data yang dikirim ke server
                 if (selectedCategory != null) {
-                    d.search.value = selectedCategory;
-                    console.log(d);
+                    d.search.category = selectedCategory;
+
 
                 }
-
+                else {
+                    d.search.category = "";
+                }
+            
 
                 return JSON.stringify(d);
             }
