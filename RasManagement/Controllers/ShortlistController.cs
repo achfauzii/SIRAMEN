@@ -171,6 +171,21 @@ namespace RasManagement.Controllers
                 }
             }
 
+            var sortColumnIndex = request.Order.column;
+            var sortDirection = request.Order.dir;
+            if (sortColumnIndex == 0)
+            {
+                query = sortDirection == "asc" ? query.OrderBy(c => c.Fullname) : query.OrderByDescending(c => c.Fullname);
+            }
+            else if (sortColumnIndex == 1)
+            {
+                query = sortDirection == "asc" ? query.OrderBy(c => c.Position) : query.OrderByDescending(c => c.Position);
+            }
+
+            else
+            {
+                query = sortDirection == "asc" ? query.OrderBy(c => c.Fullname) : query.OrderByDescending(c => c.Fullname);
+            }
 
 
 
