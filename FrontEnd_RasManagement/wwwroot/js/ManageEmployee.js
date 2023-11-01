@@ -1084,7 +1084,9 @@ function UpdateContract() {
                 timer: 1500
             })
             $('#modalContract').modal('hide');
-            location.reload();
+            setTimeout(function () {
+                location.reload();
+            }, 1800); // 3000 milliseconds = 3 seconds
         }
         else {
             Swal.fire(

@@ -546,7 +546,7 @@ function Src() {
              }
              
              $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
-        } else if (data.intwByRas === "") {
+        } else if (data.intwByRas === "" || data.intwByRas==null) {
             // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
             $('#intwUser').prop('disabled', true);
             $('#nameUser').prop('disabled', true);
@@ -1000,11 +1000,11 @@ function Save() {
     NonRasCandidate.currentSalary = $('#current').val();
     NonRasCandidate.expectedSalary = $('#expected').val();
     NonRasCandidate.negotiable = $('input[name="nego"]:checked').val();;
-    NonRasCandidate.intwByRas = "";
+    NonRasCandidate.intwByRas = null;
     NonRasCandidate.intwDateByRas = null;
-    NonRasCandidate.intwUser = "";
-    NonRasCandidate.nameOfUser = "";
-    NonRasCandidate.intwDateUser = "";
+    NonRasCandidate.intwUser = null;
+    NonRasCandidate.nameOfUser = null;
+    NonRasCandidate.intwDateUser = null;
     NonRasCandidate.levelRekom = "";
     NonRasCandidate.status = "";
     NonRasCandidate.notes = "";
