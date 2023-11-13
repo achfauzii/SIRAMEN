@@ -352,9 +352,10 @@
                                 @*<input type="number" class="form-control" id="experience" required>*@
                                 <select id="experience" class="selectExperience form-control" name="state" required_>
                                     <option selected disabled>Choose...</option>
-                                    <option value="< 1 Years">< 1 Year</option>
+                                    <option value="< 1 Year">< 1 Year</option>
                                     <option value="1 Year">1 Year</option>
                                     <option value="2 Years">2 Years</option>
+                                      <option value="3 Years">3 Years</option>
                                     <option value="4 Years">4 Years</option>
                                     <option value="5 Years">5 Years</option>
                                     <option value="> 5 Years">> 5 Years</option>
@@ -427,7 +428,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Berca CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="bercacv" required_>
+                                <input type="text" class="form-control" id="bercacv">
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -450,7 +451,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Current Salary</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="current" required_ onkeyup="formatCurrency(this);" placeholder="Rp ">
+                                <input type="text" class="form-control" id="current"  onkeyup="formatCurrency(this);" placeholder="Rp ">
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -459,7 +460,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Expected Salary</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="expected" required_ onkeyup="formatCurrency(this);" placeholder="Rp ">
+                                <input type="text" class="form-control" id="expected" onkeyup="formatCurrency(this);" placeholder="Rp ">
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>

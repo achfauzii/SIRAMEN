@@ -721,7 +721,9 @@ function getUniversitasListt() {
             $(selectUniversity2).select2({
                 placeholder: 'Select university',
                 width: '100%',
-                dropdownParent: $('#offeringSourceList')
+             
+                dropdownParent: $('#offeringSourceList'),
+                tags: true,
 
             });
         },
@@ -760,6 +762,7 @@ function getUniversitasList() {
             $('.selectUniversity').select2({
                 placeholder: 'Select university',
                 width: '100%',
+                tags: true,
                 dropdownParent: $('#Modal')
 
             });
