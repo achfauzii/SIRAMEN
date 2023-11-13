@@ -446,6 +446,7 @@ function SaveTurnOver() {
     TurnOver.status = $('#Status').val();
     // TurnOver.deptId = $('#DeptId').val();
     TurnOver.deptId = deptIdValue ? deptIdValue : null;
+
     TurnOver.description = $('#Description').val();
     TurnOver.accountId = $('#AccountId').val();
     TurnOver.exitDate = $('#date').val();
@@ -457,8 +458,10 @@ function SaveTurnOver() {
     // console.log(placement);
     $.ajax({
         type: 'POST',
+
         url: 'https://localhost:7177/api/TurnOver',
         data: JSON.stringify(TurnOver),
+
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -923,15 +926,26 @@ function SaveTurnOver() {
 
     }
 
+    $('input[required_]').each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next('.error-message-turnOver').show();
+            isValid = false;
+        } else {
+            input.next('.error-message-turnOver').hide();
+        }
+    });
+    
     if (!isValid) {
         return;
     }
-    var deptIdValue = $('#DeptId').val();
+    var deptIdValue = $('#deptId').val();
     var TurnOver = new Object  //object baru
 
     TurnOver.status = $('#Status').val();
     // TurnOver.deptId = $('#DeptId').val();
     TurnOver.deptId = deptIdValue ? deptIdValue : null;
+    TurnOver.description = $('#Description').val();
     TurnOver.description = $('#Description').val();
     TurnOver.accountId = $('#AccountId').val();
     TurnOver.exitDate = $('#date').val();
@@ -1070,7 +1084,9 @@ function UpdateContract() {
                 timer: 1500
             })
             $('#modalContract').modal('hide');
-            location.reload();
+            setTimeout(function () {
+                location.reload();
+            }, 1800); // 3000 milliseconds = 3 seconds
         }
         else {
             Swal.fire(

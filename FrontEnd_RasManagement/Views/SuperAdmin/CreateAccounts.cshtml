@@ -206,13 +206,14 @@
         //    alert('Password and Repeat Password do not match.');
         //    return; // Hentikan eksekusi lebih lanjut
         //}
+
            //validasi email
-        if (validateEmail(email)) {
-            $('#validateEmail').hide();
-        } else {
-           $('#validateEmail').show();
-           return;
-        }
+        //if (validateEmail(email)) {
+        //    $('#validateEmail').hide();
+        //} else {
+        //   $('#validateEmail').show();
+        //   return;
+        //}
         const password = uuidv4();
 
         var hiredStatusElement = document.querySelector('input[name="hiredStatus"]:checked');
@@ -264,7 +265,7 @@
                     $.post("/Accounts/NewAccount", { email, password })
                         .done(function () {
                             const Toast = Swal.mixin({
-                                toast: true,
+                                toast: true,    
                                 position: 'top-end',
                                 showConfirmButton: false,
                                 timer: 2000,

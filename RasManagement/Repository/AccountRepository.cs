@@ -20,7 +20,9 @@ namespace RasManagement.Repository
         public async Task<string> GenerateId()
         {
             //var currentDate = DateTime.Now.ToString("ddMMyyy");
-            int countAccount = _context.Accounts.Count();
+
+            int countAccount = _context.Accounts.Count(account => account.RoleId != "5");
+
             /* var lastEmployee = myContext.Employees
                  .OrderByDescending(e => e.NIK)
                  .FirstOrDefault();*/
@@ -35,6 +37,23 @@ namespace RasManagement.Repository
             return $"{ras}{countAccount.ToString("D2")}";
 
 
+        }
+
+        public async Task<string> GenerateNonId()
+        {
+            //var currentDate = DateTime.Now.ToString("ddMMyyy");
+            int countAccount = _context.Accounts.Count(account => account.RoleId == "5");
+            /* var lastEmployee = myContext.Employees
+                 .OrderByDescending(e => e.NIK)
+                 .FirstOrDefault();*/
+            var ras = "NonRAS";
+            if (countAccount == 0)
+            {
+                // Jika belum ada data sama sekali, maka ID dimulai dari 0
+                //return DateTime.Now.ToString("ddMMyyyy") + "000";
+                return ras + "00";
+            }
+            return $"{ras}{countAccount.ToString("D3")}";
         }
 
         public Account GetByView(VMLogin viewLogin)
@@ -126,8 +145,6 @@ namespace RasManagement.Repository
 
             };
             _context.Entry(account).State = EntityState.Added;
-
-
 
             // myContext.Entry(employee).State = EntityState.Added;
             var save = _context.SaveChanges();
@@ -340,8 +357,10 @@ namespace RasManagement.Repository
             return _context.Accounts.Find(accountId);
         }
 
-
-
+     /*   internal string GetAccountId()
+        {
+            throw new NotImplementedException();
+        }*/
     }
 
 

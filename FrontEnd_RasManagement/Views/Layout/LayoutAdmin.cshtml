@@ -26,7 +26,7 @@
     @*  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>*@
-
+    
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -47,7 +47,11 @@
     </script>
 
     <!-- Custom styles for this page -->
-    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    @*    <link href="https://cdn.datatables.net/v/dt/dt-1.13.6/b-2.4.2/datatables.min.css" rel="stylesheet">*@
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
+
     <style>
         @@media print {
             .no-print {
@@ -87,7 +91,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    <!-- Select2-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
+
+
+
+
+
+
+
+
 
 </head>
 
@@ -121,7 +138,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Admin Menu
+                Resource
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -153,6 +170,13 @@
                 </a>
             </li>
 
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Non Resource
+            </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/TurnOverEmployee" ? "active" : "")">
                 <a class="nav-link collapsed" href="/ManageEmployee/TurnOverEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
@@ -161,22 +185,30 @@
                 </a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <li class="nav-item @(currentUrl == "/ManageEmployee/Department" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
+            <li class="nav-item @(currentUrl == "/ResourceReport/Index" ? "active" : "")">
+                <a class="nav-link collapsed" href="/ResourceReport/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-exchange"></i>
-                    <span>Manage Department</span>
+                    <i class="fas fa-list-ul"></i>
+                    <span>Shortlist Candidate</span>
                 </a>
             </li>
 
-            <li class="nav-item @(currentUrl == "/ResourceReport/ShorlistCandidate" ? "active" : "")">
+            @*<li class="nav-item @(currentUrl == "/ResourceReport/ShorlistCandidate" ? "active" : "")">
                 <a class="nav-link collapsed" href="/ResourceReport/ShorlistCandidate" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-exchange"></i>
-                    <span>Shorlist Candidate</span>
+                    <i class="fas fa-list-ul"></i>
+                    <span>Shortlist Candidate</span>
+                </a>
+            </li>*@
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Departments
+            </div>
+            <li class="nav-item @(currentUrl == "/ManageEmployee/Department" ? "active" : "")">
+                <a class="nav-link collapsed" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-building"></i>
+                    <span>Manage Department</span>
                 </a>
             </li>
         </ul>
@@ -195,23 +227,11 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    @*  <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                    aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search fa-sm"></i>
-                    </button>
-                    </div>
-                    </div>
-                    </form>*@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                  
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -242,8 +262,8 @@
                                 Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>*@
-                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#chagnePasswordModal" onclick="clearScreen()">
-                                   <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#chagnePasswordModal" onclick="clearScreen()">
+                                    <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Change Password
                                 </a>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -258,7 +278,7 @@
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
-                <div class="container-fluid ">
+                <div class="container-fluid">
 
                     @RenderBody()
 
@@ -379,21 +399,23 @@
     <script src="~/js/Account.js"></script>
 
     <!-- Page level plugins -->
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
+    @*    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>*@
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <sc@*ript src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>*@
     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
 
 
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        @*  <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>*@
     <script src="~/js/JwtUtils.js"></script>
     <script src="~/js/DetailEmployee.js"></script>
-     <script src="~/js/ChangePassword.js"></script>
+    <script src="~/js/ChangePassword.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-  
+
     <!-- Page specific script -->
-    @RenderSection("script",required:false)
+        @RenderSection("script",required:false)
 </body>
 
 </html>

@@ -137,7 +137,7 @@ function Save() {
     console.log(EmploymentHistory);
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7109/api/EmploymentHistory',
+        url: 'https://localhost:7177/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {

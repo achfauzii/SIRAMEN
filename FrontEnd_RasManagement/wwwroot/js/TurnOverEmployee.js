@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    debugger;
+    //debugger;
 
     $('#dataTableEmployee thead tr').clone(true).addClass('filters').attr('id', 'filterRow').appendTo('#dataTableEmployee thead');
 
@@ -16,7 +16,9 @@
         fixedHeader: true,
 
         "ajax": {
+
             url: "https://localhost:7177/api/TurnOver/TurnOverEmployee",
+
             type: "GET",
             "datatype": "json",
             async: true,
@@ -146,6 +148,7 @@
 
 });
 
+
 function showDescription(namaDept, description, date) {
  
     const showDept = document.getElementById("showDept");
@@ -174,5 +177,6 @@ function showDescription(namaDept, description, date) {
     }
     $("#date").text(newDate);
     
+
 
 }

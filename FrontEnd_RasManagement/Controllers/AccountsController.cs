@@ -29,7 +29,6 @@ namespace FrontEnd_RasManagement.Controllers
         }
 
 
-        //FORGOT PASSWORD
         [HttpGet]
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email)
@@ -66,6 +65,7 @@ namespace FrontEnd_RasManagement.Controllers
                 // Periksa status respons dari API
                 if (response.IsSuccessStatusCode)
                 {
+                    //Console.WriteLine(response.IsSuccessStatusCode);
                     // Permintaan sukses, kembalikan view yang diinginkan
                     string resetUrl = $"https://localhost:7109/ResetPassword/{data.data}";
                     await mailService.SendEmailAsync(email, resetUrl);
@@ -89,7 +89,6 @@ namespace FrontEnd_RasManagement.Controllers
             }
 
         }
-
         //RESET PASSWORD AFTER FORGOT PASSWORD
         public IActionResult ResetPassword(string resetToken)
         {
@@ -117,7 +116,7 @@ namespace FrontEnd_RasManagement.Controllers
               // Mendekode token JWT
              *//* JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
               JwtSecurityToken jwtToken = tokenHandler.ReadJwtToken(resetToken);
-
+            
               // Mendapatkan nilai claim yang diinginkan
               string email = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email")?.Value;
               var expirationDate = jwtToken.ValidTo;
