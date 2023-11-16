@@ -13,7 +13,7 @@ function loadData() {
     var urlParams = new URLSearchParams(window.location.search);
     var accountId = urlParams.get('accountId');
     $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        url: "http://192.168.25.189:9001/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -48,7 +48,7 @@ function loadData() {
             //debugger;
             // API GET (Education By AccountId)
             $.ajax({
-                url: "https://localhost:7177/api/Educations/accountId?accountId=" + accountId,
+                url: "http://192.168.25.189:9001/api/Educations/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -94,7 +94,7 @@ function loadData() {
 
             // API GET (NonFromalEdu By AccountId)
             $.ajax({
-                url: "https://localhost:7177/api/NonFormalEdu/accountId?accountId=" + accountId,
+                url: "http://192.168.25.189:9001/api/NonFormalEdu/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -132,7 +132,7 @@ function loadData() {
 
             // API GET (Qualification By AccountId)
             $.ajax({
-                url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accountId,
+                url: "http://192.168.25.189:9001/api/Qualification/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -167,7 +167,7 @@ function loadData() {
 
             // API GET (Certificate By AccountId)
             $.ajax({
-                url: "https://localhost:7177/api/Certificate/accountId?accountId=" + accountId,
+                url: "http://192.168.25.189:9001/api/Certificate/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -213,7 +213,7 @@ function loadData() {
 
             // API GET (Employeement History By AccountId)
             $.ajax({
-                url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" + accountId,
+                url: "http://192.168.25.189:9001/api/EmploymentHistory/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -298,7 +298,7 @@ function loadData() {
 
             // API GET (ProjectHistory By AccountId)
             $.ajax({
-                url: "https://localhost:7177/api/ProjectHistory/accountId?accountId=" + accountId,
+                url: "http://192.168.25.189:9001/api/ProjectHistory/accountId?accountId=" + accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

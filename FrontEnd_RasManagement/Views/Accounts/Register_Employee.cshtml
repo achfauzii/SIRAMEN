@@ -10,7 +10,7 @@
             <div class="form-group row ">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Full Name</label>
-                    <input type="text" class="form-control " id="fullName" name="fullName" required>
+                    <input type="text" class="form-control" oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="fullName" name="fullName" required>
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
                 <div class="col-sm-3">
@@ -179,7 +179,7 @@
 
 
         // Mengirim data ke API menggunakan Fetch API
-        fetch('https://localhost:7177/api/Accounts/Register', {
+        fetch('http://192.168.25.189:9001/api/Accounts/Register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -254,5 +254,14 @@
         return regex.test(email);
     }
 
+    function noHTML(input) {
+        var value = input.value.replace(/<[^>]*>/g, '');
+        //var nohtml = value.replace(/[<>?/]/g, '');
+        input.value = value
+    }
+    function handleInput(event, input) {
+        // Menangani peristiwa oninput dan onpaste
+        noHTML(input);
+    }
 </script>
 

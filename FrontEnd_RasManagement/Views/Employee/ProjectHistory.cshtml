@@ -41,13 +41,13 @@
                         </div>
                         <div class="form-group">
                             <label for="ProjectName">Project Name</label>
-                            <input type="text" class="form-control" id="ProjectName" placeholder="Enter project name" required>
+                            <input type="text" class="form-control" id="ProjectName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter project name" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="JobSpec">Job Spesification</label>
 
-                            <textarea class="form-control" id="JobSpec" rows="4" placeholder="&bull; Enter Job Spesification" required></textarea>
+                            <textarea class="form-control" id="JobSpec" rows="4" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="&bull; Enter Job Spesification" required></textarea>
 
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             <small class="form-text text-muted text-primary">You can include a GitHub link or your portfolio.</small>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-group">
                             <label for="CompanyName">Company Name</label>
-                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter company name" required>
+                            <input type="text" class="form-control" id="CompanyName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter company name" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </form>

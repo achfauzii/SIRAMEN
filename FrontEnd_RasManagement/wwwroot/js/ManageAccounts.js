@@ -5,7 +5,7 @@
     const accid = decodedtoken.AccountId;*/
     $('#dataTableAccounts').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/Employees/EmployeeAdmin",
+            url: "http://192.168.25.189:9001/api/Employees/EmployeeAdmin",
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -57,7 +57,7 @@ function GetById(accountId) {
     /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;*/
     $.ajax({
-        url: "https://localhost:7177/api/Accounts/AccountId?accountId=" + accountId,
+        url: "http://192.168.25.189:9001/api/Accounts/AccountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -70,7 +70,7 @@ function GetById(accountId) {
             $('#AccountId').val(obj.accountId);
             $('#Role').val(obj.roleId);
             //document.getElementById('fullname').text(obj.fullname);
-            console.log(obj.fullname);
+            //console.log(obj.fullname);
             //document.getElementById('fullName').text = obj.fullname;
             $('#FullName').text(obj.fullname);
             $('#Modal').modal('show');
@@ -91,7 +91,7 @@ function UpdateRole() {
     const accid = decodedtoken.AccountId;
     Account.accountId = accid;*/
     $.ajax({
-        url: 'https://localhost:7177/api/Accounts/UpdateRole',
+        url: 'http://192.168.25.189:9001/api/Accounts/UpdateRole',
         type: 'PUT',
         data: JSON.stringify(Account),
         contentType: "application/json; charset=utf-8",

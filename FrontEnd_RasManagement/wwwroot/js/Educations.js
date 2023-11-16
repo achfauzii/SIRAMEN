@@ -17,12 +17,12 @@ $(document).ready(function () {
 })
 
 function Educations() {
-    debugger;
+    //debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_FormalEdu').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/Educations/accountId?accountId=" + accid,
+            url: "http://192.168.25.189:9001/api/Educations/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -95,19 +95,45 @@ function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
 
     $.ajax({
-        url: "https://localhost:7177/api/Universitas",
+        url: "../assets/file_json/loadpt.json",
+        type: "GET",
+        "datatype": "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var universities = result;
+
+            universities.forEach(function (university) {
+                //console.log(university);
+                const option = document.createElement('option');
+                option.value = university.nama_pt;
+                option.textContent = university.nama_pt;
+                selectUniversity.appendChild(option);
+            });
+
+            $(selectUniversity).select2({
+                placeholder: 'Select university',
+                width: '100%',
+
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    /*const selectUniversity = document.getElementById('UniversityName');
+
+    $.ajax({
+        url: "http://192.168.25.189:9001/api/Universitas",
         type: "GET",
         dataType: "json",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            var universities = result.data;
-
-      
-            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-           //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-          
+            var universities = result.data; 
 
             universities.forEach(function (university) {
                 console.log(university);
@@ -126,11 +152,73 @@ function getUniversitasList() {
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
-    });
+    });*/
 }
 
-
 function formInputLocation() {
+
+    const selectProvinces = document.getElementById('selectProvinces');
+    const selectRegencies = document.getElementById('selectRegencies');
+
+    $(selectRegencies).select2({
+        placeholder: 'Select City or County',
+        width: '100%'
+    });
+
+    fetch('../assets/file_json/provinces.json') //path ke file provinces.json
+        .then(response => response.json())
+        .then(provinces => {
+            provinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province.id;
+                option.textContent = province.name;
+                selectProvinces.appendChild(option);
+            });
+
+            // Select2 untuk select provinsi
+            $(selectProvinces).select2({
+                placeholder: 'Select Province',
+                width: '100%'
+            });
+
+            // Event listener ketika provinsi dipilih
+            $(selectProvinces).on('change', function () {
+                const selectedProvinceId = $(this).val();
+
+                // Hapus pilihan sebelumnya di select regencies
+                $(selectRegencies).empty();
+
+                if (selectedProvinceId) {
+                    fetch('../assets/file_json/regencies.json') // path ke file regencies.json
+                        .then(response => response.json())
+                        .then(regencies => {
+                            const filteredRegencies = regencies.filter(regency => regency.province_id === selectedProvinceId);
+
+                            filteredRegencies.forEach(regency => {
+                                const option = document.createElement('option');
+                                option.value = regency.name;
+                                option.textContent = regency.name;
+                                selectRegencies.appendChild(option);
+                            });
+
+                            // Inisialisasi Select2 untuk select regencies
+                            $(selectRegencies).select2({
+                                placeholder: 'Select Regencies',
+                                width: '100%'
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching regencies data:', error);
+                        });
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching provinces data:', error);
+        });
+}
+
+/*function formInputLocation() {
 
     const selectProvinces = document.getElementById('selectProvinces');
     const selectRegencies = document.getElementById('selectRegencies');
@@ -192,7 +280,7 @@ function formInputLocation() {
             console.error('Error fetching provinces data:', error);
         });
 
-}
+}*/
 
 
 function parseJwt(token) {
@@ -266,7 +354,7 @@ function SaveFormal() {
     FormalEdu.AccountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Educations',
+        url: 'http://192.168.25.189:9001/api/Educations',
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -336,7 +424,7 @@ function GetById(formalEduId) {
     ClearScreenFormal();
     const selectUniversity = document.getElementById('UniversityName');
     $.ajax({
-        url: "https://localhost:7177/api/Educations/" + formalEduId,
+        url: "http://192.168.25.189:9001/api/Educations/" + formalEduId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -432,7 +520,7 @@ function UpdateFormal() {
 
     $.ajax({
         type: 'PUT',
-        url: 'https://localhost:7177/api/Educations',
+        url: 'http://192.168.25.189:9001/api/Educations',
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -471,7 +559,7 @@ function DeleteFormal(formalEduId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Educations/" + formalEduId,
+                url: "http://192.168.25.189:9001/api/Educations/" + formalEduId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {

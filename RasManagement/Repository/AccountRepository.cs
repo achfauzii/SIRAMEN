@@ -31,10 +31,10 @@ namespace RasManagement.Repository
             {
                 // Jika belum ada data sama sekali, maka ID dimulai dari 0
                 //return DateTime.Now.ToString("ddMMyyyy") + "000";
-                return ras + "00";
+                return ras + "000";
             }
 
-            return $"{ras}{countAccount.ToString("D2")}";
+            return $"{ras}{countAccount.ToString("D3")}";
 
 
         }

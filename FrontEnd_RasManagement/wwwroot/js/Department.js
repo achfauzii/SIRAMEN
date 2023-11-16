@@ -4,7 +4,7 @@ $(document).ready(function () {
     table = $('#TB_Department').DataTable({
         
         "ajax": {
-            url: "https://localhost:7177/api/Department",
+            url: "http://192.168.25.189:9001/api/Department",
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -70,7 +70,7 @@ function Save() {
     Department.namaDept = $('#NamaDept').val(); //value insert dari id pada input
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Department',
+        url: 'http://192.168.25.189:9001/api/Department',
         data: JSON.stringify(Department),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -117,10 +117,21 @@ function ClearScreen() {
     });*/
 }
 
+function noHTML(input) {
+    var value = input.value.replace(/<[^>]*>/g, '');
+    var nohtml = value.replace(/[<>?/]/g, '');
+    input.value = nohtml;
+}
+
+function handleInput(event, input) {
+    // Menangani peristiwa oninput dan onpaste
+    noHTML(input);
+}
+
 function GetByIdDept(deptId) {
     //debugger;
     $.ajax({
-        url: "https://localhost:7177/api/Department/" + deptId,
+        url: "http://192.168.25.189:9001/api/Department/" + deptId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -164,7 +175,7 @@ function UpdateDept() {
     Department.namaDept = $('#NamaDept').val(); //value insert dari id pada input
     debugger;
     $.ajax({
-        url: 'https://localhost:7177/api/Department',
+        url: 'http://192.168.25.189:9001/api/Department',
         type: 'PUT',
         data: JSON.stringify(Department),
         contentType: "application/json; charset=utf-8",
@@ -203,7 +214,7 @@ function Delete(deptId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Department/" + deptId,
+                url: "http://192.168.25.189:9001/api/Department/" + deptId,
                 type: "DELETE",
                 dataType: "json",
 

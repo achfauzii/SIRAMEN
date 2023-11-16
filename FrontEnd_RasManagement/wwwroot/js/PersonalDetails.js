@@ -15,7 +15,7 @@ function loadDataA() {
     const accid = decodedtoken.AccountId;
     var imgElement = $("#employeePhoto");
     $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
+        url: "http://192.168.25.189:9001/api/Employees/accountId?accountId=" + accid,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -85,11 +85,21 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+function noHTML(input) {
+    var value = input.value.replace(/<[^>]*>/g, '');
+    var nohtml = value.replace(/[<>?/]/g, '');
+    input.value = nohtml;
+}
+
+function handleInput(event, input) {
+    // Menangani peristiwa oninput dan onpaste
+    noHTML(input);
+}
 
 /*function GetById(accountId) {
     debugger;
     $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        url: "http://192.168.25.189:9001/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -139,7 +149,7 @@ function parseJwt(token) {
 function GetById(accountId) {
     debugger;
     $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        url: "http://192.168.25.189:9001/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -216,7 +226,7 @@ function GetById(accountId) {
     console.log(formData);
 
     $.ajax({
-        url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
+        url: `http://192.168.25.189:9001/api/Employees/${formData.AccountId}`,
         type: "PUT",
         data: JSON.stringify(formData),
         contentType: "application/json",
@@ -267,7 +277,7 @@ function updateData() {
     uploadImage(accountId);
 
     var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
-    console.log(imagePath);
+    //console.log(imagePath);
     var formData = {
         AccountId: $('#accountId').val(),
         Fullname: $('#editName').val(),
@@ -287,7 +297,7 @@ function updateData() {
 
 
     $.ajax({
-        url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
+        url: `http://192.168.25.189:9001/api/Employees/${formData.AccountId}`,
         type: "PUT",
         data: JSON.stringify(formData),
         contentType: "application/json",
@@ -395,7 +405,7 @@ function uploadImage(accountId) {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 if (response.success) {
                     $("#uploadMessage").text(response.message);
                 } else {
@@ -404,7 +414,7 @@ function uploadImage(accountId) {
             },
             error: function (xhr, status, error) {
                 $("#uploadMessage").text("An error occurred while uploading the image.");
-                console.log(error);
+                //console.log(error);
             }
         });
     } else {

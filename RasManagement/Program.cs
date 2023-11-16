@@ -79,15 +79,23 @@ var app = builder.Build();
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 
-}
+}*/
+
+app.UseSwagger();
+app.UseSwaggerUI(o =>
+{
+    o.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"); // options added on 17-4-2023
+    o.RoutePrefix = string.Empty;
+});
+
 //If Deploy use 
-//app.UseSwagger();
-//app.UseSwaggerUI();
+/*app.UseSwagger();
+app.UseSwaggerUI();*/
 
 
 
@@ -99,7 +107,11 @@ app.UseCors(options => options
 app.UseHttpsRedirection();
 
 app.UseAuthentication(); // Menambahkan middleware autentikasi
-app.UseAuthorization();
+
+//Mengetahui Error
+//app.UseDeveloperExceptionPage();
+
+//app.UseAuthorization();
 
 app.UseAuthorization();
 

@@ -170,22 +170,22 @@
                         </div>
                         <div class="form-group">
                             <label for="Name">Name</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Enter your name" required-nonformal>
+                            <input type="text" class="form-control" id="Name" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter your name" required-nonformal>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Organizer">Organizer</label>
-                            <input type="text" class="form-control" id="Organizer" placeholder="Enter the organizer" required-nonformal>
+                            <input type="text" class="form-control" id="Organizer" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the organizer" required-nonformal>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Years">Years</label>
-                            <input type="text" class="form-control" id="Years" placeholder="Enter the year" required-nonformal>
+                            <input type="number" class="form-control" id="Years" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the year" required-nonformal>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Description">Description</label>
-                            <input type="text" class="form-control" id="Description" placeholder="Enter the description" required-nonformal>
+                            <input type="text" class="form-control" id="Description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the description" required-nonformal>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </form>

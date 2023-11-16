@@ -339,6 +339,35 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpGet("BirthDay")]
+        public IActionResult GetBirthDay()
+        {
+            var account = _context.Accounts.ToList();
+            List<String> birthday = new List<String>();
+            List<String> email = new List<String>();
+
+            foreach (var item in account)
+            {
+                if (item.Birthdate != null)
+                {
+                    if (item.Birthdate.Value.Date.ToString("MM-dd") == DateTime.Now.ToString("MM-dd"))
+                    {
+                        birthday.Add(item.Fullname);
+                        email.Add(item.Email);
+                    }
+                }
+            }
+
+            if (birthday.Count > 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil ditemukan", Data = new { email = email, name = birthday } });
+            }
+            else
+            {
+                return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data tidak dapat ditemukan", });
+            }
+
+        }
     }
 
 }

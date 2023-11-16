@@ -255,7 +255,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Full Name </div>
                             <div class="col-9">
-                                <input type="text" class="form-control " id="Name" required_>
+                                <input type="text" class="form-control " id="Name" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -264,7 +264,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Position </div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="position" required_>
+                                <input type="text" class="form-control" id="position"oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                                 <small class="form-text text-muted text-primary">If more than one position (Fullstack, Data Science, ...).</small>
                             </div>
@@ -274,8 +274,9 @@
                         <div class="row">
                             <div class="col" style="color: black">Skillset </div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="skillset" required_>
+                                <input type="text" class="form-control" id="skillset" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                                <small class="form-text text-muted text-primary">If more than one skillset (.Net, C#, ...).</small>
                             </div>
                         </div>
                     </div>
@@ -283,7 +284,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Degree </div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="degree" required_>
+                                <input type="text" class="form-control" id="degree" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -305,7 +306,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Domicile</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="domicile">
+                                <input type="text" class="form-control" id="domicile" oninput="handleInput(event, this);" onpaste="handleInput(event, this);">
                                 @*<span class="error-message_" style="color: red; display: none;">This field is required!</span>*@
                                 @*<p>
                                 <select class="selectProvinces form-control" style="width:100%" id="selectProvinces" placeholder="Select Provinces" name="state">
@@ -400,7 +401,7 @@
                         <div class="row pl-5 pr-5 ">
                             <div class="col" style="color: black">Notice Period</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="notice" required_>
+                                <input type="text" class="form-control" id="notice" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -419,7 +420,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Raw CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="rawcv" required_>
+                                <input type="text" class="form-control" id="rawcv" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -428,7 +429,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Berca CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="bercacv">
+                                <input type="text" class="form-control" id="bercacv"oninput="handleInput(event, this);" onpaste="handleInput(event, this);">
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -578,12 +579,12 @@
 
                         <div class="col-sm-5">
                             <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
-                            <input type="text" class="form-control form-control-sm" id="nameUser">
+                            <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="nameUser">
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
                             <!--New Offering Process-->
                             <div class="mt-2" style="display:none" id="displayNameUser2">
-                                <input type="text" class="form-control form-control-sm" placeholder="Name Of User" id="nameUser2">
+                                <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Name Of User" id="nameUser2">
                             </div>
 
                         </div>
@@ -627,7 +628,7 @@
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Notes</label>
                         <div class="col-sm-10">
-                            <textarea type="text" class="form-control form-control-sm" id="notes"> </textarea>
+                            <textarea type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="notes"> </textarea>
                         </div>
                     </div>
 
@@ -647,7 +648,7 @@
                             <div class="row pl-5 pr-5">
                                 <div class="col" style="color: black">Full Name </div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control " id="Name2" required>
+                                    <input type="text" class="form-control " id="Name2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -656,7 +657,7 @@
                             <div class="row pl-5 pr-5">
                                 <div class="col" style="color: black">Position </div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="position2" required>
+                                    <input type="text" class="form-control" id="position2"oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                       <small class="form-text text-muted text-primary">If more than one position ( Fullstack, Data Science, ... )</small>
                                 </div>
@@ -666,7 +667,7 @@
                             <div class="row">
                                 <div class="col" style="color: black">Skillset </div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="skillset2" required>
+                                    <input type="text" class="form-control" id="skillset2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -675,7 +676,7 @@
                             <div class="row pl-5 pr-5">
                                 <div class="col" style="color: black">Domicile</div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="domicile2" required>
+                                    <input type="text" class="form-control" id="domicile2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -684,7 +685,7 @@
                             <div class="row pl-5 pr-5">
                                 <div class="col" style="color: black">Degree </div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="degree2" required>
+                                    <input type="text" class="form-control" id="degree2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -765,7 +766,7 @@
                             <div class="row pl-5 pr-5 ">
                                 <div class="col" style="color: black">Notice Period</div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="notice2" required>
+                                    <input type="text" class="form-control" id="notice2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -785,7 +786,7 @@
                             <div class="row pl-5 pr-5">
                                 <div class="col" style="color: black">Raw CV</div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="rawcv2" required>
+                                    <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="rawcv2" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -794,7 +795,7 @@
                             <div class="row pl-5 pr-5">
                                 <div class="col" style="color: black">Berca CV</div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="bercacv2" required>
+                                    <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="bercacv2" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>

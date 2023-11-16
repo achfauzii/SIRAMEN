@@ -6,7 +6,7 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
     table = $('#TB_Certificate').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/Certificate/accountId?accountId=" + accid,
+            url: "http://192.168.25.189:9001/api/Certificate/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -93,6 +93,17 @@ $(document).ready(function () {
     })
 })
 
+function noHTML(input) {
+    var value = input.value.replace(/<[^>]*>/g, '');
+    var nohtml = value.replace(/[<>?/]/g, '');
+    input.value = nohtml;
+}
+
+function handleInput(event, input) {
+    // Menangani peristiwa oninput dan onpaste
+    noHTML(input);
+}
+
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -122,7 +133,7 @@ function ClearScreen() {
 function GetById(CertificateId) {
     //debugger;
     $.ajax({
-        url: "https://localhost:7177/api/Certificate/" + CertificateId,
+        url: "http://192.168.25.189:9001/api/Certificate/" + CertificateId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -175,7 +186,7 @@ function Save() {
     Certificate.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Certificate',
+        url: 'http://192.168.25.189:9001/api/Certificate',
         data: JSON.stringify(Certificate), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -222,7 +233,7 @@ function Delete(CertificateId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Certificate/" + CertificateId,
+                url: "http://192.168.25.189:9001/api/Certificate/" + CertificateId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {
@@ -277,7 +288,7 @@ function Update() {
     const accid = decodedtoken.AccountId;
     Certificate.accountId = accid;
     $.ajax({
-        url: 'https://localhost:7177/api/Certificate',
+        url: 'http://192.168.25.189:9001/api/Certificate',
         type: 'PUT',
         data: JSON.stringify(Certificate),
         contentType: "application/json; charset=utf-8",

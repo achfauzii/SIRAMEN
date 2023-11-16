@@ -40,7 +40,7 @@ function updatePassword() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accountId = decodedtoken.AccountId;
     const email = decodedtoken.Email;
-    console.log(email);
+    //console.log(email);
     var currentPassword = document.getElementById('currentPassword').value;
     var newPassword = document.getElementById('newPassword').value;
     var repeatPassword = document.getElementById('repeatPassword').value;
@@ -54,7 +54,7 @@ function updatePassword() {
     //debugger;
 
 
-    fetch('https://localhost:7177/api/Accounts/ChangePassword', {
+    fetch('http://192.168.25.189:9001/api/Accounts/ChangePassword', {
         method: 'PUT', // Atur metode sesuai kebutuhan
         headers: {
             'Content-Type': 'application/json', // Atur tipe konten sesuai kebutuhan

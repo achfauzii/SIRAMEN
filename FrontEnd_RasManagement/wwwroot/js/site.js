@@ -2,3 +2,351 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+
+
+var arrayEmail = [];
+var emailBirthday = [];
+
+
+$(document).ready(function () {
+    //GetBirthday
+    $.ajax({
+        type: 'GET',
+        url: 'http://192.168.25.189:9001/api/Accounts/BirthDay',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+    }).then((result) => {
+        if (result.status == 200) {
+            document.getElementById('birthday').innerHTML = '';
+            var text = "";
+            result.data.name.forEach(item => {
+                text += item + ", ";
+            })
+            emailBirthday.push(result.data.email);
+
+
+            document.getElementById("birthday").innerHTML = text.substr(0, (text.length - 2)) + ".";
+        } else if (result.status == 404) {
+            document.getElementById('birthday').innerHTML = '';
+            $("#employeeAnnouncement").hide();
+            $("#adminAnnouncement").hide();
+        }
+
+    });
+
+    //Get Employee
+    var selectEmployee = document.getElementById('NameEmployee');
+
+    var select = document.getElementById('EmployeeName');
+
+    $.ajax({
+        type: 'GET',
+        url: 'http://192.168.25.189:9001/api/Accounts',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+    }).then((result) => {
+        if (result != null) {
+            result.forEach(item => {
+                var option = new Option(item.fullname, item.fullname, true, false);
+                selectEmployee.add(option);
+
+
+                var opt = new Option(item.fullname, item.fullname, true, false);
+                select.add(opt);
+
+            });
+        }
+    });
+
+    //Get All Employee
+    $.ajax({
+        type: 'GET',
+        url: 'http://192.168.25.189:9001/api/Employees/EmployeeAdmin',
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+    }).then((result) => {
+
+        if (result.status == 200) {
+
+            result.data.forEach(item => {
+                // Array to be inserted 
+                arrayEmail.push(item.email)
+                // emailObj.email.push(item.email)
+            })
+
+        }
+    });
+
+
+    $('#birth').hide();
+    $('#death').hide();
+
+    document.getElementById('Announcement').addEventListener('change', function () {
+        if (this.value == 'death') {
+            $('#birth').hide();
+            $('#death').show();
+        } else if (this.value == 'birth') {
+            $('#death').hide();
+            $('#birth').show();
+        }
+    });
+});
+
+function clearAnnounce() {
+    //  document.getElementById("").c();
+    $('#Announcement').val('placeholder');
+
+    document.getElementById("AnnounceForm").reset();
+    $('#birth').hide();
+    $('#death').hide();
+
+    document.getElementById("NameEmployee").selectedIndex = "0";
+    document.getElementById("EmployeeName").selectedIndex = "0";
+    document.getElementById("Announcement").selectedIndex = "0";
+}
+
+function SendAnnouncement() {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+
+    if ($('#Announcement').val() == "birth") {
+        var title = "Berita Kelahiran";
+
+        var data = {
+            title: title,
+            employee: $("#NameEmployee").val(),
+            name: $("#ChildName").val(),
+            //gender: document.getElementById('Putra').checked ? "Putra" : "Putri",
+            gender: $('input[name="Gender"]:checked').val(),
+            child: $("#Child").val(),
+            birthdate: ConvertDate($("#BirthDate").val()),
+            birthtime: $("#BirthTime").val(),
+            birthplace: $("#BirthPlace").val(),
+            weight: $("#Weight").val(),
+            length: $("#Length").val(),
+            email: arrayEmail
+        };
+
+        var isValid = true;
+
+        $('input[required]').each(function () {
+            var input = $(this);
+
+            //console.log(input.val());
+            if (!input.val()) {
+                input.closest('.form-group').find('.error-message-announce').show();
+                input.next('.error-message-announce').show();
+                isValid = false;
+            } else {
+                input.closest('.form-group').find('.error-message-announce').hide();
+            }
+        });
+
+        var selectedNameEmployee = $('#NameEmployee').val();
+        var selectedChild = $('#Child').val();
+        if (!selectedNameEmployee) {
+            $('#NameEmployee').closest('.form-group').find('.error-message-name-employee').show();
+            isValid = false;
+        } else {
+            $('#NameEmployee').closest('.form-group').find('.error-message-name-employee').hide();
+        }
+
+        if (!selectedChild) {
+            $('#Child').closest('.form-group').find('.error-message-child').show();
+            isValid = false;
+        } else {
+            $('#Child').closest('.form-group').find('.error-message-child').hide();
+        }
+
+        if (!isValid) {
+            return;
+        }
+
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/Announce/SendEmailKelahiran',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data),
+
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
+            success: function (d) {
+
+                Toast.fire({
+                    icon: 'success',
+                    text: 'Sending news email was successfully!',
+                });
+            }
+        })
+
+    } else if ($('#Announcement').val() == "death") {
+        var title = "Berita Duka Cita";
+
+        var data = {
+            title: title,
+            employee: $("#EmployeeName").val(),
+            name: $("#Name").val(),
+            age: $("#Age").val(),
+            relation: $("#Relation").val(),
+            deathday: ConvertDate($("#DeathDate").val()),
+            deathtime: $("#DeathTime").val(),
+            deathplace: $("#DeathPlace").val(),
+            email: arrayEmail
+        }
+
+        var isValid = true;
+
+        $('input[required-death]').each(function () {
+            var input = $(this);
+            //console.log("Input " + input);
+            if (!input.val()) {
+                input.closest('.form-group').find('.error-message-announce-death').show();
+                isValid = false;
+            } else {
+                input.closest('.form-group').find('.error-message-announce-death').hide();
+            }
+        });
+
+        // Validasi select options
+        var selectedEmployeeName = $('#EmployeeName').val();
+        var selectedRelation = $('#Relation').val();
+
+        if (!selectedEmployeeName) {
+            $('#EmployeeName').closest('.form-group').find('.error-message-employee-name').show();
+            isValid = false;
+        } else {
+            $('#EmployeeName').closest('.form-group').find('.error-message-employee-name').hide();
+
+        }
+
+        if (!selectedRelation) {
+            $('#Relation').closest('.form-group').find('.error-message-relation-employee').show();
+            isValid = false;
+        } else {
+            $('#Relation').closest('.form-group').find('.error-message-relation-employee').hide();
+
+        }
+
+        if (!isValid) {
+            return;
+        }
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/Announce/SendEmailDukaCita',
+            contentType: 'application/json',
+            dataType: 'json',
+
+            data: JSON.stringify(data),
+
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            },
+            success: function (d) {
+                Toast.fire({
+                    icon: 'success',
+                    text: 'Sending news email was successfully!',
+                })
+            }
+        })
+    }
+
+    function ConvertDate(date) {
+        var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        var myDays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum&#39;at', 'Sabtu'];
+
+        var day = date.substr(-2);
+
+        var bulan = date.substring(5, 7);
+        var month = bulan.substring(0, 1) != '0' ? bulan : bulan.substring(-1);
+
+        var year = date.substring(0, 4);
+
+        var toDate = new Date(year, (month - 1), day);
+
+        var thisDay = myDays[toDate.getDay()];
+        var thisMonth = months[month - 1];
+
+
+
+        var tanggal = thisDay + ', ' + day + ' ' + thisMonth + ' ' + year;
+
+        return tanggal;
+    }
+
+    document.getElementById("AnnounceForm").reset();
+    $("#ModalAnnouncement").modal('hide');
+
+    $('#birth').hide();
+    $('#death').hide();
+
+    document.getElementById("NameEmployee").selectedIndex = "0";
+    document.getElementById("EmployeeName").selectedIndex = "0";
+    document.getElementById("Announcement").selectedIndex = "0";
+
+    //function ClearForms() {
+    //    $("#NameEmployee").val("");
+    //    $("#ChildName").val("");
+    //    $("#Putra").val("");
+    //    $("#Putri").val();
+    //    $("#Child").val("");
+    //    $("#BirthDate").val("");
+    //    $("#BirthTime").val("");
+    //    $("#BirthPlace").val("");
+    //    $("#Weight").val("");
+    //    $("#Length").val("");
+
+    //    $("#ChildName").val(),
+    //    $("#ChildName").val(),
+    //    $("#ChildName").val(),
+    //    $("#ChildName").val(),
+    //    $("#ChildName").val(),
+    //}
+}
+
+function validateFormData() {
+
+    //var nameEmployee = $('#NameEmployee').val();
+    //var childName = $('#ChildName').val();
+    //var child = $('#Child').val();
+    //var gender = $('input[name="Gender"]:checked').val();
+    //var birthdate = $('#BirthDate').val();
+    //var birthtime = $('#BirthTime').val();
+    //var birthplace = $('#BirthPlace').val();
+    //var weight = $('#Weight').val();
+    //var length = $('#Length').val();
+
+    //if (nameEmployee === '' || childName === '' || child === '' || birthdate === '' || gender === '' || birthtime === '' || birthplace === '' || weight === '' || length === '') {
+    //    Swal.fire({
+    //        icon: 'error',
+    //        title: 'Error...',
+    //        text: 'Data tidak boleh kosong'
+    //    });
+    //    return false;
+    //}
+
+    //return true;
+}
+

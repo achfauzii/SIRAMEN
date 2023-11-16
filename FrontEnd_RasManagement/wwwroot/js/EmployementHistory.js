@@ -5,7 +5,7 @@ $(document).ready(function () {
     const accid = decodedtoken.AccountId;
     table = $('#TB_EmploymentHistory').DataTable({
         "ajax": {
-            url: "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" + accid,
+            url: "http://192.168.25.189:9001/api/EmploymentHistory/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -99,6 +99,17 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+function noHTML(input) {
+    var value = input.value.replace(/<[^>]*>/g, '');
+    var nohtml = value.replace(/[<>?/]/g, '');
+    input.value = nohtml;
+}
+
+function handleInput(event, input) {
+    // Menangani peristiwa oninput dan onpaste
+    noHTML(input);
+}
+
 function Save() {
     var isValid = true;
 
@@ -130,14 +141,14 @@ function Save() {
         period: period,
         description: $('#Description').val()
     };
-    console.log(endYear);
+    //console.log(endYear);
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
-    console.log(EmploymentHistory);
+    //console.log(EmploymentHistory);
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/EmploymentHistory',
+        url: 'http://192.168.25.189:9001/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -189,7 +200,7 @@ function ClearScreen() {
 
 function GetById(workExperienceId) {
     $.ajax({
-        url: "https://localhost:7109/api/EmploymentHistory/" + workExperienceId,
+        url: "http://192.168.25.189:9001/api/EmploymentHistory/" + workExperienceId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -259,7 +270,7 @@ function Update() {
     debugger;
     $.ajax({
         type: 'PUT',
-        url: 'https://localhost:7109/api/EmploymentHistory',
+        url: 'http://192.168.25.189:9001/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -297,7 +308,7 @@ function Delete(workExperienceId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7109/api/EmploymentHistory/" + workExperienceId,
+                url: "http://192.168.25.189:9001/api/EmploymentHistory/" + workExperienceId,
                 type: "DELETE",
                 dataType: "json",
 

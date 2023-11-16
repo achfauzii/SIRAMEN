@@ -17,7 +17,7 @@
 
         "ajax": {
 
-            url: "https://localhost:7177/api/TurnOver/TurnOverEmployee",
+            url: "http://192.168.25.189:9001/api/TurnOver/TurnOverEmployee",
 
             type: "GET",
             "datatype": "json",
@@ -158,7 +158,7 @@ function showDescription(namaDept, description, date) {
     // Buat opsi untuk pemformatan tanggal yang diinginkan
     var formatOpt = { year: 'numeric', month: 'long', day: 'numeric' };
 
-    // Gunakan fungsi toLocaleDateString() dengan opsi pemformatan
+
     var newDate = dateFormat.toLocaleDateString('id-ID', formatOpt);
     if (namaDept === "null") {
         showDept.style.display = 'none';
@@ -169,9 +169,9 @@ function showDescription(namaDept, description, date) {
     }
 
 
-    if (description === "") {
-        var description = "No Description."
-        $("#description").text(desc);
+    if (description == "") {
+        var description = " No Description."
+        $("#description").text(description);
     } else {
         $("#description").text(description);
     }

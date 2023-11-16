@@ -41,12 +41,12 @@
                         </div>
                         <div class="form-group">
                             <label for="Name">Certificate Name</label>
-                            <input type="text" class="form-control" id="Name" placeholder="Enter certificate name" required>
+                            <input type="text" class="form-control" id="Name" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter certificate name" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
                             <label for="Publisher">Publisher</label>
-                            <input type="text" class="form-control" id="Publisher" placeholder="Enter the publisher" required>
+                            <input type="text" class="form-control" id="Publisher" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the publisher" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">

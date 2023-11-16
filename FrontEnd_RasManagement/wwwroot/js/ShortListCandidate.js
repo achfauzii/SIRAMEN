@@ -4,7 +4,7 @@ $(document).ready(function () {
     const save = document.querySelector('#save');
     const autosave = document.querySelector('#autosave');
     // Melakukan permintaan GET ke API
-    fetch('https://localhost:7177/api/Shortlist')
+    fetch('http://192.168.25.189:9001/api/Shortlist')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -165,7 +165,7 @@ $(document).ready(function () {
                     }
                  
 
-                    fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
+                    fetch('http://192.168.25.189:9001/api/Shortlist/ShortListCandidate', {
                         method: 'POST',
                   
                         headers: {
@@ -176,7 +176,7 @@ $(document).ready(function () {
                     })
                         .then(response => {
                             /*exampleConsole.innerText = `Autosaved (${change.length} cell${change.length > 1 ? 's' : ''})`;*/
-                            console.log('The POST request is only used here for the demo purposes');
+                            //console.log('The POST request is only used here for the demo purposes');
 
                         });
                 }
@@ -195,9 +195,9 @@ $(document).ready(function () {
                         changedData.push(dataToSave[row]);
                     }
                 }
-                console.log(changedData);
+                //console.log(changedData);
 
-              /*  fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
+              /*  fetch('http://192.168.25.189:9001/api/Shortlist/ShortListCandidate', {
                     method: 'POST',
                     //contentType: 'application/json',
                     //mode: 'no-cors',

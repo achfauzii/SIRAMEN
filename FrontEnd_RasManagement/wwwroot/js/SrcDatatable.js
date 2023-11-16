@@ -21,6 +21,17 @@ function htmlspecialchars(str) {
     return outp;
 }
 
+function noHTML(input) {
+    var value = input.value.replace(/<[^>]*>/g, '');
+    var nohtml = value.replace(/[<>?/]/g, '');
+    input.value = nohtml;
+}
+
+function handleInput(event, input) {
+    // Menangani peristiwa oninput dan onpaste
+    noHTML(input);
+}
+
 function Src() {
     $('#all').addClass('active');
     table = $('#resource').DataTable({
@@ -37,7 +48,7 @@ function Src() {
         order: [[0, "asc"]],
 
         ajax: {
-            url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint
+            url: 'http://192.168.25.189:9001/api/Shortlist/NonRasDatatable', // Your API endpoint
             type: 'POST',
             contentType: 'application/json',
             headers: {
@@ -52,12 +63,12 @@ function Src() {
                 // Menambahkan parameter 'category' ke data yang dikirim ke server
                 if (selectedCategory != null) {
                     d.search.category = selectedCategory;
-                    console.log(d);
+                    //console.log(d);
 
                 }
                 else {
                     d.search.category = "";
-                    console.log(d);
+                    //console.log(d);
                 }
                 
 
@@ -614,7 +625,7 @@ function ClearScreenSave() {
     $('#filteringby').val('');
     $('input[name="nego"]').prop('checked', false);
     $('#notice').val('');
-    $('#negotiable').prop('checked', false);
+    $('#workstatus').prop('checked', false);
     $('#financial').prop('checked', false);
     $('#rawcv').val('');
     $('#bercacv').val('');
@@ -687,10 +698,43 @@ function ClearScreenUpt() {
 }
 
 function getUniversitasListt() {
-    //const selectUniversity = document.getElementById('UniversityName');
     const selectUniversity2 = document.getElementById('UniversityName2');
+
     $.ajax({
-        url: "https://localhost:7177/api/Universitas",
+        url: "../assets/file_json/loadpt.json",
+        type: "GET",
+        "datatype": "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var universities = result;
+
+            universities.forEach(function (university) {
+                console.log(university);
+                const option = document.createElement('option');
+                option.value = university.nama_pt;
+                option.textContent = university.nama_pt;
+                selectUniversity2.appendChild(option);
+            });
+
+            $(selectUniversity).select2({
+                placeholder: 'Select university',
+                width: '100%',
+                dropdownParent: $('#offeringSourceList'),
+                tags: true
+
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    //const selectUniversity = document.getElementById('UniversityName');
+    /*const selectUniversity2 = document.getElementById('UniversityName2');
+    $.ajax({
+        url: "http://192.168.25.189:9001/api/Universitas",
         type: "GET",
         dataType: "json",
         headers: {
@@ -713,11 +757,11 @@ function getUniversitasListt() {
                 selectUniversity2.appendChild(option);
             });
 
-            /*$(selectUniversity).select2({
+            *//*$(selectUniversity).select2({
                 placeholder: 'Select university',
                 width: '100%',
 
-            });*/
+            });*//*
             $(selectUniversity2).select2({
                 placeholder: 'Select university',
                 width: '100%',
@@ -730,14 +774,47 @@ function getUniversitasListt() {
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
-    });
+    });*/
 }
 
 function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
 
     $.ajax({
-        url: "https://localhost:7177/api/Universitas",
+        url: "../assets/file_json/loadpt.json",
+        type: "GET",
+        "datatype": "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var universities = result;
+
+            universities.forEach(function (university) {
+                console.log(university);
+                const option = document.createElement('option');
+                option.value = university.nama_pt;
+                option.textContent = university.nama_pt;
+                selectUniversity.appendChild(option);
+            });
+
+            $(selectUniversity).select2({
+                placeholder: 'Select university',
+                width: '100%',
+                dropdownParent: $('#Modal'),
+                tags: true
+
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    /*const selectUniversity = document.getElementById('UniversityName');
+
+    $.ajax({
+        url: "http://192.168.25.189:9001/api/Universitas",
         type: "GET",
         dataType: "json",
         headers: {
@@ -770,7 +847,7 @@ function getUniversitasList() {
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
-    });
+    });*/
 }
 
 function formInputLocation() {
@@ -1024,7 +1101,7 @@ function Save() {
     //console.log(NonRasCandidate);
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:7177/api/Shortlist/Add',
+        url: 'http://192.168.25.189:9001/api/Shortlist/Add',
         data: JSON.stringify(NonRasCandidate),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -1170,7 +1247,7 @@ function Update() {
    
     $.ajax({
         type: 'PUT',
-        url: 'https://localhost:7177/api/Shortlist',
+        url: 'http://192.168.25.189:9001/api/Shortlist',
         data: JSON.stringify(NonRasCandidate),
         contentType: "application/json; charset=utf-8",
         headers: {
