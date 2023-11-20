@@ -21,63 +21,68 @@
 
 <div class="d-flex justify-content-between " style="gap: 0.3rem;">
 
-    <div class="card text-dark  mb-3 flex-fill">
-        <div class="card-header text-light bg-secondary" style="background-color:#624DE3;">Data Diri</div>
+    <div class="card text-dark  mb-3  w-75">
+        <div class="card-header text-light bg-secondary " style="background-color:#624DE3;">Data Diri</div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6" style="color: black">Full Name:</div>
-                <div class="col-6" style="color: black">@employeeData.fullname</div>
-            </div>
-            @* <div class="row">
-            <div class="col-6" style="color: black">Nick Name:</div>
-            <div class="col-6" style="color: black">@employeeData.nickname</div>
-            </div> *@
-            <div class="row">
-                <div class="col-6" style="color: black">Birth :</div>
-                <div class="col-6" style="color: black">@employeeData.birthplace, @employeeData.birthdate.ToString("dd/MM/yyyy")</div>
-            </div>
-
-            <div class="row">
-                <div class="col-6" style="color: black">Gender:</div>
-                <div class="col-6" style="color: black">@employeeData.gender</div>
+                <div class="col-3" style="color: black">Full Name</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-8" style="color: black">@employeeData.fullname</div>
             </div>
             <div class="row">
-                <div class="col-6" style="color: black">Address:</div>
-                <div class="col-6" style="color: black">@employeeData.address</div>
+                <div class="col-3" style="color: black">Birth</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-8" style="color: black">@employeeData.birthplace, @employeeData.birthdate.ToString("dd/MM/yyyy")</div>
+            </div>
+            <div class="row">
+                <div class="col-3" style="color: black">Gender</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-8" style="color: black">@employeeData.gender</div>
+            </div>
+            <div class="row">
+                <div class="col-3" style="color: black">Address</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-8" style="color: black">@employeeData.address</div>
             </div>
         </div>
     </div>
-    <div class="card text-dark  mb-3 flex-fill ">
+    <div class="card text-dark  mb-3 w-50">
         <div class="card-header text-light bg-secondary ">Status</div>
         <div class="card-body ">
             <div class="row">
-                <div class="col-6" style="color: black">Religion:</div>
-                <div class="col-6" style="color: black">@employeeData.religion</div>
+                <div class="col-6" style="color: black">Religion</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-5" style="color: black">@employeeData.religion</div>
             </div>
             <div class="row">
-                <div class="col-6" style="color: black">Martial Status:</div>
-                <div class="col-6" style="color: black">@employeeData.maritalstatus</div>
+                <div class="col-6" style="color: black">Martial Status</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-5" style="color: black">@employeeData.maritalstatus</div>
             </div>
             <div class="row">
-                <div class="col-6" style="color: black">Nationality:</div>
-                <div class="col-6" style="color: black">@employeeData.nationality</div>
+                <div class="col-6" style="color: black">Nationality</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-5" style="color: black">@employeeData.nationality</div>
             </div>
         </div>
     </div>
-    <div class="card text-dark  mb-3 flex-fill">
+    <div class="card text-dark  mb-3  w-50">
         <div class="card-header text-light bg-secondary">Kontrak</div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6" style="color: black">Join Date:</div>
-                <div class="col-6" style="color: black">@employeeData.joinDate.ToString("dd/MM/yyyy")</div>
+                <div class="col-6" style="color: black">Join Date</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-5" style="color: black">@employeeData.joinDate.ToString("dd/MM/yyyy")</div>
             </div>
             <div class="row">
-                <div class="col-6" style="color: black">Start Contract:</div>
-                <div class="col-6" style="color: black">@employeeData.startContract.ToString("dd/MM/yyyy")</div>
+                <div class="col-6" style="color: black">Start Contract</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-5" style="color: black">@employeeData.startContract.ToString("dd/MM/yyyy")</div>
             </div>
             <div class="row">
-                <div class="col-6" style="color: black">End Contract:</div>
-                <div class="col-6" style="color: black">@employeeData.endContract.ToString("dd/MM/yyyy")</div>
+                <div class="col-6" style="color: black">End Contract</div>
+                <div class="col-1" style="color: black">:</div>
+                <div class="col-5" style="color: black">@employeeData.endContract.ToString("dd/MM/yyyy")</div>
             </div>
             <div class="row  mt-3 ">
                 <div class="col-6" style="color: black"></div>

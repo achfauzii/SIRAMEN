@@ -27,6 +27,7 @@
                     <th>Placement Location</th>
                     <th>Hired Status</th>
                     <th>Remaining Contract</th>
+                    <th>Assets</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -52,7 +53,7 @@
                         <input type="text" class="form-control" id="AccountId" hidden>
                         <label for="PlacementStatus">Change Status</label>
                         <select id="Status" class="form-control PlacementStatus" placeholder="Select Turn Over Status">
-                              
+
                             <option value="Blacklist">Blacklist</option>
                             <option value="Resign">Resign</option>
                             <option value="Transfer">Transfer</option>
@@ -80,7 +81,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Description">Description</label>
-                        <input type="text" class="form-control" id="Description" placeholder="Fill if necessary">
+                        <input type="text" class="form-control" id="Description" placeholder="Fill if necessary" required_>
                         <span class="error-message-turnOver" style="color: red; display: none;">This field is required!</span>
                     </div>
                 </form>
@@ -92,6 +93,59 @@
         </div>
     </div>
 </div>
+
+@*Modal Assets*@
+<div class="modal fade" id="ModalAssets" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(31, 31, 31)">Assets Management</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="color: rgb(31, 31, 31)">
+                    <div class="col-md-6">
+                        <p><strong>Brand:</strong> <span id="brand"></span></p>
+                        <p><strong>RFID:</strong> <span id="RFID"></span></p>
+                        <p><strong>Processor:</strong> <span id="Processor"></span></p>
+                        <p><strong>Display:</strong> <span id="Display"></span></p>
+                        <p><strong>Operating System:</strong> <span id="os"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>RAM:</strong> <span id="ram"></span></p>
+                        <p><strong>SSD:</strong> <span id="ssd"></span></p>
+                        <p><strong>HDD:</strong> <span id="hdd"></span></p>
+                        <p><strong>Graphic Card:</strong> <span id="GraphicCard"></span></p>
+                        <p><strong>Include Charger:</strong> <span id="charger"></span></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@*Modal EmptyDataModal*@
+<div class="modal fade" id="EmptyDataModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(31, 31, 31)">Assets Management</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="color: #1f1f1f; background-color: #f8f9fa;">
+                <h5 class="text-center mb-4">Employee Hasn't Updated Asset Information</h5>
+                <p class="text-center"><b>Please remind the employee to complete their asset details.</b></p>
+                <!-- You can add more content or styling as needed -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <!-- Loader-->
 <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0;">
@@ -116,4 +170,3 @@
 </div>
 
 <script src="~/js/ManageEmployee.js"></script>
-

@@ -87,7 +87,7 @@ function parseJwt(token) {
 
 function noHTML(input) {
     var value = input.value.replace(/<[^>]*>/g, '');
-    var nohtml = value.replace(/[<>?/]/g, '');
+    var nohtml = value.replace(/[<>?]/g, '');
     input.value = nohtml;
 }
 

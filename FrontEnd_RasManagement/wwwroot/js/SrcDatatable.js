@@ -23,8 +23,8 @@ function htmlspecialchars(str) {
 
 function noHTML(input) {
     var value = input.value.replace(/<[^>]*>/g, '');
-    var nohtml = value.replace(/[<>?/]/g, '');
-    input.value = nohtml;
+    //var nohtml = value.replace(/[<>?/]/g, '');
+    input.value = value;
 }
 
 function handleInput(event, input) {
