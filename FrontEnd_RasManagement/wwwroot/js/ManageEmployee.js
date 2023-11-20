@@ -49,7 +49,7 @@
                 var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
                 var title = $(cell).text();
                 // Check if the column is "No", "Gender", or "Placement Status"
-                if (title !== "No" && title !== "Action") {
+                if (title !== "No" && title !== "Action" && title !== "Assets") {
                     $(cell).html('<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="' + title + '" />');
                     // On every keypress in this input
                     $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
@@ -158,10 +158,10 @@
                 "render": function (data, type, row) {
                     var startc = Date.now();
                     var endc = new Date(row.endContract);
-             
+
                     var timeDiff = endc.getTime() - startc; // Menghitung selisih dalam milidetik
                     var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
-                    //console.log(daysremain);
+
                     /*if (daysremain >= 30) {
                         // Jika sisa kontrak lebih dari 1 bulan, hitung dalam bulan
                         var monthsRemaining = Math.floor(daysremain / 30);
@@ -174,7 +174,7 @@
                     var monthsRemaining = Math.floor(daysremain / 30); // Menghitung bulan
                     var daysInMonth = daysremain % 30; // Menghitung sisa hari
                     //console.log(monthsRemaining);
-                    //console.log(daysInMonth)
+                    console.log(daysInMonth)
                     var result = "";
 
                     /*if (monthsRemaining > 0) {
@@ -191,19 +191,33 @@
 
                     if (monthsRemaining > 2) {
                         // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
-                        result = '<span class="badge badge-success" style="font-size: 13px;">' + monthsRemaining + ' bulan ' + daysInMonth+' hari</span>';
+                        result = '<span class="badge badge-success" style="font-size: 13px;">' + monthsRemaining + ' bulan ' + daysInMonth + ' hari</span>';
                     } else if (monthsRemaining >= 1) {
                         // Jika sisa kontrak 1-3 bulan, beri warna kuning
-                        result = '<span class="badge badge-warning" style="font-size: 13px;">' + monthsRemaining + ' bulan '+daysInMonth+' hari</span>';
+                        result = '<span class="badge badge-warning" style="font-size: 13px;">' + monthsRemaining + ' bulan ' + daysInMonth + ' hari</span>';
                     } else {
                         // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
                         if (daysInMonth > 0) {
                             result = '<span class="badge badge-danger" style="font-size: 13px;">' + daysInMonth + ' hari</span>';
                         }
                     }
-                    
+
                     return result;
                 }
+            },
+            {
+                "data": null,
+                orderable: false,
+                "render": function (data, type, row) {
+
+
+                    //var accountId = row.accountId;
+                    var tulisanButton = "View Asset"; // Default value 
+                    tulisanButton = '<button class="btn btn-success" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' + row.accountId + '\')">' + tulisanButton + '</button>';
+                    return tulisanButton;
+
+                }
+
             },
             {
                 "data": null,
@@ -441,7 +455,7 @@ function SaveTurnOver() {
 
     if (!status) {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').show();
-        isValid = false;    
+        isValid = false;
 
     } else {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').hide();
@@ -946,7 +960,7 @@ function SaveTurnOver() {
             input.next('.error-message-turnOver').hide();
         }
     });
-    
+
     if (!isValid) {
         return;
     }
@@ -960,7 +974,7 @@ function SaveTurnOver() {
     TurnOver.description = $('#Description').val();
     TurnOver.accountId = $('#AccountId').val();
     TurnOver.exitDate = $('#date').val();
-    //console.log(TurnOver);
+    console.log(TurnOver);
 
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
@@ -1030,7 +1044,7 @@ function handlePlacementStatusChange() {
 
 function GetContract(accountId) {
     debugger;
-    //console.log(accountId);
+    console.log(accountId);
     $.ajax({
         url: "http://192.168.25.189:9001/api/Accounts/AccountId?accountId=" + accountId,
         type: "GET",
@@ -1074,7 +1088,7 @@ function UpdateContract() {
     Account.accountId = $('#accountId').val();
     Account.startContract = $('#StartContract').val();
     Account.endContract = $('#EndContract').val();
-    //console.log(Account.accountId);
+    console.log(Account.accountId);
     $.ajax({
         url: 'http://192.168.25.189:9001/api/Accounts/UpdateContract',
         type: 'PUT',
@@ -1348,4 +1362,41 @@ function Update() {
 function GenerateCv(accountId) {
 
     window.location.href = '/GenerateCv/Index?accountId=' + accountId;
+}
+
+function GetByIdAsset(assetsManagementId) {
+    debugger;
+    $.ajax({
+        url: "http://192.168.25.189:9001/api/Assets/accountId?accountId=" + assetsManagementId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+
+            if (result.data.length > 0) {
+                var obj = result.data[0]; //data yang diperoleh dari id
+                $('#brand').text(obj.nama);
+                $('#RFID').text(obj.rfid);
+                $('#Processor').text(obj.processor);
+                $('#Display').text(obj.display);
+                $('#os').text(obj.operatingSystem);
+                $('#ram').text(obj.ram);
+                $('#ssd').text(obj.ssd);
+                $('#hdd').text(obj.hdd);
+                $('#GraphicCard').text(obj.graphicCard);
+                var chargerElement = $('#charger');
+                chargerElement.text(obj.charger ? 'Yes' : 'No');
+                $('#ModalAssets').modal('show');
+            } else {
+                // Tampilkan modal lain jika data kosong
+                $('#EmptyDataModal').modal('show');
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    })
 }

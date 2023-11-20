@@ -64,6 +64,7 @@ builder.Services.AddScoped<UniversitasRepository>();
 builder.Services.AddScoped<TurnOverRepository>();
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<ShortlistRepository>();
+builder.Services.AddScoped<AssetsRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 
@@ -110,8 +111,6 @@ app.UseAuthentication(); // Menambahkan middleware autentikasi
 
 //Mengetahui Error
 //app.UseDeveloperExceptionPage();
-
-//app.UseAuthorization();
 
 app.UseAuthorization();
 

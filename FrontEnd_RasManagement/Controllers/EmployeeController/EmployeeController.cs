@@ -62,6 +62,19 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
+        public IActionResult AssetsManagement()
+        {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            //End Validate
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+            ViewData["UserRole"] = role;
+            return View();
+        }
+
         public IActionResult Certificate()
         {
             //Validate Role

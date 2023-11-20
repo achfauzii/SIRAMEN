@@ -43,6 +43,8 @@ public partial class Account
 
     public string? RoleId { get; set; }
 
+    public virtual ICollection<AssetsManagement> AssetsManagements { get; set; } = new List<AssetsManagement>();
+
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
     public virtual ICollection<EmploymentHistory> EmploymentHistories { get; set; } = new List<EmploymentHistory>();
