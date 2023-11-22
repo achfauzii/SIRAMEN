@@ -10,6 +10,8 @@
 
 
 }
+
+
 <button id="backButton" class="btn btn-secondary rounded-circle mr-3">
     <i class="fas fa-arrow-left"></i>
 </button>
@@ -29,11 +31,16 @@
                 <div class="col-1" style="color: black">:</div>
                 <div class="col-8" style="color: black">@employeeData.fullname</div>
             </div>
+            @* <div class="row">
+            <div class="col-6" style="color: black">Nick Name:</div>
+            <div class="col-6" style="color: black">@employeeData.nickname</div>
+            </div> *@
             <div class="row">
                 <div class="col-3" style="color: black">Birth</div>
                 <div class="col-1" style="color: black">:</div>
                 <div class="col-8" style="color: black">@employeeData.birthplace, @employeeData.birthdate.ToString("dd/MM/yyyy")</div>
             </div>
+
             <div class="row">
                 <div class="col-3" style="color: black">Gender</div>
                 <div class="col-1" style="color: black">:</div>
@@ -96,7 +103,6 @@
     </div>
 
 </div>
-
 <div id="placement">
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-sm text-light mb-3" data-toggle="modal" data-target="#modalPlacement" style="background-color:#624DE3;  font-size: 12px;" onclick="ClearScreenPlacement();">
@@ -124,7 +130,7 @@
                 <div id="alert-companyName" class="alert alert-danger" role="alert" style="display:none"> Company Name Tidak Boleh Kosong! </div>
                 <form>
                     <button class="btn btn-sm btn-warning"> @employeeData.accountId</button>
-                    <input type="hidden" id="AccountId">
+                    <input type="hidden" id="AccountId">x
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Start Contract</label>
                         <input type="date" class="form-control " id="StartContract" name="StartContract" requiredContract>
@@ -167,13 +173,13 @@
                     <input type="hidden" id="placementStatusId">
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Company Name</label>
-                        <input type="text" class="form-control " id="companyName_" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" name="companyName" required>
+                        <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="companyName_" name="companyName" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Job Role</label>
-                        <input type="text" class="form-control " id="jobRole" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" name="jobRole" required>
+                        <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="jobRole" name="jobRole" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
@@ -192,6 +198,7 @@
                         <label for="exampleFormControlTextarea1" class=" m-0">Description</label>
                         <textarea class="form-control" id="description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" rows="2"></textarea>
                     </div>
+
 
                     <div class="form-group row mb-1">
                         <div class="col-sm-6 mb-1 mb-sm-0">
@@ -224,5 +231,3 @@
 </div>
 
 <script src="~/js/ManageEmployee.js"></script>
-
-

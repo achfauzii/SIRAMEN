@@ -3,17 +3,29 @@
 
 // Write your JavaScript code.
 
-
-
 var arrayEmail = [];
-var emailBirthday = [];
+
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
+
+
 
 
 $(document).ready(function () {
     //GetBirthday
     $.ajax({
         type: 'GET',
-        url: 'http://192.168.25.189:9001/api/Accounts/BirthDay',
+        url: 'http://192.168.25.131:9001/api/Accounts/BirthDay',
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -25,17 +37,20 @@ $(document).ready(function () {
             result.data.name.forEach(item => {
                 text += item + ", ";
             })
-            emailBirthday.push(result.data.email);
 
 
             document.getElementById("birthday").innerHTML = text.substr(0, (text.length - 2)) + ".";
+
+
         } else if (result.status == 404) {
             document.getElementById('birthday').innerHTML = '';
             $("#employeeAnnouncement").hide();
             $("#adminAnnouncement").hide();
         }
 
+
     });
+
 
     //Get Employee
     var selectEmployee = document.getElementById('NameEmployee');
@@ -44,7 +59,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: 'GET',
-        url: 'http://192.168.25.189:9001/api/Accounts',
+        url: 'http://192.168.25.131:9001/api/Accounts',
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -54,7 +69,6 @@ $(document).ready(function () {
             result.forEach(item => {
                 var option = new Option(item.fullname, item.fullname, true, false);
                 selectEmployee.add(option);
-
 
                 var opt = new Option(item.fullname, item.fullname, true, false);
                 select.add(opt);
@@ -66,7 +80,7 @@ $(document).ready(function () {
     //Get All Employee
     $.ajax({
         type: 'GET',
-        url: 'http://192.168.25.189:9001/api/Employees/EmployeeAdmin',
+        url: 'http://192.168.25.131:9001/api/Employees/EmployeeAdmin',
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -158,6 +172,22 @@ function SendAnnouncement() {
             }
         });
 
+        //Validation on Input Radio
+        var radios = document.getElementsByName("Gender");
+        var radioValid = false;
+
+        var i = 0;
+        while (!radioValid && i < radios.length) {
+            if (radios[i].checked) radioValid = true;
+            i++;
+        }
+
+        //console.log(radios);
+        if (!radioValid) {
+            $('.form-radio').closest('.form-group').find('.error-message-announce').show();
+            isValid = false;
+        }
+
         var selectedNameEmployee = $('#NameEmployee').val();
         var selectedChild = $('#Child').val();
         if (!selectedNameEmployee) {
@@ -180,24 +210,38 @@ function SendAnnouncement() {
 
 
 
-        $.ajax({
-            type: 'POST',
-            url: '/Announce/SendEmailKelahiran',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(data),
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will send a news email to all employees.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, send it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Announce/SendEmailKelahiran',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(data),
 
-            headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("Token")
-            },
-            success: function (d) {
+                    headers: {
+                        "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    },
+                    success: function (d) {
 
-                Toast.fire({
-                    icon: 'success',
-                    text: 'Sending news email was successfully!',
+                        Toast.fire({
+                            icon: 'success',
+                            text: 'Sending news email was successfully!',
+                        });
+                    }
                 });
+            } else {
+
             }
-        })
+        });
 
     } else if ($('#Announcement').val() == "death") {
         var title = "Berita Duka Cita";
@@ -214,14 +258,14 @@ function SendAnnouncement() {
             email: arrayEmail
         }
 
-        var isValid = true;
+        var isValidForm = true;
 
         $('input[required-death]').each(function () {
             var input = $(this);
             //console.log("Input " + input);
             if (!input.val()) {
                 input.closest('.form-group').find('.error-message-announce-death').show();
-                isValid = false;
+                isValidForm = false;
             } else {
                 input.closest('.form-group').find('.error-message-announce-death').hide();
             }
@@ -233,7 +277,7 @@ function SendAnnouncement() {
 
         if (!selectedEmployeeName) {
             $('#EmployeeName').closest('.form-group').find('.error-message-employee-name').show();
-            isValid = false;
+            isValidForm = false;
         } else {
             $('#EmployeeName').closest('.form-group').find('.error-message-employee-name').hide();
 
@@ -241,35 +285,47 @@ function SendAnnouncement() {
 
         if (!selectedRelation) {
             $('#Relation').closest('.form-group').find('.error-message-relation-employee').show();
-            isValid = false;
+            isValidForm = false;
         } else {
             $('#Relation').closest('.form-group').find('.error-message-relation-employee').hide();
 
         }
 
-        if (!isValid) {
+        if (!isValidForm) {
             return;
         }
 
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will send a news email to all employees.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, send it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Announce/SendEmailDukaCita',
+                    contentType: 'application/json',
+                    dataType: 'json',
 
-        $.ajax({
-            type: 'POST',
-            url: '/Announce/SendEmailDukaCita',
-            contentType: 'application/json',
-            dataType: 'json',
+                    data: JSON.stringify(data),
 
-            data: JSON.stringify(data),
+                    headers: {
+                        "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    },
+                    success: function (d) {
 
-            headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("Token")
-            },
-            success: function (d) {
-                Toast.fire({
-                    icon: 'success',
-                    text: 'Sending news email was successfully!',
+                        Toast.fire({
+                            icon: 'success',
+                            text: 'Sending news email was successfully!',
+                        })
+                    }
                 })
             }
-        })
+        });
     }
 
     function ConvertDate(date) {

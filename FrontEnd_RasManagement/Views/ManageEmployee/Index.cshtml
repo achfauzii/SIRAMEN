@@ -4,6 +4,50 @@
     var employeeData = ViewData["EmployeeData"] as dynamic;
 }
 
+<style>
+    /* Gaya untuk teks dengan latar belakang warna */
+    .color-bg {
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .green-bg {
+        background-color: #27ae60; /* Warna hijau */
+        color: white;
+    }
+
+    .yellow-bg {
+        background-color: #f1c40f; /* Warna kuning */
+        color: black;
+    }
+
+    .red-bg {
+        background-color: #e74c3c; /* Warna merah */
+        color: white;
+    }
+
+    .grey-bg {
+        background-color: #95a5a6; /* Warna abu-abu */
+        color: white;
+    }
+
+    /* Gaya untuk bullet */
+    .bullet {
+        list-style-type: none; /* Menghilangkan default bullet */
+        padding-left: 0; /* Menghilangkan padding default */
+        margin-bottom: 10px; /* Menambahkan jarak antara bagian */
+    }
+
+    /* Gaya untuk setiap item daftar */
+    .list-item {
+        margin-bottom: 8px;
+    }
+
+    /* Gaya untuk teks bullet */
+    .bullet-text {
+        margin-left: 10px;
+    }
+</style>
 
 <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
 <div class="card shadow mb-4">
@@ -33,7 +77,41 @@
             </thead>
 
         </table>
-
+        <h6><strong>Notes</strong></h6>
+        <div class="color-bg bullet">
+            <h6>Remaining Contract :</h6>
+            <small>
+                <ul>
+                    <li class="list-item">
+                        <span class="green-bg bullet-text">Green :</span>
+                        <span class="bullet-text">The remaining contract is more than 3 months</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="yellow-bg bullet-text">Yellow :</span>
+                        <span class="bullet-text">The remaining contract is less than 3 months</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="red-bg bullet-text">Red :</span>
+                        <span class="bullet-text">The remaining contract is less than 1 month</span>
+                    </li>
+                </ul>
+            </small>
+        </div>
+        <div class="color-bg bullet">
+            <h6>Assets :</h6>
+            <small>
+                <ul>
+                    <li class="list-item">
+                        <span class="green-bg bullet-text">Green :</span>
+                        <span class="bullet-text">Asset data exists</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="grey-bg bullet-text">Grey :</span>
+                        <span class="bullet-text">Asset data is empty</span>
+                    </li>
+                </ul>    
+            </small>
+        </div>
     </div>
 </div>
 
@@ -126,6 +204,7 @@
         </div>
     </div>
 </div>
+
 @*Modal EmptyDataModal*@
 <div class="modal fade" id="EmptyDataModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

@@ -39,7 +39,9 @@
 
 </style>
 
+
 <button class="act-btn border-0" data-toggle="modal" data-target="#ModalAnnouncement" onclick="clearAnnounce();">
+
     <i class="fa fa-bullhorn" style="font-size: 0.55em; display: flex; justify-content: center; align-items: center;"></i>
 </button>
 
@@ -54,21 +56,22 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="Announcement">Title</label>
-                    <p>
-                        <select id="Announcement" class="form-control" required>
-                            <option selected disabled value="placeholder"> -- Choosee Announcement -- </option>
-                            <option value="death"> Duka Cita </option>
-                            <option value="birth"> Kelahiran </option>
-                        </select>
-                    </p>
+                <form id="AnnounceForm">
+                    <div class="form-group">
+                        <label for="Announcement">Title</label>
+                        <p>
+                            <select id="Announcement" class="form-control" required>
+                                <option selected disabled value="placeholder"> -- Choosee Announcement -- </option>
+                                <option value="death"> Duka Cita </option>
+                                <option value="birth"> Kelahiran </option>
+                            </select>
+                        </p>
 
-                    <span class="error-message-name-announcement" style="color: red; display: none;">This field is required!</span>
-                </div>
+                        <span class="error-message-name-announcement" style="color: red; display: none;">This field is required!</span>
+                    </div>
 
-                <div class="birth" id="birth">
-                    <form id="AnnounceForm">
+                    <div class="birth" id="birth">
+
                         <div class="form-group">
                             <label for="NameEmployee">Employee</label>
                             <p>
@@ -164,10 +167,8 @@
                                 <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="death" id="death">
-                    <form>
+                    </div>
+                    <div class="death" id="death">
                         <div class="form-group">
                             <label for="EmployeeName">Employee</label>
                             <p>
@@ -246,8 +247,8 @@
 
                             <span class="error-message-announce-death" style="color: red; display: none;">This field is required!</span>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="Send" onclick="SendAnnouncement();">Send</button>
@@ -321,7 +322,8 @@
         </div>
     </div>
 
-    <!-- Employee Status Birthday -->
+
+    <!-- Employee Birthday -->
     <div class="col-xl-3 col-md-6 mb-4" id="adminAnnouncement">
         <div class="card border-left-danger shadow h-100 py-1">
             <div class="card-body">
@@ -335,6 +337,7 @@
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-birthday-cake fa-2x text-primary"></i>
+
 
                     </div>
                 </div>

@@ -44,8 +44,8 @@ namespace FrontEnd_RasManagement.Controllers
             }
             //End Validate
             var accessToken = HttpContext.Session.GetString("Token");
-            var url = "http://192.168.25.189:9001/api/Employees/accountId?accountId=" + accountId;
-            var url2 = "http://192.168.25.189:9001/api/EmployeePlacements/accountId?accountId=" + accountId;
+            var url = "http://192.168.25.131:9001/api/Employees/accountId?accountId=" + accountId;
+            var url2 = "http://192.168.25.131:9001/api/EmployeePlacements/accountId?accountId=" + accountId;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             try

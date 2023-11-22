@@ -42,7 +42,7 @@ namespace FrontEnd_RasManagement.Controllers
                 HttpClient client = new HttpClient();
 
                 // Konfigurasi URL API tujuan
-                string apiUrl = "http://192.168.25.189:9001/api/Accounts/ForgotPassword?email=" + email;
+                string apiUrl = "http://192.168.25.131:9001/api/Accounts/ForgotPassword?email=" + email;
 
                 // Buat data yang akan dikirim dalam permintaan POST
                 var requestData = new { email };
@@ -67,7 +67,7 @@ namespace FrontEnd_RasManagement.Controllers
                 {
                     //Console.WriteLine(response.IsSuccessStatusCode);
                     // Permintaan sukses, kembalikan view yang diinginkan
-                    string resetUrl = $"http://192.168.25.189:9005/ResetPassword/{data.data}";
+                    string resetUrl = $"http://192.168.25.131:9005/ResetPassword/{data.data}";
                     await mailService.SendEmailAsync(email, resetUrl);
                     TempData["SuccessMessage"] = "Reset password email has been sent successfully. Please Check your Email";
 
@@ -131,7 +131,7 @@ namespace FrontEnd_RasManagement.Controllers
                   HttpClient client = new HttpClient();
 
                   // Konfigurasi URL API tujuan
-                  string apiUrl = "http://192.168.25.189:9001/api/Accounts/UpdateForgotPassword";
+                  string apiUrl = "http://192.168.25.131:9001/api/Accounts/UpdateForgotPassword";
 
                   // Membuat objek yang akan dikirim sebagai request body
                   var requestBody = new { email, newPassword };
@@ -267,7 +267,7 @@ namespace FrontEnd_RasManagement.Controllers
                  HttpClient client = new HttpClient();
 
                  // Konfigurasi URL API tujuan
-                 string apiUrl = "http://192.168.25.189:9001/api/Accounts/Register";
+                 string apiUrl = "http://192.168.25.131:9001/api/Accounts/Register";
 
                  // Konversi data dari model menjadi JSON
                  var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(model);

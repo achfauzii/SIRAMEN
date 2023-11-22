@@ -1,12 +1,11 @@
-﻿
-var table = null;
+﻿var table = null;
 $(document).ready(function () {
     debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_Assets').DataTable({
         "ajax": {
-            url: "http://192.168.25.189:9001/api/Assets/accountId?accountId=" + accid,
+            url: "http://192.168.25.131:9001/api/Assets/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -75,7 +74,7 @@ $(document).ready(function () {
             api.column(1, { page: 'current' }).data().each(function (group, i) {
                 $(rows).eq(i).find('td:first').html(i + 1);
             });
-            if (rows > 0) {
+            if (rows.length > 0) {
                 $('#add-asset').hide();  // Jika ada data, sembunyikan tombol
             } else {
                 $('#add-asset').show();  // Jika tidak ada data, tampilkan tombol
@@ -147,7 +146,7 @@ function SaveAsset() {
     Assets.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'http://192.168.25.189:9001/api/Assets',
+        url: 'http://192.168.25.131:9001/api/Assets',
         data: JSON.stringify(Assets), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -183,7 +182,7 @@ function GetById(assetsManagementId) {
     console.log(assetsManagementId)
     debugger;
     $.ajax({
-        url: "http://192.168.25.189:9001/api/Assets/" + assetsManagementId,
+        url: "http://192.168.25.131:9001/api/Assets/" + assetsManagementId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -229,7 +228,7 @@ function Delete(assetsManagementId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "http://192.168.25.189:9001/api/Assets/" + assetsManagementId,
+                url: "http://192.168.25.131:9001/api/Assets/" + assetsManagementId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {
@@ -290,7 +289,7 @@ function UpdateAsset() {
     const accid = decodedtoken.AccountId;
     Assets.accountId = accid;
     $.ajax({
-        url: 'http://192.168.25.189:9001/api/Assets',
+        url: 'http://192.168.25.131:9001/api/Assets',
         type: 'PUT',
         data: JSON.stringify(Assets),
         contentType: "application/json; charset=utf-8",

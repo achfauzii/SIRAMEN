@@ -54,7 +54,7 @@ function updatePassword() {
     //debugger;
 
 
-    fetch('http://192.168.25.189:9001/api/Accounts/ChangePassword', {
+    fetch('http://192.168.25.131:9001/api/Accounts/ChangePassword', {
         method: 'PUT', // Atur metode sesuai kebutuhan
         headers: {
             'Content-Type': 'application/json', // Atur tipe konten sesuai kebutuhan
