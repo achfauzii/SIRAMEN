@@ -217,7 +217,7 @@
                         tulisanButton = '<button class="btn btn-success btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' + row.accountId + '\')">' + "View" + '</button>';
 
                     } else {
-                        tulisanButton = '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' + row.accountId + '\')">' + "Data Not Submitted" + '</button>';
+                        tulisanButton = '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' + row.accountId + '\')">' + "Data Empty" + '</button>';
                     }
 
                     console.log("Generated HTML:", tulisanButton);
@@ -232,12 +232,8 @@
                 "render": function (data, type, row) {
 
                     return '<div class="text-center row">' +
-                        '<a href="#" class="text-dark ml-2 pt-0" data-toggle="tooltip" data-placement="top" title="Curiculum Vitae" onclick = "GenerateCv(\'' + row.accountId + '\')"><i class="far fa-file-pdf"  ></i></a>' +
-
-                        '</div>' +
-
-                        '<div class="text-center row">' +
-                        '<a href="#" class="btn  ml-2 btn-sm p-0 text-light"  style="background-color:#624DE3;" data-bs-toggle="modal" onclick = "return Detail(\'' + row.accountId + '\')">Detail</a>' +
+                        '<a href="#" class="text-dark ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' + row.accountId + '\')"><i class="far fa-file-pdf"></i></a>' +
+                        '<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' + row.accountId + '\')"><i class="fa fa-info-circle"></a>' +
                         '</div>';
                 }
             }

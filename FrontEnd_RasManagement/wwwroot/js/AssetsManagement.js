@@ -1,6 +1,5 @@
 ﻿var table = null;
 $(document).ready(function () {
-    debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_Assets').DataTable({
@@ -9,30 +8,42 @@ $(document).ready(function () {
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
+
             headers: {
                 "Authorization": "Bearer " + sessionStorage.getItem("Token")
             },
         },
-
+        "searching": false,
+        paging: false,
+        info: false,
         "columns": [
+
             {
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1 + "."
+                "data": "nama",
+                "render": function (data, type, row) {
+                    // Menambahkan margin otomatis ke elemen dengan properti data bernilai "nama"
+                    return '<div >' + data + '</div>';
                 }
             },
-            { "data": "nama" },
             {
                 "data": null,
                 "render": function (data, type, row) {
-                    // Gabungkan isi kolom "nama" dan "processor"
-                    return "Processor: " + row.processor +
+                    var leftColumn =
+                        "Processor: " + row.processor +
                         "<br>Display: " + row.display +
                         "<br>Operating System: " + row.operatingSystem +
-                        "<br>RAM: " + row.ram +
-                        "<br>SSD: " + row.ssd +
+                        "<br>RAM: " + row.ram;
+
+                    var rightColumn =
+                        "SSD: " + row.ssd +
                         "<br>HDD: " + row.hdd +
                         "<br>Graphic Card: " + row.graphicCard +
-                        "<br>Charger: " + (row.charger ? "Yes" : "No")
+                        "<br>Charger: " + (row.charger ? "Yes" : "No");
+
+                    return '<div class="row">' +
+                        '<div class="col-5">' + leftColumn + '</div>' +
+                        '<div class="col-5">' + rightColumn + '</div>' +
+                        '</div>';
                 }
             },
 
@@ -41,29 +52,26 @@ $(document).ready(function () {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 "data": null,
                 "render": function (data, type, row) {
-                    var modalId = "modal-edit-" + data.assetsManagementId;
-                    var deleteId = "modal-delete-" + data.assetsManagementId;
-                    return '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.assetsManagementId + ')"><i class="fa fa-edit"></i></button >' + '&nbsp;' +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.assetsManagementId + ')"><i class="fa fa-trash"></i></button >'
+                    var editButton = '<button class="btn btn-warning" data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' + row.assetsManagementId + ')"><i class="fa fa-edit"></i></button>';
+
+                    var deleteButton = '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' + row.assetsManagementId + ')"><i class="fa fa-trash"></i></button>';
+
+                    return '<div class="d-flex">' + editButton + '&nbsp;' + deleteButton + '</div>';
                 }
             }
         ],
 
-        "order": [[1, "desc"]],
+
         //"responsive": true,
         //Buat ngilangin order kolom No dan Action
         "columnDefs": [
             {
-                "targets": [0, 2, 3],
-                "orderable": false
+                "targets": [0, 1, 2],
+                "orderable": false,
             }
+
         ],
-        // "aoColumnDefs": [
-        //     {
-        //         "sType": "date",  // Menggunakan pengurutan tanggal
-        //         "aTargets": [3, 4]  // Terapkan pada kolom "Publication Year" dan "Valid Until"
-        //     }
-        // ],
+        "order": [0],
 
 
 
@@ -71,12 +79,14 @@ $(document).ready(function () {
         "drawCallback": function (settings) {
             var api = this.api();
             var rows = api.rows({ page: 'current' }).nodes();
-            api.column(1, { page: 'current' }).data().each(function (group, i) {
-                $(rows).eq(i).find('td:first').html(i + 1);
-            });
+
             if (rows.length > 0) {
+                $('#rfid_h6').text("RFID : " + settings.json.data[0].rfid);
+                $('#rfid_h6').show();
+
                 $('#add-asset').hide();  // Jika ada data, sembunyikan tombol
             } else {
+                $('#rfid_h6').hide();
                 $('#add-asset').show();  // Jika tidak ada data, tampilkan tombol
             }
         }
@@ -281,8 +291,8 @@ function UpdateAsset() {
     Assets.display = $('#Display').val();
     Assets.operatingSystem = $('#os').val();
     Assets.ram = $('#ram').val();
-    Assets.ssd = $('#ssd').val();
-    Assets.hdd = $('#hdd').val();
+    Assets.ssd = $('#ssd').val() || "-";
+    Assets.hdd = $('#hdd').val() || "-";
     Assets.graphicCard = $('#GraphicCard').val();
     Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));

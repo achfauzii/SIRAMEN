@@ -18,8 +18,8 @@ const Toast = Swal.mixin({
     }
 });
 
-
-
+$("#employeeAnnouncement").hide();
+$("#adminAnnouncement").hide();
 
 $(document).ready(function () {
     //GetBirthday
@@ -37,7 +37,8 @@ $(document).ready(function () {
             result.data.name.forEach(item => {
                 text += item + ", ";
             })
-
+            $("#employeeAnnouncement").show();
+            $("#adminAnnouncement").show();
 
             document.getElementById("birthday").innerHTML = text.substr(0, (text.length - 2)) + ".";
 
@@ -231,11 +232,13 @@ function SendAnnouncement() {
                         "Authorization": "Bearer " + sessionStorage.getItem("Token")
                     },
                     success: function (d) {
-
                         Toast.fire({
                             icon: 'success',
                             text: 'Sending news email was successfully!',
                         });
+                    },
+                    failed: function (er) {
+                        console.log("Error : " + er.message);
                     }
                 });
             } else {
@@ -316,14 +319,14 @@ function SendAnnouncement() {
                     headers: {
                         "Authorization": "Bearer " + sessionStorage.getItem("Token")
                     },
-                    success: function (d) {
+                }).then((result) => {
 
-                        Toast.fire({
-                            icon: 'success',
-                            text: 'Sending news email was successfully!',
-                        })
-                    }
-                })
+                    Toast.fire({
+                        icon: 'success',
+                        text: 'Sending news email was successfully!',
+                    })
+                });
+
             }
         });
     }
@@ -361,48 +364,4 @@ function SendAnnouncement() {
     document.getElementById("NameEmployee").selectedIndex = "0";
     document.getElementById("EmployeeName").selectedIndex = "0";
     document.getElementById("Announcement").selectedIndex = "0";
-
-    //function ClearForms() {
-    //    $("#NameEmployee").val("");
-    //    $("#ChildName").val("");
-    //    $("#Putra").val("");
-    //    $("#Putri").val();
-    //    $("#Child").val("");
-    //    $("#BirthDate").val("");
-    //    $("#BirthTime").val("");
-    //    $("#BirthPlace").val("");
-    //    $("#Weight").val("");
-    //    $("#Length").val("");
-
-    //    $("#ChildName").val(),
-    //    $("#ChildName").val(),
-    //    $("#ChildName").val(),
-    //    $("#ChildName").val(),
-    //    $("#ChildName").val(),
-    //}
 }
-
-function validateFormData() {
-
-    //var nameEmployee = $('#NameEmployee').val();
-    //var childName = $('#ChildName').val();
-    //var child = $('#Child').val();
-    //var gender = $('input[name="Gender"]:checked').val();
-    //var birthdate = $('#BirthDate').val();
-    //var birthtime = $('#BirthTime').val();
-    //var birthplace = $('#BirthPlace').val();
-    //var weight = $('#Weight').val();
-    //var length = $('#Length').val();
-
-    //if (nameEmployee === '' || childName === '' || child === '' || birthdate === '' || gender === '' || birthtime === '' || birthplace === '' || weight === '' || length === '') {
-    //    Swal.fire({
-    //        icon: 'error',
-    //        title: 'Error...',
-    //        text: 'Data tidak boleh kosong'
-    //    });
-    //    return false;
-    //}
-
-    //return true;
-}
-

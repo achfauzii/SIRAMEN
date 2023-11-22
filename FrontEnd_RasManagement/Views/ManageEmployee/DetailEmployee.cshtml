@@ -11,20 +11,34 @@
 
 }
 
+@* <style>
+        * {
+            font-family: 'Dosis';
+        }
+</style> *@
 
-<button id="backButton" class="btn btn-secondary rounded-circle mr-3">
-    <i class="fas fa-arrow-left"></i>
-</button>
+<div class="row mx-2 mb-3">
+    <div class="col">
+        <div class="row">
+            <button id="backButton" class="btn btn-secondary rounded-circle mr-3">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+
+            <h5 style="font-family:comfortaa; color: black" class="font-weight-bold pt-1">Detail Employee & Placement</h5>
+        </div>
+    </div>
+    <div class="col">
+        <h6 class="pt-1" style="float: right;">@employeeData.accountId</h6>
+    </div>
+</div>
 
 
-<h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Detail Employee & Placement</h5>
-<h6>@employeeData.accountId</h6>
 @* Card Detail *@
 
 <div class="d-flex justify-content-between " style="gap: 0.3rem;">
 
-    <div class="card text-dark  mb-3  w-75">
-        <div class="card-header text-light bg-secondary " style="background-color:#624DE3;">Data Diri</div>
+    <div class="card text-dark  mb-3 " style="width: 65%;">
+        <div class="card-header text-light bg-secondary " style="background-color:#624DE3;">Personal Data</div>
         <div class="card-body">
             <div class="row">
                 <div class="col-3" style="color: black">Full Name</div>
@@ -74,7 +88,10 @@
         </div>
     </div>
     <div class="card text-dark  mb-3  w-50">
-        <div class="card-header text-light bg-secondary">Kontrak</div>
+        <div class="card-header text-light bg-secondary">
+            Contract
+            <i class="fa fa-edit text-light pt-2 mr-3" style="font-size: 14px; float: right" data-toggle="modal" data-placement="top" data-target="#modalContract" data-tooltip="tooltip" title="Update Contract" onclick="GetContract('@employeeData.accountId');"></i>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-6" style="color: black">Join Date</div>
@@ -93,11 +110,11 @@
             </div>
             <div class="row  mt-3 ">
                 <div class="col-6" style="color: black"></div>
-                <div class="col-6 " style="color: black">
-                    <button class="btn btn-sm text-light bg-secondary " style="font-size: 12px;" data-toggle="modal" data-target="#modalContract" onclick="GetContract('@employeeData.accountId');">
-                        Update Contract
-                    </button>
-                </div>
+                @* <div class="col-6 " style="color: black">
+                <button class="btn btn-sm text-light bg-secondary " style="font-size: 12px;" data-toggle="modal" data-target="#modalContract" onclick="GetContract('@employeeData.accountId');">
+                Update Contract
+                </button>
+                </div> *@
             </div>
         </div>
     </div>
@@ -129,8 +146,8 @@
             <div class="modal-body">
                 <div id="alert-companyName" class="alert alert-danger" role="alert" style="display:none"> Company Name Tidak Boleh Kosong! </div>
                 <form>
-                    <button class="btn btn-sm btn-warning"> @employeeData.accountId</button>
-                    <input type="hidden" id="AccountId">x
+                    <span class="btn btn-sm btn-warning mb-2"> @employeeData.accountId</span>
+                    <input type="hidden" id="AccountId">
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Start Contract</label>
                         <input type="date" class="form-control " id="StartContract" name="StartContract" requiredContract>
@@ -168,7 +185,7 @@
             <div class="modal-body">
                 <div id="alert-companyName" class="alert alert-danger" role="alert" style="display:none"> Company Name Tidak Boleh Kosong! </div>
                 <form>
-                    <button class="btn btn-sm btn-warning"> @employeeData.accountId</button>
+                    <span class="btn btn-sm btn-warning mb-2"> @employeeData.accountId</span>
                     <input type="hidden" id="accountId" value="@employeeData.accountId">
                     <input type="hidden" id="placementStatusId">
                     <div class="form-group mb-1">

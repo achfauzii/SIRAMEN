@@ -1,59 +1,56 @@
 ﻿$(document).ready(function () {
-    //debugger;
     // Mendapatkan nilai parameter accountId dari URL
     $("#backButton").on("click", function () {
         history.back(); // Go back to the previous page
     });
     loadData();
-
 });
 
 function loadData() {
-    $('#loader').show();
+    $("#loader").show();
     var urlParams = new URLSearchParams(window.location.search);
-    var accountId = urlParams.get('accountId');
+    var accountId = urlParams.get("accountId");
     $.ajax({
-        url: "http://192.168.25.131:9001/api/Employees/accountId?accountId=" + accountId,
+        url:
+            "http://192.168.25.131:9001/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-            //debugger;
-
             var obj = result.data.result; // Data yang diterima dari API
             var birthDate = obj.birthdate;
 
             var date_ = "";
             if (birthDate != null) {
                 const date = new Date(birthDate);
-                const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                date_ = date.toLocaleDateString('id-ID', options);
+                const options = { day: "numeric", month: "long", year: "numeric" };
+                date_ = date.toLocaleDateString("id-ID", options);
             } else {
                 date_ = "";
             }
-           
 
-            document.getElementById('fullName').textContent = obj.fullname;
-            document.getElementById('nickName').textContent = obj.nickname;
-            document.getElementById('birthPlace').textContent = obj.birthplace;
-            document.getElementById('birthDate').textContent = date_;
-            document.getElementById('gender').textContent = obj.gender;
-            document.getElementById('religion').textContent = obj.religion;
-            document.getElementById('martialStatus').textContent = obj.maritalstatus;
-            document.getElementById('nationality').textContent = obj.nationality;
+            document.getElementById("fullName").textContent = obj.fullname;
+            document.getElementById("nickName").textContent = obj.nickname;
+            document.getElementById("birthPlace").textContent = obj.birthplace + ", ";
+            document.getElementById("birthDate").textContent = date_;
+            document.getElementById("gender").textContent = obj.gender;
+            document.getElementById("religion").textContent = obj.religion;
+            document.getElementById("martialStatus").textContent = obj.maritalstatus;
+            document.getElementById("nationality").textContent = obj.nationality;
 
-            //debugger;
             // API GET (Education By AccountId)
             $.ajax({
-                url: "http://192.168.25.131:9001/api/Educations/accountId?accountId=" + accountId,
+                url:
+                    "http://192.168.25.131:9001/api/Educations/accountId?accountId=" +
+                    accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 async: true,
 
@@ -67,39 +64,57 @@ function loadData() {
                         return b.years - a.years;
                     });
 
-                    var tableBody = document.getElementById('educationTableBody');
+                    var tableBody = document.getElementById("educationTableBody");
                     for (var i = 0; i < educationObj.length; i++) {
                         var education = educationObj[i];
                         var row = tableBody.insertRow(i);
                         var cityOrRegency = education.location;
-                        const cityRemove = cityOrRegency.replace('KOTA', '').replace('KABUPATEN', '').trim();
-                        const words = cityRemove.split(' ');
+                        const cityRemove = cityOrRegency
+                            .replace("KOTA", "")
+                            .replace("KABUPATEN", "")
+                            .trim();
+                        const words = cityRemove.split(" ");
                         const formattedCity = words
-                            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                            .join(' ');
-                 
+                            .map(
+                                (word) =>
+                                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                            )
+                            .join(" ");
+
                         row.innerHTML =
-                            "<td>" + education.years + "</td>" +
-                            "<td>" + education.universityName + "</td>" +
-                            "<td>" + formattedCity + "</td>" +
-                            "<td>" + education.major + "</td>" +
-                            "<td>" + education.degree + "</td>";
+                            "<td>" +
+                            education.years +
+                            "</td>" +
+                            "<td>" +
+                            education.universityName +
+                            "</td>" +
+                            "<td>" +
+                            formattedCity +
+                            "</td>" +
+                            "<td>" +
+                            education.major +
+                            "</td>" +
+                            "<td>" +
+                            education.degree +
+                            "</td>";
                     }
                     return accountId;
                 },
                 error: function (educationError) {
                     alert(educationError.responseText);
-                }
+                },
             });
 
             // API GET (NonFromalEdu By AccountId)
             $.ajax({
-                url: "http://192.168.25.131:9001/api/NonFormalEdu/accountId?accountId=" + accountId,
+                url:
+                    "http://192.168.25.131:9001/api/NonFormalEdu/accountId?accountId=" +
+                    accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 async: true,
 
@@ -111,14 +126,20 @@ function loadData() {
                     const listElement = document.getElementById("listNonEdu");
 
                     // Bersihkan isi list sebelumnya (jika ada)
-                    listElement.innerHTML = '';
-
+                    listElement.innerHTML = "";
 
                     // Loop melalui data dan tambahkan setiap item ke dalam list
-                    nonFormalEduObj.forEach(item => {
+                    nonFormalEduObj.forEach((item) => {
                         const li = document.createElement("li");
 
-                        li.textContent = item.name + ", " + item.organizer + " (" + item.years + ") : " + item.description; // Jika item adalah teks biasa
+                        li.textContent =
+                            item.name +
+                            ", " +
+                            item.organizer +
+                            " (" +
+                            item.years +
+                            ") : " +
+                            item.description; // Jika item adalah teks biasa
                         li.style.color = "black";
 
                         // Jika item adalah objek dan Anda ingin mengambil properti tertentu, contohnya: li.textContent = item.nama;
@@ -127,53 +148,51 @@ function loadData() {
                 },
                 error: function (educationError) {
                     alert(educationError.responseText);
-                }
+                },
             });
 
             // API GET (Qualification By AccountId)
             $.ajax({
-                url: "http://192.168.25.131:9001/api/Qualification/accountId?accountId=" + accountId,
+                url:
+                    "http://192.168.25.131:9001/api/Qualification/accountId?accountId=" +
+                    accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 async: true,
-
                 success: function (data) {
                     //var qualification = qualificationData.data;
                     var qualification = data.data[0];
                     $("#framework").text(qualification.framework);
                     $("#programmingLanguage").text(qualification.programmingLanguage);
                     $("#database").text(qualification.database);
-                   
-                    
+
                     if (qualification.others == "") {
                         var others = document.getElementById("othersShow_");
-              
+
                         others.style.display = "none";
                     }
                     $("#others").text(qualification.others);
-
-
-
                 },
                 error: function (educationError) {
                     alert(educationError.responseText);
-                }
+                },
             });
-
 
             // API GET (Certificate By AccountId)
             $.ajax({
-                url: "http://192.168.25.131:9001/api/Certificate/accountId?accountId=" + accountId,
+                url:
+                    "http://192.168.25.131:9001/api/Certificate/accountId?accountId=" +
+                    accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: true,
                 headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
 
                 success: function (certificate) {
@@ -188,15 +207,14 @@ function loadData() {
                     const bold = document.createElement("strong");
 
                     // Bersihkan isi list sebelumnya (jika ada)
-                    listElement.innerHTML = '';
-
+                    listElement.innerHTML = "";
 
                     // Loop melalui data dan tambahkan setiap item ke dalam list
-                    certifData.forEach(item => {
+                    certifData.forEach((item) => {
                         const li = document.createElement("li");
                         var validUntil = item.validUntil;
                         if (validUntil != "") {
-                            validUntil = `(Valid Until ${item.validUntil})`
+                            validUntil = `(Valid Until ${item.validUntil})`;
                         }
 
                         li.innerHTML = `<strong>${item.name}</strong>, <i>${item.publisher}</i>, ${item.publicationYear}  ${validUntil}`;
@@ -208,17 +226,19 @@ function loadData() {
                 },
                 error: function (educationError) {
                     alert(educationError.responseText);
-                }
+                },
             });
 
             // API GET (Employeement History By AccountId)
             $.ajax({
-                url: "http://192.168.25.131:9001/api/EmploymentHistory/accountId?accountId=" + accountId,
+                url:
+                    "http://192.168.25.131:9001/api/EmploymentHistory/accountId?accountId=" +
+                    accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 async: true,
 
@@ -226,36 +246,30 @@ function loadData() {
                     var empHistory = data.data;
                     const listElement = document.getElementById("employeementHistory");
 
-
                     // Bersihkan isi list sebelumnya (jika ada)
-                    listElement.innerHTML = '';
-
+                    listElement.innerHTML = "";
 
                     // Loop melalui data dan tambahkan setiap item ke dalam list
-                    empHistory.forEach(item => {
+                    empHistory.forEach((item) => {
                         const li = document.createElement("li");
 
                         const parts = item.period.split(" - ");
                         const startDate = parts[0]; // "2023-08"
-                        const endDate = parts[1];  // "Now"
+                        const endDate = parts[1]; // "Now"
                         // Pastikan data tidak null atau undefined sebelum melakukan format tanggal
                         if (startDate) {
-
                             var startDate_ = new Date(startDate);
                             if (endDate != "Now") {
                                 var endDate_ = new Date(endDate);
-                                const options = { month: 'long', year: 'numeric' };
-                                endDate_ = endDate_.toLocaleDateString('en-EN', options);
-                            }
-                            else {
+                                const options = { month: "long", year: "numeric" };
+                                endDate_ = endDate_.toLocaleDateString("en-EN", options);
+                            } else {
                                 endDate_ = "Now";
                             }
 
-                            const options = { month: 'long', year: 'numeric' };
-                            startDate_ = startDate_.toLocaleDateString('en-EN', options);
+                            const options = { month: "long", year: "numeric" };
+                            startDate_ = startDate_.toLocaleDateString("en-EN", options);
                             date = startDate_ + " - " + endDate_;
-                        
-
                         } else {
                             return ""; // Jika data null atau undefined, tampilkan string kosong
                         }
@@ -292,18 +306,19 @@ function loadData() {
                 },
                 error: function (educationError) {
                     alert(educationError.responseText);
-                }
+                },
             });
-
 
             // API GET (ProjectHistory By AccountId)
             $.ajax({
-                url: "http://192.168.25.131:9001/api/ProjectHistory/accountId?accountId=" + accountId,
+                url:
+                    "http://192.168.25.131:9001/api/ProjectHistory/accountId?accountId=" +
+                    accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 async: true,
 
@@ -313,7 +328,7 @@ function loadData() {
                     projectHistor.sort(function (a, b) {
                         return b.year - a.year;
                     });
-                    var tableBody = document.getElementById('projectHistoryTableBody');
+                    var tableBody = document.getElementById("projectHistoryTableBody");
 
                     for (var i = 0; i < projectHistor.length; i++) {
                         var project = projectHistor[i];
@@ -321,43 +336,46 @@ function loadData() {
                         var row = tableBody.insertRow(i);
 
                         // Menghilangkan bullet dari data jobSpec
-                        var jobSpecWithoutBullet = project.jobSpec.replace(/•/g, '');
+                        var jobSpecWithoutBullet = project.jobSpec.replace(/•/g, "");
 
                         // Memisahkan data jobSpec dengan baris baru (enter)
-                        var jobSpecItems = jobSpecWithoutBullet.split('\n');
+                        var jobSpecItems = jobSpecWithoutBullet.split("\n");
 
                         // Membuat elemen ul untuk menampilkan jobSpec
-                        var ul = document.createElement('ul');
+                        var ul = document.createElement("ul");
 
-                        ul.classList.add('pl-3'); 
+                        ul.classList.add("pl-3");
                         // Mengisi elemen ul dengan item-item jobSpec
                         jobSpecItems.forEach(function (item) {
-                            var li = document.createElement('li');
+                            var li = document.createElement("li");
                             li.innerHTML = item;
                             ul.appendChild(li);
                         });
 
                         row.innerHTML =
-                            "<td>" + project.projectName + "</td>" +
+                            "<td>" +
+                            project.projectName +
+                            "</td>" +
                             "<td></td>" + // Kosongkan sel ini, kami akan menambahkan ul di bawah
-                            "<td>" + project.year + "</td>" +
-                            "<td>" + project.companyName + "</td>";
+                            "<td>" +
+                            project.year +
+                            "</td>" +
+                            "<td>" +
+                            project.companyName +
+                            "</td>";
 
                         // Tambahkan elemen ul ke sel kedua (indeks 1)
                         row.cells[1].appendChild(ul);
                     }
-
                 },
                 error: function (educationError) {
                     alert(educationError.responseText);
-                }
+                },
             });
         },
-        error: function (errormessage) { alert(errormessage.responseText); }
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
     });
-    $('#loader').hide();
-
-
+    $("#loader").hide();
 }
-
-

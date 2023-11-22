@@ -93,7 +93,7 @@
 
 
                 }
-               
+
             }
             // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
             document.getElementById("countIdle").textContent = idleCount;
