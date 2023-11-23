@@ -22,6 +22,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IMailService, MailService>();
+builder.Services.AddHostedService<MyBackground>();
 
 var app = builder.Build();
 

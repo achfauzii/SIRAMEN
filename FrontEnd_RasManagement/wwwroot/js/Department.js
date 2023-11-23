@@ -4,7 +4,7 @@ $(document).ready(function () {
     table = $('#TB_Department').DataTable({
         
         "ajax": {
-            url: "http://192.168.25.131:9001/api/Department",
+            url: "http://202.69.99.67:9001/api/Department",
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -70,7 +70,7 @@ function Save() {
     Department.namaDept = $('#NamaDept').val(); //value insert dari id pada input
     $.ajax({
         type: 'POST',
-        url: 'http://192.168.25.131:9001/api/Department',
+        url: 'http://202.69.99.67:9001/api/Department',
         data: JSON.stringify(Department),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -131,7 +131,7 @@ function handleInput(event, input) {
 function GetByIdDept(deptId) {
     //debugger;
     $.ajax({
-        url: "http://192.168.25.131:9001/api/Department/" + deptId,
+        url: "http://202.69.99.67:9001/api/Department/" + deptId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -175,7 +175,7 @@ function UpdateDept() {
     Department.namaDept = $('#NamaDept').val(); //value insert dari id pada input
     debugger;
     $.ajax({
-        url: 'http://192.168.25.131:9001/api/Department',
+        url: 'http://202.69.99.67:9001/api/Department',
         type: 'PUT',
         data: JSON.stringify(Department),
         contentType: "application/json; charset=utf-8",
@@ -214,27 +214,25 @@ function Delete(deptId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "http://192.168.25.131:9001/api/Department/" + deptId,
+                url: "http://202.69.99.67:9001/api/Department/" + deptId,
                 type: "DELETE",
                 dataType: "json",
 
                 /*headers: {
                     "Authorization": "Bearer " + sessionStorage.getItem("Token")
                 },*/
-            }).then((result) => {
-                debugger;
-                if (result.status == 200) {
+                success: function (result) {
                     Swal.fire(
                         'Deleted!',
                         'Your data has been deleted.',
                         'success'
                     )
                     table.ajax.reload();
-                }
-                else {
+                },
+                error: function (errormessage) {
                     Swal.fire(
                         'Error!',
-                        result.message,
+                        "Cant Delete, Department Is Not Empty",
                         'error'
                     )
                 }

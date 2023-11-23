@@ -40,21 +40,38 @@ function updatePassword() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accountId = decodedtoken.AccountId;
     const email = decodedtoken.Email;
-    //console.log(email);
+
     var currentPassword = document.getElementById('currentPassword').value;
     var newPassword = document.getElementById('newPassword').value;
     var repeatPassword = document.getElementById('repeatPassword').value;
 
+    //Validasi 6 Karakter Change Password
+    if (newPassword.length < 6 || repeatPassword.length < 6) {
+        Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: "Password must be more than 6 characters",
 
+        });
+
+        return; // Hentikan eksekusi lebih lanjut
+    }
+    //End Validasi 6 Karakter
     if (newPassword != repeatPassword) {
         // Password dan repeat password tidak sama, tampilkan pesan error
-        alert('Password and Repeat Password do not match.');
+
+        Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: "Password and Repeat Password do not match.",
+
+        });
         return; // Hentikan eksekusi lebih lanjut
     }
     //debugger;
 
 
-    fetch('http://192.168.25.131:9001/api/Accounts/ChangePassword', {
+    fetch('http://202.69.99.67:9001/api/Accounts/ChangePassword', {
         method: 'PUT', // Atur metode sesuai kebutuhan
         headers: {
             'Content-Type': 'application/json', // Atur tipe konten sesuai kebutuhan
@@ -66,7 +83,7 @@ function updatePassword() {
             currentPassword: currentPassword,
             newPassword: newPassword
         })
-   
+
     })
         .then(response => response.json())
         .then(data => {
@@ -82,7 +99,7 @@ function updatePassword() {
             });
         })
         .catch(error => {
-         
+
             Swal.fire({
                 icon: 'error',
                 title: 'Failed',
@@ -91,11 +108,6 @@ function updatePassword() {
             })
             // Tampilkan pesan error jika terjadi kesalahan
         });
-
-
-
-
-
 
 
 }
