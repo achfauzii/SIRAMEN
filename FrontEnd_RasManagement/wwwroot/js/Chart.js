@@ -36,7 +36,7 @@
   Object.keys(universitiesData).forEach(key => {
     universitiesData[key].totalAccounts = universitiesData[key].totalAccounts.size;
   });
-
+        
   tableUniv(universitiesData);
   chartUniv(universitiesData);
 
