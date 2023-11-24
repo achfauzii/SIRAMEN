@@ -13,34 +13,26 @@
         success: function (education) {
             var result = education.data;
 
-  // Buat objek untuk menyimpan informasi universitas dan jumlah akun
-  var universitiesData = {};
+            // Buat objek untuk menyimpan informasi universitas dan jumlah akun
+            var universitiesData = {};
+            // Loop data dari API untuk menghitung jumlah akun di setiap universitas
+            result.forEach(eduData => {
+                var { universityName } = eduData;
+                
+                // Jika universitas sudah ada di dalam objek universitiesData, tambahkan akun baru ke universitas tersebut
+                if (universityName in universitiesData) {
+                    universitiesData[universityName].totalAccounts += 1;
+                } else {
+                    // Jika universitas belum ada di dalam objek universitiesData, buat entri baru
+                    universitiesData[universityName] = {
+                        totalAccounts: 1
+                    };
+                }
+            });
+            tableUniv(universitiesData);
+            chartUniv(universitiesData);
 
-  // Loop data dari API untuk menghitung jumlah akun yang berbeda di setiap universitas
-  result.forEach(eduData => {
-    var { universityName, accountId } = eduData;
-
-    // Gunakan nama universitas sebagai kunci
-    var key = universityName;
-
-    // Jika kunci belum ada di dalam objek universitiesData, tambahkan entri baru
-    if (!(key in universitiesData)) {
-      universitiesData[key] = {
-        totalAccounts: new Set([accountId])
-      };
-    } else {
-      // Jika kunci sudah ada, tambahkan accountId ke set
-      universitiesData[key].totalAccounts.add(accountId);
-    }
-  });
-  Object.keys(universitiesData).forEach(key => {
-    universitiesData[key].totalAccounts = universitiesData[key].totalAccounts.size;
-  });
-        
-  tableUniv(universitiesData);
-  chartUniv(universitiesData);
-
-         
+                    
 
             // Sembunyikan loader setelah permintaan selesai
             $('#loader').hide();
