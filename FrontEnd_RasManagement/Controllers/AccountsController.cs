@@ -42,7 +42,7 @@ namespace FrontEnd_RasManagement.Controllers
                 HttpClient client = new HttpClient();
 
                 // Konfigurasi URL API tujuan
-                string apiUrl = "http://202.69.99.67:9001/api/Accounts/ForgotPassword?email=" + email;
+                string apiUrl = "https://localhost:7177/api/Accounts/ForgotPassword?email=" + email;
 
                 // Buat data yang akan dikirim dalam permintaan POST
                 var requestData = new { email };
@@ -131,7 +131,7 @@ namespace FrontEnd_RasManagement.Controllers
                   HttpClient client = new HttpClient();
 
                   // Konfigurasi URL API tujuan
-                  string apiUrl = "http://202.69.99.67:9001/api/Accounts/UpdateForgotPassword";
+                  string apiUrl = "https://localhost:7177/api/Accounts/UpdateForgotPassword";
 
                   // Membuat objek yang akan dikirim sebagai request body
                   var requestBody = new { email, newPassword };
@@ -267,7 +267,7 @@ namespace FrontEnd_RasManagement.Controllers
                  HttpClient client = new HttpClient();
 
                  // Konfigurasi URL API tujuan
-                 string apiUrl = "http://202.69.99.67:9001/api/Accounts/Register";
+                 string apiUrl = "https://localhost:7177/api/Accounts/Register";
 
                  // Konversi data dari model menjadi JSON
                  var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(model);
