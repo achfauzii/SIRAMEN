@@ -58,13 +58,15 @@ function loadDataA() {
                 obj.address == null ? obj.address : toPascalCase(obj.address)
             );
 
+            var noImage = '/assets/NoImage.png';
             // Set employee photo
             if (obj.image != null) {
                 imgElement.attr("src", obj.image);
                 imgElement.attr("alt", obj.fullname + "'s photo");
             } else {
-                imgElement.attr("src", "");
-                imgElement.attr("alt", "");
+                imgElement.attr("src", noImage);
+                imgElement.attr("alt", "No Image Available");
+                //imgCaption.text("No Image Available");
             }
 
             // Populate the form fields in the modal with the retrieved data
@@ -112,55 +114,6 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
-/*function GetById(accountId) {
-    
-    $.ajax({
-        url: "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            
-            var obj = result.data.result; // Perhatikan penggunaan .result di sini
-
-            $('#accountId').val(obj.accountId);
-            $('#editName').val(obj.fullname);
-            $('#editNickName').val(obj.nickname);
-            $('#editBirthPlace').val(obj.birthplace);
-
-            // Set birth date input value
-            if (obj.birthdate) {
-                $('#editBirthDate').val(obj.birthdate.substring(0, 10));
-            } else {
-                $('#editBirthDate').val('');
-            }
-
-            $('#editGender').val(obj.gender);
-            $('#editReligion').val(obj.religion);
-            $('#editMartialStatus').val(obj.maritalstatus);
-            $('#editNationality').val(obj.nationality);
-            $('#editAddress').val(obj.address);
-            // Set the image input value
-            // $('#imageFile').val(obj.image);
-
-            var imageInput = document.getElementById('imageFile');
-            if (obj.image != null) {
-                // Set the value of image input to an empty string
-                // This is done because you can't set the value of a file input for security reasons
-                imageInput.value = '';
-            }
-
-            $('#Modal').modal('show');
-            $('#Update').show();
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-}*/
 
 function GetById(accountId) {
     $.ajax({
@@ -212,59 +165,6 @@ function GetById(accountId) {
     });
 }
 
-/*function updateData() {
-    
-    //upload gambar ke assets project
-    var accountId = $('#accountId').val();
-    uploadImage(accountId);
-
-    var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
-
-    var formData = {
-        AccountId: $('#accountId').val(),
-        Fullname: $('#editName').val(),
-        Nickname: $('#editNickName').val(),
-        Birthplace: $('#editBirthPlace').val(),
-
-        // Set birth date to yyyy-mm-dd format
-        Birthdate: $('#editBirthDate').val(),
-
-        Gender: $('#editGender').val(),
-        Religion: $('#editReligion').val(),
-        MaritalStatus: $('#editMartialStatus').val(),
-        Nationality: $('#editNationality').val(),
-        Address: $('#editAddress').val(),
-        Image: imagePath
-    };
-    console.log(formData);
-
-    $.ajax({
-        url: `http://202.69.99.67:9001/api/Employees/${formData.AccountId}`,
-        type: "PUT",
-        data: JSON.stringify(formData),
-        contentType: "application/json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then(result => {
-        //
-        if (result.status == 200) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Data Behasil Diperbaharui!',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                $('#myModal').modal('hide'); // Modal ditutup
-
-                location.reload();
-            });
-        } else {
-            alert("Data gagal Diperbaharui");
-        }
-    });
-}*/
 
 function updateData() {
     var accountId = $("#accountId").val();
@@ -320,7 +220,7 @@ function updateData() {
                 Swal.fire({
                     icon: "success",
                     title: "Success...",
-                    text: "Data Berhasil Diperbaharui!",
+                    text: "Data has been update!",
                     showConfirmButton: false,
                     timer: 2000,
                 }).then(() => {
@@ -328,7 +228,11 @@ function updateData() {
                     location.reload();
                 });
             } else {
-                alert("Data gagal Diperbaharui");
+                Swal.fire(
+                    'Error!',
+                    'Data failed to update!',
+                    'error'
+                )
             }
         },
         error: function (errormessage) {
@@ -362,7 +266,7 @@ function validateFormData() {
         Swal.fire({
             icon: "error",
             title: "Error...",
-            text: "Data tidak boleh kosong",
+            text: "Data connot be empty!",
         });
         return false;
     }
@@ -426,38 +330,6 @@ function uploadImage(accountId) {
     }
 }
 
-/*function validateImage(event) {
-    var imageInput = event.target;
-    var imageLabel = document.getElementById('imageLabel');
-    var imagePreview = document.getElementById('imagePreview');
-    var fileSizeError = document.getElementById('fileSizeError');
-    var updateButton = document.getElementById('Update'); // Get the Update button element
-
-    if (imageInput.files && imageInput.files[0]) {
-        var fileSize = imageInput.files[0].size; // File size in bytes
-
-        if (fileSize > 512 * 1024) { // 512 KB in bytes
-            fileSizeError.textContent = "File size must be 512 KB or smaller.";
-            imageInput.value = ''; // Clear the input
-            imageLabel.innerText = 'Choose file';
-            imagePreview.style.display = 'none';
-        } else {
-            fileSizeError.textContent = '';
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = 'block';
-            }
-
-            reader.readAsDataURL(imageInput.files[0]);
-            imageLabel.innerText = imageInput.files[0].name;
-
-            // Enable the Update button
-            updateButton.disabled = false;
-        }
-    }
-}*/
 
 function validateImage() {
     var imageInput = document.getElementById("imageFile");

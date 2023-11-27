@@ -92,7 +92,7 @@ function Save() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })
@@ -107,14 +107,6 @@ function ClearScreen() {
     $('#NamaDept').val('');
     $('#UpdateDept').hide();
     $('#Save').show();
-    /*$('input[required],textarea[required]').each(function () {
-        var input = $(this);
-        var textarea = $(this);
-
-        input.next('.error-message').hide();
-        textarea.next('.error-message').hide();
-
-    });*/
 }
 
 function noHTML(input) {
@@ -190,13 +182,17 @@ function UpdateDept() {
                 title: 'Success...',
                 text: 'Data has been update!',
                 showConfirmButtom: false,
-                timer: 2000
+                timer: 1500
             })
             $('#Modal').modal('hide');
             table.ajax.reload();
         }
         else {
-            alert("Data gagal Diperbaharui");
+            Swal.fire(
+                'Error!',
+                'Data failed to update',
+                'error'
+            )
         }
     });
 }

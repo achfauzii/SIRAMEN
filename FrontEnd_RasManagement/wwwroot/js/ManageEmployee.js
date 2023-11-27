@@ -35,8 +35,6 @@
                 "Authorization": "Bearer " + sessionStorage.getItem("Token")
             },
 
-
-
         },
 
         initComplete: function () {
@@ -79,10 +77,7 @@
                     placementStatusColumn.search("^(Idle|Onsite)$", true, false).draw();
                 }
 
-
             });
-
-
 
         },
         "columns": [
@@ -214,7 +209,7 @@
 
 
                     if (row.assetsManagements && row.assetsManagements.length > 0) {
-                        tulisanButton = '<button class="btn btn-success btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' + row.accountId + '\')">' + "View" + '</button>';
+                        tulisanButton = '<button class="btn btn-success btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' + row.accountId + '\')">' + "View Data" + '</button>';
 
                     } else {
                         tulisanButton = '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' + row.accountId + '\')">' + "Data Empty" + '</button>';
@@ -455,7 +450,6 @@ function SaveTurnOver() {
     var status = $('#Status').val();
 
 
-
     if (!status) {
         $('.PlacementStatus').closest('.form-group').find('.error-message-status').show();
         isValid = false;
@@ -528,7 +522,11 @@ function SaveTurnOver() {
             });
         }
         else {
-            alert("Data gagal dimasukkan");
+            Swal.fire(
+                'Error!',
+                'Data failed to turn over',
+                'error'
+            )
         }
 
     })
@@ -623,7 +621,7 @@ function UpdatePlacement() {
         else {
             Swal.fire(
                 'Error!',
-                result.message,
+                'data failed to be update',
                 'error'
             )
             table.ajax.reload();
@@ -747,10 +745,10 @@ function Save(accountId) {
         if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
             //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
             Swal.fire({
-                title: "Success!",
-                text: "Data Berhasil Dimasukkan",
-                icon: "success",
-                showConfirmButton: false,
+                icon: 'success',
+                title: 'Success...',
+                text: 'Data has been added!',
+                showConfirmButtom: false,
                 timer: 1500
             }).then(() => {
 
@@ -759,7 +757,11 @@ function Save(accountId) {
             });
         }
         else {
-            alert("Data gagal dimasukkan");
+            Swal.fire(
+                'Error!',
+                'Data failed to added!',
+                'error'
+            )
         }
 
     })
@@ -794,7 +796,7 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 title: "Success!",
-                text: "Data Berhasil Di Update",
+                text: "Data has been update",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
@@ -803,7 +805,11 @@ function Update() {
                 location.reload();
             });
         } else {
-            alert("Data gagal Diperbaharui");
+            Swal.fire(
+                'Error!',
+                'Data failed to update',
+                'error'
+            )
             location.reload();
         }
     });
@@ -1025,7 +1031,11 @@ function SaveTurnOver() {
             });
         }
         else {
-            alert("Data gagal dimasukkan");
+            Swal.fire(
+                'Error!',
+                'Turn Over status failed to update',
+                'error'
+            )
         }
 
     })
@@ -1119,7 +1129,7 @@ function UpdateContract() {
         else {
             Swal.fire(
                 'Error!',
-                result.message,
+                'Data failed to update',
                 'error'
             )
             table.ajax.reload();
@@ -1164,64 +1174,13 @@ function UpdatePlacement() {
         else {
             Swal.fire(
                 'Error!',
-                result.message,
+                'Data failed to update',
                 'error'
             )
             table.ajax.reload();
         }
     });
 }
-
-/*function GetById(accountId) {
-    const startDate = document.getElementById("showStartDate");
-    const endDate = document.getElementById("showEndDate");
-    startDate.style.display = "none";
-    endDate.style.display = "block";
-    var accountId = accountId;
-    $.ajax({
-        type: 'GET',
-        url: 'http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=' + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: true,
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then((result) => {
-        $('#modal-add').modal('hide');
-        $('#modal-add').on('hidden.bs.modal', function () {
-            $(this).data('bs.modal', null);
-        });
-       
-        var obj = result.data; //data yg didapat dari api
-
-        // Konversi string tanggal menjadi objek Date
-        var startDate = new Date(obj.startDate);
-        var endDate = new Date(obj.endDate);
-
-        // Fungsi untuk memformat tanggal menjadi "yyyy-MM-dd" (format yang diharapkan input date)
-        function formatDate(date) {
-            var year = date.getFullYear();
-            var month = (date.getMonth() + 1).toString().padStart(2, '0');
-            var day = date.getDate().toString().padStart(2, '0');
-            return year + "-" + month + "-" + day;
-        }
-
-        $('#companyName').val(obj.companyName);
-        $('#jobRole').val(obj.jobRole);
-        $('#startDate').val(formatDate(startDate));
-        $('#endDate').val(formatDate(endDate));
-        $('#description').val(obj.description);
-        $('input[name="status"][value="' + obj.placementStatus + '"]').prop('checked', true);
-        $('#Update').show();
-        $('#Add').hide();
-
-
-
-    })
-}
-*/
 
 function ClearScreenContract() {
     $('#accountId').val('');
@@ -1301,7 +1260,7 @@ function Save(accountId) {
             //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
             Swal.fire({
                 title: "Success!",
-                text: "Data Berhasil Dimasukkan",
+                text: "Data has been added!",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
@@ -1312,7 +1271,11 @@ function Save(accountId) {
             });
         }
         else {
-            alert("Data gagal dimasukkan");
+            Swal.fire(
+                'Error!',
+                'Data failed to added',
+                'error'
+            )
         }
 
     })
@@ -1347,7 +1310,7 @@ function Update() {
         if (result.status == 200) {
             Swal.fire({
                 title: "Success!",
-                text: "Data Berhasil Di Update",
+                text: "Data has been Update!",
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500
@@ -1356,7 +1319,11 @@ function Update() {
                 location.reload();
             });
         } else {
-            alert("Data gagal Diperbaharui");
+            Swal.fire(
+                'Error!',
+                'Data failed to update',
+                'error'
+            )
             location.reload();
         }
     });

@@ -209,7 +209,7 @@ function Save() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })
@@ -252,7 +252,7 @@ function Delete(CertificateId) {
                 else {
                     Swal.fire(
                         'Error!',
-                        result.message,
+                        'Your data failed to deleted.',
                         'error'
                     )
                 }
@@ -312,7 +312,7 @@ function Update() {
         else {
             Swal.fire(
                 'Error!',
-                result.message,
+                'Your failed to update',
                 'error'
             )
             table.ajax.reload();

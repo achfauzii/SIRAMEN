@@ -206,10 +206,10 @@ function Save() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
-            })
+            });
             $('#Modal').modal('hide');
             table.ajax.reload();
         }
@@ -311,7 +311,11 @@ function Update() {
             table.ajax.reload();
         }
         else {
-            alert("Data gagal Diperbaharui");
+            Swal.fire(
+                'Error!',
+                'Data failed to update',
+                'error'
+            )
         }
     });
 }
@@ -341,7 +345,7 @@ function Delete(projectHistoryId) {
                 if (result.status == 200) {
                     Swal.fire(
                         'Deleted!',
-                        'Your data has been deleted.',
+                        'Data has been deleted.',
                         'success'
                     )
                     table.ajax.reload();
@@ -349,7 +353,7 @@ function Delete(projectHistoryId) {
                 else {
                     Swal.fire(
                         'Error!',
-                        result.message,
+                        'Data failed deleted.',
                         'error'
                     )
                 }

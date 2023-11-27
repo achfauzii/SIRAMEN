@@ -170,7 +170,7 @@ function Save() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })
@@ -292,22 +292,6 @@ function getbyID() {
             const selectedDatabaseArray = selectedOptionsDatabase.split(', ');
             const selectedToolsArray = selectedOptionsTools.split(', ');
 
-         
-         
-    
-
-        /*    frameworkSelect.val(selectedFrameworkArray);
-            frameworkSelect.trigger('change');*/
-        /*    selectedFrameworkArray.forEach(value => {
-                const optionExists = frameworkSelect.find("option[value='"+value+"']").length;
-
-                if (optionExists) {
-                    frameworkSelect.val(value).trigger('change');
-                } else {
-                    const newOption = new Option(value, value, true, true);
-                    frameworkSelect.append(newOption).trigger('change');
-                }
-            });*/
 
             // Set the value, creating a new option if necessary
             selectedFrameworkArray.forEach(value => {
@@ -333,8 +317,6 @@ function getbyID() {
 
             // Set value to selectedFrameworkArray
             programmingLanguageSelect.val(selectedProgrammingArray).trigger('change');
-
-                 
 
 
             selectedDatabaseArray.forEach(value => {
@@ -362,11 +344,6 @@ function getbyID() {
             // Set value to selectedFrameworkArray
             toolsSelect.val(selectedToolsArray).trigger('change');   
 
-
-        
-         
-
-        
 
             // Menginisialisasi Select2 dengan opsi tag
             frameworkSelect.select2({
@@ -416,15 +393,6 @@ function getbyID() {
             });
 
             othersInput.val(othersObj);
-   /*         frameworkSelect.val(selectedOptionsFramework).trigger('change');
-            programmingLanguageSelect.val(selectedOptionsProgramming).trigger('change');
-            databaseSelect.val(selectedOptionsDatabase).trigger('change');
-            toolsSelect.val(selectedOptionsTools).trigger('change');*/
-           
-
- 
-
-
 
         },
         error: function (errormessage) {
@@ -486,10 +454,7 @@ function Update() {
     qualifications.database = $('#databaseUpdate').val().join(", ");
     qualifications.tools = $('#toolsUpdate').val().join(", ");
     qualifications.others = $('#othersUpdate').val();
-    /*    qualifications.programmingLanguage = $('#programmingLanguage_').val();
-        qualifications.database = $('#qualDatabase').val();
-        qualifications.tools = $('#tools_').val();
-        qualifications.others = $('#others_').val();*/
+    
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     //console.log(qualifications);
@@ -515,7 +480,11 @@ function Update() {
                 location.reload();
             });
         } else {
-            alert("Data gagal Diperbaharui");
+            Swal.fire(
+                'Error!',
+                'Data failed to update',
+                'error'
+            )
             location.reload();
         }
     });

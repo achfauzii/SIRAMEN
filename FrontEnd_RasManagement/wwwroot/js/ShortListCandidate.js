@@ -197,38 +197,8 @@ $(document).ready(function () {
                 }
                 //console.log(changedData);
 
-              /*  fetch('http://202.69.99.67:9001/api/Shortlist/ShortListCandidate', {
-                    method: 'POST',
-                    //contentType: 'application/json',
-                    //mode: 'no-cors',
-                    body: JSON.stringify( hot.getSourceData() ),
-                    //contentType: "application/json",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "Authorization": "Bearer " + sessionStorage.getItem("Token")
-                    },
-                })
-                    .then(response => {
-                        var a = JSON.stringify( hot.getSourceData() )
-                        console.log(array_);
-                    });*/
             });
-           /* autosave.addEventListener('click', () => {
-                if (autosave.checked) {
-                    exampleConsole.innerText = 'Changes will be autosaved';
-                } else {
-                    exampleConsole.innerText = 'Changes will not be autosaved';
-                }
-            });*/
 
-
-            /*autosave.addEventListener('click', () => {
-                if (autosave.checked) {
-                    exampleConsole.innerText = 'Changes will be autosaved';
-                } else {
-                    exampleConsole.innerText = 'Changes will not be autosaved';
-                }
-            });*/
         });
 
 

@@ -179,7 +179,7 @@ function SaveAsset() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })
@@ -249,7 +249,7 @@ function Delete(assetsManagementId) {
                 if (result.status == 200) {
                     Swal.fire(
                         'Deleted!',
-                        'Your data has been deleted.',
+                        'Data has been deleted!',
                         'success'
                     )
                     table.ajax.reload();
@@ -257,7 +257,7 @@ function Delete(assetsManagementId) {
                 else {
                     Swal.fire(
                         'Error!',
-                        result.message,
+                        'Data failed to deleted!',
                         'error'
                     )
                 }
@@ -323,7 +323,7 @@ function UpdateAsset() {
         else {
             Swal.fire(
                 'Error!',
-                result.message,
+                'Data failed to update!',
                 'error'
             )
             table.ajax.reload();

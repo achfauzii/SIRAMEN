@@ -137,8 +137,6 @@ function GetById(accountId, placementStatusId) {
             endDate = formatDate(endDate_);
         } 
     
-      
-    
         $('#placementStatusId').val(placementStatusId);
         $('#companyName_').val(obj.companyName);
         $('#jobRole').val(obj.jobRole);
@@ -148,8 +146,6 @@ function GetById(accountId, placementStatusId) {
         $('input[name="status"][value="' + obj.placementStatus + '"]').prop('checked', true);
         $('#Update').show();
         $('#Add').hide();
-
-
 
     })
 }

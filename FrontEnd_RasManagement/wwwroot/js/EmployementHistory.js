@@ -12,9 +12,6 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + sessionStorage.getItem("Token")
             },
-            /*success: function (result) {
-                console.log(result)
-            }*/
         },
 
         "columns": [
@@ -172,7 +169,7 @@ function Save() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })
@@ -289,7 +286,11 @@ function Update() {
             $('#Modal').modal('hide');
             table.ajax.reload();
         } else {
-            alert("Data failed to update.");
+            Swal.fire(
+                'Error!',
+                'Data failed to update',
+                'error'
+            )
         }
     });
 }
@@ -328,7 +329,7 @@ function Delete(workExperienceId) {
                 else {
                     Swal.fire(
                         'Error!',
-                        result.message,
+                        'Data failed to delete',
                         'error'
                     )
                 }

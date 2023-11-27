@@ -534,9 +534,6 @@ function Src() {
                     beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
                 }
 
-
-
-
                 // Menyimpan data sebelum data terakhir ke elemen tersembunyi
                 $('#intwuserHiden').val(beforeLastIntwUser);
                 $('#dateintwuserHiden').val(beforeLastDateIntwUser);
@@ -731,50 +728,6 @@ function getUniversitasListt() {
         }
     });
 
-    //const selectUniversity = document.getElementById('UniversityName');
-    /*const selectUniversity2 = document.getElementById('UniversityName2');
-    $.ajax({
-        url: "http://202.69.99.67:9001/api/Universitas",
-        type: "GET",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            var universities = result.data;
-
-
-            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-
-
-            universities.forEach(function (university) {
-                //console.log(university);
-                const option = document.createElement('option');
-                option.value = university.namaUniversitas;
-                option.textContent = university.namaUniversitas;
-                //selectUniversity.appendChild(option);
-                selectUniversity2.appendChild(option);
-            });
-
-            *//*$(selectUniversity).select2({
-                placeholder: 'Select university',
-                width: '100%',
-
-            });*//*
-            $(selectUniversity2).select2({
-                placeholder: 'Select university',
-                width: '100%',
-             
-                dropdownParent: $('#offeringSourceList'),
-                tags: true,
-
-            });
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });*/
 }
 
 function getUniversitasList() {
@@ -811,43 +764,6 @@ function getUniversitasList() {
         }
     });
 
-    /*const selectUniversity = document.getElementById('UniversityName');
-
-    $.ajax({
-        url: "http://202.69.99.67:9001/api/Universitas",
-        type: "GET",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            var universities = result.data;
-
-
-            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-
-
-            universities.forEach(function (university) {
-
-                const option = document.createElement('option');
-                option.value = university.namaUniversitas;
-                option.textContent = university.namaUniversitas;
-                selectUniversity.appendChild(option);
-            });
-
-            $('.selectUniversity').select2({
-                placeholder: 'Select university',
-                width: '100%',
-                tags: true,
-                dropdownParent: $('#Modal')
-
-            });
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });*/
 }
 
 function formInputLocation() {
@@ -957,39 +873,7 @@ function getBadgeColorPosition(position) {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
 }
-/*	$(document).on('change', '.intwDateByRas-input, .intwByRas-select', function () {
-        // Ambil nilai yang diubah
-        var newValue = $(this).val();
 
-        // Ambil data ID dari elemen
-        var dataId = $(this).data('nonRasId');
-
-        // Tentukan tipe data (tanggal atau select)
-        var isDate = $(this).hasClass('intwDateByRas-input');  // Dapatkan nama kolom dari atribut data
-        var columnName = $(this).data('column'); // Sesuaikan nama atributnya dengan apa yang Anda gunakan
-        console.log(columnName);
-        // Buat objek yang berisi data yang akan dikirim ke server
-        var postData = {
-            id: dataId,
-            newValue: newValue,
-    	
-        };
-        console.log(postData);
-        // Kirim permintaan POST ke server
-        $.ajax({
-            url: 'URL_API_UPDATE_DATA', // Ganti dengan URL endpoint API Anda
-            type: 'POST',
-            data: postData,
-            success: function (response) {
-                // Tanggapi respons dari server jika diperlukan
-                console.log('Data berhasil diperbarui:', response);
-            },
-            error: function (error) {
-                // Tanggapi kesalahan jika diperlukan
-                console.error('Terjadi kesalahan:', error);
-            }
-        });
-    });*/
 
 function Save() {
    
@@ -1005,34 +889,10 @@ function Save() {
         }
     });
 
-    /*$('input[type="radio"][name="workstatus"]').each(function () {
-        if ($(this).is(':checked')) {
-            isValid = true;
-        }
-    });*/
-
-    /*$('select[required_]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message_').show();
-            isValid = false;
-        } else {
-            input.next('.error-message_').hide();
-        }
-    });*/
 
     // Validasi select options
     //var selectedRegencies = $('#selectRegencies').val();
     var selectedUniversity = $('#UniversityName').val();
-
-
-    /*if (!selectedRegencies) {
-        $('.selectRegencies').closest('.form-group').find('.error-message-r').show();
-        isValid = false;
-    } else {
-        $('.selectRegencies').closest('.form-group').find('.error-message-r').hide();
-
-    }*/
 
 
     if (!selectedUniversity) {
@@ -1124,7 +984,7 @@ function Save() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })
@@ -1270,7 +1130,7 @@ function Update() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })

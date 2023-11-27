@@ -376,7 +376,7 @@ function SaveFormal() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })
@@ -540,7 +540,11 @@ function UpdateFormal() {
             table.ajax.reload();
         }
         else {
-            alert("Data gagal Diperbaharui");
+            Swal.fire(
+                'Error!',
+                'Data failed to update',
+                'error'
+            )
         }
     });
 }
@@ -578,7 +582,7 @@ function DeleteFormal(formalEduId) {
                 else {
                     Swal.fire(
                         'Error!',
-                        result.message,
+                        'Data failed to delete',
                         'error'
                     )
                 }

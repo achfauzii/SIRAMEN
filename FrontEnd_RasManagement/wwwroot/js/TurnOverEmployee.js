@@ -27,19 +27,6 @@
                 "Authorization": "Bearer " + sessionStorage.getItem("Token")
             },
 
-            /*success: function (placementData) {
-                
-                var filteredData = placementData.data.filter(function (item) {
-                    return item.placementStatus === "Blacklist";
-                });
-
-                *//*var table = $('#dataTableEmployee').DataTable({
-            // konfigurasi DataTables lainnya
-            data: filteredData,
-            // ...
-        });*//*
-
-        }*/
         },
 
         initComplete: function () {
@@ -104,7 +91,6 @@
 
                     var placementStatus = row.status;
 
-
                     /*console.log(row.placements.placementStatus);
                     var placementStatus = row.placements.placementStatus;*/
                     if (placementStatus === "Blacklist") {
@@ -119,17 +105,8 @@
                     return placementStatus
                 }
             },
-
-
-
-
-
         ],
-
-
-
     });
-
 
 
     $("#resetFilters").on("click", function () {
@@ -144,8 +121,6 @@
         table.ajax.reload();
 
     });
-
-
 });
 
 
@@ -176,7 +151,4 @@ function showDescription(namaDept, description, date) {
         $("#description").text(description);
     }
     $("#date").text(newDate);
-    
-
-
 }

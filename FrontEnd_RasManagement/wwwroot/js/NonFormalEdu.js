@@ -163,7 +163,7 @@ function Save() {
         else {
             Swal.fire({
                 icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
+                title: 'Data failed to added!',
                 showConfirmButtom: false,
                 timer: 1500
             })
@@ -198,7 +198,7 @@ function Delete(NonFormalId) {
                 if (result.status == 200) {
                     Swal.fire(
                         'Deleted!',
-                        'Your data has been deleted.',
+                        'Data has been deleted!',
                         'success'
                     )
                     $('#NonFormalEdu').DataTable().ajax.reload();
@@ -206,7 +206,7 @@ function Delete(NonFormalId) {
                 else {
                     Swal.fire(
                         'Error!',
-                        result.message,
+                        'Data failed to deleted!',
                         'error'
                     )
                 }
@@ -247,7 +247,11 @@ function Update() {
                 location.reload();
             });
         } else {
-            alert("Data gagal Diperbaharui");
+            Swal.fire(
+                'Error!',
+                'Data failed to update',
+                'error'
+            )
             location.reload();
         }
     });
