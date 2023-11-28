@@ -167,17 +167,17 @@ namespace RasManagement.Controllers
                 var claims = new[]
             {
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        //new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("Email", _account.Email),
 
                     };
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                 var token = new JwtSecurityToken(
-                    _configuration["Jwt:Issuer"],
-                    _configuration["Jwt:Audience"],
-                    claims,
+                /*    _configuration["Jwt:Issuer"],
+                    _configuration["Jwt:Audience"],*/
+                    claims:claims,
                     expires: DateTime.UtcNow.AddHours(5),
                     signingCredentials: signIn);
                 var resetToken = new JwtSecurityTokenHandler().WriteToken(token);

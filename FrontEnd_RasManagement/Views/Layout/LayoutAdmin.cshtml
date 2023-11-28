@@ -23,6 +23,8 @@
 
     <!-- Custom styles for this template-->
     <link href="~/startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet">
 
     @*  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
@@ -119,7 +121,8 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center logo-container" href="/Dashboards/Dashboard_Admin">
-                <img src="~/img/logo_putih.png" width="290" height="38">
+                <img src="~/img/logo_putih.png" class ="d-none d-md-block" width="290" height="38">
+                <img src="~/img/LogoBhp.png" class="img-fluid d-md-none p-3">
             </a>
 
             <!-- Divider -->
@@ -240,9 +243,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-1 d-none d-lg-inline text-gray-600 small" id="name"></span>
+                                <span class="mr-1 d-lg-inline text-gray-600 small" id="name"></span>
                                 <span class="badge badge-success text-light mr-1">
-                                    <span class=" d-none d-lg-inline" id="role"></span>
+                                    <span class=" d-lg-inline" id="role"></span>
                                 </span>
                                 <img class="img-profile rounded-circle pl-1"
                                      src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
@@ -403,7 +406,10 @@
 
     <!-- Page level plugins -->
     @*    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>*@
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <sc@*ript src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>*@
     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
 

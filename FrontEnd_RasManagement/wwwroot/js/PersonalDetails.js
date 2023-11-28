@@ -114,6 +114,26 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
+function ClearScreen() {
+    $('#accountId').val('');
+    $('#editName').val('');
+    $('#editNickName').val('');
+    $('#editBirthPlace').val('');
+    $('#editBirthDate').val('');
+    $('#editGender').val('');
+    $('#editReligion').val('');
+    $('#editMartialStatus').val('');
+    $('#editNationality').val('');
+    $('#editAddress').val('');
+    $('input[required]').each(function () {
+        var input = $(this);
+        input.next('.error-message').hide();
+    });
+    $('select[required]').each(function () {
+        var input = $(this);
+        input.next('.error-message').hide();
+    });
+}
 
 function GetById(accountId) {
     $.ajax({
@@ -189,7 +209,7 @@ function updateData() {
     uploadImage(accountId);
 
     var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
-    console.log(imagePath);
+    //console.log(imagePath);
     var formData = {
         AccountId: $("#accountId").val(),
         Fullname: $("#editName").val(),
@@ -310,7 +330,7 @@ function uploadImage(accountId) {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 if (response.success) {
                     $("#uploadMessage").text(response.message);
                 } else {
@@ -321,7 +341,7 @@ function uploadImage(accountId) {
                 $("#uploadMessage").text(
                     "An error occurred while uploading the image."
                 );
-                console.log(error);
+                //console.log(error);
             },
         });
     } else {

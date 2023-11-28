@@ -3,6 +3,7 @@ $(document).ready(function () {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_Assets').DataTable({
+        "responsive": true,
         "ajax": {
             url: "http://202.69.99.67:9001/api/Assets/accountId?accountId=" + accid,
             type: "GET",
@@ -146,9 +147,9 @@ function SaveAsset() {
     Assets.processor = $('#Processor').val();
     Assets.display = $('#Display').val();
     Assets.operatingSystem = $('#os').val();
-    Assets.ram = $('#ram').val();
-    Assets.ssd = $('#ssd').val() || "-";
-    Assets.hdd = $('#hdd').val() || "-";
+    Assets.ram = ($('#ram').val() !== "" ? $('#ram').val() + " GB" : "-");
+    Assets.ssd = ($('#ssd').val() !== "" ? $('#ssd').val() + " GB" : "-");
+    Assets.hdd = ($('#hdd').val() !== "" ? $('#hdd').val() + " GB" : "-");
     Assets.graphicCard = $('#GraphicCard').val();
     Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -189,7 +190,7 @@ function SaveAsset() {
     })
 }
 function GetById(assetsManagementId) {
-    console.log(assetsManagementId)
+    //console.log(assetsManagementId)
     debugger;
     $.ajax({
         url: "http://202.69.99.67:9001/api/Assets/" + assetsManagementId,
@@ -208,9 +209,9 @@ function GetById(assetsManagementId) {
             $('#Processor').val(obj.processor);
             $('#Display').val(obj.display);
             $('#os').val(obj.operatingSystem);
-            $('#ram').val(obj.ram);
-            $('#ssd').val(obj.ssd);
-            $('#hdd').val(obj.hdd);
+            $('#ram').val(obj.ram ? obj.ram.replace(/\D/g, '') : "-");
+            $('#ssd').val(obj.ssd ? obj.ssd.replace(/\D/g, '') : "-");
+            $('#hdd').val(obj.hdd ? obj.hdd.replace(/\D/g, '') : "-");
             $('#GraphicCard').val(obj.graphicCard);
             var chargerElement = $('#charger');
             chargerElement.val(obj.charger ? 'Yes' : 'No');
@@ -290,9 +291,9 @@ function UpdateAsset() {
     Assets.processor = $('#Processor').val();
     Assets.display = $('#Display').val();
     Assets.operatingSystem = $('#os').val();
-    Assets.ram = $('#ram').val();
-    Assets.ssd = $('#ssd').val() || "-";
-    Assets.hdd = $('#hdd').val() || "-";
+    Assets.ram = ($('#ram').val() !== "" ? $('#ram').val() + " GB" : "-");
+    Assets.ssd = ($('#ssd').val() !== "" ? $('#ssd').val() + " GB" : "-");
+    Assets.hdd = ($('#hdd').val() !== "" ? $('#hdd').val() + " GB" : "-");
     Assets.graphicCard = $('#GraphicCard').val();
     Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));

@@ -708,7 +708,7 @@ function getUniversitasListt() {
             var universities = result;
 
             universities.forEach(function (university) {
-                console.log(university);
+                //console.log(university);
                 const option = document.createElement('option');
                 option.value = university.nama_pt;
                 option.textContent = university.nama_pt;
@@ -744,7 +744,7 @@ function getUniversitasList() {
             var universities = result;
 
             universities.forEach(function (university) {
-                console.log(university);
+                //console.log(university);
                 const option = document.createElement('option');
                 option.value = university.nama_pt;
                 option.textContent = university.nama_pt;

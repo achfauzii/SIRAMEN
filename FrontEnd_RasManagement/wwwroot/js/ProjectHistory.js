@@ -4,6 +4,7 @@ $(document).ready(function () {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_ProjectHistory').DataTable({
+        "responsive": true,
         "ajax": {
             url: "http://202.69.99.67:9001/api/ProjectHistory/accountId?accountId=" + accid,
             type: "GET",
@@ -19,6 +20,7 @@ $(document).ready(function () {
 
         "columns": [
             {
+                data: null,
                 render: function (data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }

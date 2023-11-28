@@ -12,7 +12,7 @@ $(document).ready(function () {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (response) {
-            debugger;
+            //debugger;
             if (response.status === 200) {
                 displayQualification(response.data);
 
@@ -254,7 +254,7 @@ function updateOthers() {
 
 
 function getbyID() {
-    debugger;
+    //debugger;
 
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
@@ -402,7 +402,7 @@ function getbyID() {
 }
 
 function Update() {
-    debugger;
+    //debugger;
     var isValid = true;
     // Validasi apakah field frameworkUpdate memiliki nilai yang dipilih
     var selectedFrameworks = $('#frameworkUpdate').val();

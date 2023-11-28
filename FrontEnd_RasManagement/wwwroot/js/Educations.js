@@ -21,6 +21,7 @@ function Educations() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $('#TB_FormalEdu').DataTable({
+        "responsive": true,
         "ajax": {
             url: "http://202.69.99.67:9001/api/Educations/accountId?accountId=" + accid,
             type: "GET",
@@ -36,6 +37,7 @@ function Educations() {
 
         "columns": [
             {
+                data: null,
                 render: function (data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }

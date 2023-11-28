@@ -3,6 +3,7 @@
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     $('#NonFormalEdu').DataTable({
+        "responsive": true,
         "ajax": {
             url: "http://202.69.99.67:9001/api/NonFormalEdu/accountId?accountId=" + accid,
             type: "GET",

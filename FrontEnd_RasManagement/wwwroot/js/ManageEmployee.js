@@ -169,7 +169,7 @@
                     var monthsRemaining = Math.floor(daysremain / 30); // Menghitung bulan
                     var daysInMonth = daysremain % 30; // Menghitung sisa hari
                     //console.log(monthsRemaining);
-                    console.log(daysInMonth)
+                    //console.log(daysInMonth)
                     var result = "";
 
                     /*if (monthsRemaining > 0) {
@@ -215,7 +215,7 @@
                         tulisanButton = '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' + row.accountId + '\')">' + "Data Empty" + '</button>';
                     }
 
-                    console.log("Generated HTML:", tulisanButton);
+                    //console.log("Generated HTML:", tulisanButton);
                     return tulisanButton;
 
                 }
@@ -835,63 +835,6 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-/*function GetByIdPlacement(accountId, placementStatus) {
-    debugger;
-
-    var fullName = ''; // Untuk menyimpan fullname dari kedua pemanggilan API
-
-    // Pemanggilan pertama
-    var firstApiCall = $.ajax({
-        url: "http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            debugger;
-            var obj = result.data;
-            fullName = obj.fullname; // Simpan fullname dari pemanggilan pertama
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-    // Pemanggilan kedua
-    var secondApiCall = $.ajax({
-        url: "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            debugger;
-            var obj = result.data;
-            $('#AccountId').val(accountId);
-            $('#PlacementID').val(obj.placementStatusId);
-            $('#PlacementStatus').val(placementStatus);
-            $('#CompanyName').val(obj.companyName);
-            $('#Description').val(obj.description);
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-    // Menunggu kedua pemanggilan API selesai
-    $.when(firstApiCall, secondApiCall).done(function () {
-        // Setelah keduanya selesai, tampilkan fullname
-        $('#FullName').text(fullName);
-        console.log(fullName);
-        $('#Modal').modal('show');
-        $('#Update').show();
-    });
-}*/
-
 
 function GetByIdPlacement(accountId, placementStatus) {
 
@@ -983,7 +926,7 @@ function SaveTurnOver() {
     TurnOver.description = $('#Description').val();
     TurnOver.accountId = $('#AccountId').val();
     TurnOver.exitDate = $('#date').val();
-    console.log(TurnOver);
+    //console.log(TurnOver);
 
     var updateRole = new Object
     updateRole.accountId = $('#AccountId').val();
@@ -1057,7 +1000,7 @@ function handlePlacementStatusChange() {
 
 function GetContract(accountId) {
     debugger;
-    console.log(accountId);
+    //console.log(accountId);
     $.ajax({
         url: "http://202.69.99.67:9001/api/Accounts/AccountId?accountId=" + accountId,
         type: "GET",
@@ -1101,7 +1044,7 @@ function UpdateContract() {
     Account.accountId = $('#accountId').val();
     Account.startContract = $('#StartContract').val();
     Account.endContract = $('#EndContract').val();
-    console.log(Account.accountId);
+    //console.log(Account.accountId);
     $.ajax({
         url: 'http://202.69.99.67:9001/api/Accounts/UpdateContract',
         type: 'PUT',
@@ -1183,7 +1126,21 @@ function UpdatePlacement() {
 }
 
 function ClearScreenContract() {
-    $('#accountId').val('');
+    $('#AccountId').val('');
+    $('#StartContract').val('');
+    $('#EndContract').val('');
+
+    $('input[required]').each(function () {
+        var input = $(this);
+
+        input.next('.error-message').hide();
+
+    });
+
+    // Menyembunyikan pesan kesalahan untuk kedua input
+    $('.error-message').hide();
+
+    /*$('#accountId').val('');
     $('#StartContract').val('');
     $('#EndContract').val('');
     $('input[required]').each(function () {
@@ -1191,13 +1148,13 @@ function ClearScreenContract() {
 
         input.next('.error-message-contract').hide();
 
-    });
+    });*/
 }
 
 function ClearScreenPlacement() {
     const startDate = document.getElementById("showStartDate");
     const endDate = document.getElementById("showEndDate");
-    $('#companyName').val('');
+    $('#companyName_').val('');
     $('#jobRole').val('');
     $('#startDate').val('');
     $('#endDate').val('');
@@ -1214,7 +1171,16 @@ function ClearScreenPlacement() {
 
     });
 
+    $('input[name="status"]').prop('checked', false);
+}
 
+function ClearScreenChangeStatus() {
+    $('#AccountId').val('');
+    $('#Status').val('');
+    $('#date').val('');
+    $('#Description').val('');
+
+    $('.error-message, .error-message-turnOver').hide();
 }
 
 function Save(accountId) {

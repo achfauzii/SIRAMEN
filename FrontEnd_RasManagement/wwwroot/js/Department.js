@@ -2,6 +2,7 @@
 $(document).ready(function () {
     debugger;
     table = $('#TB_Department').DataTable({
+        "responsive": true,
         
         "ajax": {
             url: "http://202.69.99.67:9001/api/Department",
@@ -12,6 +13,7 @@ $(document).ready(function () {
 
         "columns": [
             {
+                data: null,
                 render: function (data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1 + "."
                 }
@@ -119,6 +121,15 @@ function handleInput(event, input) {
     // Menangani peristiwa oninput dan onpaste
     noHTML(input);
 }
+
+function ClearScreenDept() {
+    $('#DeptId').val('');
+    $('#NamaDept').val('');
+    $('.error-message').hide();
+    $('#UpdateDept').hide();
+    $('#Save').show();
+}
+
 
 function GetByIdDept(deptId) {
     //debugger;

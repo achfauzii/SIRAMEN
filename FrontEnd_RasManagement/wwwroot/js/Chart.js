@@ -19,7 +19,7 @@
             result.forEach(eduData => {
                 var { universityName, accountId } = eduData;
 
-                var key = universitiesName;
+                var key = universityName;
 
                 if (!(key in universitiesData)) {
                     universitiesData[key] = {

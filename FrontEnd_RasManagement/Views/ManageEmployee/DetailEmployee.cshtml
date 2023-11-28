@@ -35,9 +35,9 @@
 
 @* Card Detail *@
 
-<div class="d-flex justify-content-between " style="gap: 0.3rem;">
+<div class="d-flex flex-column flex-xl-row justify-content-between " style="gap: 0.3rem;">
 
-    <div class="card text-dark  mb-3 " style="width: 65%;">
+    <div class="card text-dark mb-3 w-100 w-sm-65">
         <div class="card-header text-light bg-secondary " style="background-color:#624DE3;">Personal Data</div>
         <div class="card-body">
             <div class="row">
@@ -63,7 +63,7 @@
             </div>
         </div>
     </div>
-    <div class="card text-dark  mb-3 w-50">
+    <div class="card text-dark  mb-3 w-100 w-sm-50">
         <div class="card-header text-light bg-secondary ">Status</div>
         <div class="card-body ">
             <div class="row">
@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div class="card text-dark  mb-3  w-50">
+    <div class="card text-dark  mb-3  w-100 w-sm-50">
         <div class="card-header text-light bg-secondary">
             Contract
             <i class="fa fa-edit text-light pt-2 mr-3" style="font-size: 14px; float: right" data-toggle="modal" data-placement="top" data-target="#modalContract" data-tooltip="tooltip" title="Update Contract" onclick="GetContract('@employeeData.accountId');"></i>
@@ -167,7 +167,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header pb-1">
-                <h5 class="modal-title" id="exampleModalLabel">Employee Placement</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Employee Contract</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -185,7 +185,7 @@
                     </div>
 
                     <div class="form-group mb-1">
-                        <label class="m-0" for="exampleInputEmail1">Job Role</label>
+                        <label class="m-0" for="exampleInputEmail1">End Contract</label>
                         <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="jobRole" name="jobRole" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
