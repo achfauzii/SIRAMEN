@@ -35,9 +35,9 @@
 
 @* Card Detail *@
 
-<div class="d-flex justify-content-between " style="gap: 0.3rem;">
+<div class="d-flex flex-column flex-xl-row justify-content-between " style="gap: 0.3rem;">
 
-    <div class="card text-dark  mb-3 " style="width: 65%;">
+    <div class="card text-dark  mb-3 w-100 w-sm-65">
         <div class="card-header text-light bg-secondary " style="background-color:#624DE3;">Personal Data</div>
         <div class="card-body">
             <div class="row">
@@ -63,7 +63,7 @@
             </div>
         </div>
     </div>
-    <div class="card text-dark  mb-3 w-50">
+    <div class="card text-dark  mb-3  w-100 w-sm-50">
         <div class="card-header text-light bg-secondary ">Status</div>
         <div class="card-body ">
             <div class="row">
@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div class="card text-dark  mb-3  w-50">
+    <div class="card text-dark  mb-3  w-100 w-sm-50">
         <div class="card-header text-light bg-secondary">
             Contract
             <i class="fa fa-edit text-light pt-2 mr-3" style="font-size: 14px; float: right" data-toggle="modal" data-placement="top" data-target="#modalContract" data-tooltip="tooltip" title="Update Contract" onclick="GetContract('@employeeData.accountId');"></i>

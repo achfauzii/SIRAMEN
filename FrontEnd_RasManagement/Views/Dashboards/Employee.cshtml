@@ -45,6 +45,12 @@
         font-family: "Calibri", Arial, sans-serif;
         font-weight: bold;
     }
+  @@media (max-width: 1199.98px) { 
+        .photo-container {
+            margin-left: 0 !important;
+            margin-top: 0 !important;
+        }
+   }
 
 </style>
 
@@ -75,7 +81,7 @@
         <div class="card-body">
 
             <div class="row">
-                <div class="col-9">
+                <div class="col-xl-9 order-xl-1 order-2">
                     <div class="row">
                         <div class="col-4 text-dark">
                             <p>Name</p>
@@ -160,7 +166,7 @@
                 </div>
 
 
-                <div class="col-3">
+                <div class="col-xl-3 order-xl-2 order-1 text-center pb-5">
                     <div class="photo-container ml-5 mt-3">
                         <img id="employeePhoto" src="" alt="" style=" width:157px; height:231px;">
                     </div>
