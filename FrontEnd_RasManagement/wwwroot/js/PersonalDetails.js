@@ -63,7 +63,7 @@ function loadDataA() {
                 imgElement.attr("src", obj.image);
                 imgElement.attr("alt", obj.fullname + "'s photo");
             } else {
-                imgElement.attr("src", "");
+                imgElement.attr("src", "/assets/photo/Default.png");
                 imgElement.attr("alt", "");
             }
 
