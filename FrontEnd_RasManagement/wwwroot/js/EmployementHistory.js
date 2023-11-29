@@ -6,7 +6,7 @@ $(document).ready(function () {
     table = $('#TB_EmploymentHistory').DataTable({
         "responsive": true,
         "ajax": {
-            url: "http://202.69.99.67:9001/api/EmploymentHistory/accountId?accountId=" + accid,
+            url: "http://192.168.25.243:9001/api/EmploymentHistory/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -147,7 +147,7 @@ function Save() {
     //console.log(EmploymentHistory);
     $.ajax({
         type: 'POST',
-        url: 'http://202.69.99.67:9001/api/EmploymentHistory',
+        url: 'http://192.168.25.243:9001/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -199,7 +199,7 @@ function ClearScreen() {
 
 function GetById(workExperienceId) {
     $.ajax({
-        url: "http://202.69.99.67:9001/api/EmploymentHistory/" + workExperienceId,
+        url: "http://192.168.25.243:9001/api/EmploymentHistory/" + workExperienceId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -269,7 +269,7 @@ function Update() {
     debugger;
     $.ajax({
         type: 'PUT',
-        url: 'http://202.69.99.67:9001/api/EmploymentHistory',
+        url: 'http://192.168.25.243:9001/api/EmploymentHistory',
         data: JSON.stringify(EmploymentHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -311,7 +311,7 @@ function Delete(workExperienceId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "http://202.69.99.67:9001/api/EmploymentHistory/" + workExperienceId,
+                url: "http://192.168.25.243:9001/api/EmploymentHistory/" + workExperienceId,
                 type: "DELETE",
                 dataType: "json",
 

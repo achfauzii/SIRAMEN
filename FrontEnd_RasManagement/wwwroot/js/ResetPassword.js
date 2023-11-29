@@ -14,7 +14,7 @@ document.getElementById("resetPassword").addEventListener("submit", async functi
  
     $.ajax({
         type: 'PUT',
-        url: 'http://202.69.99.67:9001/api/Accounts/UpdatePassword',
+        url: 'http://192.168.25.243:9001/api/Accounts/UpdatePassword',
         data: JSON.stringify(resetPassword),
         contentType: "application/json; charset=utf-8"
         /*headers: {

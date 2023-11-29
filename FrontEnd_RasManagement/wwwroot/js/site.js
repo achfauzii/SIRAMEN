@@ -25,7 +25,7 @@ $(document).ready(function () {
     //GetBirthday
     $.ajax({
         type: 'GET',
-        url: 'http://202.69.99.67:9001/api/Accounts/BirthDay',
+        url: 'http://192.168.25.243:9001/api/Accounts/BirthDay',
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -60,7 +60,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: 'GET',
-        url: 'http://202.69.99.67:9001/api/Accounts',
+        url: 'http://192.168.25.243:9001/api/Accounts',
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
@@ -81,7 +81,7 @@ $(document).ready(function () {
     //Get All Employee
     $.ajax({
         type: 'GET',
-        url: 'http://202.69.99.67:9001/api/Employees/EmployeeAdmin',
+        url: 'http://192.168.25.243:9001/api/Employees/EmployeeAdmin',
         contentType: "application/json; charset=utf-8",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")

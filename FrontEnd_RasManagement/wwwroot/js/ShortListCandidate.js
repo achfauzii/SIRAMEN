@@ -4,7 +4,7 @@ $(document).ready(function () {
     const save = document.querySelector('#save');
     const autosave = document.querySelector('#autosave');
     // Melakukan permintaan GET ke API
-    fetch('http://202.69.99.67:9001/api/Shortlist')
+    fetch('http://192.168.25.243:9001/api/Shortlist')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -165,7 +165,7 @@ $(document).ready(function () {
                     }
                  
 
-                    fetch('http://202.69.99.67:9001/api/Shortlist/ShortListCandidate', {
+                    fetch('http://192.168.25.243:9001/api/Shortlist/ShortListCandidate', {
                         method: 'POST',
                   
                         headers: {

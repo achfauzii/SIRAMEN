@@ -5,7 +5,43 @@
         loadDataA(); // Reload the data before opening the modal
         $("#myModal").modal("show"); // Show the modal after loading the data
     });
+
+    $("#editName, #editNickName, #editBirthPlace").on("keyup", function () {
+        var value = $(this).val();
+        var maxLength = 50; // Default max length
+        var errorMessage = "";
+
+        if ($(this).is("#editName")) {
+            maxLength = 50;
+            errorMessage = "Fullname should not exceed 50 characters";
+        } else if ($(this).is("#editNickName")) {
+            maxLength = 20;
+            errorMessage = "Nickname should not exceed 20 characters";
+        } else if ($(this).is("#editBirthPlace")) {
+            maxLength = 50;
+            errorMessage = "Birthplace should not exceed 50 characters";
+        }
+
+        var isValidCharacter = true;
+
+        // Validasi karakter hanya jika bidang tidak kosong
+        if (value.trim() !== "") {
+            isValidCharacter = /^[A-Za-z\s]+$/.test(value);
+
+            if (!isValidCharacter) {
+                $(this).next(".error-message").text("Only letters and spaces are allowed").show();
+            }
+        }
+
+        if (value.length > maxLength) {
+            $(this).next(".error-message").text(errorMessage).show();
+        } else if (isValidCharacter || value.trim() === "") {
+            $(this).next(".error-message").hide();
+        }
+    });
 });
+
+
 function toPascalCase(str) {
     return str.replace(/(\w)(\w*)/g, function (_, firstChar, rest) {
         return firstChar.toUpperCase() + rest.toLowerCase();
@@ -18,7 +54,7 @@ function loadDataA() {
     const accid = decodedtoken.AccountId;
     var imgElement = $("#employeePhoto");
     $.ajax({
-        url: "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accid,
+        url: "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accid,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -137,8 +173,7 @@ function ClearScreen() {
 
 function GetById(accountId) {
     $.ajax({
-        url:
-            "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId,
+        url:"http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -193,7 +228,7 @@ function updateData() {
     $("input[required]").each(function () {
         var input = $(this);
         if (!input.val()) {
-            input.next(".error-message").show();
+            input.next(".error-message").text("This field is required!").show();
             isValid = false;
         } else {
             input.next(".error-message").hide();
@@ -209,7 +244,32 @@ function updateData() {
     uploadImage(accountId);
 
     var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
-    //console.log(imagePath);
+
+    var fullname = $("#editName").val();
+    var nickname = $("#editNickName").val();
+    var birthplace = $("#editBirthPlace").val();
+    var isValidCharacter = /^[A-Za-z\s]+$/.test(fullname) &&
+        /^[A-Za-z\s]+$/.test(nickname) &&
+        /^[A-Za-z\s]+$/.test(birthplace);
+
+    if (!isValidCharacter) {
+        Swal.fire({
+            icon: "error",
+            title: "Error...",
+            text: "Please enter only letters and spaces in the fields.",
+        });
+        return;
+    }
+
+    if (fullname.length > 50 || nickname.length > 20 || birthplace.length > 50) {
+        Swal.fire({
+            icon: "error",
+            title: "Error...",
+            text: "Fields should not exceed the maximum length.",
+        });
+        return;
+    }
+    
     var formData = {
         AccountId: $("#accountId").val(),
         Fullname: $("#editName").val(),
@@ -228,7 +288,7 @@ function updateData() {
     };
 
     $.ajax({
-        url: `http://202.69.99.67:9001/api/Employees/${formData.AccountId}`,
+        url: `http://192.168.25.243:9001/api/Employees/${formData.AccountId}`,
         type: "PUT",
         data: JSON.stringify(formData),
         contentType: "application/json",

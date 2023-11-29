@@ -17,7 +17,7 @@
 
         "ajax": {
 
-            url: "http://202.69.99.67:9001/api/TurnOver/TurnOverEmployee",
+            url: "http://192.168.25.243:9001/api/TurnOver/TurnOverEmployee",
 
             type: "GET",
             "datatype": "json",

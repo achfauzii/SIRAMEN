@@ -12,7 +12,7 @@ function loadData() {
     var accountId = urlParams.get("accountId");
     $.ajax({
         url:
-            "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId,
+            "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -44,7 +44,7 @@ function loadData() {
             // API GET (Education By AccountId)
             $.ajax({
                 url:
-                    "http://202.69.99.67:9001/api/Educations/accountId?accountId=" +
+                    "http://192.168.25.243:9001/api/Educations/accountId?accountId=" +
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -108,7 +108,7 @@ function loadData() {
             // API GET (NonFromalEdu By AccountId)
             $.ajax({
                 url:
-                    "http://202.69.99.67:9001/api/NonFormalEdu/accountId?accountId=" +
+                    "http://192.168.25.243:9001/api/NonFormalEdu/accountId?accountId=" +
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -154,7 +154,7 @@ function loadData() {
             // API GET (Qualification By AccountId)
             $.ajax({
                 url:
-                    "http://202.69.99.67:9001/api/Qualification/accountId?accountId=" +
+                    "http://192.168.25.243:9001/api/Qualification/accountId?accountId=" +
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -185,7 +185,7 @@ function loadData() {
             // API GET (Certificate By AccountId)
             $.ajax({
                 url:
-                    "http://202.69.99.67:9001/api/Certificate/accountId?accountId=" +
+                    "http://192.168.25.243:9001/api/Certificate/accountId?accountId=" +
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -232,7 +232,7 @@ function loadData() {
             // API GET (Employeement History By AccountId)
             $.ajax({
                 url:
-                    "http://202.69.99.67:9001/api/EmploymentHistory/accountId?accountId=" +
+                    "http://192.168.25.243:9001/api/EmploymentHistory/accountId?accountId=" +
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -312,7 +312,7 @@ function loadData() {
             // API GET (ProjectHistory By AccountId)
             $.ajax({
                 url:
-                    "http://202.69.99.67:9001/api/ProjectHistory/accountId?accountId=" +
+                    "http://192.168.25.243:9001/api/ProjectHistory/accountId?accountId=" +
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",

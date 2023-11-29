@@ -7,7 +7,7 @@ $(document).ready(function () {
     table = $('#TB_Certificate').DataTable({
         "responsive": true,
         "ajax": {
-            url: "http://202.69.99.67:9001/api/Certificate/accountId?accountId=" + accid,
+            url: "http://192.168.25.243:9001/api/Certificate/accountId?accountId=" + accid,
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -135,7 +135,7 @@ function ClearScreen() {
 function GetById(CertificateId) {
     //debugger;
     $.ajax({
-        url: "http://202.69.99.67:9001/api/Certificate/" + CertificateId,
+        url: "http://192.168.25.243:9001/api/Certificate/" + CertificateId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -188,7 +188,7 @@ function Save() {
     Certificate.accountId = accid;
     $.ajax({
         type: 'POST',
-        url: 'http://202.69.99.67:9001/api/Certificate',
+        url: 'http://192.168.25.243:9001/api/Certificate',
         data: JSON.stringify(Certificate), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -235,7 +235,7 @@ function Delete(CertificateId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "http://202.69.99.67:9001/api/Certificate/" + CertificateId,
+                url: "http://192.168.25.243:9001/api/Certificate/" + CertificateId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {
@@ -290,7 +290,7 @@ function Update() {
     const accid = decodedtoken.AccountId;
     Certificate.accountId = accid;
     $.ajax({
-        url: 'http://202.69.99.67:9001/api/Certificate',
+        url: 'http://192.168.25.243:9001/api/Certificate',
         type: 'PUT',
         data: JSON.stringify(Certificate),
         contentType: "application/json; charset=utf-8",
