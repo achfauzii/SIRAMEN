@@ -8,8 +8,16 @@
 
 function loadData() {
     $("#loader").show();
-    var urlParams = new URLSearchParams(window.location.search);
-    var accountId = urlParams.get("accountId");
+    
+    var userRole = getUserRole();
+    var accountId;
+
+    if (userRole === 3) {
+        accountId = getAccountIdFromToken();
+    } else {
+        var urlParams = new URLSearchParams(window.location.search);
+        accountId = urlParams.get("accountId");
+    }
     $.ajax({
         url:
             "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
@@ -378,4 +386,28 @@ function loadData() {
         },
     });
     $("#loader").hide();
+}
+function getAccountIdFromToken() {
+    var token = sessionStorage.getItem("Token");
+    if (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var payload = JSON.parse(atob(base64));
+        
+        return payload.AccountId;
+    }
+
+    return null;
+}
+function getUserRole() {
+    var token = sessionStorage.getItem("Token");
+    if (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var payload = JSON.parse(atob(base64));
+        
+        return parseInt(payload.RoleId, 10);
+    }
+
+    return null;
 }
