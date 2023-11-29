@@ -6,6 +6,17 @@ document.getElementById("resetPassword").addEventListener("submit", async functi
     resetPassword.newPassword = document.getElementById('password').value;
    var repeatPassword = document.getElementById('repeatPassword').value;
 
+   //Validasi 6 Karakter Change Password
+    if (resetPassword.newPassword.length < 6 || repeatPassword.length < 6) {
+        Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: "Password must be more than 6 characters",
+
+    });
+
+    return; // Hentikan eksekusi lebih lanjut
+}
     if (resetPassword.newPassword !== repeatPassword) {
         // Password dan repeat password tidak sama, tampilkan pesan error
         Swal.fire({
