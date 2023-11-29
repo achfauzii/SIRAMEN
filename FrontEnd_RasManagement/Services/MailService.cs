@@ -572,7 +572,7 @@ namespace FrontEnd_RasManagement.Services
                                                                   </tr>
                                                                 </tbody>
                                                               </table>
-                                                              <table class=""ax-center"" role=""presentation"" align=""center"" border=""0"" cellpadding=""0""
+                                                              <!-- <table class=""ax-center"" role=""presentation"" align=""center"" border=""0"" cellpadding=""0""
                                                                 cellspacing=""0"" style=""margin: 0 auto;"">
                                                                 <tbody>
                                                                   <tr>
@@ -582,7 +582,7 @@ namespace FrontEnd_RasManagement.Services
                                                                     </td>
                                                                   </tr>
                                                                 </tbody>
-                                                              </table>
+                                                              </table> -->
                                                               <table class=""s-10 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                                 style=""width: 100%;"" width=""100%"">
                                                                 <tbody>
@@ -642,15 +642,9 @@ namespace FrontEnd_RasManagement.Services
                                                                       </p>
 
                                                                       <p class="" style=""line-height: 24px; font-size: 16px; width: 100%; margin: 0;""
-                                                                        align=""left"">
-                                                                        Password : " + password + @"
-                                                                      </p>
-   
-                                                                    </td>
-                                                                  </tr>
-                                                                </tbody>
-                                                              </table>
-                                                              <table class=""s-4 w-full"" role=""presentation"" border=""0"" cellpadding=""0""
+                                                                        align=""left"">Password : " + password + @"</p>
+
+                                                                        <table class=""s-4 w-full"" role=""presentation"" border=""0"" cellpadding=""0""
                                                                         cellspacing=""0"" style=""width: 100%;"" width=""100%"">
                                                                         <tbody>
                                                                           <tr>
@@ -662,21 +656,30 @@ namespace FrontEnd_RasManagement.Services
                                                                           </tr>
                                                                         </tbody>
                                                                       </table>
+
+                                                                      <center><table class=""btn btn-primary p-3 fw-700"" role=""presentation"" border=""0""
+                                                                        cellpadding=""0"" cellspacing=""0""
+                                                                        style=""border-radius: 6px; border-collapse: separate !important; font-weight: 700 !important;margin: 0 auto;"">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td
+                                                                              style=""line-height: 24px; font-size: 16px; border-radius: 6px; font-weight: 700 !important; margin: 0;""
+                                                                              align=""center"" bgcolor=""#0d6efd"">
+                                                                              <a href=""https://127.0.0.1:7109""
+                                                                                style=""color: #ffffff; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: 700 !important; white-space: nowrap; background-color: #0d6efd; padding: 12px; border: 1px solid #0d6efd;"">Login Here</a>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table></center>
+                                                                      
                                                                       <p class="" style=""line-height: 24px; font-size: 16px; width: 100%; margin: 0;""
                                                                         align=""left"">
-                                                                        Please change your password immediately to enhance the security of your account.
-                                                                        </p>
-                                                              <table class=""s-10 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
-                                                                style=""width: 100%;"" width=""100%"">
-                                                                <tbody>
-                                                                  <tr>
-                                                                    <td style=""line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;""
-                                                                      align=""left"" width=""100%"" height=""40"">
-                                                                      &#160;
+                                                                        <b>Please change your password immediately to enhance the security of your account.</b>
+                                                                        </p>   
                                                                     </td>
                                                                   </tr>
                                                                 </tbody>
-                                                              </table>
+                                                              </table>                                                             
 
                                                               <table class=""s-6 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                                 style=""width: 100%;"" width=""100%"">
