@@ -67,7 +67,7 @@ namespace FrontEnd_RasManagement.Controllers
                 {
                     //Console.WriteLine(response.IsSuccessStatusCode);
                     // Permintaan sukses, kembalikan view yang diinginkan
-                    string resetUrl = $"http://202.69.99.67:9005/ResetPassword/{data.data}";
+                    string resetUrl = $"https://127.0.0.1:7109/ResetPassword/{data.data}";
                     await mailService.SendEmailAsync(email, resetUrl);
                     TempData["SuccessMessage"] = "Reset password email has been sent successfully. Please Check your Email";
 

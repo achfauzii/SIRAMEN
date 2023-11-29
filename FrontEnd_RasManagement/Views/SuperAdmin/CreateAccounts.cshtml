@@ -247,7 +247,7 @@
         }
 
         // Mengirim data ke API menggunakan Fetch API
-        fetch('http://202.69.99.67:9001/api/Accounts/Register', {
+        fetch('https://localhost:7177/api/Accounts/Register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -256,16 +256,19 @@
         })
             .then(function (response) {
                 if (response.ok) {
+
+
                     // Redirect atau tampilkan pesan sukses jika permintaan berhasil
                     // ...
                     Swal.fire('Success', 'Registration Employee successful', 'success');
                     var form = document.getElementById('createAccountForm');
                     form.reset(); // Reset form setelah pengiriman berhasil
 
+
                     $.post("/Accounts/NewAccount", { email, password })
                         .done(function () {
                             const Toast = Swal.mixin({
-                                toast: true,    
+                                toast: true,
                                 position: 'top-end',
                                 showConfirmButton: false,
                                 timer: 2000,
@@ -304,6 +307,7 @@
                 // ...
             });
     });
+
     function uuidv4() {
         return 'xxxxxxxx'
             .replace(/[x]/g, function (c) {
@@ -311,12 +315,20 @@
                     v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
-    }
-
+    };
     function validateEmail(email) {
         // Regular expression untuk memeriksa email dengan domain berca.co.id
         const regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
         return regex.test(email);
+    }
+    function noHTML(input) {
+        var value = input.value.replace(/<[^>]*>/g, '');
+        //var nohtml = value.replace(/[<>?/]/g, '');
+        input.value = value
+    }
+    function handleInput(event, input) {
+        // Menangani peristiwa oninput dan onpaste
+        noHTML(input);
     }
 </script>
 
