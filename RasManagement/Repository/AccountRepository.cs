@@ -109,7 +109,7 @@ namespace RasManagement.Repository
         }
 
 
-        public async Task<int> Register(RegisterVM registerVM)
+        public async Task<string> Register(RegisterVM registerVM)
         {
             var generateId = await GenerateId();
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerVM.Password);
@@ -147,8 +147,8 @@ namespace RasManagement.Repository
             _context.Entry(account).State = EntityState.Added;
 
             // myContext.Entry(employee).State = EntityState.Added;
-            var save = _context.SaveChanges();
-            return save;
+            _context.SaveChanges();
+            return generateId;
         }
 
 
