@@ -150,7 +150,7 @@
         .password-toggle-icon {
             position: absolute;
             top: 50%;
-            right: 10px;
+            right: 20px;
             transform: translateY(-50%);
             cursor: pointer;
         }
@@ -390,7 +390,6 @@
              
                   
                     <form class="user" id="resetPassword">
-
                         <div class="form-label-group password-container">
                             <input type="password" class="form-control form-control-user" id="currentPassword" placeholder="Current Password" req>
                             <label for="currentPassword">Current Password</label>
@@ -409,17 +408,13 @@
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" class="form-control form-control-user" id="pass" placeholder="Password" required>
-                            <label for="pass">Password</label>
-                            <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('pass')">
+                            <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="repeatPassword" req>
+                            <label for="repeatPassword">Repeat Password</label>
+                            <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('repeatPassword')">
                                 <i class="far fa-eye"></i>
                             </span>
                             <span class="error-message pl-3 text-small" style="color: red; display: none;">This field is required!</span>
                         </div>
-
-                     
-                   
-
                     </form>
     
 
