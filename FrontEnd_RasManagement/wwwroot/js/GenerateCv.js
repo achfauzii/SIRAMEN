@@ -10,6 +10,15 @@ function loadData() {
     $("#loader").show();
     var urlParams = new URLSearchParams(window.location.search);
     var accountId = urlParams.get("accountId");
+
+    var tokenAccountId = getAccountIdFromToken();
+
+    // Check if the AccountId in the URL matches the one from the JWT token
+    if (accountId !== tokenAccountId) {
+        // Redirect to a 404 page or handle the unauthorized access as needed
+        window.location.href = "GenerateCvEmployee?accountId=" + tokenAccountId ; // Example redirect to a 404 page
+        return;
+    }
     $.ajax({
         url:
             "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
@@ -378,4 +387,19 @@ function loadData() {
         },
     });
     $("#loader").hide();
+}
+function getAccountIdFromToken() {
+    var token = sessionStorage.getItem("Token");
+    if (token) {
+        // Parse the token to get the payload
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var payload = JSON.parse(atob(base64));
+        
+        // Return the AccountId from the payload
+        return payload.AccountId;
+    }
+
+    // Handle the case where the token is not available
+    return null;
 }
