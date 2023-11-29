@@ -225,10 +225,10 @@
 
         var data = {
             accountId: accountId,
-            email: email,
+            email: email.toLowerCase(),
             password: password,
             //nickname: 'string',
-            fullname: fullName,
+            fullname: capitalizeName(fullName),
             //birthplace: 'string',
             //birthdate: '2023-06-23T07:21:40.243Z',
             //religion: 'string',
@@ -317,6 +317,14 @@
         // Regular expression untuk memeriksa email dengan domain berca.co.id
         const regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
         return regex.test(email);
+    }
+
+    function capitalizeName(name){
+        return name
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 </script>
 
