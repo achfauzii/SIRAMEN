@@ -8,7 +8,11 @@ document.getElementById("resetPassword").addEventListener("submit", async functi
 
     if (resetPassword.newPassword !== repeatPassword) {
         // Password dan repeat password tidak sama, tampilkan pesan error
-        alert('Password and Repeat Password do not match.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed...',
+            text: 'Password reset failed.',
+        });
         return; // Hentikan eksekusi lebih lanjut
     }
  
@@ -27,14 +31,27 @@ document.getElementById("resetPassword").addEventListener("submit", async functi
                 icon: 'success',
                 title: 'Success...',
                 text: 'Password reset successfully.',
-                showConfirmButtom: false,
-                timer: 10000
-            })
-            window.location.replace("/Accounts/Login");
-        }
-        else {
-            alert("Forgot Password Failed");
+            }).then(() => {
+                // After the user clicks "OK" on the SweetAlert, redirect to the desired location
+                window.location.replace("/Accounts/Login");
+            });
+        } else {
+            // If result.status is not 200 (indicating failure)
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed...',
+                text: 'Password reset failed.',
+            });
         }
     });
 
 });
+function showPassword(checkbox) {
+    // Find the password input elements
+    var passwordInput = document.getElementById("password");
+    var repeatPasswordInput = document.getElementById("repeatPassword");
+
+    // Toggle the type attribute of the password input elements
+    passwordInput.type = checkbox.checked ? "text" : "password";
+    repeatPasswordInput.type = checkbox.checked ? "text" : "password";
+}
