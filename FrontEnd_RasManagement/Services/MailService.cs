@@ -650,6 +650,22 @@ namespace FrontEnd_RasManagement.Services
                                                                   </tr>
                                                                 </tbody>
                                                               </table>
+                                                              <table class=""s-4 w-full"" role=""presentation"" border=""0"" cellpadding=""0""
+                                                                        cellspacing=""0"" style=""width: 100%;"" width=""100%"">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                            <td
+                                                                              style=""line-height: 16px; font-size: 16px; width: 100%; height: 16px; margin: 0;""
+                                                                              align=""left"" width=""100%"" height=""16"">
+                                                                              &#160;
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table>
+                                                                      <p class="" style=""line-height: 24px; font-size: 16px; width: 100%; margin: 0;""
+                                                                        align=""left"">
+                                                                        Please change your password immediately to enhance the security of your account.
+                                                                        </p>
                                                               <table class=""s-10 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                                 style=""width: 100%;"" width=""100%"">
                                                                 <tbody>
@@ -1242,8 +1258,8 @@ namespace FrontEnd_RasManagement.Services
                                                                         </td>
                                                                       </tr>
                                                                     </tbody>
-                                                                  <!-- </table>
-                                                                  <table class=""ax-center"" role=""presentation"" align=""center"" border=""0"" cellpadding=""0""
+                                                                  </table>
+                                                                  <!--<table class=""ax-center"" role=""presentation"" align=""center"" border=""0"" cellpadding=""0""
                                                                     cellspacing=""0"" style=""margin: 0 auto;"">
                                                                     <tbody>
                                                                       <tr>
@@ -1321,7 +1337,7 @@ namespace FrontEnd_RasManagement.Services
                                                                           <p class="" style=""line-height: 24px; font-size: 16px; width: 100%; margin: 0;""
                                                                             align=""left"">
                                                                             Atas nama RAS Management PT. Berca Hardayaperkasa mengucapkan Turut Berduka Cita. <br>
-                                                                            Semoga Arwah dan amal ibadahnya diterima di sisi Tuhan yang Maha Kuasa dan Keluarga yang ditinggalkan diberikan kekuatan serta ketabahan .
+                                                                            Semoga amal ibadahnya diterima di sisi Tuhan yang Maha Kuasa dan Keluarga yang ditinggalkan diberikan kekuatan serta ketabahan .
 
                                                                           </p>
 
@@ -1360,7 +1376,7 @@ namespace FrontEnd_RasManagement.Services
                                                                     </tbody>
                                                                   </table>
                                                                   <div class=""text-muted text-center"" style=""color: #718096;"" align=""center"">
-                                                                    Sent with from RAS Management. <br>
+                                                                    Sent with &#10084 from RAS Management. <br>
                                                                     Jl. Abdul Muis No.62 <br>
                                                                     Gambir, Kota Jakarta Pusat, DKI Jakarta 10160.<br>
                                                                   </div>
@@ -1594,8 +1610,8 @@ namespace FrontEnd_RasManagement.Services
                                                                         </td>
                                                                       </tr>
                                                                     </tbody>
-                                                                  <!-- </table>
-                                                                  <table class=""ax-center"" role=""presentation"" align=""center"" border=""0"" cellpadding=""0""
+                                                                  </table>
+                                                                  <!-- <table class=""ax-center"" role=""presentation"" align=""center"" border=""0"" cellpadding=""0""
                                                                     cellspacing=""0"" style=""margin: 0 auto;"">
                                                                     <tbody>
                                                                       <tr>
