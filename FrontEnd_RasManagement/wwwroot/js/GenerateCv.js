@@ -8,10 +8,19 @@
 
 function loadData() {
     $("#loader").show();
-    var tokenAccountId = getAccountIdFromToken();
+    
+    var userRole = getUserRole();
+    var accountId;
+
+    if (userRole === 3) {
+        accountId = getAccountIdFromToken();
+    } else {
+        var urlParams = new URLSearchParams(window.location.search);
+        accountId = urlParams.get("accountId");
+    }
     $.ajax({
         url:
-            "https://localhost:7177/api/Employees/accountId?accountId=" + tokenAccountId,
+            "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -381,15 +390,24 @@ function loadData() {
 function getAccountIdFromToken() {
     var token = sessionStorage.getItem("Token");
     if (token) {
-        // Parse the token to get the payload
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         var payload = JSON.parse(atob(base64));
         
-        // Return the AccountId from the payload
         return payload.AccountId;
     }
 
-    // Handle the case where the token is not available
+    return null;
+}
+function getUserRole() {
+    var token = sessionStorage.getItem("Token");
+    if (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var payload = JSON.parse(atob(base64));
+        
+        return parseInt(payload.RoleId, 10);
+    }
+
     return null;
 }
