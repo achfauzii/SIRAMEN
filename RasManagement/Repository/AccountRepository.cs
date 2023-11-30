@@ -34,13 +34,7 @@ namespace RasManagement.Repository
                 return ras + "000";
             }
 
-<<<<<<< HEAD
             return $"{ras}{id.ToString("D3")}";
-
-
-=======
-            return $"{ras}{countAccount.ToString("D3")}";
->>>>>>> Fayyad-Clone-Publish
         }
 
         public async Task<string> GenerateNonId()

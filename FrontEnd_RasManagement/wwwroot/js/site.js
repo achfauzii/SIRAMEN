@@ -1,4 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+﻿s; // Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
@@ -21,29 +21,10 @@ $("#employeeAnnouncement").hide();
 $("#adminAnnouncement").hide();
 
 $(document).ready(function () {
-<<<<<<< HEAD
-    //GetBirthday
-    $.ajax({
-        type: 'GET',
-        url: 'http://192.168.25.243:9001/api/Accounts/BirthDay',
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then((result) => {
-        if (result.status == 200) {
-            document.getElementById('birthday').innerHTML = '';
-            var text = "";
-            result.data.name.forEach(item => {
-                text += item + ", ";
-            })
-            $("#employeeAnnouncement").show();
-            $("#adminAnnouncement").show();
-=======
   //GetBirthday
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Accounts/BirthDay",
+    url: "http://192.168.25.243:9001/api/Accounts/BirthDay",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -57,7 +38,6 @@ $(document).ready(function () {
       });
       $("#employeeAnnouncement").show();
       $("#adminAnnouncement").show();
->>>>>>> Fayyad-Clone-Publish
 
       document.getElementById("birthday").innerHTML =
         text.substr(0, text.length - 2) + ".";
@@ -123,63 +103,48 @@ $(document).ready(function () {
   $("#birth").hide();
   $("#death").hide();
 
-<<<<<<< HEAD
-    var select = document.getElementById('EmployeeName');
+  var select = document.getElementById("EmployeeName");
 
-    $.ajax({
-        type: 'GET',
-        url: 'http://192.168.25.243:9001/api/Accounts',
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then((result) => {
-        if (result != null) {
-            result.forEach(item => {
-                var option = new Option(item.fullname, item.fullname, true, false);
-                selectEmployee.add(option);
+  $.ajax({
+    type: "GET",
+    url: "http://192.168.25.243:9001/api/Accounts",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      result.forEach((item) => {
+        var option = new Option(item.fullname, item.fullname, true, false);
+        selectEmployee.add(option);
 
-                var opt = new Option(item.fullname, item.fullname, true, false);
-                select.add(opt);
+        var opt = new Option(item.fullname, item.fullname, true, false);
+        select.add(opt);
+      });
+    }
+  });
 
-            });
-        }
-    });
+  //Get All Employee
+  $.ajax({
+    type: "GET",
+    url: "http://192.168.25.243:9001/api/Employees/EmployeeAdmin",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result.status == 200) {
+      result.data.forEach((item) => {
+        // Array to be inserted
+        arrayEmail.push(item.email);
+        // emailObj.email.push(item.email)
+      });
+    }
+  });
 
-    //Get All Employee
-    $.ajax({
-        type: 'GET',
-        url: 'http://192.168.25.243:9001/api/Employees/EmployeeAdmin',
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then((result) => {
+  $("#birth").hide();
+  $("#death").hide();
 
-        if (result.status == 200) {
-
-            result.data.forEach(item => {
-                // Array to be inserted 
-                arrayEmail.push(item.email)
-                // emailObj.email.push(item.email)
-            })
-
-        }
-    });
-
-
-    $('#birth').hide();
-    $('#death').hide();
-
-    document.getElementById('Announcement').addEventListener('change', function () {
-        if (this.value == 'death') {
-            $('#birth').hide();
-            $('#death').show();
-        } else if (this.value == 'birth') {
-            $('#death').hide();
-            $('#birth').show();
-        }
-=======
   document
     .getElementById("Announcement")
     .addEventListener("change", function () {
@@ -190,7 +155,6 @@ $(document).ready(function () {
         $("#death").hide();
         $("#birth").show();
       }
->>>>>>> Fayyad-Clone-Publish
     });
 });
 

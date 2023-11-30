@@ -74,12 +74,7 @@
     function showHiredStatus(role) {
         const status = document.getElementById("formHiring");
         const radioButtons = document.getElementsByName("hiredStatus");
-<<<<<<< HEAD
-        if (role == 'admin') {
-
-=======
         if(role=='admin'){            
->>>>>>> Fayyad-Clone-Publish
             status.style.display = "none";
             radioButtons.forEach((radio) => {
                 radio.checked = false;
@@ -115,15 +110,6 @@
         //    return; // Hentikan eksekusi lebih lanjut
         //}
 
-<<<<<<< HEAD
-        //validasi email
-        //if (validateEmail(email)) {
-        //    $('#validateEmail').hide();
-        //} else {
-        //   $('#validateEmail').show();
-        //   return;
-        //}
-=======
            //validasi email
         if (validateEmail(email)) {
             $('#validateEmail').hide();
@@ -131,42 +117,16 @@
            $('#validateEmail').show();
            return;
         }
->>>>>>> Fayyad-Clone-Publish
         const password = uuidv4();
 
         var hiredStatusElement = document.querySelector('input[name="hiredStatus"]:checked');
         var hiredStatus = hiredStatusElement ? hiredStatusElement.value : null;      
 
-<<<<<<< HEAD
-
-
-        // Menggabungkan data input menjadi objek yang akan dikirim ke API
-
-        var data = {
-            accountId: accountId,
-            email: email,
-            password: password,
-            //nickname: 'string',
-            fullname: fullName,
-            //birthplace: 'string',
-            //birthdate: '2023-06-23T07:21:40.243Z',
-            //religion: 'string',
-            gender: gender,
-            //maritalstatus: 'string',
-            //hiredstatus: 'string',
-            //nationality: 'string',
-            //phone: 'string',
-            //address: 'string',
-            //image: 'string',
-            roleId: roleId,
-            hiredstatus: hiredStatus,
-=======
         // Set Contract 3 Bulan untuk Bootcamp
         var startContract = new Date();
         let endContract = new Date(startContract);
         endContract.setDate(1);
         endContract.setMonth(endContract.getMonth() + 3);
->>>>>>> Fayyad-Clone-Publish
 
         const yyyy = endContract.getFullYear();
         let mm = endContract.getMonth() + 1;
@@ -227,11 +187,7 @@
         }
 
         // Mengirim data ke API menggunakan Fetch API
-<<<<<<< HEAD
         fetch('http://192.168.25.243:9001/api/Accounts/Register', {
-=======
-        fetch('https://localhost:7177/api/Accounts/Register', {
->>>>>>> Fayyad-Clone-Publish
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

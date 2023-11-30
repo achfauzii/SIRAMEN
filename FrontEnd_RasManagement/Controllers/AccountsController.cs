@@ -71,11 +71,7 @@ namespace FrontEnd_RasManagement.Controllers
                 {
                     //Console.WriteLine(response.IsSuccessStatusCode);
                     // Permintaan sukses, kembalikan view yang diinginkan
-<<<<<<< HEAD
                     string resetUrl = $"http://192.168.25.243:9005/ResetPassword/{data.data}";
-=======
-                    string resetUrl = $"https://127.0.0.1:7109/ResetPassword/{data.data}";
->>>>>>> Fayyad-Clone-Publish
                     await mailService.SendEmailAsync(email, resetUrl);
                     TempData["SuccessMessage"] = "Reset password email has been sent successfully. Please Check your Email";
 
@@ -139,11 +135,7 @@ namespace FrontEnd_RasManagement.Controllers
                   HttpClient client = new HttpClient();
 
                   // Konfigurasi URL API tujuan
-<<<<<<< HEAD
                   string apiUrl = "http://192.168.25.243:9001/api/Accounts/UpdateForgotPassword";
-=======
-                  string apiUrl = "https://localhost:7177/api/Accounts/UpdateForgotPassword";
->>>>>>> Fayyad-Clone-Publish
 
                   // Membuat objek yang akan dikirim sebagai request body
                   var requestBody = new { email, newPassword };
@@ -279,11 +271,7 @@ namespace FrontEnd_RasManagement.Controllers
                  HttpClient client = new HttpClient();
 
                  // Konfigurasi URL API tujuan
-<<<<<<< HEAD
                  string apiUrl = "http://192.168.25.243:9001/api/Accounts/Register";
-=======
-                 string apiUrl = "https://localhost:7177/api/Accounts/Register";
->>>>>>> Fayyad-Clone-Publish
 
                  // Konversi data dari model menjadi JSON
                  var jsonPayload = Newtonsoft.Json.JsonConvert.SerializeObject(model);

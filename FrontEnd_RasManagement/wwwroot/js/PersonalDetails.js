@@ -1,55 +1,48 @@
 ﻿$(document).ready(function () {
-<<<<<<< HEAD
-    // Mendapatkan nilai parameter accountId dari URL
-    loadDataA();
-    $("#editDetailsBtn").on("click", function () {
-        loadDataA(); // Reload the data before opening the modal
-        $("#myModal").modal("show"); // Show the modal after loading the data
-    });
-
-    $("#editName, #editNickName, #editBirthPlace").on("keyup", function () {
-        var value = $(this).val();
-        var maxLength = 50; // Default max length
-        var errorMessage = "";
-
-        if ($(this).is("#editName")) {
-            maxLength = 50;
-            errorMessage = "Fullname should not exceed 50 characters";
-        } else if ($(this).is("#editNickName")) {
-            maxLength = 20;
-            errorMessage = "Nickname should not exceed 20 characters";
-        } else if ($(this).is("#editBirthPlace")) {
-            maxLength = 50;
-            errorMessage = "Birthplace should not exceed 50 characters";
-        }
-
-        var isValidCharacter = true;
-
-        // Validasi karakter hanya jika bidang tidak kosong
-        if (value.trim() !== "") {
-            isValidCharacter = /^[A-Za-z\s]+$/.test(value);
-
-            if (!isValidCharacter) {
-                $(this).next(".error-message").text("Only letters and spaces are allowed").show();
-            }
-        }
-
-        if (value.length > maxLength) {
-            $(this).next(".error-message").text(errorMessage).show();
-        } else if (isValidCharacter || value.trim() === "") {
-            $(this).next(".error-message").hide();
-        }
-    });
-=======
   // Mendapatkan nilai parameter accountId dari URL
   loadDataA();
   $("#editDetailsBtn").on("click", function () {
     loadDataA(); // Reload the data before opening the modal
     $("#myModal").modal("show"); // Show the modal after loading the data
   });
->>>>>>> Fayyad-Clone-Publish
-});
 
+  $("#editName, #editNickName, #editBirthPlace").on("keyup", function () {
+    var value = $(this).val();
+    var maxLength = 50; // Default max length
+    var errorMessage = "";
+
+    if ($(this).is("#editName")) {
+      maxLength = 50;
+      errorMessage = "Fullname should not exceed 50 characters";
+    } else if ($(this).is("#editNickName")) {
+      maxLength = 20;
+      errorMessage = "Nickname should not exceed 20 characters";
+    } else if ($(this).is("#editBirthPlace")) {
+      maxLength = 50;
+      errorMessage = "Birthplace should not exceed 50 characters";
+    }
+
+    var isValidCharacter = true;
+
+    // Validasi karakter hanya jika bidang tidak kosong
+    if (value.trim() !== "") {
+      isValidCharacter = /^[A-Za-z\s]+$/.test(value);
+
+      if (!isValidCharacter) {
+        $(this)
+          .next(".error-message")
+          .text("Only letters and spaces are allowed")
+          .show();
+      }
+    }
+
+    if (value.length > maxLength) {
+      $(this).next(".error-message").text(errorMessage).show();
+    } else if (isValidCharacter || value.trim() === "") {
+      $(this).next(".error-message").hide();
+    }
+  });
+});
 
 function toPascalCase(str) {
   return str.replace(/(\w)(\w*)/g, function (_, firstChar, rest) {
@@ -58,32 +51,13 @@ function toPascalCase(str) {
 }
 
 function loadDataA() {
-<<<<<<< HEAD
-    $("#loader").show();
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
-    var imgElement = $("#employeePhoto");
-    $.ajax({
-        url: "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accid,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-            var obj = result.data.result; // Data yang diterima dari API
-            var birthDate = obj.birthdate;
-            const date = new Date(birthDate);
-            const options = { day: "numeric", month: "long", year: "numeric" };
-            const date_ = date.toLocaleDateString("id-ID", options);
-=======
   $("#loader").show();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   var imgElement = $("#employeePhoto");
   $.ajax({
-    url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
+    url:
+      "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accid,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -96,7 +70,6 @@ function loadDataA() {
       const date = new Date(birthDate);
       const options = { day: "numeric", month: "long", year: "numeric" };
       const date_ = date.toLocaleDateString("id-ID", options);
->>>>>>> Fayyad-Clone-Publish
 
       $("#nameFull").text(obj.fullname);
       $("#nickName").text(
@@ -124,18 +97,6 @@ function loadDataA() {
         obj.address == null ? obj.address : toPascalCase(obj.address)
       );
 
-<<<<<<< HEAD
-            var noImage = '/assets/NoImage.png';
-            // Set employee photo
-            if (obj.image != null) {
-                imgElement.attr("src", obj.image);
-                imgElement.attr("alt", obj.fullname + "'s photo");
-            } else {
-                imgElement.attr("src", noImage);
-                imgElement.attr("alt", "No Image Available");
-                //imgCaption.text("No Image Available");
-            }
-=======
       // Set employee photo
       if (obj.image != null) {
         imgElement.attr("src", obj.image);
@@ -144,7 +105,6 @@ function loadDataA() {
         imgElement.attr("src", "/assets/photo/Default.png");
         imgElement.attr("alt", "");
       }
->>>>>>> Fayyad-Clone-Publish
 
       // Populate the form fields in the modal with the retrieved data
       $("#accountId").val(obj.accountId);
@@ -197,93 +157,32 @@ function handleInput(event, input) {
   noHTML(input);
 }
 
-<<<<<<< HEAD
 function ClearScreen() {
-    $('#accountId').val('');
-    $('#editName').val('');
-    $('#editNickName').val('');
-    $('#editBirthPlace').val('');
-    $('#editBirthDate').val('');
-    $('#editGender').val('');
-    $('#editReligion').val('');
-    $('#editMartialStatus').val('');
-    $('#editNationality').val('');
-    $('#editAddress').val('');
-    $('input[required]').each(function () {
-        var input = $(this);
-        input.next('.error-message').hide();
-=======
-/*function GetById(accountId) {
-    
-    $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            
-            var obj = result.data.result; // Perhatikan penggunaan .result di sini
-
-            $('#accountId').val(obj.accountId);
-            $('#editName').val(obj.fullname);
-            $('#editNickName').val(obj.nickname);
-            $('#editBirthPlace').val(obj.birthplace);
-
-            // Set birth date input value
-            if (obj.birthdate) {
-                $('#editBirthDate').val(obj.birthdate.substring(0, 10));
-            } else {
-                $('#editBirthDate').val('');
-            }
-
-            $('#editGender').val(obj.gender);
-            $('#editReligion').val(obj.religion);
-            $('#editMartialStatus').val(obj.maritalstatus);
-            $('#editNationality').val(obj.nationality);
-            $('#editAddress').val(obj.address);
-            // Set the image input value
-            // $('#imageFile').val(obj.image);
-
-            var imageInput = document.getElementById('imageFile');
-            if (obj.image != null) {
-                // Set the value of image input to an empty string
-                // This is done because you can't set the value of a file input for security reasons
-                imageInput.value = '';
-            }
-
-            $('#Modal').modal('show');
-            $('#Update').show();
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
->>>>>>> Fayyad-Clone-Publish
-    });
-    $('select[required]').each(function () {
-        var input = $(this);
-        input.next('.error-message').hide();
-    });
+  $("#accountId").val("");
+  $("#editName").val("");
+  $("#editNickName").val("");
+  $("#editBirthPlace").val("");
+  $("#editBirthDate").val("");
+  $("#editGender").val("");
+  $("#editReligion").val("");
+  $("#editMartialStatus").val("");
+  $("#editNationality").val("");
+  $("#editAddress").val("");
+  $("input[required]").each(function () {
+    var input = $(this);
+    input.next(".error-message").hide();
+  });
+  $("select[required]").each(function () {
+    var input = $(this);
+    input.next(".error-message").hide();
+  });
 }
 
 function GetById(accountId) {
-<<<<<<< HEAD
-    $.ajax({
-        url:"http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-            var obj = result.data.result;
-=======
   $.ajax({
     url:
-      "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+      "http://192.168.25.243:9001/api/Employees/accountId?accountId=" +
+      accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -292,7 +191,6 @@ function GetById(accountId) {
     },
     success: function (result) {
       var obj = result.data.result;
->>>>>>> Fayyad-Clone-Publish
 
       $("#accountId").val(obj.accountId);
       $("#editName").val(obj.fullname);
@@ -331,8 +229,6 @@ function GetById(accountId) {
   });
 }
 
-<<<<<<< HEAD
-=======
 /*function updateData() {
     
     //upload gambar ke assets project
@@ -386,33 +282,18 @@ function GetById(accountId) {
         }
     });
 }*/
->>>>>>> Fayyad-Clone-Publish
 
 function updateData() {
   var accountId = $("#accountId").val();
   var isValid = true;
 
-<<<<<<< HEAD
-    $("input[required]").each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next(".error-message").text("This field is required!").show();
-            isValid = false;
-        } else {
-            input.next(".error-message").hide();
-        }
-    });
-    if (!isValid) {
-        return;
-=======
   $("input[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
-      input.next(".error-message").show();
+      input.next(".error-message").text("This field is required!").show();
       isValid = false;
     } else {
       input.next(".error-message").hide();
->>>>>>> Fayyad-Clone-Publish
     }
   });
   if (!isValid) {
@@ -424,40 +305,6 @@ function updateData() {
   }
   uploadImage(accountId);
 
-<<<<<<< HEAD
-    var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
-
-    var fullname = $("#editName").val();
-    var nickname = $("#editNickName").val();
-    var birthplace = $("#editBirthPlace").val();
-    var isValidCharacter = /^[A-Za-z\s]+$/.test(fullname) &&
-        /^[A-Za-z\s]+$/.test(nickname) &&
-        /^[A-Za-z\s]+$/.test(birthplace);
-
-    if (!isValidCharacter) {
-        Swal.fire({
-            icon: "error",
-            title: "Error...",
-            text: "Please enter only letters and spaces in the fields.",
-        });
-        return;
-    }
-
-    if (fullname.length > 50 || nickname.length > 20 || birthplace.length > 50) {
-        Swal.fire({
-            icon: "error",
-            title: "Error...",
-            text: "Fields should not exceed the maximum length.",
-        });
-        return;
-    }
-    
-    var formData = {
-        AccountId: $("#accountId").val(),
-        Fullname: $("#editName").val(),
-        Nickname: $("#editNickName").val(),
-        Birthplace: $("#editBirthPlace").val(),
-=======
   var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
   console.log(imagePath);
   var formData = {
@@ -465,7 +312,6 @@ function updateData() {
     Fullname: $("#editName").val(),
     Nickname: $("#editNickName").val(),
     Birthplace: $("#editBirthPlace").val(),
->>>>>>> Fayyad-Clone-Publish
 
     // Set birth date to yyyy-mm-dd format
     Birthdate: $("#editBirthDate").val(),
@@ -478,42 +324,8 @@ function updateData() {
     Image: imagePath,
   };
 
-<<<<<<< HEAD
-    $.ajax({
-        url: `http://192.168.25.243:9001/api/Employees/${formData.AccountId}`,
-        type: "PUT",
-        data: JSON.stringify(formData),
-        contentType: "application/json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-            if (result.status == 200) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Success...",
-                    text: "Data has been update!",
-                    showConfirmButton: false,
-                    timer: 2000,
-                }).then(() => {
-                    $("#myModal").modal("hide");
-                    location.reload();
-                });
-            } else {
-                Swal.fire(
-                    'Error!',
-                    'Data failed to update!',
-                    'error'
-                )
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        },
-    });
-=======
   $.ajax({
-    url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
+    url: `http://192.168.25.243:9001/api/Employees/${formData.AccountId}`,
     type: "PUT",
     data: JSON.stringify(formData),
     contentType: "application/json",
@@ -540,7 +352,6 @@ function updateData() {
       alert(errormessage.responseText);
     },
   });
->>>>>>> Fayyad-Clone-Publish
 }
 
 function validateFormData() {
@@ -554,26 +365,6 @@ function validateFormData() {
   var nationality = $("#editNationality").val();
   var address = $("#editAddress").val();
 
-<<<<<<< HEAD
-    if (
-        fullname === "" ||
-        nickname === "" ||
-        birthplace === "" ||
-        birthdate === "" ||
-        gender === "" ||
-        religion === "" ||
-        martialStatus === "" ||
-        nationality === "" ||
-        address === ""
-    ) {
-        Swal.fire({
-            icon: "error",
-            title: "Error...",
-            text: "Data connot be empty!",
-        });
-        return false;
-    }
-=======
   if (
     fullname === "" ||
     nickname === "" ||
@@ -592,7 +383,6 @@ function validateFormData() {
     });
     return false;
   }
->>>>>>> Fayyad-Clone-Publish
 
   return true;
 }
@@ -626,33 +416,6 @@ function uploadImage(accountId) {
     var fileName = `photo-${accountId}.jpg`;
     formData.append("imageFile", imageFile, fileName);
 
-<<<<<<< HEAD
-        $.ajax({
-            url: "/Employee/UploadImage",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                //console.log(response);
-                if (response.success) {
-                    $("#uploadMessage").text(response.message);
-                } else {
-                    $("#uploadMessage").text("Upload failed: " + response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                $("#uploadMessage").text(
-                    "An error occurred while uploading the image."
-                );
-                //console.log(error);
-            },
-        });
-    } else {
-        // Handle case when no file is uploaded
-        $("#uploadMessage").text("No image selected.");
-    }
-=======
     $.ajax({
       url: "/Employee/UploadImage",
       type: "POST",
@@ -678,9 +441,7 @@ function uploadImage(accountId) {
     // Handle case when no file is uploaded
     $("#uploadMessage").text("No image selected.");
   }
->>>>>>> Fayyad-Clone-Publish
 }
-
 
 function validateImage() {
   var imageInput = document.getElementById("imageFile");

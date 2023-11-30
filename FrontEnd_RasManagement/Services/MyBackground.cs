@@ -16,13 +16,9 @@ namespace FrontEnd_RasManagement.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {                
-                // Calculate the delay until the next 9:00 AM
+                // Calculate the delay until the next 9:30 AM
                 var now = DateTime.Now;
-<<<<<<< HEAD
-                var nextRunTime = new DateTime(now.Year, now.Month, now.Day, 10, 0, 0);
-=======
                 var nextRunTime = new DateTime(now.Year, now.Month, now.Day, 9, 30, 0);
->>>>>>> Fayyad-Clone-Publish
                 if (now > nextRunTime)
                 {
                     nextRunTime = nextRunTime.AddDays(1);

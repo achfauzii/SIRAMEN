@@ -44,13 +44,8 @@ namespace FrontEnd_RasManagement.Controllers
             }
             //End Validate
             var accessToken = HttpContext.Session.GetString("Token");
-<<<<<<< HEAD
             var url = "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accountId;
             var url2 = "http://192.168.25.243:9001/api/EmployeePlacements/accountId?accountId=" + accountId;
-=======
-            var url = "https://localhost:7177/api/Employees/accountId?accountId=" + accountId;
-            var url2 = "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId;
->>>>>>> Fayyad-Clone-Publish
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             try
