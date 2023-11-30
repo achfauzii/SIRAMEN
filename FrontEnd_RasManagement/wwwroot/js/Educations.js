@@ -23,7 +23,7 @@ function Educations() {
     responsive: true,
     ajax: {
       url:
-        "http://192.168.25.243:9001/api/Educations/accountId?accountId=" +
+        "https://localhost:7177/api/Educations/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -153,7 +153,7 @@ function getUniversitasList() {
   /*const selectUniversity = document.getElementById('UniversityName');
 
     $.ajax({
-        url: "http://192.168.25.243:9001/api/Universitas",
+        url: "https://localhost:7177/api/Universitas",
         type: "GET",
         dataType: "json",
         headers: {
@@ -392,7 +392,7 @@ function SaveFormal() {
   FormalEdu.AccountId = accid;
   $.ajax({
     type: "POST",
-    url: "http://192.168.25.243:9001/api/Educations",
+    url: "https://localhost:7177/api/Educations",
     data: JSON.stringify(FormalEdu),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -465,7 +465,7 @@ function GetById(formalEduId) {
   ClearScreenFormal();
   const selectUniversity = document.getElementById("UniversityName");
   $.ajax({
-    url: "http://192.168.25.243:9001/api/Educations/" + formalEduId,
+    url: "https://localhost:7177/api/Educations/" + formalEduId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -556,7 +556,7 @@ function UpdateFormal() {
 
   $.ajax({
     type: "PUT",
-    url: "http://192.168.25.243:9001/api/Educations",
+    url: "https://localhost:7177/api/Educations",
     data: JSON.stringify(FormalEdu),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -594,7 +594,7 @@ function DeleteFormal(formalEduId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "http://192.168.25.243:9001/api/Educations/" + formalEduId,
+        url: "https://localhost:7177/api/Educations/" + formalEduId,
         type: "DELETE",
         dataType: "json",
         headers: {

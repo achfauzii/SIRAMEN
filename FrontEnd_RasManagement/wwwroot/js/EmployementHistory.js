@@ -7,7 +7,7 @@ $(document).ready(function () {
     responsive: true,
     ajax: {
       url:
-        "http://192.168.25.243:9001/api/EmploymentHistory/accountId?accountId=" +
+        "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -162,7 +162,7 @@ function Save() {
   //console.log(EmploymentHistory);
   $.ajax({
     type: "POST",
-    url: "http://192.168.25.243:9001/api/EmploymentHistory",
+    url: "https://localhost:7177/api/EmploymentHistory",
     data: JSON.stringify(EmploymentHistory),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -212,7 +212,7 @@ function ClearScreen() {
 
 function GetById(workExperienceId) {
   $.ajax({
-    url: "http://192.168.25.243:9001/api/EmploymentHistory/" + workExperienceId,
+    url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -281,7 +281,7 @@ function Update() {
   debugger;
   $.ajax({
     type: "PUT",
-    url: "http://192.168.25.243:9001/api/EmploymentHistory",
+    url: "https://localhost:7177/api/EmploymentHistory",
     data: JSON.stringify(EmploymentHistory),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -319,7 +319,7 @@ function Delete(workExperienceId) {
     if (result.value) {
       $.ajax({
         url:
-          "http://192.168.25.243:9001/api/EmploymentHistory/" +
+          "https://localhost:7177/api/EmploymentHistory/" +
           workExperienceId,
         type: "DELETE",
         dataType: "json",

@@ -57,7 +57,7 @@ function loadDataA() {
   var imgElement = $("#employeePhoto");
   $.ajax({
     url:
-      "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accid,
+      "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -181,7 +181,7 @@ function ClearScreen() {
 function GetById(accountId) {
   $.ajax({
     url:
-      "http://192.168.25.243:9001/api/Employees/accountId?accountId=" +
+      "https://localhost:7177/api/Employees/accountId?accountId=" +
       accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
@@ -325,7 +325,7 @@ function updateData() {
   };
 
   $.ajax({
-    url: `http://192.168.25.243:9001/api/Employees/${formData.AccountId}`,
+    url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
     type: "PUT",
     data: JSON.stringify(formData),
     contentType: "application/json",

@@ -29,7 +29,7 @@
 
     $.ajax({
       type: "PUT",
-      url: "http://192.168.25.243:9001/api/Accounts/UpdatePassword",
+      url: "https://localhost:7177/api/Accounts/UpdatePassword",
       data: JSON.stringify(resetPassword),
       contentType: "application/json; charset=utf-8",
       /*headers: {

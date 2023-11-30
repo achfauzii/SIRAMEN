@@ -3,7 +3,7 @@
     const accid = decodedtoken.AccountId;*/
   $("#dataTableAccounts").DataTable({
     ajax: {
-      url: "http://192.168.25.243:9001/api/Employees/EmployeeAdmin",
+      url: "https://localhost:7177/api/Employees/EmployeeAdmin",
       type: "GET",
       datatype: "json",
       dataSrc: "data",
@@ -62,7 +62,7 @@ function GetById(accountId) {
     const accid = decodedtoken.AccountId;*/
   $.ajax({
     url:
-      "http://192.168.25.243:9001/api/Accounts/AccountId?accountId=" +
+      "https://localhost:7177/api/Accounts/AccountId?accountId=" +
       accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
@@ -93,7 +93,7 @@ function UpdateRole() {
   Account.roleId = $("#Role").val();
 
   $.ajax({
-    url: "http://192.168.25.243:9001/api/Accounts/UpdateRole",
+    url: "https://localhost:7177/api/Accounts/UpdateRole",
     type: "PUT",
     data: JSON.stringify(Account),
     contentType: "application/json; charset=utf-8",
