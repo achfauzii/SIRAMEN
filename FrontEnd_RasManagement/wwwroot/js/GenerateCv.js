@@ -8,11 +8,23 @@
 
 function loadData() {
     $("#loader").show();
-    var urlParams = new URLSearchParams(window.location.search);
-    var accountId = urlParams.get("accountId");
+    
+    var userRole = getUserRole();
+    var accountId;
+
+    if (userRole === 3) {
+        accountId = getAccountIdFromToken();
+    } else {
+        var urlParams = new URLSearchParams(window.location.search);
+        accountId = urlParams.get("accountId");
+    }
     $.ajax({
         url:
+<<<<<<< HEAD
             "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accountId,
+=======
+            "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -44,7 +56,11 @@ function loadData() {
             // API GET (Education By AccountId)
             $.ajax({
                 url:
+<<<<<<< HEAD
                     "http://192.168.25.243:9001/api/Educations/accountId?accountId=" +
+=======
+                    "https://localhost:7177/api/Educations/accountId?accountId=" +
+>>>>>>> Fayyad-Clone-Publish
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -108,7 +124,11 @@ function loadData() {
             // API GET (NonFromalEdu By AccountId)
             $.ajax({
                 url:
+<<<<<<< HEAD
                     "http://192.168.25.243:9001/api/NonFormalEdu/accountId?accountId=" +
+=======
+                    "https://localhost:7177/api/NonFormalEdu/accountId?accountId=" +
+>>>>>>> Fayyad-Clone-Publish
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -154,7 +174,11 @@ function loadData() {
             // API GET (Qualification By AccountId)
             $.ajax({
                 url:
+<<<<<<< HEAD
                     "http://192.168.25.243:9001/api/Qualification/accountId?accountId=" +
+=======
+                    "https://localhost:7177/api/Qualification/accountId?accountId=" +
+>>>>>>> Fayyad-Clone-Publish
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -185,7 +209,11 @@ function loadData() {
             // API GET (Certificate By AccountId)
             $.ajax({
                 url:
+<<<<<<< HEAD
                     "http://192.168.25.243:9001/api/Certificate/accountId?accountId=" +
+=======
+                    "https://localhost:7177/api/Certificate/accountId?accountId=" +
+>>>>>>> Fayyad-Clone-Publish
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -232,7 +260,11 @@ function loadData() {
             // API GET (Employeement History By AccountId)
             $.ajax({
                 url:
+<<<<<<< HEAD
                     "http://192.168.25.243:9001/api/EmploymentHistory/accountId?accountId=" +
+=======
+                    "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" +
+>>>>>>> Fayyad-Clone-Publish
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -312,7 +344,11 @@ function loadData() {
             // API GET (ProjectHistory By AccountId)
             $.ajax({
                 url:
+<<<<<<< HEAD
                     "http://192.168.25.243:9001/api/ProjectHistory/accountId?accountId=" +
+=======
+                    "https://localhost:7177/api/ProjectHistory/accountId?accountId=" +
+>>>>>>> Fayyad-Clone-Publish
                     accountId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -378,4 +414,28 @@ function loadData() {
         },
     });
     $("#loader").hide();
+}
+function getAccountIdFromToken() {
+    var token = sessionStorage.getItem("Token");
+    if (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var payload = JSON.parse(atob(base64));
+        
+        return payload.AccountId;
+    }
+
+    return null;
+}
+function getUserRole() {
+    var token = sessionStorage.getItem("Token");
+    if (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var payload = JSON.parse(atob(base64));
+        
+        return parseInt(payload.RoleId, 10);
+    }
+
+    return null;
 }

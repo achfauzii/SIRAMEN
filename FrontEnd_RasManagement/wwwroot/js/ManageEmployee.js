@@ -26,7 +26,11 @@
 
 
         "ajax": {
+<<<<<<< HEAD
             url: "http://192.168.25.243:9001/api/Employees",
+=======
+            url: "https://localhost:7177/api/Employees",
+>>>>>>> Fayyad-Clone-Publish
             type: "GET",
             "datatype": "json",
             async: true,
@@ -315,7 +319,11 @@ function handleInput(event, input) {
 
     // Pemanggilan pertama
     var firstApiCall = $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/EmployeePlacements/accountId?accountId=" + accountId,
+=======
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -334,7 +342,11 @@ function handleInput(event, input) {
 
     // Pemanggilan kedua
     var secondApiCall = $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accountId,
+=======
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -367,7 +379,11 @@ function handleInput(event, input) {
 
 function fetchDepartments() {
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Department",
+=======
+        url: "https://localhost:7177/api/Department",
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -400,7 +416,11 @@ function GetByIdPlacement(accountId, placementStatus) {
     var inputCompany = document.getElementById('inputCompany');
     inputCompany.style.display = 'none';
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/EmployeePlacements/accountId?accountId=" + accountId,
+=======
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -411,7 +431,11 @@ function GetByIdPlacement(accountId, placementStatus) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
             $.ajax({
+<<<<<<< HEAD
                 url: "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accountId,
+=======
+                url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -481,7 +505,11 @@ function SaveTurnOver() {
     $.ajax({
         type: 'POST',
 
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/TurnOver',
+=======
+        url: 'https://localhost:7177/api/TurnOver',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(TurnOver),
 
         contentType: "application/json; charset=utf-8",
@@ -501,7 +529,11 @@ function SaveTurnOver() {
             }).then(() => {
                 if (TurnOver.status == "Blacklist" || TurnOver.status == "Resign" || TurnOver.status == "Transfer") {
                     $.ajax({
+<<<<<<< HEAD
                         url: 'http://192.168.25.243:9001/api/Accounts/UpdateRole',
+=======
+                        url: 'https://localhost:7177/api/Accounts/UpdateRole',
+>>>>>>> Fayyad-Clone-Publish
                         type: 'PUT',
                         data: JSON.stringify(updateRole),
                         contentType: "application/json; charset=utf-8",
@@ -552,7 +584,11 @@ function handlePlacementStatusChange() {
     Account.startContract = $('#StartContract').val();
     Account.endContract = $('#EndContract').val();
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Accounts/UpdateContract',
+=======
+        url: 'https://localhost:7177/api/Accounts/UpdateContract',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(Account),
         contentType: "application/json; charset=utf-8",
@@ -597,7 +633,11 @@ function UpdatePlacement() {
     const accid = decodedtoken.AccountId;
     Account.accountId = accid;*/
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Accounts/UpdateTurnOver',
+=======
+        url: 'https://localhost:7177/api/Accounts/UpdateTurnOver',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(Placement),
         contentType: "application/json; charset=utf-8",
@@ -637,7 +677,11 @@ function UpdatePlacement() {
     var accountId = accountId;
     $.ajax({
         type: 'GET',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/EmployeePlacements/accountId?accountId=' + accountId,
+=======
+        url: 'https://localhost:7177/api/EmployeePlacements/accountId?accountId=' + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -733,7 +777,11 @@ function Save(accountId) {
 
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/EmployeePlacements',
+=======
+        url: 'https://localhost:7177/api/EmployeePlacements',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -784,7 +832,11 @@ function Update() {
     placement.accountId = $('#accountId').val();
 
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/EmployeePlacements',
+=======
+        url: 'https://localhost:7177/api/EmployeePlacements',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
@@ -835,6 +887,66 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+<<<<<<< HEAD
+=======
+/*function GetByIdPlacement(accountId, placementStatus) {
+    debugger;
+
+    var fullName = ''; // Untuk menyimpan fullname dari kedua pemanggilan API
+
+    // Pemanggilan pertama
+    var firstApiCall = $.ajax({
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            debugger;
+            var obj = result.data;
+            fullName = obj.fullname; // Simpan fullname dari pemanggilan pertama
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    // Pemanggilan kedua
+    var secondApiCall = $.ajax({
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            debugger;
+            var obj = result.data;
+            $('#AccountId').val(accountId);
+            $('#PlacementID').val(obj.placementStatusId);
+            $('#PlacementStatus').val(placementStatus);
+            $('#CompanyName').val(obj.companyName);
+            $('#Description').val(obj.description);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    // Menunggu kedua pemanggilan API selesai
+    $.when(firstApiCall, secondApiCall).done(function () {
+        // Setelah keduanya selesai, tampilkan fullname
+        $('#FullName').text(fullName);
+        console.log(fullName);
+        $('#Modal').modal('show');
+        $('#Update').show();
+    });
+}*/
+
+>>>>>>> Fayyad-Clone-Publish
 
 function GetByIdPlacement(accountId, placementStatus) {
 
@@ -843,7 +955,11 @@ function GetByIdPlacement(accountId, placementStatus) {
     var inputCompany = document.getElementById('inputCompany');
     inputCompany.style.display = 'none';
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/EmployeePlacements/accountId?accountId=" + accountId,
+=======
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -854,7 +970,11 @@ function GetByIdPlacement(accountId, placementStatus) {
             debugger;
             var obj = result.data; //data yg kita dapat dr API  
             $.ajax({
+<<<<<<< HEAD
                 url: "http://192.168.25.243:9001/api/Employees/accountId?accountId=" + accountId,
+=======
+                url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -934,7 +1054,11 @@ function SaveTurnOver() {
     // console.log(placement);
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/TurnOver',
+=======
+        url: 'https://localhost:7177/api/TurnOver',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(TurnOver),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -953,7 +1077,11 @@ function SaveTurnOver() {
             }).then(() => {
                 if (TurnOver.status == "Blacklist" || TurnOver.status == "Resign" || TurnOver.status == "Transfer") {
                     $.ajax({
+<<<<<<< HEAD
                         url: 'http://192.168.25.243:9001/api/Accounts/UpdateRole',
+=======
+                        url: 'https://localhost:7177/api/Accounts/UpdateRole',
+>>>>>>> Fayyad-Clone-Publish
                         type: 'PUT',
                         data: JSON.stringify(updateRole),
                         contentType: "application/json; charset=utf-8",
@@ -1002,7 +1130,11 @@ function GetContract(accountId) {
     debugger;
     //console.log(accountId);
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Accounts/AccountId?accountId=" + accountId,
+=======
+        url: "https://localhost:7177/api/Accounts/AccountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -1046,7 +1178,11 @@ function UpdateContract() {
     Account.endContract = $('#EndContract').val();
     //console.log(Account.accountId);
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Accounts/UpdateContract',
+=======
+        url: 'https://localhost:7177/api/Accounts/UpdateContract',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(Account),
         contentType: "application/json; charset=utf-8",
@@ -1093,7 +1229,11 @@ function UpdatePlacement() {
     const accid = decodedtoken.AccountId;
     Account.accountId = accid;*/
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Accounts/UpdateTurnOver',
+=======
+        url: 'https://localhost:7177/api/Accounts/UpdateTurnOver',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(Placement),
         contentType: "application/json; charset=utf-8",
@@ -1125,6 +1265,60 @@ function UpdatePlacement() {
     });
 }
 
+<<<<<<< HEAD
+=======
+/*function GetById(accountId) {
+    const startDate = document.getElementById("showStartDate");
+    const endDate = document.getElementById("showEndDate");
+    startDate.style.display = "none";
+    endDate.style.display = "block";
+    var accountId = accountId;
+    $.ajax({
+        type: 'GET',
+        url: 'https://localhost:7177/api/EmployeePlacements/accountId?accountId=' + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: true,
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+    }).then((result) => {
+        $('#modal-add').modal('hide');
+        $('#modal-add').on('hidden.bs.modal', function () {
+            $(this).data('bs.modal', null);
+        });
+       
+        var obj = result.data; //data yg didapat dari api
+
+        // Konversi string tanggal menjadi objek Date
+        var startDate = new Date(obj.startDate);
+        var endDate = new Date(obj.endDate);
+
+        // Fungsi untuk memformat tanggal menjadi "yyyy-MM-dd" (format yang diharapkan input date)
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            return year + "-" + month + "-" + day;
+        }
+
+        $('#companyName').val(obj.companyName);
+        $('#jobRole').val(obj.jobRole);
+        $('#startDate').val(formatDate(startDate));
+        $('#endDate').val(formatDate(endDate));
+        $('#description').val(obj.description);
+        $('input[name="status"][value="' + obj.placementStatus + '"]').prop('checked', true);
+        $('#Update').show();
+        $('#Add').hide();
+
+
+
+    })
+}
+*/
+
+>>>>>>> Fayyad-Clone-Publish
 function ClearScreenContract() {
     $('#AccountId').val('');
     $('#StartContract').val('');
@@ -1213,7 +1407,11 @@ function Save(accountId) {
 
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/EmployeePlacements',
+=======
+        url: 'https://localhost:7177/api/EmployeePlacements',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -1264,7 +1462,11 @@ function Update() {
     placement.accountId = $('#accountId').val();
 
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/EmployeePlacements',
+=======
+        url: 'https://localhost:7177/api/EmployeePlacements',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(placement),
         contentType: "application/json; charset=utf-8",
@@ -1303,7 +1505,11 @@ function GenerateCv(accountId) {
 function GetByIdAsset(assetsManagementId) {
     debugger;
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Assets/accountId?accountId=" + assetsManagementId,
+=======
+        url: "https://localhost:7177/api/Assets/accountId?accountId=" + assetsManagementId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",

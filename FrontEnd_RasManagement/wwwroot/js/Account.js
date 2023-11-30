@@ -2,7 +2,11 @@
     $("#loginForm").on("submit", async function (event) {
         event.preventDefault();
         $('#loader').show();
+<<<<<<< HEAD
         const url = "http://192.168.25.243:9001/api/Accounts";
+=======
+        const url = "https://localhost:7177/api/Accounts";
+>>>>>>> Fayyad-Clone-Publish
         const data = {
             email: $('#exampleInputEmail').val(),
             password: $('#exampleInputPassword').val()

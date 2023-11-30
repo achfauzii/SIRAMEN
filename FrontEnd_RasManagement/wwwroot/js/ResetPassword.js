@@ -6,15 +6,34 @@ document.getElementById("resetPassword").addEventListener("submit", async functi
     resetPassword.newPassword = document.getElementById('password').value;
    var repeatPassword = document.getElementById('repeatPassword').value;
 
+   //Validasi 6 Karakter Change Password
+    if (resetPassword.newPassword.length < 6 || repeatPassword.length < 6) {
+        Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: "Password must be more than 6 characters",
+
+    });
+
+    return; // Hentikan eksekusi lebih lanjut
+}
     if (resetPassword.newPassword !== repeatPassword) {
         // Password dan repeat password tidak sama, tampilkan pesan error
-        alert('Password and Repeat Password do not match.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed...',
+            text: 'Password reset failed.',
+        });
         return; // Hentikan eksekusi lebih lanjut
     }
  
     $.ajax({
         type: 'PUT',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Accounts/UpdatePassword',
+=======
+        url: 'https://localhost:7177/api/Accounts/UpdatePassword',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(resetPassword),
         contentType: "application/json; charset=utf-8"
         /*headers: {
@@ -27,14 +46,27 @@ document.getElementById("resetPassword").addEventListener("submit", async functi
                 icon: 'success',
                 title: 'Success...',
                 text: 'Password reset successfully.',
-                showConfirmButtom: false,
-                timer: 10000
-            })
-            window.location.replace("/Accounts/Login");
-        }
-        else {
-            alert("Forgot Password Failed");
+            }).then(() => {
+                // After the user clicks "OK" on the SweetAlert, redirect to the desired location
+                window.location.replace("/Accounts/Login");
+            });
+        } else {
+            // If result.status is not 200 (indicating failure)
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed...',
+                text: 'Password reset failed.',
+            });
         }
     });
 
 });
+function showPassword(checkbox) {
+    // Find the password input elements
+    var passwordInput = document.getElementById("password");
+    var repeatPasswordInput = document.getElementById("repeatPassword");
+
+    // Toggle the type attribute of the password input elements
+    passwordInput.type = checkbox.checked ? "text" : "password";
+    repeatPasswordInput.type = checkbox.checked ? "text" : "password";
+}

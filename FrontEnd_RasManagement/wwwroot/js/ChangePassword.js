@@ -71,7 +71,11 @@ function updatePassword() {
     //debugger;
 
 
+<<<<<<< HEAD
     fetch('http://192.168.25.243:9001/api/Accounts/ChangePassword', {
+=======
+    fetch('https://localhost:7177/api/Accounts/ChangePassword', {
+>>>>>>> Fayyad-Clone-Publish
         method: 'PUT', // Atur metode sesuai kebutuhan
         headers: {
             'Content-Type': 'application/json', // Atur tipe konten sesuai kebutuhan
@@ -121,4 +125,17 @@ function parseJwt(token) {
     }).join(''));
 
     return JSON.parse(jsonPayload);
+}
+
+function togglePasswordVisibility(inputId) {
+    var icon = $("#" + inputId).nextAll('.password-toggle-icon').find('i');
+    var input = $("#" + inputId);
+
+    if (input.attr("type") === "password") {
+        input.attr("type", "text");
+        icon.removeClass('fa-eye').addClass('fa-eye-slash');
+    } else {
+        input.attr("type", "password");
+        icon.removeClass('fa-eye-slash').addClass('fa-eye');
+    }
 }

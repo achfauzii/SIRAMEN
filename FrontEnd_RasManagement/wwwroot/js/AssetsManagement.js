@@ -5,7 +5,11 @@ $(document).ready(function () {
     table = $('#TB_Assets').DataTable({
         "responsive": true,
         "ajax": {
+<<<<<<< HEAD
             url: "http://192.168.25.243:9001/api/Assets/accountId?accountId=" + accid,
+=======
+            url: "https://localhost:7177/api/Assets/accountId?accountId=" + accid,
+>>>>>>> Fayyad-Clone-Publish
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -137,19 +141,43 @@ function SaveAsset() {
         }
     });
 
+    var ramValue = $('#ram').val().replace(/^0+/, ''); // Menghapus 0 di awal
+    var ssdValue = $('#ssd').val().replace(/^0+/, ''); //hapus 0 di awal
+    var hddValue = $('#hdd').val().replace(/^0+/, ''); 
+ 
+    if(ramValue === ""){
+        $('#ram').next().show();
+    }else{
+        $('#ram').next().hide();
+    }
+    if (ssdValue === "" && hddValue === "" ) {
+        $('#ssd-error').show();
+       
+        return;
+    } else{
+        $('#ssd-error').hide();
+       
+    }
+    
     if (!isValid) {
         return;
     }
-
+ 
     var Assets = new Object(); //bikin objek baru
     Assets.rfid = $('#RFID').val();
     Assets.nama = $('#brand').val();
     Assets.processor = $('#Processor').val();
     Assets.display = $('#Display').val();
     Assets.operatingSystem = $('#os').val();
+<<<<<<< HEAD
     Assets.ram = ($('#ram').val() !== "" ? $('#ram').val() + " GB" : "-");
     Assets.ssd = ($('#ssd').val() !== "" ? $('#ssd').val() + " GB" : "-");
     Assets.hdd = ($('#hdd').val() !== "" ? $('#hdd').val() + " GB" : "-");
+=======
+    Assets.ram = (ramValue !== "" ? ramValue + " GB" : "-");
+    Assets.ssd = (ssdValue !== "" ? ssdValue + " GB" : "-");
+    Assets.hdd = (hddValue !== "" ? hddValue + " GB" : "-");
+>>>>>>> Fayyad-Clone-Publish
     Assets.graphicCard = $('#GraphicCard').val();
     Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -157,7 +185,11 @@ function SaveAsset() {
     Assets.accountId = accid;
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Assets',
+=======
+        url: 'https://localhost:7177/api/Assets',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(Assets), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -193,7 +225,11 @@ function GetById(assetsManagementId) {
     //console.log(assetsManagementId)
     debugger;
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Assets/" + assetsManagementId,
+=======
+        url: "https://localhost:7177/api/Assets/" + assetsManagementId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -239,7 +275,11 @@ function Delete(assetsManagementId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
+<<<<<<< HEAD
                 url: "http://192.168.25.243:9001/api/Assets/" + assetsManagementId,
+=======
+                url: "https://localhost:7177/api/Assets/" + assetsManagementId,
+>>>>>>> Fayyad-Clone-Publish
                 type: "DELETE",
                 dataType: "json",
                 headers: {
@@ -281,6 +321,23 @@ function UpdateAsset() {
         }
     });
 
+    var ramValue = $('#ram').val().replace(/^0+/, ''); // Menghapus 0 di awal
+    var ssdValue = $('#ssd').val().replace(/^0+/, ''); //hapus 0 di awal
+    var hddValue = $('#hdd').val().replace(/^0+/, ''); 
+ 
+    if(ramValue === ""){
+        $('#ram').next().show();
+    }else{
+        $('#ram').next().hide();
+    }
+    if (ssdValue === "" && hddValue === "" ) {
+        $('#ssd-error').show();
+       
+        return;
+    } else{
+        $('#ssd-error').hide();
+       
+    }
     if (!isValid) {
         return;
     }
@@ -291,16 +348,26 @@ function UpdateAsset() {
     Assets.processor = $('#Processor').val();
     Assets.display = $('#Display').val();
     Assets.operatingSystem = $('#os').val();
+<<<<<<< HEAD
     Assets.ram = ($('#ram').val() !== "" ? $('#ram').val() + " GB" : "-");
     Assets.ssd = ($('#ssd').val() !== "" ? $('#ssd').val() + " GB" : "-");
     Assets.hdd = ($('#hdd').val() !== "" ? $('#hdd').val() + " GB" : "-");
+=======
+    Assets.ram = (ramValue !== "" ? ramValue + " GB" : "-");
+    Assets.ssd = (ssdValue !== "" ? ssdValue + " GB" : "-");
+    Assets.hdd = (hddValue !== "" ? hddValue + " GB" : "-");
+>>>>>>> Fayyad-Clone-Publish
     Assets.graphicCard = $('#GraphicCard').val();
     Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     Assets.accountId = accid;
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Assets',
+=======
+        url: 'https://localhost:7177/api/Assets',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(Assets),
         contentType: "application/json; charset=utf-8",

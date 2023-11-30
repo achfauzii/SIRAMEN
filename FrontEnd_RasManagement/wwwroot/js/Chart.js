@@ -3,7 +3,11 @@
     $('#loader').show();
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Educations",
+=======
+        url: "https://localhost:7177/api/Educations",
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         datatype: "json",
         contentType: "application/json; charset=utf-8",
@@ -15,10 +19,12 @@
 
             // Buat objek untuk menyimpan informasi universitas dan jumlah akun
             var universitiesData = {};
-            // Loop data dari API untuk menghitung jumlah akun di setiap universitas
+
+            // Loop data dari API untuk menghitung jumlah akun yang berbeda di setiap universitas
             result.forEach(eduData => {
                 var { universityName, accountId } = eduData;
 
+<<<<<<< HEAD
                 var key = universityName;
 
                 if (!(key in universitiesData)) {
@@ -27,14 +33,33 @@
                     };
                 } else {
                     universitiesData[key].totalAccounts.add(accountId);
-                }
+=======
+                // Gunakan nama universitas sebagai kunci
+                var key = universityName;
 
+                // Jika kunci belum ada di dalam objek universitiesData, tambahkan entri baru
+                if (!(key in universitiesData)) {
+                universitiesData[key] = {
+                    totalAccounts: new Set([accountId])
+                };
+                } else {
+                // Jika kunci sudah ada, tambahkan accountId ke set
+                universitiesData[key].totalAccounts.add(accountId);
+>>>>>>> Fayyad-Clone-Publish
+                }
             });
             Object.keys(universitiesData).forEach(key => {
                 universitiesData[key].totalAccounts = universitiesData[key].totalAccounts.size;
+<<<<<<< HEAD
             })
+=======
+            });
+                    
+>>>>>>> Fayyad-Clone-Publish
             tableUniv(universitiesData);
             chartUniv(universitiesData);
+
+         
 
             // Sembunyikan loader setelah permintaan selesai
             $('#loader').hide();
@@ -52,7 +77,11 @@
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
 
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Employees",
+=======
+        url: "https://localhost:7177/api/Employees",
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         "datatype": "json",
         async: false,
@@ -67,7 +96,11 @@
                 var roleId = result[i].roleId; // Ambil roleId dari data saat ini
                 if (roleId === "3") {
                     $.ajax({
+<<<<<<< HEAD
                         url: "http://192.168.25.243:9001/api/EmployeePlacements/accountId?accountId=" + accountId,
+=======
+                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
                         type: "GET",
                         datatype: "json",
                         async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan

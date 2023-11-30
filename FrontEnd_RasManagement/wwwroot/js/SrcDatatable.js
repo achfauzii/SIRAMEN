@@ -48,7 +48,11 @@ function Src() {
         order: [[0, "asc"]],
 
         ajax: {
+<<<<<<< HEAD
             url: 'http://192.168.25.243:9001/api/Shortlist/NonRasDatatable', // Your API endpoint
+=======
+            url: 'https://localhost:7177/api/Shortlist/NonRasDatatable', // Your API endpoint
+>>>>>>> Fayyad-Clone-Publish
             type: 'POST',
             contentType: 'application/json',
             headers: {
@@ -728,6 +732,53 @@ function getUniversitasListt() {
         }
     });
 
+<<<<<<< HEAD
+=======
+    //const selectUniversity = document.getElementById('UniversityName');
+    /*const selectUniversity2 = document.getElementById('UniversityName2');
+    $.ajax({
+        url: "https://localhost:7177/api/Universitas",
+        type: "GET",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var universities = result.data;
+
+
+            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
+            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
+
+
+            universities.forEach(function (university) {
+                //console.log(university);
+                const option = document.createElement('option');
+                option.value = university.namaUniversitas;
+                option.textContent = university.namaUniversitas;
+                //selectUniversity.appendChild(option);
+                selectUniversity2.appendChild(option);
+            });
+
+            *//*$(selectUniversity).select2({
+                placeholder: 'Select university',
+                width: '100%',
+
+            });*//*
+            $(selectUniversity2).select2({
+                placeholder: 'Select university',
+                width: '100%',
+             
+                dropdownParent: $('#offeringSourceList'),
+                tags: true,
+
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });*/
+>>>>>>> Fayyad-Clone-Publish
 }
 
 function getUniversitasList() {
@@ -764,6 +815,46 @@ function getUniversitasList() {
         }
     });
 
+<<<<<<< HEAD
+=======
+    /*const selectUniversity = document.getElementById('UniversityName');
+
+    $.ajax({
+        url: "https://localhost:7177/api/Universitas",
+        type: "GET",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (result) {
+            var universities = result.data;
+
+
+            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
+            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
+
+
+            universities.forEach(function (university) {
+
+                const option = document.createElement('option');
+                option.value = university.namaUniversitas;
+                option.textContent = university.namaUniversitas;
+                selectUniversity.appendChild(option);
+            });
+
+            $('.selectUniversity').select2({
+                placeholder: 'Select university',
+                width: '100%',
+                tags: true,
+                dropdownParent: $('#Modal')
+
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });*/
+>>>>>>> Fayyad-Clone-Publish
 }
 
 function formInputLocation() {
@@ -961,7 +1052,11 @@ function Save() {
     //console.log(NonRasCandidate);
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Shortlist/Add',
+=======
+        url: 'https://localhost:7177/api/Shortlist/Add',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(NonRasCandidate),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -1107,7 +1202,11 @@ function Update() {
    
     $.ajax({
         type: 'PUT',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Shortlist',
+=======
+        url: 'https://localhost:7177/api/Shortlist',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(NonRasCandidate),
         contentType: "application/json; charset=utf-8",
         headers: {

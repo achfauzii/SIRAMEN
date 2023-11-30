@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+<<<<<<< HEAD
     //debugger;    
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
@@ -42,37 +43,110 @@
             });
         }
     })
+=======
+  //debugger;
+  //   var now = new Date();
+  //   now.setMonth(now.getMonth() + 3);
+  //   const yyyy = now.getFullYear();
+  //   let mm = now.getMonth() + 1;
+  //   if (mm < 10) mm = "0" + mm;
+>>>>>>> Fayyad-Clone-Publish
 
-})
+  //   const endContractForm = yyyy + "-" + mm;
+  //   console.log("Date " + new Date().toISOString().slice(0, 7));
+  //   console.log("DateEnd " + endContractForm);
+
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
+  $("#NonFormalEdu").DataTable({
+    ajax: {
+      url:
+        "https://localhost:7177/api/NonFormalEdu/accountId?accountId=" + accid,
+      type: "GET",
+      datatype: "json",
+      dataSrc: "data",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "name" },
+      { data: "organizer" },
+      { data: "years" },
+      { data: "description" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            '<button class="btn btn-sm btn-warning " data-placement="left" data-toggle="tooltip" data-animation="false" title="Edit" onclick="return getbyID(' +
+            row.nonFormalId +
+            ')"><i class="fa fa-pen" ></i></button >' +
+            "&nbsp;" +
+            '<button class="btn btn-sm btn-danger" data-placement="right" data-toggle="tooltip" data-animation="false" title="Delete" onclick="return Delete(' +
+            row.nonFormalId +
+            ')"><i class="fa fa-trash"></i></button >'
+          );
+        },
+      },
+    ],
+    order: [[3, "desc"]],
+    //Agar nomor tidak berubah
+    drawCallback: function (settings) {
+      var api = this.api();
+      var rows = api.rows({ page: "current" }).nodes();
+      api
+        .column(1, { page: "current" })
+        .data()
+        .each(function (group, i) {
+          $(rows)
+            .eq(i)
+            .find("td:first")
+            .html(i + 1);
+        });
+    },
+  });
+});
 
 function parseJwt(token) {
-    //debugger;
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+  //debugger;
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
 
-    return JSON.parse(jsonPayload);
+  return JSON.parse(jsonPayload);
 }
 
 function ClearScreen() {
-    //debugger;
-    $('#Name').val('');
-    $('#Organizer').val('');
-    $('#Years').val('');
-    $('#Description').val('');
-    $('#UpdateNonFormal').hide();
-    $('#SaveNonFormal').show();
-    $('input[required-nonformal]').each(function () {
-        var input = $(this);
+  //debugger;
+  $("#Name").val("");
+  $("#Organizer").val("");
+  $("#Years").val("");
+  $("#Description").val("");
+  $("#UpdateNonFormal").hide();
+  $("#SaveNonFormal").show();
+  $("input[required-nonformal]").each(function () {
+    var input = $(this);
 
-        input.next('.error-message').hide();
-
-    });
+    input.next(".error-message").hide();
+  });
 }
 
 function getbyID(NonFormalId) {
+<<<<<<< HEAD
     //debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
@@ -101,36 +175,61 @@ function getbyID(NonFormalId) {
             alert(errormessage.responseText);
         }
     })
+=======
+  //debugger;
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
+  $.ajax({
+    url: "https://localhost:7177/api/NonFormalEdu/" + NonFormalId,
+    type: "GET",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (result) {
+      //debugger;
+      var obj = result.data; //data yg dapet dr id
+      $("#NonformalId").val(obj.nonFormalId); //ngambil data dr api
+      $("#Name").val(obj.name);
+      $("#Organizer").val(obj.organizer);
+      $("#Years").val(obj.years);
+      $("#Description").val(obj.description);
+      $("#AccountId").accid;
+      $("#ModalNonFormal").modal("show");
+      $("#SaveNonFormal").hide();
+      $("#UpdateNonFormal").show();
+    },
+    error: function (errormessage) {
+      alert(errormessage.responseText);
+    },
+  });
+>>>>>>> Fayyad-Clone-Publish
 }
 
 function noHTML(input) {
-    var value = input.value.replace(/<[^>]*>/g, '');
-    var nohtml = value.replace(/[<>?/]/g, '');
-    input.value = nohtml;
+  var value = input.value.replace(/<[^>]*>/g, "");
+  var nohtml = value.replace(/[<>?/]/g, "");
+  input.value = nohtml;
 }
 
 function handleInput(event, input) {
-    // Menangani peristiwa oninput dan onpaste
-    noHTML(input);
+  // Menangani peristiwa oninput dan onpaste
+  noHTML(input);
 }
 
 function Save() {
-    var isValid = true;
+  var isValid = true;
 
-    $('input[required-nonformal]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message').show();
-            isValid = false;
-        } else {
-            input.next('.error-message').hide();
-        }
-    });
-
-    if (!isValid) {
-        
-        return;
+  $("input[required-nonformal]").each(function () {
+    var input = $(this);
+    if (!input.val()) {
+      input.next(".error-message").show();
+      isValid = false;
+    } else {
+      input.next(".error-message").hide();
     }
+<<<<<<< HEAD
     var NonFormal = new Object(); //bikin objek baru
     NonFormal.Name = $('#Name').val(); //value dari database
     NonFormal.Organizer = $('#Organizer').val();
@@ -212,12 +311,117 @@ function Delete(NonFormalId) {
                     )
                 }
             });
+=======
+  });
+
+  if (!isValid) {
+    return;
+  }
+  var NonFormal = new Object(); //bikin objek baru
+  NonFormal.Name = $("#Name").val(); //value dari database
+  NonFormal.Organizer = $("#Organizer").val();
+  NonFormal.Years = $("#Years").val();
+  NonFormal.Description = $("#Description").val();
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
+  NonFormal.AccountId = accid;
+
+  console.log($("#Years").val());
+  debugger;
+  $.ajax({
+    type: "POST",
+    url: "https://localhost:7177/api/NonFormalEdu",
+    data: JSON.stringify(NonFormal), //ngirim data ke api
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    //debugger;
+    if (
+      (result.status == result.status) == 201 ||
+      result.status == 204 ||
+      result.status == 200
+    ) {
+      //alert("Data Berhasil Dimasukkan");
+      Swal.fire({
+        icon: "success",
+        title: "Success...",
+        text: "Data has been added!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      $("#ModalNonFormal").modal("hide");
+      $("#NonFormalEdu").DataTable().ajax.reload();
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Data Gagal dimasukkan!",
+        showConfirmButtom: false,
+        timer: 1500,
+      });
+      $("#ModalNonFormal").modal("hide");
+      $("#NonFormalEdu").DataTable().ajax.reload();
+    }
+  });
+}
+
+function Delete(NonFormalId) {
+  //debugger;
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.value) {
+      $.ajax({
+        url: "https://localhost:7177/api/NonFormalEdu/" + NonFormalId,
+        type: "DELETE",
+        dataType: "json",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+      }).then((result) => {
+        //debugger;
+        if (result.status == 200) {
+          Swal.fire("Deleted!", "Your data has been deleted.", "success");
+          $("#NonFormalEdu").DataTable().ajax.reload();
+        } else {
+          Swal.fire("Error!", result.message, "error");
+>>>>>>> Fayyad-Clone-Publish
         }
-    })
+      });
+    }
+  });
 }
 
 function Update() {
+  debugger;
+  var NonFormal = new Object();
+  NonFormal.NonFormalId = $("#NonformalId").val();
+  NonFormal.Name = $("#Name").val();
+  NonFormal.Organizer = $("#Organizer").val();
+  NonFormal.Years = $("#Years").val();
+  NonFormal.Description = $("#Description").val();
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
+  NonFormal.AccountId = accid;
+  $.ajax({
+    url: "https://localhost:7177/api/NonFormalEdu",
+    type: "PUT",
+    data: JSON.stringify(NonFormal),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
     debugger;
+<<<<<<< HEAD
     var NonFormal = new Object();
     NonFormal.NonFormalId = $('#NonformalId').val();
     NonFormal.Name = $('#Name').val();
@@ -256,5 +460,21 @@ function Update() {
             location.reload();
         }
     });
+=======
+    if (result.status == 200) {
+      Swal.fire({
+        title: "Success!",
+        text: "Data has been update!",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        location.reload();
+      });
+    } else {
+      alert("Data gagal Diperbaharui");
+      location.reload();
+    }
+  });
+>>>>>>> Fayyad-Clone-Publish
 }
-

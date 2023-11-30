@@ -68,8 +68,8 @@ namespace RasManagement.Controllers
                 return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Email Already exist." });
             }
 
-            await accountRepository.Register(registerVM);
-            return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = registerVM });
+            var result = await accountRepository.Register(registerVM);
+            return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = result });
         }
 
         // Add Login POST api/<AccountController>

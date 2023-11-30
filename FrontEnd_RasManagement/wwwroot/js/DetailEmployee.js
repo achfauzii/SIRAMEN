@@ -12,7 +12,11 @@ function placement() {
     var urlParams = new URLSearchParams(window.location.search);
     var accountId = urlParams.get('accountId');
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/EmployeePlacements/accountId?accountId=" + accountId,
+=======
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -101,7 +105,11 @@ function GetById(accountId, placementStatusId) {
     var accountId = accountId;
     $.ajax({
         type: 'GET',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/EmployeePlacements/accountId?accountId=' + accountId,
+=======
+        url: 'https://localhost:7177/api/EmployeePlacements/accountId?accountId=' + accountId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",

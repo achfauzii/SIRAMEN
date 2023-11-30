@@ -7,7 +7,11 @@ $(document).ready(function () {
     table = $('#TB_Certificate').DataTable({
         "responsive": true,
         "ajax": {
+<<<<<<< HEAD
             url: "http://192.168.25.243:9001/api/Certificate/accountId?accountId=" + accid,
+=======
+            url: "https://localhost:7177/api/Certificate/accountId?accountId=" + accid,
+>>>>>>> Fayyad-Clone-Publish
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -135,7 +139,11 @@ function ClearScreen() {
 function GetById(CertificateId) {
     //debugger;
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Certificate/" + CertificateId,
+=======
+        url: "https://localhost:7177/api/Certificate/" + CertificateId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -188,7 +196,11 @@ function Save() {
     Certificate.accountId = accid;
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Certificate',
+=======
+        url: 'https://localhost:7177/api/Certificate',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(Certificate), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -235,7 +247,11 @@ function Delete(CertificateId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
+<<<<<<< HEAD
                 url: "http://192.168.25.243:9001/api/Certificate/" + CertificateId,
+=======
+                url: "https://localhost:7177/api/Certificate/" + CertificateId,
+>>>>>>> Fayyad-Clone-Publish
                 type: "DELETE",
                 dataType: "json",
                 headers: {
@@ -290,7 +306,11 @@ function Update() {
     const accid = decodedtoken.AccountId;
     Certificate.accountId = accid;
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Certificate',
+=======
+        url: 'https://localhost:7177/api/Certificate',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(Certificate),
         contentType: "application/json; charset=utf-8",

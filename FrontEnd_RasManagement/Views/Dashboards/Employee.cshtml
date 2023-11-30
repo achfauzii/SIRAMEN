@@ -45,15 +45,34 @@
         font-family: "Calibri", Arial, sans-serif;
         font-weight: bold;
     }
+<<<<<<< HEAD
     @@media (max-width: 1199.98px){
         .photo-container {
             margin-top: 0 !important;
             margin-left: 0 !important;
         }
     }
+=======
+  @@media (max-width: 1199.98px) { 
+        .photo-container {
+            margin-left: 0 !important;
+            margin-top: 0 !important;
+        }
+   }
+
+>>>>>>> Fayyad-Clone-Publish
 </style>
 
 <div class="container-fluid bg-light">
+    <div class="row alert alert-warning m-0 mb-4 shadow" id="passwordAnnounce">
+        <i class="fas fa-circle-info text-warning mr-2" style="font-size: 1.5rem;"></i>
+        <div class="col mr-1">
+            <div class="font-weight-bold text-dark mb-1" style="font-size: 12pt">
+                Please update your password to ensure security.
+            </div>
+        </div>
+    </div>
+
     <div class="card border-left-warning shadow mb-4" id="employeeAnnouncement">
         <a href="#collapseCardExample" class="d-block card-header" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
             <h6 class=" font-weight-bold text-dark text-uppercase"> Announcement!</h6>
@@ -167,7 +186,7 @@
 
                 <div class="col-xl-3 order-xl-2 order-1 text-center pb-5">
                     <div class="photo-container ml-5 mt-3">
-                        <img id="employeePhoto" src="" alt="" style=" width:157px; height:231px;">
+                      <img id="employeePhoto" src="" alt="" style="width: 157px; height: 231px; object-fit: cover;">
                     </div>
                 </div>
             </div>

@@ -6,7 +6,11 @@ $(document).ready(function () {
     table = $('#TB_ProjectHistory').DataTable({
         "responsive": true,
         "ajax": {
+<<<<<<< HEAD
             url: "http://192.168.25.243:9001/api/ProjectHistory/accountId?accountId=" + accid,
+=======
+            url: "https://localhost:7177/api/ProjectHistory/accountId?accountId=" + accid,
+>>>>>>> Fayyad-Clone-Publish
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -184,7 +188,11 @@ function Save() {
     ProjectHistory.accountId = accid;
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/ProjectHistory',
+=======
+        url: 'https://localhost:7177/api/ProjectHistory',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -239,7 +247,11 @@ function ClearScreen() {
 function GetById(projectHistoryId) {
     //debugger;
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/ProjectHistory/" + projectHistoryId,
+=======
+        url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -292,7 +304,11 @@ function Update() {
     ProjectHistory.accountId = accid;
     debugger;
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/ProjectHistory',
+=======
+        url: 'https://localhost:7177/api/ProjectHistory',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(ProjectHistory),
         contentType: "application/json; charset=utf-8",
@@ -335,7 +351,11 @@ function Delete(projectHistoryId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
+<<<<<<< HEAD
                 url: "http://192.168.25.243:9001/api/ProjectHistory/" + projectHistoryId,
+=======
+                url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
+>>>>>>> Fayyad-Clone-Publish
                 type: "DELETE",
                 dataType: "json",
 

@@ -23,7 +23,11 @@ function Educations() {
     table = $('#TB_FormalEdu').DataTable({
         "responsive": true,
         "ajax": {
+<<<<<<< HEAD
             url: "http://192.168.25.243:9001/api/Educations/accountId?accountId=" + accid,
+=======
+            url: "https://localhost:7177/api/Educations/accountId?accountId=" + accid,
+>>>>>>> Fayyad-Clone-Publish
             type: "GET",
             "datatype": "json",
             "dataSrc": "data",
@@ -92,38 +96,42 @@ function Educations() {
         }
     })
 }
-
+function matchCustom(params, data) {
+    // If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+        return null;
+    }
+    // Implement your custom matching logic here
+    // For example, you can use data.text.includes(params.term)
+    return null;
+}
 function getUniversitasList() {
-    const selectUniversity = document.getElementById('UniversityName');
+    const selectUniversity = $('#UniversityName');
 
     $.ajax({
         url: "../assets/file_json/loadpt.json",
         type: "GET",
-        "datatype": "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
+        datatype: "json",
+
         success: function (result) {
             var universities = result;
 
             universities.forEach(function (university) {
-                //console.log(university);
-                const option = document.createElement('option');
-                option.value = university.nama_pt;
-                option.textContent = university.nama_pt;
-                selectUniversity.appendChild(option);
+                const option = new Option(university.nama_pt, university.nama_pt, true, true);
+                selectUniversity.append(option);
             });
 
-            $(selectUniversity).select2({
+            selectUniversity.select2({
                 placeholder: 'Select university',
                 width: '100%',
-
+                matcher: matchCustom // Use the custom matcher function
             });
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
+<<<<<<< HEAD
 
     /*const selectUniversity = document.getElementById('UniversityName');
 
@@ -155,6 +163,8 @@ function getUniversitasList() {
             alert(errormessage.responseText);
         }
     });*/
+=======
+>>>>>>> Fayyad-Clone-Publish
 }
 
 function formInputLocation() {
@@ -356,7 +366,11 @@ function SaveFormal() {
     FormalEdu.AccountId = accid;
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Educations',
+=======
+        url: 'https://localhost:7177/api/Educations',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -426,7 +440,11 @@ function GetById(formalEduId) {
     ClearScreenFormal();
     const selectUniversity = document.getElementById('UniversityName');
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Educations/" + formalEduId,
+=======
+        url: "https://localhost:7177/api/Educations/" + formalEduId,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -522,7 +540,11 @@ function UpdateFormal() {
 
     $.ajax({
         type: 'PUT',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Educations',
+=======
+        url: 'https://localhost:7177/api/Educations',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(FormalEdu),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -565,7 +587,11 @@ function DeleteFormal(formalEduId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
+<<<<<<< HEAD
                 url: "http://192.168.25.243:9001/api/Educations/" + formalEduId,
+=======
+                url: "https://localhost:7177/api/Educations/" + formalEduId,
+>>>>>>> Fayyad-Clone-Publish
                 type: "DELETE",
                 dataType: "json",
                 headers: {

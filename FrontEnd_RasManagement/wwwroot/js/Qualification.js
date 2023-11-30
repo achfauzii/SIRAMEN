@@ -5,7 +5,11 @@ $(document).ready(function () {
 
 
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Qualification/accountId?accountId=" + accid,
+=======
+        url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
+>>>>>>> Fayyad-Clone-Publish
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -147,7 +151,11 @@ function Save() {
     qualifications.accountId = accid;
     $.ajax({
         type: 'POST',
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Qualification',
+=======
+        url: 'https://localhost:7177/api/Qualification',
+>>>>>>> Fayyad-Clone-Publish
         data: JSON.stringify(qualifications), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -259,7 +267,11 @@ function getbyID() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     $.ajax({
+<<<<<<< HEAD
         url: "http://192.168.25.243:9001/api/Qualification/accountId?accountId=" + accid,
+=======
+        url: "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
+>>>>>>> Fayyad-Clone-Publish
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -459,7 +471,11 @@ function Update() {
     const accid = decodedtoken.AccountId;
     //console.log(qualifications);
     $.ajax({
+<<<<<<< HEAD
         url: 'http://192.168.25.243:9001/api/Qualification',
+=======
+        url: 'https://localhost:7177/api/Qualification',
+>>>>>>> Fayyad-Clone-Publish
         type: 'PUT',
         data: JSON.stringify(qualifications),
         contentType: "application/json; charset=utf-8",

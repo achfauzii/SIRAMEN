@@ -21,7 +21,11 @@ function SharedShortListCandidate() {
         order: [[0, "asc"]],
 
         ajax: {
+<<<<<<< HEAD
             url: 'http://192.168.25.243:9001/api/Shortlist/ShortListCandidate', // Your API endpoint
+=======
+            url: 'https://localhost:7177/api/Shortlist/ShortListCandidate', // Your API endpoint
+>>>>>>> Fayyad-Clone-Publish
             type: 'POST',
             contentType: 'application/json',
             headers: {

@@ -4,7 +4,11 @@ $(document).ready(function () {
     const save = document.querySelector('#save');
     const autosave = document.querySelector('#autosave');
     // Melakukan permintaan GET ke API
+<<<<<<< HEAD
     fetch('http://192.168.25.243:9001/api/Shortlist')
+=======
+    fetch('https://localhost:7177/api/Shortlist')
+>>>>>>> Fayyad-Clone-Publish
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -165,7 +169,11 @@ $(document).ready(function () {
                     }
                  
 
+<<<<<<< HEAD
                     fetch('http://192.168.25.243:9001/api/Shortlist/ShortListCandidate', {
+=======
+                    fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
+>>>>>>> Fayyad-Clone-Publish
                         method: 'POST',
                   
                         headers: {
@@ -197,6 +205,24 @@ $(document).ready(function () {
                 }
                 //console.log(changedData);
 
+<<<<<<< HEAD
+=======
+              /*  fetch('https://localhost:7177/api/Shortlist/ShortListCandidate', {
+                    method: 'POST',
+                    //contentType: 'application/json',
+                    //mode: 'no-cors',
+                    body: JSON.stringify( hot.getSourceData() ),
+                    //contentType: "application/json",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                    },
+                })
+                    .then(response => {
+                        var a = JSON.stringify( hot.getSourceData() )
+                        console.log(array_);
+                    });*/
+>>>>>>> Fayyad-Clone-Publish
             });
 
         });
