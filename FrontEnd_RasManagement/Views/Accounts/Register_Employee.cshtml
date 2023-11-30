@@ -229,7 +229,77 @@
         })
             .then(function (response) {
                 if (response.ok) {
+                    if(hiredStatus == 'Bootcamp'){
+                        response.json().then(function (item) {                      
+                            console.log("Item "+item.data);
+                            console.log("Data "+item.Data);
+                            console.log("Data Account "+item.data.accountId);
 
+                            //Add Data Template
+                            var NonFormal = new Object(); //bikin objek baru
+                            NonFormal.Name = "C# Training";
+                            NonFormal.Organizer = "PT. Berca Hardayaperkasa";
+                            NonFormal.Years = new Date().getFullYear().toString();
+                            NonFormal.Description = "SQL Server Database, C# Programming Language, Object Oriented Programming, ASP .NET Core, Pattern (MVC, MVVM, N-Layered Architecture), Web API, Code first, Database First, Entity Framework Core, Dapper, Asynchronous, Implement JWT, BCrypt, Dokumentasi API menggunakan swagger, JavaScript, Web Template (CSS, Bootstrap)";
+                            NonFormal.AccountId = item.data;
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'https://localhost:7177/api/NonFormalEdu',
+                                data: JSON.stringify(NonFormal), //ngirim data ke api
+                                contentType: "application/json; charset=utf-8",
+                                headers: {
+                                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                                },
+                            });
+
+                            var qualifications = new Object(); //bikin objek baru
+                            qualifications.framework = ".Net Core API, .Net Core MVC, Bootstrap";
+                            qualifications.programmingLanguage = "C#, Javascript, Jquery HTML & CSS, Java, Python";
+                            qualifications.database = "SQL Server, MySQL";
+                            qualifications.tools = "";
+                            qualifications.others = "";
+                            qualifications.accountId = item.data;
+                            $.ajax({
+                                type: 'POST',
+                                url: 'https://localhost:7177/api/Qualification',
+                                data: JSON.stringify(qualifications), //ngirim data ke api
+                                contentType: "application/json; charset=utf-8",
+                                headers: {
+                                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                                },
+                            });
+
+                            var startPeriode = new Date().toISOString().slice(0, 7);
+                            var now = new Date();
+                            now.setMonth(now.getMonth() + 3);
+                            const yyyy = now.getFullYear();
+                            let mm = now.getMonth() + 1;
+                            if (mm < 10) mm = "0" + mm;
+
+                            const endPeriode = yyyy + "-" + mm;
+                            var periodEmployement = startPeriode + " - " + endPeriode;
+                            console.log("periode "+periodEmployement);
+
+                            var EmploymentHistory = {
+                                companyName: "PT. Berca Hardayaperkasa",
+                                job: "Developer",
+                                period: periodEmployement,
+                                description: "Bootcamp program on how to develop an apps using .Net Core Framework. Learning on how to create API’s, consume API’s."
+                            };
+                            EmploymentHistory.AccountId = item.data;
+                            //console.log(EmploymentHistory);
+                            $.ajax({
+                                type: 'POST',
+                                url: 'https://localhost:7177/api/EmploymentHistory',
+                                data: JSON.stringify(EmploymentHistory),
+                                contentType: "application/json; charset=utf-8",
+                                headers: {
+                                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                                },
+                            })
+                        });
+                    }
 
                     // Redirect atau tampilkan pesan sukses jika permintaan berhasil
                     // ...
@@ -312,4 +382,3 @@
             .join(' ');
     }
 </script>
-
