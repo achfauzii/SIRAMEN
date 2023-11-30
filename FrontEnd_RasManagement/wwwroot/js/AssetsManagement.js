@@ -140,19 +140,32 @@ function SaveAsset() {
     var ssdValue = $('#ssd').val().replace(/^0+/, ''); //hapus 0 di awal
     var hddValue = $('#hdd').val().replace(/^0+/, ''); 
  
+    
     if(ramValue === ""){
-        $('#ram').next().show();
+        if (ssdValue === "" && hddValue === "" ) {
+            $('#ssd-error').show();
+            $('#hdd-error').show();
+            $('#ram').next().show();
+            
+            return
+        } else{
+            $('#ram').next().show();
+            $('#ssd-error').hide();
+            return
+        }
     }else{
         $('#ram').next().hide();
-    }
-    if (ssdValue === "" && hddValue === "" ) {
-        $('#ssd-error').show();
-       
-        return;
-    } else{
-        $('#ssd-error').hide();
-       
-    }
+        if (ssdValue === "" && hddValue === "" ) {
+            $('#ssd-error').show();
+            $('#hdd-error').show();
+            return
+        } else{
+            $('#ssd-error').hide();
+            $('#hdd-error').hide();
+        }
+        }
+
+    
     
     if (!isValid) {
         return;
@@ -302,19 +315,30 @@ function UpdateAsset() {
     var ssdValue = $('#ssd').val().replace(/^0+/, ''); //hapus 0 di awal
     var hddValue = $('#hdd').val().replace(/^0+/, ''); 
  
+    
     if(ramValue === ""){
-        $('#ram').next().show();
+        if (ssdValue === "" && hddValue === "" ) {
+            $('#ssd-error').show();
+            $('#hdd-error').show();
+            $('#ram').next().show();
+            
+            return
+        } else{
+            $('#ram').next().show();
+            $('#ssd-error').hide();
+            return
+        }
     }else{
         $('#ram').next().hide();
-    }
-    if (ssdValue === "" && hddValue === "" ) {
-        $('#ssd-error').show();
-       
-        return;
-    } else{
-        $('#ssd-error').hide();
-       
-    }
+        if (ssdValue === "" && hddValue === "" ) {
+            $('#ssd-error').show();
+            $('#hdd-error').show();
+            return
+        } else{
+            $('#ssd-error').hide();
+            $('#hdd-error').hide();
+        }
+        }
     if (!isValid) {
         return;
     }
