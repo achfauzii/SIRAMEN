@@ -3,7 +3,6 @@ $(document).ready(function () {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   table = $("#TB_Assets").DataTable({
-    responsive: true,
     ajax: {
       url: "http://192.168.25.243:9001/api/Assets/accountId?accountId=" + accid,
       type: "GET",
@@ -167,16 +166,27 @@ function SaveAsset() {
   var hddValue = $("#hdd").val().replace(/^0+/, "");
 
   if (ramValue === "") {
-    $("#ram").next().show();
+    if (ssdValue === "" && hddValue === "") {
+      $("#ssd-error").show();
+      $("#hdd-error").show();
+      $("#ram").next().show();
+
+      return;
+    } else {
+      $("#ram").next().show();
+      $("#ssd-error").hide();
+      return;
+    }
   } else {
     $("#ram").next().hide();
-  }
-  if (ssdValue === "" && hddValue === "") {
-    $("#ssd-error").show();
-
-    return;
-  } else {
-    $("#ssd-error").hide();
+    if (ssdValue === "" && hddValue === "") {
+      $("#ssd-error").show();
+      $("#hdd-error").show();
+      return;
+    } else {
+      $("#ssd-error").hide();
+      $("#hdd-error").hide();
+    }
   }
 
   if (!isValid) {
@@ -225,7 +235,7 @@ function SaveAsset() {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Data failed to added!",
+        title: "Data Gagal dimasukkan!",
         showConfirmButtom: false,
         timer: 1500,
       });
@@ -235,7 +245,7 @@ function SaveAsset() {
   });
 }
 function GetById(assetsManagementId) {
-  //console.log(assetsManagementId)
+  console.log(assetsManagementId);
   debugger;
   $.ajax({
     url: "http://192.168.25.243:9001/api/Assets/" + assetsManagementId,
@@ -293,10 +303,10 @@ function Delete(assetsManagementId) {
       }).then((result) => {
         debugger;
         if (result.status == 200) {
-          Swal.fire("Deleted!", "Data has been deleted!", "success");
+          Swal.fire("Deleted!", "Your data has been deleted.", "success");
           table.ajax.reload();
         } else {
-          Swal.fire("Error!", "Data failed to deleted!", "error");
+          Swal.fire("Error!", result.message, "error");
         }
       });
     }
@@ -322,16 +332,27 @@ function UpdateAsset() {
   var hddValue = $("#hdd").val().replace(/^0+/, "");
 
   if (ramValue === "") {
-    $("#ram").next().show();
+    if (ssdValue === "" && hddValue === "") {
+      $("#ssd-error").show();
+      $("#hdd-error").show();
+      $("#ram").next().show();
+
+      return;
+    } else {
+      $("#ram").next().show();
+      $("#ssd-error").hide();
+      return;
+    }
   } else {
     $("#ram").next().hide();
-  }
-  if (ssdValue === "" && hddValue === "") {
-    $("#ssd-error").show();
-
-    return;
-  } else {
-    $("#ssd-error").hide();
+    if (ssdValue === "" && hddValue === "") {
+      $("#ssd-error").show();
+      $("#hdd-error").show();
+      return;
+    } else {
+      $("#ssd-error").hide();
+      $("#hdd-error").hide();
+    }
   }
   if (!isValid) {
     return;
@@ -372,7 +393,7 @@ function UpdateAsset() {
       $("#ModalAssets").modal("hide");
       table.ajax.reload();
     } else {
-      Swal.fire("Error!", "Data failed to update!", "error");
+      Swal.fire("Error!", result.message, "error");
       table.ajax.reload();
     }
   });
