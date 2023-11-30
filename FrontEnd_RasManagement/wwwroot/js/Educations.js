@@ -101,7 +101,15 @@ function matchCustom(params, data) {
 }
 function getUniversitasList() {
     const selectUniversity = $('#UniversityName');
+    
+    $(selectUniversity).select2({
+        placeholder: 'Select your University',
+        width: '100%',
+        allowClear: true,
+        tags: true,
+        minimumInputLength: 3
 
+    });
     $.ajax({
         url: "../assets/file_json/loadpt.json",
         type: "GET",
@@ -115,11 +123,7 @@ function getUniversitasList() {
                 selectUniversity.append(option);
             });
 
-            selectUniversity.select2({
-                placeholder: 'Select university',
-                width: '100%',
-                matcher: matchCustom // Use the custom matcher function
-            });
+           
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -379,14 +383,7 @@ function ClearScreenFormal() {
     $('.selectRegencies').closest('.form-group').find('.error-message').hide();
     $('.selectMajor').closest('.form-group').find('.error-message-major').hide();
     $('.selectDegree').closest('.form-group').find('.error-message-formal').hide();
-    const selectUniversities = $('#UniversityName');
-    $(selectUniversities).select2({
-        placeholder: 'Select your University',
-        width: '100%',
-        allowClear: true,
-        tags: true
-
-    });
+   
 }
 
 function GetById(formalEduId) {
