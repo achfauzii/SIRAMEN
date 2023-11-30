@@ -136,19 +136,37 @@ function SaveAsset() {
         }
     });
 
+    var ramValue = $('#ram').val().replace(/^0+/, ''); // Menghapus 0 di awal
+    var ssdValue = $('#ssd').val().replace(/^0+/, ''); //hapus 0 di awal
+    var hddValue = $('#hdd').val().replace(/^0+/, ''); 
+ 
+    if(ramValue === ""){
+        $('#ram').next().show();
+    }else{
+        $('#ram').next().hide();
+    }
+    if (ssdValue === "" && hddValue === "" ) {
+        $('#ssd-error').show();
+       
+        return;
+    } else{
+        $('#ssd-error').hide();
+       
+    }
+    
     if (!isValid) {
         return;
     }
-
+ 
     var Assets = new Object(); //bikin objek baru
     Assets.rfid = $('#RFID').val();
     Assets.nama = $('#brand').val();
     Assets.processor = $('#Processor').val();
     Assets.display = $('#Display').val();
     Assets.operatingSystem = $('#os').val();
-    Assets.ram = $('#ram').val();
-    Assets.ssd = $('#ssd').val() || "-";
-    Assets.hdd = $('#hdd').val() || "-";
+    Assets.ram = (ramValue !== "" ? ramValue + " GB" : "-");
+    Assets.ssd = (ssdValue !== "" ? ssdValue + " GB" : "-");
+    Assets.hdd = (hddValue !== "" ? hddValue + " GB" : "-");
     Assets.graphicCard = $('#GraphicCard').val();
     Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -208,9 +226,9 @@ function GetById(assetsManagementId) {
             $('#Processor').val(obj.processor);
             $('#Display').val(obj.display);
             $('#os').val(obj.operatingSystem);
-            $('#ram').val(obj.ram);
-            $('#ssd').val(obj.ssd);
-            $('#hdd').val(obj.hdd);
+            $('#ram').val(obj.ram ? obj.ram.replace(/\D/g, '') : "-");
+            $('#ssd').val(obj.ssd ? obj.ssd.replace(/\D/g, '') : "-");
+            $('#hdd').val(obj.hdd ? obj.hdd.replace(/\D/g, '') : "-");
             $('#GraphicCard').val(obj.graphicCard);
             var chargerElement = $('#charger');
             chargerElement.val(obj.charger ? 'Yes' : 'No');
@@ -280,6 +298,23 @@ function UpdateAsset() {
         }
     });
 
+    var ramValue = $('#ram').val().replace(/^0+/, ''); // Menghapus 0 di awal
+    var ssdValue = $('#ssd').val().replace(/^0+/, ''); //hapus 0 di awal
+    var hddValue = $('#hdd').val().replace(/^0+/, ''); 
+ 
+    if(ramValue === ""){
+        $('#ram').next().show();
+    }else{
+        $('#ram').next().hide();
+    }
+    if (ssdValue === "" && hddValue === "" ) {
+        $('#ssd-error').show();
+       
+        return;
+    } else{
+        $('#ssd-error').hide();
+       
+    }
     if (!isValid) {
         return;
     }
@@ -290,9 +325,9 @@ function UpdateAsset() {
     Assets.processor = $('#Processor').val();
     Assets.display = $('#Display').val();
     Assets.operatingSystem = $('#os').val();
-    Assets.ram = $('#ram').val();
-    Assets.ssd = $('#ssd').val() || "-";
-    Assets.hdd = $('#hdd').val() || "-";
+    Assets.ram = (ramValue !== "" ? ramValue + " GB" : "-");
+    Assets.ssd = (ssdValue !== "" ? ssdValue + " GB" : "-");
+    Assets.hdd = (hddValue !== "" ? hddValue + " GB" : "-");
     Assets.graphicCard = $('#GraphicCard').val();
     Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
