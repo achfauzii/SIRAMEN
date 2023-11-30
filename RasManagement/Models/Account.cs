@@ -43,6 +43,8 @@ public partial class Account
 
     public string? RoleId { get; set; }
 
+    public bool? IsChangePassword { get; set; }
+
     public virtual ICollection<AssetsManagement> AssetsManagements { get; set; } = new List<AssetsManagement>();
 
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();

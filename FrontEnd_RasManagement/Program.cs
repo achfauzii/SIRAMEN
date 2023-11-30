@@ -1,5 +1,5 @@
-
-
+using Serilog;
+using Serilog.Events;
 using FrontEnd_RasManagement.Services;
 using FrontEnd_RasManagement.Settings;
 
@@ -7,6 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Add Loging File
+builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+{
+    loggerConfiguration
+        .MinimumLevel.Information()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+        .MinimumLevel.Override("System", LogEventLevel.Warning)
+        .WriteTo.Console()
+        .WriteTo.File("Logs/app_logging_.log", rollingInterval: RollingInterval.Day);
+});
 
 //Session
 builder.Services.AddDistributedMemoryCache(); // Add a memory-based distributed cache for storing session data

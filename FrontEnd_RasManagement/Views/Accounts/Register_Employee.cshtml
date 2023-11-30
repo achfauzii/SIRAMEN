@@ -117,6 +117,34 @@
 
     //}
 
+    
+    document.getElementById('prohire').addEventListener('click', function() {        
+        $('#duration').val('');
+        $('#join').val('');
+        $('#start').val('');
+        $('#end').val('');
+    });
+
+    document.getElementById('bootcamp').addEventListener('click', function() {
+        var startContract = new Date();
+        let endContract = new Date(startContract);
+        endContract.setDate(1);
+        endContract.setMonth(endContract.getMonth() + 3);
+
+        console.log(endContract.getMonth()+1);
+        const yyyy = endContract.getFullYear();
+        let mm = endContract.getMonth() + 1;
+        if (mm < 10) mm = '0' + mm;
+        let lastDay = new Date(yyyy, mm, 0);
+
+        const endContractForm = yyyy + '-' + mm  + '-' + lastDay.getDate();
+        document.getElementById('duration').removeAttribute('disabled');
+        $('#duration').val(3);
+        $('#join').val(startContract.toISOString().slice(0, 10));
+        $('#start').val(startContract.toISOString().slice(0, 10));
+        $('#end').val(endContractForm);
+    });
+
     document.getElementById('start').addEventListener('change', function () {        
         $('#join').val(this.value);
 

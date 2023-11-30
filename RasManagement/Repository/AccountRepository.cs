@@ -35,8 +35,6 @@ namespace RasManagement.Repository
             }
 
             return $"{ras}{countAccount.ToString("D3")}";
-
-
         }
 
         public async Task<string> GenerateNonId()
@@ -142,7 +140,7 @@ namespace RasManagement.Repository
                 StartContract = registerVM.StartContract,
                 EndContract = registerVM.EndContract,
                 RoleId = registerVM.RoleId,
-
+                IsChangePassword = false,
             };
             _context.Entry(account).State = EntityState.Added;
 
@@ -209,10 +207,6 @@ namespace RasManagement.Repository
             }
         }
 
-
-
-
-
         //FORGOT PASSWORD UPDATE
         public async Task<bool> UpdatePassword(UpdatePasswordVM updatePassword)
         {
@@ -222,6 +216,7 @@ namespace RasManagement.Repository
             {
                 string passwordHash = BCrypt.Net.BCrypt.HashPassword(updatePassword.NewPassword);
                 account.Password = passwordHash;
+                
                 _context.Accounts.Update(account);
                 await _context.SaveChangesAsync();
                 return true;
@@ -236,6 +231,7 @@ namespace RasManagement.Repository
             {
                 string passwordHash = BCrypt.Net.BCrypt.HashPassword(changePass.NewPassword);
                 account.Password = passwordHash;
+                account.IsChangePassword = true;
                 _context.Accounts.Update(account);
                 await _context.SaveChangesAsync();
                 return true;
@@ -343,10 +339,10 @@ namespace RasManagement.Repository
 
             // Parameter untuk kueri SQL
             object[] parameters = {
-        new SqlParameter("@StartContract", contractVM.StartContract),
-        new SqlParameter("@EndContract", contractVM.EndContract),
-        new SqlParameter("@AccountId", contractVM.AccountId)
-    };
+                new SqlParameter("@StartContract", contractVM.StartContract),
+                new SqlParameter("@EndContract", contractVM.EndContract),
+                new SqlParameter("@AccountId", contractVM.AccountId)
+            };
 
             // Jalankan kueri SQL secara async
             return await _context.Database.ExecuteSqlRawAsync(sql, parameters);
