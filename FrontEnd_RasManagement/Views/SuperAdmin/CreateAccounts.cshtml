@@ -184,7 +184,7 @@
 
     document.getElementById('createAccountForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Mencegah pengiriman formulir secara default
-        debugger;
+        
         // Mengambil nilai input dari formulir
         var accountId = "";
         var fullName = document.getElementById('fullName').value;
@@ -207,42 +207,79 @@
         //}
 
            //validasi email
-        //if (validateEmail(email)) {
-        //    $('#validateEmail').hide();
-        //} else {
-        //   $('#validateEmail').show();
-        //   return;
-        //}
+        if (validateEmail(email)) {
+            $('#validateEmail').hide();
+        } else {
+           $('#validateEmail').show();
+           return;
+        }
         const password = uuidv4();
 
         var hiredStatusElement = document.querySelector('input[name="hiredStatus"]:checked');
-        var hiredStatus = hiredStatusElement ? hiredStatusElement.value : null;
+        var hiredStatus = hiredStatusElement ? hiredStatusElement.value : null;      
 
-      
+        // Set Contract 3 Bulan untuk Bootcamp
+        var startContract = new Date();
+        let endContract = new Date(startContract);
+        endContract.setDate(1);
+        endContract.setMonth(endContract.getMonth() + 3);
 
-        // Menggabungkan data input menjadi objek yang akan dikirim ke API
+        const yyyy = endContract.getFullYear();
+        let mm = endContract.getMonth() + 1;
+        if (mm < 10) mm = '0' + mm;
+        let lastDay = new Date(yyyy, mm, 0);
+        const endContractForm = yyyy + '-' + mm  + '-' + lastDay.getDate();
 
-        var data = {
-            accountId: accountId,
-            email: email.toLowerCase(),
-            password: password,
-            //nickname: 'string',
-            fullname: capitalizeName(fullName),
-            //birthplace: 'string',
-            //birthdate: '2023-06-23T07:21:40.243Z',
-            //religion: 'string',
-            gender: gender,
-            //maritalstatus: 'string',
-            //hiredstatus: 'string',
-            //nationality: 'string',
-            //phone: 'string',
-            //address: 'string',
-            //image: 'string',
-            roleId: roleId,
-            hiredstatus: hiredStatus,
+        $('#duration').val(3);
+        $('#join').val(startContract.toISOString().slice(0, 10));
+        $('#start').val(startContract.toISOString().slice(0, 10));
+        $('#end').val(endContractForm);
 
-
-
+        var data;
+        if(hiredStatus == 'Bootcamp'){
+            data = {
+                accountId: accountId,
+                email: email.toLowerCase(),
+                password: password,
+                //nickname: 'string',
+                fullname: capitalizeName(fullName),
+                //birthplace: 'string',
+                //birthdate: '2023-06-23T07:21:40.243Z',
+                //religion: 'string',
+                gender: gender,
+                startcontract: startContract.toISOString().slice(0, 10),
+                endcontract: endContractForm,
+                joindate: startContract.toISOString().slice(0, 10),
+                //maritalstatus: 'string',
+                //hiredstatus: 'string',
+                //nationality: 'string',
+                //phone: 'string',
+                //address: 'string',
+                //image: 'string',
+                roleId: roleId,
+                hiredstatus: hiredStatus,
+            }
+        } else {
+            // Menggabungkan data input menjadi objek yang akan dikirim ke API
+            data = {
+                accountId: accountId,
+                email: email.toLowerCase(),
+                password: password,
+                //nickname: 'string',
+                fullname: capitalizeName(fullName),
+                //birthplace: 'string',
+                //birthdate: '2023-06-23T07:21:40.243Z',
+                //religion: 'string',
+                gender: gender,
+                //maritalstatus: 'string',
+                //hiredstatus: 'string',
+                //nationality: 'string',
+                //phone: 'string',
+                //address: 'string',
+                //image: 'string',
+                roleId: roleId,
+                hiredstatus: hiredStatus,
+            }
         }
 
         // Mengirim data ke API menggunakan Fetch API
