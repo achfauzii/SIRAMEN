@@ -1,5 +1,6 @@
 ﻿var table = null;
-$(document).ready(function () {
+
+$(document).ready(function () {    
   Educations();
   formInputLocation();
 

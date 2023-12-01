@@ -71,7 +71,7 @@ $(document).ready(function () {
     //Buat ngilangin order kolom No dan Action
     columnDefs: [
       {
-        targets: [0, 2, 3, 4, 5],
+        targets: [0, 2, 4, 5],
         orderable: false,
       },
     ],
