@@ -3,7 +3,7 @@
   $("#loader").show();
   // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
   $.ajax({
-    url: "202.69.99.67:9001/api/Educations",
+    url: "http://202.69.99.67:9001/api/Educations",
     type: "GET",
     datatype: "json",
     contentType: "application/json; charset=utf-8",
@@ -53,7 +53,7 @@
   // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
 
   $.ajax({
-    url: "202.69.99.67:9001/api/Employees",
+    url: "http://202.69.99.67:9001/api/Employees",
     type: "GET",
     datatype: "json",
     async: false,
@@ -69,7 +69,7 @@
         if (roleId === "3") {
           $.ajax({
             url:
-              "202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
+              "http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
               accountId,
             type: "GET",
             datatype: "json",

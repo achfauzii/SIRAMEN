@@ -5,7 +5,7 @@ $(document).ready(function () {
     responsive: true,
 
     ajax: {
-      url: "202.69.99.67:9001/api/Department",
+      url: "http://202.69.99.67:9001/api/Department",
       type: "GET",
       datatype: "json",
       dataSrc: "data",
@@ -85,7 +85,7 @@ function Save() {
   Department.namaDept = $("#NamaDept").val(); //value insert dari id pada input
   $.ajax({
     type: "POST",
-    url: "202.69.99.67:9001/api/Department",
+    url: "http://202.69.99.67:9001/api/Department",
     data: JSON.stringify(Department),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -145,7 +145,7 @@ function ClearScreenDept() {
 function GetByIdDept(deptId) {
   //debugger;
   $.ajax({
-    url: "202.69.99.67:9001/api/Department/" + deptId,
+    url: "http://202.69.99.67:9001/api/Department/" + deptId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -189,7 +189,7 @@ function UpdateDept() {
   Department.namaDept = $("#NamaDept").val(); //value insert dari id pada input
   debugger;
   $.ajax({
-    url: "202.69.99.67:9001/api/Department",
+    url: "http://202.69.99.67:9001/api/Department",
     type: "PUT",
     data: JSON.stringify(Department),
     contentType: "application/json; charset=utf-8",
@@ -227,7 +227,7 @@ function Delete(deptId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "202.69.99.67:9001/api/Department/" + deptId,
+        url: "http://202.69.99.67:9001/api/Department/" + deptId,
         type: "DELETE",
         dataType: "json",
 

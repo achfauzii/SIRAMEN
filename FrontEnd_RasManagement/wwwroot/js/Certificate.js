@@ -7,7 +7,7 @@ $(document).ready(function () {
     responsive: true,
     ajax: {
       url:
-        "202.69.99.67:9001/api/Certificate/accountId?accountId=" +
+        "http://202.69.99.67:9001/api/Certificate/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -155,7 +155,7 @@ function ClearScreen() {
 function GetById(CertificateId) {
   //debugger;
   $.ajax({
-    url: "202.69.99.67:9001/api/Certificate/" + CertificateId,
+    url: "http://202.69.99.67:9001/api/Certificate/" + CertificateId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -208,7 +208,7 @@ function Save() {
   Certificate.accountId = accid;
   $.ajax({
     type: "POST",
-    url: "202.69.99.67:9001/api/Certificate",
+    url: "http://202.69.99.67:9001/api/Certificate",
     data: JSON.stringify(Certificate), //ngirim data ke api
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -258,7 +258,7 @@ function Delete(CertificateId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "202.69.99.67:9001/api/Certificate/" + CertificateId,
+        url: "http://202.69.99.67:9001/api/Certificate/" + CertificateId,
         type: "DELETE",
         dataType: "json",
         headers: {
@@ -304,7 +304,7 @@ function Update() {
   const accid = decodedtoken.AccountId;
   Certificate.accountId = accid;
   $.ajax({
-    url: "202.69.99.67:9001/api/Certificate",
+    url: "http://202.69.99.67:9001/api/Certificate",
     type: "PUT",
     data: JSON.stringify(Certificate),
     contentType: "application/json; charset=utf-8",

@@ -48,7 +48,7 @@ function Src() {
     order: [[0, "asc"]],
 
     ajax: {
-      url: "202.69.99.67:9001/api/Shortlist/NonRasDatatable", // Your API endpoint
+      url: "http://202.69.99.67:9001/api/Shortlist/NonRasDatatable", // Your API endpoint
       type: "POST",
       contentType: "application/json",
       headers: {
@@ -960,7 +960,7 @@ function Save() {
   //console.log(NonRasCandidate);
   $.ajax({
     type: "POST",
-    url: "202.69.99.67:9001/api/Shortlist/Add",
+    url: "http://202.69.99.67:9001/api/Shortlist/Add",
     data: JSON.stringify(NonRasCandidate),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -1094,7 +1094,7 @@ function Update() {
 
   $.ajax({
     type: "PUT",
-    url: "202.69.99.67:9001/api/Shortlist",
+    url: "http://202.69.99.67:9001/api/Shortlist",
     data: JSON.stringify(NonRasCandidate),
     contentType: "application/json; charset=utf-8",
     headers: {

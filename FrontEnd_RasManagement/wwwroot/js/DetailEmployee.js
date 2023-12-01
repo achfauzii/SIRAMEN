@@ -12,7 +12,7 @@ function placement() {
   var accountId = urlParams.get("accountId");
   $.ajax({
     url:
-      "202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
+      "http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
       accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
@@ -99,7 +99,7 @@ function GetById(accountId, placementStatusId) {
   $.ajax({
     type: "GET",
     url:
-      "202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
+      "http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
       accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
