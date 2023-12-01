@@ -248,7 +248,7 @@
 
 
         // Mengirim data ke API menggunakan Fetch API
-        fetch('202.69.99.67:9001/api/Accounts/Register', {
+        fetch('http://202.69.99.67:9001/api/Accounts/Register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -273,7 +273,7 @@
 
                             $.ajax({
                                 type: 'POST',
-                                url: '202.69.99.67:9001/api/NonFormalEdu',
+                                url: 'http://202.69.99.67:9001/api/NonFormalEdu',
                                 data: JSON.stringify(NonFormal), //ngirim data ke api
                                 contentType: "application/json; charset=utf-8",
                                 headers: {
@@ -290,7 +290,7 @@
                             qualifications.accountId = item.data;
                             $.ajax({
                                 type: 'POST',
-                                url: '202.69.99.67:9001/api/Qualification',
+                                url: 'http://202.69.99.67:9001/api/Qualification',
                                 data: JSON.stringify(qualifications), //ngirim data ke api
                                 contentType: "application/json; charset=utf-8",
                                 headers: {
@@ -319,7 +319,7 @@
                             //console.log(EmploymentHistory);
                             $.ajax({
                                 type: 'POST',
-                                url: '202.69.99.67:9001/api/EmploymentHistory',
+                                url: 'http://202.69.99.67:9001/api/EmploymentHistory',
                                 data: JSON.stringify(EmploymentHistory),
                                 contentType: "application/json; charset=utf-8",
                                 headers: {

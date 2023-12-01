@@ -4,7 +4,7 @@ $(document).ready(function () {
   const accid = decodedtoken.AccountId;
   table = $("#TB_Assets").DataTable({
     ajax: {
-      url: "202.69.99.67:9001/api/Assets/accountId?accountId=" + accid,
+      url: "http://202.69.99.67:9001/api/Assets/accountId?accountId=" + accid,
       type: "GET",
       datatype: "json",
       dataSrc: "data",
@@ -209,7 +209,7 @@ function SaveAsset() {
   Assets.accountId = accid;
   $.ajax({
     type: "POST",
-    url: "202.69.99.67:9001/api/Assets",
+    url: "http://202.69.99.67:9001/api/Assets",
     data: JSON.stringify(Assets), //ngirim data ke api
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -248,7 +248,7 @@ function GetById(assetsManagementId) {
   console.log(assetsManagementId);
   debugger;
   $.ajax({
-    url: "202.69.99.67:9001/api/Assets/" + assetsManagementId,
+    url: "http://202.69.99.67:9001/api/Assets/" + assetsManagementId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -294,7 +294,7 @@ function Delete(assetsManagementId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "202.69.99.67:9001/api/Assets/" + assetsManagementId,
+        url: "http://202.69.99.67:9001/api/Assets/" + assetsManagementId,
         type: "DELETE",
         dataType: "json",
         headers: {
@@ -373,7 +373,7 @@ function UpdateAsset() {
   const accid = decodedtoken.AccountId;
   Assets.accountId = accid;
   $.ajax({
-    url: "202.69.99.67:9001/api/Assets",
+    url: "http://202.69.99.67:9001/api/Assets",
     type: "PUT",
     data: JSON.stringify(Assets),
     contentType: "application/json; charset=utf-8",

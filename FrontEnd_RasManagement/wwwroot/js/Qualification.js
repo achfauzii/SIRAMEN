@@ -3,8 +3,7 @@
   const accid = decodedtoken.AccountId;
 
   $.ajax({
-    url:
-      "202.69.99.67:9001/api/Qualification/accountId?accountId=" +
+    url:"http://202.69.99.67:9001/api/Qualification/accountId?accountId=" +
       accid,
     type: "GET",
     dataType: "json",
@@ -143,7 +142,7 @@ function Save() {
   qualifications.accountId = accid;
   $.ajax({
     type: "POST",
-    url: "202.69.99.67:9001/api/Qualification",
+    url: "http://202.69.99.67:9001/api/Qualification",
     data: JSON.stringify(qualifications), //ngirim data ke api
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -255,8 +254,7 @@ function getbyID() {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   $.ajax({
-    url:
-      "202.69.99.67:9001/api/Qualification/accountId?accountId=" +
+    url:"http://202.69.99.67:9001/api/Qualification/accountId?accountId=" +
       accid,
     type: "GET",
     contentType: "application/json; charset=utf-8",
@@ -460,7 +458,7 @@ function Update() {
   const accid = decodedtoken.AccountId;
   //console.log(qualifications);
   $.ajax({
-    url: "202.69.99.67:9001/api/Qualification",
+    url: "http://202.69.99.67:9001/api/Qualification",
     type: "PUT",
     data: JSON.stringify(qualifications),
     contentType: "application/json; charset=utf-8",

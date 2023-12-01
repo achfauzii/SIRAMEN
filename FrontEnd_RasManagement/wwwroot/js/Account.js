@@ -2,7 +2,7 @@
   $("#loginForm").on("submit", async function (event) {
     event.preventDefault();
     $("#loader").show();
-    const url = "202.69.99.67:9001/api/Accounts";
+    const url = "http://202.69.99.67:9001/api/Accounts";
     const data = {
       email: $("#exampleInputEmail").val(),
       password: $("#exampleInputPassword").val(),
@@ -141,5 +141,5 @@ function parseJwt(token) {
 
 function Logout() {
   sessionStorage.removeItem("Token"); //Remove Session
-  window.location.href = "202.69.99.67:9005/"; //Kembali Ke halaman Awal
+  window.location.href = "http://202.69.99.67:9005/"; //Kembali Ke halaman Awal
 }

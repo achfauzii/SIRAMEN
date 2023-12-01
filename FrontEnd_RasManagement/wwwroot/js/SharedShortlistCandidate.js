@@ -17,7 +17,7 @@ function SharedShortListCandidate() {
     order: [[0, "asc"]],
 
     ajax: {
-      url: "202.69.99.67:9001/api/Shortlist/ShortListCandidate", // Your API endpoint
+      url: "http://202.69.99.67:9001/api/Shortlist/ShortListCandidate", // Your API endpoint
       type: "POST",
       contentType: "application/json",
       headers: {

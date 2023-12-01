@@ -6,8 +6,7 @@ $(document).ready(function () {
   table = $("#TB_EmploymentHistory").DataTable({
     responsive: true,
     ajax: {
-      url:
-        "202.69.99.67:9001/api/EmploymentHistory/accountId?accountId=" +
+      url:"http://202.69.99.67:9001/api/EmploymentHistory/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -162,7 +161,7 @@ function Save() {
   //console.log(EmploymentHistory);
   $.ajax({
     type: "POST",
-    url: "202.69.99.67:9001/api/EmploymentHistory",
+    url: "http://202.69.99.67:9001/api/EmploymentHistory",
     data: JSON.stringify(EmploymentHistory),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -212,7 +211,7 @@ function ClearScreen() {
 
 function GetById(workExperienceId) {
   $.ajax({
-    url: "202.69.99.67:9001/api/EmploymentHistory/" + workExperienceId,
+    url: "http://202.69.99.67:9001/api/EmploymentHistory/" + workExperienceId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -281,7 +280,7 @@ function Update() {
   debugger;
   $.ajax({
     type: "PUT",
-    url: "202.69.99.67:9001/api/EmploymentHistory",
+    url: "http://202.69.99.67:9001/api/EmploymentHistory",
     data: JSON.stringify(EmploymentHistory),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -319,7 +318,7 @@ function Delete(workExperienceId) {
     if (result.value) {
       $.ajax({
         url:
-          "202.69.99.67:9001/api/EmploymentHistory/" +
+          "http://202.69.99.67:9001/api/EmploymentHistory/" +
           workExperienceId,
         type: "DELETE",
         dataType: "json",

@@ -5,8 +5,7 @@
   $("#NonFormalEdu").DataTable({
     responsive: true,
     ajax: {
-      url:
-        "202.69.99.67:9001/api/NonFormalEdu/accountId?accountId=" +
+      url:"http://202.69.99.67:9001/api/NonFormalEdu/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -96,7 +95,7 @@ function getbyID(NonFormalId) {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   $.ajax({
-    url: "202.69.99.67:9001/api/NonFormalEdu/" + NonFormalId,
+    url: "http://202.69.99.67:9001/api/NonFormalEdu/" + NonFormalId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -155,7 +154,7 @@ function Save() {
     NonFormal.AccountId = accid;
     $.ajax({
       type: "POST",
-      url: "202.69.99.67:9001/api/NonFormalEdu",
+      url: "http://202.69.99.67:9001/api/NonFormalEdu",
       data: JSON.stringify(NonFormal), //ngirim data ke api
       contentType: "application/json; charset=utf-8",
       headers: {
@@ -206,7 +205,7 @@ function Delete(NonFormalId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "202.69.99.67:9001/api/NonFormalEdu/" + NonFormalId,
+        url: "http://202.69.99.67:9001/api/NonFormalEdu/" + NonFormalId,
         type: "DELETE",
         dataType: "json",
         headers: {
@@ -237,7 +236,7 @@ function Update() {
   const accid = decodedtoken.AccountId;
   NonFormal.AccountId = accid;
   $.ajax({
-    url: "202.69.99.67:9001/api/NonFormalEdu",
+    url: "http://202.69.99.67:9001/api/NonFormalEdu",
     type: "PUT",
     data: JSON.stringify(NonFormal),
     contentType: "application/json; charset=utf-8",
@@ -255,7 +254,7 @@ function Update() {
     const accid = decodedtoken.AccountId;
     NonFormal.AccountId = accid;
     $.ajax({
-      url: "202.69.99.67:9001/api/NonFormalEdu",
+      url: "http://202.69.99.67:9001/api/NonFormalEdu",
       type: "PUT",
       data: JSON.stringify(NonFormal),
       contentType: "application/json; charset=utf-8",
