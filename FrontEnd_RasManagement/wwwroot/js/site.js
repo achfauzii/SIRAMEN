@@ -21,10 +21,11 @@ $("#employeeAnnouncement").hide();
 $("#adminAnnouncement").hide();
 
 $(document).ready(function () {
+  $('[data-toggle="tooltip"]').tooltip();
   //GetBirthday
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Accounts/BirthDay",
+    url: "202.69.99.67:9001/api/Accounts/BirthDay",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -54,7 +55,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Accounts",
+    url: "202.69.99.67:9001/api/Accounts",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -85,7 +86,7 @@ $(document).ready(function () {
   //Get All Employee
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Employees/EmployeeAdmin",
+    url: "202.69.99.67:9001/api/Employees/EmployeeAdmin",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -103,31 +104,10 @@ $(document).ready(function () {
   $("#birth").hide();
   $("#death").hide();
 
-  var select = document.getElementById("EmployeeName");
-
-  $.ajax({
-    type: "GET",
-    url: "https://localhost:7177/api/Accounts",
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (result != null) {
-      result.forEach((item) => {
-        var option = new Option(item.fullname, item.fullname, true, false);
-        selectEmployee.add(option);
-
-        var opt = new Option(item.fullname, item.fullname, true, false);
-        select.add(opt);
-      });
-    }
-  });
-
   //Get All Employee
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Employees/EmployeeAdmin",
+    url: "202.69.99.67:9001/api/Employees/EmployeeAdmin",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -456,3 +436,8 @@ function matchCustom(params, data) {
   // For example, you can use data.text.includes(params.term)
   return null;
 }
+$(document).ajaxComplete(function () {
+  $('[data-tooltip="tooltip"]').tooltip({
+    trigger: "hover",
+  });
+});

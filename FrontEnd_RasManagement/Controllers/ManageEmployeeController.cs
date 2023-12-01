@@ -44,8 +44,8 @@ namespace FrontEnd_RasManagement.Controllers
             }
             //End Validate
             var accessToken = HttpContext.Session.GetString("Token");
-            var url = "https://localhost:7177/api/Employees/accountId?accountId=" + accountId;
-            var url2 = "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId;
+            var url = "202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId;
+            var url2 = "202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" + accountId;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             try

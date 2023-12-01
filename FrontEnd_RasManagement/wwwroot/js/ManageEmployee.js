@@ -1,4 +1,13 @@
-﻿$(document).ready(function () {
+﻿$(document).ajaxComplete(function () {
+  $('[data-tooltip="tooltip"]').tooltip({
+    trigger: "hover",
+  });
+});
+
+$(document).ready(function () {
+  $('[data-tooltip="tooltip"]').tooltip({
+    trigger: "hover",
+  });
   fetchDepartments();
 
   // Tambahkan penanganan acara ke elemen PlacementStatus
@@ -30,7 +39,7 @@
       fixedHeader: true,
 
       ajax: {
-        url: "https://localhost:7177/api/Employees",
+        url: "202.69.99.67:9001/api/Employees",
         type: "GET",
         datatype: "json",
         async: true,
@@ -245,14 +254,14 @@
 
             if (row.assetsManagements && row.assetsManagements.length > 0) {
               tulisanButton =
-                '<button class="btn btn-success btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
+                '<button class="btn btn-success btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
                 row.accountId +
                 "')\">" +
                 "View Data" +
                 "</button>";
             } else {
               tulisanButton =
-                '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
+                '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
                 row.accountId +
                 "')\">" +
                 "Data Empty" +
@@ -364,7 +373,7 @@ function handleInput(event, input) {
 
     // Pemanggilan pertama
     var firstApiCall = $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        url: "202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -383,7 +392,7 @@ function handleInput(event, input) {
 
     // Pemanggilan kedua
     var secondApiCall = $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        url: "202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -416,7 +425,7 @@ function handleInput(event, input) {
 
 function fetchDepartments() {
   $.ajax({
-    url: "https://localhost:7177/api/Department",
+    url: "202.69.99.67:9001/api/Department",
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -453,7 +462,7 @@ function GetByIdPlacement(accountId, placementStatus) {
   inputCompany.style.display = "none";
   $.ajax({
     url:
-      "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
+      "202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
       accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
@@ -466,7 +475,7 @@ function GetByIdPlacement(accountId, placementStatus) {
       var obj = result.data; //data yg kita dapat dr API
       $.ajax({
         url:
-          "https://localhost:7177/api/Employees/accountId?accountId=" +
+          "202.69.99.67:9001/api/Employees/accountId?accountId=" +
           accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
@@ -537,7 +546,7 @@ function SaveTurnOver() {
   $.ajax({
     type: "POST",
 
-    url: "https://localhost:7177/api/TurnOver",
+    url: "202.69.99.67:9001/api/TurnOver",
     data: JSON.stringify(TurnOver),
 
     contentType: "application/json; charset=utf-8",
@@ -565,7 +574,7 @@ function SaveTurnOver() {
           TurnOver.status == "Transfer"
         ) {
           $.ajax({
-            url: "https://localhost:7177/api/Accounts/UpdateRole",
+            url: "202.69.99.67:9001/api/Accounts/UpdateRole",
             type: "PUT",
             data: JSON.stringify(updateRole),
             contentType: "application/json; charset=utf-8",
@@ -608,7 +617,7 @@ function handlePlacementStatusChange() {
     Account.startContract = $('#StartContract').val();
     Account.endContract = $('#EndContract').val();
     $.ajax({
-        url: 'https://localhost:7177/api/Accounts/UpdateContract',
+        url: '202.69.99.67:9001/api/Accounts/UpdateContract',
         type: 'PUT',
         data: JSON.stringify(Account),
         contentType: "application/json; charset=utf-8",
@@ -653,7 +662,7 @@ function UpdatePlacement() {
     const accid = decodedtoken.AccountId;
     Account.accountId = accid;*/
   $.ajax({
-    url: "https://localhost:7177/api/Accounts/UpdateTurnOver",
+    url: "202.69.99.67:9001/api/Accounts/UpdateTurnOver",
     type: "PUT",
     data: JSON.stringify(Placement),
     contentType: "application/json; charset=utf-8",
@@ -687,7 +696,7 @@ function UpdatePlacement() {
     var accountId = accountId;
     $.ajax({
         type: 'GET',
-        url: 'https://localhost:7177/api/EmployeePlacements/accountId?accountId=' + accountId,
+        url: '202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=' + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -778,7 +787,7 @@ function Save(accountId) {
 
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/EmployeePlacements",
+    url: "202.69.99.67:9001/api/EmployeePlacements",
     data: JSON.stringify(placement),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -825,7 +834,7 @@ function Update() {
   placement.accountId = $("#accountId").val();
 
   $.ajax({
-    url: "https://localhost:7177/api/EmployeePlacements",
+    url: "202.69.99.67:9001/api/EmployeePlacements",
     type: "PUT",
     data: JSON.stringify(placement),
     contentType: "application/json; charset=utf-8",
@@ -878,7 +887,7 @@ function parseJwt(token) {
 
     // Pemanggilan pertama
     var firstApiCall = $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        url: "202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -897,7 +906,7 @@ function parseJwt(token) {
 
     // Pemanggilan kedua
     var secondApiCall = $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        url: "202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -938,7 +947,7 @@ function GetByIdPlacement(accountId, placementStatus) {
   inputCompany.style.display = "none";
   $.ajax({
     url:
-      "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
+      "202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
       accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
@@ -951,7 +960,7 @@ function GetByIdPlacement(accountId, placementStatus) {
       var obj = result.data; //data yg kita dapat dr API
       $.ajax({
         url:
-          "https://localhost:7177/api/Employees/accountId?accountId=" +
+          "202.69.99.67:9001/api/Employees/accountId?accountId=" +
           accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
@@ -1032,7 +1041,7 @@ function SaveTurnOver() {
   // console.log(placement);
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/TurnOver",
+    url: "202.69.99.67:9001/api/TurnOver",
     data: JSON.stringify(TurnOver),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -1059,7 +1068,7 @@ function SaveTurnOver() {
           TurnOver.status == "Transfer"
         ) {
           $.ajax({
-            url: "https://localhost:7177/api/Accounts/UpdateRole",
+            url: "202.69.99.67:9001/api/Accounts/UpdateRole",
             type: "PUT",
             data: JSON.stringify(updateRole),
             contentType: "application/json; charset=utf-8",
@@ -1100,9 +1109,7 @@ function GetContract(accountId) {
   debugger;
   //console.log(accountId);
   $.ajax({
-    url:
-      "https://localhost:7177/api/Accounts/AccountId?accountId=" +
-      accountId,
+    url: "202.69.99.67:9001/api/Accounts/AccountId?accountId=" + accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -1146,7 +1153,7 @@ function UpdateContract() {
   Account.endContract = $("#EndContract").val();
   //console.log(Account.accountId);
   $.ajax({
-    url: "https://localhost:7177/api/Accounts/UpdateContract",
+    url: "202.69.99.67:9001/api/Accounts/UpdateContract",
     type: "PUT",
     data: JSON.stringify(Account),
     contentType: "application/json; charset=utf-8",
@@ -1186,7 +1193,7 @@ function UpdatePlacement() {
     const accid = decodedtoken.AccountId;
     Account.accountId = accid;*/
   $.ajax({
-    url: "https://localhost:7177/api/Accounts/UpdateTurnOver",
+    url: "202.69.99.67:9001/api/Accounts/UpdateTurnOver",
     type: "PUT",
     data: JSON.stringify(Placement),
     contentType: "application/json; charset=utf-8",
@@ -1220,7 +1227,7 @@ function UpdatePlacement() {
     var accountId = accountId;
     $.ajax({
         type: 'GET',
-        url: 'https://localhost:7177/api/EmployeePlacements/accountId?accountId=' + accountId,
+        url: '202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=' + accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -1347,7 +1354,7 @@ function Save(accountId) {
 
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/EmployeePlacements",
+    url: "202.69.99.67:9001/api/EmployeePlacements",
     data: JSON.stringify(placement),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -1394,7 +1401,7 @@ function Update() {
   placement.accountId = $("#accountId").val();
 
   $.ajax({
-    url: "https://localhost:7177/api/EmployeePlacements",
+    url: "202.69.99.67:9001/api/EmployeePlacements",
     type: "PUT",
     data: JSON.stringify(placement),
     contentType: "application/json; charset=utf-8",
@@ -1428,7 +1435,7 @@ function GetByIdAsset(assetsManagementId) {
   debugger;
   $.ajax({
     url:
-      "https://localhost:7177/api/Assets/accountId?accountId=" +
+      "202.69.99.67:9001/api/Assets/accountId?accountId=" +
       assetsManagementId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
