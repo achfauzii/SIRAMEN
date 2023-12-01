@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     //debugger;
     $('#loader').show();
+    
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
     $.ajax({
         url: "https://localhost:7177/api/Educations",
@@ -11,35 +12,49 @@
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (education) {
-            var result = education.data;
+    var result = education.data;
 
-            // Buat objek untuk menyimpan informasi universitas dan jumlah akun
-            var universitiesData = {};
+    // Buat objek untuk menyimpan informasi universitas dan jumlah akun
+    var universitiesData = {};
 
-            // Loop data dari API untuk menghitung jumlah akun yang berbeda di setiap universitas
-            result.forEach(eduData => {
-                var { universityName, accountId } = eduData;
+    // Loop data dari API untuk menghitung jumlah akun yang berbeda di setiap universitas
+    result.forEach(eduData => {
+        var { universityName, accountId } = eduData;
 
-                // Gunakan nama universitas sebagai kunci
-                var key = universityName;
+        // Gunakan nama universitas sebagai kunci
+        var key = universityName;
 
-                // Jika kunci belum ada di dalam objek universitiesData, tambahkan entri baru
-                if (!(key in universitiesData)) {
-                universitiesData[key] = {
-                    totalAccounts: new Set([accountId])
-                };
-                } else {
-                // Jika kunci sudah ada, tambahkan accountId ke set
-                universitiesData[key].totalAccounts.add(accountId);
-                }
-            });
-            Object.keys(universitiesData).forEach(key => {
-                universitiesData[key].totalAccounts = universitiesData[key].totalAccounts.size;
-            });
-                    
-            tableUniv(universitiesData);
-            chartUniv(universitiesData);
+        // Jika kunci belum ada di dalam objek universitiesData, tambahkan entri baru
+        if (!(key in universitiesData)) {
+            universitiesData[key] = {
+                totalAccounts: new Set([accountId])
+            };
+        } else {
+            // Jika kunci sudah ada, tambahkan accountId ke set
+            universitiesData[key].totalAccounts.add(accountId);
+        }
+    });
 
+    // Konversi objek universitiesData menjadi array
+    var universitiesArray = Object.keys(universitiesData).map(key => ({
+        universityName: key,
+        totalAccounts: universitiesData[key].totalAccounts.size
+    }));
+
+    // Urutkan array berdasarkan total akun secara menurun
+    universitiesArray.sort((a, b) => b.totalAccounts - a.totalAccounts);
+
+    // Objek yang telah diurutkan
+    var sortedUniversitiesData = {};
+    universitiesArray.forEach(item => {
+        sortedUniversitiesData[item.universityName] = {
+            totalAccounts: item.totalAccounts
+        };
+    });
+
+            tableUniv(sortedUniversitiesData);
+            chartUniv(sortedUniversitiesData);
+    console.log(sortedUniversitiesData)
          
 
             // Sembunyikan loader setelah permintaan selesai
@@ -122,23 +137,24 @@
 
 //Table
 function tableUniv(universitiesData) {
-    // Cetak hasil jumlah akun di setiap universitas
-    var tbody = document.getElementById('tableUniv');
-    // Loop melalui data universitas dan jumlah akun untuk membuat baris baru pada tabel
+    var table = $('#tableUniv').DataTable({
+        "paging": true,         
+        "pageLength": 5,
+        "lengthChange": false,
+        "searching": false,
+        // "order": [2, 'desc'], //kalau order nomer urutnya malah acak
+       
+    });
+
+    table.clear().draw(); 
+
     var count = 1;
     for (const universityName in universitiesData) {
         var totalAccounts = universitiesData[universityName].totalAccounts;
 
-        // Buat elemen baris (tr) dan kolom (td) baru untuk setiap entri universitas
-        var row = document.createElement("tr");
-        row.innerHTML = `
-                    <td>${count}</td>
-                    <td>${universityName}</td>
-                    <td>${totalAccounts}</td>
-                `;
+        // Add data to the DataTable
+        table.row.add([count, universityName, totalAccounts]).draw();
 
-        // Tambahkan baris ke elemen tbody tabel
-        tbody.appendChild(row);
         count++;
     }
 }
@@ -146,6 +162,7 @@ function tableUniv(universitiesData) {
 
 //Chart
 function chartUniv(universitiesData) {
+
     // Set new default font family and font color to mimic Bootstrap's default styling
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#858796';
@@ -179,9 +196,16 @@ function chartUniv(universitiesData) {
     //array univName
     var univName = [];
     var totalAccounts = [];
+    var count = 0;
+
     for (const universityName in universitiesData) {
-        univName.push(universityName);
-        totalAccounts.push(universitiesData[universityName].totalAccounts);
+        if (count < 10) {
+            univName.push(universityName);
+            totalAccounts.push(universitiesData[universityName].totalAccounts);
+            count++;
+        } else {
+            break; // Hentikan iterasi setelah 10 data pertama
+        }
     }
 
     //var universityName =
