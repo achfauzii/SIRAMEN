@@ -21,39 +21,40 @@
 </style>
 
 <!-- /.card-header -->
-<div class="card-body">
-    <h5 class="mb-3">Assets Management</h5>
-    <h6 class="mb-3 " id="rfid_h6">
-        </h5>
-        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalAssets" onclick="ClearScreenAsset();" id="add-asset">
-            + Add Asset
-        </button>
+<div class="card">
+    <div class="card-body">
+        <h5 class="mb-3">Assets Management</h5>
+        <h6 class="mb-3 " id="rfid_h6">
+            </h5>
+            <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalAssets" onclick="ClearScreenAsset();" id="add-asset">
+                + Add Asset
+            </button>
 
-        <table id="TB_Assets" class="table table-striped" style="font-size:14px; color:black">
-            <thead style="background-color:#FFFFFF">
-                <tr>
-                    <th scope="col">Brand</th>
-                    <th scope="col">Spesifikasi</th>
-                    <th scope="col">Action</th>
+            <table id="TB_Assets" class="table table-striped" style="font-size:14px; color:black">
+                <thead style="background-color:#FFFFFF">
+                    <tr>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Spesifikasi</th>
+                        <th scope="col">Action</th>
 
-                </tr>
-            </thead>
-        </table>
+                    </tr>
+                </thead>
+            </table>
+    </div>
+</div>
 
-
-        @*Modal*@
-        <div class="modal fade" id="ModalAssets" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Assets Management</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-
+@*Modal*@
+<div class="modal fade" id="ModalAssets" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Assets Management</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
                             <input type="text" class="form-control" id="assetsManagementId" hidden>
 
                             <div class="form-group">
@@ -131,24 +132,15 @@
                                 </select>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
-
-
-
-
-
-
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="Save" onclick="SaveAsset();">Save</button>
-                        <button type="button" class="btn btn-warning" id="Update" onclick="UpdateAsset();">Update</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreenAsset();">Close</button>
-                    </div>
-                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="Save" onclick="SaveAsset();">Save</button>
+                <button type="button" class="btn btn-warning" id="Update" onclick="UpdateAsset();">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreenAsset();">Close</button>
             </div>
         </div>
-
-
+    </div>
 </div>
 
 @section script

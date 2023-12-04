@@ -21,10 +21,11 @@ $("#employeeAnnouncement").hide();
 $("#adminAnnouncement").hide();
 
 $(document).ready(function () {
+  $('[data-toggle="tooltip"]').tooltip();
   //GetBirthday
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Accounts/BirthDay",
+    url: "http://202.69.99.67:9001/api/Accounts/BirthDay",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -53,7 +54,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Accounts",
+    url: "http://202.69.99.67:9001/api/Accounts",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -82,7 +83,28 @@ $(document).ready(function () {
   //Get All Employee
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Employees/EmployeeAdmin",
+    url: "http://202.69.99.67:9001/api/Employees/EmployeeAdmin",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result.status == 200) {
+      result.data.forEach((item) => {
+        // Array to be inserted
+        arrayEmail.push(item.email);
+        // emailObj.email.push(item.email)
+      });
+    }
+  });
+
+  $("#birth").hide();
+  $("#death").hide();
+
+  //Get All Employee
+  $.ajax({
+    type: "GET",
+    url: "http://202.69.99.67:9001/api/Employees/EmployeeAdmin",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -411,3 +433,8 @@ function matchCustom(params, data) {
   // For example, you can use data.text.includes(params.term)
   return null;
 }
+$(document).ajaxComplete(function () {
+  $('[data-tooltip="tooltip"]').tooltip({
+    trigger: "hover",
+  });
+});

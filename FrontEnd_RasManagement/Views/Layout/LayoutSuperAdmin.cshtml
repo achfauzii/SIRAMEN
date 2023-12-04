@@ -24,6 +24,8 @@
 
     <!-- Custom styles for this template-->
     <link href="~/startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet">
 
     @*  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
@@ -270,10 +272,6 @@
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                                  aria-labelledby="searchDropdown">
@@ -291,20 +289,16 @@
                                 </form>
                             </div>
                         </li>
-
-
-
-                        </li>
-
+                        
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-1 d-none d-lg-inline text-gray-600 small" id="name"></span>
+                                <span class="mr-1 d-lg-inline text-gray-600 small" id="name"></span>
                                 <span class="badge badge-success text-light mr-1">
-                                    <span class=" d-none d-lg-inline" id="role"></span>
+                                    <span class=" d-lg-inline" id="role"></span>
                                 </span>
                                 <img class="img-profile rounded-circle pl-1"
                                      src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
@@ -440,8 +434,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="updatePassword();">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen()">Close</button>
                 </div>
             </div>
         </div>
@@ -472,8 +466,9 @@
 
     <!-- Page level plugins -->
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
-
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="~/js/JwtUtils.js"></script>
     <script src="~/js/ChangePassword.js"></script>
 

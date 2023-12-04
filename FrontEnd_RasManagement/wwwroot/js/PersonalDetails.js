@@ -1,11 +1,49 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
   // Mendapatkan nilai parameter accountId dari URL
   loadDataA();
   $("#editDetailsBtn").on("click", function () {
     loadDataA(); // Reload the data before opening the modal
     $("#myModal").modal("show"); // Show the modal after loading the data
   });
+
+  $("#editName, #editNickName, #editBirthPlace").on("keyup", function () {
+    var value = $(this).val();
+    var maxLength = 50; // Default max length
+    var errorMessage = "";
+
+    if ($(this).is("#editName")) {
+      maxLength = 50;
+      errorMessage = "Fullname should not exceed 50 characters";
+    } else if ($(this).is("#editNickName")) {
+      maxLength = 20;
+      errorMessage = "Nickname should not exceed 20 characters";
+    } else if ($(this).is("#editBirthPlace")) {
+      maxLength = 50;
+      errorMessage = "Birthplace should not exceed 50 characters";
+    }
+
+    var isValidCharacter = true;
+
+    // Validasi karakter hanya jika bidang tidak kosong
+    if (value.trim() !== "") {
+      isValidCharacter = /^[A-Za-z\s]+$/.test(value);
+
+      if (!isValidCharacter) {
+        $(this)
+          .next(".error-message")
+          .text("Only letters and spaces are allowed")
+          .show();
+      }
+    }
+
+    if (value.length > maxLength) {
+      $(this).next(".error-message").text(errorMessage).show();
+    } else if (isValidCharacter || value.trim() === "") {
+      $(this).next(".error-message").hide();
+    }
+  });
 });
+
 function toPascalCase(str) {
   return str.replace(/(\w)(\w*)/g, function (_, firstChar, rest) {
     return firstChar.toUpperCase() + rest.toLowerCase();
@@ -18,7 +56,7 @@ function loadDataA() {
   const accid = decodedtoken.AccountId;
   var imgElement = $("#employeePhoto");
   $.ajax({
-    url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
+    url: "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accid,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -118,60 +156,31 @@ function handleInput(event, input) {
   noHTML(input);
 }
 
-/*function GetById(accountId) {
-    
-    $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            
-            var obj = result.data.result; // Perhatikan penggunaan .result di sini
-
-            $('#accountId').val(obj.accountId);
-            $('#editName').val(obj.fullname);
-            $('#editNickName').val(obj.nickname);
-            $('#editBirthPlace').val(obj.birthplace);
-
-            // Set birth date input value
-            if (obj.birthdate) {
-                $('#editBirthDate').val(obj.birthdate.substring(0, 10));
-            } else {
-                $('#editBirthDate').val('');
-            }
-
-            $('#editGender').val(obj.gender);
-            $('#editReligion').val(obj.religion);
-            $('#editMartialStatus').val(obj.maritalstatus);
-            $('#editNationality').val(obj.nationality);
-            $('#editAddress').val(obj.address);
-            // Set the image input value
-            // $('#imageFile').val(obj.image);
-
-            var imageInput = document.getElementById('imageFile');
-            if (obj.image != null) {
-                // Set the value of image input to an empty string
-                // This is done because you can't set the value of a file input for security reasons
-                imageInput.value = '';
-            }
-
-            $('#Modal').modal('show');
-            $('#Update').show();
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-}*/
+function ClearScreen() {
+  $("#accountId").val("");
+  $("#editName").val("");
+  $("#editNickName").val("");
+  $("#editBirthPlace").val("");
+  $("#editBirthDate").val("");
+  $("#editGender").val("");
+  $("#editReligion").val("");
+  $("#editMartialStatus").val("");
+  $("#editNationality").val("");
+  $("#editAddress").val("");
+  $("input[required]").each(function () {
+    var input = $(this);
+    input.next(".error-message").hide();
+  });
+  $("select[required]").each(function () {
+    var input = $(this);
+    input.next(".error-message").hide();
+  });
+}
 
 function GetById(accountId) {
   $.ajax({
     url:
-      "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+      "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -245,7 +254,7 @@ function GetById(accountId) {
     console.log(formData);
 
     $.ajax({
-        url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
+        url: `http://202.69.99.67:9001/api/Employees/${formData.AccountId}`,
         type: "PUT",
         data: JSON.stringify(formData),
         contentType: "application/json",
@@ -279,7 +288,7 @@ function updateData() {
   $("input[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
-      input.next(".error-message").show();
+      input.next(".error-message").text("This field is required!").show();
       isValid = false;
     } else {
       input.next(".error-message").hide();
@@ -314,7 +323,7 @@ function updateData() {
   };
 
   $.ajax({
-    url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
+    url: `http://202.69.99.67:9001/api/Employees/${formData.AccountId}`,
     type: "PUT",
     data: JSON.stringify(formData),
     contentType: "application/json",
@@ -431,39 +440,6 @@ function uploadImage(accountId) {
     $("#uploadMessage").text("No image selected.");
   }
 }
-
-/*function validateImage(event) {
-    var imageInput = event.target;
-    var imageLabel = document.getElementById('imageLabel');
-    var imagePreview = document.getElementById('imagePreview');
-    var fileSizeError = document.getElementById('fileSizeError');
-    var updateButton = document.getElementById('Update'); // Get the Update button element
-
-    if (imageInput.files && imageInput.files[0]) {
-        var fileSize = imageInput.files[0].size; // File size in bytes
-
-        if (fileSize > 512 * 1024) { // 512 KB in bytes
-            fileSizeError.textContent = "File size must be 512 KB or smaller.";
-            imageInput.value = ''; // Clear the input
-            imageLabel.innerText = 'Choose file';
-            imagePreview.style.display = 'none';
-        } else {
-            fileSizeError.textContent = '';
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = 'block';
-            }
-
-            reader.readAsDataURL(imageInput.files[0]);
-            imageLabel.innerText = imageInput.files[0].name;
-
-            // Enable the Update button
-            updateButton.disabled = false;
-        }
-    }
-}*/
 
 function validateImage() {
   var imageInput = document.getElementById("imageFile");

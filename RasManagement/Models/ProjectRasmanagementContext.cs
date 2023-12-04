@@ -51,7 +51,7 @@ public partial class ProjectRasmanagementContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server = RAS-FAYYAD; Database = Project_RASManagement; user id = sa; password = sapassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        => optionsBuilder.UseSqlServer("server = HRRASSRV; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -116,6 +116,10 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.StartContract)
                 .HasColumnType("date")
                 .HasColumnName("Start_contract");
+            entity.Property(e => e.IsChangePassword)
+                .HasColumnName("IsChangePassword")
+                .HasColumnType("bit")
+                .HasDefaultValue(false);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
@@ -171,14 +175,13 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.PublicationYear)
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("Publication_year");
             entity.Property(e => e.Publisher)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.ValidUntil)
                 .HasMaxLength(50)
@@ -230,7 +233,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.CompanyName)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.Job)
@@ -265,7 +268,6 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UniversityName)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Years)
                 .HasMaxLength(10)
@@ -308,10 +310,9 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasColumnName("Account_Id");
             entity.Property(e => e.Description).IsUnicode(false);
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Organizer)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Years)
                 .HasMaxLength(10)
@@ -370,7 +371,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Financial_Industry");
             entity.Property(e => e.Fullname)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.IntwByRas)
                 .HasMaxLength(12)
@@ -461,7 +462,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.CompanyName)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Company_name");
             entity.Property(e => e.Description)

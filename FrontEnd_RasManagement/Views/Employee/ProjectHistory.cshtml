@@ -18,13 +18,28 @@
 </style>
 
 <!-- /.card-header -->
+<div class="card">
 <div class="card-body">
     <h5 class="mb-3">Project History</h5>
     <button style="background-color:#624DE3; font-size: 12px; type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
         + Add Project History
     </button>
 
-    @*Modal*@
+    <table id="TB_ProjectHistory" class="table table-striped w-100" style="font-size:14px; color:black">
+        <thead style="background-color:#FFFFFF">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Project Name</th>
+                <th scope="col">Job Specification</th>
+                <th scope="col">Year</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+</div>
+@*Modal*@
     <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -45,9 +60,9 @@
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
-                            <label for="JobSpec">Job Spesification</label>
+                            <label for="JobSpec">Job Specification</label>
 
-                            <textarea class="form-control" id="JobSpec" rows="4" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="&bull; Enter Job Spesification" required></textarea>
+                            <textarea class="form-control" id="JobSpec" rows="4" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="&bull; Enter Job Specification" required></textarea>
 
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             <small class="form-text text-muted text-primary">You can include a GitHub link or your portfolio.</small>
@@ -55,7 +70,8 @@
                         </div>
                         <div class="form-group">
                             <label for="Year">Year</label>
-                            <input type="number" class="form-control" id="Year" placeholder="Enter year" required>
+                            <input type="number" class="form-control" id="Year" placeholder="Enter year" maxlength="4" 
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-group">
@@ -74,29 +90,6 @@
         </div>
     </div>
 
-    <table id="TB_ProjectHistory" class="table table-striped" style="font-size:14px; color:black">
-        <thead style="background-color:#FFFFFF">
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">Project Name</th>
-                <th scope="col">Job Spesification</th>
-                <th scope="col">Year</th>
-                <th scope="col">Company Name</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-    </table>
-
-</div>
-@*<script>
-    tinymce.init({
-        selector: '#JobSpec',
-        height: 500, // Tinggi editor
-        plugins: 'lists link image', // Plugin yang ingin Anda aktifkan
-        toolbar: 'undo redo | formatselect | bold italic | bullist numlist | link image', // Toolbar yang ditampilkan
-        menubar: 'file edit view insert format tools table help', // Menu bar
-    });
-</script>*@
 @section script
     {
     <script src="~/js/projecthistory.js"></script>

@@ -1,4 +1,5 @@
 ﻿using FrontEnd_RasManagement.Models;
+
 namespace FrontEnd_RasManagement.Services
 {
     public class MyBackground: BackgroundService
@@ -15,7 +16,7 @@ namespace FrontEnd_RasManagement.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {                
-                // Calculate the delay until the next 9:00 AM
+                // Calculate the delay until the next 9:30 AM
                 var now = DateTime.Now;
                 var nextRunTime = new DateTime(now.Year, now.Month, now.Day, 9, 30, 0);
                 if (now > nextRunTime)
