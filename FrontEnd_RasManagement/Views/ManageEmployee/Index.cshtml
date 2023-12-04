@@ -1,10 +1,55 @@
 ﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+    var employeeData = ViewData["EmployeeData"] as dynamic;
 }
 
+<style>
+    /* Gaya untuk teks dengan latar belakang warna */
+    .color-bg {
+        padding: 5px 6px;
+        border-radius: 5px;
+    }
 
-<h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Employee</h5>
+    .green-bg {
+        background-color: #1cc88a; /* Warna hijau */
+        color: white;
+    }
+
+    .yellow-bg {
+        background-color: #f6c23e; /* Warna kuning */
+        color: white;
+    }
+
+    .red-bg {
+        background-color: #e74c3c; /* Warna merah */
+        color: white;
+    }
+
+    .grey-bg {
+        background-color: #858796; /* Warna abu-abu */
+        color: white;
+    }
+
+    /* Gaya untuk bullet */
+    .bullet {
+        list-style-type: none; /* Menghilangkan default bullet */
+        padding-left: 0; /* Menghilangkan padding default */
+        margin-bottom: 6px; /* Menambahkan jarak antara bagian */
+    }
+
+    /* Gaya untuk setiap item daftar */
+    .list-item {
+        margin-bottom: 8px;
+    }
+
+    /* Gaya untuk teks bullet */
+    .bullet-text {
+        margin-left: 10px;
+    }
+</style>
+
+<h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Employee Table</h6>
@@ -25,14 +70,164 @@
                     <th>Placement Status</th>
                     <th>Placement Location</th>
                     <th>Hired Status</th>
+                    <th>Remaining Contract</th>
+                    <th>Assets</th>
                     <th>Action</th>
                 </tr>
             </thead>
 
         </table>
-
+        <h6><strong>Notes</strong></h6>
+        <div class="row ml-0">
+            <div class="col color-bg bullet">
+                <h6>Remaining Contract :</h6>
+                <small>
+                    <ul>
+                        <li class="list-item">
+                            <span class="green-bg bullet-text">Green :</span>
+                            <span class="bullet-text">The remaining contract is more than 3 months</span>
+                        </li>
+                        <li class="list-item">
+                            <span class="yellow-bg bullet-text">Yellow :</span>
+                            <span class="bullet-text">The remaining contract is less than 3 months</span>
+                        </li>
+                        <li class="list-item">
+                            <span class="red-bg bullet-text">Red :</span>
+                            <span class="bullet-text">The remaining contract is less than 1 month</span>
+                        </li>
+                    </ul>
+                </small>
+            </div>
+            <div class="col color-bg bullet">
+                <h6>Assets :</h6>
+                <small>
+                    <ul>
+                        <li class="list-item">
+                            <span class="green-bg bullet-text">Green :</span>
+                            <span class="bullet-text">Asset data exists</span>
+                        </li>
+                        <li class="list-item">
+                            <span class="grey-bg bullet-text">Grey :</span>
+                            <span class="bullet-text">Asset data is empty</span>
+                        </li>
+                    </ul>    
+                </small>
+            </div>
+        </div>
+            
     </div>
 </div>
+
+@*Modal*@
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="Fullname" class="badge badge-light"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="AccountId" hidden>
+                        <label for="PlacementStatus">Change Status</label>
+                        <select id="Status" class="form-control PlacementStatus" placeholder="Select Turn Over Status">
+
+                            <option value="Blacklist">Blacklist</option>
+                            <option value="Resign">Resign</option>
+                            <option value="Transfer">Transfer</option>
+
+                        </select>
+                        <span class="error-message-status" style="color: red; display: none;">This field is required!</span>
+
+
+                    </div>
+                    <div class="form-group" style="display: none;" id="inputCompany">
+                        <label for="Description">Departments</label>
+
+                        <p>
+                            <select id="deptId" class="selectDept form-control" required>
+                                <option></option>
+                            </select>
+                        </p>
+                        @*<input type="number" class="form-control" id="DeptId">*@
+
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Date</label>
+                        <input type="date" class="form-control" id="date" placeholder="Turn Over Date" required_>
+                        <span class="error-message-turnOver" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="Description" placeholder="Fill if necessary">
+                        <span class="error-message-turnOver" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="Update" onclick="SaveTurnOver();">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal Assets*@
+<div class="modal fade" id="ModalAssets" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(31, 31, 31)">Assets Management</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="color: rgb(31, 31, 31)">
+                    <div class="col-md-6">
+                        <p><strong>Brand:</strong> <span id="brand"></span></p>
+                        <p><strong>RFID:</strong> <span id="RFID"></span></p>
+                        <p><strong>Processor:</strong> <span id="Processor"></span></p>
+                        <p><strong>Display:</strong> <span id="Display"></span></p>
+                        <p><strong>Operating System:</strong> <span id="os"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>RAM:</strong> <span id="ram"></span></p>
+                        <p><strong>SSD:</strong> <span id="ssd"></span></p>
+                        <p><strong>HDD:</strong> <span id="hdd"></span></p>
+                        <p><strong>Graphic Card:</strong> <span id="GraphicCard"></span></p>
+                        <p><strong>Include Charger:</strong> <span id="charger"></span></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*Modal EmptyDataModal*@
+<div class="modal fade" id="EmptyDataModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(31, 31, 31)">Assets Management</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="color: #1f1f1f; background-color: #f8f9fa;">
+                <h5 class="text-center mb-4">Employee Hasn't Updated Asset Information</h5>
+                <p class="text-center"><b>Please remind the employee to complete their asset details.</b></p>
+                <!-- You can add more content or styling as needed -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <!-- Loader-->
 <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0;">
@@ -57,4 +252,3 @@
 </div>
 
 <script src="~/js/ManageEmployee.js"></script>
-

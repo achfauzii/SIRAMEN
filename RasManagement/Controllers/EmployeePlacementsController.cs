@@ -11,7 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class EmployeePlacementsController : ControllerBase
     {
         private readonly EmployeePlacementRepository employeePlacementRepository;
@@ -27,6 +27,26 @@ namespace RasManagement.Controllers
         public string Get(int id)
         {
             return "value";
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Get()
+        {
+
+            var data = await employeePlacementRepository.Get();
+
+            if (data != null)
+            {
+
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil di tambahkan", Data = data });
+
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Placment gagal ditambahkan" });
+            }
+
+
         }
 
         // POST api/<EmployeePlacementsController>
@@ -50,11 +70,45 @@ namespace RasManagement.Controllers
 
         }
 
+        [HttpPost("TurnOver")]
+        public async Task<ActionResult> AddTurnOver(TurnOverVM turnOverVM)
+        {
+
+            var data = await employeePlacementRepository.AddTurnOver(turnOverVM);
+
+            if (data >= 1)
+            {
+
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil di tambahkan", Data = data });
+
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Placment gagal ditambahkan" });
+            }
+
+
+        }
+
         // PUT api/<EmployeePlacementsController>/5
         [HttpGet("accountId")]
         public IActionResult EmployeePlacement(string accountId)
         {
             var get = employeePlacementRepository.GetAccount(accountId);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
+        [HttpGet("PlacementID")]
+        public IActionResult GetById(int placementStatusId)
+        {
+            var get = employeePlacementRepository.GetPlacementId(placementStatusId);
             if (get != null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });

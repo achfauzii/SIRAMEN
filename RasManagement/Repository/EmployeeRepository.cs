@@ -15,11 +15,24 @@ namespace RasManagement.Repository
         }
         public async Task<IEnumerable<Object>> GetEmployeeData()
         {
-            var employees = _context.Accounts.Where(a => a.RoleId == "3" || a.RoleId == "2");
+            var employees = _context.Accounts.Include(a => a.AssetsManagements).Include(a => a.Placements).Where(a => a.RoleId == "3");
             return employees;
 
         }
 
+        public async Task<IEnumerable<Object>> GetTurnOff()
+        {
+            
+            var accounts = _context.Accounts.Include(a => a.Placements).Where(a => a.RoleId == "4");
+            return accounts;
+
+        }
+        public async Task<IEnumerable<Object>> GetAccountData()
+        {
+            var accounts = _context.Accounts.Where(a => a.RoleId == "3" || a.RoleId == "2");
+            return accounts;
+
+        }
         public Task<Account> Get(string key)
 
         {
@@ -67,6 +80,10 @@ namespace RasManagement.Repository
             if (!string.IsNullOrEmpty(updatedData.Nationality))
             {
                 existingEmployee.Nationality = updatedData.Nationality;
+            }
+            if (!string.IsNullOrEmpty(updatedData.Address))
+            {
+                existingEmployee.Address = updatedData.Address;
             }
             if (!string.IsNullOrEmpty(updatedData.Image))
             {

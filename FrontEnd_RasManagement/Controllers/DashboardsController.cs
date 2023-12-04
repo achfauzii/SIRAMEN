@@ -18,15 +18,15 @@ namespace FrontEnd_RasManagement.Controllers
             }
 
             var date = await GetTimeNow();
-           /* int totalEmployee = await GetTotalEmployee();*/
+            /* int totalEmployee = await GetTotalEmployee();*/
             ViewBag.FormattedDate = date;
-          /*  ViewBag.TotalEmployee = totalEmployee;*/
+            /*  ViewBag.TotalEmployee = totalEmployee;*/
 
             return View();
         }
 
         //Dashboard Admin
-        public async Task <IActionResult> Dashboard_Admin()
+        public async Task<IActionResult> Dashboard_Admin()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
@@ -35,15 +35,15 @@ namespace FrontEnd_RasManagement.Controllers
             }
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
-           
-            if (role != "Admin" && role !="Super_Admin")
+
+            if (role != "Admin" && role != "Super_Admin")
             {
                 return RedirectToAction("Login", "Accounts");
             }
             //End Validate
 
             var date = await GetTimeNow();
-            int totalEmployee = await GetTotalEmployee();
+            int totalEmployee = await GetTotalEmployeeByRoleId(3);
             ViewBag.FormattedDate = date;
             ViewBag.TotalEmployee = totalEmployee;
             return View();
@@ -58,7 +58,7 @@ namespace FrontEnd_RasManagement.Controllers
             }
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
-           
+
             if (role != "Super_Admin")
             {
                 return RedirectToAction("Login", "Accounts");
@@ -66,7 +66,7 @@ namespace FrontEnd_RasManagement.Controllers
             //End Validate
 
             var date = await GetTimeNow();
-            int totalEmployee = await GetTotalEmployee();
+            int totalEmployee = await GetTotalEmployeeByRoleId(3);
             ViewBag.FormattedDate = date;
             ViewBag.TotalEmployee = totalEmployee;
             return View();
@@ -89,6 +89,36 @@ namespace FrontEnd_RasManagement.Controllers
 
             dynamic data = JsonConvert.DeserializeObject(jsonResponse);
             int totalEmployee = data.totalData;
+            return totalEmployee;
+        }
+
+        public async Task<int> GetTotalEmployeeByRoleId(int roleId)
+        {
+            var accessToken = HttpContext.Session.GetString("Token");
+            var url = "https://localhost:7177/api/Employees";
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string jsonResponse = await client.GetStringAsync(url);
+
+            dynamic data = JsonConvert.DeserializeObject(jsonResponse);
+            int totalEmployee = 0;
+
+            if (roleId == 3)
+            {
+                totalEmployee = 0;
+                foreach (var emp in data.data)
+                {
+                    if (emp.roleId == 3)
+                    {
+                        totalEmployee++;
+                    }
+                }
+            }
+            else
+            {
+                totalEmployee = data.totalData;
+            }
+
             return totalEmployee;
         }
     }

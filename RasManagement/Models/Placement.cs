@@ -12,7 +12,7 @@ public partial class Placement
 
     public string? JobRole { get; set; }
 
-    public string Description { get; set; } = null!;
+    public string? Description { get; set; }
 
     public string? PlacementStatus { get; set; }
 

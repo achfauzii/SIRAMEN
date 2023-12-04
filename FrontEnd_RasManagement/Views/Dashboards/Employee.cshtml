@@ -7,36 +7,36 @@
 <style>
 
     /*.Ps {
-        font-family: Tahoma;
-        background-color: #fff;
-        page-break-after: avoid;
-    }
+            font-family: Tahoma;
+            background-color: #fff;
+            page-break-after: avoid;
+        }
 
-    h1 {
-        text-align: center;
-        margin-bottom: 30px;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    h2 {
-        margin-bottom: 20px;
-    }
+        h2 {
+            margin-bottom: 20px;
+        }
 
-    p {
-        margin-bottom: 5px;
-    }
+        p {
+            margin-bottom: 5px;
+        }
 
-    #Personal_Details {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
+        #Personal_Details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    #imageContainer {
-        flex: 1;
-        display: flex;
-        justify-content: flex-end;
-    }
-    */
+        #imageContainer {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+        */
     .card-body {
         font-family: "Calibri", Arial, sans-serif;
     }
@@ -45,19 +45,55 @@
         font-family: "Calibri", Arial, sans-serif;
         font-weight: bold;
     }
+  @@media (max-width: 1199.98px) { 
+        .photo-container {
+            margin-left: 0 !important;
+            margin-top: 0 !important;
+        }
+   }
 
 </style>
 
-
 <div class="container-fluid bg-light">
+    <div class="row alert alert-warning m-0 mb-4 shadow" id="passwordAnnounce">
+        <i class="fas fa-circle-info text-warning mr-2" style="font-size: 1.5rem;"></i>
+        <div class="col mr-1">
+            <div class="font-weight-bold text-dark mb-1" style="font-size: 12pt">
+                Please update your password to ensure security.&nbsp; 
+                <a href="#" class="font-weight-bold text-primary" data-toggle="modal" data-target="#chagnePasswordModal" onclick="clearScreen()">
+                    Update Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-left-warning shadow mb-4" id="employeeAnnouncement">
+        <a href="#collapseCardExample" class="d-block card-header" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class=" font-weight-bold text-dark text-uppercase"> Announcement!</h6>
+        </a>
+        <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <i class="fas fa-birthday-cake text-warning mr-4" style="font-size: 3em;"></i>
+                    <div class="col mr-3">
+                        <div class="font-weight-bold text-primary text-uppercase mb-1" style="font-size: 14pt">
+                            Birthday Today
+                        </div>
+                        <div class="mb-0 font-weight-bold text-dark" id="birthday" style="font-size: 12pt"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card mb-3">
         <div class="card-header" style="background-color:#bfbfbd">
             <h4 class="m-0 text-dark font-weight-bold">PERSONAL DETAILS</h4>
         </div>
         <div class="card-body">
-          
+
             <div class="row">
-                <div class="col-9">
+                <div class="col-xl-9 order-xl-1 order-2">
                     <div class="row">
                         <div class="col-4 text-dark">
                             <p>Name</p>
@@ -85,7 +121,7 @@
                         <div class="col">
                             <span>:</span>
                             <span id="birthPlace"> </span>
-                            <span>, </span>
+
                             <span id="birthDate"> </span>
                         </div>
                     </div>
@@ -139,14 +175,14 @@
                             <span id="address"> </span>
                         </div>
                     </div>
-            </div>
-
-
-            <div class="col-3">
-                <div class="photo-container ml-5 mt-3">
-                        <img id="employeePhoto" src="" alt="" style=" width:157px; height:231px;">
                 </div>
-            </div>
+
+
+                <div class="col-xl-3 order-xl-2 order-1 text-center pb-5">
+                    <div class="photo-container ml-5 mt-3">
+                      <img id="employeePhoto" src="" alt="" style="width: 157px; height: 231px; object-fit: cover;">
+                    </div>
+                </div>
             </div>
 
 
@@ -154,7 +190,6 @@
             <div class="text-right">
                 <button type="button" class="btn btn-sm btn-primary" id="editDetailsBtn">Edit Personal Details</button>
             </div>
-
 
             <!-- Modals -->
             <div class="modal fade" id="myModal" role="dialog">
@@ -173,45 +208,67 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="editName">Name:</label>
-                                        <input type="text" class="form-control" id="editName" placeholder="Ketikkan Nama Lengkap" name="editName">
+                                        <input type="text" class="form-control" id="editName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter your full name" name="editName" required>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="nickName">Nickname:</label>
-                                        <input type="text" class="form-control" id="editNickName" placeholder="Ketikkan Nickname" name="nickName">
+                                        <input type="text" class="form-control" id="editNickName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter your nick name" name="nickName" required>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="birthPlace">Birth Place:</label>
-                                        <input type="text" class="form-control" id="editBirthPlace" placeholder="Ketikkan Birth Place" name="birthPlace">
+                                        <label for="birthPlace">Place of Birth:</label>
+                                        <input type="text" class="form-control" id="editBirthPlace" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter your place of birth" name="birthPlace" required>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="birthDate">Birth Date:</label>
-                                        <input type="date" class="form-control" id="editBirthDate" placeholder="Ketikkan Birth Date" name="birthDate">
+                                        <label for="birthDate">Date of Birth:</label>
+                                        <input type="date" class="form-control" id="editBirthDate" placeholder="Enter your date of birth" name="birthDate" required>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="gender">Gender:</label>
-                                        <input type="text" class="form-control" id="editGender" placeholder="Ketikkan Gender" name="gender">
+                                        <select type="text" class="form-control" id="editGender" name="gender" required>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="religion">Religion:</label>
-                                        <input type="text" class="form-control" id="editReligion" placeholder="Ketikkan Religion" name="religion">
+                                        <select type="text" class="form-control" id="editReligion" placeholder="Ketikkan Religion" name="religion" required>
+                                            <option>Islam</option>
+                                            <option>Protestan</option>
+                                            <option>Katolik</option>
+                                            <option>Hindu</option>
+                                            <option>Buddha</option>
+                                            <option>Khonghucu</option>
+                                        </select>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="martialStatus">Martial Status:</label>
-                                        <input type="text" class="form-control" id="editMartialStatus" placeholder="Ketikkan Martial Status" name="martialStatus">
+                                        <label for="martialStatus">Marital Status:</label>
+                                        <select type="text" class="form-control" id="editMartialStatus" name="martialStatus" required>
+                                            <option>Single</option>
+                                            <option>Married</option>
+                                        </select>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="nationality">Nationality:</label>
-                                        <select type="text" class="form-control" id="editNationality" placeholder="Ketikkan Nasionality" name="nationality">
+                                        <select type="text" class="form-control" id="editNationality" name="nationality" required>
                                             <option value="WNI">WNI (Warga Negara Indonesia)</option>
                                             <option value="WNA">WNA (Warga Negara Asing)</option>
                                         </select>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="address">Address:</label>
-                                        <input type="text" class="form-control" id="editAddress" placeholder="Ketikkan Alamat" name="address">
+                                        <textarea class="form-control" id="editAddress" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter your address" name="address" required></textarea>
+                                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
-                                        <label>File Gambar (Maksimal 512 KB):</label>
+                                        <label>Image File (Maksimal 512 KB):</label>
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="imageFile" accept="image/*" onchange="validateImage(event)">
                                             <label class="custom-file-label" for="imageFile" id="imageLabel">Choose file</label>
@@ -617,6 +674,16 @@
 
     </div>
 </div>*@
+
+<!-- Loader-->
+<div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0; ">
+    <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
+        <!-- Icon spinner -->
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

@@ -2,6 +2,7 @@
 using RasManagement.Models;
 using RasManagement.Interface;
 using RasManagement.ViewModel;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 
 namespace RasManagement.Repository
 {
@@ -28,6 +29,15 @@ namespace RasManagement.Repository
             return false;
         }
 
+        public Placement GetPlacementId(int PlacementStatusId)
+        {
+            return _context.Placements.Find(PlacementStatusId);
+        }
+
+        public async Task<IEnumerable<Placement>> Get()
+        {
+            return await _context.Placements.ToListAsync();
+        }
 
         public async Task<int> AddPlacement(PlacementVM placementVM)
         {
@@ -41,6 +51,23 @@ namespace RasManagement.Repository
                 Description = placementVM.Description,
                 PlacementStatus = placementVM.PlacementStatus,
                 AccountId = placementVM.AccountId,
+
+            };
+            _context.Placements.Add(placement);
+
+            var insert = _context.SaveChanges();
+            return insert;
+        }
+
+        public async Task<int> AddTurnOver(TurnOverVM turnOverVM)
+        {
+            var placement = new Placement
+            {
+                PlacementStatusId = turnOverVM.PlacementStatusId,
+                CompanyName = turnOverVM.CompanyName,
+                PlacementStatus = turnOverVM.PlacementStatus,
+                Description = turnOverVM.Description,
+                AccountId = turnOverVM.AccountId,
 
             };
             _context.Placements.Add(placement);

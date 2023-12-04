@@ -60,6 +60,12 @@ builder.Services.AddScoped<NonFormalEduRepository>();
 builder.Services.AddScoped<QualificationRepository>();
 builder.Services.AddScoped<CertificateRepository>();
 builder.Services.AddScoped<ProjectHistoryRepository>();
+builder.Services.AddScoped<UniversitasRepository>();
+builder.Services.AddScoped<TurnOverRepository>();
+builder.Services.AddScoped<DepartmentRepository>();
+builder.Services.AddScoped<ShortlistRepository>();
+builder.Services.AddScoped<AssetsRepository>();
+
 //builder.Services.AddTransient<EducationRepository>();
 
 builder.Services.AddCors(c =>
@@ -74,11 +80,25 @@ var app = builder.Build();
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
+}*/
+
+app.UseSwagger();
+app.UseSwaggerUI(o =>
+{
+    o.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"); // options added on 17-4-2023
+    o.RoutePrefix = string.Empty;
+});
+
+//If Deploy use 
+/*app.UseSwagger();
+app.UseSwaggerUI();*/
+
+
 
 //IMPLEMENTASI CORS
 app.UseCors(options => options
@@ -88,7 +108,9 @@ app.UseCors(options => options
 app.UseHttpsRedirection();
 
 app.UseAuthentication(); // Menambahkan middleware autentikasi
-app.UseAuthorization();
+
+//Mengetahui Error
+//app.UseDeveloperExceptionPage();
 
 app.UseAuthorization();
 
