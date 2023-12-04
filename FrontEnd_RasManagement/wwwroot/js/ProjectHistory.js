@@ -6,7 +6,7 @@ $(document).ready(function () {
     responsive: true,
     ajax: {
       url:
-        "http://202.69.99.67:9001/api/ProjectHistory/accountId?accountId=" +
+        "https://localhost:7177/api/ProjectHistory/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -203,7 +203,7 @@ function Save() {
   ProjectHistory.accountId = accid;
   $.ajax({
     type: "POST",
-    url: "http://202.69.99.67:9001/api/ProjectHistory",
+    url: "https://localhost:7177/api/ProjectHistory",
     data: JSON.stringify(ProjectHistory),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -254,7 +254,7 @@ function ClearScreen() {
 
 function GetById(projectHistoryId) {
   $.ajax({
-    url: "http://202.69.99.67:9001/api/ProjectHistory/" + projectHistoryId,
+    url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -306,7 +306,7 @@ function Update() {
   ProjectHistory.accountId = accid;
 
   $.ajax({
-    url: "http://202.69.99.67:9001/api/ProjectHistory",
+    url: "https://localhost:7177/api/ProjectHistory",
     type: "PUT",
     data: JSON.stringify(ProjectHistory),
     contentType: "application/json; charset=utf-8",
@@ -342,7 +342,7 @@ function Delete(projectHistoryId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "http://202.69.99.67:9001/api/ProjectHistory/" + projectHistoryId,
+        url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
         type: "DELETE",
         dataType: "json",
 

@@ -56,7 +56,7 @@ function loadDataA() {
   const accid = decodedtoken.AccountId;
   var imgElement = $("#employeePhoto");
   $.ajax({
-    url: "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accid,
+    url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -180,7 +180,7 @@ function ClearScreen() {
 function GetById(accountId) {
   $.ajax({
     url:
-      "http://202.69.99.67:9001/api/Employees/accountId?accountId=" + accountId,
+      "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -254,7 +254,7 @@ function GetById(accountId) {
     console.log(formData);
 
     $.ajax({
-        url: `http://202.69.99.67:9001/api/Employees/${formData.AccountId}`,
+        url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
         type: "PUT",
         data: JSON.stringify(formData),
         contentType: "application/json",
@@ -323,7 +323,7 @@ function updateData() {
   };
 
   $.ajax({
-    url: `http://202.69.99.67:9001/api/Employees/${formData.AccountId}`,
+    url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
     type: "PUT",
     data: JSON.stringify(formData),
     contentType: "application/json",
