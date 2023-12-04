@@ -144,7 +144,7 @@ function getUniversitasList() {
           true,
           true
         );
-        selectUniversity.append(option);
+        selectUniversity.add(option);
       });
     },
     error: function (errormessage) {
