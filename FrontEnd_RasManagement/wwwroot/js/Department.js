@@ -1,6 +1,5 @@
 ﻿var table = null;
 $(document).ready(function () {
-  debugger;
   table = $("#TB_Department").DataTable({
     responsive: true,
 
@@ -92,7 +91,6 @@ function Save() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -143,7 +141,6 @@ function ClearScreenDept() {
 }
 
 function GetByIdDept(deptId) {
-  //debugger;
   $.ajax({
     url: "http://202.69.99.67:9001/api/Department/" + deptId,
     type: "GET",
@@ -153,7 +150,6 @@ function GetByIdDept(deptId) {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },*/
     success: function (result) {
-      //debugger;
       var obj = result.data; //data yg kita dapat dr API
       $("#DeptId").val(obj.deptId);
       $("#NamaDept").val(obj.namaDept);
@@ -187,7 +183,7 @@ function UpdateDept() {
   var Department = new Object(); //object baru
   Department.deptId = $("#DeptId").val();
   Department.namaDept = $("#NamaDept").val(); //value insert dari id pada input
-  debugger;
+
   $.ajax({
     url: "http://202.69.99.67:9001/api/Department",
     type: "PUT",
@@ -197,7 +193,6 @@ function UpdateDept() {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },*/
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -215,7 +210,6 @@ function UpdateDept() {
 }
 
 function Delete(deptId) {
-  debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",

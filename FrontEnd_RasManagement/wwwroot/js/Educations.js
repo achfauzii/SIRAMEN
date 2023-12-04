@@ -1,6 +1,6 @@
 ﻿var table = null;
 
-$(document).ready(function () {    
+$(document).ready(function () {
   Educations();
   formInputLocation();
 
@@ -17,15 +17,12 @@ $(document).ready(function () {
 });
 
 function Educations() {
-  //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   table = $("#TB_FormalEdu").DataTable({
     responsive: true,
     ajax: {
-      url:
-        "http://202.69.99.67:9001/api/Educations/accountId?accountId=" +
-        accid,
+      url: "http://202.69.99.67:9001/api/Educations/accountId?accountId=" + accid,
       type: "GET",
       datatype: "json",
       dataSrc: "data",
@@ -400,7 +397,6 @@ function SaveFormal() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    //debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -460,7 +456,6 @@ function ClearScreenFormal() {
 }
 
 function GetById(formalEduId) {
-  //debugger;
   //GET SEMUA Kota atau kabupaten untuk di tampilkan berdasarkan Get By Id
 
   ClearScreenFormal();
@@ -474,7 +469,6 @@ function GetById(formalEduId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      debugger;
       var obj = result.data; //data yg kita dapat dr API
       const option = document.createElement("option");
       option.value = obj.location;
@@ -564,7 +558,6 @@ function UpdateFormal() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -582,7 +575,6 @@ function UpdateFormal() {
 }
 
 function DeleteFormal(formalEduId) {
-  debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -602,7 +594,6 @@ function DeleteFormal(formalEduId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           $("#TB_FormalEdu").DataTable().ajax.reload();

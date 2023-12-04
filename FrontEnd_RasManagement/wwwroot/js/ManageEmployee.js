@@ -339,7 +339,6 @@ function Detail(id) {
   window.location.href = "/ManageEmployee/DetailEmployee?accountId=" + id;
 }
 function parseJwt(token) {
-  //debugger;
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   var jsonPayload = decodeURIComponent(
@@ -367,7 +366,7 @@ function handleInput(event, input) {
 }
 
 /*function GetByIdPlacement(accountId, placementStatus) {
-    debugger;
+    
 
     var fullName = ''; // Untuk menyimpan fullname dari kedua pemanggilan API
 
@@ -381,7 +380,7 @@ function handleInput(event, input) {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            debugger;
+            
             var obj = result.data;
             fullName = obj.fullname; // Simpan fullname dari pemanggilan pertama
         },
@@ -400,7 +399,7 @@ function handleInput(event, input) {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            debugger;
+            
             var obj = result.data;
             $('#AccountId').val(accountId);
             $('#PlacementID').val(obj.placementStatusId);
@@ -471,7 +470,6 @@ function GetByIdPlacement(accountId, placementStatus) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      debugger;
       var obj = result.data; //data yg kita dapat dr API
       $.ajax({
         url:
@@ -484,7 +482,6 @@ function GetByIdPlacement(accountId, placementStatus) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-          debugger;
           var employee = result.data;
 
           //document.getElementById('FullName').text = employee.result.fullname;
@@ -506,7 +503,6 @@ function GetByIdPlacement(accountId, placementStatus) {
 }
 
 function SaveTurnOver() {
-  debugger;
   var isValid = true;
 
   // Validasi select options
@@ -554,7 +550,6 @@ function SaveTurnOver() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    //debugger;
     if (
       (result.status == result.status) == 201 ||
       result.status == 204 ||
@@ -626,7 +621,7 @@ function handlePlacementStatusChange() {
         },
 
     }).then((result) => {
-        debugger;
+        
         if (result.status == 200) {
             Swal.fire({
                 icon: 'success',
@@ -651,7 +646,6 @@ function handlePlacementStatusChange() {
 */
 
 function UpdatePlacement() {
-  debugger;
   var Placement = new Object();
   Placement.accountId = $("#AccountId").val();
   Placement.placementStatusId = $("#PlacementID").val();
@@ -670,7 +664,6 @@ function UpdatePlacement() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -795,7 +788,7 @@ function Save(accountId) {
     },
   }).then((result) => {
     $("#modalPlacement").modal("hide");
-    //debugger;
+
     if (
       (result.status == result.status) == 201 ||
       result.status == 204 ||
@@ -818,7 +811,6 @@ function Save(accountId) {
 }
 
 function Update() {
-  debugger;
   var placement = new Object();
   placement.placementStatusId = $("#placementStatusId").val();
   placement.companyName = $("#companyName_").val();
@@ -864,7 +856,6 @@ function Detail(id) {
   window.location.href = "/ManageEmployee/DetailEmployee?accountId=" + id;
 }
 function parseJwt(token) {
-  //debugger;
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   var jsonPayload = decodeURIComponent(
@@ -881,7 +872,7 @@ function parseJwt(token) {
 }
 
 /*function GetByIdPlacement(accountId, placementStatus) {
-    debugger;
+    
 
     var fullName = ''; // Untuk menyimpan fullname dari kedua pemanggilan API
 
@@ -895,7 +886,7 @@ function parseJwt(token) {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            debugger;
+            
             var obj = result.data;
             fullName = obj.fullname; // Simpan fullname dari pemanggilan pertama
         },
@@ -914,7 +905,7 @@ function parseJwt(token) {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            debugger;
+            
             var obj = result.data;
             $('#AccountId').val(accountId);
             $('#PlacementID').val(obj.placementStatusId);
@@ -956,7 +947,6 @@ function GetByIdPlacement(accountId, placementStatus) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      debugger;
       var obj = result.data; //data yg kita dapat dr API
       $.ajax({
         url:
@@ -969,7 +959,6 @@ function GetByIdPlacement(accountId, placementStatus) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-          debugger;
           var employee = result.data;
 
           //document.getElementById('FullName').text = employee.result.fullname;
@@ -991,7 +980,6 @@ function GetByIdPlacement(accountId, placementStatus) {
 }
 
 function SaveTurnOver() {
-  debugger;
   var isValid = true;
 
   // Validasi select options
@@ -1048,7 +1036,6 @@ function SaveTurnOver() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    //debugger;
     if (
       (result.status == result.status) == 201 ||
       result.status == 204 ||
@@ -1106,7 +1093,6 @@ function handlePlacementStatusChange() {
 }
 
 function GetContract(accountId) {
-  debugger;
   //console.log(accountId);
   $.ajax({
     url: "http://202.69.99.67:9001/api/Accounts/AccountId?accountId=" + accountId,
@@ -1117,7 +1103,6 @@ function GetContract(accountId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      //debugger;
       var obj = result.data;
       $("#AccountId").val(obj.accountId); //ngambil data dr api
       $("#StartContract").val(obj.startContract);
@@ -1131,8 +1116,6 @@ function GetContract(accountId) {
 }
 
 function UpdateContract() {
-  debugger;
-
   var isValid = true;
   $("input[requiredContract]").each(function () {
     var input = $(this);
@@ -1161,7 +1144,6 @@ function UpdateContract() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -1182,7 +1164,6 @@ function UpdateContract() {
 }
 
 function UpdatePlacement() {
-  debugger;
   var Placement = new Object();
   Placement.accountId = $("#AccountId").val();
   Placement.placementStatusId = $("#PlacementID").val();
@@ -1201,7 +1182,6 @@ function UpdatePlacement() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -1362,7 +1342,7 @@ function Save(accountId) {
     },
   }).then((result) => {
     $("#modalPlacement").modal("hide");
-    //debugger;
+
     if (
       (result.status == result.status) == 201 ||
       result.status == 204 ||
@@ -1385,7 +1365,6 @@ function Save(accountId) {
 }
 
 function Update() {
-  debugger;
   var placement = new Object();
   placement.placementStatusId = $("#placementStatusId").val();
   placement.companyName = $("#companyName_").val();
@@ -1432,7 +1411,6 @@ function GenerateCv(accountId) {
 }
 
 function GetByIdAsset(assetsManagementId) {
-  debugger;
   $.ajax({
     url:
       "http://202.69.99.67:9001/api/Assets/accountId?accountId=" +

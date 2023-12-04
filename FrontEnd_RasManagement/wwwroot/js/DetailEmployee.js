@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-  //debugger;
   // Mendapatkan nilai parameter accountId dari URL
   $("#backButton").on("click", function () {
     history.back(); // Go back to the previous page
@@ -21,8 +20,6 @@ function placement() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      //debugger;
-
       var placements = result.data; //data yg didapat dari api
 
       const options = { day: "numeric", month: "long", year: "numeric" };
@@ -90,7 +87,6 @@ function placement() {
 }
 
 function GetById(accountId, placementStatusId) {
-  debugger;
   const startDate = document.getElementById("showStartDate");
   const endDate = document.getElementById("showEndDate");
   startDate.style.display = "none";

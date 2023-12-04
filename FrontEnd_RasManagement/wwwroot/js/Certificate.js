@@ -7,8 +7,7 @@ $(document).ready(function () {
     responsive: true,
     ajax: {
       url:
-        "http://202.69.99.67:9001/api/Certificate/accountId?accountId=" +
-        accid,
+        "http://202.69.99.67:9001/api/Certificate/accountId?accountId=" + accid,
       type: "GET",
       datatype: "json",
       dataSrc: "data",
@@ -215,7 +214,7 @@ function Save() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
+    // debugger;
     if (
       (result.status == result.status) == 201 ||
       result.status == 204 ||
@@ -245,7 +244,7 @@ function Save() {
 }
 
 function Delete(CertificateId) {
-  debugger;
+  // debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -265,7 +264,7 @@ function Delete(CertificateId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        debugger;
+        // debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           table.ajax.reload();
@@ -278,7 +277,7 @@ function Delete(CertificateId) {
 }
 
 function Update() {
-  debugger;
+  // debugger;
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -312,7 +311,7 @@ function Update() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
+    // debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",

@@ -4,8 +4,7 @@
 
   $.ajax({
     url:
-      "http://202.69.99.67:9001/api/Qualification/accountId?accountId=" +
-      accid,
+      "http://202.69.99.67:9001/api/Qualification/accountId?accountId=" + accid,
     type: "GET",
     dataType: "json",
     headers: {
@@ -256,8 +255,7 @@ function getbyID() {
   const accid = decodedtoken.AccountId;
   $.ajax({
     url:
-      "http://202.69.99.67:9001/api/Qualification/accountId?accountId=" +
-      accid,
+      "http://202.69.99.67:9001/api/Qualification/accountId?accountId=" + accid,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
