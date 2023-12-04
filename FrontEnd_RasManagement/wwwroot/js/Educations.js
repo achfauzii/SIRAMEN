@@ -118,7 +118,7 @@ function matchCustom(params, data) {
 }
 function getUniversitasList() {
     const selectUniversity = $('#UniversityName');
-
+    
     $(selectUniversity).select2({
         placeholder: 'Select your University',
         width: '100%',
@@ -126,6 +126,13 @@ function getUniversitasList() {
         tags: true,
         minimumInputLength: 3
 
+
+    $(selectUniversity).select2({
+        placeholder: 'Select your University',
+        width: '100%',
+        allowClear: true,
+        tags: true,
+        minimumInputLength: 3
     });
     $.ajax({
         url: "../assets/file_json/loadpt.json",
@@ -392,6 +399,7 @@ function SaveFormal() {
 }
 
 function ClearScreenFormal() {
+
   $("#selectProvinces").val(null).trigger("change"); // Kosongkan pilihan select
   $("#FormalEduId").val("");
   $("#UniversityName").val("").trigger("change");
@@ -424,6 +432,7 @@ function ClearScreenFormal() {
     allowClear: true,
     tags: true,
   });
+
 }
 
 function GetById(formalEduId) {
