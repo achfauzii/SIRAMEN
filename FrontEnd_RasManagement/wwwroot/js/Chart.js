@@ -1,24 +1,24 @@
 $(document).ready(function () {
-    //debugger;
-    $('#loader').show();
-    
-    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
-    $.ajax({
-        url: "https://localhost:7177/api/Educations",
-        type: "GET",
-        datatype: "json",
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (education) {
-    var result = education.data;
+  //debugger;
+  $("#loader").show();
 
-    // Buat objek untuk menyimpan informasi universitas dan jumlah akun
-    var universitiesData = {};
+  // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
+  $.ajax({
+    url: "https://localhost:7177/api/Educations",
+    type: "GET",
+    datatype: "json",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (education) {
+      var result = education.data;
 
-    // Loop data dari API untuk menghitung jumlah akun yang berbeda di setiap universitas
-    result.forEach(eduData => {
+      // Buat objek untuk menyimpan informasi universitas dan jumlah akun
+      var universitiesData = {};
+
+      // Loop data dari API untuk menghitung jumlah akun yang berbeda di setiap universitas
+      result.forEach((eduData) => {
         var { universityName, accountId } = eduData;
 
         // Gunakan nama universitas sebagai kunci
@@ -26,271 +26,270 @@ $(document).ready(function () {
 
         // Jika kunci belum ada di dalam objek universitiesData, tambahkan entri baru
         if (!(key in universitiesData)) {
-            universitiesData[key] = {
-                totalAccounts: new Set([accountId])
-            };
+          universitiesData[key] = {
+            totalAccounts: new Set([accountId]),
+          };
         } else {
-            // Jika kunci sudah ada, tambahkan accountId ke set
-            universitiesData[key].totalAccounts.add(accountId);
+          // Jika kunci sudah ada, tambahkan accountId ke set
+          universitiesData[key].totalAccounts.add(accountId);
         }
-    });
+      });
 
-    // Konversi objek universitiesData menjadi array
-    var universitiesArray = Object.keys(universitiesData).map(key => ({
+      // Konversi objek universitiesData menjadi array
+      var universitiesArray = Object.keys(universitiesData).map((key) => ({
         universityName: key,
-        totalAccounts: universitiesData[key].totalAccounts.size
-    }));
+        totalAccounts: universitiesData[key].totalAccounts.size,
+      }));
 
-    // Urutkan array berdasarkan total akun secara menurun
-    universitiesArray.sort((a, b) => b.totalAccounts - a.totalAccounts);
+      // Urutkan array berdasarkan total akun secara menurun
+      universitiesArray.sort((a, b) => b.totalAccounts - a.totalAccounts);
 
-    // Objek yang telah diurutkan
-    var sortedUniversitiesData = {};
-    universitiesArray.forEach(item => {
+      // Objek yang telah diurutkan
+      var sortedUniversitiesData = {};
+      universitiesArray.forEach((item) => {
         sortedUniversitiesData[item.universityName] = {
-            totalAccounts: item.totalAccounts
+          totalAccounts: item.totalAccounts,
         };
-    });
+      });
 
-            tableUniv(sortedUniversitiesData);
-            chartUniv(sortedUniversitiesData);
-    console.log(sortedUniversitiesData)
-         
+      tableUniv(sortedUniversitiesData);
+      chartUniv(sortedUniversitiesData);
+      console.log(sortedUniversitiesData);
 
-            // Sembunyikan loader setelah permintaan selesai
-            $('#loader').hide();
-        }, error: function (errormessage) {
-            alert(errormessage.responseText);
+      // Sembunyikan loader setelah permintaan selesai
+      $("#loader").hide();
+    },
+    error: function (errormessage) {
+      alert(errormessage.responseText);
 
-            // Sembunyikan loader jika ada kesalahan dalam permintaan
-            $('#loader').hide();
-        }
+      // Sembunyikan loader jika ada kesalahan dalam permintaan
+      $("#loader").hide();
+    },
+  });
 
-    });
+  var idleCount = 0;
+  var onsiteCount = 0;
+  // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
 
-    var idleCount = 0;
-    var onsiteCount = 0;
-    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
-
-    $.ajax({
-        url: "https://localhost:7177/api/Employees",
-        type: "GET",
-        "datatype": "json",
-        async: false,
-        "dataSrc": "data",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (employees) {
-            var result = employees.data;
-            for (var i = 0; i < result.length; i++) {
-                var accountId = result[i].accountId;
-                var roleId = result[i].roleId; // Ambil roleId dari data saat ini
-                if (roleId === "3") {
-                    $.ajax({
-                        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-                        type: "GET",
-                        datatype: "json",
-                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
-                        headers: {
-                            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-                        },
-                        success: function (placementData) {
-                            if (placementData.data && placementData.data.length > 0) {
-                                var placementStatus = placementData.data[0].placementStatus; // Ambil data yang pertama dari array data
-                                if (placementStatus == "Idle") {
-                                    idleCount++;
-                                } else if (placementStatus == "Onsite") {
-                                    onsiteCount++;
-                                }
-                            } else {
-                                idleCount++;
-                            }
-                        }, error: function () {
-
-                        },
-                        complete: function () {
-                            // Sembunyikan loader setelah permintaan selesai
-                            $('#loader').hide();
-                        }
-                    });
-
-
+  $.ajax({
+    url: "https://localhost:7177/api/Employees",
+    type: "GET",
+    datatype: "json",
+    async: false,
+    dataSrc: "data",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (employees) {
+      var result = employees.data;
+      for (var i = 0; i < result.length; i++) {
+        var accountId = result[i].accountId;
+        var roleId = result[i].roleId; // Ambil roleId dari data saat ini
+        if (roleId === "3") {
+          $.ajax({
+            url:
+              "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
+              accountId,
+            type: "GET",
+            datatype: "json",
+            async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (placementData) {
+              if (placementData.data && placementData.data.length > 0) {
+                var placementStatus = placementData.data[0].placementStatus; // Ambil data yang pertama dari array data
+                if (placementStatus == "Idle") {
+                  idleCount++;
+                } else if (placementStatus == "Onsite") {
+                  onsiteCount++;
                 }
-
-            }
-            // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
-            document.getElementById("countIdle").textContent = idleCount;
-            document.getElementById("countOnsite").textContent = onsiteCount;
-
-            // Sembunyikan loader setelah semua permintaan selesai
-            $('#loader').hide();
-        }, error: function (errormessage) {
-            alert(errormessage.responseText);
-
-            // Sembunyikan loader jika ada kesalahan dalam permintaan
-            $('#loader').hide();
+              } else {
+                idleCount++;
+              }
+            },
+            error: function () {},
+            complete: function () {
+              // Sembunyikan loader setelah permintaan selesai
+              $("#loader").hide();
+            },
+          });
         }
-    });
-});
+      }
+      // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
+      document.getElementById("countIdle").textContent = idleCount;
+      document.getElementById("countOnsite").textContent = onsiteCount;
 
+      // Sembunyikan loader setelah semua permintaan selesai
+      $("#loader").hide();
+    },
+    error: function (errormessage) {
+      alert(errormessage.responseText);
+
+      // Sembunyikan loader jika ada kesalahan dalam permintaan
+      $("#loader").hide();
+    },
+  });
+});
 
 //Table
 function tableUniv(universitiesData) {
-    var table = $('#tableUniv').DataTable({
-        "paging": true,         
-        "pageLength": 5,
-        "lengthChange": false,
-        "searching": false,
-        // "order": [2, 'desc'], //kalau order nomer urutnya malah acak
-        columnDefs: [
-            { orderable: false, targets: 2 }
-          ]
-    });
+  var table = $("#tableUniv").DataTable({
+    paging: true,
+    pageLength: 5,
+    lengthChange: false,
+    searching: false,
+    // "order": [2, 'desc'], //kalau order nomer urutnya malah acak
+    columnDefs: [{ orderable: false, targets: 2 }],
+  });
 
-    table.clear().draw(); 
+  table.clear().draw();
 
-    var count = 1;
-    for (const universityName in universitiesData) {
-        var totalAccounts = universitiesData[universityName].totalAccounts;
+  var count = 1;
+  for (const universityName in universitiesData) {
+    var totalAccounts = universitiesData[universityName].totalAccounts;
 
-        // Add data to the DataTable
-        table.row.add([count, universityName, totalAccounts]).draw();
+    // Add data to the DataTable
+    table.row.add([count, universityName, totalAccounts]).draw();
 
-        count++;
-    }
+    count++;
+  }
 }
-
 
 //Chart
 function chartUniv(universitiesData) {
+  // Set new default font family and font color to mimic Bootstrap's default styling
+  (Chart.defaults.global.defaultFontFamily = "Nunito"),
+    '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  Chart.defaults.global.defaultFontColor = "#858796";
 
-    // Set new default font family and font color to mimic Bootstrap's default styling
-    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-    Chart.defaults.global.defaultFontColor = '#858796';
-
-
-    function number_format(number, decimals, dec_point, thousands_sep) {
-        // *     example: number_format(1234.56, 2, ',', ' ');
-        // *     return: '1 234,56'
-        number = (number + '').replace(',', '').replace(' ', '');
-        var n = !isFinite(+number) ? 0 : +number,
-            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-            s = '',
-            toFixedFix = function (n, prec) {
-                var k = Math.pow(10, prec);
-                return '' + Math.round(n * k) / k;
-            };
-        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-        if (s[0].length > 3) {
-            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-        }
-        if ((s[1] || '').length < prec) {
-            s[1] = s[1] || '';
-            s[1] += new Array(prec - s[1].length + 1).join('0');
-        }
-        return s.join(dec);
+  function number_format(number, decimals, dec_point, thousands_sep) {
+    // *     example: number_format(1234.56, 2, ',', ' ');
+    // *     return: '1 234,56'
+    number = (number + "").replace(",", "").replace(" ", "");
+    var n = !isFinite(+number) ? 0 : +number,
+      prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+      sep = typeof thousands_sep === "undefined" ? "," : thousands_sep,
+      dec = typeof dec_point === "undefined" ? "." : dec_point,
+      s = "",
+      toFixedFix = function (n, prec) {
+        var k = Math.pow(10, prec);
+        return "" + Math.round(n * k) / k;
+      };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : "" + Math.round(n)).split(".");
+    if (s[0].length > 3) {
+      s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
     }
-
-    //array univName
-    var univName = [];
-    var totalAccounts = [];
-    var count = 0;
-
-    for (const universityName in universitiesData) {
-        if (count < 10) {
-            univName.push(universityName);
-            totalAccounts.push(universitiesData[universityName].totalAccounts);
-            count++;
-        } else {
-            break; // Hentikan iterasi setelah 10 data pertama
-        }
+    if ((s[1] || "").length < prec) {
+      s[1] = s[1] || "";
+      s[1] += new Array(prec - s[1].length + 1).join("0");
     }
+    return s.join(dec);
+  }
 
-    //var universityName =
-    // Bar Chart Example
+  //array univName
+  var univName = [];
+  var totalAccounts = [];
+  var count = 0;
 
-    var ctx = document.getElementById("myBarChart").getContext('2d');
-var myBarChart = new Chart(ctx, {
-    type: 'horizontalBar',
+  for (const universityName in universitiesData) {
+    if (count < 10) {
+      univName.push(universityName);
+      totalAccounts.push(universitiesData[universityName].totalAccounts);
+      count++;
+    } else {
+      break; // Hentikan iterasi setelah 10 data pertama
+    }
+  }
+
+  //var universityName =
+  // Bar Chart Example
+
+  var ctx = document.getElementById("myBarChart").getContext("2d");
+  var myBarChart = new Chart(ctx, {
+    type: "horizontalBar",
     data: {
-        labels: univName,
-        datasets: [{
-            backgroundColor: "#4e73df",
-            hoverBackgroundColor: "#2e59d9",
-            borderColor: "#4e73df",
-            data: totalAccounts,
-        }],
+      labels: univName,
+      datasets: [
+        {
+          backgroundColor: "#4e73df",
+          hoverBackgroundColor: "#2e59d9",
+          borderColor: "#4e73df",
+          data: totalAccounts,
+        },
+      ],
     },
     options: {
-        maintainAspectRatio: false,
-        responsive: true,
-   
-        layout: {
-            padding: {
-                left: 10,
-                right: 10,
-               
-                bottom: 10
-            }
+      maintainAspectRatio: false,
+      responsive: true,
+
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+
+          bottom: 10,
         },
-        scales: {
-            xAxes: [{
-                ticks: {
-                    min: 0,
-                    maxTicksLimit: 6, 
-                    autoSkip: false,
-                  
-                },
-                gridLines: {
-                    display: false,
-                    drawBorder: false
-                },
-                maxBarThickness: 25,
-            }],
-            yAxes: [{
-                ticks: {
-                    crossAlign: "near",
-                    padding: 10,
-                    fontSize: 14, 
-                    fontColor: '#000', 
-                    align: 'start',
-                    autoSkip: false,
-                },
-                gridLines: {
-                    color: "rgb(234, 236, 244)",
-                    zeroLineColor: "rgb(234, 236, 244)",
-                    drawBorder: false,
-                    borderDash: [2],
-                    zeroLineBorderDash: [2]
-                },
-            }],
+      },
+      scales: {
+        xAxes: [
+          {
+            ticks: {
+              min: 0,
+              maxTicksLimit: 6,
+              autoSkip: false,
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false,
+            },
+            maxBarThickness: 25,
+          },
+        ],
+        yAxes: [
+          {
+            ticks: {
+              crossAlign: "near",
+              padding: 10,
+              fontSize: 14,
+              fontColor: "#000",
+              align: "start",
+              autoSkip: false,
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2],
+            },
+          },
+        ],
+      },
+      legend: {
+        display: false,
+      },
+      tooltips: {
+        titleMarginBottom: 10,
+        titleFontColor: "#6e707e",
+        titleFontSize: 14,
+        backgroundColor: "rgb(255,255,255)",
+        bodyFontColor: "#858796",
+        borderColor: "#dddfeb",
+        borderWidth: 1,
+        xPadding: 15,
+        yPadding: 15,
+        displayColors: false,
+        caretPadding: 10,
+        callbacks: {
+          label: function (tooltipItem, chart) {
+            var datasetLabel =
+              chart.datasets[tooltipItem.datasetIndex].label || "";
+            return datasetLabel + ": " + number_format(tooltipItem.xLabel);
+          },
         },
-        legend: {
-            display: false
-        },
-        tooltips: {
-            titleMarginBottom: 10,
-            titleFontColor: '#6e707e',
-            titleFontSize: 14,
-            backgroundColor: "rgb(255,255,255)",
-            bodyFontColor: "#858796",
-            borderColor: '#dddfeb',
-            borderWidth: 1,
-            xPadding: 15,
-            yPadding: 15,
-            displayColors: false,
-            caretPadding: 10,
-            callbacks: {
-                label: function (tooltipItem, chart) {
-                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    return datasetLabel + ': ' + number_format(tooltipItem.xLabel);
-                }
-            }
-        },
-    }
-});
+      },
+    },
+  });
 }
