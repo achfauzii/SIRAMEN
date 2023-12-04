@@ -60,7 +60,7 @@
                         <label for="Announcement">Title</label>
                         <p>
                             <select id="Announcement" class="form-control" required>
-                                <option selected disabled value="placeholder"> -- Choosee Announcement -- </option>
+                                <option selected disabled value="placeholder"> -- Choose Announcement -- </option>
                                 <option value="death"> Duka Cita </option>
                                 <option value="birth"> Kelahiran </option>
                             </select>
@@ -72,9 +72,8 @@
                     <div class="birth" id="birth">
 
                         <div class="form-group">
-                            <label for="NameEmployee">Employee</label>
                             <select id="NameEmployee" class="form-control" required>
-                                <option selected disabled> -- Choosee Employee -- </option>
+                                <option selected disabled> -- Choose Employee -- </option>
                             </select>
                             <span class="error-message-name-employee" style="color: red; display: none;">This field is required!</span>
                         </div>
@@ -95,7 +94,7 @@
                         <div class="form-group">
                             <label for="Child">Child</label>
                             <select id="Child" class="form-control" required>
-                                    <option selected disabled> -- Choosee Child -- </option>
+                                    <option selected disabled> -- Choose Child -- </option>
                                     <option value="Pertama"> Pertama </option>
                                     <option value="Kedua"> Kedua </option>
                                     <option value="Ketiga"> Ketiga </option>
@@ -154,7 +153,7 @@
                         <div class="form-group">
                             <label for="EmployeeName">Employee</label>
                             <select id="EmployeeName" class="form-control" required-death>
-                                <option selected disabled> -- Choosee Employee -- </option>
+                                <option selected disabled> -- Choose Employee -- </option>
                             </select>
                             <span class="error-message-employee-name" style="color: red; display: none;">This field is required!</span>
                         </div>
@@ -168,7 +167,7 @@
                         <div class="form-group">
                             <label for="Relation">Relation</label>
                             <select id="Relation" class="form-control" required-death>
-                                    <option selected disabled> -- Choosee Relation -- </option>
+                                    <option selected disabled> -- Choose Relation -- </option>
                                     <option value="Ibu"> Ibu </option>
                                     <option value="Ayah"> Ayah </option>
                                     <option value="Adik"> Adik</option>
@@ -306,31 +305,31 @@
             </div>
         </div>
     </div>
-
+ 
 </div>
 <span style="font-family:comfortaa; font-size:12px;">Date Time :  </span>
 <span style="font-family:comfortaa; font-size:12px; color:black ; margin-top:-5px;" id="clock"></span>
 
-<table class="table table-striped shadow" style="font-size:14px; color:black">
+<table id="tableUniv" class="table table-striped shadow" style="font-size:14px; color:black">
     <thead style="background-color:#FFFFFF">
         <tr>
             <th scope="col">#</th>
             <th scope="col">University</th>
             <th scope="col">Number of employees</th>
-
         </tr>
     </thead>
-    <tbody id="tableUniv">
+    <tbody>
     </tbody>
 </table>
 
 <!-- Bar Chart -->
-<div class="card shadow mb-4 d-none d-lg-block">
+
+<div class="card shadow mb-4 mt-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">TOP University By Employee</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Top 10 University By Employee</h6>
     </div>
     <div class="card-body">
-        <div class="chart-bar">
+        <div class="chart-bar" style="height: 250px">
             <canvas id="myBarChart"></canvas>
         </div>
     </div>

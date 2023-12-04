@@ -1,5 +1,4 @@
-﻿var table = null;
-
+var table = null;
 $(document).ready(function () {
   Educations();
   formInputLocation();
@@ -17,10 +16,10 @@ $(document).ready(function () {
 });
 
 function Educations() {
+  //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   table = $("#TB_FormalEdu").DataTable({
-    responsive: true,
     ajax: {
       url: "https://localhost:7177/api/Educations/accountId?accountId=" + accid,
       type: "GET",
@@ -36,7 +35,6 @@ function Educations() {
 
     columns: [
       {
-        data: null,
         render: function (data, type, row, meta) {
           return meta.row + meta.settings._iDisplayStart + 1 + ".";
         },
@@ -130,9 +128,6 @@ function getUniversitasList() {
     url: "../assets/file_json/loadpt.json",
     type: "GET",
     datatype: "json",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
 
     success: function (result) {
       var universities = result;
@@ -144,7 +139,7 @@ function getUniversitasList() {
           true,
           true
         );
-        selectUniversity.add(option);
+        selectUniversity.append(option);
       });
     },
     error: function (errormessage) {
@@ -252,7 +247,7 @@ function formInputLocation() {
                 $(selectRegencies).empty();
 
                 if (selectedProvinceId) {
-                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${selectedProvinceId}.json`)
+                    fetch(https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${selectedProvinceId}.json)
                         .then(response => response.json())
                         .then(regencies => {
                             regencies.forEach(regency => {
@@ -370,6 +365,7 @@ function SaveFormal() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
+    //debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -383,7 +379,7 @@ function SaveFormal() {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Data failed to added!",
+        title: "Data Gagal dimasukkan!",
         showConfirmButtom: false,
         timer: 1500,
       });
@@ -419,16 +415,10 @@ function ClearScreenFormal() {
     .closest(".form-group")
     .find(".error-message-formal")
     .hide();
-  const selectUniversities = $("#UniversityName");
-  $(selectUniversities).select2({
-    placeholder: "Select your University",
-    width: "100%",
-    allowClear: true,
-    tags: true,
-  });
 }
 
 function GetById(formalEduId) {
+  //debugger;
   //GET SEMUA Kota atau kabupaten untuk di tampilkan berdasarkan Get By Id
 
   ClearScreenFormal();
@@ -442,6 +432,7 @@ function GetById(formalEduId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
+      debugger;
       var obj = result.data; //data yg kita dapat dr API
       const option = document.createElement("option");
       option.value = obj.location;
@@ -531,6 +522,7 @@ function UpdateFormal() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
+    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -542,12 +534,13 @@ function UpdateFormal() {
       $("#ModalFormal").modal("hide");
       table.ajax.reload();
     } else {
-      Swal.fire("Error!", "Data failed to update", "error");
+      alert("Data gagal Diperbaharui");
     }
   });
 }
 
 function DeleteFormal(formalEduId) {
+  debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -567,11 +560,12 @@ function DeleteFormal(formalEduId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
+        debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           $("#TB_FormalEdu").DataTable().ajax.reload();
         } else {
-          Swal.fire("Error!", "Data failed to delete", "error");
+          Swal.fire("Error!", result.message, "error");
         }
       });
     }
