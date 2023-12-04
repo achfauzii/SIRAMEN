@@ -117,67 +117,38 @@ function matchCustom(params, data) {
   return null;
 }
 function getUniversitasList() {
-  const selectUniversity = $("#UniversityName");
+    const selectUniversity = $('#UniversityName');
 
-  $.ajax({
-    url: "../assets/file_json/loadpt.json",
-    type: "GET",
-    datatype: "json",
+    $(selectUniversity).select2({
+        placeholder: 'Select your University',
+        width: '100%',
+        allowClear: true,
+        tags: true,
+        minimumInputLength: 3
 
-    success: function (result) {
-      var universities = result;
-
-      universities.forEach(function (university) {
-        const option = new Option(
-          university.nama_pt,
-          university.nama_pt,
-          true,
-          true
-        );
-        selectUniversity.append(option);
-      });
-
-      selectUniversity.select2({
-        placeholder: "Select university",
-        width: "100%",
-        matcher: matchCustom, // Use the custom matcher function
-      });
-    },
-    error: function (errormessage) {
-      alert(errormessage.responseText);
-    },
-  });
-
-  /*const selectUniversity = document.getElementById('UniversityName');
-
+    });
     $.ajax({
-        url: "http://202.69.99.67:9001/api/Universitas",
+        url: "../assets/file_json/loadpt.json",
         type: "GET",
-        dataType: "json",
+        "datatype": "json",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
+
         success: function (result) {
-            var universities = result.data; 
+            var universities = result;
 
             universities.forEach(function (university) {
-                console.log(university);
-                const option = document.createElement('option');
-                option.value = university.namaUniversitas;
-                option.textContent = university.namaUniversitas;
-                selectUniversity.appendChild(option);
+                const option = new Option(university.nama_pt, university.nama_pt, true, true);
+                selectUniversity.append(option);
             });
 
-            $(selectUniversity).select2({
-                placeholder: 'Select university',
-                width: '100%',
 
-            });
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
-    });*/
+    });
 }
 
 function formInputLocation() {
