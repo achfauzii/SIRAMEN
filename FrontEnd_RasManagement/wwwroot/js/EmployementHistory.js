@@ -312,9 +312,7 @@ function Delete(workExperienceId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url:
-          "https://localhost:7177/api/EmploymentHistory/" +
-          workExperienceId,
+        url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
         type: "DELETE",
         dataType: "json",
 

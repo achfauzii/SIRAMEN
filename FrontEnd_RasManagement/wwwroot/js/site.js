@@ -49,37 +49,7 @@ $(document).ready(function () {
     }
   });
 
-  //Get Employee
-  var selectEmployee = $(".pilihannama");
-
-  $.ajax({
-    type: "GET",
-    url: "https://localhost:7177/api/Accounts",
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (result != null) {
-      result.forEach((item) => {
-        var option = new Option(item.fullname, item.fullname, true, false);
-        selectEmployee.append(option).trigger('change');
-        
-      });
-    }
-    // $("#EmployeeName").select2({
-    //   placeholder: "Select Employee",
-    //   width: "100%",
-    //   matcher: matchCustom, // Use the custom matcher function
-    // });
-
-    // $("#NameEmployee").select2({
-    //   placeholder: "Select Employee",
-    //   width: "100%",
-    //   matcher: matchCustom, // Use the custom matcher function
-    // });
-  });
-
+  GetEmployeeList();
   //Get All Employee
   $.ajax({
     type: "GET",
@@ -438,3 +408,43 @@ $(document).ajaxComplete(function () {
     trigger: "hover",
   });
 });
+
+function GetEmployeeList() {
+  //Get Employee
+  var selectEmployee = document.getElementById("NameEmployee");
+  var select = document.getElementById("EmployeeName");
+
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/Accounts",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      result.forEach((item) => {
+        var option = new Option(item.fullname, item.fullname, true, false);
+        selectEmployee.add(option);
+
+        var opt = new Option(item.fullname, item.fullname, true, false);
+        select.add(opt);
+      });
+    }
+  });
+  $("#NameEmployee").select2({
+    placeholder: "Select Employee",
+    width: "100%",
+    height: "100%",
+    allowClear: true,
+    tags: true,
+  });
+
+  $("#EmployeeName").select2({
+    placeholder: "Select Employee",
+    width: "100%",
+    height: "100%",
+    allowClear: true,
+    tags: true,
+  });
+}

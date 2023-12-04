@@ -141,5 +141,5 @@ function parseJwt(token) {
 
 function Logout() {
   sessionStorage.removeItem("Token"); //Remove Session
-  window.location.href = "http://202.69.99.67:9005/"; //Kembali Ke halaman Awal
+  window.location.href = "https://localhost:7109/"; //Kembali Ke halaman Awal
 }

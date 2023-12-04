@@ -136,7 +136,6 @@ function ClearScreenAsset() {
   $("#os").val("Windows");
   $("#ram").val("");
   $("#ssd").val("");
-  $('#ssd-error').hide();
   $("#hdd").val("");
   $("#GraphicCard").val("");
   $("#charger").val("Yes");
@@ -166,83 +165,84 @@ function SaveAsset() {
   var ssdValue = $("#ssd").val().replace(/^0+/, ""); //hapus 0 di awal
   var hddValue = $("#hdd").val().replace(/^0+/, "");
 
-if(ramValue === ""){
-        if (ssdValue === "" && hddValue === "" ) {
-            $('#ssd-error').show();
-            $('#hdd-error').show();
-            $('#ram').next().show();
-            
-            return
-        } else{
-            $('#ram').next().show();
-            $('#ssd-error').hide();
-            return
-        }
-    }else{
-        $('#ram').next().hide();
-        if (ssdValue === "" && hddValue === "" ) {
-            $('#ssd-error').show();
-            $('#hdd-error').show();
-            return
-        } else{
-            $('#ssd-error').hide();
-            $('#hdd-error').hide();
-        }
-        }
+  if (ramValue === "") {
+    if (ssdValue === "" && hddValue === "") {
+      $("#ssd-error").show();
+      $("#hdd-error").show();
+      $("#ram").next().show();
 
-    
-    
-    if (!isValid) {
-        return;
+      return;
+    } else {
+      $("#ram").next().show();
+      $("#ssd-error").hide();
+      return;
     }
- 
-    var Assets = new Object(); //bikin objek baru
-    Assets.rfid = $('#RFID').val();
-    Assets.nama = $('#brand').val();
-    Assets.processor = $('#Processor').val();
-    Assets.display = $('#Display').val();
-    Assets.operatingSystem = $('#os').val();
-    Assets.ram = (ramValue !== "" ? ramValue + " GB" : "-");
-    Assets.ssd = (ssdValue !== "" ? ssdValue + " GB" : "-");
-    Assets.hdd = (hddValue !== "" ? hddValue + " GB" : "-");
-    Assets.graphicCard = $('#GraphicCard').val();
-    Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
-    Assets.accountId = accid;
-    $.ajax({
-        type: 'POST',
-        url: 'https://localhost:7177/api/Assets',
-        data: JSON.stringify(Assets), //ngirim data ke api
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then((result) => {
-        debugger;
-        if (result.status == result.status == 201 || result.status == 204 || result.status == 200) {
-            //alert("Data Berhasil Dimasukkan");
-            Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Data has been added!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            $('#ModalAssets').modal('hide');
-            table.ajax.reload();
-        }
-        else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Data Gagal dimasukkan!',
-                showConfirmButtom: false,
-                timer: 1500
-            })
-            $('#ModalAssets').modal('hide');
-            table.ajax.reload();
-        }
-    })
+  } else {
+    $("#ram").next().hide();
+    if (ssdValue === "" && hddValue === "") {
+      $("#ssd-error").show();
+      $("#hdd-error").show();
+      return;
+    } else {
+      $("#ssd-error").hide();
+      $("#hdd-error").hide();
+    }
+  }
+
+  if (!isValid) {
+    return;
+  }
+
+  var Assets = new Object(); //bikin objek baru
+  Assets.rfid = $("#RFID").val();
+  Assets.nama = $("#brand").val();
+  Assets.processor = $("#Processor").val();
+  Assets.display = $("#Display").val();
+  Assets.operatingSystem = $("#os").val();
+  Assets.ram = ramValue !== "" ? ramValue + " GB" : "-";
+  Assets.ssd = ssdValue !== "" ? ssdValue + " GB" : "-";
+  Assets.hdd = hddValue !== "" ? hddValue + " GB" : "-";
+  Assets.graphicCard = $("#GraphicCard").val();
+  Assets.charger = $("#charger").val() === "Yes" ? true : false;
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
+  Assets.accountId = accid;
+  $.ajax({
+    type: "POST",
+    url: "https://localhost:7177/api/Assets",
+    data: JSON.stringify(Assets), //ngirim data ke api
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    // debugger;
+    if (
+      (result.status == result.status) == 201 ||
+      result.status == 204 ||
+      result.status == 200
+    ) {
+      //alert("Data Berhasil Dimasukkan");
+      Swal.fire({
+        icon: "success",
+        title: "Success...",
+        text: "Data has been added!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      $("#ModalAssets").modal("hide");
+      table.ajax.reload();
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Data Gagal dimasukkan!",
+        showConfirmButtom: false,
+        timer: 1500,
+      });
+      $("#ModalAssets").modal("hide");
+      table.ajax.reload();
+    }
+  });
 }
 function GetById(assetsManagementId) {
   console.log(assetsManagementId);
@@ -331,76 +331,70 @@ function UpdateAsset() {
   var ssdValue = $("#ssd").val().replace(/^0+/, ""); //hapus 0 di awal
   var hddValue = $("#hdd").val().replace(/^0+/, "");
 
- if(ramValue === ""){
-        if (ssdValue === "" && hddValue === "" ) {
-            $('#ssd-error').show();
-            $('#hdd-error').show();
-            $('#ram').next().show();
-            
-            return
-        } else{
-            $('#ram').next().show();
-            $('#ssd-error').hide();
-            return
-        }
-    }else{
-        $('#ram').next().hide();
-        if (ssdValue === "" && hddValue === "" ) {
-            $('#ssd-error').show();
-            $('#hdd-error').show();
-            return
-        } else{
-            $('#ssd-error').hide();
-            $('#hdd-error').hide();
-        }
-        }
-    if (!isValid) {
-        return;
-    }
-    var Assets = new Object();
-    Assets.assetsManagementId = $('#assetsManagementId').val();
-    Assets.rfid = $('#RFID').val();
-    Assets.nama = $('#brand').val();
-    Assets.processor = $('#Processor').val();
-    Assets.display = $('#Display').val();
-    Assets.operatingSystem = $('#os').val();
-    Assets.ram = (ramValue !== "" ? ramValue + " GB" : "-");
-    Assets.ssd = (ssdValue !== "" ? ssdValue + " GB" : "-");
-    Assets.hdd = (hddValue !== "" ? hddValue + " GB" : "-");
-    Assets.graphicCard = $('#GraphicCard').val();
-    Assets.charger = ($('#charger').val() === 'Yes') ? true : false;
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
-    Assets.accountId = accid;
-    $.ajax({
-        url: 'https://localhost:7177/api/Assets',
-        type: 'PUT',
-        data: JSON.stringify(Assets),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
+  if (ramValue === "") {
+    if (ssdValue === "" && hddValue === "") {
+      $("#ssd-error").show();
+      $("#hdd-error").show();
+      $("#ram").next().show();
 
-    }).then((result) => {
-        debugger;
-        if (result.status == 200) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Data has been update!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            $('#ModalAssets').modal('hide');
-            table.ajax.reload();
-        }
-        else {
-            Swal.fire(
-                'Error!',
-                result.message,
-                'error'
-            )
-            table.ajax.reload();
-        }
-    });
+      return;
+    } else {
+      $("#ram").next().show();
+      $("#ssd-error").hide();
+      return;
+    }
+  } else {
+    $("#ram").next().hide();
+    if (ssdValue === "" && hddValue === "") {
+      $("#ssd-error").show();
+      $("#hdd-error").show();
+      return;
+    } else {
+      $("#ssd-error").hide();
+      $("#hdd-error").hide();
+    }
+  }
+  if (!isValid) {
+    return;
+  }
+  var Assets = new Object();
+  Assets.assetsManagementId = $("#assetsManagementId").val();
+  Assets.rfid = $("#RFID").val();
+  Assets.nama = $("#brand").val();
+  Assets.processor = $("#Processor").val();
+  Assets.display = $("#Display").val();
+  Assets.operatingSystem = $("#os").val();
+  Assets.ram = ramValue !== "" ? ramValue + " GB" : "-";
+  Assets.ssd = ssdValue !== "" ? ssdValue + " GB" : "-";
+  Assets.hdd = hddValue !== "" ? hddValue + " GB" : "-";
+  Assets.graphicCard = $("#GraphicCard").val();
+  Assets.charger = $("#charger").val() === "Yes" ? true : false;
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
+  Assets.accountId = accid;
+  $.ajax({
+    url: "https://localhost:7177/api/Assets",
+    type: "PUT",
+    data: JSON.stringify(Assets),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    // debugger;
+    if (result.status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Success...",
+        text: "Data has been update!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      $("#ModalAssets").modal("hide");
+      table.ajax.reload();
+    } else {
+      Swal.fire("Error!", result.message, "error");
+      table.ajax.reload();
+    }
+  });
 }

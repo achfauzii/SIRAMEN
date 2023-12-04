@@ -21,6 +21,30 @@ namespace RasManagement.Controllers
             _context = context;
         }
 
+        [HttpGet("Position")]
+        public async Task<IActionResult> Position()
+        {
+            var uniquePositions = await _context.NonRasCandidates
+                                         .Select(c => c.Position)
+                                         .Distinct()
+                                         .ToListAsync();
+
+            var cleaningPositions = uniquePositions
+            .SelectMany(position => position.Split(',').Select(p => p.Trim()))
+            .Select(position => position.ToLowerInvariant())
+            .Distinct()
+            .ToList();
+            if (uniquePositions != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = cleaningPositions });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found" });
+            }
+
+        }
+
 
         /*     [HttpPut("UpdateNonRAS")]
              public IActionResult UpdateNonRAS(NonRasCandidate nonRasCandidate)
@@ -41,7 +65,7 @@ namespace RasManagement.Controllers
         {
             //var employees = await employeeRepository.GetEmployeeData();
             var query = _context.NonRasCandidates.AsQueryable();
-            
+
 
 
 
@@ -52,18 +76,20 @@ namespace RasManagement.Controllers
                 var searchTerm = request.Search.Value.ToLower();
                 query = query.Where(e =>
                     e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
-                    e.Position.ToLower().Contains(searchTerm)
+                    e.Position.ToLower().Contains(searchTerm) ||
+                    e.Skillset.ToLower().Contains(searchTerm)
+
                 );
             }
 
             if (!string.IsNullOrEmpty(request.Search?.Category))
             {
-                var category= request.Search.Category.ToLower();
+                var category = request.Search.Category.ToLower();
                 query = query.Where(e =>
 
                     e.Position.ToLower().Contains(category)
                 );
-              
+
                 if (!string.IsNullOrEmpty(request.Search?.Value))
                 {
                     var searchTerm = request.Search.Value.ToLower();
@@ -85,7 +111,7 @@ namespace RasManagement.Controllers
             {
                 query = sortDirection == "asc" ? query.OrderBy(c => c.Position) : query.OrderByDescending(c => c.Position);
             }
-          
+
             else
             {
                 query = sortDirection == "asc" ? query.OrderBy(c => c.Fullname) : query.OrderByDescending(c => c.Fullname);
@@ -149,7 +175,8 @@ namespace RasManagement.Controllers
                 var searchTerm = request.Search.Value.ToLower();
                 query = query.Where(e =>
                     e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
-                    e.Position.ToLower().Contains(searchTerm)
+                    e.Position.ToLower().Contains(searchTerm) ||
+                      e.Skillset.ToLower().Contains(searchTerm)
                 );
             }
 
@@ -166,7 +193,8 @@ namespace RasManagement.Controllers
                     var searchTerm = request.Search.Value.ToLower();
                     query = query.Where(e =>
                         e.Fullname.ToLower().Contains(searchTerm) ||
-                        e.Position.ToLower().Contains(category)
+                        e.Position.ToLower().Contains(category) ||
+                        e.Skillset.ToLower().Contains(category)
                     );
                 }
             }

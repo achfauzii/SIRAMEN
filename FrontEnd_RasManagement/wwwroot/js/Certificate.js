@@ -6,8 +6,8 @@ $(document).ready(function () {
   table = $("#TB_Certificate").DataTable({
     responsive: true,
     ajax: {
-      url:"https://localhost:7177/api/Certificate/accountId?accountId=" +
-        accid,
+      url:
+        "https://localhost:7177/api/Certificate/accountId?accountId=" + accid,
       type: "GET",
       datatype: "json",
       dataSrc: "data",

@@ -31,7 +31,7 @@ namespace FrontEnd_RasManagement.Services
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     _logger.LogInformation("Background task is running...");
-                    string apiEndpoint = "http://202.69.99.67:9001/api/Accounts/BirthDay";
+                    string apiEndpoint = "https://localhost:7177/api/Accounts/BirthDay";
 
                     using (HttpClient client = new HttpClient())
                     {

@@ -11,7 +11,7 @@
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Full Name</label>
                     <input type="text" class="form-control" oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="fullName" name="fullName" required>
-                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
+                    <span class="error-message" id="validateName" style="color: red; display: none;">The field can only use letters.</span>
                 </div>
                 <div class="col-sm-3">
                     <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
@@ -212,6 +212,12 @@
 
         // Generate a random UUID
 
+        //Validasi Nama
+        if (!validateName){
+            $('#fullName').focus();
+            return
+        }
+
         //validasi email
         if (validateEmail(email)) {
             $('#validateEmail').hide();
@@ -248,7 +254,7 @@
 
 
         // Mengirim data ke API menggunakan Fetch API
-        fetch('http://202.69.99.67:9001/api/Accounts/Register', {
+        fetch('https://localhost:7177/api/Accounts/Register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -273,7 +279,7 @@
 
                             $.ajax({
                                 type: 'POST',
-                                url: 'http://202.69.99.67:9001/api/NonFormalEdu',
+                                url: 'https://localhost:7177/api/NonFormalEdu',
                                 data: JSON.stringify(NonFormal), //ngirim data ke api
                                 contentType: "application/json; charset=utf-8",
                                 headers: {
@@ -290,7 +296,7 @@
                             qualifications.accountId = item.data;
                             $.ajax({
                                 type: 'POST',
-                                url: 'http://202.69.99.67:9001/api/Qualification',
+                                url: 'https://localhost:7177/api/Qualification',
                                 data: JSON.stringify(qualifications), //ngirim data ke api
                                 contentType: "application/json; charset=utf-8",
                                 headers: {
@@ -319,7 +325,7 @@
                             //console.log(EmploymentHistory);
                             $.ajax({
                                 type: 'POST',
-                                url: 'http://202.69.99.67:9001/api/EmploymentHistory',
+                                url: 'https://localhost:7177/api/EmploymentHistory',
                                 data: JSON.stringify(EmploymentHistory),
                                 contentType: "application/json; charset=utf-8",
                                 headers: {
@@ -387,10 +393,31 @@
                 return v.toString(16);
             });
     };
+    var errorName = document.getElementById('validateName');
+    document.getElementById('fullName').addEventListener('keyup', function (fullname) {
+        var regex = /^[a-zA-Z'-\s]+$/;
+
+        if (regex.test(this.value) == true || this.value == '') {
+            errorName.style.display = 'none';
+            validateName = true;
+        } else {
+            errorName.style.display = 'block';
+            validateName = false;
+        }
+    });
+
     function validateEmail(email) {
         // Regular expression untuk memeriksa email dengan domain berca.co.id
         const regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
         return regex.test(email);
+    }
+
+    function capitalizeName(name){
+        return name
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     function noHTML(input) {
@@ -401,12 +428,5 @@
     function handleInput(event, input) {
         // Menangani peristiwa oninput dan onpaste
         noHTML(input);
-    }
-    function capitalizeName(name){
-        return name
-            .toLowerCase()
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
     }
 </script>
