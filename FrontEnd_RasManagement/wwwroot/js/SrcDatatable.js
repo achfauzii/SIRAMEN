@@ -1,4 +1,4 @@
-﻿var table = null;
+var table = null;
 
 $(document).ready(function () {
 
@@ -1891,21 +1891,10 @@ function createDropdown(categories) {
     return dropdownContainer;
 }
 
-
-
-
-
 // Fungsi untuk mengubah huruf besar di awal dan setelah spasi
 function capitalizeWords(str) {
     return str.toLowerCase().replace(/(?:^|\s)\S/g, function (a) { return a.toUpperCase(); });
 }
-
-
-
-
-
-
-
 
 function newOfferingFields() {
     document.getElementById('displayDateIntwUser2').style.display = "block";
