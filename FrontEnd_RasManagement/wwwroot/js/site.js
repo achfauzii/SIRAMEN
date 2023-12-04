@@ -50,7 +50,6 @@ $(document).ready(function () {
   });
 
   GetEmployeeList();
-
   //Get All Employee
   $.ajax({
     type: "GET",

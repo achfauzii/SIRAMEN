@@ -1,6 +1,7 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
   //debugger;
   $("#loader").show();
+
   // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
   $.ajax({
     url: "https://localhost:7177/api/Educations",
@@ -20,22 +21,40 @@
       result.forEach((eduData) => {
         var { universityName, accountId } = eduData;
 
+        // Gunakan nama universitas sebagai kunci
         var key = universityName;
 
+        // Jika kunci belum ada di dalam objek universitiesData, tambahkan entri baru
         if (!(key in universitiesData)) {
           universitiesData[key] = {
             totalAccounts: new Set([accountId]),
           };
         } else {
+          // Jika kunci sudah ada, tambahkan accountId ke set
           universitiesData[key].totalAccounts.add(accountId);
         }
       });
-      Object.keys(universitiesData).forEach((key) => {
-        universitiesData[key].totalAccounts =
-          universitiesData[key].totalAccounts.size;
+
+      // Konversi objek universitiesData menjadi array
+      var universitiesArray = Object.keys(universitiesData).map((key) => ({
+        universityName: key,
+        totalAccounts: universitiesData[key].totalAccounts.size,
+      }));
+
+      // Urutkan array berdasarkan total akun secara menurun
+      universitiesArray.sort((a, b) => b.totalAccounts - a.totalAccounts);
+
+      // Objek yang telah diurutkan
+      var sortedUniversitiesData = {};
+      universitiesArray.forEach((item) => {
+        sortedUniversitiesData[item.universityName] = {
+          totalAccounts: item.totalAccounts,
+        };
       });
-      tableUniv(universitiesData);
-      chartUniv(universitiesData);
+
+      tableUniv(sortedUniversitiesData);
+      chartUniv(sortedUniversitiesData);
+      console.log(sortedUniversitiesData);
 
       // Sembunyikan loader setelah permintaan selesai
       $("#loader").hide();
@@ -115,23 +134,24 @@
 
 //Table
 function tableUniv(universitiesData) {
-  // Cetak hasil jumlah akun di setiap universitas
-  var tbody = document.getElementById("tableUniv");
-  // Loop melalui data universitas dan jumlah akun untuk membuat baris baru pada tabel
+  var table = $("#tableUniv").DataTable({
+    paging: true,
+    pageLength: 5,
+    lengthChange: false,
+    searching: false,
+    // "order": [2, 'desc'], //kalau order nomer urutnya malah acak
+    columnDefs: [{ orderable: false, targets: 2 }],
+  });
+
+  table.clear().draw();
+
   var count = 1;
   for (const universityName in universitiesData) {
     var totalAccounts = universitiesData[universityName].totalAccounts;
 
-    // Buat elemen baris (tr) dan kolom (td) baru untuk setiap entri universitas
-    var row = document.createElement("tr");
-    row.innerHTML = `
-                    <td>${count}</td>
-                    <td>${universityName}</td>
-                    <td>${totalAccounts}</td>
-                `;
+    // Add data to the DataTable
+    table.row.add([count, universityName, totalAccounts]).draw();
 
-    // Tambahkan baris ke elemen tbody tabel
-    tbody.appendChild(row);
     count++;
   }
 }
@@ -171,22 +191,28 @@ function chartUniv(universitiesData) {
   //array univName
   var univName = [];
   var totalAccounts = [];
+  var count = 0;
+
   for (const universityName in universitiesData) {
-    univName.push(universityName);
-    totalAccounts.push(universitiesData[universityName].totalAccounts);
+    if (count < 10) {
+      univName.push(universityName);
+      totalAccounts.push(universitiesData[universityName].totalAccounts);
+      count++;
+    } else {
+      break; // Hentikan iterasi setelah 10 data pertama
+    }
   }
 
   //var universityName =
   // Bar Chart Example
 
-  var ctx = document.getElementById("myBarChart");
+  var ctx = document.getElementById("myBarChart").getContext("2d");
   var myBarChart = new Chart(ctx, {
-    type: "bar",
+    type: "horizontalBar",
     data: {
       labels: univName,
       datasets: [
         {
-          label: "Employee",
           backgroundColor: "#4e73df",
           hoverBackgroundColor: "#2e59d9",
           borderColor: "#4e73df",
@@ -196,26 +222,27 @@ function chartUniv(universitiesData) {
     },
     options: {
       maintainAspectRatio: false,
+      responsive: true,
+
       layout: {
         padding: {
           left: 10,
-          right: 25,
-          top: 25,
-          bottom: 0,
+          right: 10,
+
+          bottom: 10,
         },
       },
       scales: {
         xAxes: [
           {
-            time: {
-              unit: "month",
+            ticks: {
+              min: 0,
+              maxTicksLimit: 6,
+              autoSkip: false,
             },
             gridLines: {
               display: false,
               drawBorder: false,
-            },
-            ticks: {
-              maxTicksLimit: univName.length,
             },
             maxBarThickness: 25,
           },
@@ -223,14 +250,12 @@ function chartUniv(universitiesData) {
         yAxes: [
           {
             ticks: {
-              min: 0,
-              max: 10,
-              maxTicksLimit: 10,
+              crossAlign: "near",
               padding: 10,
-              // Include a dollar sign in the ticks
-              callback: function (value, index, values) {
-                return number_format(value);
-              },
+              fontSize: 14,
+              fontColor: "#000",
+              align: "start",
+              autoSkip: false,
             },
             gridLines: {
               color: "rgb(234, 236, 244)",
@@ -261,7 +286,7 @@ function chartUniv(universitiesData) {
           label: function (tooltipItem, chart) {
             var datasetLabel =
               chart.datasets[tooltipItem.datasetIndex].label || "";
-            return datasetLabel + ": " + number_format(tooltipItem.yLabel);
+            return datasetLabel + ": " + number_format(tooltipItem.xLabel);
           },
         },
       },
