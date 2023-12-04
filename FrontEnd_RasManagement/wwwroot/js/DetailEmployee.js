@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-  //debugger;
   // Mendapatkan nilai parameter accountId dari URL
   $("#backButton").on("click", function () {
     history.back(); // Go back to the previous page
@@ -11,7 +10,8 @@ function placement() {
   var urlParams = new URLSearchParams(window.location.search);
   var accountId = urlParams.get("accountId");
   $.ajax({
-    url:"http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
+    url:
+      "http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
       accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
@@ -20,8 +20,6 @@ function placement() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      //debugger;
-
       var placements = result.data; //data yg didapat dari api
 
       const options = { day: "numeric", month: "long", year: "numeric" };
@@ -89,7 +87,6 @@ function placement() {
 }
 
 function GetById(accountId, placementStatusId) {
-  debugger;
   const startDate = document.getElementById("showStartDate");
   const endDate = document.getElementById("showEndDate");
   startDate.style.display = "none";
@@ -97,7 +94,8 @@ function GetById(accountId, placementStatusId) {
   var accountId = accountId;
   $.ajax({
     type: "GET",
-    url:"http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
+    url:
+      "http://202.69.99.67:9001/api/EmployeePlacements/accountId?accountId=" +
       accountId,
     type: "GET",
     contentType: "application/json; charset=utf-8",

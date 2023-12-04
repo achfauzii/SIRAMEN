@@ -21,7 +21,7 @@
 <div class="card">
     <div class="card-body">
         <h5 class="mb-3">Formal Educations</h5>
-        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalFormal" onclick="ClearScreenFormal();">
+        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" id="BtnFormal" data-toggle="modal" data-target="#ModalFormal" onclick="ClearScreenFormal();">
             + Add Education
         </button>
 
@@ -107,10 +107,6 @@
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </p>
-
-
-
-
                         @*          <input type="text" class="form-control" id="Location" placeholder="Enter Location" required>
                         <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>*@
                     </div>
@@ -146,7 +142,8 @@
                     </div>
                     <div class="form-group">
                         <label for="GraduationYears">Graduation Year</label>
-                        <input type="number" class="form-control" id="GraduationYears" placeholder="Enter your graduation year" required>
+                        <input type="number" class="form-control" id="GraduationYears" placeholder="Enter your graduation year" maxlength="4"
+                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                         <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                     </div>
                 </form>
@@ -186,12 +183,13 @@
                     </div>
                     <div class="form-group">
                         <label for="Years">Years</label>
-                        <input type="number" class="form-control" id="Years" placeholder="Enter the year" required-nonformal>
+                        <input type="number" class="form-control" id="Years" placeholder="Enter the year" maxlength="4"
+                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required-nonformal>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group">
                         <label for="Description">Description</label>
-                        <input type="text" class="form-control" id="Description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the description" required-nonformal>
+                        <textarea class="form-control" id="Description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the description" required-nonformal></textarea>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                 </form>

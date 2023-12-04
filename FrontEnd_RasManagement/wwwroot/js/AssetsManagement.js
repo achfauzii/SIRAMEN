@@ -1,4 +1,4 @@
-﻿var table = null;
+var table = null;
 $(document).ready(function () {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
@@ -148,7 +148,7 @@ function ClearScreenAsset() {
   });
 }
 function SaveAsset() {
-  debugger;
+  // debugger;
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -216,7 +216,7 @@ function SaveAsset() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
+    // debugger;
     if (
       (result.status == result.status) == 201 ||
       result.status == 204 ||
@@ -246,7 +246,7 @@ function SaveAsset() {
 }
 function GetById(assetsManagementId) {
   console.log(assetsManagementId);
-  debugger;
+  // debugger;
   $.ajax({
     url: "http://202.69.99.67:9001/api/Assets/" + assetsManagementId,
     type: "GET",
@@ -256,7 +256,7 @@ function GetById(assetsManagementId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      debugger;
+      // debugger;
       var obj = result.data; //data yg dapet dr id
       $("#assetsManagementId").val(obj.assetsManagementId); //ngambil data dr api
       $("#brand").val(obj.nama);
@@ -281,7 +281,7 @@ function GetById(assetsManagementId) {
 }
 
 function Delete(assetsManagementId) {
-  debugger;
+  // debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -301,7 +301,7 @@ function Delete(assetsManagementId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        debugger;
+        // debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           table.ajax.reload();
@@ -314,7 +314,7 @@ function Delete(assetsManagementId) {
 }
 
 function UpdateAsset() {
-  debugger;
+  // debugger;
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -381,7 +381,7 @@ function UpdateAsset() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
+    // debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",

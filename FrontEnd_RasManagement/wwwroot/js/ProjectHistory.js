@@ -1,12 +1,12 @@
 ﻿var table = null;
 $(document).ready(function () {
-  //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   table = $("#TB_ProjectHistory").DataTable({
     responsive: true,
     ajax: {
-      url:"http://202.69.99.67:9001/api/ProjectHistory/accountId?accountId=" +
+      url:
+        "http://202.69.99.67:9001/api/ProjectHistory/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -70,7 +70,7 @@ $(document).ready(function () {
     //Buat ngilangin order kolom No dan Action
     columnDefs: [
       {
-        targets: [0, 2, 3, 4, 5],
+        targets: [0, 2, 4, 5],
         orderable: false,
       },
     ],
@@ -210,7 +210,6 @@ function Save() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       /*alert(result.message);
             $('#TB_Department').DataTable().ajax.reload();*/
@@ -254,7 +253,6 @@ function ClearScreen() {
 }
 
 function GetById(projectHistoryId) {
-  //debugger;
   $.ajax({
     url: "http://202.69.99.67:9001/api/ProjectHistory/" + projectHistoryId,
     type: "GET",
@@ -264,7 +262,6 @@ function GetById(projectHistoryId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      //debugger;
       var obj = result.data; //data yg kita dapat dr API
       $("#ProjectHistoryId").val(obj.projectHistoryId);
       $("#ProjectName").val(obj.projectName);
@@ -307,7 +304,7 @@ function Update() {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   ProjectHistory.accountId = accid;
-  debugger;
+
   $.ajax({
     url: "http://202.69.99.67:9001/api/ProjectHistory",
     type: "PUT",
@@ -317,7 +314,6 @@ function Update() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -335,7 +331,6 @@ function Update() {
 }
 
 function Delete(projectHistoryId) {
-  debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -347,7 +342,7 @@ function Delete(projectHistoryId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url:"http://202.69.99.67:9001/api/ProjectHistory/" + projectHistoryId,
+        url: "http://202.69.99.67:9001/api/ProjectHistory/" + projectHistoryId,
         type: "DELETE",
         dataType: "json",
 
@@ -355,7 +350,6 @@ function Delete(projectHistoryId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Data has been deleted.", "success");
           table.ajax.reload();

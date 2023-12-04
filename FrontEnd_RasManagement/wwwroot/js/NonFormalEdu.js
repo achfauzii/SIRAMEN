@@ -1,12 +1,11 @@
 ﻿$(document).ready(function () {
-  //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   $("#NonFormalEdu").DataTable({
     responsive: true,
     ajax: {
-      url:"http://202.69.99.67:9001/api/NonFormalEdu/accountId?accountId=" +
-        accid,
+      url:
+        "http://202.69.99.67:9001/api/NonFormalEdu/accountId?accountId=" + accid,
       type: "GET",
       datatype: "json",
       dataSrc: "data",
@@ -59,7 +58,6 @@
 });
 
 function parseJwt(token) {
-  //debugger;
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   var jsonPayload = decodeURIComponent(
@@ -76,7 +74,6 @@ function parseJwt(token) {
 }
 
 function ClearScreen() {
-  //debugger;
   $("#Name").val("");
   $("#Organizer").val("");
   $("#Years").val("");
@@ -91,7 +88,6 @@ function ClearScreen() {
 }
 
 function getbyID(NonFormalId) {
-  //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   $.ajax({
@@ -103,7 +99,6 @@ function getbyID(NonFormalId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      //debugger;
       var obj = result.data; //data yg dapet dr id
       $("#NonformalId").val(obj.nonFormalId); //ngambil data dr api
       $("#Name").val(obj.name);
@@ -161,7 +156,6 @@ function Save() {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     }).then((result) => {
-      //debugger;
       if (
         (result.status == result.status) == 201 ||
         result.status == 204 ||
@@ -192,7 +186,6 @@ function Save() {
 }
 
 function Delete(NonFormalId) {
-  //debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -212,7 +205,6 @@ function Delete(NonFormalId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        //debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Data has been deleted!", "success");
           $("#NonFormalEdu").DataTable().ajax.reload();
@@ -225,7 +217,6 @@ function Delete(NonFormalId) {
 }
 
 function Update() {
-  debugger;
   var NonFormal = new Object();
   NonFormal.NonFormalId = $("#NonformalId").val();
   NonFormal.Name = $("#Name").val();
@@ -262,7 +253,6 @@ function Update() {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     }).then((result) => {
-      debugger;
       if (result.status == 200) {
         Swal.fire({
           title: "Success!",

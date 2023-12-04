@@ -1,12 +1,12 @@
 ﻿var table = null;
 $(document).ready(function () {
-  //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   table = $("#TB_EmploymentHistory").DataTable({
     responsive: true,
     ajax: {
-      url:"http://202.69.99.67:9001/api/EmploymentHistory/accountId?accountId=" +
+      url:
+        "http://202.69.99.67:9001/api/EmploymentHistory/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -168,7 +168,6 @@ function Save() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       /*alert(result.message);
             $('#TB_Department').DataTable().ajax.reload();*/
@@ -241,7 +240,6 @@ function GetById(workExperienceId) {
 }
 
 function Update() {
-  debugger;
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -277,7 +275,6 @@ function Update() {
   const accid = decodedtoken.AccountId;
   EmploymentHistory.AccountId = accid;
 
-  debugger;
   $.ajax({
     type: "PUT",
     url: "http://202.69.99.67:9001/api/EmploymentHistory",
@@ -287,7 +284,6 @@ function Update() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -305,7 +301,6 @@ function Update() {
 }
 
 function Delete(workExperienceId) {
-  debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -327,7 +322,6 @@ function Delete(workExperienceId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           table.ajax.reload();
