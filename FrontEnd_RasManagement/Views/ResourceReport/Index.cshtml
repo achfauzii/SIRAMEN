@@ -5,34 +5,34 @@
 <style>
 
     .badge {
-        font-size: 12px; 
+        font-size: 12px;
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #F7F6FE; 
+        background-color: #F7F6FE;
     }
 
     .table-striped tbody tr:nth-of-type(even) {
-        background-color: #FFFFFF; 
+        background-color: #FFFFFF;
     }
- 
+
     #resource_length label {
-        font-size: 14px; 
+        font-size: 14px;
     }
 
     #resource_filter label {
         font-size: 14px;
     }
 
-   
+
     #resource_filter input[type="search"] {
-        font-size: 14px; 
-        height: 26px; 
+        font-size: 14px;
+        height: 26px;
     }
 
 
     #resource td {
-        font-size: 13px; 
+        font-size: 13px;
     }
 
     th {
@@ -44,7 +44,7 @@
     /* Pastel Teal */
     .badge-pastel-teal {
         background-color: #b2dbd5;
-        color: black; 
+        color: black;
     }
 
     /* Pastel Purple */
@@ -103,17 +103,17 @@
 
 
     .form-control {
-        height: 31px; 
+        height: 31px;
     }
 
-  
+
     select.form-control {
         font-size: 14.5px;
     }
 
 
     .dataTables_info {
-        font-size: 14.5px ;
+        font-size: 14.5px;
     }
 
     .dataTables_filter {
@@ -137,18 +137,27 @@
     }
 
     /* CSS untuk mengatur lebar kolom Skillset */
-    table.dataTable tbody td:nth-child(3) {
-        max-width: 400px; 
-        word-wrap: break-word;
-        text-overflow: unset;
-        /*white-space: nowrap;*/
-        /*overflow: clip;*/
+    /*table.dataTable tbody td:nth-child(3) {
+
+                                max-width: 400px;
+                                word-wrap: break-word;
+                                text-overflow: unset;
+                                /*white-space: nowrap;*/
+
+    /*overflow: clip;*/
     }
 
+    */
+    /*table.dataTable tbody td:nth-child(3) div {
+
+                                    white-space: normal;
+                                    overflow: visible;
+                                }*/
     table.dataTable tbody td:nth-child(14) {
-        max-width: 180px; 
+        max-width: 180px;
         word-wrap: break-word;
         /*white-space: nowrap;*/
+        text-overflow: ellipsis;
         overflow: hidden;
     }
 
@@ -156,6 +165,7 @@
         max-width: 180px;
         word-wrap: break-word;
         /*white-space: nowrap;*/
+        text-overflow: ellipsis;
         overflow: hidden;
     }
 
@@ -170,38 +180,39 @@
 <div class="card mb-3 rounded-bottom border-0">
 
     <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link text-sm " id="all" href="#">All</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-sm " href="#" data-category="Fullstack">Fullstack</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-sm" href="#" data-category="Frontend">Frontend</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-sm" href="#" data-category="Backend">Backend</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-sm" href="#" data-category="Data Science">Data Science</a>
-            </li>
 
-        </ul>
+        @*<ul class="nav nav-tabs">
+        <li class="nav-item">
+        <a class="nav-link text-sm " id="all" href="#">All</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-sm " href="#" data-category="Fullstack">Fullstack</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-sm" href="#" data-category="Frontend">Frontend</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-sm" href="#" data-category="Backend">Backend</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-sm" href="#" data-category="Data Science">Data Science</a>
+        </li>
+
+        </ul>*@
     </nav>
 
     <div class="card-body pr-0 pb-1 pl-3">
-        <table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
+        <table id="resource" class="table table-striped table-bordered text-nowrap" style="max-width:100%; color:black" cellspacing="0">
             <thead>
                 <tr>
                     <th>Fullname</th>
                     <th>Position</th>
                     <th>Skillset</th>
+                    <th>Level</th>
                     <th>Education</th>
                     <th>University</th>
                     <th>Domisili</th>
                     <th>Age</th>
-                    <th>Level</th>
                     <th>Experience</th>
                     <th>Filtering by</th>
                     <th>Work Status</th>
@@ -215,8 +226,8 @@
                     <th>Negotiable</th>
                     <th>Interview by RAS</th>
                     <th>Interview Date by RAS</th>
-                    <th>Interview User</th>
                     <th>Name of User</th>
+                    <th>Interview User</th>
                     <th>Interview Date by User</th>
                     <th>Level Rekomendation</th>
                     <th>Status</th>
@@ -225,7 +236,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 <!-- Tambahkan baris-baris data lainnya di sini -->
             </tbody>
         </table>
@@ -237,7 +247,7 @@
 
 
 @*Modal*@
-<div class="modal fade bd-example-modal-lg" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header pt-3  pb-3">
@@ -264,9 +274,23 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Position </div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="position"oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
-                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
-                                <small class="form-text text-muted text-primary">If more than one position (Fullstack, Data Science, ...).</small>
+
+
+                                <p class="p-0 m-0">
+                                    <select class="position form-control" id="position" name="position[]" multiple="multiple" style="width: 100%;" required>
+                                        <option value="Fullstack">Fullstack</option>
+                                        <option value="Data Engineer">Data Engineer</option>
+                                        <option value="Frontend">Frontend</option>
+                                        <option value="Backend">Backend</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="Networking">Networking</option>
+                                        <option value="RPA">RPA</option>
+
+                                    </select>
+                                    <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
+                                </p>
+
+
                             </div>
                         </div>
                     </div>
@@ -274,9 +298,34 @@
                         <div class="row">
                             <div class="col" style="color: black">Skillset </div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="skillset" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
-                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
-                                <small class="form-text text-muted text-primary">If more than one skillset (.Net, C#, ...).</small>
+                                <p class="p-0 m-0">
+
+                                    <select class="skillset position form-control" id="skillset" name="skillset[]" multiple="multiple" style="width: 100%;" required>
+                                        <option value="Laravel">Laravel</option>
+                                        <option value="Yii Framework">Yii Framework</option>
+                                        <option value="CodeIgniter">CodeIgniter</option>
+                                        <option value="React">React</option>
+                                        <option value="Vue">Vue</option>
+                                        <option value="Node.js">Node.js</option>
+                                        <option value="React Native">React Native</option>
+                                        <option value="Next.js">Next.js</option>
+                                        <option value="Express.js">Express.js</option>
+                                        <option value="Backbone.js">Backbone.js</option>
+                                        <option value="Vue.js">Vue.js</option>
+                                        <option value="Flask">Flask</option>
+                                        <option value="Django">Django</option>
+                                        <option value="Falcon">Falcon</option>
+                                        <option value="Dash">Dash</option>
+                                        <option value="Web2Py">Web2Py</option>
+                                        <option value="Hibernate">Hibernate</option>
+                                        <option value="Spring">Spring</option>
+                                        <option value=".Net Core API">.Net Core API</option>
+                                        <option value=".Net Core MVC">.Net Core MVC</option>
+                                        <option value="Bootstrap">Bootstrap</option>
+
+                                    </select>
+                                    <span class="error-message" style="color: red; display: none;">Please select at least one Skill Set.</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -306,7 +355,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Domicile</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="domicile" oninput="handleInput(event, this);" onpaste="handleInput(event, this);">
+                                <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="domicile">
                                 @*<span class="error-message_" style="color: red; display: none;">This field is required!</span>*@
                                 @*<p>
                                 <select class="selectProvinces form-control" style="width:100%" id="selectProvinces" placeholder="Select Provinces" name="state">
@@ -356,7 +405,7 @@
                                     <option value="< 1 Year">< 1 Year</option>
                                     <option value="1 Year">1 Year</option>
                                     <option value="2 Years">2 Years</option>
-                                      <option value="3 Years">3 Years</option>
+                                    <option value="3 Years">3 Years</option>
                                     <option value="4 Years">4 Years</option>
                                     <option value="5 Years">5 Years</option>
                                     <option value="> 5 Years">> 5 Years</option>
@@ -393,6 +442,7 @@
                                 </div>*@
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="workstatus" name="workstatus" value="True">
+                                    <span class="status-indicator " style="font-size: smaller">Not Working</span>
                                 </div>
                             </div>
                         </div>
@@ -401,7 +451,8 @@
                         <div class="row pl-5 pr-5 ">
                             <div class="col" style="color: black">Notice Period</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="notice" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
+                                <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="notice" required_>
+
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -412,6 +463,7 @@
                             <div class="col-9">
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="financial" name="financial" value="True">
+                                    <span class="status-indicator_" style="font-size: smaller">No</span>
                                 </div>
                             </div>
                         </div>
@@ -420,7 +472,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Raw CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="rawcv" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
+                                <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="rawcv" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -429,7 +481,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Berca CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="bercacv" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
+                                <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="bercacv" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -452,7 +504,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Current Salary</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="current"  onkeyup="formatCurrency(this);" placeholder="Rp ">
+                                <input type="text" class="form-control" id="current" onkeyup="formatCurrency(this);" placeholder="Rp ">
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -531,22 +583,33 @@
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col-sm-5">
+
                             <input type="date" class="form-control form-control-sm" id="dateIntwRAS">
                         </div>
                     </div>
+
+                    <!--History User-->
+                    <div class="form-group row pr-4 pl-4" id="historyUser">
+                    </div>
+
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Interview User</label>
                         <div class="col-sm-5">
-                            <input type="text" id="intwuserHiden" class="form-control form-control-sm" hidden>
-                            <select class=" form-control form-control-sm" id="intwUser">
-                                <option selected disabled>Choose...</option>
-                                <option value="Done">Done</option>
-                                <option value="Hold">Hold</option>
-                                <option value="Scheduling">Scheduling</option>
-                                <option value="Reject">Reject</option>
-                                <option value="Submitted Cv">Submitted Cv</option>
-                            </select>
+                            <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
+                            <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="nameUser">
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
+                            <div class="mt-2">
+                                <input type="text" id="intwuserHiden" class="form-control form-control-sm" hidden>
+                                <select class=" form-control form-control-sm" id="intwUser">
+                                    <option selected disabled>Choose...</option>
+                                    <option value="Done">Done</option>
+                                    <option value="Hold">Hold</option>
+                                    <option value="Scheduling">Scheduling</option>
+                                    <option value="Reject">Reject</option>
+                                    <option value="Submitted Cv">Submitted Cv</option>
+                                </select>
+                            </div>
                             <!--New Offering Process-->
                             <div class="mt-2" style="display:none" id="displayIntwUser2">
                                 <select class=" form-control form-control-sm" id="intwUser2">
@@ -560,40 +623,135 @@
                             </div>
 
                         </div>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" id="dateintwuserHiden" hidden>
-                            <input type="date" class="form-control form-control-sm" id="dateIntwUser">
+                        <div class="col-sm-5" id="formoffer">
+                            <button type="button" id="status" class="btn btn-sm btn-outline-info btn-status" style="display:none" onclick="newOfferingFields();">+ Status Process</button>
+
+                            <div class="mt-2">
+                                <input type="text" class="form-control form-control-sm" id="dateintwuserHiden" hidden>
+                                <input type="date" class="form-control form-control-sm" id="dateIntwUser">
+                            </div>
 
                             <!--New Offering Process-->
                             <div class="mt-2" style="display:none" id="displayDateIntwUser2">
                                 <input type="date" class="form-control form-control-sm" id="dateIntwUser2">
                             </div>
 
+                            <div class="mt-2">
+                                <button type="button" id="offer" class="btn btn-sm btn-outline-info" onclick="newClientFields();">+ New Process</button>
+                            </div>
                         </div>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
 
+                    <!--New Client Process-->
                     <div class="form-group row pr-4 pl-4">
-                        <label for="" class="col-sm-2 col-form-label">Name Of User</label>
-
+                        <label for="" class="col-sm-2 col-form-label" style="display:none" id="displayUserLabel">Interview User</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
-                            <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="nameUser">
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" style="display:none" id="nameUser2" requiredUpdate>
+                            <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
+
+                            <div class="mt-2">
+                                <select class=" form-control form-control-sm" id="displayUserItw" style="display:none" requiredUpdate>
+                                    <option selected disabled>Choose...</option>
+                                    <option value="Done">Done</option>
+                                    <option value="Hold">Hold</option>
+                                    <option value="Scheduling">Scheduling</option>
+                                    <option value="Reject">Reject</option>
+                                    <option value="Submitted Cv">Submitted Cv</option>
+                                </select>
+                                <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <!--New Offering Process-->
+                            @* <div class="mt-2" style="display:none" id="displayIntwUser3">
+                            <select class=" form-control form-control-sm" id="intwUserr2" requiredUpdate>
+                            <option selected disabled>Choose...</option>
+                            <option value="Done">Done</option>
+                            <option value="Hold">Hold</option>
+                            <option value="Scheduling">Scheduling</option>
+                            <option value="Reject">Reject</option>
+                            <option value="Submitted Cv">Submitted Cv</option>
+                            </select>
+                            <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
+                            </div>*@
+
+                        </div>
+                        <div class="col-sm-5" id="displayFormOffer" style="display:none">
+                            @* <button type="button" id="userbaru" class="btn btn-sm btn-outline-info" onclick="newProses2();">+ Status Process</button>*@
+
+                            <div class="mt-2">
+                                <input type="date" class="form-control form-control-sm" id="dateIntwUserr" requiredUpdate>
+                                <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
+                            </div>
 
                             <!--New Offering Process-->
-                            <div class="mt-2" style="display:none" id="displayNameUser2">
-                                <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Name Of User" id="nameUser2">
+                            <div class="mt-2" style="display:none" id="displayDateIntwUser3">
+                                <input type="date" class="form-control form-control-sm" id="dateIntwUserr2">
                             </div>
 
                         </div>
-                        <div class="col-sm-5" id="formoffer">
-                            <button type="button" id="offer" class="btn btn-sm btn-outline-info" onclick="newOfferingFields();">+ Offering Process</button>
-                        </div>
                     </div>
 
-                    <div class="form-group row pr-4 pl-4">
+
+                    @*<div class="form-group row pr-4 pl-4">
+                    <label for="" class="col-sm-2 col-form-label">Interview User</label>
+                    <div class="col-sm-5">
+                    <input type="text" id="intwuserHiden" class="form-control form-control-sm" hidden>
+                    <select class=" form-control form-control-sm" id="intwUser">
+                    <option selected disabled>Choose...</option>
+                    <option value="Done">Done</option>
+                    <option value="Hold">Hold</option>
+                    <option value="Scheduling">Scheduling</option>
+                    <option value="Reject">Reject</option>
+                    <option value="Submitted Cv">Submitted Cv</option>
+                    </select>
+
+                    <!--New Offering Process-->
+                    <div class="mt-2" style="display:none" id="displayIntwUser2">
+                    <select class=" form-control form-control-sm" id="intwUser2">
+                    <option selected disabled>Choose...</option>
+                    <option value="Done">Done</option>
+                    <option value="Hold">Hold</option>
+                    <option value="Scheduling">Scheduling</option>
+                    <option value="Reject">Reject</option>
+                    <option value="Submitted Cv">Submitted Cv</option>
+                    </select>
+                    </div>
+
+                    </div>
+                    <div class="col-sm-5">
+                    <input type="text" class="form-control form-control-sm" id="dateintwuserHiden" hidden>
+                    <input type="date" class="form-control form-control-sm" id="dateIntwUser">
+
+                    <!--New Offering Process-->
+                    <div class="mt-2" style="display:none" id="displayDateIntwUser2">
+                    <input type="date" class="form-control form-control-sm" id="dateIntwUser2">
+                    </div>
+
+                    </div>
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>*@
+
+
+                    @*<div class="form-group row pr-4 pl-4">
+                    <label for="" class="col-sm-2 col-form-label">Name Of User</label>
+
+                    <div class="col-sm-5">
+                    <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
+                    <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="nameUser">
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+
+                    <!--New Offering Process-->
+                    <div class="mt-2" style="display:none" >
+                    <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Name Of User" id="nameUser2">
+                    </div>
+
+                    </div>
+                    <div class="col-sm-5" id="formoffer">
+                    <button type="button" id="offer" class="btn btn-sm btn-outline-info" onclick="newOfferingFields();">+ Offering Process</button>
+                    </div>
+                    </div>*@
+
+                    <div class="form-group row pr-4 pl-4 mt-4">
                         <label for="" class="col-sm-2 col-form-label">Level Rekom</label>
                         <div class="col-sm-10">
                             <select class=" form-control form-control-sm" id="levelRekom">
@@ -606,15 +764,12 @@
                         </div>
                     </div>
 
-
-
-
-
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Status</label>
                         <div class="col-sm-10">
                             <select class=" form-control form-control-sm" id="statusOffering">
                                 <option selected disabled>Status Offering...</option>
+                                <option value="Hiring Process">Hiring Process</option>
                                 <option value="Offering">Offering</option>
                                 <option value="Offering Done">Offering Done</option>
                                 <option value="Offering Failed">Offering Failed</option>
@@ -657,9 +812,16 @@
                             <div class="row pl-5 pr-5">
                                 <div class="col" style="color: black">Position </div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="position2"oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
-                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                                      <small class="form-text text-muted text-primary">If more than one position ( Fullstack, Data Science, ... )</small>
+                                    <select class="position form-control" id="position2" name="position[]" multiple="multiple" style="width: 100%;">
+                                        <option value="Fullstack">Fullstack</option>
+                                        <option value="Data Engineer">Data Engineer</option>
+                                        <option value="Frontend">Frontend</option>
+                                        <option value="Backend">Backend</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="Networking">Networking</option>
+                                        <option value="RPA">RPA</option>
+
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -667,8 +829,33 @@
                             <div class="row">
                                 <div class="col" style="color: black">Skillset </div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="skillset2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
-                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                    <p class="p-0 m-0">
+                                        <select class="skillset form-control" id="skillset2" name="skillset[]" multiple="multiple" style="width: 100%;">
+                                            <option value="Laravel">Laravel</option>
+                                            <option value="Yii Framework">Yii Framework</option>
+                                            <option value="CodeIgniter">CodeIgniter</option>
+                                            <option value="React">React</option>
+                                            <option value="Vue">Vue</option>
+                                            <option value="Node.js">Node.js</option>
+                                            <option value="React Native">React Native</option>
+                                            <option value="Next.js">Next.js</option>
+                                            <option value="Express.js">Express.js</option>
+                                            <option value="Backbone.js">Backbone.js</option>
+                                            <option value="Vue.js">Vue.js</option>
+                                            <option value="Flask">Flask</option>
+                                            <option value="Django">Django</option>
+                                            <option value="Falcon">Falcon</option>
+                                            <option value="Dash">Dash</option>
+                                            <option value="Web2Py">Web2Py</option>
+                                            <option value="Hibernate">Hibernate</option>
+                                            <option value="Spring">Spring</option>
+                                            <option value=".Net Core API">.Net Core API</option>
+                                            <option value=".Net Core MVC">.Net Core MVC</option>
+                                            <option value="Bootstrap">Bootstrap</option>
+
+                                        </select>
+                                        <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -826,7 +1013,7 @@
                             <div class="row pl-5 pr-5">
                                 <div class="col" style="color: black">Expected Salary</div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="expected2"  required onkeyup="formatCurrency(this);"  placeholder="Rp ">
+                                    <input type="text" class="form-control" id="expected2" required onkeyup="formatCurrency(this);" placeholder="Rp ">
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -854,7 +1041,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ClearScreenUpt();">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Update();">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="Update();">Save changes</button>
             </div>
         </div>
     </div>
@@ -864,15 +1051,15 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+@*<script src="https://code.jquery.com/jquery-3.7.0.js"></script>*@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+@*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+*@
 
 <!-- Select2 -->
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -895,7 +1082,6 @@
 @section script{
     <script src="~/js/SrcDatatable.js"></script>
 }
-
 
 
 
