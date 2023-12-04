@@ -22,7 +22,7 @@ namespace RasManagement.Repository
             //var currentDate = DateTime.Now.ToString("ddMMyyy");
 
             int countAccount = _context.Accounts.Count(account => account.RoleId != "5");
-
+            int id = countAccount + 1;
             /* var lastEmployee = myContext.Employees
                  .OrderByDescending(e => e.NIK)
                  .FirstOrDefault();*/
@@ -31,12 +31,10 @@ namespace RasManagement.Repository
             {
                 // Jika belum ada data sama sekali, maka ID dimulai dari 0
                 //return DateTime.Now.ToString("ddMMyyyy") + "000";
-                return ras + "00";
+                return ras + "000";
             }
 
-            return $"{ras}{countAccount.ToString("D2")}";
-
-
+            return $"{ras}{id.ToString("D3")}";
         }
 
         public async Task<string> GenerateNonId()
@@ -109,7 +107,7 @@ namespace RasManagement.Repository
         }
 
 
-        public async Task<int> Register(RegisterVM registerVM)
+        public async Task<string> Register(RegisterVM registerVM)
         {
             var generateId = await GenerateId();
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerVM.Password);
@@ -142,13 +140,13 @@ namespace RasManagement.Repository
                 StartContract = registerVM.StartContract,
                 EndContract = registerVM.EndContract,
                 RoleId = registerVM.RoleId,
-
+                IsChangePassword = false,
             };
             _context.Entry(account).State = EntityState.Added;
 
             // myContext.Entry(employee).State = EntityState.Added;
-            var save = _context.SaveChanges();
-            return save;
+            _context.SaveChanges();
+            return generateId;
         }
 
 
@@ -209,10 +207,6 @@ namespace RasManagement.Repository
             }
         }
 
-
-
-
-
         //FORGOT PASSWORD UPDATE
         public async Task<bool> UpdatePassword(UpdatePasswordVM updatePassword)
         {
@@ -222,6 +216,7 @@ namespace RasManagement.Repository
             {
                 string passwordHash = BCrypt.Net.BCrypt.HashPassword(updatePassword.NewPassword);
                 account.Password = passwordHash;
+                
                 _context.Accounts.Update(account);
                 await _context.SaveChangesAsync();
                 return true;
@@ -236,6 +231,7 @@ namespace RasManagement.Repository
             {
                 string passwordHash = BCrypt.Net.BCrypt.HashPassword(changePass.NewPassword);
                 account.Password = passwordHash;
+                account.IsChangePassword = true;
                 _context.Accounts.Update(account);
                 await _context.SaveChangesAsync();
                 return true;
@@ -343,10 +339,10 @@ namespace RasManagement.Repository
 
             // Parameter untuk kueri SQL
             object[] parameters = {
-        new SqlParameter("@StartContract", contractVM.StartContract),
-        new SqlParameter("@EndContract", contractVM.EndContract),
-        new SqlParameter("@AccountId", contractVM.AccountId)
-    };
+                new SqlParameter("@StartContract", contractVM.StartContract),
+                new SqlParameter("@EndContract", contractVM.EndContract),
+                new SqlParameter("@AccountId", contractVM.AccountId)
+            };
 
             // Jalankan kueri SQL secara async
             return await _context.Database.ExecuteSqlRawAsync(sql, parameters);

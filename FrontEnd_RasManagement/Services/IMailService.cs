@@ -1,4 +1,5 @@
 ﻿
+using FrontEnd_RasManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,12 @@ namespace FrontEnd_RasManagement.Services
 {
     public interface IMailService
     {
-        //Task SendEmailAsync(MailRequest mailRequest);
         Task SendEmailAsync(string email, string resetUrl);
         Task SendEmailNewAccount(string email, string password);
-        //Task SendWelcomeEmailAsync(WelcomeRequest request);
+
+        Task SendEmailBeritaKelahiran(KelahiranVM dataVM);
+        Task SendEmailBeritaDukaCita(DukaCitaVM dataVM);
+        Task SendEmailBirthday(BirthdayVM birthday);
+
     }
 }

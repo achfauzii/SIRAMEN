@@ -10,7 +10,7 @@
             <div class="form-group row ">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Full Name</label>
-                    <input type="text" class="form-control " id="fullName" name="fullName" required>
+                    <input type="text" class="form-control" oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="fullName" name="fullName" required>
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
                 <div class="col-sm-3">
@@ -61,25 +61,36 @@
 
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <label class="text-dark" for="exampleInputEmail1">Start Contract</label>
-                    <input type="date" class="form-control " id="start" name="start" required>
-                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
-                </div>
-                <div class="col-sm-6">
-                    <label class="text-dark" for="exampleInputEmail1">End Contract</label>
-                    <input type="date" class="form-control " id="end" name="end" required>
-                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Join Date</label>
                     <input type="date" class="form-control " id="join" name="join" required>
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Contract Duration</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control " id="duration" onkeyup="SetEndContract(this.value);" name="duration" disabled required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">Month</span>
+                        </div>
+                    </div>
+                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
+                </div>
             </div>
-            <div class="form-group">
 
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Start Contract</label>
+                    <input type="date" class="form-control " id="start" name="start">
+                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
+                </div>
+                <div class="col-sm-6">
+                    <label class="text-dark" for="exampleInputEmail1">End Contract</label>
+                    <input type="date" class="form-control " id="end" name="end">
+                    <span class="error-message" style="color: red; display: none;">Field is required.</span>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <input type="hidden" class="form-control " id="roleId" name="roleId" value="3">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -105,6 +116,70 @@
     //    }
 
     //}
+
+    
+    document.getElementById('prohire').addEventListener('click', function() {        
+        $('#duration').val('');
+        $('#join').val('');
+        $('#start').val('');
+        $('#end').val('');
+    });
+
+    document.getElementById('bootcamp').addEventListener('click', function() {
+        var startContract = new Date();
+        let endContract = new Date(startContract);
+        endContract.setDate(1);
+        endContract.setMonth(endContract.getMonth() + 3);
+
+        console.log(endContract.getMonth()+1);
+        const yyyy = endContract.getFullYear();
+        let mm = endContract.getMonth() + 1;
+        if (mm < 10) mm = '0' + mm;
+        let lastDay = new Date(yyyy, mm, 0);
+
+        const endContractForm = yyyy + '-' + mm  + '-' + lastDay.getDate();
+        document.getElementById('duration').removeAttribute('disabled');
+        $('#duration').val(3);
+        $('#join').val(startContract.toISOString().slice(0, 10));
+        $('#start').val(startContract.toISOString().slice(0, 10));
+        $('#end').val(endContractForm);
+    });
+
+    document.getElementById('start').addEventListener('change', function () {        
+        $('#join').val(this.value);
+
+        document.getElementById('duration').removeAttribute('disabled');
+        if($('#duration').val() != ''){
+            var startContract = new Date($('#join').val());
+            let endContract = new Date(startContract);
+            console.log($('#duration').val());
+
+            endContract.setMonth(endContract.getMonth() + parseInt($('#duration').val()));
+            
+            const yyyy = endContract.getFullYear();
+            let mm = endContract.getMonth() + 1;
+            if (mm < 10) mm = '0' + mm;
+            let lastDay = new Date(yyyy, mm, 0);
+            
+            const endContractForm = yyyy + '-' + mm  + '-' + lastDay.getDate();
+            $('#end').val(endContractForm);
+        }
+    });
+
+    function SetEndContract(duration){
+        var startContract = new Date($('#join').val());
+        let endContract = new Date(startContract);
+        endContract.setMonth(endContract.getMonth() + parseInt(duration));
+        
+        const yyyy = endContract.getFullYear();
+        let mm = endContract.getMonth() + 1;
+        if (mm < 10) mm = '0' + mm;
+        let lastDay = new Date(yyyy, mm, 0);
+
+        const endContractForm = yyyy + '-' + mm  + '-' + lastDay.getDate();
+        $('#end').val(endContractForm);
+    };
+
 
     document.getElementById('createAccountForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Mencegah pengiriman formulir secara default
@@ -137,7 +212,6 @@
 
         // Generate a random UUID
 
-
         //validasi email
         if (validateEmail(email)) {
             $('#validateEmail').hide();
@@ -149,14 +223,12 @@
         const password = uuidv4();
 
         // Print the UUID
-
-
         var data = {
             accountId: accountId,
-            email: email,
+            email: email.toLowerCase(),
             password: password,
             //nickname: 'string',
-            fullname: fullName,
+            fullname: capitalizeName(fullName),
             //birthplace: 'string',
             //birthdate: '2023-06-23T07:21:40.243Z',
             //religion: 'string',
@@ -172,9 +244,6 @@
             //image: 'string',
             roleId: roleId,
             hiredstatus: hiredStatus,
-
-
-
         }
 
 
@@ -188,7 +257,77 @@
         })
             .then(function (response) {
                 if (response.ok) {
+                    if(hiredStatus == 'Bootcamp'){
+                        response.json().then(function (item) {                      
+                            console.log("Item "+item.data);
+                            console.log("Data "+item.Data);
+                            console.log("Data Account "+item.data.accountId);
 
+                            //Add Data Template
+                            var NonFormal = new Object(); //bikin objek baru
+                            NonFormal.Name = "C# Training";
+                            NonFormal.Organizer = "PT. Berca Hardayaperkasa";
+                            NonFormal.Years = new Date().getFullYear().toString();
+                            NonFormal.Description = "SQL Server Database, C# Programming Language, Object Oriented Programming, ASP .NET Core, Pattern (MVC, MVVM, N-Layered Architecture), Web API, Code first, Database First, Entity Framework Core, Dapper, Asynchronous, Implement JWT, BCrypt, Dokumentasi API menggunakan swagger, JavaScript, Web Template (CSS, Bootstrap)";
+                            NonFormal.AccountId = item.data;
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'https://localhost:7177/api/NonFormalEdu',
+                                data: JSON.stringify(NonFormal), //ngirim data ke api
+                                contentType: "application/json; charset=utf-8",
+                                headers: {
+                                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                                },
+                            });
+
+                            var qualifications = new Object(); //bikin objek baru
+                            qualifications.framework = ".Net Core API, .Net Core MVC, Bootstrap";
+                            qualifications.programmingLanguage = "C#, Javascript, Jquery HTML & CSS, Java, Python";
+                            qualifications.database = "SQL Server, MySQL";
+                            qualifications.tools = "";
+                            qualifications.others = "";
+                            qualifications.accountId = item.data;
+                            $.ajax({
+                                type: 'POST',
+                                url: 'https://localhost:7177/api/Qualification',
+                                data: JSON.stringify(qualifications), //ngirim data ke api
+                                contentType: "application/json; charset=utf-8",
+                                headers: {
+                                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                                },
+                            });
+
+                            var startPeriode = new Date().toISOString().slice(0, 7);
+                            var now = new Date();
+                            now.setMonth(now.getMonth() + 3);
+                            const yyyy = now.getFullYear();
+                            let mm = now.getMonth() + 1;
+                            if (mm < 10) mm = "0" + mm;
+
+                            const endPeriode = yyyy + "-" + mm;
+                            var periodEmployement = startPeriode + " - " + endPeriode;
+                            console.log("periode "+periodEmployement);
+
+                            var EmploymentHistory = {
+                                companyName: "PT. Berca Hardayaperkasa",
+                                job: "Developer",
+                                period: periodEmployement,
+                                description: "Bootcamp program on how to develop an apps using .Net Core Framework. Learning on how to create API’s, consume API’s."
+                            };
+                            EmploymentHistory.AccountId = item.data;
+                            //console.log(EmploymentHistory);
+                            $.ajax({
+                                type: 'POST',
+                                url: 'https://localhost:7177/api/EmploymentHistory',
+                                data: JSON.stringify(EmploymentHistory),
+                                contentType: "application/json; charset=utf-8",
+                                headers: {
+                                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
+                                },
+                            })
+                        });
+                    }
 
                     // Redirect atau tampilkan pesan sukses jika permintaan berhasil
                     // ...
@@ -254,5 +393,20 @@
         return regex.test(email);
     }
 
+    function noHTML(input) {
+        var value = input.value.replace(/<[^>]*>/g, '');
+        //var nohtml = value.replace(/[<>?/]/g, '');
+        input.value = value
+    }
+    function handleInput(event, input) {
+        // Menangani peristiwa oninput dan onpaste
+        noHTML(input);
+    }
+    function capitalizeName(name){
+        return name
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
 </script>
-

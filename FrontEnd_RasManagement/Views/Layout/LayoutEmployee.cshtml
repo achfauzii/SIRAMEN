@@ -14,6 +14,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!-- Icon untuk tab browser -->
+    <link rel="icon" type="image/ico" href="../img/LogoBhp.png" />
     <title>RAS Management</title>
 
     <!-- Custom fonts for this template-->
@@ -25,19 +27,15 @@
     <!-- Custom styles for this template-->
     <link href="~/startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.min.css" rel="stylesheet">
 
-    @*  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>*@
     <!-- Custom styles for this page -->
     <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet">
 
     @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Select2-->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />    
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -56,7 +54,7 @@
 
             // Set the href attribute of the link with the accountId parameter
             var generateCvLink = document.getElementById("generateCvLink");
-            generateCvLink.href = "/GenerateCv/GenerateCvEmployee?accountId=" + accountId;
+            generateCvLink.href = "/GenerateCv/GenerateCvEmployee";
 
         });
 
@@ -68,7 +66,91 @@
             background-color: white; /* Ganti warna latar belakang sesuai kebutuhan */
             padding: 10px; /* Sesuaikan padding sesuai kebutuhan */
         }
-    </style>
+
+        :root {
+        --input-padding-x: 1rem;
+        --input-padding-y: 0.8rem;
+        }
+
+        .form-label-group label {
+            pointer-events: none;
+        }
+        .form-signin {
+        width: 100%;
+        max-width: 420px;
+        padding: 15px;
+        margin: 0 auto;
+        }
+
+        .form-label-group {
+        position: relative;
+        margin-bottom: 1rem;
+        }
+
+        .form-label-group > input,
+        .form-label-group > label {
+        padding: var(--input-padding-y) var(--input-padding-x);
+        height: 45px;
+        }
+
+        .form-label-group > label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        margin-bottom: 0; /* Override default `<label>` margin */
+        line-height: 1.5;
+        color: #495057;
+        border: 1px solid transparent;
+        border-radius: .25rem;
+        transition: all .1s ease-in-out;
+        }
+
+        .form-label-group input::-webkit-input-placeholder {
+        color: transparent;
+        }
+
+        .form-label-group input:-ms-input-placeholder {
+        color: transparent;
+        }
+
+        .form-label-group input::-ms-input-placeholder {
+        color: transparent;
+        }
+
+        .form-label-group input::-moz-placeholder {
+        color: transparent;
+        }
+
+        .form-label-group input::placeholder {
+        color: transparent;
+        }
+
+        .form-label-group input:not(:placeholder-shown) {
+        padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+        padding-bottom: calc(var(--input-padding-y) / 3);
+        }
+
+        .form-label-group input:not(:placeholder-shown) ~ label {
+        padding-top: calc(var(--input-padding-y) / 3);
+        padding-bottom: calc(var(--input-padding-y) / 3);
+        font-size: 12px;
+        color: #777;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle-icon {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        </style>
 
 
 </head>
@@ -82,8 +164,9 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center logo-container" href="index.html">
-                <img src="~/img/logo_putih.png" width="290" height="38">
+            <a class="sidebar-brand  d-flex align-items-center justify-content-center logo-container" href="/Dashboards/Employee">
+                <img src="~/img/logo_putih.png" class=" d-none d-md-block" width="290" height="38">
+                <img src="~/img/LogoBhp.png" class="img-fluid d-md-none p-3" width="290"  height="38">
             </a>
 
             <!-- Divider -->
@@ -95,7 +178,7 @@
                 <a class="nav-link" href="/Dashboards/Employee">
 
 
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-user-circle"></i>
                     <span>Personal Details</span>
                 </a>
             </li>
@@ -108,21 +191,13 @@
                 Interface
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            @*   <li class="nav-item  @(currentUrl == "/Dashboards/PersonalDetails" ? "active" : "")">
-            <a class="nav-link collapsed" href="/Dashboards/PersonalDetails">
-
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Personal Details</span>
-            </a>
-
-            </li>*@
+           
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item @(currentUrl == "/Employee/Educations" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/Educations" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-user-graduate"></i>
                     <span>Educations</span>
                 </a>
             </li>
@@ -130,7 +205,7 @@
             <li class="nav-item  @(currentUrl == "/Employee/Qualification" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/Qualification" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-users-cog"></i>
                     <span>Qualifications</span>
                 </a>
             </li>
@@ -138,7 +213,7 @@
             <li class="nav-item  @(currentUrl == "/Employee/Certificate" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/Certificate" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-award"></i>
                     <span>Achievement / Certificate</span>
                 </a>
             </li>
@@ -146,7 +221,7 @@
             <li class="nav-item  @(currentUrl == "/Employee/EmploymentHistory" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/EmploymentHistory" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-business-time"></i>
                     <span>Employment History</span>
                 </a>
             </li>
@@ -154,8 +229,16 @@
             <li class="nav-item  @(currentUrl == "/Employee/ProjectHistory" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/ProjectHistory" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-tasks"></i>
                     <span>Project History</span>
+                </a>
+            </li>
+
+            <li class="nav-item  @(currentUrl == "/Employee/AssetsManagement" ? "active" : "")">
+                <a class="nav-link collapsed" href="/Employee/AssetsManagement" data-target="#collapsePages"
+                   aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-laptop"></i>
+                    <span>Assets Management</span>
                 </a>
             </li>
 
@@ -167,36 +250,19 @@
                 Generate CV
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link" id="generateCvLink" href="#"
                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="far fa-fw fa-file-pdf"></i>
                     <span>Generate CV</span>
                 </a>
-                @*<div id="manageApplications" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-
-                <a class="collapse-item" href="login.html">Schedule</a>
-                <a class="collapse-item" href="register.html">Status</a>
-                <a class="collapse-item" href="forgot-password.html">Manage Interviewer</a>
-
-                </div>
-                </div>*@
+              
             </li>
 
-            <!-- Nav Item - Charts -->
-            @*<li class="nav-item">
-            <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span>
-            </a>
-            </li>*@
+           
 
         </ul>
-        <!-- End of Sidebar -->
-        <!-- Content Wrapper -->
+
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
@@ -210,18 +276,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    @*<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                    aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search fa-sm"></i>
-                    </button>
-                    </div>
-                    </div>
-                    </form>*@
+          
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -233,9 +288,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-1 d-none d-lg-inline text-gray-600 small" id="name"></span>
+                                <span class="mr-1 d-lg-inline text-gray-600 small" id="name"></span>
                                 <span class="badge badge-success text-light mr-1">
-                                    <span class=" d-none d-lg-inline" id="role"></span>
+                                    <span class=" d-lg-inline" id="role"></span>
                                 </span>
 
 
@@ -247,19 +302,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                @*    <a class="dropdown-item" href="/Employee/PersonalDetails">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>*@
+                               
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#chagnePasswordModal" onclick="clearScreen()">
                                     <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Change Password
@@ -289,7 +332,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; RAS Management 2023</span>
                     </div>
                 </div>
             </footer>
@@ -343,34 +386,39 @@
              
                   
                     <form class="user" id="resetPassword">
-
-                        <div class="form-group">
-                           @* <input type="text" id="accountId" name="accountId"  readonly hidden />*@
-
+                        <div class="form-label-group password-container">
                             <input type="password" class="form-control form-control-user" id="currentPassword" placeholder="Current Password" req>
+                            <label for="currentPassword">Current Password</label>
+                           <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('currentPassword')">
+                                <i class="far fa-eye"></i>
+                            </span>
                             <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-label-group">
                             <input type="password" class="form-control form-control-user" id="newPassword" name="newPassword" placeholder="New Password" req>
+                            <label for="newPassword">New Password</label>
+                            <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('newPassword')">
+                                <i class="far fa-eye"></i>
+                            </span>
                             <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
                         </div>
 
-                        <div class="form-group">
-                            <input type="password" class="form-control form-control-user" id="repeatPassword" name="repeatPassword" placeholder="Repeate Password" req>
-                            <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
+                        <div class="form-label-group">
+                            <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="repeatPassword" req>
+                            <label for="repeatPassword">Repeat Password</label>
+                            <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('repeatPassword')">
+                                <i class="far fa-eye"></i>
+                            </span>
+                            <span class="error-message pl-3 text-small" style="color: red; display: none;">This field is required!</span>
                         </div>
-
-                    
-                   
-
                     </form>
     
 
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="updatePassword();">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen()">Close</button>
                 </div>
             </div>
         </div>
@@ -409,12 +457,14 @@
 
     <!-- Page level plugins -->
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
-
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
     <script src="~/js/JwtUtils.js"></script>
+    <script src="~/js/site.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <!-- Page specific script -->
     @RenderSection("script",required:false)
 </body>

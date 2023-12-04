@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Assets Management";
+    var role = ViewData["UserRole"] as string;
+    var layoutPath = $"~/Views/Layout/Layout{role}.cshtml";
+    Layout = layoutPath;
+}
+
+
+<style>
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
+    }
+
+    .italic-placeholder::placeholder {
+        font-style: italic;
+    }
+</style>
+
+<!-- /.card-header -->
+<div class="card">
+    <div class="card-body">
+        <h5 class="mb-3">Assets Management</h5>
+        <h6 class="mb-3 " id="rfid_h6">
+            </h5>
+            <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalAssets" onclick="ClearScreenAsset();" id="add-asset">
+                + Add Asset
+            </button>
+
+            <table id="TB_Assets" class="table table-striped" style="font-size:14px; color:black">
+                <thead style="background-color:#FFFFFF">
+                    <tr>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Spesifikasi</th>
+                        <th scope="col">Action</th>
+
+                    </tr>
+                </thead>
+            </table>
+    </div>
+</div>
+
+@*Modal*@
+<div class="modal fade" id="ModalAssets" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Assets Management</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                            <input type="text" class="form-control" id="assetsManagementId" hidden>
+
+                            <div class="form-group">
+                                <label for="brand">Brand</label>
+                                <input type="text" class="form-control italic-placeholder" id="brand" placeholder="Enter Brand Name" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="RFID">RFID</label>
+                                <input type="number" step="6" class="form-control italic-placeholder" id="RFID" placeholder="Enter RFID" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="Processor">Processor</label>
+                                <input type="text" class="form-control italic-placeholder" id="Processor" placeholder="Intel i5 8000U / AMD Ryzen 7000U" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="os">Operation System</label>
+                                <select type="text" class="form-control" id="os" placeholder="Choose OS" name="os" required>
+                                    <option>Windows</option>
+                                    <option>MacOS</option>
+                                    <option>Linux</option>
+                                    <option>Lain-lain</option>
+                                </select>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ram">RAM</label>
+                                <input type="text" class="form-control italic-placeholder" id="ram" placeholder="4GB / 8GB" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col">
+                                    <label for="ssd">SSD</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control italic-placeholder" id="ssd" placeholder="256 / 512 / 1024">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">GB</span>
+                                        </div>
+                                    </div>
+                                    <span class="error-message"  id="ssd-error" style="color: red; display: none;">SSD or HDD field is required!</span>
+                                </div>
+                                <div class="col">
+                                    <label for="hdd">HDD</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control italic-placeholder" id="hdd" placeholder="256 / 512 / 1024">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">GB</span>
+                                        </div>
+                                    </div>
+                                    <span class="error-message" id="hdd-error" style="color: red; display: none;"></span>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col">
+                                    <label for="GraphicCard">Graphic Card</label>
+                                    <input type="text" class="form-control italic-placeholder" id="GraphicCard" placeholder="Intel UHD" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                                <div class="col">
+                                    <label for="Display">Display</label>
+                                    <input type="text" class="form-control italic-placeholder" id="Display" placeholder="Enter Screen Size in Inch" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="charger">Include Charger</label>
+                                <select type="text" class="form-control" id="charger" placeholder="Did you Get Charger" name="Charger" required>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="Save" onclick="SaveAsset();">Save</button>
+                <button type="button" class="btn btn-warning" id="Update" onclick="UpdateAsset();">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreenAsset();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script
+    {
+    <script src="~/js/AssetsManagement.js"></script>
+
+}

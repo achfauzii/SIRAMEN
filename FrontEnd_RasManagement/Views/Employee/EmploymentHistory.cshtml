@@ -23,92 +23,95 @@
 </style>
 
 <!-- /.card-header -->
-<div class="card-body">
-    <h5 class="mb-3">Employement History</h5>
-    <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
-        Add Employment History
-    </button>
+<div class="card">
+    <div class="card-body">
+        <h5 class="mb-3">Employement History</h5>
+        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
+            Add Employment History
+        </button>
 
-    @*Modal*@
-    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Employment History</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
+        <table id="TB_EmploymentHistory" class="table table-striped w-100" style="font-size:14px; color:black">
+            <thead style="background-color:#FFFFFF">
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Company Name</th>
+                    <th class="col-2" scope="col">Job</th>
+                    <th scope="col-2">Periode</th>
+                    <th class="col-4" scope="col">Description</th>
+                    <th class="col-2" scope="col">Action</th>
+                </tr>
+            </thead>
+        </table>
 
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="WorkExperienceId" hidden>
-                        </div>
-                        <div class="form-group">
-                            <label for="CompanyName">Wnter the company name</label>
-                            <input type="text" class="form-control" id="WorkExperienceId" hidden>
-                            <input type="text" class="form-control" id="CompanyName" placeholder="Enter the company name" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="Job">Job Title</label>
-                            <input type="text" class="form-control" id="Job" placeholder="Enter job title" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                        @*<div class="form-group">
-                        <label for="Period">Period</label>
-                        <input type="text" class="form-control" id="Period" placeholder="Enter Period (e.g., 2020-2022)" required>
+    </div>
+</div>
+
+@*Modal*@
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Employment History</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="WorkExperienceId" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label for="CompanyName">Enter the company name</label>
+                        <input type="text" class="form-control" id="WorkExperienceId" hidden>
+                        <input type="text" class="form-control" id="CompanyName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the company name" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>*@
-                        <div class="form-group-inline">
-                            <div class="form-group">
-                                <label for="StartYear">Start Date</label>
-                                <input type="month" class="form-control" id="StartYear" placeholder="Enter Start Year" required>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="EndYear">End Date</label>
-                                <input type="month" class="form-control" id="EndYear" placeholder="Enter End Year">
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="Description">Description</label>
-                            <input type="text" class="form-control" id="Description" placeholder="Enter the description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Job">Job Title</label>
+                        <input type="text" class="form-control" id="Job" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter job title" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    @*<div class="form-group">
+                    <label for="Period">Period</label>
+                    <input type="text" class="form-control" id="Period" placeholder="Enter Period (e.g., 2020-2022)" required>
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>*@
+                    <div class="form-group-inline">
+                        <div class="col pl-0 form-group">
+                            <label for="StartYear">Start Date</label>
+                            <input type="month" class="form-control" id="StartYear" placeholder="Enter Start Year" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
 
-                        @*<div class="form-group">
-                        <input type="hidden" class="form-control" id="AccountId">
-                        </div>*@
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
-                    <button type="button" class="btn btn-warning" id="Update" onclick="Update();">Update</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreen();">Close</button>
-                </div>
+                        <div class="col pr-0 form-group">
+                            <label for="EndYear">End Date</label>
+                            <input type="month" class="form-control" id="EndYear" placeholder="Enter End Year">
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <textarea class="form-control" id="Description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the description" required></textarea>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+                    @*<div class="form-group">
+                    <input type="hidden" class="form-control" id="AccountId">
+                    </div>*@
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
+                <button type="button" class="btn btn-warning" id="Update" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreen();">Close</button>
             </div>
         </div>
     </div>
-
-    <table id="TB_EmploymentHistory" class="table table-striped" style="font-size:14px; color:black">
-        <thead style="background-color:#FFFFFF">
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">Company Name</th>
-                <th class="col-2" scope="col">Job</th>
-                <th scope="col-2">Periode</th>
-                <th class="col-4" scope="col">Description</th>
-                <th class="col-2" scope="col">Action</th>
-            </tr>
-        </thead>
-    </table>
-
 </div>
+
 
 @section script
     {

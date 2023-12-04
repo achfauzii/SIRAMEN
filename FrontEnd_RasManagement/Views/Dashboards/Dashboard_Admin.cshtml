@@ -2,6 +2,7 @@
     ViewData["Title"] = "Dashboard_Admin";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
+
 <style>
     .table-striped tbody tr:nth-of-type(odd) {
         background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
@@ -11,8 +12,256 @@
         background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
     }
 
+    .act-btn {
+        background: #007bff;
+        opacity: 70%;
+        display: block;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        color: white;
+        font-size: 32px;
+        font-weight: bold;
+        /*border-radius: 50%;*/
+        border-radius: 50%;
+        text-decoration: none;
+        transition: ease all 0.3s;
+        position: fixed;
+        right: 30px;
+        bottom: 30px;
+        z-index: 1;
+    }
+
+        .act-btn:hover {
+            background: gray
+        }
+
 </style>
 
+
+<button class="act-btn border-0" data-toggle="modal" data-target="#ModalAnnouncement" data-tooltip="tooltip" data-placement="left" title="Create Announcement" onclick="clearAnnounce();">
+    <i class="fa fa-bullhorn" style="font-size: 0.55em; display: flex; justify-content: center; align-items: center;"></i>
+</button>
+
+@*Modal Announcement*@
+<div class="modal fade" id="ModalAnnouncement" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Announcement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="AnnounceForm">
+                    <div class="form-group">
+                        <label for="Announcement">Title</label>
+                        <p>
+                            <select id="Announcement" class="form-control" required>
+                                <option selected disabled value="placeholder"> -- Choosee Announcement -- </option>
+                                <option value="death"> Duka Cita </option>
+                                <option value="birth"> Kelahiran </option>
+                            </select>
+                        </p>
+
+                        <span class="error-message-name-announcement" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+                    <div class="birth" id="birth">
+
+                        <div class="form-group">
+                            <label for="NameEmployee">Employee</label>
+                            <p>
+                                <select id="NameEmployee" class="form-control" required>
+                                    <option selected disabled> -- Choosee Employee -- </option>
+                                </select>
+                            </p>
+
+                            <span class="error-message-name-employee" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ChildName">Child Name</label>
+                            <p>
+                                <input type="text" class="form-control" id="ChildName" required>
+                            </p>
+
+                            <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Gender">Gender</label>
+                            <p>
+                                <input type="radio" class="form-radio" id="Putra" name="Gender" value="Putra" required> Male &nbsp;
+                                <input type="radio" class="form-radio" id="Putri" name="Gender" value="Putri" required> Female &nbsp;
+                            </p>
+
+                            <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Child">Child</label>
+                            <p>
+                                <select id="Child" class="form-control" required>
+                                    <option selected disabled> -- Choosee Child -- </option>
+                                    <option value="Pertama"> Pertama </option>
+                                    <option value="Kedua"> Kedua </option>
+                                    <option value="Ketiga"> Ketiga </option>
+                                    <option value="Keempat"> Keempat </option>
+                                    <option value="Kelima"> Kelima </option>
+                                </select>
+                            </p>
+
+                            <span class="error-message-child" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col"
+                                <label for="BirthDate">Birth Date</label>
+                                <p>
+                                    <input type="date" class="form-control" id="BirthDate" required>
+                                </p>
+
+                                <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="col"
+                                <label for="BirthTime">Birth Time</label>
+                                <p>
+                                    <input type="time" class="form-control" id="BirthTime" required>
+                                </p>
+
+                                <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="BirthPlace">Birth Place</label>
+                            <p>
+                                <input type="text" class="form-control" id="BirthPlace" required>
+                            </p>
+
+                            <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col">
+                                <label for="Weight">Weight</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.01" class="form-control" id="Weight" required>
+                                    <div class="input-group-append">
+                                    <span class="input-group-text">Kg</span>
+                                    </div>
+                                </div>
+
+                                <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
+                            </div>
+
+                            <div class="col">
+                                <label for="Length">Length</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="Length" required>
+                                    <div class="input-group-append">
+                                    <span class="input-group-text">Cm</span>
+                                    </div>
+                                </div>
+
+                                <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="death" id="death">
+                        <div class="form-group">
+                            <label for="EmployeeName">Employee</label>
+                            <p>
+
+                                <select id="EmployeeName" class="form-control" required-death>
+
+                                    <option selected disabled> -- Choosee Employee -- </option>
+                                </select>
+                            </p>
+
+                            <span class="error-message-employee-name" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <p>
+
+                                <input type="text" class="form-control" id="Name" required-death>
+
+                            </p>
+
+                            <span class="error-message-announce-death" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Relation">Relation</label>
+                            <p>
+                                <select id="Relation" class="form-control" required-death>
+                                    <option selected disabled> -- Choosee Relation -- </option>
+                                    <option value="Ibu"> Ibu </option>
+                                    <option value="Ayah"> Ayah </option>
+                                    <option value="Adik"> Adik</option>
+                                    <option value="Kakak"> Kakak </option>
+                                    <option value="Saudara"> Saudara </option>
+                                    <option value="Saudari"> Saudari </option>
+                                </select>
+                            </p>
+
+                            <span class="error-message-relation-employee" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Age">Age</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="Age" required-death>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Tahun</span>
+                                </div>
+                            </div>
+
+                            <span class="error-message-announce-death" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col"
+                                <label for="DeathDate">Date of death</label>
+                                <p>
+                                    <input type="date" class="form-control" id="DeathDate" required-death />
+                                </p>
+
+                                <span class="error-message-announce-death" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="col"
+                                <label for="DeathTime">Time of death</label>
+                                <p>
+                                    <input type="time" class="form-control" id="DeathTime" required-death />
+                                </p>
+
+                                <span class="error-message-announce-death" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="DeathPlace">Place of death</label>
+                            <p>
+                                <input type="text" class="form-control" id="DeathPlace" required-death />
+                            </p>
+
+                            <span class="error-message-announce-death" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="Send" onclick="SendAnnouncement();">Send</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
 
     <!-- Employee RAS Total -->
@@ -78,6 +327,29 @@
         </div>
     </div>
 
+
+    <!-- Employee Birthday -->
+    <div class="col-xl-3 col-md-6 mb-4" id="adminAnnouncement">
+        <div class="card border-left-danger shadow h-100 py-1">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-3" style="margin: -25px 0;">
+                        <span style="font-size: 10px; ">Information</span>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Birthday
+                        </div>
+                        <div class="mb-0 text-xs font-weight-bold text-dark" id="birthday"></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-birthday-cake fa-2x text-warning"></i>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <span style="font-family:comfortaa; font-size:12px;">Date Time :  </span>
 <span style="font-family:comfortaa; font-size:12px; color:black ; margin-top:-5px;" id="clock"></span>
@@ -96,7 +368,7 @@
 </table>
 
 <!-- Bar Chart -->
-<div class="card shadow mb-4">
+<div class="card shadow mb-4 d-none d-lg-block">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">TOP University By Employee</h6>
     </div>
@@ -106,15 +378,16 @@
         </div>
     </div>
 </div>
-   <!-- Loader-->
-    <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0; ">
-        <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
-            <!-- Icon spinner -->
-            <div class="spinner-border text-info" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+<!-- Loader-->
+<div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0; ">
+    <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
+        <!-- Icon spinner -->
+        <div class="spinner-border text-info" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
+</div>
+
 @*<script src="~/js/Chart.js"></script>*@
 <script>
     function updateClock() {

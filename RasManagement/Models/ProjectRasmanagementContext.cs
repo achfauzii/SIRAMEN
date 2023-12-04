@@ -17,6 +17,8 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<Account> Accounts { get; set; }
 
+    public virtual DbSet<AssetsManagement> AssetsManagements { get; set; }
+
     public virtual DbSet<Certificate> Certificates { get; set; }
 
     public virtual DbSet<DataUniversita> DataUniversitas { get; set; }
@@ -49,7 +51,7 @@ public partial class ProjectRasmanagementContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server = RAS-FAUZI; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        => optionsBuilder.UseSqlServer("server = HRRASSRV; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -114,10 +116,53 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.StartContract)
                 .HasColumnType("date")
                 .HasColumnName("Start_contract");
+            entity.Property(e => e.IsChangePassword)
+                .HasColumnName("IsChangePassword")
+                .HasColumnType("bit")
+                .HasDefaultValue(false);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("FK_Account_Role");
+        });
+
+        modelBuilder.Entity<AssetsManagement>(entity =>
+        {
+            entity.HasKey(e => e.AssetsManagementId).HasName("PK__AssetsMa__1AD8D05B51F60BDA");
+
+            entity.ToTable("AssetsManagement");
+
+            entity.Property(e => e.AssetsManagementId).HasColumnName("AssetsManagement_Id");
+            entity.Property(e => e.AccountId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Account_Id");
+            entity.Property(e => e.Display).IsUnicode(false);
+            entity.Property(e => e.GraphicCard)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Hdd)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("HDD");
+            entity.Property(e => e.Nama).IsUnicode(false);
+            entity.Property(e => e.OperatingSystem).IsUnicode(false);
+            entity.Property(e => e.Processor).IsUnicode(false);
+            entity.Property(e => e.Ram)
+                .IsUnicode(false)
+                .HasColumnName("RAM");
+            entity.Property(e => e.Rfid)
+                .IsUnicode(false)
+                .HasColumnName("RFID");
+            entity.Property(e => e.Ssd)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("SSD");
+
+            entity.HasOne(d => d.Account).WithMany(p => p.AssetsManagements)
+                .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Account");
         });
 
         modelBuilder.Entity<Certificate>(entity =>
@@ -130,14 +175,13 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.PublicationYear)
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("Publication_year");
             entity.Property(e => e.Publisher)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.ValidUntil)
                 .HasMaxLength(50)
@@ -189,7 +233,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.CompanyName)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.Job)
@@ -224,7 +268,6 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.UniversityName)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Years)
                 .HasMaxLength(10)
@@ -267,10 +310,9 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasColumnName("Account_Id");
             entity.Property(e => e.Description).IsUnicode(false);
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Organizer)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Years)
                 .HasMaxLength(10)
@@ -293,9 +335,8 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("NonRAS_Id");
             entity.Property(e => e.Birthdate)
-            .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Birthdate");
+                .HasMaxLength(30)
+                .IsUnicode(false);
             entity.Property(e => e.CurrentSalary)
                 .HasMaxLength(20)
                 .IsUnicode(false)
@@ -330,15 +371,15 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Financial_Industry");
             entity.Property(e => e.Fullname)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.IntwByRas)
                 .HasMaxLength(12)
                 .IsUnicode(false)
                 .HasColumnName("Intw_ByRAS");
             entity.Property(e => e.IntwDateByRas)
-                 .HasMaxLength(25)
-                 .IsUnicode(false)
+                .HasMaxLength(50)
+                .IsUnicode(false)
                 .HasColumnName("IntwDate_ByRAS");
             entity.Property(e => e.IntwDateUser)
                 .IsUnicode(false)
@@ -381,7 +422,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.WorkStatus)
-                .HasMaxLength(5)
+                .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("Work_Status");
         });
@@ -421,7 +462,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.CompanyName)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Company_name");
             entity.Property(e => e.Description)
@@ -582,7 +623,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Raw_CV");
             entity.Property(e => e.WorkStatus)
-                .HasMaxLength(10)
+                .HasMaxLength(5)
                 .IsUnicode(false)
                 .HasColumnName("Work_Status");
 

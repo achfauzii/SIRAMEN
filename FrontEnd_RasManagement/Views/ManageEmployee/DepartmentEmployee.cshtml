@@ -48,7 +48,7 @@
                         </div>
                         <div class="form-group">
                             <label for="NamaDept">Department Name</label>
-                            <input type="text" class="form-control" id="NamaDept" placeholder="Enter department name" required>
+                            <input type="text" class="form-control" id="NamaDept" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter department name" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </form>

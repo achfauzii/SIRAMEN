@@ -15,7 +15,7 @@ namespace RasManagement.Repository
         }
         public async Task<IEnumerable<Object>> GetEmployeeData()
         {
-            var employees = _context.Accounts.Include(a => a.Placements).Where(a => a.RoleId == "3");
+            var employees = _context.Accounts.Include(a => a.AssetsManagements).Include(a => a.Placements).Where(a => a.RoleId == "3");
             return employees;
 
         }
