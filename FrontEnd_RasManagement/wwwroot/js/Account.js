@@ -2,7 +2,7 @@
   $("#loginForm").on("submit", async function (event) {
     event.preventDefault();
     $("#loader").show();
-    const url = "http://202.69.99.67:9001/api/Accounts";
+    const url = "https://localhost:7177/api/Accounts";
     const data = {
       email: $("#exampleInputEmail").val(),
       password: $("#exampleInputPassword").val(),

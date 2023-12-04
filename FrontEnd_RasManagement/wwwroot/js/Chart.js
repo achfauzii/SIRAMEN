@@ -253,10 +253,11 @@ var myBarChart = new Chart(ctx, {
             }],
             yAxes: [{
                 ticks: {
+                    crossAlign: "near",
                     padding: 10,
                     fontSize: 14, 
                     fontColor: '#000', 
-                   
+                    align: 'start',
                     autoSkip: false,
                 },
                 gridLines: {
@@ -265,7 +266,7 @@ var myBarChart = new Chart(ctx, {
                     drawBorder: false,
                     borderDash: [2],
                     zeroLineBorderDash: [2]
-                }
+                },
             }],
         },
         legend: {

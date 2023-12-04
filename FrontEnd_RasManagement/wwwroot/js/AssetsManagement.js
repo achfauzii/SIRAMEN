@@ -4,7 +4,7 @@ $(document).ready(function () {
   const accid = decodedtoken.AccountId;
   table = $("#TB_Assets").DataTable({
     ajax: {
-      url: "http://202.69.99.67:9001/api/Assets/accountId?accountId=" + accid,
+      url: "https://localhost:7177/api/Assets/accountId?accountId=" + accid,
       type: "GET",
       datatype: "json",
       dataSrc: "data",
@@ -136,6 +136,7 @@ function ClearScreenAsset() {
   $("#os").val("Windows");
   $("#ram").val("");
   $("#ssd").val("");
+  $('#ssd-error').hide();
   $("#hdd").val("");
   $("#GraphicCard").val("");
   $("#charger").val("Yes");
@@ -247,7 +248,7 @@ function GetById(assetsManagementId) {
   console.log(assetsManagementId);
   // debugger;
   $.ajax({
-    url: "http://202.69.99.67:9001/api/Assets/" + assetsManagementId,
+    url: "https://localhost:7177/api/Assets/" + assetsManagementId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -293,7 +294,7 @@ function Delete(assetsManagementId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "http://202.69.99.67:9001/api/Assets/" + assetsManagementId,
+        url: "https://localhost:7177/api/Assets/" + assetsManagementId,
         type: "DELETE",
         dataType: "json",
         headers: {

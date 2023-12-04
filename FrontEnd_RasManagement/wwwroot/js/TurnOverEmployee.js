@@ -20,7 +20,7 @@
       fixedHeader: true,
 
       ajax: {
-        url: "http://202.69.99.67:9001/api/TurnOver/TurnOverEmployee",
+        url: "https://localhost:7177/api/TurnOver/TurnOverEmployee",
 
         type: "GET",
         datatype: "json",
