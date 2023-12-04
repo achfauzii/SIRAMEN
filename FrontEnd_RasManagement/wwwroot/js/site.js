@@ -49,8 +49,7 @@ $(document).ready(function () {
   });
 
   //Get Employee
-  var selectEmployee = document.getElementById("NameEmployee");
-  var select = document.getElementById("EmployeeName");
+  var selectEmployee = $(".pilihannama");
 
   $.ajax({
     type: "GET",
@@ -63,10 +62,8 @@ $(document).ready(function () {
     if (result != null) {
       result.forEach((item) => {
         var option = new Option(item.fullname, item.fullname, true, false);
-        selectEmployee.add(option);
-
-        var opt = new Option(item.fullname, item.fullname, true, false);
-        select.add(opt);
+        selectEmployee.append(option).trigger('change');
+        
       });
     }
     // $("#EmployeeName").select2({
