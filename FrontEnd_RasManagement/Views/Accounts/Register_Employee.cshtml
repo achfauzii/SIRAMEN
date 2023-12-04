@@ -80,12 +80,12 @@
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Start Contract</label>
-                    <input type="date" class="form-control " id="start" name="start" required>
+                    <input type="date" class="form-control " id="start" name="start">
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
                 <div class="col-sm-6">
                     <label class="text-dark" for="exampleInputEmail1">End Contract</label>
-                    <input type="date" class="form-control " id="end" name="end" required>
+                    <input type="date" class="form-control " id="end" name="end">
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
             </div>
@@ -248,7 +248,7 @@
 
 
         // Mengirim data ke API menggunakan Fetch API
-        fetch('https://localhost:7177/api/Accounts/Register', {
+        fetch('http://202.69.99.67:9001/api/Accounts/Register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -273,7 +273,7 @@
 
                             $.ajax({
                                 type: 'POST',
-                                url: 'https://localhost:7177/api/NonFormalEdu',
+                                url: 'http://202.69.99.67:9001/api/NonFormalEdu',
                                 data: JSON.stringify(NonFormal), //ngirim data ke api
                                 contentType: "application/json; charset=utf-8",
                                 headers: {
@@ -290,7 +290,7 @@
                             qualifications.accountId = item.data;
                             $.ajax({
                                 type: 'POST',
-                                url: 'https://localhost:7177/api/Qualification',
+                                url: 'http://202.69.99.67:9001/api/Qualification',
                                 data: JSON.stringify(qualifications), //ngirim data ke api
                                 contentType: "application/json; charset=utf-8",
                                 headers: {
@@ -319,7 +319,7 @@
                             //console.log(EmploymentHistory);
                             $.ajax({
                                 type: 'POST',
-                                url: 'https://localhost:7177/api/EmploymentHistory',
+                                url: 'http://202.69.99.67:9001/api/EmploymentHistory',
                                 data: JSON.stringify(EmploymentHistory),
                                 contentType: "application/json; charset=utf-8",
                                 headers: {

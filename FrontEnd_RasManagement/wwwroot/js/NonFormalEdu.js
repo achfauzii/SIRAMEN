@@ -1,21 +1,11 @@
 ﻿$(document).ready(function () {
-  //debugger;
-  //   var now = new Date();
-  //   now.setMonth(now.getMonth() + 3);
-  //   const yyyy = now.getFullYear();
-  //   let mm = now.getMonth() + 1;
-  //   if (mm < 10) mm = "0" + mm;
-
-  //   const endContractForm = yyyy + "-" + mm;
-  //   console.log("Date " + new Date().toISOString().slice(0, 7));
-  //   console.log("DateEnd " + endContractForm);
-
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   $("#NonFormalEdu").DataTable({
+    responsive: true,
     ajax: {
       url:
-        "https://localhost:7177/api/NonFormalEdu/accountId?accountId=" + accid,
+        "http://202.69.99.67:9001/api/NonFormalEdu/accountId?accountId=" + accid,
       type: "GET",
       datatype: "json",
       dataSrc: "data",
@@ -68,7 +58,6 @@
 });
 
 function parseJwt(token) {
-  //debugger;
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   var jsonPayload = decodeURIComponent(
@@ -85,7 +74,6 @@ function parseJwt(token) {
 }
 
 function ClearScreen() {
-  //debugger;
   $("#Name").val("");
   $("#Organizer").val("");
   $("#Years").val("");
@@ -100,11 +88,10 @@ function ClearScreen() {
 }
 
 function getbyID(NonFormalId) {
-  //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   $.ajax({
-    url: "https://localhost:7177/api/NonFormalEdu/" + NonFormalId,
+    url: "http://202.69.99.67:9001/api/NonFormalEdu/" + NonFormalId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -112,7 +99,6 @@ function getbyID(NonFormalId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      //debugger;
       var obj = result.data; //data yg dapet dr id
       $("#NonformalId").val(obj.nonFormalId); //ngambil data dr api
       $("#Name").val(obj.name);
@@ -152,62 +138,54 @@ function Save() {
     } else {
       input.next(".error-message").hide();
     }
-  });
 
-  if (!isValid) {
-    return;
-  }
-  var NonFormal = new Object(); //bikin objek baru
-  NonFormal.Name = $("#Name").val(); //value dari database
-  NonFormal.Organizer = $("#Organizer").val();
-  NonFormal.Years = $("#Years").val();
-  NonFormal.Description = $("#Description").val();
-  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const accid = decodedtoken.AccountId;
-  NonFormal.AccountId = accid;
-
-  console.log($("#Years").val());
-  debugger;
-  $.ajax({
-    type: "POST",
-    url: "https://localhost:7177/api/NonFormalEdu",
-    data: JSON.stringify(NonFormal), //ngirim data ke api
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    //debugger;
-    if (
-      (result.status == result.status) == 201 ||
-      result.status == 204 ||
-      result.status == 200
-    ) {
-      //alert("Data Berhasil Dimasukkan");
-      Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been added!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      $("#ModalNonFormal").modal("hide");
-      $("#NonFormalEdu").DataTable().ajax.reload();
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Data Gagal dimasukkan!",
-        showConfirmButtom: false,
-        timer: 1500,
-      });
-      $("#ModalNonFormal").modal("hide");
-      $("#NonFormalEdu").DataTable().ajax.reload();
-    }
+    var NonFormal = new Object(); //bikin objek baru
+    NonFormal.Name = $("#Name").val(); //value dari database
+    NonFormal.Organizer = $("#Organizer").val();
+    NonFormal.Years = $("#Years").val();
+    NonFormal.Description = $("#Description").val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    NonFormal.AccountId = accid;
+    $.ajax({
+      type: "POST",
+      url: "http://202.69.99.67:9001/api/NonFormalEdu",
+      data: JSON.stringify(NonFormal), //ngirim data ke api
+      contentType: "application/json; charset=utf-8",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    }).then((result) => {
+      if (
+        (result.status == result.status) == 201 ||
+        result.status == 204 ||
+        result.status == 200
+      ) {
+        //alert("Data Berhasil Dimasukkan");
+        Swal.fire({
+          icon: "success",
+          title: "Success...",
+          text: "Data has been added!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#ModalNonFormal").modal("hide");
+        $("#NonFormalEdu").DataTable().ajax.reload();
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Data failed to added!",
+          showConfirmButtom: false,
+          timer: 1500,
+        });
+        $("#ModalNonFormal").modal("hide");
+        $("#NonFormalEdu").DataTable().ajax.reload();
+      }
+    });
   });
 }
 
 function Delete(NonFormalId) {
-  //debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -220,19 +198,18 @@ function Delete(NonFormalId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "https://localhost:7177/api/NonFormalEdu/" + NonFormalId,
+        url: "http://202.69.99.67:9001/api/NonFormalEdu/" + NonFormalId,
         type: "DELETE",
         dataType: "json",
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        //debugger;
         if (result.status == 200) {
-          Swal.fire("Deleted!", "Your data has been deleted.", "success");
+          Swal.fire("Deleted!", "Data has been deleted!", "success");
           $("#NonFormalEdu").DataTable().ajax.reload();
         } else {
-          Swal.fire("Error!", result.message, "error");
+          Swal.fire("Error!", "Data failed to deleted!", "error");
         }
       });
     }
@@ -240,7 +217,6 @@ function Delete(NonFormalId) {
 }
 
 function Update() {
-  debugger;
   var NonFormal = new Object();
   NonFormal.NonFormalId = $("#NonformalId").val();
   NonFormal.Name = $("#Name").val();
@@ -251,7 +227,7 @@ function Update() {
   const accid = decodedtoken.AccountId;
   NonFormal.AccountId = accid;
   $.ajax({
-    url: "https://localhost:7177/api/NonFormalEdu",
+    url: "http://202.69.99.67:9001/api/NonFormalEdu",
     type: "PUT",
     data: JSON.stringify(NonFormal),
     contentType: "application/json; charset=utf-8",
@@ -259,20 +235,38 @@ function Update() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
-    if (result.status == 200) {
-      Swal.fire({
-        title: "Success!",
-        text: "Data has been update!",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
+    var NonFormal = new Object();
+    NonFormal.NonFormalId = $("#NonformalId").val();
+    NonFormal.Name = $("#Name").val();
+    NonFormal.Organizer = $("#Organizer").val();
+    NonFormal.Years = $("#Years").val();
+    NonFormal.Description = $("#Description").val();
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    NonFormal.AccountId = accid;
+    $.ajax({
+      url: "http://202.69.99.67:9001/api/NonFormalEdu",
+      type: "PUT",
+      data: JSON.stringify(NonFormal),
+      contentType: "application/json; charset=utf-8",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    }).then((result) => {
+      if (result.status == 200) {
+        Swal.fire({
+          title: "Success!",
+          text: "Data has been update!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          location.reload();
+        });
+      } else {
+        Swal.fire("Error!", "Data failed to update", "error");
         location.reload();
-      });
-    } else {
-      alert("Data gagal Diperbaharui");
-      location.reload();
-    }
+      }
+    });
   });
 }

@@ -150,7 +150,9 @@
                                 <label for="Weight">Weight</label>
                                 <div class="input-group">
                                     <input type="number" step="0.01" class="form-control" id="Weight" required>
+                                    <div class="input-group-append">
                                     <span class="input-group-text">Kg</span>
+                                    </div>
                                 </div>
 
                                 <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
@@ -158,10 +160,12 @@
 
                             <div class="col">
                                 <label for="Length">Length</label>
-                                <p class="input-group">
+                                <div class="input-group">
                                     <input type="number" class="form-control" id="Length" required>
-                                    <span class="input-group-text">cm</span>
-                                </p>
+                                    <div class="input-group-append">
+                                    <span class="input-group-text">Cm</span>
+                                    </div>
+                                </div>
 
                                 <span class="error-message-announce" style="color: red; display: none;">This field is required!</span>
                             </div>
@@ -337,7 +341,7 @@
                         <div class="mb-0 text-xs font-weight-bold text-dark" id="birthday"></div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-birthday-cake fa-2x text-primary"></i>
+                        <i class="fas fa-birthday-cake fa-2x text-warning"></i>
 
 
                     </div>
@@ -362,6 +366,7 @@
 </table>
 
 <!-- Bar Chart -->
+
 <div class="card shadow mb-4 mt-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Top 10 University By Employee</h6>

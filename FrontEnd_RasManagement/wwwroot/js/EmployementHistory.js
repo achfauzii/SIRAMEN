@@ -1,13 +1,12 @@
 ﻿var table = null;
 $(document).ready(function () {
-  //debugger;
-
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   table = $("#TB_EmploymentHistory").DataTable({
+    responsive: true,
     ajax: {
       url:
-        "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" +
+        "http://202.69.99.67:9001/api/EmploymentHistory/accountId?accountId=" +
         accid,
       type: "GET",
       datatype: "json",
@@ -15,13 +14,11 @@ $(document).ready(function () {
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
-      /*success: function (result) {
-                console.log(result)
-            }*/
     },
 
     columns: [
       {
+        data: null,
         render: function (data, type, row, meta) {
           return meta.row + meta.settings._iDisplayStart + 1 + ".";
         },
@@ -130,7 +127,7 @@ function handleInput(event, input) {
 function Save() {
   var isValid = true;
 
-  $("input[required], textarea[required]").each(function () {
+  $("input[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
       input.next(".error-message").show();
@@ -164,14 +161,13 @@ function Save() {
   //console.log(EmploymentHistory);
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/EmploymentHistory",
+    url: "http://202.69.99.67:9001/api/EmploymentHistory",
     data: JSON.stringify(EmploymentHistory),
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       /*alert(result.message);
             $('#TB_Department').DataTable().ajax.reload();*/
@@ -187,7 +183,7 @@ function Save() {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Data Gagal dimasukkan!",
+        title: "Data failed to added!",
         showConfirmButtom: false,
         timer: 1500,
       });
@@ -214,7 +210,7 @@ function ClearScreen() {
 
 function GetById(workExperienceId) {
   $.ajax({
-    url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
+    url: "http://202.69.99.67:9001/api/EmploymentHistory/" + workExperienceId,
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -244,7 +240,6 @@ function GetById(workExperienceId) {
 }
 
 function Update() {
-  debugger;
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -280,17 +275,15 @@ function Update() {
   const accid = decodedtoken.AccountId;
   EmploymentHistory.AccountId = accid;
 
-  debugger;
   $.ajax({
     type: "PUT",
-    url: "https://localhost:7177/api/EmploymentHistory",
+    url: "http://202.69.99.67:9001/api/EmploymentHistory",
     data: JSON.stringify(EmploymentHistory),
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -302,13 +295,12 @@ function Update() {
       $("#Modal").modal("hide");
       table.ajax.reload();
     } else {
-      alert("Data failed to update.");
+      Swal.fire("Error!", "Data failed to update", "error");
     }
   });
 }
 
 function Delete(workExperienceId) {
-  debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -320,7 +312,9 @@ function Delete(workExperienceId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "https://localhost:7177/api/EmploymentHistory/" + workExperienceId,
+        url:
+          "http://202.69.99.67:9001/api/EmploymentHistory/" +
+          workExperienceId,
         type: "DELETE",
         dataType: "json",
 
@@ -328,12 +322,11 @@ function Delete(workExperienceId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           table.ajax.reload();
         } else {
-          Swal.fire("Error!", result.message, "error");
+          Swal.fire("Error!", "Data failed to delete", "error");
         }
       });
     }

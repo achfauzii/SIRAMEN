@@ -22,7 +22,7 @@ namespace RasManagement.Repository
             //var currentDate = DateTime.Now.ToString("ddMMyyy");
 
             int countAccount = _context.Accounts.Count(account => account.RoleId != "5");
-
+            int id = countAccount + 1;
             /* var lastEmployee = myContext.Employees
                  .OrderByDescending(e => e.NIK)
                  .FirstOrDefault();*/
@@ -34,7 +34,7 @@ namespace RasManagement.Repository
                 return ras + "000";
             }
 
-            return $"{ras}{countAccount.ToString("D3")}";
+            return $"{ras}{id.ToString("D3")}";
         }
 
         public async Task<string> GenerateNonId()

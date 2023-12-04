@@ -213,8 +213,8 @@ namespace FrontEnd_RasManagement.Services
                                                                 <tbody>
                                                                   <tr>
                                                                     <td style=""line-height: 24px; font-size: 16px; margin: 0;"" align=""left"">
-                                                                      <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
-                                                                        width=""96"">
+                                                                      <!-- <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
+                                                                        width=""96""> -->
                                                                     </td>
                                                                   </tr>
                                                                 </tbody>
@@ -577,8 +577,8 @@ namespace FrontEnd_RasManagement.Services
                                                                 <tbody>
                                                                   <tr>
                                                                     <td style=""line-height: 24px; font-size: 16px; margin: 0;"" align=""left"">
-                                                                      <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
-                                                                        width=""96"">
+                                                                      <!-- <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
+                                                                        width=""96""> -->
                                                                     </td>
                                                                   </tr>
                                                                 </tbody>
@@ -1267,8 +1267,8 @@ namespace FrontEnd_RasManagement.Services
                                                                     <tbody>
                                                                       <tr>
                                                                         <td style=""line-height: 24px; font-size: 16px; margin: 0;"" align=""left"">
-                                                                          <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
-                                                                            width=""96"">
+                                                                          <!-- <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
+                                                                            width=""96""> -->
                                                                         </td>
                                                                       </tr>
                                                                     </tbody>
@@ -1619,8 +1619,8 @@ namespace FrontEnd_RasManagement.Services
                                                                     <tbody>
                                                                       <tr>
                                                                         <td style=""line-height: 24px; font-size: 16px; margin: 0;"" align=""left"">
-                                                                          <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
-                                                                            width=""96"">
+                                                                          <!-- <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
+                                                                            width=""96""> -->
                                                                         </td>
                                                                       </tr>
                                                                     </tbody>
