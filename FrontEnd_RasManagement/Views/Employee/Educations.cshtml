@@ -142,8 +142,9 @@
                     </div>
                     <div class="form-group">
                         <label for="GraduationYears">Graduation Year</label>
-                        <input type="number" class="form-control" id="GraduationYears" placeholder="Enter your graduation year" maxlength="4"
-                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                        <select id="GraduationYears" class="form-control" required></select>
+                        @*<input type="number" class="form-control" id="GraduationYears" placeholder="Enter your graduation year" maxlength="4"
+                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>*@
                         <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                     </div>
                 </form>
@@ -170,8 +171,6 @@
                 <form>
                     <div class="form-group">
                         <input type="text" class="form-control" id="NonformalId" hidden>
-                    </div>
-                    <div class="form-group">
                         <label for="Name">Name</label>
                         <input type="text" class="form-control" id="Name" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter your name" required-nonformal>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
@@ -183,8 +182,9 @@
                     </div>
                     <div class="form-group">
                         <label for="Years">Years</label>
-                        <input type="number" class="form-control" id="Years" placeholder="Enter the year" maxlength="4"
-                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required-nonformal>
+                        <select id="Years" class="form-control" required-nonformal></select>
+                        @*<input type="number" class="form-control" id="Years" placeholder="Enter the year" maxlength="4"
+                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required-nonformal>*@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group">
@@ -202,6 +202,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Get the select element
+    const yearSelect = document.getElementById("Years");
+    const graduationYears = document.getElementById("GraduationYears");
+
+    // Set the range of years (you can adjust the range as needed)
+    const startYear = 2000;
+    const endYear = new Date().getFullYear(); // Current year
+
+    // Generate options dynamically
+    for (let year = startYear; year <= endYear; year++) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.text = year;
+        yearSelect.appendChild(option);
+        graduationYears.appendChild(option);
+    }
+</script>
 
 @section script
     {
