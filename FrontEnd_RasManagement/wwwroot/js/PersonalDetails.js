@@ -92,9 +92,7 @@ function loadDataA() {
       $("#religion").text(obj.religion);
       $("#martialStatus").text(obj.maritalstatus);
       $("#nationality").text(obj.nationality);
-      $("#address").text(
-        obj.address == null ? obj.address : toPascalCase(obj.address)
-      );
+      $("#address").text(obj.address);
 
       // Set employee photo
       if (obj.image != null) {
