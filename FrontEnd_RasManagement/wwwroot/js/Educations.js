@@ -119,10 +119,20 @@ function matchCustom(params, data) {
 function getUniversitasList() {
   const selectUniversity = $("#UniversityName");
 
+  $(selectUniversity).select2({
+    placeholder: "Select your University",
+    width: "100%",
+    allowClear: true,
+    tags: true,
+    minimumInputLength: 3,
+  });
   $.ajax({
     url: "../assets/file_json/loadpt.json",
     type: "GET",
     datatype: "json",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
 
     success: function (result) {
       var universities = result;
@@ -136,48 +146,11 @@ function getUniversitasList() {
         );
         selectUniversity.append(option);
       });
-
-      selectUniversity.select2({
-        placeholder: "Select university",
-        width: "100%",
-        matcher: matchCustom, // Use the custom matcher function
-      });
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
     },
   });
-
-  /*const selectUniversity = document.getElementById('UniversityName');
-
-    $.ajax({
-        url: "https://localhost:7177/api/Universitas",
-        type: "GET",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            var universities = result.data; 
-
-            universities.forEach(function (university) {
-                console.log(university);
-                const option = document.createElement('option');
-                option.value = university.namaUniversitas;
-                option.textContent = university.namaUniversitas;
-                selectUniversity.appendChild(option);
-            });
-
-            $(selectUniversity).select2({
-                placeholder: 'Select university',
-                width: '100%',
-
-            });
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });*/
 }
 
 function formInputLocation() {
