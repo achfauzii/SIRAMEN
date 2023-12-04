@@ -285,6 +285,7 @@ function updateData() {
   var accountId = $("#accountId").val();
   var isValid = true;
 
+  debugger;
   $("input[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
@@ -303,8 +304,15 @@ function updateData() {
   }
   uploadImage(accountId);
 
-  var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
+  var imagePath;
+  if ($("#imageFile").val() == "") {
+    imagePath = null;
+  } else {
+    imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
+  }
   console.log(imagePath);
+  debugger;
+
   var formData = {
     AccountId: $("#accountId").val(),
     Fullname: $("#editName").val(),
@@ -322,6 +330,7 @@ function updateData() {
     Image: imagePath,
   };
 
+  debugger;
   $.ajax({
     url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
     type: "PUT",
