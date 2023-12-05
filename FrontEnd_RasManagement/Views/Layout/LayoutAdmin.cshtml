@@ -207,7 +207,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item @(currentUrl == "/Dashboards/Dashboard_Admin" ? "active" : "")">
-                <a class="nav-link" href="/Dashboards/Dashboard_Admin">
+                <a class="nav-link menu" href="/Dashboards/Dashboard_Admin">
 
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -224,7 +224,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item  @(currentUrl == "/accounts/register_employee" ? "active" : "")">
-                <a class="nav-link collapsed" href="/accounts/register_employee"
+                <a class="nav-link collapsed menu" href="/accounts/register_employee"
                    aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-user-circle"></i>
                     <span>Create Account Employee</span>
@@ -244,7 +244,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item @(currentUrl == "/ManageEmployee/Index" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/Index" data-target="#collapseUtilities"
+                <a class="nav-link collapsed menu" href="/ManageEmployee/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-tasks-alt"></i>
                     <span>Manage Resource</span>
@@ -259,7 +259,7 @@
                 Non Resource
             </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/TurnOverEmployee" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/TurnOverEmployee" data-target="#collapseUtilities"
+                <a class="nav-link collapsed menu" href="/ManageEmployee/TurnOverEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-exchange"></i>
                     <span>Turn Over Employee</span>
@@ -267,7 +267,7 @@
             </li>
 
             <li class="nav-item @(currentUrl == "/ResourceReport/Index" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ResourceReport/Index" data-target="#collapseUtilities"
+                <a class="nav-link collapsed menu" href="/ResourceReport/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-list-ul"></i>
                     <span>Shortlist Candidate</span>
@@ -286,7 +286,7 @@
                 Departments
             </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/Department" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
+                <a class="nav-link collapsed menu" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-building"></i>
                     <span>Manage Department</span>
@@ -498,6 +498,7 @@
     <script src="~/js/JwtUtils.js"></script>
     <script src="~/js/DetailEmployee.js"></script>
     <script src="~/js/ChangePassword.js"></script>
+    <script src="~/js/HistoryLog.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 

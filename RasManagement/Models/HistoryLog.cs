@@ -11,7 +11,7 @@ public partial class HistoryLog
 
     public string? Name { get; set; }
 
-    public byte[]? Activity { get; set; }
+    public string? Activity { get; set; }
 
     public DateTime? TimeStamp { get; set; }
 }
