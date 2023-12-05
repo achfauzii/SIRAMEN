@@ -69,8 +69,10 @@
                     </div>
                     <div class="form-group">
                         <label for="Year">Year</label>
-                        <select id="Year" class="form-control" required></select>@*
-                        <input type="number" class="form-control" id="Year" placeholder="Enter year" maxlength="4"
+                        <select id="Year" class="form-control" required>
+                            <option selected disabled>Select year</option>
+                        </select>
+                        @*<input type="number" class="form-control" id="Year" placeholder="Enter year" maxlength="4"
                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>*@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>

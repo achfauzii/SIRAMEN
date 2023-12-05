@@ -468,7 +468,6 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Company_name");
             entity.Property(e => e.Description)
-                .HasMaxLength(225)
                 .IsUnicode(false);
             entity.Property(e => e.EndDate).HasColumnType("date");
             entity.Property(e => e.JobRole)
@@ -524,20 +523,15 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.Database)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Framework)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Others)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.ProgrammingLanguage)
-                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Programming_language");
             entity.Property(e => e.Tools)
-                .HasMaxLength(50)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.Qualifications)
