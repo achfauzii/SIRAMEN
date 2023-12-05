@@ -265,9 +265,9 @@
                 if (response.ok) {
                     if(hiredStatus == 'Bootcamp'){
                         response.json().then(function (item) {                      
-                            console.log("Item "+item.data);
-                            console.log("Data "+item.Data);
-                            console.log("Data Account "+item.data.accountId);
+                            //console.log("Item "+item.data);
+                            //console.log("Data "+item.Data);
+                            //console.log("Data Account "+item.data.accountId);
 
                             //Add Data Template
                             var NonFormal = new Object(); //bikin objek baru
@@ -334,7 +334,8 @@
                             })
                         });
                     }
-
+                    const activity = "Have Created an Employee Account";
+                    SaveLogUpdate(activity);
                     // Redirect atau tampilkan pesan sukses jika permintaan berhasil
                     // ...
                     Swal.fire('Success', 'Registration Employee successful', 'success');
