@@ -32,9 +32,9 @@
       url: "https://localhost:7177/api/Accounts/UpdatePassword",
       data: JSON.stringify(resetPassword),
       contentType: "application/json; charset=utf-8",
-      /*headers: {
+      headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("tokenJWT")
-        },*/
+        },
     }).then((result) => {
       //debugger;
       if (result.status == 200) {

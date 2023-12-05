@@ -538,7 +538,7 @@ function SaveTurnOver() {
   var updateRole = new Object();
   updateRole.accountId = $("#AccountId").val();
   updateRole.roleId = "4";
-  // console.log(placement);
+
   $.ajax({
     type: "POST",
 
@@ -1021,12 +1021,11 @@ function SaveTurnOver() {
   TurnOver.description = $("#Description").val();
   TurnOver.accountId = $("#AccountId").val();
   TurnOver.exitDate = $("#date").val();
-  //console.log(TurnOver);
 
   var updateRole = new Object();
   updateRole.accountId = $("#AccountId").val();
   updateRole.roleId = "4";
-  // console.log(placement);
+
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/TurnOver",
@@ -1093,7 +1092,6 @@ function handlePlacementStatusChange() {
 }
 
 function GetContract(accountId) {
-  //console.log(accountId);
   $.ajax({
     url: "https://localhost:7177/api/Accounts/AccountId?accountId=" + accountId,
     type: "GET",
@@ -1134,7 +1132,7 @@ function UpdateContract() {
   Account.accountId = $("#accountId").val();
   Account.startContract = $("#StartContract").val();
   Account.endContract = $("#EndContract").val();
-  //console.log(Account.accountId);
+
   $.ajax({
     url: "https://localhost:7177/api/Accounts/UpdateContract",
     type: "PUT",

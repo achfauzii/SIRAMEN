@@ -312,8 +312,7 @@ function updateData() {
     } else {
         imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
     }
-    console.log(imagePath);
-    debugger;
+    //debugger;
 
     var formData = {
         AccountId: $("#accountId").val(),
@@ -332,7 +331,7 @@ function updateData() {
         Image: imagePath,
     };
 
-    debugger;
+    //debugger;
     $.ajax({
         url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
         type: "PUT",
@@ -432,7 +431,6 @@ function uploadImage(accountId) {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log(response);
                 if (response.success) {
                     $("#uploadMessage").text(response.message);
                 } else {
@@ -443,7 +441,6 @@ function uploadImage(accountId) {
                 $("#uploadMessage").text(
                     "An error occurred while uploading the image."
                 );
-                console.log(error);
             },
         });
     } else {
