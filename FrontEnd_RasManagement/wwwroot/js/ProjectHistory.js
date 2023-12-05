@@ -158,7 +158,7 @@ $("#JobSpec").on("keypress", function (e) {
 function Save() {
   var isValid = true;
 
-  $("input[required], textarea[required]").each(function () {
+    $("input[required], textarea[required],select[required]").each(function () {
     var element = $(this);
     if (!element.val()) {
       element.next(".error-message").show();
