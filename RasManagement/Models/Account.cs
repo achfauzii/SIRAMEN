@@ -44,6 +44,7 @@ public partial class Account
     public string? RoleId { get; set; }
 
     public bool? IsChangePassword { get; set; }
+    public string? NIK { get; set; }
 
     public virtual ICollection<AssetsManagement> AssetsManagements { get; set; } = new List<AssetsManagement>();
 
