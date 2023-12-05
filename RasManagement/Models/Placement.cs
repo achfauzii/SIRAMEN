@@ -8,7 +8,7 @@ public partial class Placement
 {
     public int PlacementStatusId { get; set; }
 
-    public string CompanyName { get; set; } = null!;
+    public string? CompanyName { get; set; }
 
     public string? JobRole { get; set; }
 

@@ -1,4 +1,6 @@
 let validName;
+let validNickName;
+let validBirthPlace;
 $(document).ready(function () {
   // Mendapatkan nilai parameter accountId dari URL
   loadDataA();

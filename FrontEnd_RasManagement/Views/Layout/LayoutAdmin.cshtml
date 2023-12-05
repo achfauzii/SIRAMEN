@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel="icon" type="image/ico" href="../img/LogoBhp.png" />
+    <link rel="icon" type="image/ico" href="../img/SiramenLogo.png" />
     <title>RAS Management</title>
 
     <!-- Custom fonts for this template-->
@@ -185,7 +185,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css"
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css" />
 </head>
 
 <body id="page-top" class="">
@@ -198,8 +198,8 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center logo-container" href="/Dashboards/Dashboard_Admin">
-                <img src="~/img/logo_putih.png" class="d-none d-md-block" width="290" height="38">
-                <img src="~/img/LogoBhp.png" class="img-fluid d-md-none p-3">
+                <img src="~/img/SiramenFull.png" class="d-none d-md-block" width="185" height="65">
+                <img src="~/img/SiramenLogo.png" class="img-fluid d-md-none p-3">
             </a>
 
             <!-- Divider -->
@@ -207,7 +207,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item @(currentUrl == "/Dashboards/Dashboard_Admin" ? "active" : "")">
-                <a class="nav-link" href="/Dashboards/Dashboard_Admin">
+                <a class="nav-link menu" href="/Dashboards/Dashboard_Admin">
 
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -224,7 +224,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item  @(currentUrl == "/accounts/register_employee" ? "active" : "")">
-                <a class="nav-link collapsed" href="/accounts/register_employee"
+                <a class="nav-link collapsed menu" href="/accounts/register_employee"
                    aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-user-circle"></i>
                     <span>Create Account Employee</span>
@@ -244,7 +244,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item @(currentUrl == "/ManageEmployee/Index" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/Index" data-target="#collapseUtilities"
+                <a class="nav-link collapsed menu" href="/ManageEmployee/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-tasks-alt"></i>
                     <span>Manage Resource</span>
@@ -259,7 +259,7 @@
                 Non Resource
             </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/TurnOverEmployee" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/TurnOverEmployee" data-target="#collapseUtilities"
+                <a class="nav-link collapsed menu" href="/ManageEmployee/TurnOverEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-exchange"></i>
                     <span>Turn Over Employee</span>
@@ -267,7 +267,7 @@
             </li>
 
             <li class="nav-item @(currentUrl == "/ResourceReport/Index" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ResourceReport/Index" data-target="#collapseUtilities"
+                <a class="nav-link collapsed menu" href="/ResourceReport/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-list-ul"></i>
                     <span>Shortlist Candidate</span>
@@ -286,7 +286,7 @@
                 Departments
             </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/Department" ? "active" : "")">
-                <a class="nav-link collapsed" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
+                <a class="nav-link collapsed menu" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-building"></i>
                     <span>Manage Department</span>
@@ -421,7 +421,7 @@
                 <div class="modal-body">
 
                     <div class="text-center pt-0 pb-3">
-                        <span style="height: 110px;"><img src="~/img/logo_putih.png" alt="Berca Hardayaperkasa" height="45px" width="225px" /></span>
+                        <span style="height: 110px;"><img src="~/img/SiramenFull.png" alt="Berca Hardayaperkasa" style="max-width: 100%; width:235px; height: auto; max-height: 85px;" /></span>
                     </div>
 
 
@@ -498,6 +498,7 @@
     <script src="~/js/JwtUtils.js"></script>
     <script src="~/js/DetailEmployee.js"></script>
     <script src="~/js/ChangePassword.js"></script>
+    <script src="~/js/HistoryLog.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
