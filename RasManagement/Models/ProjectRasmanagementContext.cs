@@ -120,7 +120,9 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasColumnName("IsChangePassword")
                 .HasColumnType("bit")
                 .HasDefaultValue(false);
-
+            entity.Property(e => e.NIK)
+                .HasMaxLength(6)
+                .HasColumnName("NIK");
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("FK_Account_Role");
