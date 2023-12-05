@@ -7,9 +7,9 @@ public partial class Account
 {
     public string AccountId { get; set; } = null!;
 
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; }
 
-    public string Password { get; set; } = null!;
+    public string? Password { get; set; }
 
     public string? Nickname { get; set; }
 
@@ -41,7 +41,7 @@ public partial class Account
 
     public string? Image { get; set; }
 
-    public string? RoleId { get; set; }
+    public string RoleId { get; set; } = null!;
 
     public bool? IsChangePassword { get; set; }
     public string? NIK { get; set; }
@@ -59,12 +59,11 @@ public partial class Account
     public virtual ICollection<NonFormalEdu> NonFormalEdus { get; set; } = new List<NonFormalEdu>();
 
     public virtual ICollection<Placement> Placements { get; set; } = new List<Placement>();
-
-    public virtual ICollection<ProjectHistory> ProjectHistories { get; set; } = new List<ProjectHistory>();
-
     public virtual ICollection<Qualification> Qualifications { get; set; } = new List<Qualification>();
 
-    public virtual Role? Role { get; set; }
+    public virtual ICollection<ProjectHistory>ProjectHistories  { get; set; } = new List<ProjectHistory>();
+
+    public virtual Role? Role { get; set; } = null!;
 
     public virtual ICollection<ShortlistCandidate> ShortlistCandidates { get; set; } = new List<ShortlistCandidate>();
 
