@@ -14,9 +14,9 @@
                     <span class="error-message" id="validateName" style="color: red; display: none;">The field can only use letters.</span>
                 </div>
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <label class="text-dark" for="exampleInputEmail1">Nomor Induk Karyawan</label>
+                    <label class="text-dark" for="nik">Nomor Induk Karyawan</label>
                     <input type="text" class="form-control" oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="nik" name="nik" required>
-                    <span class="error-message" id="validateName" style="color: red; display: none;">The field can only use letters.</span>
+                    <span class="error-message" id="validateNIK" style="color: red; display: none;">Please Input Max 6 Digit Number</span>
                 </div>
             </div>
 
@@ -201,18 +201,21 @@
         // Generate a random UUID
 
         //Validasi Nama
-        if (!validateName){
-            $('#fullName').focus();
-            return
-        }
-
-        //validasi email
-        if (validateEmail(email)) {
-            $('#validateEmail').hide();
-        } else {
-            $('#validateEmail').show();
+         if (!validateName) {
+           $('#fullName').focus();
             return;
         }
+         if (!validateNIK) {
+           $('#nik').focus();
+            return;
+        }
+         if (!validateEmail) {
+           $('#email').focus();
+            return;
+        }
+ 
+        
+        
 
         const password = uuidv4();
 
@@ -349,10 +352,11 @@ console.log(data)
                     // Tampilkan pesan error jika permintaan gagal
                     response.json().then(function (data) {
                         // Ambil pesan dari respons JSON
-                        var errorMessage = data.message;
+                        var errorMessage = data.errors
 
                         // Tampilkan pesan error menggunakan SweetAlert
                         Swal.fire('Error', errorMessage, 'error');
+                        
                     });
 
                 }
@@ -371,24 +375,41 @@ console.log(data)
                 return v.toString(16);
             });
     };
-    var errorName = document.getElementById('validateName');
-    document.getElementById('fullName').addEventListener('keyup', function (fullname) {
-        var regex = /^[a-zA-Z'-\s]+$/;
+    $("#email, #nik, #fullName").on("keyup", function() {
+    var value = $(this).val();
+    var errorMessage = "";
+    var isValidCharacter = true;  // Inisialisasi dengan nilai default true
 
-        if (regex.test(this.value) == true || this.value == '') {
-            errorName.style.display = 'none';
+    if ($(this).is("#email")) {
+        var regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
+        isValidCharacter = regex.test(value);
+        validateEmail = regex.test(value);
+        errorMessage = "Must Use Berca Email Domain";
+    } else if ($(this).is("#nik")) {
+        var NIKLength = value.length <= 6;
+        isValidCharacter = NIKLength;
+        validateNIK = NIKLength;
+        errorMessage = "Max 6 Digits";
+    } else if ($(this).is("#fullName")) {
+        var regex = /^[a-zA-Z'-\s]+$/;
+        
+        if (regex.test(value) || value === '') {
+            isValidCharacter = true;
             validateName = true;
         } else {
-            errorName.style.display = 'block';
+            isValidCharacter = false;
             validateName = false;
+            errorMessage = "No Number";
         }
-    });
-
-    function validateEmail(email) {
-        // Regular expression untuk memeriksa email dengan domain berca.co.id
-        const regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
-        return regex.test(email);
     }
+
+    if (!isValidCharacter) {
+      $(this).next(".error-message").text(errorMessage).show();
+      
+    } else if (isValidCharacter) {
+      $(this).next(".error-message").hide();
+    }
+});
 
     function capitalizeName(name){
         return name
