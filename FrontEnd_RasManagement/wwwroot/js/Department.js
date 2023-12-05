@@ -2,12 +2,15 @@
 $(document).ready(function () {
   table = $("#TB_Department").DataTable({
     responsive: true,
-
+    
     ajax: {
       url: "https://localhost:7177/api/Department",
       type: "GET",
       datatype: "json",
       dataSrc: "data",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
     },
 
     columns: [
@@ -84,32 +87,34 @@ function Save() {
   Department.namaDept = $("#NamaDept").val(); //value insert dari id pada input
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/Department",
+    url: "https://localhost:7177/api/Department/Departmentv2",
     data: JSON.stringify(Department),
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-  }).then((result) => {
-    if (result.status == 200) {
+  
+    success: function (result) {
+      if (result.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Success...",
+          text: "Data has been added!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#Modal").modal("hide");
+        table.ajax.reload();
+      }
+    },
+    error: function (xhr, status, error) {
       Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been added!",
-        showConfirmButtom: false,
+        icon: "error",
+        title: "Error",
+        html:  "Department <span style='text-decoration: underline; font-weight: bold;'>" + Department.namaDept + "</span> already exists",
+        showConfirmButton: false,
         timer: 1500,
       });
-      $("#Modal").modal("hide");
-      table.ajax.reload();
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Data failed to added!",
-        showConfirmButtom: false,
-        timer: 1500,
-      });
-      $("#Modal").modal("hide");
-      table.ajax.reload();
     }
   });
 }
@@ -146,9 +151,9 @@ function GetByIdDept(deptId) {
     type: "GET",
     contentType: "application/json; charset=utf-8",
     dataType: "json",
-    /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },*/
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
     success: function (result) {
       var obj = result.data; //data yg kita dapat dr API
       $("#DeptId").val(obj.deptId);
@@ -189,9 +194,9 @@ function UpdateDept() {
     type: "PUT",
     data: JSON.stringify(Department),
     contentType: "application/json; charset=utf-8",
-    /*headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },*/
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
   }).then((result) => {
     if (result.status == 200) {
       Swal.fire({
@@ -225,9 +230,9 @@ function Delete(deptId) {
         type: "DELETE",
         dataType: "json",
 
-        /*headers: {
-                    "Authorization": "Bearer " + sessionStorage.getItem("Token")
-                },*/
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
         success: function (result) {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           table.ajax.reload();

@@ -1,14 +1,8 @@
 ﻿var table = null;
 $(document).ready(function () {
+
     SharedShortListCandidate('all');
-
-
-
     fetchCategories();
-
-
-
-
 });
 function SharedShortListCandidate(selectedCategory) {
     //$('#all').addClass('active');

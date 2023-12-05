@@ -1,9 +1,18 @@
+let validName;
 $(document).ready(function () {
   // Mendapatkan nilai parameter accountId dari URL
   loadDataA();
   $("#editDetailsBtn").on("click", function () {
     loadDataA(); // Reload the data before opening the modal
     $("#myModal").modal("show"); // Show the modal after loading the data
+  });
+
+  const selectReligion = $("#editReligion");
+  $(selectReligion).select2({
+    placeholder: "Select a religion",
+    width: "100%",
+    allowClear: true,
+    tags: true,
   });
 
   $("#editName, #editNickName, #editBirthPlace").on("keyup", function () {
@@ -26,13 +35,16 @@ $(document).ready(function () {
 
     // Validasi karakter hanya jika bidang tidak kosong
     if (value.trim() !== "") {
-      isValidCharacter = /^[A-Za-z\s]+$/.test(value);
+      isValidCharacter = /^[A-Za-z'-\s]+$/.test(value);
 
       if (!isValidCharacter) {
         $(this)
           .next(".error-message")
-          .text("Only letters and spaces are allowed")
+          .text("The field can only use letters.")
           .show();
+        validName = false;
+      } else {
+        validName = true;
       }
     }
 
@@ -92,9 +104,7 @@ function loadDataA() {
       $("#religion").text(obj.religion);
       $("#martialStatus").text(obj.maritalstatus);
       $("#nationality").text(obj.nationality);
-      $("#address").text(
-        obj.address == null ? obj.address : toPascalCase(obj.address)
-      );
+      $("#address").text(obj.address);
 
       // Set employee photo
       if (obj.image != null) {
@@ -214,7 +224,7 @@ function GetById(accountId) {
         imageInput.value = "";
         $("#imagePath").val(""); // Clear image path value
         $("#imagePreview").attr("src", ""); // Clear image preview source
-        $("#imagePreview").css("display", "none"); // Hide the image preview
+        $("#imagePreview").css("display", "none"); // Hide the image previewy
       }
 
       $("#Modal").modal("show");
@@ -226,60 +236,6 @@ function GetById(accountId) {
     },
   });
 }
-
-/*function updateData() {
-    
-    //upload gambar ke assets project
-    var accountId = $('#accountId').val();
-    uploadImage(accountId);
-
-    var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
-
-    var formData = {
-        AccountId: $('#accountId').val(),
-        Fullname: $('#editName').val(),
-        Nickname: $('#editNickName').val(),
-        Birthplace: $('#editBirthPlace').val(),
-
-        // Set birth date to yyyy-mm-dd format
-        Birthdate: $('#editBirthDate').val(),
-
-        Gender: $('#editGender').val(),
-        Religion: $('#editReligion').val(),
-        MaritalStatus: $('#editMartialStatus').val(),
-        Nationality: $('#editNationality').val(),
-        Address: $('#editAddress').val(),
-        Image: imagePath
-    };
-    console.log(formData);
-
-    $.ajax({
-        url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
-        type: "PUT",
-        data: JSON.stringify(formData),
-        contentType: "application/json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then(result => {
-        //
-        if (result.status == 200) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Data Behasil Diperbaharui!',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                $('#myModal').modal('hide'); // Modal ditutup
-
-                location.reload();
-            });
-        } else {
-            alert("Data gagal Diperbaharui");
-        }
-    });
-}*/
 
 function updateData() {
   var accountId = $("#accountId").val();
@@ -294,6 +250,16 @@ function updateData() {
       input.next(".error-message").hide();
     }
   });
+
+  if (!validName) {
+    $("#editName")
+      .next(".error-message")
+      .text("The field can only use letters.")
+      .show();
+    $("#editName").focus();
+    return;
+  }
+
   if (!isValid) {
     return;
   }
@@ -303,8 +269,14 @@ function updateData() {
   }
   uploadImage(accountId);
 
-  var imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
+  var imagePath;
+  if ($("#imageFile").val() == "") {
+    imagePath = null;
+  } else {
+    imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
+  }
   console.log(imagePath);
+
   var formData = {
     AccountId: $("#accountId").val(),
     Fullname: $("#editName").val(),
