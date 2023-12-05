@@ -54,7 +54,6 @@ public partial class ProjectRasmanagementContext : DbContext
     public virtual DbSet<TurnOver> TurnOvers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("server = RAS-YOGI; Database = Project_RASManagement; user id = sa; password = sapassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -293,7 +292,6 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Name).IsUnicode(false);
             entity.Property(e => e.Activity).IsUnicode(false);
             entity.Property(e => e.TimeStamp)
-                .HasColumnType("datetime")
                 .HasColumnName("Time_Stamp");
         });
 
@@ -562,7 +560,6 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
-                .IsUnicode(false);
             entity.Property(e => e.Framework)
                 .IsUnicode(false);
             entity.Property(e => e.Others)
