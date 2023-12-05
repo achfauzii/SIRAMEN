@@ -62,4 +62,6 @@ public partial class NonRasCandidate
     public string? Notes { get; set; }
 
     public DateTime? LastModified { get; set; }
+
+   /* public virtual ICollection<OfferingProcess> OfferingProcesses { get; set; } = new List<OfferingProcess>();*/
 }
