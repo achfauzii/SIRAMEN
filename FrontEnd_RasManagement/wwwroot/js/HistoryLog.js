@@ -12,6 +12,7 @@
 });
 
 function SaveLog(logData) {
+
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
 
   var timeNow = new Date().toISOString();
@@ -38,7 +39,9 @@ function SaveLog(logData) {
     },
     body: JSON.stringify(data),
   });
+
 }
+
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -53,4 +56,27 @@ function parseJwt(token) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+function SaveLogUpdate(activity) {
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+
+
+    const data = {
+        id: 0,
+        accountId: decodedtoken.AccountId,
+        name: decodedtoken.Name,
+        activity: activity,
+        timeStamp: new Date().toISOString()
+    };
+
+    fetch('https://localhost:7177/api/HistoryLog', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            //'Authorization': 'Bearer access_token_here' 
+        },
+        body: JSON.stringify(data)
+    })
+
 }
