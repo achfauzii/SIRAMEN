@@ -2,9 +2,8 @@ var table = null;
 $(document).ready(function () {
   Educations();
   formInputLocation();
-
   getUniversitasList();
-
+  
   const selectMajor = $("#Major");
   //Ini untuk tanpa display none jadi langsung di tampilkan ()
   $(selectMajor).select2({
@@ -13,7 +12,7 @@ $(document).ready(function () {
     allowClear: true,
     tags: true,
   });
-
+  
   const selectDegree = $("#Degree");
   $(selectDegree).select2({
     placeholder: "Select your degree",
@@ -22,6 +21,8 @@ $(document).ready(function () {
     tags: true,
   });
 });
+
+
 
 function Educations() {
   //debugger;
@@ -283,6 +284,7 @@ function formInputLocation() {
         });
 
 }*/
+
 
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
