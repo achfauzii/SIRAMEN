@@ -125,6 +125,7 @@ $(document).ready(function () {
           },
         },
 
+        { data: "nik" },
         { data: "fullname" },
         { data: "email" },
         { data: "gender" },
