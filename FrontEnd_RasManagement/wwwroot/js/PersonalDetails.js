@@ -345,7 +345,7 @@ function updateData() {
                 Swal.fire({
                     icon: "success",
                     title: "Success...",
-                    text: "Data Berhasil Diperbaharui!",
+                    text: "Data has been update!",
                     showConfirmButton: false,
                     timer: 2000,
                 }).then(() => {
@@ -353,7 +353,7 @@ function updateData() {
                     location.reload();
                 });
             } else {
-                alert("Data gagal Diperbaharui");
+                Swal.fire("Error!", "Data failed to update", "error");
             }
         },
         error: function (errormessage) {
@@ -387,7 +387,7 @@ function validateFormData() {
         Swal.fire({
             icon: "error",
             title: "Error...",
-            text: "Data tidak boleh kosong",
+            text: "Data cannot be empty",
         });
         return false;
     }
