@@ -1,7 +1,6 @@
-
 @{
     ViewData["Title"] = "ProjectHistory";
-     var role = ViewData["UserRole"] as string;
+    var role = ViewData["UserRole"] as string;
     var layoutPath = $"~/Views/Layout/Layout{role}.cshtml";
     Layout = layoutPath;
 }
@@ -19,76 +18,95 @@
 
 <!-- /.card-header -->
 <div class="card">
-<div class="card-body">
-    <h5 class="mb-3">Project History</h5>
-    <button style="background-color:#624DE3; font-size: 12px; type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
-        + Add Project History
-    </button>
+    <div class="card-body">
+        <h5 class="mb-3">Project History</h5>
+        <button style="background-color:#624DE3; font-size: 12px; type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
+            + Add Project History
+        </button>
 
-    <table id="TB_ProjectHistory" class="table table-striped w-100" style="font-size:14px; color:black">
-        <thead style="background-color:#FFFFFF">
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">Project Name</th>
-                <th scope="col">Job Specification</th>
-                <th scope="col">Year</th>
-                <th scope="col">Company Name</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-    </table>
-</div>
+        <table id="TB_ProjectHistory" class="table table-striped w-100" style="font-size:14px; color:black">
+            <thead style="background-color:#FFFFFF">
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Project Name</th>
+                    <th scope="col">Job Specification</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 @*Modal*@
-    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Project History</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="ProjectHistoryId" hidden>
-                        </div>
-                        <div class="form-group">
-                            <label for="ProjectName">Project Name</label>
-                            <input type="text" class="form-control" id="ProjectName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter project name" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="JobSpec">Job Specification</label>
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Project History</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="ProjectHistoryId" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label for="ProjectName">Project Name</label>
+                        <input type="text" class="form-control" id="ProjectName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter project name" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="JobSpec">Job Specification</label>
 
-                            <textarea class="form-control" id="JobSpec" rows="4" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="&bull; Enter Job Specification" required></textarea>
+                        <textarea class="form-control" id="JobSpec" rows="4" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="&bull; Enter Job Specification" required></textarea>
 
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            <small class="form-text text-muted text-primary">You can include a GitHub link or your portfolio.</small>
-                            
-                        </div>
-                        <div class="form-group">
-                            <label for="Year">Year</label>
-                            <input type="number" class="form-control" id="Year" placeholder="Enter year" maxlength="4" 
-                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="CompanyName">Company Name</label>
-                            <input type="text" class="form-control" id="CompanyName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter company name" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
-                    <button type="button" class="btn btn-warning" id="Update" onclick="Update();">Update</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" ClearScreen()">Close</button>
-                </div>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <small class="form-text text-muted text-primary">You can include a GitHub link or your portfolio.</small>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="Year">Year</label>
+                        <select id="Year" class="form-control" required></select>@*
+                        <input type="number" class="form-control" id="Year" placeholder="Enter year" maxlength="4"
+                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>*@
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="CompanyName">Company Name</label>
+                        <input type="text" class="form-control" id="CompanyName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter company name" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
+                <button type="button" class="btn btn-warning" id="Update" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" ClearScreen()">Close</button>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    // Get the select element
+    const yearSelect = document.getElementById("Year");
+
+    // Set the range of years (you can adjust the range as needed)
+    const startYear = 2000;
+    const endYear = new Date().getFullYear(); // Current year
+
+    // Generate options dynamically
+    for (let year = startYear; year <= endYear; year++) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.text = year;
+        yearSelect.appendChild(option);
+    }
+</script>
+
 
 @section script
     {
