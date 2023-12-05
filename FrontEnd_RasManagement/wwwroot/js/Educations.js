@@ -12,7 +12,7 @@ $(document).ready(function () {
     allowClear: true,
     tags: true,
   });
-  
+
   const selectDegree = $("#Degree");
   $(selectDegree).select2({
     placeholder: "Select your degree",
@@ -21,8 +21,6 @@ $(document).ready(function () {
     tags: true,
   });
 });
-
-
 
 function Educations() {
   //debugger;
