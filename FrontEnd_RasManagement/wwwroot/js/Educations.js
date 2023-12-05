@@ -2,9 +2,8 @@ var table = null;
 $(document).ready(function () {
   Educations();
   formInputLocation();
-
   getUniversitasList();
-
+  
   const selectMajor = $("#Major");
   //Ini untuk tanpa display none jadi langsung di tampilkan ()
   $(selectMajor).select2({
