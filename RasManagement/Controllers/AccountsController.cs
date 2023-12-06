@@ -296,6 +296,20 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpPut("UpdateNIK")]
+        public IActionResult UpdateNIK(NikVM nikVM)
+        {
+            var get = accountRepository.UpdateNIK(nikVM);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil diubah", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak bisa diubah", Data = get });
+            }
+        }
+
         [HttpPut("UpdateContract")]
         public IActionResult UpdateContracts(ContractVM contractVM)
         {

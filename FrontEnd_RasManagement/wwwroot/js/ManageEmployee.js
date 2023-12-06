@@ -1158,6 +1158,8 @@ function UpdateContract() {
         showConfirmButton: false,
         timer: 1500,
       });
+        const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
+        SaveLogUpdate(logMessage);
       $("#modalContract").modal("hide");
       setTimeout(function () {
         location.reload();
@@ -1355,6 +1357,7 @@ function Save(accountId) {
       result.status == 200
     ) {
       //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+      const logMessage = ``
       Swal.fire({
         title: "Success!",
         text: "Data has been added!",
