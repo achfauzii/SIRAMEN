@@ -15,13 +15,7 @@ function SaveLog(logData) {
 
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
 
-  var timeNow = new Date().toISOString();
-  var timeStamp =
-    timeNow.substr(0, 11) +
-    new Date().toLocaleTimeString("en-US", {
-      timeZone: "Asia/Jakarta",
-      hour12: false,
-    });
+  const timeStamp = getDateTime();
 
   const data = {
     id: 0,
@@ -61,13 +55,13 @@ function parseJwt(token) {
 function SaveLogUpdate(activity) {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
 
-
+    const timeStamp = getDateTime();
     const data = {
         id: 0,
         accountId: decodedtoken.AccountId,
         name: decodedtoken.Name,
         activity: activity,
-        timeStamp: new Date().toISOString()
+        timeStamp: timeStamp
     };
 
     fetch('https://localhost:7177/api/HistoryLog', {
@@ -79,4 +73,17 @@ function SaveLogUpdate(activity) {
         body: JSON.stringify(data)
     })
 
+}
+
+function getDateTime() {
+
+    var timeNow = new Date().toISOString();
+    var timeStamp =
+        timeNow.substr(0, 11) +
+        new Date().toLocaleTimeString("en-US", {
+            timeZone: "Asia/Jakarta",
+            hour12: false,
+        });
+
+    return timeStamp;
 }

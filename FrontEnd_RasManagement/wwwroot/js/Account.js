@@ -140,13 +140,14 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 function SaveLog(logData) {
-
+    var timeNow = new Date().toISOString();
+    var timeStamp = getTime();
     const data = {
         id: 0,
         accountId: logData.AccountId,
         name: logData.Name,
         activity: "Has Log In",
-        timeStamp: new Date().toISOString()
+        timeStamp: timeStamp
     };
     fetch('https://localhost:7177/api/HistoryLog', {
         method: 'POST',
@@ -161,13 +162,14 @@ function SaveLog(logData) {
 function Logout() {
 
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const timeStamp = getTime();
     if (decodedtoken.RoleId == "2") {
         const data = {
             id: 0,
             accountId: decodedtoken.AccountId,
             name: decodedtoken.Name,
             activity: "Has Log Out",
-            timeStamp: new Date().toISOString()
+            timeStamp: timeStamp
         };
         fetch('https://localhost:7177/api/HistoryLog', {
             method: 'POST',
@@ -183,4 +185,16 @@ function Logout() {
 
     sessionStorage.removeItem("Token"); //Remove Session
     window.location.href = "https://localhost:7109/"; //Kembali Ke halaman Awal
+}
+
+function getTime() {
+    var timeNow = new Date().toISOString();
+    var timeStamp =
+        timeNow.substr(0, 11) +
+        new Date().toLocaleTimeString("en-US", {
+            timeZone: "Asia/Jakarta",
+            hour12: false,
+        });
+
+    return timeStamp;
 }
