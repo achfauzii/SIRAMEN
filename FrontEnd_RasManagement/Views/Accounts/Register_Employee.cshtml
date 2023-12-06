@@ -125,7 +125,7 @@
         endContract.setDate(1);
         endContract.setMonth(endContract.getMonth() + 3);
 
-        console.log(endContract.getMonth()+1);
+  
         const yyyy = endContract.getFullYear();
         let mm = endContract.getMonth() + 1;
         if (mm < 10) mm = '0' + mm;
@@ -146,7 +146,7 @@
         if($('#duration').val() != ''){
             var startContract = new Date($('#join').val());
             let endContract = new Date(startContract);
-            console.log($('#duration').val());
+   
 
             endContract.setMonth(endContract.getMonth() + parseInt($('#duration').val()));
             
@@ -236,7 +236,7 @@
             roleId: roleId,
             hiredstatus: hiredStatus,
         }
-console.log(data)
+
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
@@ -294,7 +294,7 @@ console.log(data)
 
                             const endPeriode = yyyy + "-" + mm;
                             var periodEmployement = startPeriode + " - " + endPeriode;
-                            console.log("periode "+periodEmployement);
+                     
 
                             var EmploymentHistory = {
                                 companyName: "PT. Berca Hardayaperkasa",
