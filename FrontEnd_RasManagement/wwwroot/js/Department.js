@@ -32,8 +32,10 @@ $(document).ready(function () {
             row.deptId +
             ')"><i class="fa fa-edit"></i></button >' +
             "&nbsp;" +
-            '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
-            row.deptId +
+              '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
+              row.deptId +
+              "', '" +
+              row.namaDept + "'"+
             ')"><i class="fa fa-trash"></i></button >'
           );
         },
@@ -94,7 +96,9 @@ function Save() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   
-    success: function (result) {
+      success: function (result) {
+          const logMessage = `Has added department ${Department.namaDept}`;
+          SaveLogUpdate(logMessage);
       if (result.status == 200) {
         Swal.fire({
           icon: "success",
@@ -198,7 +202,9 @@ function UpdateDept() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    if (result.status == 200) {
+      if (result.status == 200) {
+          const logMessage = `Has updated the department name, department Id ${Department.deptId}`;
+          SaveLogUpdate(logMessage);
       Swal.fire({
         icon: "success",
         title: "Success...",
@@ -214,7 +220,7 @@ function UpdateDept() {
   });
 }
 
-function Delete(deptId) {
+function Delete(deptId, deptName) {
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -233,7 +239,9 @@ function Delete(deptId) {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
-        success: function (result) {
+          success: function (result) {
+              const logMessage = `Has deleted department ${deptName}`;
+              SaveLogUpdate(logMessage);
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           table.ajax.reload();
         },

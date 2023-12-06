@@ -15,7 +15,8 @@
                 </div>
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="nik">Nomor Induk Karyawan</label>
-                    <input type="text" class="form-control" oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="nik" name="nik" required>
+                    <input type="number" class="form-control" maxlength="6" onkeyup="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+                    oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="nik" name="nik" required>
                     <span class="error-message" id="validateNIK" style="color: red; display: none;">Please Input Max 6 Digit Number</span>
                 </div>
             </div>
@@ -125,7 +126,7 @@
         endContract.setDate(1);
         endContract.setMonth(endContract.getMonth() + 3);
 
-        //console.log(endContract.getMonth()+1);
+  
         const yyyy = endContract.getFullYear();
         let mm = endContract.getMonth() + 1;
         if (mm < 10) mm = '0' + mm;
@@ -146,7 +147,7 @@
         if($('#duration').val() != ''){
             var startContract = new Date($('#join').val());
             let endContract = new Date(startContract);
-            //console.log($('#duration').val());
+   
 
             endContract.setMonth(endContract.getMonth() + parseInt($('#duration').val()));
             
@@ -213,10 +214,7 @@
            $('#email').focus();
             return;
         }
- 
         
-        
-
         const password = uuidv4();
 
         // Print the UUID
@@ -230,19 +228,21 @@
             //birthdate: '2023-06-23T07:21:40.243Z',
             //religion: 'string',
             gender: gender,
-            startcontract: startContract,
-            endcontract: endContract,
-            joindate: joinDate,
+            startContract: startContract,
+            endContract: endContract,
+            joinDate: joinDate,
             roleId: roleId,
             hiredstatus: hiredStatus,
-        }
-console.log(data)
+
+        };
+
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + sessionStorage.getItem("Token"),
             },
             body: JSON.stringify(data)
         })
@@ -294,7 +294,7 @@ console.log(data)
 
                             const endPeriode = yyyy + "-" + mm;
                             var periodEmployement = startPeriode + " - " + endPeriode;
-                            console.log("periode "+periodEmployement);
+                     
 
                             var EmploymentHistory = {
                                 companyName: "PT. Berca Hardayaperkasa",
@@ -377,40 +377,40 @@ console.log(data)
             });
     };
     $("#email, #nik, #fullName").on("keyup", function() {
-    var value = $(this).val();
-    var errorMessage = "";
-    var isValidCharacter = true;  // Inisialisasi dengan nilai default true
+        var value = $(this).val();
+        var errorMessage = "";
+        var isValidCharacter = true;  // Inisialisasi dengan nilai default true
 
-    if ($(this).is("#email")) {
-        var regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
-        isValidCharacter = regex.test(value);
-        validateEmail = regex.test(value);
-        errorMessage = "Must Use Berca Email Domain";
-    } else if ($(this).is("#nik")) {
-        var NIKLength = value.length <= 6;
-        isValidCharacter = NIKLength;
-        validateNIK = NIKLength;
-        errorMessage = "Max 6 Digits";
-    } else if ($(this).is("#fullName")) {
-        var regex = /^[a-zA-Z'-\s]+$/;
-        
-        if (regex.test(value) || value === '') {
-            isValidCharacter = true;
-            validateName = true;
-        } else {
-            isValidCharacter = false;
-            validateName = false;
-            errorMessage = "No Number";
+        if ($(this).is("#email")) {
+            var regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
+            isValidCharacter = regex.test(value);
+            validateEmail = regex.test(value);
+            errorMessage = "Must Use Berca Email Domain";
+        } else if ($(this).is("#nik")) {
+            var NIKLength = value.length <= 6;
+            isValidCharacter = NIKLength;
+            validateNIK = NIKLength;
+            errorMessage = "Max 6 Digits";
+        } else if ($(this).is("#fullName")) {
+            var regex = /^[a-zA-Z'-\s]+$/;
+            
+            if (regex.test(value) || value === '') {
+                isValidCharacter = true;
+                validateName = true;
+            } else {
+                isValidCharacter = false;
+                validateName = false;
+                errorMessage = "No Number";
+            }
         }
-    }
 
-    if (!isValidCharacter) {
-      $(this).next(".error-message").text(errorMessage).show();
-      
-    } else if (isValidCharacter) {
-      $(this).next(".error-message").hide();
-    }
-});
+        if (!isValidCharacter) {
+        $(this).next(".error-message").text(errorMessage).show();
+        
+        } else if (isValidCharacter) {
+            $(this).next(".error-message").hide();
+        }
+    });
 
     function capitalizeName(name){
         return name
