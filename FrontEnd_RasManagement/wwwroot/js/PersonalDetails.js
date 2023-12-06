@@ -76,6 +76,7 @@ function toPascalCase(str) {
   });
 }
 
+
 function loadDataA() {
   $("#loader").show();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -97,7 +98,7 @@ function loadDataA() {
       const date_ = date.toLocaleDateString("id-ID", options);
 
       $("#nameFull").text(obj.fullname);
-      $("#nik").text("NIK : " + obj.nik);
+      $("#nik").text("NIK : " + obj.nik== null ? "Kosong" :  obj.nik);
       $("#nickName").text(
         obj.nickname == null ? obj.nickname : toPascalCase(obj.nickname)
       );
@@ -251,7 +252,9 @@ function GetById(accountId) {
     },
   });
 }
-
+function clear() {
+  $(".error-message").hide()
+}
 function updateData() {
   var accountId = $("#accountId").val();
   var isValid = true;
