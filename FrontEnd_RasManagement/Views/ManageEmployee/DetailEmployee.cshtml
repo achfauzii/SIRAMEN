@@ -37,17 +37,13 @@
 
 <div class="d-flex flex-column flex-xl-row justify-content-between " style="gap: 0.3rem;">
 
-    <div class="card text-dark  mb-3 w-100 w-sm-65">
+    <div class="card text-dark mb-3 w-75 w-sm-100">
         <div class="card-header text-light bg-secondary " style="background-color:#624DE3;">Personal Data</div>
         <div class="card-body">
             <div class="row">
                 <div class="col-3" style="color: black">Name</div>
                 <div class="col-9" style="color: black">: @employeeData.fullname</div>
             </div>
-            @* <div class="row">
-            <div class="col-6" style="color: black">Nick Name:</div>
-            <div class="col-6" style="color: black">@employeeData.nickname</div>
-            </div> *@
             <div class="row">
                 <div class="col-3" style="color: black">Birth</div>
                 <div class="col-9" style="color: black">: @employeeData.birthplace, @employeeData.birthdate.ToString("dd/MM/yyyy")</div>
@@ -63,7 +59,7 @@
             </div>
         </div>
     </div>
-    <div class="card text-dark  mb-3  w-100 w-sm-50">
+    <div class="card text-dark mb-3 w-sm-100 w-50">
         <div class="card-header text-light bg-secondary ">Status</div>
         <div class="card-body ">
             <div class="row">
@@ -80,7 +76,7 @@
             </div>
         </div>
     </div>
-    <div class="card text-dark  mb-3  w-100 w-sm-50">
+    <div class="card text-dark  mb-3 w-50 w-sm-70">
         <div class="card-header text-light bg-secondary">
             Contract
             <i class="fa fa-edit text-light pt-2 mr-3" style="font-size: 14px; float: right" data-toggle="modal" data-placement="top" data-target="#modalContract" data-tooltip="tooltip" title="Update Contract" onclick="GetContract('@employeeData.accountId');"></i>
