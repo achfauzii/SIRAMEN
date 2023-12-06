@@ -1368,6 +1368,8 @@ function Save() {
         },
     }).then((result) => {
         //
+        const logMesagge = `Has Added Shortlist Candidate ${NonRasCandidate.fullname}`;
+        SaveLogUpdate(logMesagge);
         if (result.status == 200) {
             Swal.fire({
                 icon: 'success',
@@ -1615,6 +1617,8 @@ function Update() {
     }).then((result) => {
         //
         if (result.status == 200) {
+            const logMessage = `Has been Updated Candidate data, Id ${NonRasCandidate.nonRasId}, name ${NonRasCandidate.fullname}`;
+            SaveLogUpdate(logMessage);
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',

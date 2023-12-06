@@ -1357,7 +1357,8 @@ function Save(accountId) {
       result.status == 200
     ) {
       //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
-      const logMessage = ``
+        const logMessage = `Has added placement to account ID ${placement.accountId}, status ${placement.placementStatus}`;
+        SaveLogUpdate(logMessage);
       Swal.fire({
         title: "Success!",
         text: "Data has been added!",
@@ -1398,7 +1399,9 @@ function Update() {
     },
   }).then((result) => {
     $("#modalPlacement").modal("hide");
-    if (result.status == 200) {
+      if (result.status == 200) {
+          const logMessage = `Has Changed Placement of Account ID ${placement.accountId}, Placement Status Id ${placement.placementStatusId}, Status ${placement.placementStatus}`;
+          SaveLogUpdate(logMessage);
       Swal.fire({
         title: "Success!",
         text: "Data has been Update!",
