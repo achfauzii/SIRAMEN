@@ -1157,6 +1157,8 @@ function UpdateContract() {
         showConfirmButton: false,
         timer: 1500,
       });
+        const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
+        SaveLogUpdate(logMessage);
       $("#modalContract").modal("hide");
       setTimeout(function () {
         location.reload();

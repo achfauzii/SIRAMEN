@@ -6,7 +6,7 @@
       const menuTitle = this.textContent.trim();
       const logData = `Clicked menu: ${menuTitle}`;
 
-      SaveLog(logData); // Panggil fungsi untuk menyimpan log
+      SaveLog(logData); 
     });
   });
 });
