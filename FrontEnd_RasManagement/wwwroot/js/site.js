@@ -210,37 +210,35 @@ function SendAnnouncement() {
       return;
     }
 
-    if ($("#Announcement").val() == "birth") {
-        var title = "Berita Kelahiran";
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will send a news email to all employees.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, send it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          type: "POST",
+          url: "/Announce/SendEmailKelahiran",
+          contentType: "application/json",
+          dataType: "json",
+          data: JSON.stringify(data),
 
-        var data = {
-            title: title,
-            employee: $("#NameEmployee").val(),
-            name: $("#ChildName").val(),
-            //gender: document.getElementById('Putra').checked ? "Putra" : "Putri",
-            gender: $('input[name="Gender"]:checked').val(),
-            child: $("#Child").val(),
-            birthdate: ConvertDate($("#BirthDate").val()),
-            birthtime: $("#BirthTime").val(),
-            birthplace: $("#BirthPlace").val(),
-            weight: $("#Weight").val(),
-            length: $("#Length").val(),
-            email: arrayEmail,
-        };
-
-        var isValid = true;
-
-        $("input[required]").each(function () {
-            var input = $(this);
-
-            //console.log(input.val());
-            if (!input.val()) {
-                input.closest(".form-group").find(".error-message-announce").show();
-                input.next(".error-message-announce").show();
-                isValid = false;
-            } else {
-                input.closest(".form-group").find(".error-message-announce").hide();
-            }
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+          },
+          success: function (d) {
+            Toast.fire({
+              icon: "success",
+              text: "Sending news email was successfully!",
+            });
+          },
+          failed: function (er) {
+            //console.log("Error : " + er.message);
+          },
         });
       } else {
       }

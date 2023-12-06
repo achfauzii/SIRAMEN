@@ -98,7 +98,7 @@ function loadDataA() {
       const date_ = date.toLocaleDateString("id-ID", options);
 
       $("#nameFull").text(obj.fullname);
-      $("#nik").text("NIK : " + obj.nik== null ? "Kosong" :  obj.nik);
+      $("#nik").text("NIK : " + (obj.nik == null ? "-" : obj.nik));
       $("#nickName").text(
         obj.nickname == null ? obj.nickname : toPascalCase(obj.nickname)
       );
@@ -182,7 +182,12 @@ function handleInput(event, input) {
   noHTML(input);
 }
 
+function clearMessage() {
+  $(".error-message").hide();
+}
+
 function ClearScreen() {
+  alert("coba");
   $("#accountId").val("");
   $("#editName").val("");
   $("#editNickName").val("");
