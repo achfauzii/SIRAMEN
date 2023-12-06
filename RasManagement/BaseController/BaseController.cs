@@ -48,6 +48,7 @@ namespace RasManagement.BaseController
         [HttpPost]
         public virtual ActionResult Insert(Entity entity)
         {
+            Console.WriteLine(entity.ToString());
             var insert = repository.Insert(entity);
             if (insert >= 1)
             {
@@ -56,7 +57,7 @@ namespace RasManagement.BaseController
                     {
                         status = HttpStatusCode.OK,
                         message = "Data Berhasil Dimasukkan",
-                        Data = insert
+                        Data = entity
                     });
             }
             else
