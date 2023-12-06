@@ -166,9 +166,9 @@
                 //birthdate: '2023-06-23T07:21:40.243Z',
                 //religion: 'string',
                 gender: gender,
-                startcontract: startContract.toISOString().slice(0, 10),
-                endcontract: endContractForm,
-                joindate: startContract.toISOString().slice(0, 10),
+                startContract: startContract.toISOString().slice(0, 10),
+                endContract: endContractForm,
+                joinDate: startContract.toISOString().slice(0, 10),
                 //maritalstatus: 'string',
                 //hiredstatus: 'string',
                 //nationality: 'string',
@@ -177,7 +177,7 @@
                 //image: 'string',
                 roleId: roleId,
                 hiredstatus: hiredStatus,
-            }
+            };
         } else {
             // Menggabungkan data input menjadi objek yang akan dikirim ke API
             data = {
@@ -206,9 +206,10 @@
         fetch('https://localhost:7177/api/Accounts/Register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + sessionStorage.getItem("Token"),
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
         })
             .then(function (response) {
                 if (response.ok) {
