@@ -1,9 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using MimeKit.Tnef;
-using Org.BouncyCastle.Crypto;
 using RasManagement.Interface;
-using RasManagement.Models;
 using RasManagement.ViewModel;
 
 namespace RasManagement.Repository
