@@ -214,10 +214,7 @@
            $('#email').focus();
             return;
         }
- 
         
-        
-
         const password = uuidv4();
 
         // Print the UUID
@@ -231,19 +228,19 @@
             //birthdate: '2023-06-23T07:21:40.243Z',
             //religion: 'string',
             gender: gender,
-            startcontract: startContract,
-            endcontract: endContract,
-            joindate: joinDate,
+            startContract: startContract,
+            endContract: endContract,
+            joinDate: joinDate,
             roleId: roleId,
             hiredstatus: hiredStatus,
         };
-console.log(data)
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + sessionStorage.getItem("Token"),
             },
             body: JSON.stringify(data)
         })
@@ -378,40 +375,40 @@ console.log(data)
             });
     };
     $("#email, #nik, #fullName").on("keyup", function() {
-    var value = $(this).val();
-    var errorMessage = "";
-    var isValidCharacter = true;  // Inisialisasi dengan nilai default true
+        var value = $(this).val();
+        var errorMessage = "";
+        var isValidCharacter = true;  // Inisialisasi dengan nilai default true
 
-    if ($(this).is("#email")) {
-        var regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
-        isValidCharacter = regex.test(value);
-        validateEmail = regex.test(value);
-        errorMessage = "Must Use Berca Email Domain";
-    } else if ($(this).is("#nik")) {
-        var NIKLength = value.length <= 6;
-        isValidCharacter = NIKLength;
-        validateNIK = NIKLength;
-        errorMessage = "Max 6 Digits";
-    } else if ($(this).is("#fullName")) {
-        var regex = /^[a-zA-Z'-\s]+$/;
-        
-        if (regex.test(value) || value === '') {
-            isValidCharacter = true;
-            validateName = true;
-        } else {
-            isValidCharacter = false;
-            validateName = false;
-            errorMessage = "No Number";
+        if ($(this).is("#email")) {
+            var regex = /^[a-zA-Z0-9._-]+@@berca\.co\.id$/;
+            isValidCharacter = regex.test(value);
+            validateEmail = regex.test(value);
+            errorMessage = "Must Use Berca Email Domain";
+        } else if ($(this).is("#nik")) {
+            var NIKLength = value.length <= 6;
+            isValidCharacter = NIKLength;
+            validateNIK = NIKLength;
+            errorMessage = "Max 6 Digits";
+        } else if ($(this).is("#fullName")) {
+            var regex = /^[a-zA-Z'-\s]+$/;
+            
+            if (regex.test(value) || value === '') {
+                isValidCharacter = true;
+                validateName = true;
+            } else {
+                isValidCharacter = false;
+                validateName = false;
+                errorMessage = "No Number";
+            }
         }
-    }
 
-    if (!isValidCharacter) {
-      $(this).next(".error-message").text(errorMessage).show();
-      
-    } else if (isValidCharacter) {
-      $(this).next(".error-message").hide();
-    }
-});
+        if (!isValidCharacter) {
+        $(this).next(".error-message").text(errorMessage).show();
+        
+        } else if (isValidCharacter) {
+            $(this).next(".error-message").hide();
+        }
+    });
 
     function capitalizeName(name){
         return name
