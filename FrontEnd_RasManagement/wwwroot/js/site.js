@@ -21,6 +21,8 @@ $("#employeeAnnouncement").hide();
 $("#adminAnnouncement").hide();
 
 $(document).ready(function () {
+
+
     $('[data-toggle="tooltip"]').tooltip();
     //GetBirthday
     $.ajax({
@@ -70,6 +72,7 @@ $(document).ready(function () {
 
     $("#birth").hide();
     $("#death").hide();
+
 
     //Get All Employee
     $.ajax({
