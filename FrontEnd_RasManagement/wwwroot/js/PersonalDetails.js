@@ -181,7 +181,12 @@ function handleInput(event, input) {
   noHTML(input);
 }
 
+function clearMessage() {
+  $(".error-message").hide();
+}
+
 function ClearScreen() {
+  alert("coba");
   $("#accountId").val("");
   $("#editName").val("");
   $("#editNickName").val("");
