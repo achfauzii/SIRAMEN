@@ -97,6 +97,7 @@
         
         // Mengambil nilai input dari formulir
         var accountId = "";
+        var nik = "";
         var fullName = document.getElementById('fullName').value;
         //var nickName = document.getElementById('nickName').value;
         var email = document.getElementById('email').value;
@@ -108,6 +109,7 @@
         var gender = document.querySelector('input[name="gender"]:checked').value;
         //var martialStatus = document.getElementById('martialStatus').value;
         var roleId = document.querySelector('input[name="roleId"]:checked').value;
+        
         // ...
         // Melakukan validasi repeat password
         //if (password !== repeatPassword) {
@@ -155,6 +157,7 @@
         if(hiredStatus == 'Bootcamp'){
             data = {
                 accountId: accountId,
+                nik: nik,
                 email: email.toLowerCase(),
                 password: password,
                 //nickname: 'string',
@@ -179,6 +182,7 @@
             // Menggabungkan data input menjadi objek yang akan dikirim ke API
             data = {
                 accountId: accountId,
+                nik: nik,
                 email: email.toLowerCase(),
                 password: password,
                 //nickname: 'string',

@@ -106,7 +106,7 @@ function parseJwt(token) {
 
 function noHTML(input) {
   var value = input.value.replace(/<[^>]*>/g, "");
-  var nohtml = value.replace(/[<>?/]/g, "");
+  var nohtml = value.replace(/[<>]/g, "");
   input.value = nohtml;
 }
 
@@ -155,7 +155,7 @@ $("#JobSpec").on("keypress", function (e) {
 function Save() {
   var isValid = true;
 
-  $("input[required], textarea[required]").each(function () {
+  $("input[required], textarea[required],select[required]").each(function () {
     var element = $(this);
     if (!element.val()) {
       element.next(".error-message").show();
@@ -236,7 +236,7 @@ function ClearScreen() {
   $("#ProjectHistoryId").val("");
   $("#ProjectName").val("");
   $("#JobSpec").val("");
-  $("#Year").val("");
+  $("#Year").selectedindex = "0";
   $("#CompanyName").val("");
   $("#Update").hide();
   $("#Save").show();

@@ -125,6 +125,7 @@ $(document).ready(function () {
           },
         },
 
+        { data: "nik" },
         { data: "fullname" },
         { data: "email" },
         { data: "gender" },
@@ -555,7 +556,9 @@ function SaveTurnOver() {
       result.status == 204 ||
       result.status == 200
     ) {
+       // debugger;
       //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+     
       Swal.fire({
         title: "Success!",
         text: "Turn Over Status has Updated",
@@ -577,7 +580,8 @@ function SaveTurnOver() {
               Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
           }).then((updateResult) => {
-            if (updateResult.status === 200) {
+              if (updateResult.status === 200) {
+                 
               // Handle the success of roleId update if needed
             } else {
               // Handle any errors that occur during roleId update
@@ -1040,6 +1044,8 @@ function SaveTurnOver() {
       result.status == 204 ||
       result.status == 200
     ) {
+        const activity = `Has Change Status Employee Id ${updateRole.accountId} To ${TurnOver.status} (Turn Over Employee)`;
+        SaveLogUpdate(activity);
       //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
       Swal.fire({
         title: "Success!",
@@ -1150,6 +1156,8 @@ function UpdateContract() {
         showConfirmButton: false,
         timer: 1500,
       });
+        const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
+        SaveLogUpdate(logMessage);
       $("#modalContract").modal("hide");
       setTimeout(function () {
         location.reload();
@@ -1347,6 +1355,7 @@ function Save(accountId) {
       result.status == 200
     ) {
       //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+      const logMessage = ``
       Swal.fire({
         title: "Success!",
         text: "Data has been added!",

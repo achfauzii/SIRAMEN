@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "ManageAccounts";
+    Layout = "~/Views/Layout/LayoutSuperAdmin.cshtml";
+}
+
+<h5 style="font-family:comfortaa; color: black" class="font-weight-bold">History Logs</h5>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">History Logs Table</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped" id="TB_HistoryLog" width="100%" style="font-size:14px; color:black">
+                <thead style="background-color:#FFFFFF">
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Activity</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+@section script
+    {
+    <script src="~/js/HistoryLogs.js"></script>
+}

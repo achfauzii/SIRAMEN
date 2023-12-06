@@ -6,7 +6,16 @@
     resetPassword.email = document.getElementById("email").value;
     resetPassword.newPassword = document.getElementById("password").value;
     var repeatPassword = document.getElementById("repeatPassword").value;
-
+    if (resetPassword.newPassword != repeatPassword) {
+      // Password dan repeat password tidak sama, tampilkan pesan error
+  
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Password and Repeat Password do not match.",
+      });
+      return; // Hentikan eksekusi lebih lanjut
+    }
     //Validasi 6 Karakter Change Password
     if (resetPassword.newPassword.length < 6 || repeatPassword.length < 6) {
       Swal.fire({
@@ -56,12 +65,19 @@
       }
     });
   });
-function showPassword(checkbox) {
-  // Find the password input elements
-  var passwordInput = document.getElementById("password");
-  var repeatPasswordInput = document.getElementById("repeatPassword");
 
-  // Toggle the type attribute of the password input elements
-  passwordInput.type = checkbox.checked ? "text" : "password";
-  repeatPasswordInput.type = checkbox.checked ? "text" : "password";
+
+function togglePasswordVisibility(inputId) {
+  var icon = $("#" + inputId)
+    .nextAll(".password-toggle-icon")
+    .find("i");
+  var input = $("#" + inputId);
+
+  if (input.attr("type") === "password") {
+    input.attr("type", "text");
+    icon.removeClass("fa-eye").addClass("fa-eye-slash");
+  } else {
+    input.attr("type", "password");
+    icon.removeClass("fa-eye-slash").addClass("fa-eye");
+  }
 }

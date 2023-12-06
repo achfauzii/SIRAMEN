@@ -18,7 +18,7 @@ public partial class Qualification
 
     public string? Others { get; set; }
 
-    public string? AccountId { get; set; }
+    public string AccountId { get; set; } = null!;
     [JsonIgnore]
-    public virtual Account? Account { get; set; }
+    public virtual Account? Account { get; set; } = null!;
 }

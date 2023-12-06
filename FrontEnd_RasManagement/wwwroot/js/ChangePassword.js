@@ -16,6 +16,7 @@ function clearScreen() {
 }
 
 function updatePassword() {
+    
   var isValid = true;
 
   $("input[req]").each(function () {
@@ -61,7 +62,7 @@ function updatePassword() {
     });
     return; // Hentikan eksekusi lebih lanjut
   }
-  //debugger;
+
 
   fetch("https://localhost:7177/api/Accounts/ChangePassword", {
     method: "PUT", // Atur metode sesuai kebutuhan
@@ -77,7 +78,8 @@ function updatePassword() {
     }),
   })
     .then((response) => response.json())
-    .then((data) => {
+      .then((data) => {
+        
       Swal.fire({
         icon: "success",
         title: "Success...",
@@ -85,9 +87,15 @@ function updatePassword() {
         showConfirmButton: false,
         timer: 2000,
       }).then(() => {
+          if (decodedtoken.RoleId == "2") {
+              SaveLog_(decodedtoken);
+          }
+            
+          
         $("#changePasswordModal").modal("hide");
         location.reload();
       });
+        
     })
     .catch((error) => {
       Swal.fire({
@@ -128,4 +136,26 @@ function togglePasswordVisibility(inputId) {
     input.attr("type", "password");
     icon.removeClass("fa-eye-slash").addClass("fa-eye");
   }
+}
+
+function SaveLog_(logData) {
+    //debugger;
+
+    const data_ = {
+        id: 0,
+        accountId: logData.AccountId,
+        name: logData.Name,
+        activity: 'Has Change Password',
+        timeStamp: new Date().toISOString()
+    };
+
+    fetch('https://localhost:7177/api/HistoryLog', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            //'Authorization': 'Bearer access_token_here' 
+        },
+        body: JSON.stringify(data_)
+    })
+
 }

@@ -179,7 +179,7 @@ namespace RasManagement.Controllers
                 /*    _configuration["Jwt:Issuer"],
                     _configuration["Jwt:Audience"],*/
                     claims:claims,
-                    expires: DateTime.UtcNow.AddHours(5),
+                    expires: DateTime.UtcNow.AddMinutes(15),
                     signingCredentials: signIn);
                 var resetToken = new JwtSecurityTokenHandler().WriteToken(token);
 
@@ -288,6 +288,20 @@ namespace RasManagement.Controllers
         public IActionResult UpdateRoles(RoleVM roleVM)
         {
             var get = accountRepository.UpdateRole(roleVM);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil diubah", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak bisa diubah", Data = get });
+            }
+        }
+
+        [HttpPut("UpdateNIK")]
+        public IActionResult UpdateNIK(NikVM nikVM)
+        {
+            var get = accountRepository.UpdateNIK(nikVM);
             if (get != null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil diubah", Data = get });

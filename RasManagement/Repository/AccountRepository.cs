@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Tnef;
 using Org.BouncyCastle.Crypto;
 using RasManagement.Interface;
 using RasManagement.Models;
@@ -19,22 +20,25 @@ namespace RasManagement.Repository
         //Generate Account Id
         public async Task<string> GenerateId()
         {
-            //var currentDate = DateTime.Now.ToString("ddMMyyy");
-
-            int countAccount = _context.Accounts.Count(account => account.RoleId != "5");
-            int id = countAccount + 1;
-            /* var lastEmployee = myContext.Employees
-                 .OrderByDescending(e => e.NIK)
-                 .FirstOrDefault();*/
-            var ras = "98";
-            if (countAccount == 0)
+           string currentDate = DateTime.Now.ToString("ddMMyy");
+            string newNIK = "";
+            var countAccount = _context.Accounts.OrderByDescending(account => account.AccountId).FirstOrDefault();
+            
+            
+            
+            if (countAccount == null || !countAccount.AccountId.StartsWith("RAS"+currentDate))
             {
-                // Jika belum ada data sama sekali, maka ID dimulai dari 0
-                //return DateTime.Now.ToString("ddMMyyyy") + "000";
-                return ras + "000";
+              
+                newNIK = "RAS"+currentDate + "001";
+            } else{
+                 var nikLastData = countAccount.AccountId;
+                string lastThree = nikLastData.Substring(nikLastData.Length - 3);
+                int nextSequence = int.Parse(lastThree) + 1;
+                newNIK = "RAS"+currentDate + nextSequence.ToString("000");
             }
 
-            return $"{ras}{id.ToString("D3")}";
+
+            return newNIK;
         }
 
         public async Task<string> GenerateNonId()
@@ -131,6 +135,7 @@ namespace RasManagement.Repository
                 RoleId= registerVM .RoleId,  */
 
                 AccountId = generateId,
+                NIK = registerVM.NIK,
                 Email = registerVM.Email,
                 Password = passwordHash,
                 Fullname = registerVM.Fullname,
@@ -247,6 +252,38 @@ namespace RasManagement.Repository
             {
                 // Update nilai RoleId pada entitas Account
                 account.RoleId = roleVM.RoleId;
+
+
+                _context.Accounts.Update(account);
+
+                // Simpan perubahan ke database
+                try
+                {
+                    return await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Tangani kesalahan jika diperlukan
+                    Console.WriteLine($"Error updating data: {ex.Message}");
+                    return 0; // Atau return -1 atau kode yang sesuai untuk menandakan kesalahan
+                }
+            }
+            else
+            {
+                // Tidak ditemukan akun dengan AccountId yang sesuai
+                return 0; // Atau kode lain yang sesuai
+            }
+
+        }
+
+        public async Task<int> UpdateNIK(NikVM nikVM)
+        {
+            var account = await _context.Accounts.FindAsync(nikVM.AccountId);
+
+            if (account != null)
+            {
+                // Update nilai RoleId pada entitas Account
+                account.NIK = nikVM.NIK;
 
 
                 _context.Accounts.Update(account);
