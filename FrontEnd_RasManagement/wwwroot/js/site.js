@@ -49,7 +49,6 @@ $(document).ready(function () {
     }
   });
 
-  GetEmployeeList();
   //Get All Employee
   $.ajax({
     type: "GET",
@@ -106,16 +105,18 @@ $(document).ready(function () {
 });
 
 function clearAnnounce() {
-  //  document.getElementById("").c();
   $("#Announcement").val("placeholder");
 
   document.getElementById("AnnounceForm").reset();
   $("#birth").hide();
   $("#death").hide();
+  $(".err").hide();
 
   document.getElementById("NameEmployee").selectedIndex = "0";
   document.getElementById("EmployeeName").selectedIndex = "0";
   document.getElementById("Announcement").selectedIndex = "0";
+
+  GetEmployeeList();
 }
 
 function SendAnnouncement() {

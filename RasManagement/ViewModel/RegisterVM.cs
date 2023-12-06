@@ -1,8 +1,11 @@
-﻿namespace RasManagement.ViewModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RasManagement.ViewModel
 {
     public class RegisterVM
     {
         public string AccountId { get; set; } = null!;
+        [MaxLength(6)]
         public string NIK { get; set; } = null!;
 
         public string Email { get; set; } = null!;

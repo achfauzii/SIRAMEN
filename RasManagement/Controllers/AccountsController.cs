@@ -178,7 +178,7 @@ namespace RasManagement.Controllers
                 /*    _configuration["Jwt:Issuer"],
                     _configuration["Jwt:Audience"],*/
                     claims:claims,
-                    expires: DateTime.UtcNow.AddHours(5),
+                    expires: DateTime.UtcNow.AddMinutes(15),
                     signingCredentials: signIn);
                 var resetToken = new JwtSecurityTokenHandler().WriteToken(token);
 
