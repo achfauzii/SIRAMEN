@@ -137,7 +137,7 @@ $("#EndYear").on('input', function () {
 function validateDateInputs() {
     var startYear = new Date($("#StartYear").val());
     var endYear = new Date($("#EndYear").val());
-    var errorMessageDateValid = "Valid until must be greater than publication year";
+    var errorMessageDateValid = "End year must be greater than start year";
 
     if (startYear > endYear) {
         $("#EndYear").next(".error-message").text(errorMessageDateValid);
