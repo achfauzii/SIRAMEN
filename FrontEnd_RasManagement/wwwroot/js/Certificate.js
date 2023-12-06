@@ -139,6 +139,7 @@ function ClearScreen() {
     $("#Publisher").val("");
     $("#PublicationYear").val("");
     $("#ValidUntil").val("");
+    $(".error-message").hide();
     $("#Update").hide();
     $("#Save").show();
     $("input[required]").each(function () {
@@ -174,6 +175,33 @@ function GetById(CertificateId) {
             alert(errormessage.responseText);
         },
     });
+}
+
+// Tambahkan event listener untuk memantau perubahan pada kolom "Publication Year"
+$("#PublicationYear").on('input', function () {
+    validateDateInputs();
+});
+
+// Tambahkan event listener untuk memantau perubahan pada kolom "Valid Until"
+$("#ValidUntil").on('input', function () {
+    validateDateInputs();
+});
+
+function validateDateInputs() {
+    var publicationYear = new Date($("#PublicationYear").val());
+    var validUntil = new Date($("#ValidUntil").val());
+    var errorMessageDateValid = "Valid until must be greater than publication year";
+
+    if (publicationYear > validUntil) {
+        $("#ValidUntil").next(".error-message").text(errorMessageDateValid);
+        $("#ValidUntil").next(".error-message").show();
+        $("#Save").prop('disabled', true); // Menonaktifkan tombol "Save"
+        $("#Update").prop('disabled', true); // Menonaktifkan tombol "Save"
+    } else {
+        $("#ValidUntil").next(".error-message").hide();
+        $("#Save").prop('disabled', false); // Mengaktifkan tombol "Save"
+        $("#Update").prop('disabled', false); // Mengaktifkan tombol Update
+    }
 }
 
 function Save() {

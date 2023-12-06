@@ -124,6 +124,34 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
+// Tambahkan event listener untuk memantau perubahan pada kolom "Publication Year"
+$("#StartYear").on('input', function () {
+    validateDateInputs();
+});
+
+// Tambahkan event listener untuk memantau perubahan pada kolom "Valid Until"
+$("#EndYear").on('input', function () {
+    validateDateInputs();
+});
+
+function validateDateInputs() {
+    var startYear = new Date($("#StartYear").val());
+    var endYear = new Date($("#EndYear").val());
+    var errorMessageDateValid = "Valid until must be greater than publication year";
+
+    if (startYear > endYear) {
+        $("#EndYear").next(".error-message").text(errorMessageDateValid);
+        $("#EndYear").next(".error-message").show();
+        $("#Save").prop('disabled', true); // Menonaktifkan tombol "Save"
+        $("#Update").prop('disabled', true); // Menonaktifkan tombol "Save"
+    } else {
+        $("#EndYear").next(".error-message").hide();
+        $("#Save").prop('disabled', false); // Mengaktifkan tombol "Save"
+        $("#Update").prop('disabled', false); // Mengaktifkan tombol Update
+    }
+}
+
+
 function Save() {
     var isValid = true;
 
@@ -199,6 +227,7 @@ function ClearScreen() {
     $("#Job").val("");
     $("#StartYear").val("");
     $("#EndYear").val("");
+    $(".error-message").hide();
     $("#Description").val("");
     $("#Update").hide();
     $("#Save").show();
