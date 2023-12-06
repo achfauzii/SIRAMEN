@@ -54,7 +54,6 @@ $(document).ready(function () {
 
       tableUniv(sortedUniversitiesData);
       chartUniv(sortedUniversitiesData);
-      console.log(sortedUniversitiesData);
 
       // Sembunyikan loader setelah permintaan selesai
       $("#loader").hide();

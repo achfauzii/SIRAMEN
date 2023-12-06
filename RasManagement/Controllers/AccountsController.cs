@@ -18,7 +18,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class AccountsController : ControllerBase
     {
         private readonly IUnitWork _unitWork;
@@ -74,6 +74,7 @@ namespace RasManagement.Controllers
 
         // Add Login POST api/<AccountController>
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Post(VMLogin viewLogin)
         {
             var vMlogin = accountRepository.Login(viewLogin);
@@ -187,6 +188,7 @@ namespace RasManagement.Controllers
         }
 
         [HttpPost("ForgotPassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> SendMail(/*[FromForm] MailRequest request*/ string email)
         {
             bool emailExists = await accountRepository.AccountIsExist(email, null);

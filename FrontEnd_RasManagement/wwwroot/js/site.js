@@ -237,7 +237,7 @@ function SendAnnouncement() {
             });
           },
           failed: function (er) {
-            console.log("Error : " + er.message);
+            //console.log("Error : " + er.message);
           },
         });
       } else {
