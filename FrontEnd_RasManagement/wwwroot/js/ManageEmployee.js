@@ -1356,6 +1356,7 @@ function Save(accountId) {
       result.status == 200
     ) {
       //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+      const logMessage = ``
       Swal.fire({
         title: "Success!",
         text: "Data has been added!",
