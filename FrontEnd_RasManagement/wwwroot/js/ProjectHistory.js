@@ -14,9 +14,6 @@ $(document).ready(function () {
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
-      /*success: function (result) {
-                console.log(result)
-            }*/
     },
 
     columns: [
