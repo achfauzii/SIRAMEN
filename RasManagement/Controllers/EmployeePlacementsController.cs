@@ -64,7 +64,7 @@ namespace RasManagement.Controllers
             }
             else
             {
-                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Placment gagal ditambahkan" });
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Placement gagal ditambahkan" });
             }
 
 

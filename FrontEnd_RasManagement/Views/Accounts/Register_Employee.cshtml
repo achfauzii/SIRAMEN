@@ -15,7 +15,8 @@
                 </div>
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="nik">Nomor Induk Karyawan</label>
-                    <input type="text" class="form-control" oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="nik" name="nik" required>
+                    <input type="number" class="form-control" maxlength="6" onkeyup="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+                    oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="nik" name="nik" required>
                     <span class="error-message" id="validateNIK" style="color: red; display: none;">Please Input Max 6 Digit Number</span>
                 </div>
             </div>
@@ -125,7 +126,7 @@
         endContract.setDate(1);
         endContract.setMonth(endContract.getMonth() + 3);
 
-        console.log(endContract.getMonth()+1);
+        //console.log(endContract.getMonth()+1);
         const yyyy = endContract.getFullYear();
         let mm = endContract.getMonth() + 1;
         if (mm < 10) mm = '0' + mm;
@@ -146,7 +147,7 @@
         if($('#duration').val() != ''){
             var startContract = new Date($('#join').val());
             let endContract = new Date(startContract);
-            console.log($('#duration').val());
+            //console.log($('#duration').val());
 
             endContract.setMonth(endContract.getMonth() + parseInt($('#duration').val()));
             
