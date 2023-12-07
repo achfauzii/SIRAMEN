@@ -16,7 +16,7 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
         .MinimumLevel.Override("System", LogEventLevel.Warning)
         .WriteTo.Console()
-        .WriteTo.File("Logs/app_logging_.log", rollingInterval: RollingInterval.Day);
+        .WriteTo.File("wwwroot/Logs/app_logging_.log", rollingInterval: RollingInterval.Day);
 });
 
 //Session
