@@ -76,6 +76,7 @@ function toPascalCase(str) {
   });
 }
 
+
 function loadDataA() {
   $("#loader").show();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -256,7 +257,9 @@ function GetById(accountId) {
     },
   });
 }
-
+function clear() {
+  $(".error-message").hide()
+}
 function updateData() {
   var accountId = $("#accountId").val();
   var isValid = true;
