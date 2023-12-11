@@ -215,6 +215,7 @@ namespace RasManagement.Controllers
 
         //Forgot Password Update
         [HttpPut("UpdatePassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)
         {
             var email = updatePassword.Email;
@@ -356,6 +357,7 @@ namespace RasManagement.Controllers
         }
 
         [HttpGet("BirthDay")]
+        [AllowAnonymous]
         public IActionResult GetBirthDay()
         {
             var account = _context.Accounts.ToList();
