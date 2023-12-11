@@ -1,4 +1,5 @@
 ﻿using MailKit.Security;
+
 using Microsoft.Extensions.Options;
 using MimeKit;
 using FrontEnd_RasManagement.Settings;
@@ -6,6 +7,7 @@ using FrontEnd_RasManagement.Models;
 using MailKit.Net.Smtp;
 using System.Web.Helpers;
 using MimeKit.Text;
+using System.Threading;
 //using System.Net.Mail;
 
 namespace FrontEnd_RasManagement.Services
@@ -370,9 +372,10 @@ namespace FrontEnd_RasManagement.Services
 */
 
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
+
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(_email);
+            smtp.Send(_email);
             smtp.Disconnect(true);
         }
 
@@ -1072,11 +1075,6 @@ namespace FrontEnd_RasManagement.Services
 
             await smtp.SendAsync(_email);
 
-            //SendEmail(smtp, _mailSettings.Mail, "yogi.bhp10188@gmail.com", data.title, builder);
-            //foreach (string toEmail in data.email)
-            //{
-            //    SendEmail(smtp, _mailSettings.Mail, toEmail, data.title, builder);
-            //}
 
             smtp.Disconnect(true);
 
@@ -1441,6 +1439,10 @@ namespace FrontEnd_RasManagement.Services
         {
             for (int i = 0; i < birthday.email.Count; i++)
             {
+                if (i == 5)
+                {
+                    Thread.Sleep(10000); 
+                }
                 Console.WriteLine("Data Email: " + birthday.email[i]);
                 var _email = new MimeMessage();
                 _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
@@ -1723,7 +1725,7 @@ namespace FrontEnd_RasManagement.Services
                 smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
                 smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
 
-                await smtp.SendAsync(_email);
+               smtp.Send(_email);
 
                 smtp.Disconnect(true);
             }

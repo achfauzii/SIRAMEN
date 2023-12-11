@@ -240,7 +240,7 @@ function ClearScreen() {
   $("#CompanyName").val("");
   $("#Update").hide();
   $("#Save").show();
-  $("input[required],textarea[required]").each(function () {
+    $("input[required],textarea[required],select[required]").each(function () {
     var input = $(this);
     var textarea = $(this);
 
