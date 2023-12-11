@@ -11,6 +11,7 @@ $(document).ready(function () {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     },
+     
 
     columns: [
       {
@@ -22,7 +23,8 @@ $(document).ready(function () {
       { data: "name" },
       { data: "activity" },
       {
-        data: "timeStamp",
+          data: "timeStamp",
+          type: "date",
       },
     ],
 
@@ -45,7 +47,8 @@ $(document).ready(function () {
           //   return row.timeStamp.substr(11) + " " + row.timeStamp.substr(0, 10);
         },
       },
-    ],
+      ],
+      order: [[3, "desc"]],
     //Agar nomor tidak berubah
     drawCallback: function (settings) {
       var api = this.api();
