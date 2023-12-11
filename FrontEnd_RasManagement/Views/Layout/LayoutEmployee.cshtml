@@ -52,6 +52,19 @@
             userNameElement.textContent = name;
             userRoleElement.textContent = role;
 
+            // Mendapatkan elemen gambar profil
+            var imgProfile = document.querySelector(".img-profile");
+            var defaultImage = '/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg'; // Path ke gambar default
+
+            // Mengatur gambar profil berdasarkan accountId jika tersedia
+            if (imgProfile) {
+                imgProfile.src = `/assets/photo/photo-${accountId}.jpg`;
+                imgProfile.onerror = function () {
+                    // Jika gambar tidak tersedia, tampilkan gambar default
+                    imgProfile.src = defaultImage;
+                };
+            }
+
             // Set the href attribute of the link with the accountId parameter
             var generateCvLink = document.getElementById("generateCvLink");
             generateCvLink.href = "/GenerateCv/GenerateCvEmployee";
@@ -296,7 +309,7 @@
 
 
                                 <img class="img-profile rounded-circle"
-                                     src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
+                                     src="">
                             </a>
                             <!-- Dropdown - User Information -->
 
