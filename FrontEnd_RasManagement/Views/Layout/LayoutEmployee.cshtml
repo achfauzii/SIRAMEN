@@ -164,11 +164,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand  d-flex align-items-center justify-content-center logo-container" href="/Dashboards/Employee">
-                <img src="~/img/SiramenFull.png" class=" d-none d-md-block" width="165" height="65">
-                <img src="~/img/SiramenLogo.png" class="img-fluid d-md-none p-3" width="290"  height="38">
+            <a aria-label='LogoBHP' class="sidebar-brand  d-flex align-items-center justify-content-center logo-container" href="/Dashboards/Employee">
+                <img src="~/img/SiramenFull.png" class=" d-none d-md-block" width="165" height="65" alt="logofull">
+                <img src="~/img/SiramenLogo.png" class="img-fluid d-md-none p-3" alt="logofull">
             </a>
-
+            
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -196,7 +196,7 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item @(currentUrl == "/Employee/Educations" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/Educations" data-target="#collapseUtilities"
-                   aria-expanded="true" aria-controls="collapseUtilities">
+                    aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-user-graduate"></i>
                     <span>Educations</span>
                 </a>
@@ -204,7 +204,7 @@
 
             <li class="nav-item  @(currentUrl == "/Employee/Qualification" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/Qualification" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
+                    aria-controls="collapsePages">
                     <i class="fas fa-fw fa-users-cog"></i>
                     <span>Qualifications</span>
                 </a>
@@ -212,7 +212,7 @@
 
             <li class="nav-item  @(currentUrl == "/Employee/Certificate" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/Certificate" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
+                    aria-controls="collapsePages">
                     <i class="fas fa-fw fa-award"></i>
                     <span>Achievement / Certificate</span>
                 </a>
@@ -220,7 +220,7 @@
 
             <li class="nav-item  @(currentUrl == "/Employee/EmploymentHistory" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/EmploymentHistory" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
+                    aria-controls="collapsePages">
                     <i class="fas fa-fw fa-business-time"></i>
                     <span>Employment History</span>
                 </a>
@@ -228,7 +228,7 @@
 
             <li class="nav-item  @(currentUrl == "/Employee/ProjectHistory" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/ProjectHistory" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
+                    aria-controls="collapsePages">
                     <i class="fas fa-fw fa-tasks"></i>
                     <span>Project History</span>
                 </a>
@@ -236,7 +236,7 @@
 
             <li class="nav-item  @(currentUrl == "/Employee/AssetsManagement" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/AssetsManagement" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
+                    aria-controls="collapsePages">
                     <i class="fas fa-fw fa-laptop"></i>
                     <span>Assets Management</span>
                 </a>
@@ -252,7 +252,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" id="generateCvLink" href="#"
-                   aria-expanded="true" aria-controls="collapsePages">
+                    aria-controls="collapsePages">
                     <i class="far fa-fw fa-file-pdf"></i>
                     <span>Generate CV</span>
                 </a>
@@ -296,7 +296,7 @@
 
 
                                 <img class="img-profile rounded-circle"
-                                     src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg">
+                                     src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg" alt="profile-picture">
                             </a>
                             <!-- Dropdown - User Information -->
 
