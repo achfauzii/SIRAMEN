@@ -219,71 +219,6 @@ function formInputLocation() {
     });
 }
 
-/*function formInputLocation() {
-
-    const selectProvinces = document.getElementById('selectProvinces');
-    const selectRegencies = document.getElementById('selectRegencies');
-    //Ini untuk tanpa display none jadi langsung di tampilkan ()
-    $(selectRegencies).select2({
-        placeholder: 'Select City or County',
-        width: '100%'
-    });
-
-    fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
-        .then(response => response.json())
-        .then(provinces => {
-            provinces.forEach(province => {
-                const option = document.createElement('option');
-                option.value = province.id;
-                option.textContent = province.name;
-                selectProvinces.appendChild(option);
-            });
-
-            // Inisialisasi Select2 untuk select provinsi
-            $(selectProvinces).select2({
-                placeholder: 'Select Province',
-                width: '100%'
-            });
-            //selectRegencies.style.display = 'none';
-
-            // Event listener ketika provinsi dipilih
-            $(selectProvinces).on('change', function () {
-                const selectedProvinceId = $(this).val();
-
-                // Hapus pilihan sebelumnya di select regencies
-                $(selectRegencies).empty();
-
-                if (selectedProvinceId) {
-                    fetch(https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${selectedProvinceId}.json)
-                        .then(response => response.json())
-                        .then(regencies => {
-                            regencies.forEach(regency => {
-                                const option = document.createElement('option');
-                                option.value = regency.name;
-                                option.textContent = regency.name;
-                                selectRegencies.appendChild(option);
-                            });
-
-                            // Inisialisasi Select2 untuk select regencies
-                            $(selectRegencies).select2({
-                                placeholder: 'Select City or County',
-                                width: '100%'
-                            });
-                            //  selectRegencies.style.display = 'block';
-                        })
-                        .catch(error => {
-                            console.error('Error fetching regencies data:', error);
-                        });
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching provinces data:', error);
-        });
-
-}*/
-
-
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -568,7 +503,6 @@ function DeleteFormal(formalEduId) {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       }).then((result) => {
-        debugger;
         if (result.status == 200) {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           $("#TB_FormalEdu").DataTable().ajax.reload();

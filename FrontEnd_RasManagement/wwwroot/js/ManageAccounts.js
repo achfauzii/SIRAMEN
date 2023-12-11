@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
       const accid = decodedtoken.AccountId;*/
     $("#dataTableAccounts").DataTable({
@@ -26,7 +26,7 @@
             {
                 data: "nik",
                 render: function (data, type, row) {
-                    if (data == null || data=="") {
+                    if (data == null || data == "") {
                         data = '<button class="badge badge-secondary" data - placement="right" style="outline: none; border: none;" onclick="return GetByIdNIK(\'' +
                             row.accountId +
                             "')\">Edit NIK</button>";
@@ -35,7 +35,7 @@
                             row.accountId +
                             "')\">" + data + "</button>";
                     }
-                    
+
                     return data;
                 }
             },
@@ -73,6 +73,16 @@
         },
     });
 });
+
+function ClearScreen() {
+    $("#ModalNIK").val("");
+
+    $("input[required]").each(function () {
+        var input = $(this);
+
+        input.next(".error-message").hide();
+    });
+}
 
 function GetById(accountId) {
     /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -163,6 +173,21 @@ function UpdateRole() {
 }
 
 function UpdateNIK() {
+    var isValid = true;
+
+    $("input[required]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message").show();
+            isValid = false;
+        } else {
+            input.next(".error-message").hide();
+        }
+    });
+    if (!isValid) {
+        return;
+    }
+
     var Account = new Object();
     Account.accountId = $("#AccountIdNIK").val();
     Account.nik = $("#NIK").val();

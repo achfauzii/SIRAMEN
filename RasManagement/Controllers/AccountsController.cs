@@ -74,6 +74,7 @@ namespace RasManagement.Controllers
 
         // Add Login POST api/<AccountController>
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Post(VMLogin viewLogin)
         {
             var vMlogin = accountRepository.Login(viewLogin);
@@ -187,6 +188,7 @@ namespace RasManagement.Controllers
         }
 
         [HttpPost("ForgotPassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> SendMail(/*[FromForm] MailRequest request*/ string email)
         {
             bool emailExists = await accountRepository.AccountIsExist(email, null);
@@ -213,6 +215,7 @@ namespace RasManagement.Controllers
 
         //Forgot Password Update
         [HttpPut("UpdatePassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)
         {
             var email = updatePassword.Email;
@@ -354,6 +357,7 @@ namespace RasManagement.Controllers
         }
 
         [HttpGet("BirthDay")]
+        [AllowAnonymous]
         public IActionResult GetBirthDay()
         {
             var account = _context.Accounts.ToList();
@@ -372,7 +376,7 @@ namespace RasManagement.Controllers
                 }
             }
 
-            if (birthday.Count > 0)
+            if (email.Count > 0)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil ditemukan", Data = new { email = email, name = birthday } });
             }

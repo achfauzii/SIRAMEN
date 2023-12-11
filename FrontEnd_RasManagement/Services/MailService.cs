@@ -1,4 +1,5 @@
 ﻿using MailKit.Security;
+
 using Microsoft.Extensions.Options;
 using MimeKit;
 using FrontEnd_RasManagement.Settings;
@@ -6,6 +7,7 @@ using FrontEnd_RasManagement.Models;
 using MailKit.Net.Smtp;
 using System.Web.Helpers;
 using MimeKit.Text;
+using System.Threading;
 //using System.Net.Mail;
 
 namespace FrontEnd_RasManagement.Services
@@ -15,35 +17,16 @@ namespace FrontEnd_RasManagement.Services
         private readonly MailSettings _mailSettings;
         public MailService(IOptions<MailSettings> mailSettings)
         {
-
             _mailSettings = mailSettings.Value;
         }
         public async Task SendEmailAsync(/*MailRequest mailRequest*/string email, string resetUrl)
         {
             var _email = new MimeMessage();
             _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-            //_email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             _email.To.Add(MailboxAddress.Parse(email));
-            //email.Subject = mailRequest.Subject;
             _email.Subject = "Password Reset";
-            var builder = new BodyBuilder();
-            /*  if (mailRequest.Attachments != null)
-              {
-                  byte[] fileBytes;
-                  foreach (var file in mailRequest.Attachments)
-                  {
-                      if (file.Length > 0)
-                      {
-                          using (var ms = new MemoryStream())
-                          {
-                              file.CopyTo(ms);
-                              fileBytes = ms.ToArray();
-                          }
-                          builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
-                      }
-                  }
-              }*/
 
+            var builder = new BodyBuilder();
             builder.HtmlBody = @"
                                   <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                                     <html>
@@ -285,7 +268,7 @@ namespace FrontEnd_RasManagement.Services
                                                                           </tr>
                                                                         </tbody>
                                                                       </table>
-                                                                      <p class="""" style=""line-height: 24px; font-size: 16px; width: 100%; margin: 0;""
+                                                                      <p class="""" style=""width: 240px; font-size: 16px; margin: 0; white-space: pre-wrap; word-break: break-word;""
                                                                         align=""left"">
                                                                         If the button cannot be clicked, please click the following link : " + resetUrl + @"
                                                                       </p>
@@ -358,55 +341,21 @@ namespace FrontEnd_RasManagement.Services
 
             _email.Body = builder.ToMessageBody();
 
-
-
-
-
-
-            /*_email.Body = new TextPart("plain")
-            {
-                Text = $"Click the following link to reset your password: {resetUrl}"
-            };
-*/
-
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(_email);
+            smtp.Send(_email);
             smtp.Disconnect(true);
         }
-
-        /*public async Task SendWelcomeEmailAsync(WelcomeRequest request)
-        {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomeTemplate.html";
-            StreamReader str = new StreamReader(FilePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-            MailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail);
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = $"Welcome {request.UserName}";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
-        }*/
 
         public async Task SendEmailNewAccount(/*MailRequest mailRequest*/string email, string password)
         {
             var _email = new MimeMessage();
-            //_email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
             _email.To.Add(MailboxAddress.Parse(email));
-            //email.Subject = mailRequest.Subject;
             _email.Subject = "New Account";
             var builder = new BodyBuilder();
-
 
             builder.HtmlBody = @"
                                   <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
@@ -735,13 +684,12 @@ namespace FrontEnd_RasManagement.Services
 
             _email.Body = builder.ToMessageBody();
 
-
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(_email);
+            smtp.Send(_email);
             smtp.Disconnect(true);
-
         }
 
         public async Task SendEmailBeritaKelahiran(KelahiranVM data)
@@ -749,8 +697,6 @@ namespace FrontEnd_RasManagement.Services
 
             var _email = new MimeMessage();
             _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-            //_email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            //_email.To.Add(MailboxAddress.Parse("yogi.prasetio@berca.co.id"));
 
             foreach (var item in data.email)
             {
@@ -759,7 +705,6 @@ namespace FrontEnd_RasManagement.Services
             _email.Subject = data.title;
 
             var builder = new BodyBuilder();
-
             builder.HtmlBody = @"
                                   <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                                     <html>
@@ -1065,21 +1010,12 @@ namespace FrontEnd_RasManagement.Services
 
             _email.Body = builder.ToMessageBody();
 
-
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-
-            await smtp.SendAsync(_email);
-
-            //SendEmail(smtp, _mailSettings.Mail, "yogi.bhp10188@gmail.com", data.title, builder);
-            //foreach (string toEmail in data.email)
-            //{
-            //    SendEmail(smtp, _mailSettings.Mail, toEmail, data.title, builder);
-            //}
-
+            smtp.Send(_email);
             smtp.Disconnect(true);
-
         }
 
 
@@ -1088,7 +1024,7 @@ namespace FrontEnd_RasManagement.Services
         {
             var _email = new MimeMessage();
             _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-            //_email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+            
             foreach (var item in data.email)
             {
                 _email.To.Add(MailboxAddress.Parse(item));
@@ -1096,8 +1032,6 @@ namespace FrontEnd_RasManagement.Services
             _email.Subject = data.title;
 
             var builder = new BodyBuilder();
-
-
             builder.HtmlBody = @"
                                  <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                                         <html>
@@ -1240,12 +1174,6 @@ namespace FrontEnd_RasManagement.Services
                                                     <tbody>
                                                       <tr>
                                                         <td align=""center"" style=""line-height: 24px; font-size: 16px; margin: 0; padding: 0 16px;"">
-                                                          <!--[if (gte mso 9)|(IE)]>
-                                                              <table align=""center"" role=""presentation"">
-                                                                <tbody>
-                                                                  <tr>
-                                                                    <td width=""600"">
-                                                            <![endif]-->
                                                           <table align=""center"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                             style=""width: 100%; max-width: 600px; margin: 0 auto;"">
                                                             <tbody>
@@ -1262,17 +1190,6 @@ namespace FrontEnd_RasManagement.Services
                                                                       </tr>
                                                                     </tbody>
                                                                   </table>
-                                                                  <!--<table class=""ax-center"" role=""presentation"" align=""center"" border=""0"" cellpadding=""0""
-                                                                    cellspacing=""0"" style=""margin: 0 auto;"">
-                                                                    <tbody>
-                                                                      <tr>
-                                                                        <td style=""line-height: 24px; font-size: 16px; margin: 0;"" align=""left"">
-                                                                          <!-- <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
-                                                                            width=""96""> -->
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table> -->
                                                                   <table class=""s-10 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                                     style=""width: 100%;"" width=""100%"">
                                                                     <tbody>
@@ -1311,11 +1228,7 @@ namespace FrontEnd_RasManagement.Services
                                                                           </table>
                                                                           <p class="""" style=""line-height: 24px; font-size: 16px; width: 100%; margin: 0;""
                                                                             align=""left"">
-
                                                                             Telah meninggal dunia, <b>" + data.name + @"</b> usia " + data.age + @" tahun, " + data.relation + @" dari rekan kita Sdr. <b>" + data.employee + @"</b>.
-
-
-
                                                                           </p>
                                                                           <table class=""s-4 w-full"" role=""presentation"" border=""0"" cellpadding=""0""
                                                                             cellspacing=""0"" style=""width: 100%;"" width=""100%"">
@@ -1419,21 +1332,12 @@ namespace FrontEnd_RasManagement.Services
 
             _email.Body = builder.ToMessageBody();
 
-
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-
-            await smtp.SendAsync(_email);
-
-            //SendEmail(smtp, _mailSettings.Mail, "yogi.bhp10188@gmail.com", data.title, builder);            
-            //foreach (string toEmail in data.email)
-            //{
-            //    SendEmail(smtp, _mailSettings.Mail, toEmail, data.title, builder);
-            //}
-
+            smtp.Send(_email);
             smtp.Disconnect(true);
-
         }
 
 
@@ -1441,6 +1345,10 @@ namespace FrontEnd_RasManagement.Services
         {
             for (int i = 0; i < birthday.email.Count; i++)
             {
+                if (i == 5)
+                {
+                    Thread.Sleep(10000); 
+                }
                 Console.WriteLine("Data Email: " + birthday.email[i]);
                 var _email = new MimeMessage();
                 _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
@@ -1592,12 +1500,6 @@ namespace FrontEnd_RasManagement.Services
                                                     <tbody>
                                                       <tr>
                                                         <td align=""center"" style=""line-height: 24px; font-size: 16px; margin: 0; padding: 0 16px;"">
-                                                          <!--[if (gte mso 9)|(IE)]>
-                                                              <table align=""center"" role=""presentation"">
-                                                                <tbody>
-                                                                  <tr>
-                                                                    <td width=""600"">
-                                                            <![endif]-->
                                                           <table align=""center"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                             style=""width: 100%; max-width: 600px; margin: 0 auto;"">
                                                             <tbody>
@@ -1613,18 +1515,7 @@ namespace FrontEnd_RasManagement.Services
                                                                         </td>
                                                                       </tr>
                                                                     </tbody>
-                                                                  </table>
-                                                                  <!-- <table class=""ax-center"" role=""presentation"" align=""center"" border=""0"" cellpadding=""0""
-                                                                    cellspacing=""0"" style=""margin: 0 auto;"">
-                                                                    <tbody>
-                                                                      <tr>
-                                                                        <td style=""line-height: 24px; font-size: 16px; margin: 0;"" align=""left"">
-                                                                          <!-- <img class=""w-24"" src=""https://www.berca.co.id/wp-content/uploads/2019/09/logo_berca1.png"" style =""height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 300px; border-style: none; border-width: 0;""
-                                                                            width=""96""> -->
-                                                                        </td>
-                                                                      </tr>
-                                                                    </tbody>
-                                                                  </table> -->
+                                                                  </table>                                                                  
                                                                   <table class=""card p-6 p - lg - 10 space - y - 4"" role=""presentation"" border=""0"" cellpadding=""0""
                                                            cellspacing = ""0""
                                                            style = ""border-radius: 6px; border-collapse: separate !important; width: 100%; overflow: hidden; border: 1px solid #e2e8f0;""
@@ -1720,16 +1611,14 @@ namespace FrontEnd_RasManagement.Services
                 _email.Body = builder.ToMessageBody();
 
                 using var smtp = new SmtpClient();
-                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
                 smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-
-                await smtp.SendAsync(_email);
-
+                smtp.Send(_email);
                 smtp.Disconnect(true);
             }
 
         }
-
 
         public void SendEmail(SmtpClient smtp, string fromEmail, string toEmail, string subject, BodyBuilder body)
         {
@@ -1738,7 +1627,6 @@ namespace FrontEnd_RasManagement.Services
             email.To.Add(MailboxAddress.Parse(toEmail));
             email.Subject = subject;
             email.Body = body.ToMessageBody();
-
             smtp.Send(email);
         }
 

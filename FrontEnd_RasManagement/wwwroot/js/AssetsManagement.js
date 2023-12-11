@@ -236,7 +236,7 @@ function SaveAsset() {
         } else {
             Swal.fire({
                 icon: "warning",
-                title: "Data Gagal dimasukkan!",
+                title: "Data failed to added!",
                 showConfirmButtom: false,
                 timer: 1500,
             });
@@ -246,8 +246,7 @@ function SaveAsset() {
     });
 }
 function GetById(assetsManagementId) {
-    console.log(assetsManagementId);
-    // debugger;
+    //debugger;
     $.ajax({
         url: "https://localhost:7177/api/Assets/" + assetsManagementId,
         type: "GET",
@@ -307,7 +306,7 @@ function Delete(assetsManagementId) {
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
                     table.ajax.reload();
                 } else {
-                    Swal.fire("Error!", result.message, "error");
+                    Swal.fire("Error!", "Your failed to delete.", "error");
                 }
             });
         }
@@ -394,7 +393,7 @@ function UpdateAsset() {
             $("#ModalAssets").modal("hide");
             table.ajax.reload();
         } else {
-            Swal.fire("Error!", result.message, "error");
+            Swal.fire("Error!", "Data failed to update!", "error");
             table.ajax.reload();
         }
     });

@@ -43,7 +43,7 @@
                 <form>
                     <div class="form-group">
                         <input type="text" class="form-control" id="AccountId" hidden>
-                        <label for="Role">Change Role</label>                       
+                        <label for="Role">Change Role</label>
                         <select id="Role" class="form-control" required>
                             <option value="2">Admin</option>
                             <option value="3">Employee</option>
@@ -76,15 +76,15 @@
                     <div class="form-group">
                         <input type="text" class="form-control" id="AccountIdNIK" hidden>
                         <label for="NIK">Edit NIK</label>
-                        <input type="text" class="form-control" id="NIK">                        
-                        <span class="error-message-framework" style="color: red; display: none;">This field is required!</span>
+                        <input type="text" class="form-control" id="NIK" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal" id="UpdateNIK" onclick="UpdateNIK();">Update</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" id="UpdateNIK" onclick="UpdateNIK();">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearScreen();">Close</button>
             </div>
         </div>
     </div>

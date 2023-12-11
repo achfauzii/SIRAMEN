@@ -1,6 +1,6 @@
-let validName;
-let validNickName;
-let validBirthPlace;
+let validName = true;
+let validNickName = true;
+let validBirthPlace = true;
 $(document).ready(function () {
   // Mendapatkan nilai parameter accountId dari URL
   loadDataA();
@@ -44,9 +44,21 @@ $(document).ready(function () {
           .next(".error-message")
           .text("The field can only use letters.")
           .show();
-        validName = false;
+        if ($(this).is("#editName")) {
+          validName = false;
+        } else if ($(this).is("#editNickName")) {
+          validNickName = false;
+        } else if ($(this).is("#editBirthPlace")) {
+          validBirthPlace = false;
+        }
       } else {
-        validName = true;
+        if ($(this).is("#editName")) {
+          validName = true;
+        } else if ($(this).is("#editNickName")) {
+          validNickName = true;
+        } else if ($(this).is("#editBirthPlace")) {
+          validBirthPlace = true;
+        }
       }
     }
 
@@ -63,6 +75,7 @@ function toPascalCase(str) {
     return firstChar.toUpperCase() + rest.toLowerCase();
   });
 }
+
 
 function loadDataA() {
   $("#loader").show();
@@ -85,7 +98,7 @@ function loadDataA() {
       const date_ = date.toLocaleDateString("id-ID", options);
 
       $("#nameFull").text(obj.fullname);
-      $("#nik").text("NIK : "+obj.nik);
+      $("#nik").text("NIK : " + (obj.nik == null ? "-" : obj.nik));
       $("#nickName").text(
         obj.nickname == null ? obj.nickname : toPascalCase(obj.nickname)
       );
@@ -169,16 +182,21 @@ function handleInput(event, input) {
   noHTML(input);
 }
 
+function clearMessage() {
+  $(".error-message").hide();
+}
+
 function ClearScreen() {
+  alert("coba");
   $("#accountId").val("");
   $("#editName").val("");
   $("#editNickName").val("");
   $("#editBirthPlace").val("");
   $("#editBirthDate").val("");
   $("#editGender").val("");
-  $("#editReligion").val("");
-  $("#editMartialStatus").val("");
-  $("#editNationality").val("");
+  $("#editReligion").selectedindex = "0";
+  $("#editMartialStatus").selectedindex = "0";
+  $("#editNationality").selectedindex = "0";
   $("#editAddress").val("");
   $("input[required]").each(function () {
     var input = $(this);
@@ -239,7 +257,9 @@ function GetById(accountId) {
     },
   });
 }
-
+function clear() {
+  $(".error-message").hide()
+}
 function updateData() {
   var accountId = $("#accountId").val();
   var isValid = true;
@@ -254,12 +274,32 @@ function updateData() {
     }
   });
 
+  console.log(validName + " " + validNickName + " " + validBirthPlace);
+
   if (!validName) {
     $("#editName")
       .next(".error-message")
       .text("The field can only use letters.")
       .show();
     $("#editName").focus();
+    return;
+  }
+
+  if (!validNickName) {
+    $("#editNickName")
+      .next(".error-message")
+      .text("The field can only use letters.")
+      .show();
+    $("#editNickName").focus();
+    return;
+  }
+
+  if (!validBirthPlace) {
+    $("#editBirthPlace")
+      .next(".error-message")
+      .text("The field can only use letters.")
+      .show();
+    $("#editBirthPlace").focus();
     return;
   }
 
