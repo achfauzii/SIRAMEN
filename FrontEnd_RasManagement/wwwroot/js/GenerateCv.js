@@ -352,15 +352,16 @@ function loadData() {
 
                         // Membuat elemen ul untuk menampilkan jobSpec
                         var ul = document.createElement("ul");
-
+                        console.log(jobSpecItems);
                         ul.classList.add("pl-3");
-                        // Mengisi elemen ul dengan item-item jobSpec
-                        jobSpecItems.forEach(function (item) {
-                            var li = document.createElement("li");
-                            li.innerHTML = item;
-                            ul.appendChild(li);
-                        });
-
+                        if (jobSpecItems != " ") {
+                            // Mengisi elemen ul dengan item-item jobSpec
+                            jobSpecItems.forEach(function (item) {
+                                var li = document.createElement("li");
+                                li.innerHTML = item;
+                                ul.appendChild(li);
+                            });
+                        } 
                         row.innerHTML =
                             "<td>" +
                             project.projectName +

@@ -1176,6 +1176,21 @@ function getBadgeColor(skill) {
     else if (skill.toLowerCase().includes("python")) {
         return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
+    else if (skill.toLowerCase().includes("laravel")) {
+        return "badge-pastel-coral";
+    }
+    else if (skill.toLowerCase().includes("react")) {
+        return "badge-pastel-rose";
+    }
+    else if (skill.toLowerCase().includes("spring")) {
+        return "badge-pastel-mint";
+    }
+    else if (skill.toLowerCase().includes("sql server")) {
+        return "badge-pastel-cus1";
+    }
+    else if (skill.toLowerCase().includes("oracle")) {
+        return "badge-pastel-cus2";
+    }
     else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
@@ -1185,18 +1200,33 @@ function getBadgeColorPosition(position) {
     // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
     if (position.toLowerCase().includes("fullstack")) {
         return "badge-pastel-teal"; // Warna biru
-    } else if (position.toLowerCase().includes("front end")) {
+    } else if (position.toLowerCase().includes("front end","frontend")) {
         return "badge-pastel-mustard";
-    } else if (position.toLowerCase().includes("backend")) {
-        return "badge-pastel-coral"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    } else if (position.toLowerCase().includes("back end")) {
+        return "badge-pastel-coral"; 
     } else if (position.toLowerCase().includes("data science")) {
-        return "badge-pastel-purple"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+        return "badge-pastel-purple"; 
     }
-    else if (position.toLowerCase().includes("android")) {
-        return "badge-pastel-indigo"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    else if (position.toLowerCase().includes("database administrator")) {
+        return "badge-pastel-indigo"; 
     }
-    else if (position.toLowerCase().includes("ios")) {
-        return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    else if (position.toLowerCase().includes("database analyst")) {
+        return "badge-pastel-silver"; 
+    }
+    else if (position.toLowerCase().includes("database engineer" ||"data engineer")) {
+        return "badge-pastel-coral"; 
+    }
+    else if (position.toLowerCase().includes("RPA")) {
+        return "badge-pastel-rose";
+    }
+    else if (position.toLowerCase().includes("Scrum Master")) {
+        return "badge-pastel-mint";
+    }
+    else if (position.toLowerCase().includes("Manual")) {
+        return "badge-pastel-cus1";
+    }
+    else if (position.toLowerCase().includes("Automation")) {
+        return "badge-pastel-cus2";
     }
     else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
