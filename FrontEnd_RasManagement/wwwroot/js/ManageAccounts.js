@@ -23,6 +23,7 @@ $(document).ready(function () {
       { data: "email" },
       { data: "gender" },
       { data: "hiredstatus" },
+      { data: "nik" },
       {
         data: null,
         render: function (data, type, row) {
@@ -35,7 +36,9 @@ $(document).ready(function () {
               "')\">Employee</button>";
           } else {
             role =
-              '<button class="badge badge-pill badge-warning" data - placement="right" style="outline: none; border: none;" >Admin</button>';
+              '<button class="badge badge-pill badge-warning" data - placement="right" style="outline: none; border: none;" onclick="return DeleteAdmin(\'' +
+              row.accountId +
+              "')\">Admin</button>";
           }
 
           return role;
@@ -113,6 +116,39 @@ function UpdateRole() {
     } else {
       Swal.fire("Error!", result.message, "error");
       $("#dataTableAccounts").DataTable().ajax.reload();
+    }
+  });
+}
+
+function DeleteAdmin(accountId) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "DELETE",
+        url: "https://localhost:7177/api/Accounts/Delete/" + accountId,
+        contentType: "application/json",
+        dataType: "json",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+      }).then((result) => {
+        Swal.fire({
+          icon: "success",
+          title: "Success...",
+          text: "Data has been deleted!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#dataTableAccounts").DataTable().ajax.reload();
+      });
     }
   });
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using RasManagement.Interface;
 using RasManagement.ViewModel;
 
@@ -248,8 +249,6 @@ namespace RasManagement.Repository
             {
                 // Update nilai RoleId pada entitas Account
                 account.RoleId = roleVM.RoleId;
-
-
                 _context.Accounts.Update(account);
 
                 // Simpan perubahan ke database
@@ -386,10 +385,41 @@ namespace RasManagement.Repository
             return _context.Accounts.Find(accountId);
         }
 
-     /*   internal string GetAccountId()
+        public int Delete(string key)
         {
-            throw new NotImplementedException();
-        }*/
+            var account = _context.Accounts.Find(key);
+            if (account != null)
+            {
+                var formalEdu = _context.FormalEdus.Where(fe => fe.AccountId == key);
+                var nonFormalEdu = _context.NonFormalEdus.Where(nfe => nfe.AccountId == key);
+                var qualifications = _context.Qualifications.Where(q => q.AccountId == key);                
+                var assets = _context.AssetsManagements.Where(a => a.AccountId == key);                
+                var certificate = _context.Certificates.Where(c => c.AccountId == key);                
+                var empHistory = _context.EmploymentHistories.Where(eh => eh.AccountId == key);
+                var projectHistory = _context.ProjectHistories.Where(ph => ph.AccountId == key);
+
+                if(!formalEdu.IsNullOrEmpty() || !nonFormalEdu.IsNullOrEmpty() || !qualifications.IsNullOrEmpty() || !assets.IsNullOrEmpty() || !certificate.IsNullOrEmpty() || !empHistory.IsNullOrEmpty() || !projectHistory.IsNullOrEmpty()){
+                    TurnOver turnOver = new TurnOver
+                    {
+                        TurnOverId = 0,
+                        Status = "Resign",
+                        ExitDate = DateTime.Now,
+                        AccountId = key
+                    };
+
+                    _context.TurnOvers.Add(turnOver);
+                    _context.SaveChanges();
+
+                    account.RoleId = "4";
+                    _context.Accounts.Update(account);
+                    return _context.SaveChanges();
+                } else {
+                    _context.Accounts.Remove(account);
+                    return _context.SaveChanges();
+                }                
+            }
+            return 404;
+        }
     }
 
 

@@ -18,8 +18,7 @@
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap">
 
     <!-- Custom styles for this template-->
@@ -27,10 +26,11 @@
     <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet">
 
-    @*  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>*@
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -46,12 +46,8 @@
             userRoleElement.textContent = role;
 
         });
-
-
     </script>
 
-    <!-- Custom styles for this page -->
-    <link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <style>
         @@media print {
             .no-print {
@@ -147,9 +143,6 @@
             cursor: pointer;
         }
     </style>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
-    @*    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>*@
 </head>
 
 
@@ -407,8 +400,6 @@
                         <span style="height: 110px;"><img src="~/img/SiramenFull.png" alt="Berca Hardayaperkasa" style="max-width: 100%; width:235px; height: auto; max-height: 85px;" /></span>
                     </div>
 
-
-
                    <form class="user" id="resetPassword">
                         <div class="form-label-group password-container">
                             <input type="password" class="form-control form-control-user" id="currentPassword" placeholder="" req>
@@ -449,9 +440,6 @@
     </div>
 
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.min.js"></script>
-
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -459,19 +447,10 @@
 
     <!-- Custom scripts for all pages-->
     <script src="~/startbootstrap-sb-admin-2-gh-pages/js/sb-admin-2.min.js"></script>
+    @* <script src="~/js/ManageEmployee.js"></script> *@
 
-    <!-- Page level plugins -->
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    @* <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-area-demo.js"></script>
-    <script src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>*@
-    <script src="~/js/Chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/js/ManageEmployee.js"></script>
-    <script src="~/js/Account.js"></script>
-
-    <!-- Page level plugins -->
+    <!-- Page level plugins --> 
+    @* <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> *@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -479,8 +458,6 @@
     <script src="~/js/JwtUtils.js"></script>
     <script src="~/js/ChangePassword.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="~/js/site.js"></script>
     @RenderSection("script",required:false)
 </body>
 
