@@ -365,7 +365,7 @@ function loadData() {
                             "<td>" +
                             project.projectName +
                             "</td>" +
-                            "<td></td>" + // Kosongkan sel ini, kami akan menambahkan ul di bawah
+                            "<td></td>" + 
                             "<td>" +
                             project.year +
                             "</td>" +
