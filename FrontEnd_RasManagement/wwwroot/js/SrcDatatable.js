@@ -1,7 +1,7 @@
 var table = null;
 
 $(document).ready(function () {
-
+   
 
     getUniversitasList();
     // Panggil fungsi fetchCategories saat halaman dimuat

@@ -343,7 +343,7 @@
                             <div class="col" style="color: black">University </div>
                             <div class="col-9">
 
-                                <select id="UniversityName" class="selectUniversity form-control">
+                                <select id="UniversityName" class="selectUniversity form-control" required>
                                     <option></option>
                                 </select>
                                 <span class="error-message-u" style="color: red; display: none;">This field is required!</span>
@@ -472,7 +472,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Raw CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="rawcv" required_>
+                                <input type="text" class="form-control" placeholder="https://drive.google.com/" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="rawcv" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -481,7 +481,7 @@
                         <div class="row pl-5 pr-5">
                             <div class="col" style="color: black">Berca CV</div>
                             <div class="col-9">
-                                <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="bercacv" required_>
+                                <input type="text" class="form-control" placeholder="https://drive.google.com/" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="bercacv" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -1067,6 +1067,10 @@
 *@
 <script>
     $(document).ready(function () {
+        $('input[required_], select[required], select[required_]').each(function () {
+                // Find the closest div with class 'col' and add a red asterisk
+                $(this).closest('.row').find('.col').append('<span style="color: red;"> *</span>');
+            });
         $('#collapseExample').on('show.bs.collapse', function () {
             // Di sini, Anda bisa mengubah teks tombol saat kolaps ditampilkan
             $('.btn[data-target="#collapseExample"]').text('Hide 19 hidden fields');

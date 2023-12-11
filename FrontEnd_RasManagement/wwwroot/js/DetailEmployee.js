@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    
     // Mendapatkan nilai parameter accountId dari URL
     $("#backButton").on("click", function () {
         history.back(); // Go back to the previous page

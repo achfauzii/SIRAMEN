@@ -5,6 +5,10 @@
 });
 
 $(document).ready(function () {
+  $('input[required], input[required_], input[requiredContract], select[required], select[required_]').each(function () {
+    $(this).prev('label').append('<span style="color: red;"> *</span>');
+});
+
   $('[data-tooltip="tooltip"]').tooltip({
     trigger: "hover",
   });
