@@ -368,8 +368,8 @@ function myPieChart(data, labels) {
     labels: labels,
     datasets: [{
       data: data,
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+      backgroundColor: ['#e74a3b', '#5a5c69', '#4e73df'],
+      hoverBackgroundColor: ['#ff6655', '#6e707e', '#6382eb'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
     }],
   };
