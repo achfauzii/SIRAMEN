@@ -145,6 +145,9 @@ function SharedShortListCandidate(selectedCategory) {
                 "data": "university"
             },
             {
+                "data": "ipk"
+            },
+            {
                 "data": "domisili"
             },
             {
