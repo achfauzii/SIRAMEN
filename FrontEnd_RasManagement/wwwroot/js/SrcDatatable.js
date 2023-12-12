@@ -44,8 +44,8 @@ $(document).ready(function () {
     //Src();
     Src('all');
     getUniversitasListt();
-  
-   
+
+
     $('.position').select2();
     $('.skillset').select2({
         tags: true
@@ -736,7 +736,7 @@ function Src(selectedCategory) {
             $("#No2").prop("checked", false);
         }
 
-     
+
 
         $('#intwByRAS').val(data.intwByRas);
 
@@ -957,7 +957,9 @@ function ClearScreenSave() {
 
         input.next('.error-message_').hide();
 
+        $('.error-format-ipk').hide();
     });
+
     $('.position').closest('.form-group').find('.error-message').hide();
     $('.skillset').closest('.form-group').find('.error-message').hide();
     //$('.selectRegencies').closest('.form-group').find('.error-message').hide();
@@ -1014,7 +1016,7 @@ function ClearScreenUpt() {
         var input = $(this);
 
         input.next('.error-message_').hide();
-
+        $('.error-format-ipk-update').hide();
     });
     /*if (data.intwByRas) {
         $('#displayIntwUser2').val('').show();
@@ -1297,6 +1299,18 @@ function Save() {
         } else {
             input.next('.error-message_').hide();
         }
+        // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+        if (input.attr('id') === 'ipk') {
+            var ipk = input.val().trim();
+            var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+            if (!validIPK.test(ipk)) {
+                $('.error-format-ipk').show(); // Menampilkan pesan error format IPK
+                isValid = false;
+            } else {
+                $('.error-format-ipk').hide(); // Menyembunyikan pesan error format IPK
+            }
+        }
     });
 
     /*$('input[type="radio"][name="workstatus"]').each(function () {
@@ -1328,13 +1342,7 @@ function Save() {
         $('.position').closest('.form-group').find('.error-message').hide();
     }
 
-    /*if (!selectedRegencies) {
-        $('.selectRegencies').closest('.form-group').find('.error-message-r').show();
-        isValid = false;
-    } else {
-        $('.selectRegencies').closest('.form-group').find('.error-message-r').hide();
 
-    }*/
 
 
     if (!selectedUniversity) {
@@ -1344,8 +1352,6 @@ function Save() {
         $('.selectUniversity').closest('.form-group').find('.error-message-u').hide();
 
     }
-
-
 
     if (!isValid) {
         return;
@@ -1361,7 +1367,11 @@ function Save() {
     }
     workstatus = workstatus.toString();
     financial = financial.toString();
-    debugger;
+
+
+
+
+
     var NonRasCandidate = new Object(); //object baru
     NonRasCandidate.nonRasId = $('#nonrasid').val();
     NonRasCandidate.fullname = $('#Name').val(); //value insert dari id pada input
@@ -1462,15 +1472,28 @@ function Save() {
 
 function Update() {
     var isValid = true;
-    /*   $('input[requiredUpdate],select[requiredUpdate').each(function () {
-           var input = $(this);
-           if (!input.val()) {
-               input.next('.error-message-update').show();
-               isValid = false;
-           } else {
-               input.next('.error-message-update').hide();
-           }
-       });*/
+    $('input[requiredUpdate],select[requiredUpdate').each(function () {
+        var input = $(this);
+        /* if (!input.val()) {
+             input.next('.error-message-update').show();
+             isValid = false;
+         } else {
+             input.next('.error-message-update').hide();
+         }*/
+
+        // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+        if (input.attr('id') === 'ipk2') {
+            var ipk = input.val().trim();
+            var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+            if (!validIPK.test(ipk)) {
+                $('.error-format-ipk-update').show(); // Menampilkan pesan error format IPK
+                isValid = false;
+            } else {
+                $('.error-format-ipk-update').hide(); // Menyembunyikan pesan error format IPK
+            }
+        }
+    });
 
     var workstatus = $('#workstatus2').is(':checked');
     var financial = $('#financial2').is(':checked');
@@ -1980,7 +2003,7 @@ function getRandomSoftlColor() {
 
 // Simpan warna berdasarkan kata yang sama di objek
 var colorsByWord = {};
-var colorByPosition ={ };
+var colorByPosition = {};
 
 // Fungsi untuk mendapatkan warna berdasarkan kata skillset
 function getColorForWord(word) {
@@ -1999,3 +2022,5 @@ function getColorForPosition(word) {
     return colorsByWord[word];
 
 }
+
+
