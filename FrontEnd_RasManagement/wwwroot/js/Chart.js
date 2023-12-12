@@ -78,12 +78,10 @@ $(document).ready(function () {
     success: function (turnover) {
       var result = turnover.data;
 
-      var total= 0;
       var resign = 0;
       var blacklist = 0;
       var transfer = 0;
 
-      
         result.forEach((item) => {
           if(item.status=="Blacklist"){
             blacklist++
@@ -95,7 +93,7 @@ $(document).ready(function () {
         })
         var data = [resign, blacklist, transfer];
         var labels = ["Resign ("+resign+")", "Blacklist ("+blacklist+")", "Transfers ("+transfer+")"];
-        console.log(data);
+        
         myPieChart(data, labels)
 
       // Sembunyikan loader setelah permintaan selesai
