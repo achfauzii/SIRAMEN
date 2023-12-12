@@ -85,15 +85,18 @@
                                     text-overflow: unset;
                                     /*white-space: nowrap;*/
 
+
     /*overflow: clip;*/
     }
 
     */
     /*table.dataTable tbody td:nth-child(3) div {
 
+
                                         white-space: normal;
                                         overflow: visible;
                                     }*/
+
     table.dataTable tbody td:nth-child(14) {
         max-width: 180px;
         word-wrap: break-word;
@@ -151,6 +154,7 @@
                     <th>Skillset</th>
                     <th>Level</th>
                     <th>Education</th>
+                    <th>IPK</th>
                     <th>University</th>
                     <th>Domisili</th>
                     <th>Age</th>
@@ -170,7 +174,7 @@
                     <th>Name of User</th>
                     <th>Interview User</th>
                     <th>Interview Date by User</th>
-                    <th>Level Rekomendation</th>
+                    <th>Level Recommendation</th>
                     <th>Status</th>
                     <th>Notes</th>
                     <th>Last Modified</th>
@@ -288,6 +292,15 @@
                             <div class="col" style="color: black">Degree </div>
                             <div class="col-9">
                                 <input type="text" class="form-control" id="degree" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row pl-5 pr-5">
+                            <div class="col" style="color: black">IPK </div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" oninput="numeric(this);" onpaste="numeric(this);" id="ipk" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
@@ -550,6 +563,17 @@
                         <label for="" class="col-sm-2 col-form-label">Interview User</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
+
+                            @*<select class="nameUser form-control" id="nameUser" name="nameUser" style="width: 100%;" required>
+                                <option value="ASTRA">ASTRA</option>
+                                <option value="Pertamina">Pertamina</option>
+                                <option value="Mandiri">Mandiri</option>
+                                <option value="BSI">BSI</option>
+                                <option value="Protelindo">Protelindo</option>
+                                <option value="ANTAM">ANTAM</option>
+                                <option value="BSS">BSS</option>
+                            </select>*@
+
                             <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="nameUser">
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
@@ -601,6 +625,15 @@
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label" style="display:none" id="displayUserLabel">Interview User</label>
                         <div class="col-sm-5">
+                            @*<select class="nameUser2 form-control" id="nameUser2" name="nameUser" style="width: 100%; display: none;" requiredUpdate>
+                                <option value="ASTRA">ASTRA</option>
+                                <option value="Pertamina">Pertamina</option>
+                                <option value="Mandiri">Mandiri</option>
+                                <option value="BSI">BSI</option>
+                                <option value="Protelindo">Protelindo</option>
+                                <option value="ANTAM">ANTAM</option>
+                                <option value="BSS">BSS</option>
+                            </select>*@
                             <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" style="display:none" id="nameUser2" requiredUpdate>
                             <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
 
@@ -841,6 +874,15 @@
                                 <div class="col" style="color: black">Degree </div>
                                 <div class="col-9">
                                     <input type="text" class="form-control" id="degree2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">IPK </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="ipk2" oninput="numeric(this);" onpaste="numeric(this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>

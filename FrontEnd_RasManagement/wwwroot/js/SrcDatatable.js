@@ -44,6 +44,8 @@ $(document).ready(function () {
     //Src();
     Src('all');
     getUniversitasListt();
+  
+   
     $('.position').select2();
     $('.skillset').select2({
         tags: true
@@ -104,6 +106,11 @@ function noHTML(input) {
     var value = input.value.replace(/<[^>]*>/g, '');
     //var nohtml = value.replace(/[<>?/]/g, '');
     input.value = value;
+}
+
+function numeric(input) {
+    var numericValue = input.value.replace(/[^\d.,]/g, '');
+    input.value = numericValue;
 }
 
 function handleInput(event, input) {
@@ -253,6 +260,9 @@ function Src(selectedCategory) {
                 /*render: function (data, type, row) {
                     return htmlspecialchars(data);
                 }*/
+            },
+            {
+                "data": "ipk"
             },
             {
                 "data": "university"
@@ -680,8 +690,10 @@ function Src(selectedCategory) {
 
 
         $('#degree2').val(data.education);
+        $('#ipk2').val(data.ipk);
         $('#UniversityName2').val(data.university);
         $('#domicile2').val(data.domisili);
+
 
 
 
@@ -724,6 +736,7 @@ function Src(selectedCategory) {
             $("#No2").prop("checked", false);
         }
 
+     
 
         $('#intwByRAS').val(data.intwByRas);
 
@@ -921,6 +934,7 @@ function ClearScreenSave() {
     $('#position').val('');;
     $('#skillset').val('');
     $('#degree').val('');
+    $('#ipk').val('');
     $('#UniversityName').val('');
     $('#domicile').val('');
     $('#birthdate').val('');
@@ -960,6 +974,7 @@ function ClearScreenUpt() {
     $('#position2').val('');
     $('#skillset2').val('');
     $('#degree2').val('');
+    $('#ipk2').val('');
     $('#UniversityName2').val('');
     $('#domicile2').val('');
     $('#birthdate2').val('');
@@ -1346,13 +1361,14 @@ function Save() {
     }
     workstatus = workstatus.toString();
     financial = financial.toString();
-
+    debugger;
     var NonRasCandidate = new Object(); //object baru
     NonRasCandidate.nonRasId = $('#nonrasid').val();
     NonRasCandidate.fullname = $('#Name').val(); //value insert dari id pada input
     NonRasCandidate.position = $('#position').val().join(", ");
     NonRasCandidate.skillset = $('#skillset').val().join(", ");
     NonRasCandidate.education = $('#degree').val();
+    NonRasCandidate.ipk = $('#ipk').val();
     NonRasCandidate.university = $('#UniversityName').val();
     NonRasCandidate.domisili = $('#domicile').val();;
     NonRasCandidate.birthdate = $('#birthdate').val();
@@ -1474,6 +1490,7 @@ function Update() {
     NonRasCandidate.position = $('#position2').val().join(", ");
     NonRasCandidate.skillset = $('#skillset2').val().join(", ");
     NonRasCandidate.education = $('#degree2').val();
+    NonRasCandidate.ipk = $('#ipk2').val();
     NonRasCandidate.university = $('#UniversityName2').val();
     NonRasCandidate.domisili = $('#domicile2').val();
     NonRasCandidate.birthdate = $('#birthdate2').val();
@@ -1705,18 +1722,7 @@ function newProses2() {
 
 }
 
-/*function newClientFields() {
-    document.getElementById('displayUser2').style.display = "block";
-}*/
-/*function newClientFields() {
-    var displayUser2 = document.getElementById('displayUser2');
-    if (displayUser2.style.display === 'none' || displayUser2.style.display === '') {
-        displayUser2.style.display = 'block';
-    } else {
-        displayUser2.style.display = 'none';
-    }
-   
-}*/
+
 function formatCurrency(input) {
     // Menghapus semua karakter selain angka
     var value = input.value.replace(/\D/g, '');
@@ -1957,6 +1963,7 @@ function newClientFields() {
     $('#dateIntwUser').prop('disabled', true);
 
     document.getElementById('offer').style.display = "none";
+
 }
 
 // Fungsi untuk mendapatkan warna pastel secara acak
@@ -1990,4 +1997,5 @@ function getColorForPosition(word) {
         colorsByWord[word] = softlColors[Object.keys(colorsByWord).length % softlColors.length];
     }
     return colorsByWord[word];
+
 }
