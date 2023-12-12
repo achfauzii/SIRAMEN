@@ -55,7 +55,7 @@ public partial class ProjectRasmanagementContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server = RAS-FAUZI; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        => optionsBuilder.UseSqlServer("server = RAS-YOGI; Database = Project_RASManagement; user id = sa; password = sapassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -489,10 +489,10 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("NonRAS_Id");
-/*
-            entity.HasOne(d => d.NonRas).WithMany(p => p.OfferingProcesses)
-                .HasForeignKey(d => d.NonRasId)
-                .HasConstraintName("FK_Offering_Process_Offering_Process");*/
+            /*
+                        entity.HasOne(d => d.NonRas).WithMany(p => p.OfferingProcesses)
+                            .HasForeignKey(d => d.NonRasId)
+                            .HasConstraintName("FK_Offering_Process_Offering_Process");*/
         });
 
         modelBuilder.Entity<Placement>(entity =>

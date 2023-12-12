@@ -55,7 +55,9 @@ $(document).ready(function () {
               "')\">Employee</button>";
           } else {
             role =
-              '<button class="badge badge-pill badge-warning" data - placement="right" style="outline: none; border: none;" >Admin</button>';
+              '<button class="badge badge-pill badge-warning" data - placement="right" style="outline: none; border: none;" onclick="DeleteAdmin(\'' +
+              row.accountId +
+              "')\">Admin</button>";
           }
 
           return role;
@@ -103,9 +105,7 @@ function GetById(accountId) {
       var obj = result.data; //data yg kita dapat dr API
       $("#AccountId").val(obj.accountId);
       $("#Role").val(obj.roleId);
-      //document.getElementById('fullname').text(obj.fullname);
-      console.log(obj.fullname);
-      //document.getElementById('fullName').text = obj.fullname;
+
       $("#FullName").text(obj.fullname);
       $("#Modal").modal("show");
       $("#Update").show();
@@ -132,9 +132,7 @@ function GetByIdNIK(accountId) {
       var obj = result.data; //data yg kita dapat dr API
       $("#AccountIdNIK").val(obj.accountId);
       $("#NIK").val(obj.nik);
-      //document.getElementById('fullname').text(obj.fullname);
-      console.log(obj.fullname);
-      //document.getElementById('fullName').text = obj.fullname;
+
       $("#FullName_").text(obj.fullname);
       $("#ModalNIK").modal("show");
       $("#UpdateNIK").show();
