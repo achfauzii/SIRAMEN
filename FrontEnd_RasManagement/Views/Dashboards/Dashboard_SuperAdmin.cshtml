@@ -145,7 +145,7 @@
 </div>
 <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/chart.js/Chart.min.js"></script>
 <script src="~/js/Chart.js"></script>
-<script src="~/js/site.js"></script>
+@* <script src="~/js/site.js"></script> *@
 <script src="~/js/Account.js"></script>
 <script>
     function updateClock() {
@@ -157,4 +157,33 @@
     }
 
     setInterval(updateClock, 1000); // Update setiap detik
+    $("#adminAnnouncement").hide();
+
+    $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    //GetBirthday
+    $.ajax({
+        type: "GET",
+        url: "https://localhost:7177/api/Accounts/BirthDay",
+        contentType: "application/json; charset=utf-8",
+        headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        if (result.status == 200) {
+        document.getElementById("birthday").innerHTML = "";
+        var text = "";
+        result.data.name.forEach((item) => {
+            text += item + ", ";
+        });
+        $("#adminAnnouncement").show();
+
+        document.getElementById("birthday").innerHTML =
+            text.substr(0, text.length - 2) + ".";
+        } else if (result.status == 404) {
+        document.getElementById("birthday").innerHTML = "";
+        $("#adminAnnouncement").hide();
+        }
+    });
+    });
 </script>

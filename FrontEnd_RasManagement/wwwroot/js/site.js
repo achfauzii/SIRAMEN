@@ -417,14 +417,14 @@ function GetEmployeeList() {
 
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Accounts",
+    url: "https://localhost:7177/api/Employees/EmployeeAdmin",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
     if (result != null) {
-      result.forEach((item) => {
+      result.data.forEach((item) => {
         var option = new Option(item.fullname, item.fullname, true, false);
         selectEmployee.add(option);
 

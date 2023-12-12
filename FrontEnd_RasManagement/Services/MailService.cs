@@ -1016,8 +1016,6 @@ namespace FrontEnd_RasManagement.Services
             smtp.Disconnect(true);
         }
 
-
-
         public async Task SendEmailBeritaDukaCita(DukaCitaVM data)
         {
             var _email = new MimeMessage();
