@@ -1,7 +1,35 @@
 let validName = true;
 let validNickName = true;
 let validBirthPlace = true;
+$("#employeeAnnouncement").hide();
+
 $(document).ready(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+  //GetBirthday
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/Accounts/BirthDay",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result.status == 200) {
+      document.getElementById("birthday").innerHTML = "";
+      var text = "";
+      result.data.name.forEach((item) => {
+        text += item + ", ";
+      });
+      $("#employeeAnnouncement").show();
+
+      document.getElementById("birthday").innerHTML =
+        text.substr(0, text.length - 2) + ".";
+    } else if (result.status == 404) {
+      document.getElementById("birthday").innerHTML = "";
+      $("#employeeAnnouncement").hide();
+    }
+  });
+
   // Mendapatkan nilai parameter accountId dari URL
   loadDataA();
   $("#editDetailsBtn").on("click", function () {
@@ -75,7 +103,6 @@ function toPascalCase(str) {
     return firstChar.toUpperCase() + rest.toLowerCase();
   });
 }
-
 
 function loadDataA() {
   $("#loader").show();
@@ -258,7 +285,7 @@ function GetById(accountId) {
   });
 }
 function clear() {
-  $(".error-message").hide()
+  $(".error-message").hide();
 }
 function updateData() {
   var accountId = $("#accountId").val();
