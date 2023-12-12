@@ -91,7 +91,7 @@ $(document).ready(function () {
   $("#birth").hide();
   $("#death").hide();
 
-  document
+/*  document
     .getElementById("Announcement")
     .addEventListener("change", function () {
       if (this.value == "death") {
@@ -101,7 +101,22 @@ $(document).ready(function () {
         $("#death").hide();
         $("#birth").show();
       }
-    });
+    });*/
+
+    var announceElm = document.getElementById("Announcement")
+    if (announceElm) {
+        announceElm.addEventListener("change", function () {
+            if (this.value == "death") {
+                $("#birth").hide();
+                $("#death").show();
+            } else if (this.value == "birth") {
+                $("#death").hide();
+                $("#birth").show();
+            }
+        });
+    }
+
+
 });
 
 function clearAnnounce() {

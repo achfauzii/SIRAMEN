@@ -1,4 +1,38 @@
 ﻿var table = null;
+var softlColors = [
+    '#B7E4C7', // Mint Green
+    '#FFD8B1', // Soft Peach
+    '#C9C8E8', // Lavender Grey
+    '#BCCEF8',
+    '#AED9E0', // Sky Blue
+    '#F9E4AD', // Pale Yellow
+    '#FFA69E', // Coral Pink
+    '#D0AEEF', // Pastel Lilac
+    '#B5DFE6', // Icy Blue
+    '#F6E4C8',  // Buttercreamy
+    '#c9a7eb',
+    '#a4b0f5',
+    '#D2E0FB',
+    '#F7F5EB'
+];
+
+var pastelColors = [
+    '#B7E4C7', // Mint Green
+    '#FFD8B1', // Soft Peach
+    '#C9C8E8', // Lavender Grey
+    '#BCCEF8',
+    '#AED9E0', // Sky Blue
+    '#F9E4AD', // Pale Yellow
+    '#FFA69E', // Coral Pink
+    '#D0AEEF', // Pastel Lilac
+    '#B5DFE6', // Icy Blue
+    '#F6E4C8',  // Buttercream
+    '#c9a7eb',
+    '#a4b0f5',
+    '#D2E0FB',
+    '#F7F5EB'
+];
+
 $(document).ready(function () {
 
     SharedShortListCandidate('all');
@@ -62,33 +96,26 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 "data": "position",
                 "render": function (data) {
-                    // Pisahkan data skillset menjadi array berdasarkan koma
                     if (data == null) {
-                        var a = "b"
+                        var a = "b";
                         return a;
                     }
                     var posisitionSplit = data.split(',');
-                    //console.log(data);
-
-                    // Container untuk pill badges
                     var badgeContainer = $('<div class="badge-container"></div>');
 
-                    // Loop melalui setiap elemen dalam array
                     for (var i = 0; i < posisitionSplit.length; i++) {
-                        // Tentukan warna badge berdasarkan data
-                        var badgeColor = getBadgeColorPosition(posisitionSplit[i]);
+                        var word = posisitionSplit[i].trim();
+                        var badgeColor = getColorForPosition(word);
+                        var badge = $('<span class="badge badge-pill badge-pastel">' + word + '</span>');
 
-                        // Buat pill badge dengan warna yang sesuai
-                        var badge = $('<span class="badge badge-pill ' + badgeColor + '">' + posisitionSplit[i] + '</span>');
+                        // Atur warna latar belakang badge sesuai dengan kata yang sama
+                        badge.css('background-color', badgeColor);
 
-                        // Tambahkan badge ke dalam container
                         badgeContainer.append(badge);
-                        // Tambahkan pemisah spasi setelah setiap badge, kecuali untuk yang terakhir
                         if (i < posisitionSplit.length - 1) {
-                            badgeContainer.append(' '); // Ini adalah pemisah spasi
+                            badgeContainer.append(' ');
                         }
                     }
-
                     // Kembalikan HTML dari container badge
                     return badgeContainer.html();
                 }
@@ -109,17 +136,16 @@ function SharedShortListCandidate(selectedCategory) {
 
                     // Loop melalui setiap elemen dalam array
                     for (var i = 0; i < skillsetArray.length; i++) {
-                        // Tentukan warna badge berdasarkan data
-                        var badgeColor = getBadgeColor(skillsetArray[i]);
+                        var word = skillsetArray[i].trim();
+                        var badgeColor = getColorForWord(word);
+                        var badge = $('<span class="badge badge-pill badge-pastel">' + word + '</span>');
 
-                        // Buat pill badge dengan warna yang sesuai
-                        var badge = $('<span class="badge badge-pill ' + badgeColor + '">' + skillsetArray[i] + '</span>');
+                        // Atur warna latar belakang badge sesuai dengan kata yang sama
+                        badge.css('background-color', badgeColor);
 
-                        // Tambahkan badge ke dalam container
                         badgeContainer.append(badge);
-                        // Tambahkan pemisah spasi setelah setiap badge, kecuali untuk yang terakhir
                         if (i < skillsetArray.length - 1) {
-                            badgeContainer.append(' '); // Ini adalah pemisah spasi
+                            badgeContainer.append(' ');
                         }
                     }
 
@@ -143,6 +169,9 @@ function SharedShortListCandidate(selectedCategory) {
             },
             {
                 "data": "university"
+            },
+            {
+                "data": "ipk"
             },
             {
                 "data": "domisili"
@@ -398,12 +427,12 @@ function createDropdown(categories) {
     return dropdownContainer;
 }
 
-function getBadgeColor(skill) {
+/*function getBadgeColor(skill) {
     // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
     if (skill.toLowerCase().includes(".net web api")) {
         return "badge-pastel-teal"; // Warna biru
     } else if (skill.toLowerCase().includes(".net web mvc")) {
-        return "badge-pastel-mustard";
+        return "badge-pastel-cus0";
     } else if (skill.toLowerCase().includes("codeigniter")) {
         return "badge-pastel-coral"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     } else if (skill.toLowerCase().includes("bootstrap")) {
@@ -415,6 +444,24 @@ function getBadgeColor(skill) {
     else if (skill.toLowerCase().includes("python")) {
         return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
+    else if (skill.toLowerCase().includes("laravel")) {
+        return "badge-pastel-coral";
+    }
+    else if (skill.toLowerCase().includes("react")) {
+        return "badge-pastel-rose";
+    }
+    else if (skill.toLowerCase().includes("spring")) {
+        return "badge-pastel-mint";
+    }
+    else if (skill.toLowerCase().includes("sql server")) {
+        return "badge-pastel-cus1";
+    }
+    else if (skill.toLowerCase().includes("oracle")) {
+        return "badge-pastel-cus2";
+    }
+    else if (skill.toLowerCase().includes("google data studio")) {
+        return "badge-pastel-cus3";
+    }
     else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
@@ -425,25 +472,83 @@ function getBadgeColorPosition(position) {
     if (position.toLowerCase().includes("fullstack")) {
         return "badge-pastel-teal"; // Warna biru
     } else if (position.toLowerCase().includes("front end")) {
-        return "badge-pastel-mustard";
-    } else if (position.toLowerCase().includes("backend")) {
-        return "badge-pastel-coral"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+        return "badge-pastel-cus0";
+    } else if (position.toLowerCase().includes("back end")) {
+        return "badge-pastel-coral";
     } else if (position.toLowerCase().includes("data science")) {
-        return "badge-pastel-purple"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+        return "badge-pastel-purple";
     }
-    else if (position.toLowerCase().includes("android")) {
-        return "badge-pastel-indigo"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    else if (position.toLowerCase().includes("database administrator")) {
+        return "badge-pastel-indigo";
     }
-    else if (position.toLowerCase().includes("ios")) {
-        return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
+    else if (position.toLowerCase().includes("database analyst") || position.toLowerCase().includes("data analyst")) {
+        return "badge-pastel-silver";
+    }
+    else if (position.toLowerCase().includes("database engineer" || "data engineer")) {
+        return "badge-pastel-coral";
+    }
+    else if (position.toLowerCase().includes("rpa")) {
+        return "badge-pastel-rose";
+    }
+    else if (position.toLowerCase().includes("scrum master")) {
+        return "badge-pastel-mint";
+    }
+    else if (position.toLowerCase().includes("manual")) {
+        return "badge-pastel-cus1";
+    }
+    else if (position.toLowerCase().includes("automation")) {
+        return "badge-pastel-cus2";
+    }
+    else if (position.toLowerCase().includes("technical writer")) {
+        return "badge-pastel-cus3";
+    }
+    else if (position.toLowerCase().includes("business analyst")) {
+        return "badge-pastel-cus4";
+    }
+    else if (position.toLowerCase().includes("solution analyst")) {
+        return "badge-pastel-cus5";
     }
     else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
-}
+}*/
 
 
 // Fungsi untuk mengubah huruf besar di awal dan setelah spasi
 function capitalizeWords(str) {
     return str.toLowerCase().replace(/(?:^|\s)\S/g, function (a) { return a.toUpperCase(); });
+}
+
+
+// Fungsi untuk mendapatkan warna pastel secara acak
+function getRandomPastelColor() {
+    var randomIndex = Math.floor(Math.random() * pastelColors.length);
+    return pastelColors[randomIndex];
+}
+
+function getRandomSoftlColor() {
+    var randomIndex = Math.floor(Math.random() * pastelColors.length);
+    return pastelColors[randomIndex];
+}
+
+
+// Simpan warna berdasarkan kata yang sama di objek
+var colorsByWord = {};
+var colorByPosition = {};
+
+// Fungsi untuk mendapatkan warna berdasarkan kata skillset
+function getColorForWord(word) {
+    if (!colorsByWord.hasOwnProperty(word)) {
+        // Jika kata belum memiliki warna yang terkait, atur warna pastel secara urut
+        colorsByWord[word] = pastelColors[Object.keys(colorsByWord).length % pastelColors.length];
+    }
+    return colorsByWord[word];
+}
+
+function getColorForPosition(word) {
+    if (!colorsByWord.hasOwnProperty(word)) {
+        // Jika kata belum memiliki warna yang terkait, atur warna pastel secara urut
+        colorsByWord[word] = softlColors[Object.keys(colorsByWord).length % softlColors.length];
+    }
+    return colorsByWord[word];
 }

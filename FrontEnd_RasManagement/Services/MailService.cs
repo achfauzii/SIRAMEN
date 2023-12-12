@@ -1,4 +1,5 @@
 ﻿using MailKit.Security;
+
 using Microsoft.Extensions.Options;
 using MimeKit;
 using FrontEnd_RasManagement.Settings;
@@ -6,6 +7,7 @@ using FrontEnd_RasManagement.Models;
 using MailKit.Net.Smtp;
 using System.Web.Helpers;
 using MimeKit.Text;
+using System.Threading;
 //using System.Net.Mail;
 
 namespace FrontEnd_RasManagement.Services
@@ -1341,6 +1343,10 @@ namespace FrontEnd_RasManagement.Services
         {
             for (int i = 0; i < birthday.email.Count; i++)
             {
+                if (i == 5)
+                {
+                    Thread.Sleep(10000); 
+                }
                 Console.WriteLine("Data Email: " + birthday.email[i]);
                 var _email = new MimeMessage();
                 _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));

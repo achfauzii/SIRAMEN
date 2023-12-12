@@ -227,6 +227,7 @@ namespace RasManagement.Controllers
                     e.Position,
                     e.Skillset,
                     e.Education,
+                    e.Ipk,
                     e.University,
                     e.Domisili,
                     e.Birthdate,

@@ -41,65 +41,6 @@
 
     /* Badge Styles with Pastel Colors and Black Text */
 
-    /* Pastel Teal */
-    .badge-pastel-teal {
-        background-color: #b2dbd5;
-        color: black;
-    }
-
-    /* Pastel Purple */
-    .badge-pastel-purple {
-        background-color: #c9a7eb; /* Pastel purple background color */
-        color: black; /* Black text color */
-    }
-
-    /* Pastel Coral */
-    .badge-pastel-coral {
-        background-color: #ffb8b8; /* Pastel coral background color */
-        color: black; /* Black text color */
-    }
-
-    /* Pastel Gold */
-    .badge-pastel-gold {
-        background-color: #ffd700; /* Pastel gold background color */
-        color: black; /* Black text color */
-    }
-
-    /* Pastel Indigo */
-    .badge-pastel-indigo {
-        background-color: #a4b0f5; /* Pastel indigo background color */
-        color: black; /* Black text color */
-    }
-
-    /* Pastel Rose */
-    .badge-pastel-rose {
-        background-color: #ffc3a0; /* Pastel rose background color */
-        color: black; /* Black text color */
-    }
-
-    /* Pastel Silver */
-    .badge-pastel-silver {
-        background-color: #dcdde1; /* Pastel silver background color */
-        color: black; /* Black text color */
-    }
-
-    /* Pastel Mint */
-    .badge-pastel-mint {
-        background-color: #82ccdd; /* Pastel mint background color */
-        color: black; /* Black text color */
-    }
-
-    /* Pastel Lavender */
-    .badge-pastel-lavender {
-        background-color: #c8a2c8; /* Pastel lavender background color */
-        color: black; /* Black text color */
-    }
-
-    /* Pastel Mustard */
-    .badge-pastel-mustard {
-        background-color: #ffdb58; /* Pastel mustard background color */
-        color: black; /* Black text color */
-    }
 
 
     .form-control {
@@ -139,10 +80,11 @@
     /* CSS untuk mengatur lebar kolom Skillset */
     /*table.dataTable tbody td:nth-child(3) {
 
-                                max-width: 400px;
-                                word-wrap: break-word;
-                                text-overflow: unset;
-                                /*white-space: nowrap;*/
+                                    max-width: 400px;
+                                    word-wrap: break-word;
+                                    text-overflow: unset;
+                                    /*white-space: nowrap;*/
+
 
     /*overflow: clip;*/
     }
@@ -150,9 +92,11 @@
     */
     /*table.dataTable tbody td:nth-child(3) div {
 
-                                    white-space: normal;
-                                    overflow: visible;
-                                }*/
+
+                                        white-space: normal;
+                                        overflow: visible;
+                                    }*/
+
     table.dataTable tbody td:nth-child(14) {
         max-width: 180px;
         word-wrap: break-word;
@@ -210,6 +154,7 @@
                     <th>Skillset</th>
                     <th>Level</th>
                     <th>Education</th>
+                    <th>GPA</th>
                     <th>University</th>
                     <th>Domisili</th>
                     <th>Age</th>
@@ -229,7 +174,7 @@
                     <th>Name of User</th>
                     <th>Interview User</th>
                     <th>Interview Date by User</th>
-                    <th>Level Rekomendation</th>
+                    <th>Level Recommendation</th>
                     <th>Status</th>
                     <th>Notes</th>
                     <th>Last Modified</th>
@@ -280,12 +225,21 @@
                                     <select class="position form-control" id="position" name="position[]" multiple="multiple" style="width: 100%;" required>
                                         <option value="Fullstack">Fullstack</option>
                                         <option value="Data Engineer">Data Engineer</option>
-                                        <option value="Frontend">Frontend</option>
-                                        <option value="Backend">Backend</option>
+                                        <option value="Frontend">Front End</option>
+                                        <option value="Backend">Back End</option>
                                         <option value="Data Science">Data Science</option>
+                                         <option value="Data Analyst">Data Analyst</option>
                                         <option value="Networking">Networking</option>
                                         <option value="RPA">RPA</option>
-
+                                        <option value="Database Administrator">Database Administrator</option>
+                                        <option value="Database Engineer">Database Engineer</option>
+                                        <option value="Database Analyst">Database Analyst</option>
+                                        <option value="Database Analyst">Manual</option>
+                                        <option value="Database Analyst">Automation</option>
+                                        <option value="Technical Writer">Technical Writer</option>
+                                        <option value="Solution Analyst">Solution Analyst</option>
+                                        <option value="Business Analyst">Business Analyst</option>
+                                        <option value="Scrum Master">Scrum Master</option>
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
                                 </p>
@@ -322,6 +276,10 @@
                                         <option value=".Net Core API">.Net Core API</option>
                                         <option value=".Net Core MVC">.Net Core MVC</option>
                                         <option value="Bootstrap">Bootstrap</option>
+                                        <option value="Google Data Studio">Google Data Studio</option>
+                                         <option value="Oracle">Oracle</option>
+                                         <option value="SQL Server">SQL Server</option>
+                                        	
 
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">Please select at least one Skill Set.</span>
@@ -340,7 +298,18 @@
                     </div>
                     <div class="form-group">
                         <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">University</div>
+                            <div class="col" style="color: black">IPK </div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" oninput="numeric(this);" onpaste="numeric(this);" id="ipk" required_>
+                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                                <span class="error-format-ipk" style="color: red; display: none;">Enter the correct GPA!</span>
+                       
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row pl-5 pr-5">
+                            <div class="col" style="color: black">University </div>
                             <div class="col-9">
 
                                 <select id="UniversityName" class="selectUniversity form-control" required>
@@ -596,6 +565,17 @@
                         <label for="" class="col-sm-2 col-form-label">Interview User</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
+
+                            @*<select class="nameUser form-control" id="nameUser" name="nameUser" style="width: 100%;" required>
+                                <option value="ASTRA">ASTRA</option>
+                                <option value="Pertamina">Pertamina</option>
+                                <option value="Mandiri">Mandiri</option>
+                                <option value="BSI">BSI</option>
+                                <option value="Protelindo">Protelindo</option>
+                                <option value="ANTAM">ANTAM</option>
+                                <option value="BSS">BSS</option>
+                            </select>*@
+
                             <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="nameUser">
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
@@ -647,6 +627,15 @@
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label" style="display:none" id="displayUserLabel">Interview User</label>
                         <div class="col-sm-5">
+                            @*<select class="nameUser2 form-control" id="nameUser2" name="nameUser" style="width: 100%; display: none;" requiredUpdate>
+                                <option value="ASTRA">ASTRA</option>
+                                <option value="Pertamina">Pertamina</option>
+                                <option value="Mandiri">Mandiri</option>
+                                <option value="BSI">BSI</option>
+                                <option value="Protelindo">Protelindo</option>
+                                <option value="ANTAM">ANTAM</option>
+                                <option value="BSS">BSS</option>
+                            </select>*@
                             <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" style="display:none" id="nameUser2" requiredUpdate>
                             <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
 
@@ -815,11 +804,21 @@
                                     <select class="position form-control" id="position2" name="position[]" multiple="multiple" style="width: 100%;">
                                         <option value="Fullstack">Fullstack</option>
                                         <option value="Data Engineer">Data Engineer</option>
-                                        <option value="Frontend">Frontend</option>
-                                        <option value="Backend">Backend</option>
+                                        <option value="Frontend">Front End</option>
+                                        <option value="Backend">Back End</option>
                                         <option value="Data Science">Data Science</option>
+                                        <option value="Data Analyst">Data Analyst</option>
                                         <option value="Networking">Networking</option>
                                         <option value="RPA">RPA</option>
+                                        <option value="Database Administrator">Database Administrator</option>
+                                        <option value="Database Engineer">Database Engineer</option>
+                                        <option value="Database Analyst">Database Analyst</option>
+                                        <option value="Database Analyst">Manual</option>
+                                        <option value="Database Analyst">Automation</option>
+                                        <option value="Technical Writer">Technical Writer</option>
+                                        <option value="Solution Analyst">Solution Analyst</option>
+                                        <option value="Business Analyst">Business Analyst</option>
+                                        <option value="Scrum Master">Scrum Master</option>
 
                                     </select>
                                 </div>
@@ -852,6 +851,10 @@
                                             <option value=".Net Core API">.Net Core API</option>
                                             <option value=".Net Core MVC">.Net Core MVC</option>
                                             <option value="Bootstrap">Bootstrap</option>
+                                            <option value="Google Data Studio">Google Data Studio</option>
+                                            <option value="Oracle">Oracle</option>
+                                            <option value="SQL Server">SQL Server</option>
+
 
                                         </select>
                                         <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
@@ -879,7 +882,18 @@
                         </div>
                         <div class="form-group">
                             <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">University</div>
+                                <div class="col" style="color: black">IPK </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="ipk2" oninput="numeric(this);" onpaste="numeric(this);" requiredUpdate>
+                                  
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                     <span class="error-format-ipk-update" style="color: red; display: none;">Enter the correct GPA!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row pl-5 pr-5">
+                                <div class="col" style="color: black">University </div>
                                 <div class="col-9">
                                     <select id="UniversityName2" class="selectUniversity2 form-control" required>
                                         <option></option>
