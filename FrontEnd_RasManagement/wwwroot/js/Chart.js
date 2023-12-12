@@ -92,7 +92,11 @@ $(document).ready(function () {
           }
         })
         var data = [resign, blacklist, transfer];
-        var labels = ["Resign ("+resign+")", "Blacklist ("+blacklist+")", "Transfers ("+transfer+")"];
+        var labels = [
+          { label: "Resign", count: resign },
+          { label: "Blacklist", count: blacklist },
+          { label: "Transfers", count: transfer }
+        ];
         
         myPieChart(data, labels)
 
@@ -363,7 +367,7 @@ function myPieChart(data, labels) {
   // Pie Chart Example
   var ctx = document.getElementById("ChartTurnOver");
   var data = {
-    labels: labels,
+    labels: labels.map(item => `${item.label} (${item.count})`),
     datasets: [{
       data: data,
       backgroundColor: ['#e74a3b', '#5a5c69', '#4e73df'],
@@ -374,33 +378,15 @@ function myPieChart(data, labels) {
 
   var options = {
     maintainAspectRatio: false,
-    plugins: {
-      tooltip: {
-        backgroundColor: "rgb(255,255,255)",
-        bodyFontColor: "#858796",
-        borderColor: '#dddfeb',
-        borderWidth: 1,
-        xPadding: 15,
-        yPadding: 15,
-        displayColors: false,
-        caretPadding: 10,
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var label = data.labels[tooltipItem.index];
+          var labelText = label.replace('(', ': ').replace(')', '');
+          return labelText;
+        },
       },
-      legend: {
-        display: false,
-      },
-      legendCallback: function (chart) {
-        var text = [];
-        text.push('<ul class="list-unstyled mb-0">');
-        for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
-          text.push('<li class="legend-item" onclick="toggleDataset(' + i + ')">');
-          text.push('<span class="legend-color" style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '"></span>');
-          text.push('<span class="legend-text">' + chart.data.labels[i] + '</span>');
-          text.push('</li>');
-        }
-        text.push('</ul>');
-        return text.join('');
-      }
-    },
+    }
   };
 
   var myPieChart = new Chart(ctx, {
