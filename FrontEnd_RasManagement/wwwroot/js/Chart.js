@@ -94,8 +94,9 @@ $(document).ready(function () {
           }
         })
         var data = [resign, blacklist, transfer];
+        var labels = ["Resign ("+resign+")", "Blacklist ("+blacklist+")", "Transfers ("+transfer+")"];
         console.log(data);
-      myPieChart(data)
+        myPieChart(data, labels)
 
       // Sembunyikan loader setelah permintaan selesai
       $("#loader").hide();
@@ -357,14 +358,14 @@ function chartUniv(universitiesData) {
   });
 }
 
-function myPieChart(data) {
+function myPieChart(data, labels) {
   Chart.defaults.global.defaultFontFamily = 'Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
   Chart.defaults.global.defaultFontColor = '#858796';
 
   // Pie Chart Example
   var ctx = document.getElementById("ChartTurnOver");
   var data = {
-    labels: ["Resign", "Blacklist", "Transfer"],
+    labels: labels,
     datasets: [{
       data: data,
       backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
