@@ -3,7 +3,9 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
 <style>
-
+    @* *{
+        border: 1px solid green;
+    } *@
     .badge {
         font-size: 12px;
     }
@@ -77,25 +79,7 @@
         }
     }
 
-    /* CSS untuk mengatur lebar kolom Skillset */
-    /*table.dataTable tbody td:nth-child(3) {
-
-                                    max-width: 400px;
-                                    word-wrap: break-word;
-                                    text-overflow: unset;
-                                    /*white-space: nowrap;*/
-
-
-    /*overflow: clip;*/
-    }
-
-    */
-    /*table.dataTable tbody td:nth-child(3) div {
-
-
-                                        white-space: normal;
-                                        overflow: visible;
-                                    }*/
+    
 
     table.dataTable tbody td:nth-child(14) {
         max-width: 180px;
@@ -207,18 +191,18 @@
                         <input type="text" class="form-control" id="nonrasid" hidden>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Full Name</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Full Name</div>
+                            <div class="col-sm-9 ">
                                 <input type="text" class="form-control " id="Name" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Position</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Position</div>
+                            <div class="col-sm-9">
 
 
                                 <p class="p-0 m-0">
@@ -248,10 +232,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group pl-5 pr-5">
-                        <div class="row">
-                            <div class="col" style="color: black">Skillset</div>
-                            <div class="col-9">
+                    <div class="form-group">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Skillset</div>
+                            <div class="col-sm-9">
                                 <p class="p-0 m-0">
 
                                     <select class="skillset position form-control" id="skillset" name="skillset[]" multiple="multiple" style="width: 100%;" required>
@@ -288,44 +272,42 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Degree</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Degree</div>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" id="degree" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">IPK</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">IPK</div>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" oninput="numeric(this);" onpaste="numeric(this);" id="ipk" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
-                                <span class="error-format-ipk" style="color: red; display: none;">Enter the correct GPA!</span>
-                       
+                                <span class="error-format-ipk" style="color: red; display: none;">Enter the correct GPA!</span>                       
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">University</div>
-                            <div class="col-9">
-                                <p>
-
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">University</div>
+                            <div class="col-sm-9">
+                              <p>
                                 <select id="UniversityName" class="form-control selectUniversity" required>
                                     <option></option>
                                 </select>
-                                </p>
+                              </p>
                                 <span class="error-message-u" style="color: red; display: none;">This field is required!</span>
 
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Domicile</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Domicile</div>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="domicile">
                                 @*<span class="error-message_" style="color: red; display: none;">This field is required!</span>*@
                                 @*<p>
@@ -343,18 +325,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Birthdate </div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Birthdate </div>
+                            <div class="col-sm-9">
                                 <input type="date" class="form-control" id="birthdate">
                                 @*<span class="error-message_" style="color: red; display: none;">This field is required!</span>*@
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Level</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Level</div>
+                            <div class="col-sm-9">
                                 <select id="level" class="selectLevel form-control" name="state" required_>
                                     <option selected disabled>Choose...</option>
                                     <option value="Fresh Graduate">Fresh Graduate</option>
@@ -367,9 +349,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Experience</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Experience</div>
+                            <div class="col-sm-9">
                                 @*<input type="number" class="form-control" id="experience" required>*@
                                 <select id="experience" class="selectExperience form-control" name="state" required_>
                                     <option selected disabled>Choose...</option>
@@ -386,9 +368,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Filtering By</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Filtering By</div>
+                            <div class="col-sm-9">
                                 <select id="filteringby" class="selectFiltering form-control" name="state" required_>
                                     <option selected disabled>Choose...</option>
                                     <option value="Recruitment">Recruitment</option>
@@ -399,9 +381,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Work Status</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-5 col-md-3" style="color: black">Work Status</div>
+                            <div class="col-7 col-md-9">
                                 @*<div class="form-check">
                                 <input type="radio" class="form-check-input" id="Active" name="workstatus" value="Active" required>
                                 <label class="form-check-label" for="radio1">Active</label>
@@ -419,9 +401,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5 ">
-                            <div class="col" style="color: black">Notice Period</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2 ">
+                            <div class="col-sm-3 col-md" style="color: black">Notice Period</div>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="notice" required_>
 
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
@@ -429,9 +411,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Financial Industry</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-5" style="color: black">Financial Industry</div>
+                            <div class="col-sm-9 col-7">
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="financial" name="financial" value="True">
                                     <span class="status-indicator_" style="font-size: smaller">No</span>
@@ -440,27 +422,27 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Raw CV</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Raw CV</div>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" placeholder="https://drive.google.com/" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="rawcv" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Berca CV</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Berca CV</div>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" placeholder="https://drive.google.com/" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="bercacv" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">English</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">English</div>
+                            <div class="col-sm-9">
                                 <select id="english" class="form-control" name="state">
                                     <option selected disabled>Choose...</option>
                                     <option value="Advanced">Advanced</option>
@@ -472,27 +454,27 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Current Salary</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Current Salary</div>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" id="current" onkeyup="formatCurrency(this);" placeholder="Rp ">
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Expected Salary</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Expected Salary</div>
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" id="expected" onkeyup="formatCurrency(this);" placeholder="Rp ">
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row pl-5 pr-5">
-                            <div class="col" style="color: black">Negotiable</div>
-                            <div class="col-9">
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md" style="color: black">Negotiable</div>
+                            <div class="col-sm-9">
                                 <div class="form-check">
                                     <input type="radio" class="form-check-input" id="Yes" name="nego" value="true">
                                     <label class="form-check-label" for="radio1">Yes</label>
@@ -791,18 +773,18 @@
                             <input type="text" class="form-control" id="nonrasid2" hidden>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Full Name</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Full Name</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control " id="Name2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Position</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Position</div>
+                                <div class="col-sm-9">
                                     <select class="position form-control" id="position2" name="position[]" multiple="multiple" style="width: 100%;">
                                         <option value="Fullstack">Fullstack</option>
                                         <option value="Data Engineer">Data Engineer</option>
@@ -826,10 +808,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group pl-5 pr-5">
+                        <div class="form-group pl-4 pr-4">
                             <div class="row">
-                                <div class="col" style="color: black">Skillset</div>
-                                <div class="col-9">
+                                <div class="col-sm-3 col-md" style="color: black">Skillset</div>
+                                <div class="col-sm-9">
                                     <p class="p-0 m-0">
                                         <select class="skillset form-control" id="skillset2" name="skillset[]" multiple="multiple" style="width: 100%;">
                                             <option value="Laravel">Laravel</option>
@@ -865,27 +847,27 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Domicile</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Domicile</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" id="domicile2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Degree</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Degree</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" id="degree2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">IPK </div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">IPK</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" id="ipk2" oninput="numeric(this);" onpaste="numeric(this);" requiredUpdate>
                                   
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
@@ -894,10 +876,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">University</div>
-                                <div class="col-9">
-                                    <select id="UniversityName2" class="form-control selectUniversity2" required>
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">University </div>
+                                <div class="col-sm-9">
+                                    <select id="UniversityName2" class="selectUniversity2 form-control" required>
                                         <option></option>
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
@@ -905,18 +887,18 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Birthdate </div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Birthdate </div>
+                                <div class="col-sm-9">
                                     <input type="date" class="form-control" id="birthdate2" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Level</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Level</div>
+                                <div class="col-sm-9">
                                     <select id="level2" class="selectLevel form-control" name="state" required>
                                         <option value="Fresh Graduate">Fresh Graduate</option>
                                         <option value="Junior">Junior</option>
@@ -928,9 +910,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Experience</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Experience</div>
+                                <div class="col-sm-9">
                                     <select id="experience2" class="selectExperience form-control" name="state" required>
                                         <option value="< 1 Years">< 1 Year</option>
                                         <option value="1 Year">1 Year</option>
@@ -944,9 +926,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Filtering By</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Filtering By</div>
+                                <div class="col-sm-9">
                                     <select id="filteringby2" class="selectFiltering form-control" name="state" required>
                                         <option value="Recruitment">Recruitment</option>
                                         <option value="RAS">RAS</option>
@@ -956,9 +938,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Work Status</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-5" style="color: black">Work Status</div>
+                                <div class="col-sm-9 col-7">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="workstatus2" name="workstatus2" value="true">
                                     </div>
@@ -966,18 +948,18 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5 ">
-                                <div class="col" style="color: black">Notice Period</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4 ">
+                                <div class="col-sm-3 col-md" style="color: black">Notice Period</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" id="notice2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Financial Industry</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-5" style="color: black">Financial Industry</div>
+                                <div class="col-sm-9 col-7">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="financial2" name="financial" value="True" required>
                                     </div>
@@ -986,27 +968,27 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Raw CV</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Raw CV</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="rawcv2" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Berca CV</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Berca CV</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="bercacv2" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">English</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">English</div>
+                                <div class="col-sm-9">
                                     <select id="english2" class="selectFiltering form-control" name="state" required>
                                         <option value="Advanced">Advanced</option>
                                         <option value="Intermediate">Intermediate</option>
@@ -1017,27 +999,27 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Current Salary</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Current Salary</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" id="current2" required onkeyup="formatCurrency(this);" placeholder="Rp ">
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Expected Salary</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Expected Salary</div>
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" id="expected2" required onkeyup="formatCurrency(this);" placeholder="Rp ">
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="row pl-5 pr-5">
-                                <div class="col" style="color: black">Negotiable</div>
-                                <div class="col-9">
+                            <div class="row pl-4 pr-4">
+                                <div class="col-sm-3 col-md" style="color: black">Negotiable</div>
+                                <div class="col-sm-9">
                                     <div class="form-check">
                                         <input type="radio" class="form-check-input" id="Yes2" name="nego2" value="true">
                                         <label class="form-check-label" for="radio1">Yes</label>
@@ -1083,9 +1065,10 @@
 *@
 <script>
     $(document).ready(function () {
-        $('input[required_], select[required], select[required_]').each(function () {
+        $('input[required_], input[required], select[required], select[required_]').each(function () {
                 // Find the closest div with class 'col' and add a red asterisk
-                $(this).closest('.row').find('.col').append('<span style="color: red;">*</span>');
+                $(this).closest('.row').find('.col-sm-3').append('<span style="color: red;">*</span>');
+                @* $(this).closest('.row').find('.col-sm-3').append('<span style="color: red;">*</span>'); *@
             });
         $('#collapseExample').on('show.bs.collapse', function () {
             // Di sini, Anda bisa mengubah teks tombol saat kolaps ditampilkan
