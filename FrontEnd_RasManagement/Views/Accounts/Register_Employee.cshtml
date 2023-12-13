@@ -61,9 +61,9 @@
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <label class="text-dark" for="exampleInputEmail1">Contract Duration</label>
+                    <label class="text-dark" for="duration">Contract Duration</label>
                     <div class="input-group">
-                        <input type="number" class="form-control " id="duration" onkeyup="SetEndContract(this.value);" name="duration" disabled required>
+                        <input type="number" class="form-control " id="duration" onkeyup="SetEndContract(this.value);" name="duration"  required>
                         <div class="input-group-append">
                             <span class="input-group-text">Month</span>
                         </div>
@@ -75,12 +75,12 @@
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Start Contract</label>
-                    <input type="date" class="form-control " id="start" name="start">
+                    <input type="date" class="form-control " id="start" name="start" required>
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
                 <div class="col-sm-6">
                     <label class="text-dark" for="exampleInputEmail1">End Contract</label>
-                    <input type="date" class="form-control " id="end" name="end" disabled>
+                    <input type="date" class="form-control " id="end" name="end" >
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
             </div>
@@ -97,21 +97,15 @@
 
 
 <script>
-    //function showBatch() {
-    //    const batch = document.getElementById("batch");
-    //    const radioButtons = document.getElementsByName("hiredStatus");
-    //    if (role == 'admin') {
-
-    //        status.style.display = "none";
-    //        radioButtons.forEach((radio) => {
-    //            radio.checked = false;
-    //        });
-    //    } else {
-    //        status.style.display = "block";
-    //    }
-
-    //}
-
+   
+$(document).ready(function () {
+  $('input[required]').each(function () {
+     $(this).prev('label').append('<span style="color: red;">*</span>');
+     $(this).closest('.form-check').prev('label').append('<span style="color: red;">*</span>');
+     $(this).closest('.input-group').prev('label').append('<span style="color: red;">*</span>');
+     
+  });
+})
     
     document.getElementById('prohire').addEventListener('click', function() {        
         $('#duration').val('');
@@ -400,7 +394,7 @@
             } else {
                 isValidCharacter = false;
                 validateName = false;
-                errorMessage = "No Number";
+                errorMessage = "The field can only use letters.";
             }
         }
 

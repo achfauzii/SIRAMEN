@@ -98,6 +98,8 @@ namespace FrontEnd_RasManagement.Controllers
             {
                 await mailService.SendEmailBeritaKelahiran(request);
 
+                Console.WriteLine(request.ToString());
+
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Email has been sent" });
 
             }

@@ -46,7 +46,7 @@
             </div>
             <div class="row">
                 <div class="col-3" style="color: black">Birth</div>
-                <div class="col-9" style="color: black">: @employeeData.birthplace, @employeeData.birthdate.ToString("dd/MM/yyyy")</div>
+                <div class="col-9" style="color: black">: @employeeData.birthplace@employeeData.birthdate.ToString(", "+"dd/MM/yyyy")</div>
             </div>
 
             <div class="row">
@@ -232,3 +232,14 @@
 </div>
 
 <script src="~/js/ManageEmployee.js"></script>
+<script>
+    document.getElementById("startDate").min = new Date().toISOString().split("T")[0];
+    document.getElementById("endDate").addEventListener('change', function(e){
+        if(e.target.value < $('#startDate').val()){
+            $('#Update').addClass('disabled');
+            return;
+        } else {
+            $('#Update').removeClass('disabled');
+        }
+    });
+</script>

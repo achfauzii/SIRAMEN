@@ -133,6 +133,18 @@
         </div>
     </div>
 </div>
+<!-- Bar Chart turnover-->
+
+<div class="card shadow mb-4 d-none d-lg-block">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Turn Over Employee</h6>
+    </div>
+    <div class="card-body">
+        <div class="chart-bar" >
+            <canvas id="ChartTurnOver"></canvas>
+        </div>
+    </div>
+</div>
 <!-- Loader-->
 <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0; ">
     <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
@@ -142,7 +154,10 @@
         </div>
     </div>
 </div>
-@*<script src="~/js/Chart.js"></script>*@
+<script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/chart.js/Chart.min.js"></script>
+<script src="~/js/Chart.js"></script>
+@* <script src="~/js/site.js"></script> *@
+<script src="~/js/Account.js"></script>
 <script>
     function updateClock() {
         var now = new Date();
@@ -153,4 +168,33 @@
     }
 
     setInterval(updateClock, 1000); // Update setiap detik
+    $("#adminAnnouncement").hide();
+
+    $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    //GetBirthday
+    $.ajax({
+        type: "GET",
+        url: "https://localhost:7177/api/Accounts/BirthDay",
+        contentType: "application/json; charset=utf-8",
+        headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        if (result.status == 200) {
+        document.getElementById("birthday").innerHTML = "";
+        var text = "";
+        result.data.name.forEach((item) => {
+            text += item + ", ";
+        });
+        $("#adminAnnouncement").show();
+
+        document.getElementById("birthday").innerHTML =
+            text.substr(0, text.length - 2) + ".";
+        } else if (result.status == 404) {
+        document.getElementById("birthday").innerHTML = "";
+        $("#adminAnnouncement").hide();
+        }
+    });
+    });
 </script>

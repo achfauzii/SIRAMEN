@@ -11,6 +11,7 @@ $(document).ready(function () {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     },
+     
 
     columns: [
       {
@@ -22,7 +23,19 @@ $(document).ready(function () {
       { data: "name" },
       { data: "activity" },
       {
-        data: null,
+          data: "timeStamp",
+          type: "date",
+      },
+    ],
+
+    order: [[3, "desc"]],
+    columnDefs: [
+      {
+        targets: [0, 2],
+        orderable: false,
+      },
+      {
+        targets: 3,
         render: function (data, type, row, meta) {
           let timeStamp = new Date(Date.parse(row.timeStamp));
           const formatter = new Intl.DateTimeFormat("id-ID", {
@@ -34,15 +47,8 @@ $(document).ready(function () {
           //   return row.timeStamp.substr(11) + " " + row.timeStamp.substr(0, 10);
         },
       },
-    ],
-
-    order: [[3, "desc"]],
-    columnDefs: [
-      {
-        targets: [0, 2],
-        orderable: false,
-      },
-    ],
+      ],
+      order: [[3, "desc"]],
     //Agar nomor tidak berubah
     drawCallback: function (settings) {
       var api = this.api();

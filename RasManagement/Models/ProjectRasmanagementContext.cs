@@ -404,6 +404,10 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.IntwUser)
                 .IsUnicode(false)
                 .HasColumnName("Intw_User");
+            entity.Property(e => e.Ipk)
+                .HasMaxLength(5)
+                .IsUnicode(false)
+                .HasColumnName("Ipk");
             entity.Property(e => e.LastModified)
                 .HasColumnType("date")
                 .HasColumnName("Last_Modified");
@@ -484,10 +488,10 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("NonRAS_Id");
-/*
-            entity.HasOne(d => d.NonRas).WithMany(p => p.OfferingProcesses)
-                .HasForeignKey(d => d.NonRasId)
-                .HasConstraintName("FK_Offering_Process_Offering_Process");*/
+            /*
+                        entity.HasOne(d => d.NonRas).WithMany(p => p.OfferingProcesses)
+                            .HasForeignKey(d => d.NonRasId)
+                            .HasConstraintName("FK_Offering_Process_Offering_Process");*/
         });
 
         modelBuilder.Entity<Placement>(entity =>

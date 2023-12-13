@@ -1,13 +1,65 @@
 let validName = true;
 let validNickName = true;
 let validBirthPlace = true;
+$("#employeeAnnouncement").hide();
+
 $(document).ready(function () {
-    // Mendapatkan nilai parameter accountId dari URL
-    loadDataA();
-    $("#editDetailsBtn").on("click", function () {
-        loadDataA(); // Reload the data before opening the modal
-        $("#myModal").modal("show"); // Show the modal after loading the data
-    });
+  $('[data-toggle="tooltip"]').tooltip();
+  //GetBirthday
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/Accounts/BirthDay",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result.status == 200) {
+      document.getElementById("birthday").innerHTML = "";
+      var text = "";
+      result.data.name.forEach((item) => {
+        text += item + ", ";
+      });
+      $("#employeeAnnouncement").show();
+
+      document.getElementById("birthday").innerHTML =
+        text.substr(0, text.length - 2) + ".";
+    } else if (result.status == 404) {
+      document.getElementById("birthday").innerHTML = "";
+      $("#employeeAnnouncement").hide();
+    }
+  });
+
+  // Mendapatkan nilai parameter accountId dari URL
+  loadDataA();
+  $("#editDetailsBtn").on("click", function () {
+    loadDataA(); // Reload the data before opening the modal
+    $("#myModal").modal("show"); // Show the modal after loading the data
+  });
+
+  const selectReligion = $("#editReligion");
+  $(selectReligion).select2({
+    placeholder: "Select a religion",
+    width: "100%",
+    allowClear: true,
+    tags: true,
+  });
+
+  $("#editName, #editNickName, #editBirthPlace").on("keyup", function () {
+    var value = $(this).val();
+    var maxLength = 50; // Default max length
+    var errorMessage = "";
+
+    if ($(this).is("#editName")) {
+      maxLength = 50;
+      errorMessage = "Fullname should not exceed 50 characters";
+    } else if ($(this).is("#editNickName")) {
+      maxLength = 20;
+      errorMessage = "Nickname should not exceed 20 characters";
+    } else if ($(this).is("#editBirthPlace")) {
+      maxLength = 50;
+      errorMessage = "Birthplace should not exceed 50 characters";
+    }
 
     const selectReligion = $("#editReligion");
     $(selectReligion).select2({
@@ -78,81 +130,81 @@ function toPascalCase(str) {
 
 
 function loadDataA() {
-    $("#loader").show();
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
-    var imgElement = $("#employeePhoto");
-    $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-            var obj = result.data.result; // Data yang diterima dari API
-            var birthDate = obj.birthdate;
-            const date = new Date(birthDate);
-            const options = { day: "numeric", month: "long", year: "numeric" };
-            const date_ = date.toLocaleDateString("id-ID", options);
+  $("#loader").show();
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
+  var imgElement = $("#employeePhoto");
+  $.ajax({
+    url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
+    type: "GET",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (result) {
+      var obj = result.data.result; // Data yang diterima dari API
+      var birthDate = obj.birthdate;
+      const date = new Date(birthDate);
+      const options = { day: "numeric", month: "long", year: "numeric" };
+      const date_ = date.toLocaleDateString("id-ID", options);
 
-            $("#nameFull").text(obj.fullname);
-            $("#nik").text("NIK : " + (obj.nik == null ? "-" : obj.nik));
-            $("#nickName").text(
-                obj.nickname == null ? obj.nickname : toPascalCase(obj.nickname)
-            );
-            $("#birthPlace").text(
-                obj.birthplace == null
-                    ? obj.birthplace
-                    : toPascalCase(obj.birthplace) + ", "
-            );
+      $("#nameFull").text(obj.fullname);
+      $("#nik").text("NIK : " + (obj.nik == null ? "-" : obj.nik));
+      $("#nickName").text(
+        obj.nickname == null ? obj.nickname : toPascalCase(obj.nickname)
+      );
+      $("#birthPlace").text(
+        obj.birthplace == null
+          ? obj.birthplace
+          : toPascalCase(obj.birthplace) + ", "
+      );
 
-            $("#birthDate").text(birthDate ? date_ : "");
-            // Set birth date input value
-            if (obj.birthdate) {
-                $("#editBirthDate").val(obj.birthdate.substring(0, 10));
-            } else {
-                $("#editBirthDate").val("");
-            }
+      $("#birthDate").text(birthDate ? date_ : "");
+      // Set birth date input value
+      if (obj.birthdate) {
+        $("#editBirthDate").val(obj.birthdate.substring(0, 10));
+      } else {
+        $("#editBirthDate").val("");
+      }
 
-            $("#gender").text(obj.gender);
-            $("#religion").text(obj.religion);
-            $("#martialStatus").text(obj.maritalstatus);
-            $("#nationality").text(obj.nationality);
-            $("#address").text(obj.address);
+      $("#gender").text(obj.gender);
+      $("#religion").text(obj.religion);
+      $("#martialStatus").text(obj.maritalstatus);
+      $("#nationality").text(obj.nationality);
+      $("#address").text(obj.address);
 
-            // Set employee photo
-            if (obj.image != null) {
-                imgElement.attr("src", obj.image);
-                imgElement.attr("alt", obj.fullname + "'s photo");
-            } else {
-                imgElement.attr("src", "/assets/photo/Default.png");
-                imgElement.attr("alt", "");
-            }
+      // Set employee photo
+      if (obj.image != null) {
+        imgElement.attr("src", obj.image);
+        imgElement.attr("alt", obj.fullname + "'s photo");
+      } else {
+        imgElement.attr("src", "/assets/photo/Default.png");
+        imgElement.attr("alt", "");
+      }
 
-            // Populate the form fields in the modal with the retrieved data
-            $("#accountId").val(obj.accountId);
-            $("#editName").val(obj.fullname);
-            $("#editNickName").val(obj.nickname);
-            $("#editBirthPlace").val(obj.birthplace);
-            $("#editGender").val(obj.gender);
-            $("#editReligion").val(obj.religion);
-            $("#editMartialStatus").val(obj.maritalstatus);
-            $("#editNationality").val(obj.nationality);
-            $("#editAddress").val(obj.address);
+      // Populate the form fields in the modal with the retrieved data
+      $("#accountId").val(obj.accountId);
+      $("#editName").val(obj.fullname);
+      $("#editNickName").val(obj.nickname);
+      $("#editBirthPlace").val(obj.birthplace);
+      $("#editGender").val(obj.gender);
+      $("#editReligion").val(obj.religion);
+      $("#editMartialStatus").val(obj.maritalstatus);
+      $("#editNationality").val(obj.nationality);
+      $("#editAddress").val(obj.address);
 
-            if (obj.isChangePassword == 0) {
-                $("#passwordAnnounce").show();
-            } else {
-                $("#passwordAnnounce").hide();
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        },
-    });
-    $("#loader").hide();
+      if (obj.isChangePassword == 0) {
+        $("#passwordAnnounce").show();
+      } else {
+        $("#passwordAnnounce").hide();
+      }
+    },
+    error: function (errormessage) {
+      alert(errormessage.responseText);
+    },
+  });
+  $("#loader").hide();
 }
 
 function parseJwt(token) {
@@ -186,26 +238,30 @@ function clearMessage() {
     $(".error-message").hide();
 }
 
+function clearMessage() {
+  $(".error-message").hide();
+}
+
 function ClearScreen() {
-    alert("coba");
-    $("#accountId").val("");
-    $("#editName").val("");
-    $("#editNickName").val("");
-    $("#editBirthPlace").val("");
-    $("#editBirthDate").val("");
-    $("#editGender").val("");
-    $("#editReligion").selectedindex = "0";
-    $("#editMartialStatus").selectedindex = "0";
-    $("#editNationality").selectedindex = "0";
-    $("#editAddress").val("");
-    $("input[required]").each(function () {
-        var input = $(this);
-        input.next(".error-message").hide();
-    });
-    $("select[required]").each(function () {
-        var input = $(this);
-        input.next(".error-message").hide();
-    });
+  alert("coba");
+  $("#accountId").val("");
+  $("#editName").val("");
+  $("#editNickName").val("");
+  $("#editBirthPlace").val("");
+  $("#editBirthDate").val("");
+  $("#editGender").val("");
+  $("#editReligion").selectedindex = "0";
+  $("#editMartialStatus").selectedindex = "0";
+  $("#editNationality").selectedindex = "0";
+  $("#editAddress").val("");
+  $("input[required]").each(function () {
+    var input = $(this);
+    input.next(".error-message").hide();
+  });
+  $("select[required]").each(function () {
+    var input = $(this);
+    input.next(".error-message").hide();
+  });
 }
 
 function GetById(accountId) {
@@ -260,7 +316,8 @@ function GetById(accountId) {
 function clear() {
     $(".error-message").hide()
 }
-function updateData() {
+
+  function updateData() {
     var accountId = $("#accountId").val();
     var isValid = true;
 

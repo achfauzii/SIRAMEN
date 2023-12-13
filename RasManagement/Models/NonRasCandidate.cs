@@ -51,6 +51,8 @@ public partial class NonRasCandidate
 
     public string? IntwUser { get; set; }
 
+    public string? Ipk { get; set; }
+
     public string? NameOfUser { get; set; }
 
     public string? IntwDateUser { get; set; }

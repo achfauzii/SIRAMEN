@@ -18,7 +18,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    //[Authorize(Roles = "Employee,Admin,Super_Admin")]
     public class AccountsController : ControllerBase
     {
         private readonly IUnitWork _unitWork;
@@ -376,7 +376,7 @@ namespace RasManagement.Controllers
                 }
             }
 
-            if (birthday.Count > 0)
+            if (email.Count > 0)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil ditemukan", Data = new { email = email, name = birthday } });
             }
@@ -384,9 +384,25 @@ namespace RasManagement.Controllers
             {
                 return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data tidak dapat ditemukan", });
             }
-
         }
 
+        [HttpDelete("Delete/{key}")]
+        public IActionResult DeleteAccount(string key)
+        {
+            var delete = accountRepository.Delete(key);
+            if (delete >= 1)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Dihapus", Data = delete });
+            }
+            else if (delete == 0)
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data dengan Id " + key + "Tidak Ditemukan", Data = delete });
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = delete });
+            }
+        }
     }
 
 }
