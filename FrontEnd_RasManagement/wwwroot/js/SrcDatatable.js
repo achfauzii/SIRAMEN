@@ -931,8 +931,9 @@ function Src(selectedCategory) {
 function ClearScreenSave() {
     $('#nonrasid').val('');
     $('#Name').val(''); //value insert dari id pada input
-    $('#position').val('');;
-    $('#skillset').val('');
+    
+    $('#position').val(null).trigger('change');
+    $('#skillset').val(null).trigger('change');
     $('#degree').val('');
     $('#ipk').val('');
     $('#UniversityName').val('');
@@ -973,8 +974,8 @@ function ClearScreenUpt() {
     //let data = table.row(row).data();
     $('#nonrasid2').val('');
     $('#Name2').val(''); //value insert dari id pada input
-    $('#position2').val('');
-    $('#skillset2').val('');
+    $('#position2').val(null).trigger('change');
+    $('#skillset2').val(null).trigger('change');
     $('#degree2').val('');
     $('#ipk2').val('');
     $('#UniversityName2').val('');
@@ -1053,41 +1054,31 @@ function ClearScreenUpt() {
 function getUniversitasListt() {
     //const selectUniversity = document.getElementById('UniversityName');
     const selectUniversity2 = document.getElementById('UniversityName2');
+
     $.ajax({
-        url: "https://localhost:7177/api/Universitas",
+        url: "../assets/file_json/loadpt.json",
         type: "GET",
         dataType: "json",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            var universities = result.data;
-
-
-            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-
-
-            universities.forEach(function (university) {
-                //console.log(university);
+            // var universities = result.data;
+            result.forEach(function (university) {
                 const option = document.createElement('option');
-                option.value = university.namaUniversitas;
-                option.textContent = university.namaUniversitas;
-                //selectUniversity.appendChild(option);
+                option.value = university.nama_pt;
+                option.textContent = university.nama_pt;
                 selectUniversity2.appendChild(option);
             });
 
-            /*$(selectUniversity).select2({
-                placeholder: 'Select university',
-                width: '100%',
-
-            });*/
+       
             $(selectUniversity2).select2({
                 placeholder: 'Select university',
                 width: '100%',
-
-                dropdownParent: $('#offeringSourceList'),
+                allowClear: true,
                 tags: true,
+                minimumInputLength: 3,
+                dropdownParent: $('#offeringSourceList'),
 
             });
         },
@@ -1099,36 +1090,26 @@ function getUniversitasListt() {
 
 function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
-
     $.ajax({
-        url: "https://localhost:7177/api/Universitas",
+        url: "../assets/file_json/loadpt.json",
         type: "GET",
         dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
+       
         success: function (result) {
-            var universities = result.data;
-
-
-            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-
-
-            universities.forEach(function (university) {
-
+            result.forEach(function (university) {
                 const option = document.createElement('option');
-                option.value = university.namaUniversitas;
-                option.textContent = university.namaUniversitas;
+                option.value = university.nama_pt;
+                option.textContent = university.nama_pt;
                 selectUniversity.appendChild(option);
             });
 
-            $('.selectUniversity').select2({
+            $(selectUniversity).select2({
                 placeholder: 'Select university',
                 width: '100%',
+                allowClear: true,
                 tags: true,
+                minimumInputLength: 3,
                 dropdownParent: $('#Modal')
-
             });
         },
         error: function (errormessage) {
@@ -1201,7 +1182,7 @@ function formInputLocation() {
 
 }
 
-function getBadgeColor(skill) {
+/*function getBadgeColor(skill) {
     // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
     if (skill.toLowerCase().includes(".net web api")) {
         return "badge-pastel-teal"; // Warna biru
@@ -1285,7 +1266,7 @@ function getBadgeColorPosition(position) {
     else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
-}
+}*/
 
 function Save() {
 
@@ -1313,22 +1294,7 @@ function Save() {
         }
     });
 
-    /*$('input[type="radio"][name="workstatus"]').each(function () {
-        if ($(this).is(':checked')) {
-            isValid = true;
-        }
-    });*/
-
-    /*$('select[required_]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message_').show();
-            isValid = false;
-        } else {
-            input.next('.error-message_').hide();
-        }
-    });*/
-
+ 
     // Validasi select options
     //var selectedRegencies = $('#selectRegencies').val();
     var selectedUniversity = $('#UniversityName').val();
@@ -1546,19 +1512,6 @@ function Update() {
     var newIntwUser = $('#displayUserItw').val();
     var newDateIntwUser = $('#dateIntwUserr').val();
 
-
-    /* console.log('Name User:', nameUser);
-     console.log('Interview User:', intwUser);
-     console.log('Date Interview User:', dateIntwUser);
-     console.log('Name User Hidden:', nameUserHidden);
-     console.log('Interview User 2:', intwUser2);
-     console.log('Date Interview User 2:', dateIntwUser2);
-     console.log('Interview User Hidden:', intwUserHidden);
-     console.log('Date Interview User Hidden:', dateIntwUserHidden);
- 
-     console.log('newNameUser:', newNameUser);
-     console.log('newIntwUser:', newIntwUser);
-     console.log('newDateIntwUser:', newDateIntwUser);*/
     if ($('#displayUserItw').is(':visible')) {
         if ($('#displayUserItw').val() === null) {
             $('.error-message-update').css('display', 'block');
@@ -1733,7 +1686,7 @@ function Update() {
 
 }
 
-function newOfferingFields() {
+/*function newOfferingFields() {
     document.getElementById('displayDateIntwUser2').style.display = "block";
     document.getElementById('displayIntwUser2').style.display = "block";
 }
@@ -1743,7 +1696,7 @@ function newProses2() {
     document.getElementById('displayDateIntwUser3').style.display = "block";
 
 
-}
+}*/
 
 
 function formatCurrency(input) {
@@ -1839,19 +1792,19 @@ function createNavigation(categories) {
     // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
     if (screenWidth <= 1024) {
 
-        maxVisibleCategories = 5; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 5; 
     }
     if (screenWidth < 850) {
 
-        maxVisibleCategories = 4; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 4; 
     }
     if (screenWidth < 750) {
 
-        maxVisibleCategories = 3; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 3; 
     }
     if (screenWidth <= 500) {
 
-        maxVisibleCategories = 1; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 1; 
     }
     const navList = document.createElement('ul');
     navList.className = 'nav nav-tabs';
