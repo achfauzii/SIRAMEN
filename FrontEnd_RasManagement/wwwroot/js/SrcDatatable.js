@@ -11,8 +11,8 @@ $(document).ready(function () {
     //Src();
     Src('all');
     getUniversitasListt();
-  
-   
+
+
     $('.position').select2();
     $('.skillset').select2({
         tags: true
@@ -261,7 +261,7 @@ function Src(selectedCategory) {
 
 
                     //console.log(age);
-                    return age; 
+                    return age;
                 }
             },
 
@@ -632,6 +632,7 @@ function Src(selectedCategory) {
 
     table.on('click', 'tbody tr i', function () {
         // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
+
         let row = $(this).closest('tr');
         let data = table.row(row).data();
         $('#offeringSourceList').modal('show');
@@ -666,7 +667,10 @@ function Src(selectedCategory) {
 
         $('#degree2').val(data.education);
         $('#ipk2').val(data.ipk);
-        $('#UniversityName2').val(data.university);
+        //$('#UniversityName2').val(data.university);
+        const selectUniversities = $("#UniversityName2");
+        selectUniversities.val(data.university).trigger("change");
+
         $('#domicile2').val(data.domisili);
 
 
@@ -711,7 +715,7 @@ function Src(selectedCategory) {
             $("#No2").prop("checked", false);
         }
 
-     
+
 
         $('#intwByRAS').val(data.intwByRas);
 
@@ -730,9 +734,47 @@ function Src(selectedCategory) {
         //var intwByRAS = data.intwByRas; // Gantilah dengan data sebenarnya dari database
 
         // Cek apakah data #intwByRAS sudah ada
+        const selectNameUser = $("#nameUser");        
+        selectNameUser.val(data.nameOfUser).trigger("change");       
+
+        const selectNameUser2 = $("#nameUser2");
+        const dataNameUser = data.nameOfUser;
+        if (dataNameUser == null) {
+            selectNameUser2.val(null).trigger("change");
+        }
+        else if (!dataNameUser.includes('<br/>')) {
+            const optionNotExists = selectNameUser2.find("option[value='" + dataNameUser + "']").length === 0;
+
+            if (optionNotExists) {
+                const newOption = new Option(dataNameUser, dataNameUser, true, true);
+                selectNameUser2.append(newOption).trigger('change');
+            }
+            selectNameUser2.val(null).trigger("change");
+        } else {
+            const nameOfUserArray = dataNameUser.split('<br/>');
+            nameOfUserArray.forEach(value => {
+                const optionNotExists = selectNameUser2.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    console.log(newOption);
+                    selectNameUser2.append(newOption).trigger('change');
+                }
+            });
+            selectNameUser2.val(null).trigger("change");
+
+        }
+
 
         if (data.intwByRas) {
             if (data.intwUser == null || data.nameOfUser == null || data.intwDateUser == null) {
+                $(selectNameUser).select2({
+                    width: '100%',
+                    tags: true,
+                    dropdownParent: $('#offeringSourceList')
+                });
+                
+               
                 $('#intwUser').val(data.intwUser).prop('disabled', false);
                 $('#nameUser').val(data.nameOfUser).prop('disabled', false);
                 $('#dateIntwUser').val('').prop('disabled', false);
@@ -748,6 +790,19 @@ function Src(selectedCategory) {
                   for (var i = 0; i < elems.length; i += 1) {
                       elems[i].style.display = 'block';
                   }*/
+                $(selectNameUser).select2({
+                    width: '100%',
+                    tags: true,
+                    dropdownParent: $('#offeringSourceList')
+                });
+                const optionNotExists = selectNameUser.find("option[value='" + dataNameUser + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(dataNameUser, dataNameUser, true, true);
+                    selectNameUser.append(newOption).trigger('change');
+
+                }
+                selectNameUser.val(dataNameUser).trigger("change");
                 $('#intwUser').val(data.intwUser).prop('disabled', false);
                 $('#nameUser').val(data.nameOfUser).prop('disabled', false);
                 $('#dateIntwUser').val('').prop('disabled', false);
@@ -761,7 +816,16 @@ function Src(selectedCategory) {
                 const intwUserArray = data.intwUser.split('<br/>');
                 const nameOfUserArray = data.nameOfUser.split('<br/>');
                 const intwDateUserArray = data.intwDateUser.split('<br/>');
+                
+                nameOfUserArray.forEach(value => {
+                    const optionNotExists = selectNameUser.find("option[value='" + value + "']").length === 0;
 
+                    if (optionNotExists) {
+                        const newOption = new Option(value, value, true, true);
+                        selectNameUser.append(newOption).trigger('change');
+                    }
+                });
+                selectNameUser.val(nameOfUserArray).trigger("change");
                 const lastIntwUser = intwUserArray[intwUserArray.length - 1];
                 const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
                 const lastIntwDateUser = intwDateUserArray[intwDateUserArray.length - 1];
@@ -820,7 +884,7 @@ function Src(selectedCategory) {
                     containerElement.style.display = "block";
                     // Create labels for user information
                     const judulLabel = document.createElement('label');
-                    judulLabel.classList.add('col-sm-2', 'col-form-label','align-top');
+                    judulLabel.classList.add('col-sm-2', 'col-form-label', 'align-top');
                     judulLabel.innerHTML = `Interview by ${userName}`;
 
                     const intwLabel = document.createElement('label');
@@ -855,13 +919,16 @@ function Src(selectedCategory) {
             $('#nameUser').prop('disabled', true);
             $('#dateIntwUser').prop('disabled', true);
         }
+        console.log(data.intwUser);
 
         if (data.intwUser) {
             /*var offer = document.getElementById("formoffer");
             offer.show();*/
             $('#offer').show();
+            console.log(data.intwUser);
         } else {
             $('#offer').hide();
+            console.log(data.intwUser);
         }
 
         /*if (data.intwDateUser) {
@@ -997,8 +1064,13 @@ function ClearScreenUpt() {
     }*/
     $('#displayIntwUser2').val('').hide();
     $('#displayDateIntwUser2').val('').hide();
-    $('#displayNameUser2').val('').hide();
-
+    //$('#nameUser').empty().next().hide();
+    
+    //$('#nameUser2').select2();
+    $('#nameUser2').next().hide();
+    $('#nameUser2').trigger("change");
+    
+   
     $('.btn[data-target="#collapseExample"]').text('Show 19 hidden fields');
     $('#collapseExample').collapse('hide');
 
@@ -1475,6 +1547,8 @@ function Update() {
     NonRasCandidate.intwByRas = $('#intwByRAS').val();
 
 
+
+    debugger;
     //New User
     var nameUser = $('#nameUser').val();
     var intwUser = $('#intwUser').val();
@@ -1488,6 +1562,8 @@ function Update() {
     var newNameUser = $('#nameUser2').val();
     var newIntwUser = $('#displayUserItw').val();
     var newDateIntwUser = $('#dateIntwUserr').val();
+
+
 
 
     /* console.log('Name User:', nameUser);
@@ -1525,35 +1601,35 @@ function Update() {
         return;
     }
 
-    if (nameUser !== "" && nameUserHidden == "" && intwUser !== "" && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == "" && newIntwUser == null && newDateIntwUser == "") {
+    if (nameUser !== null && nameUserHidden == "" && intwUser !== "" && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
         var nameUser_ = nameUser;
         var intwUser_ = intwUser;
         var dateIntwUser_ = dateIntwUser;
         console.log("AA");
-    } else if (nameUser !== "" && nameUserHidden == "" && intwUser !== null && dateIntwUser !== "" && intwUser2 !== null && dateIntwUser2 !== "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == "" && newIntwUser == null && newDateIntwUser == "") {
+    } else if (nameUser !== null && nameUserHidden == "" && intwUser !== null && dateIntwUser !== "" && intwUser2 !== null && dateIntwUser2 !== "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
         var nameUser_ = nameUser + "<br/>" + nameUser;
         var intwUser_ = intwUser + "<br/>" + intwUser2;
         var dateIntwUser_ = dateIntwUser + "<br/>" + dateIntwUser2;
         console.log("BB");
-    } else if (nameUser !== "" && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 !== null && dateIntwUser2 !== "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser == "" && newIntwUser == null && newDateIntwUser == "") {
+    } else if (nameUser !== null && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 !== null && dateIntwUser2 !== "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
         var nameUser_ = nameUserHidden + nameUser + "<br/>" + nameUser;
         var intwUser_ = intwUserHidden + intwUser + "<br/>" + intwUser2;
         var dateIntwUser_ = dateIntwUserHidden + dateIntwUser + "<br/>" + dateIntwUser2;
         console.log("CC");
-    } else if (nameUser !== "" && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser !== "" && newIntwUser !== null && newDateIntwUser !== "") {
+    } else if (nameUser !== null && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden !== "" && dateIntwUserHidden !== null && newNameUser !== null && newIntwUser !== null && newDateIntwUser !== "") {
         var nameUser_ = nameUserHidden + nameUser + "<br/>" + newNameUser;
         var intwUser_ = intwUserHidden + intwUser + "<br/>" + newIntwUser;
         var dateIntwUser_ = dateIntwUserHidden + dateIntwUser + "<br/>" + newDateIntwUser;
 
         console.log("DD");
-    } else if (nameUser !== "" && nameUserHidden == "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser !== "" && newIntwUser !== null && newDateIntwUser !== "") {
+    } else if (nameUser !== null && nameUserHidden == "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser !== null && newIntwUser !== null && newDateIntwUser !== "") {
         var nameUser_ = nameUser + "<br/>" + newNameUser;
         var intwUser_ = intwUser + "<br/>" + newIntwUser;
         var dateIntwUser_ = dateIntwUser + "<br/>" + newDateIntwUser;
         console.log("EE");
     }
 
-    else if (nameUser !== "" && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser == "" && newIntwUser == null && newDateIntwUser == "") {
+    else if (nameUser !== "" && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
         var nameUser_ = nameUserHidden + nameUser;
         var intwUser_ = intwUserHidden + intwUser;
         var dateIntwUser_ = dateIntwUserHidden + dateIntwUser;
@@ -1676,7 +1752,7 @@ function Update() {
 
 }
 
-function newOfferingFields() {
+/*function newOfferingFields() {
     document.getElementById('displayDateIntwUser2').style.display = "block";
     document.getElementById('displayIntwUser2').style.display = "block";
 }
@@ -1686,7 +1762,7 @@ function newProses2() {
     document.getElementById('displayDateIntwUser3').style.display = "block";
 
 
-}
+}*/
 
 
 function formatCurrency(input) {
@@ -1917,7 +1993,7 @@ function newProses2() {
     document.getElementById('displayDateIntwUser3').style.display = "block";
 }
 
-function newClientFields() {
+function newClientFields() {    
     document.getElementById('displayUserLabel').style.display = "block";
     document.getElementById('nameUser2').style.display = "block";
     document.getElementById('displayUserItw').style.display = "block";
@@ -1929,7 +2005,16 @@ function newClientFields() {
     $('#dateIntwUser').prop('disabled', true);
 
     document.getElementById('offer').style.display = "none";
-   /* $('.nameUser2').select2({
-        tags: true
-    });*/
+
+    const selectNameUser2 = $("#nameUser2");
+    //selectNameUser2.val(null).trigger("change");
+    
+ 
+    $(selectNameUser2).select2({
+        width: '100%',
+        tags: true,
+        dropdownParent: $('#offeringSourceList')
+    });
+    
+    //selectNameUser2.val(data.nameOfUser).trigger("change");
 }
