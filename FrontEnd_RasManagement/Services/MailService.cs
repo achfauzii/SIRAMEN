@@ -12,22 +12,22 @@ using System.Threading;
 
 namespace FrontEnd_RasManagement.Services
 {
-    public class MailService : IMailService
+  public class MailService : IMailService
+  {
+    private readonly MailSettings _mailSettings;
+    public MailService(IOptions<MailSettings> mailSettings)
     {
-        private readonly MailSettings _mailSettings;
-        public MailService(IOptions<MailSettings> mailSettings)
-        {
-            _mailSettings = mailSettings.Value;
-        }
-        public async Task SendEmailAsync(/*MailRequest mailRequest*/string email, string resetUrl)
-        {
-            var _email = new MimeMessage();
-            _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-            _email.To.Add(MailboxAddress.Parse(email));
-            _email.Subject = "Password Reset";
+      _mailSettings = mailSettings.Value;
+    }
+    public async Task SendEmailAsync(/*MailRequest mailRequest*/string email, string resetUrl)
+    {
+      var _email = new MimeMessage();
+      _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
+      _email.To.Add(MailboxAddress.Parse(email));
+      _email.Subject = "Password Reset";
 
-            var builder = new BodyBuilder();
-            builder.HtmlBody = @"
+      var builder = new BodyBuilder();
+      builder.HtmlBody = @"
                                   <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                                     <html>
 
@@ -339,25 +339,25 @@ namespace FrontEnd_RasManagement.Services
 
                                    ";
 
-            _email.Body = builder.ToMessageBody();
+      _email.Body = builder.ToMessageBody();
 
-            using var smtp = new SmtpClient();
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            smtp.Send(_email);
-            smtp.Disconnect(true);
-        }
+      using var smtp = new SmtpClient();
+      System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+      smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
+      smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+      smtp.Send(_email);
+      smtp.Disconnect(true);
+    }
 
-        public async Task SendEmailNewAccount(/*MailRequest mailRequest*/string email, string password)
-        {
-            var _email = new MimeMessage();
-            _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-            _email.To.Add(MailboxAddress.Parse(email));
-            _email.Subject = "New Account";
-            var builder = new BodyBuilder();
+    public async Task SendEmailNewAccount(/*MailRequest mailRequest*/string email, string password)
+    {
+      var _email = new MimeMessage();
+      _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
+      _email.To.Add(MailboxAddress.Parse(email));
+      _email.Subject = "New Account";
+      var builder = new BodyBuilder();
 
-            builder.HtmlBody = @"
+      builder.HtmlBody = @"
                                   <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                                     <html>
 
@@ -682,30 +682,29 @@ namespace FrontEnd_RasManagement.Services
 
                                    ";
 
-            _email.Body = builder.ToMessageBody();
+      _email.Body = builder.ToMessageBody();
 
-            using var smtp = new SmtpClient();
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            smtp.Send(_email);
-            smtp.Disconnect(true);
-        }
+      using var smtp = new SmtpClient();
+      System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+      smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
+      smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+      smtp.Send(_email);
+      smtp.Disconnect(true);
+    }
 
-        public async Task SendEmailBeritaKelahiran(KelahiranVM data)
-        {
+    public async Task SendEmailBeritaKelahiran(KelahiranVM data)
+    {
+      var _email = new MimeMessage();
+      _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
 
-            var _email = new MimeMessage();
-            _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
+      foreach (var item in data.email)
+      {
+        _email.To.Add(MailboxAddress.Parse(item));
+      }
+      _email.Subject = data.title;
 
-            foreach (var item in data.email)
-            {
-                _email.To.Add(MailboxAddress.Parse(item));
-            }
-            _email.Subject = data.title;
-
-            var builder = new BodyBuilder();
-            builder.HtmlBody = @"
+      var builder = new BodyBuilder();
+      builder.HtmlBody = @"
                                   <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                                     <html>
 
@@ -1008,31 +1007,29 @@ namespace FrontEnd_RasManagement.Services
 
                                     </html>";
 
-            _email.Body = builder.ToMessageBody();
+      _email.Body = builder.ToMessageBody();
 
-            using var smtp = new SmtpClient();
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            smtp.Send(_email);
-            smtp.Disconnect(true);
-        }
+      using var smtp = new SmtpClient();
+      System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+      smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
+      smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+      smtp.Send(_email);
+      smtp.Disconnect(true);
+    }
 
+    public async Task SendEmailBeritaDukaCita(DukaCitaVM data)
+    {
+      var _email = new MimeMessage();
+      _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
 
+      foreach (var item in data.email)
+      {
+        _email.To.Add(MailboxAddress.Parse(item));
+      }
+      _email.Subject = data.title;
 
-        public async Task SendEmailBeritaDukaCita(DukaCitaVM data)
-        {
-            var _email = new MimeMessage();
-            _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-            
-            foreach (var item in data.email)
-            {
-                _email.To.Add(MailboxAddress.Parse(item));
-            }
-            _email.Subject = data.title;
-
-            var builder = new BodyBuilder();
-            builder.HtmlBody = @"
+      var builder = new BodyBuilder();
+      builder.HtmlBody = @"
                                  <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                                         <html>
 
@@ -1330,35 +1327,35 @@ namespace FrontEnd_RasManagement.Services
                                         </html>
                                    ";
 
-            _email.Body = builder.ToMessageBody();
+      _email.Body = builder.ToMessageBody();
 
-            using var smtp = new SmtpClient();
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            smtp.Send(_email);
-            smtp.Disconnect(true);
-        }
+      using var smtp = new SmtpClient();
+      System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+      smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
+      smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+      smtp.Send(_email);
+      smtp.Disconnect(true);
+    }
 
 
-        public async Task SendEmailBirthday(BirthdayVM birthday)
+    public async Task SendEmailBirthday(BirthdayVM birthday)
+    {
+      for (int i = 0; i < birthday.email.Count; i++)
+      {
+        if (i == 5)
         {
-            for (int i = 0; i < birthday.email.Count; i++)
-            {
-                if (i == 5)
-                {
-                    Thread.Sleep(10000); 
-                }
-                Console.WriteLine("Data Email: " + birthday.email[i]);
-                var _email = new MimeMessage();
-                _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-                //_email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-                _email.To.Add(MailboxAddress.Parse(birthday.email[i]));
+          Thread.Sleep(10000);
+        }
+        Console.WriteLine("Data Email: " + birthday.email[i]);
+        var _email = new MimeMessage();
+        _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
+        //_email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+        _email.To.Add(MailboxAddress.Parse(birthday.email[i]));
 
-                _email.Subject = "Happy Birthday " + birthday.name[i] + "!";
-                var builder = new BodyBuilder();
+        _email.Subject = "Happy Birthday " + birthday.name[i] + "!";
+        var builder = new BodyBuilder();
 
-                builder.HtmlBody = @"
+        builder.HtmlBody = @"
                                  <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                                         <html>
 
@@ -1608,28 +1605,28 @@ namespace FrontEnd_RasManagement.Services
 
                                         </html>
                                    ";
-                _email.Body = builder.ToMessageBody();
+        _email.Body = builder.ToMessageBody();
 
-                using var smtp = new SmtpClient();
-                System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
-                smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
-                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-                smtp.Send(_email);
-                smtp.Disconnect(true);
-            }
-
-        }
-
-        public void SendEmail(SmtpClient smtp, string fromEmail, string toEmail, string subject, BodyBuilder body)
-        {
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(fromEmail);
-            email.To.Add(MailboxAddress.Parse(toEmail));
-            email.Subject = subject;
-            email.Body = body.ToMessageBody();
-            smtp.Send(email);
-        }
+        using var smtp = new SmtpClient();
+        System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+        smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
+        smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+        smtp.Send(_email);
+        smtp.Disconnect(true);
+      }
 
     }
+
+    public void SendEmail(SmtpClient smtp, string fromEmail, string toEmail, string subject, BodyBuilder body)
+    {
+      var email = new MimeMessage();
+      email.Sender = MailboxAddress.Parse(fromEmail);
+      email.To.Add(MailboxAddress.Parse(toEmail));
+      email.Subject = subject;
+      email.Body = body.ToMessageBody();
+      smtp.Send(email);
+    }
+
+  }
 
 }

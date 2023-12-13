@@ -384,9 +384,25 @@ namespace RasManagement.Controllers
             {
                 return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data tidak dapat ditemukan", });
             }
-
         }
 
+        [HttpDelete("Delete/{key}")]
+        public IActionResult DeleteAccount(string key)
+        {
+            var delete = accountRepository.Delete(key);
+            if (delete >= 1)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Dihapus", Data = delete });
+            }
+            else if (delete == 0)
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data dengan Id " + key + "Tidak Ditemukan", Data = delete });
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = delete });
+            }
+        }
     }
 
 }

@@ -34,7 +34,7 @@ var pastelColors = [
 ];
 
 $(document).ready(function () {
-
+   
 
     getUniversitasList();
     // Panggil fungsi fetchCategories saat halaman dimuat

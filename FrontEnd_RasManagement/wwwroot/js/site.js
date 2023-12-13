@@ -70,30 +70,9 @@ $(document).ready(function () {
   $("#birth").hide();
   $("#death").hide();
 
-  //Get All Employee
-  $.ajax({
-    type: "GET",
-    url: "https://localhost:7177/api/Employees/EmployeeAdmin",
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (result.status == 200) {
-      result.data.forEach((item) => {
-        // Array to be inserted
-        arrayEmail.push(item.email);
-        // emailObj.email.push(item.email)
-      });
-    }
-  });
-
-  $("#birth").hide();
-  $("#death").hide();
-
-/*  document
-    .getElementById("Announcement")
-    .addEventListener("change", function () {
+  var announceElm = document.getElementById("Announcement");
+  if (announceElm) {
+    announceElm.addEventListener("change", function () {
       if (this.value == "death") {
         $("#birth").hide();
         $("#death").show();
@@ -101,22 +80,8 @@ $(document).ready(function () {
         $("#death").hide();
         $("#birth").show();
       }
-    });*/
-
-    var announceElm = document.getElementById("Announcement")
-    if (announceElm) {
-        announceElm.addEventListener("change", function () {
-            if (this.value == "death") {
-                $("#birth").hide();
-                $("#death").show();
-            } else if (this.value == "birth") {
-                $("#death").hide();
-                $("#birth").show();
-            }
-        });
-    }
-
-
+    });
+  }
 });
 
 function clearAnnounce() {
@@ -225,6 +190,8 @@ function SendAnnouncement() {
       return;
     }
 
+    console.log(data);
+
     Swal.fire({
       title: "Are you sure?",
       text: "You will send a news email to all employees.",
@@ -252,10 +219,9 @@ function SendAnnouncement() {
             });
           },
           failed: function (er) {
-            //console.log("Error : " + er.message);
+            console.log("Error : " + er.message);
           },
         });
-      } else {
       }
     });
   } else if ($("#Announcement").val() == "death") {
@@ -432,14 +398,14 @@ function GetEmployeeList() {
 
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Accounts",
+    url: "https://localhost:7177/api/Employees/EmployeeAdmin",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
     if (result != null) {
-      result.forEach((item) => {
+      result.data.forEach((item) => {
         var option = new Option(item.fullname, item.fullname, true, false);
         selectEmployee.add(option);
 

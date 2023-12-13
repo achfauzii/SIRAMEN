@@ -186,7 +186,7 @@ function showDescription(namaDept, description, date) {
     $("#namaDept").text(namaDept);
   }
 
-  if (description == "") {
+  if (description == "" || description == "null") {
     var description = " No Description.";
     $("#description").text(description);
   } else {
