@@ -54,7 +54,7 @@ $(document).ready(function () {
 
       tableUniv(sortedUniversitiesData);
       chartUniv(sortedUniversitiesData);
-      myPieChart()
+      myPieChart();
 
       // Sembunyikan loader setelah permintaan selesai
       $("#loader").hide();
@@ -82,19 +82,23 @@ $(document).ready(function () {
       var blacklist = 0;
       var transfer = 0;
 
-        result.forEach((item) => {
-          if(item.status=="Blacklist"){
-            blacklist++
-          }else if(item.status=="Resign"){
-            resign++
-          }else if (item.status =="Transfer"){
-            transfer++
-          }
-        })
-        var data = [resign, blacklist, transfer];
-        var labels = ["Resign ("+resign+")", "Blacklist ("+blacklist+")", "Transfers ("+transfer+")"];
-        
-        myPieChart(data, labels)
+      result.forEach((item) => {
+        if (item.status == "Blacklist") {
+          blacklist++;
+        } else if (item.status == "Resign") {
+          resign++;
+        } else if (item.status == "Transfer") {
+          transfer++;
+        }
+      });
+      var data = [resign, blacklist, transfer];
+      var labels = [
+        "Resign (" + resign + ")",
+        "Blacklist (" + blacklist + ")",
+        "Transfers (" + transfer + ")",
+      ];
+
+      myPieChart(data, labels);
 
       // Sembunyikan loader setelah permintaan selesai
       $("#loader").hide();
@@ -357,19 +361,22 @@ function chartUniv(universitiesData) {
 }
 
 function myPieChart(data, labels) {
-  Chart.defaults.global.defaultFontFamily = 'Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
-  Chart.defaults.global.defaultFontColor = '#858796';
+  Chart.defaults.global.defaultFontFamily =
+    'Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+  Chart.defaults.global.defaultFontColor = "#858796";
 
   // Pie Chart Example
   var ctx = document.getElementById("ChartTurnOver");
   var data = {
     labels: labels,
-    datasets: [{
-      data: data,
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-      hoverBorderColor: "rgba(234, 236, 244, 1)",
-    }],
+    datasets: [
+      {
+        data: data,
+        backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
+        hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf"],
+        hoverBorderColor: "rgba(234, 236, 244, 1)",
+      },
+    ],
   };
 
   var options = {
@@ -378,7 +385,7 @@ function myPieChart(data, labels) {
       tooltip: {
         backgroundColor: "rgb(255,255,255)",
         bodyFontColor: "#858796",
-        borderColor: '#dddfeb',
+        borderColor: "#dddfeb",
         borderWidth: 1,
         xPadding: 15,
         yPadding: 15,
@@ -392,21 +399,29 @@ function myPieChart(data, labels) {
         var text = [];
         text.push('<ul class="list-unstyled mb-0">');
         for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
-          text.push('<li class="legend-item" onclick="toggleDataset(' + i + ')">');
-          text.push('<span class="legend-color" style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '"></span>');
-          text.push('<span class="legend-text">' + chart.data.labels[i] + '</span>');
-          text.push('</li>');
+          text.push(
+            '<li class="legend-item" onclick="toggleDataset(' + i + ')">'
+          );
+          text.push(
+            '<span class="legend-color" style="background-color:' +
+              chart.data.datasets[0].backgroundColor[i] +
+              '"></span>'
+          );
+          text.push(
+            '<span class="legend-text">' + chart.data.labels[i] + "</span>"
+          );
+          text.push("</li>");
         }
-        text.push('</ul>');
-        return text.join('');
-      }
+        text.push("</ul>");
+        return text.join("");
+      },
     },
   };
 
   var myPieChart = new Chart(ctx, {
-    type: 'pie', // Change the chart type to 'pie'
+    type: "pie", // Change the chart type to 'pie'
     data: data,
-    options: options
+    options: options,
   });
 
   // Add a function to toggle dataset visibility
