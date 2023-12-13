@@ -18,7 +18,7 @@ namespace FrontEnd_RasManagement.Services
             {                
                 // Calculate the delay until the next 9:30 AM
                 var now = DateTime.Now;
-                var nextRunTime = new DateTime(now.Year, now.Month, now.Day, 9, 0, 0);
+                var nextRunTime = new DateTime(now.Year, now.Month, now.Day, 9, 30, 0);
                 if (now > nextRunTime)
                 {
                     nextRunTime = nextRunTime.AddDays(1);
