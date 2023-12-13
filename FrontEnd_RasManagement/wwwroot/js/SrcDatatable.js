@@ -1698,7 +1698,7 @@ function Update() {
 
 }
 
-function newOfferingFields() {
+/*function newOfferingFields() {
     document.getElementById('displayDateIntwUser2').style.display = "block";
     document.getElementById('displayIntwUser2').style.display = "block";
 }
@@ -1708,7 +1708,7 @@ function newProses2() {
     document.getElementById('displayDateIntwUser3').style.display = "block";
 
 
-}
+}*/
 
 
 function formatCurrency(input) {
