@@ -90,14 +90,14 @@ $(document).ready(function () {
           transfer++;
         }
       });
-      var data = [resign, blacklist, transfer];
-      var labels = [
+      // var data = [resign, blacklist, transfer];
+      var data = [
         { label: "Resign", count: resign },
-        { label: "Transfers", count: transfer },
         { label: "Blacklist", count: blacklist },
+        { label: "Transfer", count: transfer },
       ];
 
-      myPieChart(data, labels);
+      myPieChart(data);
 
       // Sembunyikan loader setelah permintaan selesai
       $("#loader").hide();
@@ -335,8 +335,8 @@ function chartUniv(universitiesData) {
         padding: {
           left: 10,
           right: 10,
-          bottom: 10,
-          top: 10,
+          bottom: 0,
+          top: 0,
         },
       },
       scales: {
@@ -344,24 +344,24 @@ function chartUniv(universitiesData) {
           {
             ticks: {
               maxTicksLimit: 5,
+              beginAtZero: true,
             },
             gridLines: {
               display: false,
               drawBorder: false,
             },
-            barThickness: 30, // Fixed size for bars
           },
         ],
         yAxes: [
           {
+            ticks: {
+              display: false,
+            },
             gridLines: {
               color: "rgb(234, 236, 244)",
               zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2],
+              drawBorder: true,
             },
-            barThickness: 30, // Fixed size for bars
           },
         ],
       },
@@ -389,11 +389,52 @@ function chartUniv(universitiesData) {
           },
         },
       },
+      events: false,
+      showTooltips: true,
+      animation: {
+        duration: 500,
+        easing: "easeOutQuart",
+        onComplete: function () {
+          var ctx = this.chart.ctx;
+          ctx.font = Chart.helpers.fontString(
+            Chart.defaults.global.defaultFontFamily,
+            "normal",
+            Chart.defaults.global.defaultFontFamily
+          );
+          ctx.textAlign = "left";
+          ctx.textBaseline = "bottom";
+          this.data.datasets.forEach(function (dataset) {
+            for (var i = 0; i < dataset.data.length; i++) {
+              var model =
+                  dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                scale_max =
+                  dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale
+                    .maxHeight;
+              left =
+                dataset._meta[Object.keys(dataset._meta)[0]].data[i]._xScale
+                  .left;
+              offset =
+                dataset._meta[Object.keys(dataset._meta)[0]].data[i]._xScale
+                  .longestLabelWidth;
+              ctx.fillStyle = "#fff";
+              var y_pos = model.y - 5;
+              var label = model.label;
+              // Make sure data value does not get overflown and hidden
+              // when the bar's value is too close to max value of scale
+              // Note: The y value is reverse, it counts from top down
+              if ((scale_max - model.y) / scale_max >= 0.93)
+                y_pos = model.y + 20;
+              // ctx.fillText(dataset.data[i], model.x, y_pos);
+              ctx.fillText(label, left + 10, model.y + 8);
+            }
+          });
+        },
+      },
     },
   });
 }
 
-function myPieChart(data, labels) {
+function myPieChart(data) {
   Chart.defaults.global.defaultFontFamily =
     'Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
   Chart.defaults.global.defaultFontColor = "#858796";
@@ -401,12 +442,12 @@ function myPieChart(data, labels) {
   // Pie Chart Example
   var ctx = document.getElementById("ChartTurnOver");
   var data = {
-    labels: labels.map((item) => `${item.label} (${item.count})`),
+    labels: data.map((item) => `${item.label} (${item.count})`),
     datasets: [
       {
-        data: data,
-        backgroundColor: ["#e74a3b", "#4e73df", "#5a5c69"],
-        hoverBackgroundColor: ["#ff6655", "#6382eb", "#6e707e"],
+        data: data.map((item) => `${item.count}`),
+        backgroundColor: ["#e74a3b", "#5a5c69", "#4e73df"],
+        hoverBackgroundColor: ["#ff6655", "#6e707e", "#6382eb"],
         hoverBorderColor: "rgba(234, 236, 244, 1)",
       },
     ],

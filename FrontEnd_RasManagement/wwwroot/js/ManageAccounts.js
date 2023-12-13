@@ -59,34 +59,34 @@ $(document).ready(function () {
               row.accountId +
               "')\">Admin</button>";
           }
-                    if (roleId == "3") {
-                        role =
-                            '<button class="badge badge-pill badge-primary" data - placement="right" data - toggle="modal" data - animation="false" style="outline: none; border: none;" title="Edit" onclick="return GetById(\'' +
-                            row.accountId +
-                            "')\">Employee</button>";
-                    } else {
-                        role =
-                            '<button class="badge badge-pill badge-warning" data - placement="right" style="outline: none; border: none;" >Admin</button>';
-                    }
+          if (roleId == "3") {
+            role =
+              '<button class="badge badge-pill badge-primary" data - placement="right" data - toggle="modal" data - animation="false" style="outline: none; border: none;" title="Edit" onclick="return GetById(\'' +
+              row.accountId +
+              "')\">Employee</button>";
+          } else {
+            role =
+              '<button class="badge badge-pill badge-warning" data - placement="right" style="outline: none; border: none;" >Admin</button>';
+          }
 
-                    return role;
-                },
-            },
-        ],
-        drawCallback: function (settings) {
-            var api = this.api();
-            var rows = api.rows({ page: "current" }).nodes();
-            api
-                .column(1, { page: "current" })
-                .data()
-                .each(function (group, i) {
-                    $(rows)
-                        .eq(i)
-                        .find("td:first")
-                        .html(i + 1);
-                });
+          return role;
         },
-    });
+      },
+    ],
+    drawCallback: function (settings) {
+      var api = this.api();
+      var rows = api.rows({ page: "current" }).nodes();
+      api
+        .column(1, { page: "current" })
+        .data()
+        .each(function (group, i) {
+          $(rows)
+            .eq(i)
+            .find("td:first")
+            .html(i + 1);
+        });
+    },
+  });
 });
 
 function ClearScreen() {
@@ -153,50 +153,32 @@ function GetByIdNIK(accountId) {
 }
 
 function UpdateRole() {
-    var Account = new Object();
-    Account.accountId = $("#AccountId").val();
-    Account.roleId = $("#Role").val();
+  var Account = new Object();
+  Account.accountId = $("#AccountId").val();
+  Account.roleId = $("#Role").val();
 
-    $.ajax({
-        url: "https://localhost:7177/api/Accounts/UpdateRole",
-        type: "PUT",
-        data: JSON.stringify(Account),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-    }).then((result) => {
-        if (result.status == 200) {
-            Swal.fire({
-                icon: "success",
-                title: "Success...",
-                text: "Data has been update!",
-                showConfirmButton: false,
-                timer: 1500,
-            });
-            $("#Modal").modal("hide");
-            $("#dataTableAccounts").DataTable().ajax.reload();
-        } else {
-            Swal.fire("Error!", result.message, "error");
-            $("#dataTableAccounts").DataTable().ajax.reload();
-        }
-    });
-}
-
-function UpdateNIK() {
-    var isValid = true;
-
-    $("input[required]").each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next(".error-message").show();
-            isValid = false;
-        } else {
-            input.next(".error-message").hide();
-        }
-    });
-    if (!isValid) {
-        return;
+  $.ajax({
+    url: "https://localhost:7177/api/Accounts/UpdateRole",
+    type: "PUT",
+    data: JSON.stringify(Account),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result.status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Success...",
+        text: "Data has been update!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      $("#Modal").modal("hide");
+      $("#dataTableAccounts").DataTable().ajax.reload();
+    } else {
+      Swal.fire("Error!", result.message, "error");
+      $("#dataTableAccounts").DataTable().ajax.reload();
     }
   });
 }
