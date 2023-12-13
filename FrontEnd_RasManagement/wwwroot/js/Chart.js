@@ -54,7 +54,6 @@ $(document).ready(function () {
 
       tableUniv(sortedUniversitiesData);
       chartUniv(sortedUniversitiesData);
-      myPieChart();
 
       // Sembunyikan loader setelah permintaan selesai
       $("#loader").hide();
@@ -93,9 +92,9 @@ $(document).ready(function () {
       });
       var data = [resign, blacklist, transfer];
       var labels = [
-        "Resign (" + resign + ")",
-        "Blacklist (" + blacklist + ")",
-        "Transfers (" + transfer + ")",
+        { label: "Resign", count: resign },
+        { label: "Transfers", count: transfer },
+        { label: "Blacklist", count: blacklist },
       ];
 
       myPieChart(data, labels);
@@ -224,7 +223,6 @@ function tableUniv(universitiesData) {
 
 //Chart
 function chartUniv(universitiesData) {
-  // Set new default font family and font color to mimic Bootstrap's default styling
   (Chart.defaults.global.defaultFontFamily = "Nunito"),
     '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
   Chart.defaults.global.defaultFontColor = "#858796";
@@ -253,8 +251,6 @@ function chartUniv(universitiesData) {
     }
     return s.join(dec);
   }
-
-  //array univName
   var univName = [];
   var totalAccounts = [];
   var count = 0;
@@ -269,9 +265,54 @@ function chartUniv(universitiesData) {
     }
   }
 
-  //var universityName =
   // Bar Chart Example
+  var univName = [];
+  var totalAccounts = [];
+  var count = 0;
 
+  for (const universityName in universitiesData) {
+    if (count < 10) {
+      univName.push(universityName);
+      totalAccounts.push(universitiesData[universityName].totalAccounts);
+      count++;
+    } else {
+      break; // Stop iteration after the first 10 data
+    }
+  }
+
+  // Bar Chart Example
+  var univName = [];
+  var totalAccounts = [];
+  var count = 0;
+
+  for (const universityName in universitiesData) {
+    if (count < 10) {
+      univName.push(universityName);
+      totalAccounts.push(universitiesData[universityName].totalAccounts);
+      count++;
+    } else {
+      break; // Stop iteration after the first 10 data
+    }
+  }
+
+  // Bar Chart Example
+  var univName = [];
+  var totalAccounts = [];
+  var count = 0;
+
+  for (const universityName in universitiesData) {
+    if (count < 10) {
+      univName.push(universityName);
+      totalAccounts.push(universitiesData[universityName].totalAccounts);
+      count++;
+    } else {
+      break; // Stop iteration after the first 10 data
+    }
+  }
+
+  // Calculate height based on the number of bars
+
+  // Bar Chart Example
   var ctx = document.getElementById("myBarChart").getContext("2d");
   var myBarChart = new Chart(ctx, {
     type: "horizontalBar",
@@ -279,6 +320,7 @@ function chartUniv(universitiesData) {
       labels: univName,
       datasets: [
         {
+          label: "Alumni",
           backgroundColor: "#4e73df",
           hoverBackgroundColor: "#2e59d9",
           borderColor: "#4e73df",
@@ -287,42 +329,31 @@ function chartUniv(universitiesData) {
       ],
     },
     options: {
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       responsive: true,
-
       layout: {
         padding: {
           left: 10,
           right: 10,
-
           bottom: 10,
+          top: 10,
         },
       },
       scales: {
         xAxes: [
           {
             ticks: {
-              min: 0,
-              maxTicksLimit: 6,
-              autoSkip: false,
+              maxTicksLimit: 5,
             },
             gridLines: {
               display: false,
               drawBorder: false,
             },
-            maxBarThickness: 25,
+            barThickness: 30, // Fixed size for bars
           },
         ],
         yAxes: [
           {
-            ticks: {
-              crossAlign: "near",
-              padding: 10,
-              fontSize: 14,
-              fontColor: "#000",
-              align: "start",
-              autoSkip: false,
-            },
             gridLines: {
               color: "rgb(234, 236, 244)",
               zeroLineColor: "rgb(234, 236, 244)",
@@ -330,6 +361,7 @@ function chartUniv(universitiesData) {
               borderDash: [2],
               zeroLineBorderDash: [2],
             },
+            barThickness: 30, // Fixed size for bars
           },
         ],
       },
@@ -337,6 +369,9 @@ function chartUniv(universitiesData) {
         display: false,
       },
       tooltips: {
+        enabled: true, // Show tooltips on hover
+        mode: "index",
+        intersect: false,
         titleMarginBottom: 10,
         titleFontColor: "#6e707e",
         titleFontSize: 14,
@@ -350,9 +385,7 @@ function chartUniv(universitiesData) {
         caretPadding: 10,
         callbacks: {
           label: function (tooltipItem, chart) {
-            var datasetLabel =
-              chart.datasets[tooltipItem.datasetIndex].label || "";
-            return datasetLabel + ": " + number_format(tooltipItem.xLabel);
+            return "Value: " + tooltipItem.xLabel;
           },
         },
       },
@@ -368,12 +401,12 @@ function myPieChart(data, labels) {
   // Pie Chart Example
   var ctx = document.getElementById("ChartTurnOver");
   var data = {
-    labels: labels,
+    labels: labels.map((item) => `${item.label} (${item.count})`),
     datasets: [
       {
         data: data,
-        backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
-        hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf"],
+        backgroundColor: ["#e74a3b", "#4e73df", "#5a5c69"],
+        hoverBackgroundColor: ["#ff6655", "#6382eb", "#6e707e"],
         hoverBorderColor: "rgba(234, 236, 244, 1)",
       },
     ],
@@ -381,39 +414,13 @@ function myPieChart(data, labels) {
 
   var options = {
     maintainAspectRatio: false,
-    plugins: {
-      tooltip: {
-        backgroundColor: "rgb(255,255,255)",
-        bodyFontColor: "#858796",
-        borderColor: "#dddfeb",
-        borderWidth: 1,
-        xPadding: 15,
-        yPadding: 15,
-        displayColors: false,
-        caretPadding: 10,
-      },
-      legend: {
-        display: false,
-      },
-      legendCallback: function (chart) {
-        var text = [];
-        text.push('<ul class="list-unstyled mb-0">');
-        for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
-          text.push(
-            '<li class="legend-item" onclick="toggleDataset(' + i + ')">'
-          );
-          text.push(
-            '<span class="legend-color" style="background-color:' +
-              chart.data.datasets[0].backgroundColor[i] +
-              '"></span>'
-          );
-          text.push(
-            '<span class="legend-text">' + chart.data.labels[i] + "</span>"
-          );
-          text.push("</li>");
-        }
-        text.push("</ul>");
-        return text.join("");
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var label = data.labels[tooltipItem.index];
+          var labelText = label.replace("(", ": ").replace(")", "");
+          return labelText;
+        },
       },
     },
   };

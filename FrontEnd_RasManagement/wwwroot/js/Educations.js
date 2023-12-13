@@ -12,14 +12,6 @@ $(document).ready(function () {
     allowClear: true,
     tags: true,
   });
-
-  const selectDegree = $("#Degree");
-  $(selectDegree).select2({
-    placeholder: "Select your degree",
-    width: "100%",
-    allowClear: true,
-    tags: true,
-  });
 });
 
 function Educations() {
