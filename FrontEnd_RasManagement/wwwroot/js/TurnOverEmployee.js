@@ -115,7 +115,7 @@
                     var placementStatus = row.placements.placementStatus;*/
             if (placementStatus === "Blacklist") {
               return (
-                '<span type="button" class="badge badge-pill badge-danger"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' +
+                '<span type="button" class="badge badge-pill badge-dark"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' +
                 row.deptName +
                 "', '" +
                 row.description +
@@ -127,7 +127,7 @@
               );
             } else if (placementStatus === "Resign") {
               return (
-                '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' +
+                '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' +
                 row.deptName +
                 "', '" +
                 row.description +
