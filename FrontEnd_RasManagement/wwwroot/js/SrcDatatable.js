@@ -1065,10 +1065,6 @@ function getUniversitasListt() {
             var universities = result.data;
 
 
-            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-
-
             universities.forEach(function (university) {
                 //console.log(university);
                 const option = document.createElement('option');
@@ -1078,11 +1074,7 @@ function getUniversitasListt() {
                 selectUniversity2.appendChild(option);
             });
 
-            /*$(selectUniversity).select2({
-                placeholder: 'Select university',
-                width: '100%',
-
-            });*/
+       
             $(selectUniversity2).select2({
                 placeholder: 'Select university',
                 width: '100%',
@@ -1202,7 +1194,7 @@ function formInputLocation() {
 
 }
 
-function getBadgeColor(skill) {
+/*function getBadgeColor(skill) {
     // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
     if (skill.toLowerCase().includes(".net web api")) {
         return "badge-pastel-teal"; // Warna biru
@@ -1286,7 +1278,7 @@ function getBadgeColorPosition(position) {
     else {
         return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
     }
-}
+}*/
 
 function Save() {
 
@@ -1314,22 +1306,7 @@ function Save() {
         }
     });
 
-    /*$('input[type="radio"][name="workstatus"]').each(function () {
-        if ($(this).is(':checked')) {
-            isValid = true;
-        }
-    });*/
-
-    /*$('select[required_]').each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next('.error-message_').show();
-            isValid = false;
-        } else {
-            input.next('.error-message_').hide();
-        }
-    });*/
-
+ 
     // Validasi select options
     //var selectedRegencies = $('#selectRegencies').val();
     var selectedUniversity = $('#UniversityName').val();
@@ -1547,19 +1524,6 @@ function Update() {
     var newIntwUser = $('#displayUserItw').val();
     var newDateIntwUser = $('#dateIntwUserr').val();
 
-
-    /* console.log('Name User:', nameUser);
-     console.log('Interview User:', intwUser);
-     console.log('Date Interview User:', dateIntwUser);
-     console.log('Name User Hidden:', nameUserHidden);
-     console.log('Interview User 2:', intwUser2);
-     console.log('Date Interview User 2:', dateIntwUser2);
-     console.log('Interview User Hidden:', intwUserHidden);
-     console.log('Date Interview User Hidden:', dateIntwUserHidden);
- 
-     console.log('newNameUser:', newNameUser);
-     console.log('newIntwUser:', newIntwUser);
-     console.log('newDateIntwUser:', newDateIntwUser);*/
     if ($('#displayUserItw').is(':visible')) {
         if ($('#displayUserItw').val() === null) {
             $('.error-message-update').css('display', 'block');
@@ -1840,19 +1804,19 @@ function createNavigation(categories) {
     // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
     if (screenWidth <= 1024) {
 
-        maxVisibleCategories = 5; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 5; 
     }
     if (screenWidth < 850) {
 
-        maxVisibleCategories = 4; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 4; 
     }
     if (screenWidth < 750) {
 
-        maxVisibleCategories = 3; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 3; 
     }
     if (screenWidth <= 500) {
 
-        maxVisibleCategories = 1; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 1; 
     }
     const navList = document.createElement('ul');
     navList.className = 'nav nav-tabs';
