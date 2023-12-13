@@ -1064,11 +1064,8 @@ function ClearScreenUpt() {
     }*/
     $('#displayIntwUser2').val('').hide();
     $('#displayDateIntwUser2').val('').hide();
-    //$('#nameUser').empty().next().hide();
     
-    //$('#nameUser2').select2();
     $('#nameUser2').next().hide();
-    $('#nameUser2').trigger("change");
     
    
     $('.btn[data-target="#collapseExample"]').text('Show 19 hidden fields');
