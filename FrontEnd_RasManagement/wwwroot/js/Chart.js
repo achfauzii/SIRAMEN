@@ -317,13 +317,13 @@ var ctx = document.getElementById("myBarChart").getContext("2d");
 var myBarChart = new Chart(ctx, {
   type: 'horizontalBar',
   data: {
-    labels: [1,2,3,4,5,6,7,8,9,0],
+    labels: univName,
     datasets: [{
       label: "Alumni",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [7,2,3,4,5,2,1,6,2,5],
+      data: totalAccounts,
     }],
   },
   options: {
