@@ -931,8 +931,9 @@ function Src(selectedCategory) {
 function ClearScreenSave() {
     $('#nonrasid').val('');
     $('#Name').val(''); //value insert dari id pada input
-    $('#position').val('');;
-    $('#skillset').val('');
+    
+    $('#position').val(null).trigger('change');
+    $('#skillset').val(null).trigger('change');
     $('#degree').val('');
     $('#ipk').val('');
     $('#UniversityName').val('');
@@ -973,8 +974,8 @@ function ClearScreenUpt() {
     //let data = table.row(row).data();
     $('#nonrasid2').val('');
     $('#Name2').val(''); //value insert dari id pada input
-    $('#position2').val('');
-    $('#skillset2').val('');
+    $('#position2').val(null).trigger('change');
+    $('#skillset2').val(null).trigger('change');
     $('#degree2').val('');
     $('#ipk2').val('');
     $('#UniversityName2').val('');
