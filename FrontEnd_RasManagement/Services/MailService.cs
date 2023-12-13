@@ -531,7 +531,7 @@ namespace FrontEnd_RasManagement.Services
                                                                     </td>
                                                                   </tr>
                                                                 </tbody>
-                                                              </table> -->
+                                                              </table>
                                                               <table class=""s-10 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                                 style=""width: 100%;"" width=""100%"">
                                                                 <tbody>
@@ -1187,6 +1187,7 @@ namespace FrontEnd_RasManagement.Services
                                                                       </tr>
                                                                     </tbody>
                                                                   </table>
+
                                                                   <table class=""s-10 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                                     style=""width: 100%;"" width=""100%"">
                                                                     <tbody>
@@ -1513,6 +1514,7 @@ namespace FrontEnd_RasManagement.Services
                                                                       </tr>
                                                                     </tbody>
                                                                   </table>                                                                  
+
                                                                   <table class=""card p-6 p - lg - 10 space - y - 4"" role=""presentation"" border=""0"" cellpadding=""0""
                                                            cellspacing = ""0""
                                                            style = ""border-radius: 6px; border-collapse: separate !important; width: 100%; overflow: hidden; border: 1px solid #e2e8f0;""

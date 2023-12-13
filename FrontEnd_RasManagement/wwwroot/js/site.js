@@ -190,8 +190,6 @@ function SendAnnouncement() {
       return;
     }
 
-    console.log(data);
-
     Swal.fire({
       title: "Are you sure?",
       text: "You will send a news email to all employees.",
