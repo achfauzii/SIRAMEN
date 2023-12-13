@@ -1053,26 +1053,28 @@ function ClearScreenUpt() {
 function getUniversitasListt() {
     //const selectUniversity = document.getElementById('UniversityName');
     const selectUniversity2 = document.getElementById('UniversityName2');
+    // $(selectUniversity2).select2({
+    //     placeholder: "Select your University",
+    //     width: "100%",
+    //     allowClear: true,
+    //     tags: true,
+    //     minimumInputLength: 3,
+    //   });
+
     $.ajax({
-        url: "https://localhost:7177/api/Universitas",
+        url: "../assets/file_json/loadpt.json",
         type: "GET",
         dataType: "json",
         headers: {
             "Authorization": "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (result) {
-            var universities = result.data;
-
-
-            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-
-
-            universities.forEach(function (university) {
+            // var universities = result.data;
+            result.forEach(function (university) {
                 //console.log(university);
                 const option = document.createElement('option');
-                option.value = university.namaUniversitas;
-                option.textContent = university.namaUniversitas;
+                option.value = university.nama_pt;
+                option.textContent = university.nama_pt;
                 //selectUniversity.appendChild(option);
                 selectUniversity2.appendChild(option);
             });
@@ -1085,9 +1087,10 @@ function getUniversitasListt() {
             $(selectUniversity2).select2({
                 placeholder: 'Select university',
                 width: '100%',
-
-                dropdownParent: $('#offeringSourceList'),
+                allowClear: true,
                 tags: true,
+                minimumInputLength: 3,
+                dropdownParent: $('#offeringSourceList'),
 
             });
         },
@@ -1100,35 +1103,35 @@ function getUniversitasListt() {
 function getUniversitasList() {
     const selectUniversity = document.getElementById('UniversityName');
 
+    // $(selectUniversity).select2({
+    //     placeholder: "Select your University",
+    //     width: "100%",
+    //     allowClear: true,
+    //     tags: true,
+    //     minimumInputLength: 3,
+    //     dropdownParent: $('#Modal')
+    //   });
+
     $.ajax({
-        url: "https://localhost:7177/api/Universitas",
+        url: "../assets/file_json/loadpt.json",
         type: "GET",
         dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
+       
         success: function (result) {
-            var universities = result.data;
-
-
-            //selectUniversity.empty(); // Kosongkan pilihan sebelumnya
-            //selectUniversity.append('<option value="" selected disabled>Select University</option>');
-
-
-            universities.forEach(function (university) {
-
+            result.forEach(function (university) {
                 const option = document.createElement('option');
-                option.value = university.namaUniversitas;
-                option.textContent = university.namaUniversitas;
+                option.value = university.nama_pt;
+                option.textContent = university.nama_pt;
                 selectUniversity.appendChild(option);
             });
 
-            $('.selectUniversity').select2({
+            $(selectUniversity).select2({
                 placeholder: 'Select university',
                 width: '100%',
+                allowClear: true,
                 tags: true,
+                minimumInputLength: 3,
                 dropdownParent: $('#Modal')
-
             });
         },
         error: function (errormessage) {
