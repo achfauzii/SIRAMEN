@@ -357,6 +357,7 @@ namespace RasManagement.Controllers
         }
 
         [HttpGet("BirthDay")]
+        [AllowAnonymous]
         public IActionResult GetBirthDay()
         {
             var account = _context.Accounts.ToList();

@@ -369,10 +369,20 @@ namespace FrontEnd_RasManagement.Services
             };
 */
 
+            //using var smtp = new SmtpClient();
+            ////smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            //smtp.Connect(_mailSettings.Host, _mailSettings.Port, true);
+            //smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            //smtp.Send(_email);
+            //smtp.Disconnect(true);
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+            //smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(_email);
+            smtp.Send(_email);
+
+
             smtp.Disconnect(true);
         }
 
@@ -582,7 +592,7 @@ namespace FrontEnd_RasManagement.Services
                                                                     </td>
                                                                   </tr>
                                                                 </tbody>
-                                                              </table> -->
+                                                              </table>
                                                               <table class=""s-10 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                                 style=""width: 100%;"" width=""100%"">
                                                                 <tbody>
@@ -736,10 +746,21 @@ namespace FrontEnd_RasManagement.Services
             _email.Body = builder.ToMessageBody();
 
 
+            //using var smtp = new SmtpClient();
+            ////smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            //smtp.Connect(_mailSettings.Host, _mailSettings.Port, true);
+            //smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            //smtp.Send(_email);
+            ////smtp.Disconnect(true);
+            ///
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+            //smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(_email);
+            smtp.Send(_email);
+
+
             smtp.Disconnect(true);
 
         }
@@ -1067,10 +1088,11 @@ namespace FrontEnd_RasManagement.Services
 
 
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+            //smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-
-            await smtp.SendAsync(_email);
+            smtp.Send(_email);
 
             //SendEmail(smtp, _mailSettings.Mail, "yogi.bhp10188@gmail.com", data.title, builder);
             //foreach (string toEmail in data.email)
@@ -1272,7 +1294,7 @@ namespace FrontEnd_RasManagement.Services
                                                                         </td>
                                                                       </tr>
                                                                     </tbody>
-                                                                  </table> -->
+                                                                  </table> 
                                                                   <table class=""s-10 w-full"" role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0""
                                                                     style=""width: 100%;"" width=""100%"">
                                                                     <tbody>
@@ -1420,18 +1442,28 @@ namespace FrontEnd_RasManagement.Services
             _email.Body = builder.ToMessageBody();
 
 
+            /* using var smtp = new SmtpClient();
+             //smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+             smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
+             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+
+             smtp.Send(_email);
+
+             //SendEmail(smtp, _mailSettings.Mail, "yogi.bhp10188@gmail.com", data.title, builder);            
+             //foreach (string toEmail in data.email)
+             //{
+             //    SendEmail(smtp, _mailSettings.Mail, toEmail, data.title, builder);
+             //}
+
+             smtp.Disconnect(true);*/
             using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+            //smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            smtp.Send(_email);
 
-            await smtp.SendAsync(_email);
-
-            //SendEmail(smtp, _mailSettings.Mail, "yogi.bhp10188@gmail.com", data.title, builder);            
-            //foreach (string toEmail in data.email)
-            //{
-            //    SendEmail(smtp, _mailSettings.Mail, toEmail, data.title, builder);
-            //}
-
+         
             smtp.Disconnect(true);
 
         }
@@ -1624,7 +1656,7 @@ namespace FrontEnd_RasManagement.Services
                                                                         </td>
                                                                       </tr>
                                                                     </tbody>
-                                                                  </table> -->
+                                                                  </table>
                                                                   <table class=""card p-6 p - lg - 10 space - y - 4"" role=""presentation"" border=""0"" cellpadding=""0""
                                                            cellspacing = ""0""
                                                            style = ""border-radius: 6px; border-collapse: separate !important; width: 100%; overflow: hidden; border: 1px solid #e2e8f0;""
@@ -1720,10 +1752,12 @@ namespace FrontEnd_RasManagement.Services
                 _email.Body = builder.ToMessageBody();
 
                 using var smtp = new SmtpClient();
-                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
+                //smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
                 smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                smtp.Send(_email);
 
-                await smtp.SendAsync(_email);
 
                 smtp.Disconnect(true);
             }
