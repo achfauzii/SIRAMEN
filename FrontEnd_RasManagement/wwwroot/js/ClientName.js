@@ -1,6 +1,6 @@
 ﻿var table = null;
 $(document).ready(function () {
-    table = $("#TB_Client").DataTable({
+    table = $("#tbDataCleint").DataTable({
         responsive: true,
 
         ajax: {
@@ -25,15 +25,15 @@ $(document).ready(function () {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 data: null,
                 render: function (data, type, row) {
-                    var modalId = "modal-edit-" + data.Id;
-                    var deleteId = "modal-delete-" + data.Id;
+                    var modalId = "modal-edit-" + data.id;
+                    var deleteId = "modal-delete-" + data.id;
                     return (
                         '<button class="btn btn-sm btn-warning p-1 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetByIdDept(' +
-                        row.Id +
+                        row.id +
                         ')"><i class="fa fa-edit"></i></button >' +
                         "&nbsp;" +
                         '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
-                        row.Id +
+                        row.id +
                         "', '" +
                         row.nameOfClient + "'" +
                         ')"><i class="fa fa-trash"></i></button >'
@@ -86,11 +86,11 @@ function Save() {
     }
 
     var CLientName = new Object(); //object baru
-    CLientName.nameOfClient = $("#CLientName").val(); //value insert dari id pada input
+    CLientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/ClientName",
-        data: JSON.stringify(Department),
+        data: JSON.stringify(CLientName),
         contentType: "application/json; charset=utf-8",
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -124,8 +124,8 @@ function Save() {
 }
 
 function ClearScreen() {
-    $("#Id").val("");
-    $("#CLientName").val("");
+    $("#clientId").val("");
+    $("#clientName").val("");
     $("#Update").hide();
     $("#Save").show();
 }
@@ -142,16 +142,16 @@ function handleInput(event, input) {
 }
 
 function ClearScreen() {
-    $("#Id").val("");
-    $("#CLientName").val("");
+    $("#clientId").val("");
+    $("#clientName").val("");
     $(".error-message").hide();
     $("#Update").hide();
     $("#Save").show();
 }
 
-function GetById(deptId) {
+function GetById(id) {
     $.ajax({
-        url: "https://localhost:7177/api/Department/" + deptId,
+        url: "https://localhost:7177/api/ClientName/" + id,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -160,8 +160,8 @@ function GetById(deptId) {
         },
         success: function (result) {
             var obj = result.data; //data yg kita dapat dr API
-            $("#DeptId").val(obj.deptId);
-            $("#NamaDept").val(obj.namaDept);
+            $("#clientId").val(obj.id);
+            $("#clientName").val(obj.nameOfClient);
             $("#Modal").modal("show");
             $("#UpdateDept").show();
             $("#Save").hide();
@@ -189,21 +189,21 @@ function Update() {
         return;
     }
 
-    var Department = new Object(); //object baru
-    Department.deptId = $("#DeptId").val();
-    Department.namaDept = $("#NamaDept").val(); //value insert dari id pada input
+    var ClientName = new Object(); //object baru
+    ClientName.id = $("#clientId").val();
+    ClientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
 
     $.ajax({
-        url: "https://localhost:7177/api/Department",
+        url: "https://localhost:7177/api/ClientName",
         type: "PUT",
-        data: JSON.stringify(Department),
+        data: JSON.stringify(ClientName),
         contentType: "application/json; charset=utf-8",
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
     }).then((result) => {
         if (result.status == 200) {
-            const logMessage = `Has updated the department name, department Id ${Department.deptId}`;
+            const logMessage = `Has updated the department name, department Id ${ClientName.id}`;
             SaveLogUpdate(logMessage);
             Swal.fire({
                 icon: "success",
@@ -220,7 +220,7 @@ function Update() {
     });
 }
 
-function Delete(deptId, deptName) {
+function Delete(id, nameOfClient) {
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -232,7 +232,7 @@ function Delete(deptId, deptName) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Department/" + deptId,
+                url: "https://localhost:7177/api/ClientName/" + id,
                 type: "DELETE",
                 dataType: "json",
 
@@ -240,7 +240,7 @@ function Delete(deptId, deptName) {
                     Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 success: function (result) {
-                    const logMessage = `Has deleted department ${deptName}`;
+                    const logMessage = `Has deleted department ${nameOfClient}`;
                     SaveLogUpdate(logMessage);
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
                     table.ajax.reload();
