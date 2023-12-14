@@ -842,15 +842,7 @@ function Src(selectedCategory) {
                 const nameOfUserArray = data.nameOfUser.split('<br/>');
                 const intwDateUserArray = data.intwDateUser.split('<br/>');
                 
-                nameOfUserArray.forEach(value => {
-                    const optionNotExists = selectNameUser.find("option[value='" + value + "']").length === 0;
-
-                    if (optionNotExists) {
-                        const newOption = new Option(value, value, true, true);
-                        selectNameUser.append(newOption).trigger('change');
-                    }
-                });
-                selectNameUser.val(nameOfUserArray).trigger("change");
+                
                 const lastIntwUser = intwUserArray[intwUserArray.length - 1];
                 const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
                 const lastIntwDateUser = intwDateUserArray[intwDateUserArray.length - 1];
@@ -859,7 +851,7 @@ function Src(selectedCategory) {
                 let beforeLastDateIntwUser = "";
                 let beforeLastNameOfUser = "";
                 $('#intwUser').val(lastIntwUser).prop('disabled', false);
-                $('#nameUser').val(lastNameOfUser).prop('disabled', true);
+                $('#nameUser').prop('disabled', true);
                 // Menggunakan loop untuk mengumpulkan semua data sebelum data terakhir
                 for (let i = 0; i < intwUserArray.length - 1; i++) {
                     beforeLastIntwUser += intwUserArray[i] + "<br/>";
@@ -867,7 +859,15 @@ function Src(selectedCategory) {
                     beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
                 }
 
+                nameOfUserArray.forEach(value => {
+                    const optionNotExists = selectNameUser.find("option[value='" + value + "']").length === 0;
 
+                    if (optionNotExists) {
+                        const newOption = new Option(value, value, true, true);
+                        selectNameUser.append(newOption).trigger('change');
+                    }
+                });
+                selectNameUser.val(lastNameOfUser).trigger("change");
                 // Menyimpan data sebelum data terakhir ke elemen tersembunyi
                 $('#intwuserHiden').val(beforeLastIntwUser);
                 //$('#intwUserHiddenLabel').html(beforeLastIntwUser);
@@ -944,16 +944,16 @@ function Src(selectedCategory) {
             $('#nameUser').prop('disabled', true);
             $('#dateIntwUser').prop('disabled', true);
         }
-        console.log(data.intwUser);
+        //console.log(data.intwUser);
 
         if (data.intwUser) {
             /*var offer = document.getElementById("formoffer");
             offer.show();*/
             $('#offer').show();
-            console.log(data.intwUser);
+            //console.log(data.intwUser);
         } else {
             $('#offer').hide();
-            console.log(data.intwUser);
+            //console.log(data.intwUser);
         }
 
         /*if (data.intwDateUser) {
@@ -2034,6 +2034,13 @@ function newClientFields() {
     $('#intwUser').prop('disabled', true);
     $('#nameUser').prop('disabled', true);
     $('#dateIntwUser').prop('disabled', true);
+
+    const selectNameUser = $('#nameUser2')
+    $(selectNameUser).select2({
+        width: '100%',
+        tags: true,
+        dropdownParent: $('#offeringSourceList')
+    });
 
     document.getElementById('offer').style.display = "none";
 
