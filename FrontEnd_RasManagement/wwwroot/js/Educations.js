@@ -12,14 +12,6 @@ $(document).ready(function () {
     allowClear: true,
     tags: true,
   });
-
-  const selectDegree = $("#Degree");
-  $(selectDegree).select2({
-    placeholder: "Select your degree",
-    width: "100%",
-    allowClear: true,
-    tags: true,
-  });
 });
 
 function Educations() {
@@ -375,7 +367,6 @@ function GetById(formalEduId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      debugger;
       var obj = result.data; //data yg kita dapat dr API
       const option = document.createElement("option");
       option.value = obj.location;
@@ -465,7 +456,6 @@ function UpdateFormal() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    debugger;
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -483,7 +473,6 @@ function UpdateFormal() {
 }
 
 function DeleteFormal(formalEduId) {
-  debugger;
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",

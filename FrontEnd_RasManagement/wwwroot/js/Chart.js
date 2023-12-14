@@ -65,6 +65,50 @@ $(document).ready(function () {
       $("#loader").hide();
     },
   });
+  //hit api turnover
+  $.ajax({
+    url: "https://localhost:7177/api/TurnOver/TurnOverEmployee",
+    type: "GET",
+    datatype: "json",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (turnover) {
+      var result = turnover.data;
+
+      var resign = 0;
+      var blacklist = 0;
+      var transfer = 0;
+
+      result.forEach((item) => {
+        if (item.status == "Blacklist") {
+          blacklist++;
+        } else if (item.status == "Resign") {
+          resign++;
+        } else if (item.status == "Transfer") {
+          transfer++;
+        }
+      });
+      // var data = [resign, blacklist, transfer];
+      var data = [
+        { label: "Resign", count: resign },
+        { label: "Blacklist", count: blacklist },
+        { label: "Transfer", count: transfer },
+      ];
+
+      myPieChart(data);
+
+      // Sembunyikan loader setelah permintaan selesai
+      $("#loader").hide();
+    },
+    error: function (errormessage) {
+      alert(errormessage.responseText);
+
+      // Sembunyikan loader jika ada kesalahan dalam permintaan
+      $("#loader").hide();
+    },
+  });
 
   var idleCount = 0;
   var onsiteCount = 0;
@@ -179,7 +223,6 @@ function tableUniv(universitiesData) {
 
 //Chart
 function chartUniv(universitiesData) {
-  // Set new default font family and font color to mimic Bootstrap's default styling
   (Chart.defaults.global.defaultFontFamily = "Nunito"),
     '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
   Chart.defaults.global.defaultFontColor = "#858796";
@@ -208,8 +251,6 @@ function chartUniv(universitiesData) {
     }
     return s.join(dec);
   }
-
-  //array univName
   var univName = [];
   var totalAccounts = [];
   var count = 0;
@@ -224,9 +265,54 @@ function chartUniv(universitiesData) {
     }
   }
 
-  //var universityName =
   // Bar Chart Example
+  var univName = [];
+  var totalAccounts = [];
+  var count = 0;
 
+  for (const universityName in universitiesData) {
+    if (count < 10) {
+      univName.push(universityName);
+      totalAccounts.push(universitiesData[universityName].totalAccounts);
+      count++;
+    } else {
+      break; // Stop iteration after the first 10 data
+    }
+  }
+
+  // Bar Chart Example
+  var univName = [];
+  var totalAccounts = [];
+  var count = 0;
+
+  for (const universityName in universitiesData) {
+    if (count < 10) {
+      univName.push(universityName);
+      totalAccounts.push(universitiesData[universityName].totalAccounts);
+      count++;
+    } else {
+      break; // Stop iteration after the first 10 data
+    }
+  }
+
+  // Bar Chart Example
+  var univName = [];
+  var totalAccounts = [];
+  var count = 0;
+
+  for (const universityName in universitiesData) {
+    if (count < 10) {
+      univName.push(universityName);
+      totalAccounts.push(universitiesData[universityName].totalAccounts);
+      count++;
+    } else {
+      break; // Stop iteration after the first 10 data
+    }
+  }
+
+  // Calculate height based on the number of bars
+
+  // Bar Chart Example
   var ctx = document.getElementById("myBarChart").getContext("2d");
   var myBarChart = new Chart(ctx, {
     type: "horizontalBar",
@@ -234,6 +320,7 @@ function chartUniv(universitiesData) {
       labels: univName,
       datasets: [
         {
+          label: "Alumni",
           backgroundColor: "#4e73df",
           hoverBackgroundColor: "#2e59d9",
           borderColor: "#4e73df",
@@ -242,48 +329,38 @@ function chartUniv(universitiesData) {
       ],
     },
     options: {
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       responsive: true,
-
       layout: {
         padding: {
           left: 10,
           right: 10,
-
-          bottom: 10,
+          bottom: 0,
+          top: 0,
         },
       },
       scales: {
         xAxes: [
           {
             ticks: {
-              min: 0,
-              maxTicksLimit: 6,
-              autoSkip: false,
+              maxTicksLimit: 5,
+              beginAtZero: true,
             },
             gridLines: {
               display: false,
               drawBorder: false,
             },
-            maxBarThickness: 25,
           },
         ],
         yAxes: [
           {
             ticks: {
-              crossAlign: "near",
-              padding: 10,
-              fontSize: 14,
-              fontColor: "#000",
-              align: "start",
-              autoSkip: false,
+              display: false,
             },
             gridLines: {
               color: "rgb(234, 236, 244)",
               zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2],
+              drawBorder: true,
             },
           },
         ],
@@ -292,6 +369,9 @@ function chartUniv(universitiesData) {
         display: false,
       },
       tooltips: {
+        enabled: true, // Show tooltips on hover
+        mode: "index",
+        intersect: false,
         titleMarginBottom: 10,
         titleFontColor: "#6e707e",
         titleFontSize: 14,
@@ -305,12 +385,103 @@ function chartUniv(universitiesData) {
         caretPadding: 10,
         callbacks: {
           label: function (tooltipItem, chart) {
-            var datasetLabel =
-              chart.datasets[tooltipItem.datasetIndex].label || "";
-            return datasetLabel + ": " + number_format(tooltipItem.xLabel);
+            return "Value: " + tooltipItem.xLabel;
           },
+        },
+      },
+      events: false,
+      showTooltips: true,
+      animation: {
+        duration: 500,
+        easing: "easeOutQuart",
+        onComplete: function () {
+          var ctx = this.chart.ctx;
+          ctx.font = Chart.helpers.fontString(
+            Chart.defaults.global.defaultFontFamily,
+            "normal",
+            Chart.defaults.global.defaultFontFamily
+          );
+          ctx.textAlign = "left";
+          ctx.textBaseline = "bottom";
+          this.data.datasets.forEach(function (dataset) {
+            for (var i = 0; i < dataset.data.length; i++) {
+              var model =
+                  dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
+                scale_max =
+                  dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale
+                    .maxHeight;
+              left =
+                dataset._meta[Object.keys(dataset._meta)[0]].data[i]._xScale
+                  .left;
+              offset =
+                dataset._meta[Object.keys(dataset._meta)[0]].data[i]._xScale
+                  .longestLabelWidth;
+              ctx.fillStyle = "#fff";
+              var y_pos = model.y - 5;
+              var label = model.label;
+              // Make sure data value does not get overflown and hidden
+              // when the bar's value is too close to max value of scale
+              // Note: The y value is reverse, it counts from top down
+              if ((scale_max - model.y) / scale_max >= 0.93)
+                y_pos = model.y + 20;
+              // ctx.fillText(dataset.data[i], model.x, y_pos);
+              ctx.fillText(label, left + 10, model.y + 8);
+            }
+          });
         },
       },
     },
   });
+}
+
+function myPieChart(data) {
+  Chart.defaults.global.defaultFontFamily =
+    'Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+  Chart.defaults.global.defaultFontColor = "#858796";
+
+  // Pie Chart Example
+  var ctx = document.getElementById("ChartTurnOver");
+  var data = {
+    labels: data.map((item) => `${item.label} (${item.count})`),
+    datasets: [
+      {
+        data: data.map((item) => `${item.count}`),
+        backgroundColor: ["#e74a3b", "#5a5c69", "#4e73df"],
+        hoverBackgroundColor: ["#ff6655", "#6e707e", "#6382eb"],
+        hoverBorderColor: "rgba(234, 236, 244, 1)",
+      },
+    ],
+  };
+
+  var options = {
+    maintainAspectRatio: false,
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var label = data.labels[tooltipItem.index];
+          var labelText = label.replace("(", ": ").replace(")", "");
+          return labelText;
+        },
+      },
+    },
+  };
+
+  var myPieChart = new Chart(ctx, {
+    type: "pie", // Change the chart type to 'pie'
+    data: data,
+    options: options,
+  });
+
+  // Add a function to toggle dataset visibility
+  function toggleDataset(index) {
+    var meta = myPieChart.getDatasetMeta(0);
+    meta.data[index].hidden = !meta.data[index].hidden;
+    myPieChart.update();
+  }
+
+  // Append legend to a container
+  var legendContainer = document.getElementById("legendContainer");
+  if (legendContainer) {
+    legendContainer.innerHTML = myPieChart.generateLegend();
+  }
 }

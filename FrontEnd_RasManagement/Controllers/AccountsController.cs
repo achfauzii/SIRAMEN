@@ -25,6 +25,25 @@ namespace FrontEnd_RasManagement.Controllers
 
         public IActionResult Login()
         {
+            if (HttpContext.Session.GetString("Token") != null)
+            {
+                var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+                if (role == "Employee")
+                {
+                    return RedirectToAction("Employee", "Dashboards");
+                }
+                else if (role == "Admin")
+                {
+                    return RedirectToAction("Dashboard_Admin", "Dashboards");
+                }
+                else if (role == "Super_Admin")
+                {
+                    return RedirectToAction("Dashboard_SuperAdmin", "Dashboards");
+                }
+               
+            }
+
             return View();
         }
 
@@ -190,9 +209,12 @@ namespace FrontEnd_RasManagement.Controllers
                 if (ModelState.IsValid)
                 {
                     JwtHelper.SetToken(HttpContext, token);
-                    // Get the Role from the JWT token
-                    //string role = JwtHelper.GetRoleFromJwt(token);
-                    //return RedirectToAction("Index", "Departments");
+                    if (HttpContext.Session.GetString("ReturnUrl") != null)
+                    {
+                        string returnUrl = HttpContext.Session.GetString("ReturnUrl");
+                        HttpContext.Session.Remove("ReturnUrl");
+                        return Redirect(returnUrl);
+                    }
                 }
             }
 
@@ -230,6 +252,8 @@ namespace FrontEnd_RasManagement.Controllers
             return View("Login");
 
         }
+
+
 
 
 
@@ -303,10 +327,6 @@ namespace FrontEnd_RasManagement.Controllers
             return View();
         }
     }
-
-
- 
-
 
 
 

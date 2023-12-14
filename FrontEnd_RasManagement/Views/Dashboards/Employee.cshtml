@@ -7,36 +7,36 @@
 <style>
 
     /*.Ps {
-            font-family: Tahoma;
-            background-color: #fff;
-            page-break-after: avoid;
-        }
+                font-family: Tahoma;
+                background-color: #fff;
+                page-break-after: avoid;
+            }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+            h1 {
+                text-align: center;
+                margin-bottom: 30px;
+            }
 
-        h2 {
-            margin-bottom: 20px;
-        }
+            h2 {
+                margin-bottom: 20px;
+            }
 
-        p {
-            margin-bottom: 5px;
-        }
+            p {
+                margin-bottom: 5px;
+            }
 
-        #Personal_Details {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+            #Personal_Details {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
 
-        #imageContainer {
-            flex: 1;
-            display: flex;
-            justify-content: flex-end;
-        }
-        */
+            #imageContainer {
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+            }
+            */
     .card-body {
         font-family: "Calibri", Arial, sans-serif;
     }
@@ -45,12 +45,13 @@
         font-family: "Calibri", Arial, sans-serif;
         font-weight: bold;
     }
-  @@media (max-width: 1199.98px) { 
+
+    @@media (max-width: 1199.98px) {
         .photo-container {
             margin-left: 0 !important;
             margin-top: 0 !important;
         }
-   }
+    }
 
 </style>
 
@@ -59,7 +60,7 @@
         <i class="fas fa-circle-info text-warning mr-2" style="font-size: 1.5rem;"></i>
         <div class="col mr-1">
             <div class="font-weight-bold text-dark mb-1" style="font-size: 12pt">
-                Please update your password to ensure security.&nbsp; 
+                Please update your password to ensure security.&nbsp;
                 <a href="#" class="font-weight-bold text-primary" data-toggle="modal" data-target="#chagnePasswordModal" onclick="clearScreen()">
                     Update Now
                 </a>
@@ -187,7 +188,7 @@
 
                 <div class="col-xl-3 order-xl-2 order-1 text-center pb-5">
                     <div class="photo-container ml-5 mt-3">
-                      <img id="employeePhoto" src="" alt="" style="width: 157px; height: 231px; object-fit: cover;">
+                        <img id="employeePhoto" src="" alt="" style="width: 157px; height: 231px; object-fit: cover;">
                     </div>
                 </div>
             </div>
@@ -318,4 +319,5 @@
 
 @section script{
     <script src="~/js/Personaldetails.js"></script>
+    <script src="~/js/Account.js"></script>
 }
