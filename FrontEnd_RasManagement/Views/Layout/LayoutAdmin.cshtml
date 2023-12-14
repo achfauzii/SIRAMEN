@@ -270,13 +270,22 @@
             </li>*@
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
-                Departments
+                Department & Client
             </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/Department" ? "active" : "")">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-building"></i>
                     <span>Manage Department</span>
+                </a>
+            </li>
+
+           
+            <li class="nav-item @(currentUrl == "/Client" ? "active" : "")">
+                <a class="nav-link collapsed menu" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-building"></i>
+                    <span>Manage Client Data</span>
                 </a>
             </li>
         </ul>
