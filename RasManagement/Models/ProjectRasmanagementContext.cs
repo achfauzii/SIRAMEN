@@ -54,7 +54,9 @@ public partial class ProjectRasmanagementContext : DbContext
     public virtual DbSet<TurnOver> TurnOvers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("server = RAS-HIJRIANANDA; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+
+        => optionsBuilder.UseSqlServer("server = RAS-FAUZI; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
