@@ -108,7 +108,7 @@ function Save() {
           timer: 1500,
         });
         $("#Modal").modal("hide");
-        table.ajax.reload();
+          $('#TB_Department').DataTable().ajax.reload()
       }
     },
     error: function (xhr, status, error) {
@@ -213,7 +213,7 @@ function UpdateDept() {
         timer: 1500,
       });
       $("#Modal").modal("hide");
-      table.ajax.reload();
+          $('#TB_Department').DataTable().ajax.reload()
     } else {
       Swal.fire("Error!", "Data failed to update", "error");
     }
@@ -243,7 +243,7 @@ function Delete(deptId, deptName) {
               const logMessage = `Has deleted department ${deptName}`;
               SaveLogUpdate(logMessage);
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
-          table.ajax.reload();
+           $('#TB_Department').DataTable().ajax.reload()
         },
         error: function (errormessage) {
           Swal.fire("Error!", "Cant Delete, Department Is Not Empty", "error");
