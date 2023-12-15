@@ -28,7 +28,7 @@ $(document).ready(function () {
                     var modalId = "modal-edit-" + data.id;
                     var deleteId = "modal-delete-" + data.id;
                     return (
-                        '<button class="btn btn-sm btn-warning p-1 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetByIdDept(' +
+                        '<button class="btn btn-sm btn-warning p-1 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
                         row.id +
                         ')"><i class="fa fa-edit"></i></button >' +
                         "&nbsp;" +
@@ -89,7 +89,7 @@ function Save() {
     CLientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
     $.ajax({
         type: "POST",
-        url: "https://localhost:7177/api/ClientName",
+        url: "https://localhost:7177/api/ClientName/AddValidasi",
         data: JSON.stringify(CLientName),
         contentType: "application/json; charset=utf-8",
         headers: {
@@ -97,7 +97,8 @@ function Save() {
         },
 
         success: function (result) {
-            const logMessage = `Has added department ${CLientName.nameOfClient}`;
+
+            const logMessage = `Has added client ${CLientName.nameOfClient}`;
             SaveLogUpdate(logMessage);
             if (result.status == 200) {
                 Swal.fire({
@@ -115,7 +116,7 @@ function Save() {
             Swal.fire({
                 icon: "error",
                 title: "Error",
-                html: "Department <span style='text-decoration: underline; font-weight: bold;'>" + CLientName.nameOfClient + "</span> already exists",
+                html: "Client <span style='text-decoration: underline; font-weight: bold;'>" + CLientName.nameOfClient + "</span> already exists",
                 showConfirmButton: false,
                 timer: 1500,
             });
@@ -203,7 +204,7 @@ function Update() {
         },
     }).then((result) => {
         if (result.status == 200) {
-            const logMessage = `Has updated the department name, department Id ${ClientName.id}`;
+            const logMessage = `Has updated the client name, client Id ${ClientName.id}`;
             SaveLogUpdate(logMessage);
             Swal.fire({
                 icon: "success",
@@ -240,13 +241,13 @@ function Delete(id, nameOfClient) {
                     Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 success: function (result) {
-                    const logMessage = `Has deleted department ${nameOfClient}`;
+                    const logMessage = `Has deleted client ${nameOfClient}`;
                     SaveLogUpdate(logMessage);
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
                     table.ajax.reload();
                 },
                 error: function (errormessage) {
-                    Swal.fire("Error!", "Cant Delete, Department Is Not Empty", "error");
+                    Swal.fire("Error!", "Cant Delete, client Is Not Empty", "error");
                 },
             });
         }
