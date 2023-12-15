@@ -34,7 +34,7 @@ var pastelColors = [
 ];
 
 $(document).ready(function () {
-   
+    getClientList();
 
     getUniversitasList();
     // Panggil fungsi fetchCategories saat halaman dimuat
@@ -764,7 +764,8 @@ function Src(selectedCategory) {
 
         const selectNameUser2 = $("#nameUser2");
         const dataNameUser = data.nameOfUser;
-        if (dataNameUser == null) {
+        selectNameUser2.val(null).trigger("change");
+        /*if (dataNameUser == null) {
             selectNameUser2.val(null).trigger("change");
         }
         else if (!dataNameUser.includes('<br/>')) {
@@ -788,16 +789,16 @@ function Src(selectedCategory) {
             });
             selectNameUser2.val(null).trigger("change");
 
-        }
+        }*/
 
 
         if (data.intwByRas) {
             if (data.intwUser == null || data.nameOfUser == null || data.intwDateUser == null) {
-                $(selectNameUser).select2({
+                /*$(selectNameUser).select2({
                     width: '100%',
                     tags: true,
                     dropdownParent: $('#offeringSourceList')
-                });
+                });*/
                 
                
                 $('#intwUser').val(data.intwUser).prop('disabled', false);
@@ -815,7 +816,7 @@ function Src(selectedCategory) {
                   for (var i = 0; i < elems.length; i += 1) {
                       elems[i].style.display = 'block';
                   }*/
-                $(selectNameUser).select2({
+                /*$(selectNameUser).select2({
                     width: '100%',
                     tags: true,
                     dropdownParent: $('#offeringSourceList')
@@ -826,7 +827,7 @@ function Src(selectedCategory) {
                     const newOption = new Option(dataNameUser, dataNameUser, true, true);
                     selectNameUser.append(newOption).trigger('change');
 
-                }
+                }*/
                 selectNameUser.val(dataNameUser).trigger("change");
                 $('#intwUser').val(data.intwUser).prop('disabled', false);
                 $('#nameUser').val(data.nameOfUser).prop('disabled', false);
@@ -859,14 +860,14 @@ function Src(selectedCategory) {
                     beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
                 }
 
-                nameOfUserArray.forEach(value => {
+                /*nameOfUserArray.forEach(value => {
                     const optionNotExists = selectNameUser.find("option[value='" + value + "']").length === 0;
 
                     if (optionNotExists) {
                         const newOption = new Option(value, value, true, true);
                         selectNameUser.append(newOption).trigger('change');
                     }
-                });
+                });*/
                 selectNameUser.val(lastNameOfUser).trigger("change");
                 // Menyimpan data sebelum data terakhir ke elemen tersembunyi
                 $('#intwuserHiden').val(beforeLastIntwUser);
@@ -1186,6 +1187,79 @@ function getUniversitasList() {
         }
     });
 }
+
+function getClientList() {
+    const selectClient = document.getElementById('nameUser');
+
+    $.ajax({
+        url: "https://localhost:7177/api/ClientName",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            if (response.status === 200 && Array.isArray(response.data)) {
+                var clients = response.data.map(function (item) { return item.nameOfClient });
+
+                // Clear previous options
+                selectClient.innerHTML = "";
+
+                clients.forEach(function (clientName) {
+                    const option = document.createElement('option');
+                    option.value = clientName;
+                    option.textContent = clientName;
+                    selectClient.appendChild(option);
+                });
+
+                $(selectClient).select2({
+                    placeholder: 'Select Client',
+                    width: '100%',
+                    dropdownParent: $('#offeringSourceList'),
+                });
+            } else {
+                console.error("Unexpected server response format:", response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Error making the AJAX request:", textStatus, errorThrown);
+        }
+    });
+}
+
+function getClientList2() {
+    const selectClient2 = document.getElementById('nameUser2');
+
+    $.ajax({
+        url: "https://localhost:7177/api/ClientName",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            if (response.status === 200 && Array.isArray(response.data)) {
+                var clients = response.data.map(function (item) { return item.nameOfClient });
+
+                // Clear previous options
+                selectClient2.innerHTML = "";
+
+                clients.forEach(function (clientName) {
+                    const option = document.createElement('option');
+                    option.value = clientName;
+                    option.textContent = clientName;
+                    selectClient2.appendChild(option);
+                });
+
+                $(selectClient2).select2({
+                    placeholder: 'Select Client',
+                    width: '100%',
+                    dropdownParent: $('#offeringSourceList'),
+                });
+            } else {
+                console.error("Unexpected server response format:", response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Error making the AJAX request:", textStatus, errorThrown);
+        }
+    });
+}
+
 
 function formInputLocation() {
 
@@ -2009,12 +2083,7 @@ function newClientFields() {
     $('#nameUser').prop('disabled', true);
     $('#dateIntwUser').prop('disabled', true);
 
-    const selectNameUser = $('#nameUser2')
-    $(selectNameUser).select2({
-        width: '100%',
-        tags: true,
-        dropdownParent: $('#offeringSourceList')
-    });
+    getClientList2();
 
     document.getElementById('offer').style.display = "none";
 
