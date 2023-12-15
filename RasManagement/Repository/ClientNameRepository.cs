@@ -15,6 +15,17 @@
 
             return clientnameExists;
         }
+        public async Task<ClientName> AddClient(string clientname)
+        {
+            // Assuming you have a Department model and DbSet<Department> in your context
+            var newClient = new ClientName { NameOfClient = clientname };
+
+            // Add the new department to the context and save changes
+            context.ClientNames.Add(newClient);
+            await context.SaveChangesAsync();
+
+            return newClient;
+        }
 
     }
 }
