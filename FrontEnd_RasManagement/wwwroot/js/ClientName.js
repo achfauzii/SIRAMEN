@@ -109,7 +109,7 @@ function Save() {
                     timer: 1500,
                 });
                 $("#Modal").modal("hide");
-                table.ajax.reload();
+                $('#tbDataCleint').DataTable().ajax.reload()
             }
         },
         error: function (xhr, status, error) {
@@ -164,7 +164,7 @@ function GetById(id) {
             $("#clientId").val(obj.id);
             $("#clientName").val(obj.nameOfClient);
             $("#Modal").modal("show");
-            $("#UpdateDept").show();
+            $("#Update").show();
             $("#Save").hide();
         },
         error: function (errormessage) {
@@ -214,7 +214,7 @@ function Update() {
                 timer: 1500,
             });
             $("#Modal").modal("hide");
-            table.ajax.reload();
+            $('#tbDataCleint').DataTable().ajax.reload()
         } else {
             Swal.fire("Error!", "Data failed to update", "error");
         }
@@ -244,7 +244,7 @@ function Delete(id, nameOfClient) {
                     const logMessage = `Has deleted client ${nameOfClient}`;
                     SaveLogUpdate(logMessage);
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
-                    table.ajax.reload();
+                    $('#tbDataCleint').DataTable().ajax.reload()
                 },
                 error: function (errormessage) {
                     Swal.fire("Error!", "Cant Delete, client Is Not Empty", "error");
