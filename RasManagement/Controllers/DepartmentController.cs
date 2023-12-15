@@ -38,6 +38,25 @@ namespace RasManagement.Controllers
 
         return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = result });
     }
+        [HttpPut("Departmentv2")]
+       public async Task<ActionResult> UpdateDepartment([FromBody] Department inputModel)
+        {
+            if (inputModel == null || string.IsNullOrWhiteSpace(inputModel.NamaDept))
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Data Kosong atau Mengandung Spasi", Data = inputModel });
+            }
+
+            bool departmentExists = await departmentRepository.DepartmentIsExist(inputModel.NamaDept, inputModel.DeptId);
+
+            if (departmentExists)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.BadRequest, message = "Department Already Exists." });
+            }
+
+           var result = await departmentRepository.UpdateDepartment(inputModel.DeptId, inputModel.NamaDept);
+
+           return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Diubah", Data = result });
+        }
 }
 
     public class DepartmentInputModel

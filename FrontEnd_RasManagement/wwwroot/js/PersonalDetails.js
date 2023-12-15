@@ -121,7 +121,7 @@ $(document).ready(function () {
         }
     });
 });
-
+})
 function toPascalCase(str) {
     return str.replace(/(\w)(\w*)/g, function (_, firstChar, rest) {
         return firstChar.toUpperCase() + rest.toLowerCase();
