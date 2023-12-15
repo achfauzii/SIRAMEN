@@ -1195,6 +1195,9 @@ function getClientList() {
         url: "https://localhost:7177/api/ClientName",
         type: "GET",
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (response) {
             if (response.status === 200 && Array.isArray(response.data)) {
                 var clients = response.data.map(function (item) { return item.nameOfClient });
@@ -1231,6 +1234,9 @@ function getClientList2() {
         url: "https://localhost:7177/api/ClientName",
         type: "GET",
         dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("Token")
+        },
         success: function (response) {
             if (response.status === 200 && Array.isArray(response.data)) {
                 var clients = response.data.map(function (item) { return item.nameOfClient });
