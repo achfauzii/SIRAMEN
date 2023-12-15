@@ -11,7 +11,7 @@ $(document).ready(function () {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     },
-     
+    order: [[0, "desc"]],
 
     columns: [
       {
@@ -23,8 +23,8 @@ $(document).ready(function () {
       { data: "name" },
       { data: "activity" },
       {
-          data: "timeStamp",
-          type: "date",
+        data: "timeStamp",
+        type: "date",
       },
     ],
 
@@ -37,18 +37,29 @@ $(document).ready(function () {
       {
         targets: 3,
         render: function (data, type, row, meta) {
-          let timeStamp = new Date(Date.parse(row.timeStamp));
-          const formatter = new Intl.DateTimeFormat("id-ID", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          });
-          return row.timeStamp.substr(11) + " " + formatter.format(timeStamp);
-          //   return row.timeStamp.substr(11) + " " + row.timeStamp.substr(0, 10);
+          if (type === "display") {
+            // Parse the input date string
+            var date = new Date(data);
+            // Format the date as hh:mm:ss dd-mm-yyyy
+            var formattedDate =
+              date.toLocaleTimeString() + " " + date.toLocaleDateString();
+            return formattedDate;
+          }
+          return data;
         },
+        // render: function (data, type, row, meta) {
+        //   let timeStamp = new Date(Date.parse(data));
+        //   const formatter = new Intl.DateTimeFormat("id-ID", {
+        //     day: "2-digit",
+        //     month: "2-digit",
+        //     year: "numeric",
+        //   });
+        //   return data.substr(11) + " " + formatter.format(timeStamp);
+        //   //   return row.timeStamp.substr(11) + " " + row.timeStamp.substr(0, 10);
+        // },
       },
-      ],
-      order: [[3, "desc"]],
+    ],
+
     //Agar nomor tidak berubah
     drawCallback: function (settings) {
       var api = this.api();
