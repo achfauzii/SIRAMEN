@@ -137,7 +137,7 @@ function GetByIdNIK(accountId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      debugger;
+
       var obj = result.data; //data yg kita dapat dr API
       $("#AccountIdNIK").val(obj.accountId);
       $("#NIK").val(obj.nik);
