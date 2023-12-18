@@ -27,5 +27,17 @@
             return newClient;
         }
 
+        public async Task<ClientName> ChangeName(string clientname)
+        {
+            // Assuming you have a Department model and DbSet<Department> in your context
+            var newClient = new ClientName { NameOfClient = clientname };
+
+            // Add the new department to the context and save changes
+            context.ClientNames.Update(newClient);
+            await context.SaveChangesAsync();
+
+            return newClient;
+        }
+
     }
 }
