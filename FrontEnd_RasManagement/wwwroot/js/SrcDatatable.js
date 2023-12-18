@@ -1660,7 +1660,7 @@ function Update() {
   NonRasCandidate.negotiable = $('input[name="nego2"]:checked').val();
   NonRasCandidate.intwByRas = $("#intwByRAS").val();
 
-  debugger;
+
   //New User
   var nameUser = $("#nameUser").val();
   var intwUser = $("#intwUser").val();
@@ -1675,7 +1675,7 @@ function Update() {
   var newIntwUser = $("#displayUserItw").val();
   var newDateIntwUser = $("#dateIntwUserr").val();
 
-  if ($("#displayUserItw").is(":visible")) {
+  if ($("#displayUserItw").is(":visible")) {    
     if ($("#displayUserItw").val() === null) {
       $(".error-message-update").css("display", "block");
       return false; // Field tidak valid
@@ -1698,118 +1698,42 @@ function Update() {
     return;
   }
 
-  if (
-    nameUser !== null &&
-    nameUserHidden == "" &&
-    intwUser !== "" &&
-    dateIntwUser !== "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden == "" &&
-    dateIntwUserHidden == "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-    var nameUser_ = nameUser;
-    var intwUser_ = intwUser;
-    var dateIntwUser_ = dateIntwUser;
-    console.log("AA");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden == "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 !== null &&
-    dateIntwUser2 !== "" &&
-    intwUserHidden == "" &&
-    dateIntwUserHidden == "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-    var nameUser_ = nameUser + "<br/>" + nameUser;
-    var intwUser_ = intwUser + "<br/>" + intwUser2;
-    var dateIntwUser_ = dateIntwUser + "<br/>" + dateIntwUser2;
-    console.log("BB");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden !== "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 !== null &&
-    dateIntwUser2 !== "" &&
-    intwUserHidden !== "" &&
-    dateIntwUserHidden !== "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-    var nameUser_ = nameUserHidden + nameUser + "<br/>" + nameUser;
-    var intwUser_ = intwUserHidden + intwUser + "<br/>" + intwUser2;
-    var dateIntwUser_ =
-      dateIntwUserHidden + dateIntwUser + "<br/>" + dateIntwUser2;
-    console.log("CC");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden !== "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden !== "" &&
-    dateIntwUserHidden !== null &&
-    newNameUser !== null &&
-    newIntwUser !== null &&
-    newDateIntwUser !== ""
-  ) {
-    var nameUser_ = nameUserHidden + nameUser + "<br/>" + newNameUser;
-    var intwUser_ = intwUserHidden + intwUser + "<br/>" + newIntwUser;
-    var dateIntwUser_ =
-      dateIntwUserHidden + dateIntwUser + "<br/>" + newDateIntwUser;
 
-    console.log("DD");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden == "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden == "" &&
-    dateIntwUserHidden == "" &&
-    newNameUser !== null &&
-    newIntwUser !== null &&
-    newDateIntwUser !== ""
-  ) {
-    var nameUser_ = nameUser + "<br/>" + newNameUser;
-    var intwUser_ = intwUser + "<br/>" + newIntwUser;
-    var dateIntwUser_ = dateIntwUser + "<br/>" + newDateIntwUser;
-    console.log("EE");
-  } else if (
-    nameUser !== "" &&
-    nameUserHidden !== "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden !== "" &&
-    dateIntwUserHidden !== "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-    var nameUser_ = nameUserHidden + nameUser;
-    var intwUser_ = intwUserHidden + intwUser;
-    var dateIntwUser_ = dateIntwUserHidden + dateIntwUser;
-    console.log("FF");
-  }
-  /* else if (nameUser !== "" && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser == "" || newIntwUser == null || newDateIntwUser == "") {
-        
-         console.log("GG");
-         return;
-     }
- */
+    if (nameUser !== null && nameUserHidden == "" && intwUser !== "" && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == "" && newIntwUser == null && newDateIntwUser == "") {
+        var nameUser_ = nameUser;
+        var intwUser_ = intwUser;
+        var dateIntwUser_ = dateIntwUser;
+        console.log("AA");
+    } else if (nameUser !== null && nameUserHidden == "" && intwUser !== null && dateIntwUser !== "" && intwUser2 !== null && dateIntwUser2 !== "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == "" && newIntwUser == null && newDateIntwUser == "") {
+        var nameUser_ = nameUser + "<br/>" + nameUser;
+        var intwUser_ = intwUser + "<br/>" + intwUser2;
+        var dateIntwUser_ = dateIntwUser + "<br/>" + dateIntwUser2;
+        console.log("BB");
+    } else if (nameUser !== null && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 !== null && dateIntwUser2 !== "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
+        var nameUser_ = nameUserHidden + nameUser + "<br/>" + nameUser;
+        var intwUser_ = intwUserHidden + intwUser + "<br/>" + intwUser2;
+        var dateIntwUser_ = dateIntwUserHidden + dateIntwUser + "<br/>" + dateIntwUser2;
+        console.log("CC");
+    } else if (nameUser !== null && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser !== null && newIntwUser !== null && newDateIntwUser !== "") {
+        var nameUser_ = nameUserHidden + nameUser + "<br/>" + newNameUser;
+        var intwUser_ = intwUserHidden + intwUser + "<br/>" + newIntwUser;
+        var dateIntwUser_ = dateIntwUserHidden + dateIntwUser + "<br/>" + dateIntwUser2 + "<br/>" + newDateIntwUser;
+        console.log("DD");
+    } else if (nameUser !== null && nameUserHidden == "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser !== null && newIntwUser !== null && newDateIntwUser !== "") {
+        var nameUser_ = nameUser + "<br/>" + newNameUser;
+        var intwUser_ = intwUser + "<br/>" + newIntwUser;
+        var dateIntwUser_ = dateIntwUser + "<br/>" + newDateIntwUser;
+        console.log("EE");
+    }
+    
+    else if (nameUser !== null && nameUserHidden !== "" && intwUser !== null && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden !== "" && dateIntwUserHidden !== "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
+        var nameUser_ = nameUserHidden + nameUser;
+        var intwUser_ = intwUserHidden + intwUser;
+        var dateIntwUser_ = dateIntwUserHidden + dateIntwUser;
+        console.log("FF");
+    } 
+
+
   //Bates
   /*   var date1 = $('#dateIntwUser').val();
        var date2 = $('#dateIntwUser2').val 
