@@ -35,7 +35,8 @@ $(document).ready(function () {
                         '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
                         row.id +
                         "', '" +
-                        row.nameOfClient + "'" +
+                        row.nameOfClient +
+                        "'" +
                         ')"><i class="fa fa-trash"></i></button >'
                     );
                 },
@@ -97,7 +98,6 @@ function Save() {
         },
 
         success: function (result) {
-
             const logMessage = `Has added client ${CLientName.nameOfClient}`;
             SaveLogUpdate(logMessage);
             if (result.status == 200) {
@@ -109,18 +109,21 @@ function Save() {
                     timer: 1500,
                 });
                 $("#Modal").modal("hide");
-                $('#tbDataCleint').DataTable().ajax.reload()
+                $("#tbDataCleint").DataTable().ajax.reload();
             }
         },
         error: function (xhr, status, error) {
             Swal.fire({
                 icon: "error",
                 title: "Error",
-                html: "Client <span style='text-decoration: underline; font-weight: bold;'>" + CLientName.nameOfClient + "</span> already exists",
+                html:
+                    "Client <span style='text-decoration: underline; font-weight: bold;'>" +
+                    CLientName.nameOfClient +
+                    "</span> already exists",
                 showConfirmButton: false,
                 timer: 1500,
             });
-        }
+        },
     });
 }
 
@@ -160,7 +163,7 @@ function GetById(id) {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-            var obj = result.data; //data yg kita dapat dr API
+            var obj = result.data;
             $("#clientId").val(obj.id);
             $("#clientName").val(obj.nameOfClient);
             $("#Modal").modal("show");
@@ -195,29 +198,41 @@ function Update() {
     ClientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
 
     $.ajax({
-        url: "https://localhost:7177/api/ClientName",
+        url: "https://localhost:7177/api/ClientName/ChangeData",
         type: "PUT",
         data: JSON.stringify(ClientName),
         contentType: "application/json; charset=utf-8",
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
-    }).then((result) => {
-        if (result.status == 200) {
-            const logMessage = `Has updated the client name, client Id ${ClientName.id}`;
+
+        success: function (result) {
+            const logMessage = `Has change client ${ClientName.id}`;
             SaveLogUpdate(logMessage);
+            if (result.status == 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success...",
+                    text: "Data has been added!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                $("#Modal").modal("hide");
+                $("#tbDataCleint").DataTable().ajax.reload();
+            }
+        },
+        error: function (xhr, status, error) {
             Swal.fire({
-                icon: "success",
-                title: "Success...",
-                text: "Data has been update!",
-                showConfirmButtom: false,
+                icon: "error",
+                title: "Error",
+                html:
+                    "Client <span style='text-decoration: underline; font-weight: bold;'>" +
+                    ClientName.nameOfClient +
+                    "</span> already exists",
+                showConfirmButton: false,
                 timer: 1500,
             });
-            $("#Modal").modal("hide");
-            $('#tbDataCleint').DataTable().ajax.reload()
-        } else {
-            Swal.fire("Error!", "Data failed to update", "error");
-        }
+        },
     });
 }
 
@@ -244,7 +259,7 @@ function Delete(id, nameOfClient) {
                     const logMessage = `Has deleted client ${nameOfClient}`;
                     SaveLogUpdate(logMessage);
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
-                    $('#tbDataCleint').DataTable().ajax.reload()
+                    $("#tbDataCleint").DataTable().ajax.reload();
                 },
                 error: function (errormessage) {
                     Swal.fire("Error!", "Cant Delete, client Is Not Empty", "error");
