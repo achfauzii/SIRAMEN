@@ -1752,7 +1752,7 @@ function Update() {
     else {
         Swal.fire({
             icon: "warning",
-            title: "Data Gagal dimasukkan! Hubungi SuperAdmin",
+            title: "Data Gagal dimasukkan! Hubungi Developer",
             showConfirmButtom: false,
             timer: 1500,
         });
