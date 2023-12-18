@@ -69,6 +69,8 @@ $(document).ready(function () {
 });
 
 function Save() {
+  table = $("#TB_Department").DataTable()
+  console.log('Save function - table:', table);
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -173,6 +175,7 @@ function GetByIdDept(deptId) {
 }
 
 function UpdateDept() {
+  table = $("#TB_Department").DataTable()
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -194,33 +197,49 @@ function UpdateDept() {
   Department.namaDept = $("#NamaDept").val(); //value insert dari id pada input
 
   $.ajax({
-    url: "https://localhost:7177/api/Department",
+    url: "https://localhost:7177/api/Department/Departmentv2",
     type: "PUT",
     data: JSON.stringify(Department),
     contentType: "application/json; charset=utf-8",
     headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-  }).then((result) => {
-      if (result.status == 200) {
-          const logMessage = `Has updated the department name, department Id ${Department.deptId}`;
-          SaveLogUpdate(logMessage);
+    success: function(result) {
+        const logMessage = `Has updated the department name, department Id ${Department.deptId}`;
+        SaveLogUpdate(logMessage);
+        if(result.status == 200){
+        Swal.fire({
+            icon: "success",
+            title: "Success...",
+            text: "Data has been updated!",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        $("#Modal").modal("hide");
+        table.ajax.reload();
+    } else if(result.status == 400){
       Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been update!",
-        showConfirmButtom: false,
+        icon: "error",
+        title: "Failed...",
+        text: "Department Name Already Exists!",
+        showConfirmButton: false,
         timer: 1500,
-      });
-      $("#Modal").modal("hide");
-          $('#TB_Department').DataTable().ajax.reload()
-    } else {
-      Swal.fire("Error!", "Data failed to update", "error");
+    });
+    }},
+    error: function(errormessage) {
+        Swal.fire({
+            icon: "error",
+            title: "Failed...",
+            text: "Unknown",
+            showConfirmButton: false,
+            timer: 1500,
+        });
     }
-  });
+});
 }
 
 function Delete(deptId, deptName) {
+  table = $("#TB_Department").DataTable()
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",

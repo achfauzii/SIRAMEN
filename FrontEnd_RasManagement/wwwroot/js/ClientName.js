@@ -177,8 +177,8 @@ function GetById(id) {
 }
 
 function Update() {
+  table = $("#tbDataCleint").DataTable()
   var isValid = true;
-
   $("input[required]").each(function () {
     var element = $(this);
     if (!element.val()) {
@@ -198,30 +198,45 @@ function Update() {
   ClientName.nameOfClient = $("#clientName").val().toUpperCase(); //value insert dari id pada input
 
   $.ajax({
-    url: "https://localhost:7177/api/ClientName",
+    url: "https://localhost:7177/api/ClientName/AddValidasi",
     type: "PUT",
     data: JSON.stringify(ClientName),
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-  }).then((result) => {
-    if (result.status == 200) {
+    success: function(result) {
       const logMessage = `Has updated the client name, client Id ${ClientName.id}`;
       SaveLogUpdate(logMessage);
+      if(result.status == 200){
       Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been update!",
-        showConfirmButtom: false,
-        timer: 1500,
+          icon: "success",
+          title: "Success...",
+          text: "Data has been updated!",
+          showConfirmButton: false,
+          timer: 1500,
       });
       $("#Modal").modal("hide");
-      $("#tbDataCleint").DataTable().ajax.reload();
-    } else {
-      Swal.fire("Error!", "Data failed to update", "error");
-    }
+      table.ajax.reload();
+  } else if(result.status == 400){
+    Swal.fire({
+      icon: "error",
+      title: "Failed...",
+      text: "Client Name Already Exists!",
+      showConfirmButton: false,
+      timer: 1500,
   });
+  }},
+  error: function(errormessage) {
+      Swal.fire({
+          icon: "error",
+          title: "Failed...",
+          text: "Unknown",
+          showConfirmButton: false,
+          timer: 1500,
+      });
+  }
+});
 }
 
 function Delete(id, nameOfClient) {
