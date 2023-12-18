@@ -1671,7 +1671,10 @@ function Update() {
   var intwUserHidden = $("#intwuserHiden").val();
   var dateIntwUserHidden = $("#dateintwuserHiden").val();
 
-  var newNameUser = $("#nameUser2").val();
+    var newNameUser = $("#nameUser2").val();
+    if (newNameUser=== "" || newNameUser === null) {
+        newNameUser = null;
+    }
   var newIntwUser = $("#displayUserItw").val();
   var newDateIntwUser = $("#dateIntwUserr").val();
 
@@ -1697,14 +1700,24 @@ function Update() {
   if (!isValid) {
     return;
   }
+    console.log("nameUser:", nameUser);
+    console.log("intwUser:", intwUser);
+    console.log("dateIntwUser:", dateIntwUser);
+    console.log("nameUserHidden:", nameUserHidden);
+    console.log("intwUser2:", intwUser2);
+    console.log("dateIntwUser2:", dateIntwUser2);
+    console.log("intwUserHidden:", intwUserHidden);
+    console.log("dateIntwUserHidden:", dateIntwUserHidden);
+    console.log("newNameUser:", newNameUser);
+    console.log("newIntwUser:", newIntwUser);
+    console.log("newDateIntwUser:", newDateIntwUser);
 
-
-    if (nameUser !== null && nameUserHidden == "" && intwUser !== "" && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == "" && newIntwUser == null && newDateIntwUser == "") {
+    if (nameUser !== null && nameUserHidden == "" && intwUser !== "" && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
         var nameUser_ = nameUser;
         var intwUser_ = intwUser;
         var dateIntwUser_ = dateIntwUser;
         console.log("AA");
-    } else if (nameUser !== null && nameUserHidden == "" && intwUser !== null && dateIntwUser !== "" && intwUser2 !== null && dateIntwUser2 !== "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == "" && newIntwUser == null && newDateIntwUser == "") {
+    } else if (nameUser !== null && nameUserHidden == "" && intwUser !== null && dateIntwUser !== "" && intwUser2 !== null && dateIntwUser2 !== "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
         var nameUser_ = nameUser + "<br/>" + nameUser;
         var intwUser_ = intwUser + "<br/>" + intwUser2;
         var dateIntwUser_ = dateIntwUser + "<br/>" + dateIntwUser2;
