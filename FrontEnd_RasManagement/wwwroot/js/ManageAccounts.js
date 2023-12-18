@@ -59,16 +59,6 @@ $(document).ready(function () {
               row.accountId +
               "')\">Admin</button>";
           }
-          if (roleId == "3") {
-            role =
-              '<button class="badge badge-pill badge-primary" data - placement="right" data - toggle="modal" data - animation="false" style="outline: none; border: none;" title="Edit" onclick="return GetById(\'' +
-              row.accountId +
-              "')\">Employee</button>";
-          } else {
-            role =
-              '<button class="badge badge-pill badge-warning" data - placement="right" style="outline: none; border: none;" >Admin</button>';
-          }
-
           return role;
         },
       },
@@ -137,7 +127,6 @@ function GetByIdNIK(accountId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-
       var obj = result.data; //data yg kita dapat dr API
       $("#AccountIdNIK").val(obj.accountId);
       $("#NIK").val(obj.nik);
