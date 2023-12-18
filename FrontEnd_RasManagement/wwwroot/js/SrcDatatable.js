@@ -1746,6 +1746,15 @@ function Update() {
         var intwUser_ = intwUserHidden + intwUser;
         var dateIntwUser_ = dateIntwUserHidden + dateIntwUser;
         console.log("FF");
+    } else {
+        Swal.fire({
+            icon: "warning",
+            title: "Data Gagal dimasukkan! Hubguni Developer",
+            showConfirmButtom: false,
+            timer: 1500,
+        });
+        return;
+
     }
 
 
