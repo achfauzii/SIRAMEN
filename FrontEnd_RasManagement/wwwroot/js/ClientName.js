@@ -160,7 +160,7 @@ function GetById(id) {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-            var obj = result.data; //data yg kita dapat dr API
+            var obj = result.data; 
             $("#clientId").val(obj.id);
             $("#clientName").val(obj.nameOfClient);
             $("#Modal").modal("show");
