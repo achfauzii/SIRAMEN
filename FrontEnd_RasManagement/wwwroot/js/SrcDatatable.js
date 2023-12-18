@@ -1752,10 +1752,10 @@ function Update() {
     else {
         Swal.fire({
             icon: "warning",
-            title: "Data Gagal dimasukkan! Hubungi Developer",
-            text: "Terdapat data Client yang telah di hapus, atau kesalahan input data",
+            title: "Data failed to added!",
+            text: "There is client data that has been deleted, or a data input error",
             showConfirmButtom: false,
-            timer: 1500,
+            timer: 4000,
         });
         return;
 
