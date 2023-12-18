@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\AccountsController.cs~RF54e8a70.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\Qualification.js" />
   </ItemGroup>
 
