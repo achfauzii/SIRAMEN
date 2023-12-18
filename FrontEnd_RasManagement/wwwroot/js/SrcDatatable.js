@@ -1702,17 +1702,7 @@ function Update() {
     if (!isValid) {
         return;
     }
-    console.log("nameUser:", nameUser);
-    console.log("intwUser:", intwUser);
-    console.log("dateIntwUser:", dateIntwUser);
-    console.log("nameUserHidden:", nameUserHidden);
-    console.log("intwUser2:", intwUser2);
-    console.log("dateIntwUser2:", dateIntwUser2);
-    console.log("intwUserHidden:", intwUserHidden);
-    console.log("dateIntwUserHidden:", dateIntwUserHidden);
-    console.log("newNameUser:", newNameUser);
-    console.log("newIntwUser:", newIntwUser);
-    console.log("newDateIntwUser:", newDateIntwUser);
+
 
     if (nameUser !== null && nameUserHidden == "" && intwUser !== "" && dateIntwUser !== "" && intwUser2 == null && dateIntwUser2 == "" && intwUserHidden == "" && dateIntwUserHidden == "" && newNameUser == null && newIntwUser == null && newDateIntwUser == "") {
         var nameUser_ = nameUser;
@@ -1746,10 +1736,24 @@ function Update() {
         var intwUser_ = intwUserHidden + intwUser;
         var dateIntwUser_ = dateIntwUserHidden + dateIntwUser;
         console.log("FF");
-    } else {
+    } else if (nameUser == null &&
+        nameUserHidden == "" &&
+        intwUser == null &&
+        dateIntwUser == "" &&
+        intwUser2 == null &&
+        dateIntwUser2 == "" &&
+        intwUserHidden == "" &&
+        dateIntwUserHidden == "" &&
+        newNameUser == null &&
+        newIntwUser == null &&
+        newDateIntwUser == "") {
+      
+    }
+    else {
         Swal.fire({
             icon: "warning",
-            title: "Data Gagal dimasukkan! Hubguni Developer",
+            title: "Data Gagal dimasukkan! Hubungi Developer",
+            text: "Terdapat data Client yang telah di hapus, atau kesalahan input data",
             showConfirmButtom: false,
             timer: 1500,
         });
