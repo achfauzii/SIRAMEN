@@ -21,6 +21,8 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<Certificate> Certificates { get; set; }
 
+    public virtual DbSet<ClientName> ClientNames { get; set; }
+
     public virtual DbSet<DataUniversita> DataUniversitas { get; set; }
 
     public virtual DbSet<Department> Departments { get; set; }
@@ -54,7 +56,7 @@ public partial class ProjectRasmanagementContext : DbContext
     public virtual DbSet<TurnOver> TurnOvers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("server = RAS-FAYYAD; Database = Project_RASManagement; user id = sa; password = sapassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        => optionsBuilder.UseSqlServer("server = RAS-YOGI; Database = Project_RASManagement; user id = sa; password = sapassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -199,6 +201,17 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Certificate_Account");
+        });
+
+        modelBuilder.Entity<ClientName>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.ToTable("Client_Name");
+
+            entity.Property(e => e.Id).HasColumnName("Id");
+            entity.Property(e => e.NameOfClient)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<DataUniversita>(entity =>
