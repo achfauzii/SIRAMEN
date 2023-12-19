@@ -437,6 +437,9 @@ function Src(selectedCategory) {
                 },
             },
             {
+                data: "techTest",
+            },
+            {
                 data: "intwByRas",
             },
             {
@@ -762,7 +765,7 @@ function Src(selectedCategory) {
             $("#Yes2").prop("checked", false);
             $("#No2").prop("checked", false);
         }
-
+        $("#techTest").val(data.techTest);
         $("#intwByRAS").val(data.intwByRas);
 
         if (data.intwDateByRas) {
@@ -1091,6 +1094,7 @@ function ClearScreenUpt() {
     $("#levelRekom").val("");
     $("#statusOffering").val("");
     $("#notes").val("");
+    $("#techTest").val("");
     $("#intwuserHiden").val("");
     $("#dateintwuserHiden").val("");
     $("#nameUserhidden").val("");
@@ -1436,6 +1440,7 @@ function getBadgeColorPosition(position) {
     }
 }*/
 
+
 function Save() {
     var isValid = true;
 
@@ -1448,7 +1453,7 @@ function Save() {
             input.next(".error-message_").hide();
         }
         // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-        if (input.attr("id") === "ipk") {
+        /*if (input.attr("id") === "ipk") {
             var ipk = input.val().trim();
             var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
@@ -1458,7 +1463,7 @@ function Save() {
             } else {
                 $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
             }
-        }
+        }*/
     });
 
     // Validasi select options
@@ -1530,6 +1535,7 @@ function Save() {
     NonRasCandidate.currentSalary = $("#current").val();
     NonRasCandidate.expectedSalary = $("#expected").val();
     NonRasCandidate.negotiable = $('input[name="nego"]:checked').val();
+    NonRasCandidate.techTest = "";
     NonRasCandidate.intwByRas = null;
     NonRasCandidate.intwDateByRas = null;
     NonRasCandidate.intwUser = null;
@@ -1811,6 +1817,7 @@ function Update() {
          }
      */
 
+    NonRasCandidate.techTest = $("#techTest").val();
     NonRasCandidate.intwDateByRas = $("#dateIntwRAS").val();
     NonRasCandidate.intwUser = intwUser_;
     NonRasCandidate.nameOfUser = nameUser_;

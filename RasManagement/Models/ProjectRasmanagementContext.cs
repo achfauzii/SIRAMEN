@@ -455,6 +455,9 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.TechTest)
+                .IsUnicode(false)
+                .HasColumnName("Tech_Test");
             entity.Property(e => e.University)
                 .HasMaxLength(100)
                 .IsUnicode(false);
