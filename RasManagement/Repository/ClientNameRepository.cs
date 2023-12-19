@@ -15,17 +15,6 @@
 
             return clientnameExists;
         }
-         public async Task<ClientName> UpdateClient(int id, string newName)
-        {
-            var clientToUpdate = await context.ClientNames.FindAsync(id);
-            if (clientToUpdate == null)
-            {
-                return null;
-            }
-            clientToUpdate.NameOfClient = newName;
-            await context.SaveChangesAsync();
-            return clientToUpdate;
-        }
         public async Task<ClientName> AddClient(string clientname)
         {
             // Assuming you have a Department model and DbSet<Department> in your context
