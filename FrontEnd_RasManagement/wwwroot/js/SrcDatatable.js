@@ -307,7 +307,7 @@ function Src(selectedCategory) {
             {
                 data: "birthdate",
                 render: function(data) {
-                    return data.trim() !== "" ? data + " Tahun" : "";
+                    return data.trim() !== "" ? data + " Years Old" : "";
                 }
                
             },
