@@ -153,6 +153,7 @@
                     <th>Current Salary</th>
                     <th>Expected Salary</th>
                     <th>Negotiable</th>
+                    <th>Tech Test Result</th>
                     <th>Interview by RAS</th>
                     <th>Interview Date by RAS</th>
                     <th>Name of User</th>
@@ -207,23 +208,32 @@
 
                                 <p class="p-0 m-0">
                                     <select class="position form-control" id="position" name="position[]" multiple="multiple" style="width: 100%;" required>
-                                        <option value="Fullstack">Fullstack</option>
-                                        <option value="Data Engineer">Data Engineer</option>
-                                        <option value="Frontend">Front End</option>
-                                        <option value="Backend">Back End</option>
-                                        <option value="Data Science">Data Science</option>
-                                         <option value="Data Analyst">Data Analyst</option>
-                                        <option value="Networking">Networking</option>
-                                        <option value="RPA">RPA</option>
-                                        <option value="Database Administrator">Database Administrator</option>
-                                        <option value="Database Engineer">Database Engineer</option>
-                                        <option value="Database Analyst">Database Analyst</option>
-                                        <option value="Database Analyst">Manual</option>
-                                        <option value="Database Analyst">Automation</option>
-                                        <option value="Technical Writer">Technical Writer</option>
-                                        <option value="Solution Analyst">Solution Analyst</option>
-                                        <option value="Business Analyst">Business Analyst</option>
-                                        <option value="Scrum Master">Scrum Master</option>
+                                            <option value="Back End Developer">Back End Developer</option>
+                                            <option value="Business Analyst">Business Analyst</option>
+                                            <option value="Business Intelligent Engineer">Business Intelligent Engineer</option>
+                                            <option value="Data Analyst">Data Analyst</option>
+                                            <option value="Data Engineer">Data Engineer</option>
+                                            <option value="Database Administrator">Database Administrator</option>
+                                            <option value="Database Analyst">Database Analyst</option>
+                                            <option value="Database Engineer">Database Engineer</option>
+                                            <option value="Devops Engineer">Devops Engineer</option>
+                                            <option value="Developer">Developer</option>
+                                            <option value="Front End Developer">Front End Developer</option>
+                                            <option value="Head of IT">Head of IT</option>
+                                            <option value="IT Admin">IT Admin</option>
+                                            <option value="IT Applications Support">IT Applications Support</option>
+                                            <option value="Manager">Manager</option>
+                                            <option value="Mobile Developer">Mobile Developer</option>
+                                            <option value="Outsystems Developer">Outsystems Developer</option>
+                                            <option value="Project Manager">Project Manager</option>
+                                            <option value="Quality Assurance">Quality Assurance</option>
+                                            <option value="Sage 300 Consultant">Sage 300 Consultant</option>
+                                            <option value="SAP ABAP Developer">SAP ABAP Developer</option>
+                                            <option value="Scrum Master">Scrum Master</option>
+                                            <option value="Software Engineer">Software Engineer</option>
+                                            <option value="System Analyst">System Analyst</option>
+                                            <option value="UiPath Engineer">UiPath Engineer</option>
+                                            <option value=".Net Developer">.Net Developer</option>
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
                                 </p>
@@ -284,7 +294,7 @@
                         <div class="row pl-2 pr-2">
                             <div class="col-sm-3 col-md" style="color: black">IPK</div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" oninput="numeric(this);" onpaste="numeric(this);" id="ipk" required_>
+                                <input type="text" class="form-control" oninput="numeric(this);" onpaste="numeric(this);" id="ipk" >
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                                 <span class="error-format-ipk" style="color: red; display: none;">Enter the correct GPA!</span>                       
                             </div>
@@ -293,14 +303,11 @@
                     <div class="form-group">
                         <div class="row pl-2 pr-2">
                             <div class="col-sm-3 col-md" style="color: black">University</div>
-                            <div class="col-sm-9">
-                              <p>
-                                <select id="UniversityName" class="form-control selectUniversity" required>
+                            <div class="col-sm-9">                              
+                                <select id="UniversityName" class="form-control selectUniversity" required_>
                                     <option></option>
                                 </select>
-                              </p>
-                                <span class="error-message-u" style="color: red; display: none;">This field is required!</span>
-
+                                <span class="error-message-u" style="color: red; display: none;">This field is required!</span>                              
                             </div>
                         </div>
                     </div>
@@ -326,9 +333,9 @@
                     </div>
                     <div class="form-group">
                         <div class="row pl-2 pr-2">
-                            <div class="col-sm-3 col-md" style="color: black">Birthdate </div>
+                            <div class="col-sm-3 col-md" style="color: black">Age </div>
                             <div class="col-sm-9">
-                                <input type="date" class="form-control" id="birthdate">
+                                <input type="text" class="form-control" id="birthdate">
                                 @*<span class="error-message_" style="color: red; display: none;">This field is required!</span>*@
                             </div>
                         </div>
@@ -521,7 +528,12 @@
 
                 <div class="pr-4 pl-4 pb-1">  <hr></div>
                 <form>
-
+                    <div class="form-group row pr-4 pl-4">
+                        <label for="" class="col-sm-2 col-form-label">Tech Test Result</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="techTest"> </input>
+                        </div>
+                    </div>
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Interview By Ras</label>
                         <div class="col-sm-5">
@@ -627,18 +639,6 @@
                                 </select>
                                 <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
                             </div>
-                            <!--New Offering Process-->
-                            @* <div class="mt-2" style="display:none" id="displayIntwUser3">
-                            <select class=" form-control form-control-sm" id="intwUserr2" requiredUpdate>
-                            <option selected disabled>Choose...</option>
-                            <option value="Done">Done</option>
-                            <option value="Hold">Hold</option>
-                            <option value="Scheduling">Scheduling</option>
-                            <option value="Reject">Reject</option>
-                            <option value="Submitted Cv">Submitted Cv</option>
-                            </select>
-                            <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
-                            </div>*@
 
                         </div>
                         <div class="col-sm-5" id="displayFormOffer" style="display:none">
@@ -779,23 +779,32 @@
                                 <div class="col-sm-3 col-md" style="color: black">Position</div>
                                 <div class="col-sm-9">
                                     <select class="position form-control" id="position2" name="position[]" multiple="multiple" style="width: 100%;">
-                                        <option value="Fullstack">Fullstack</option>
-                                        <option value="Data Engineer">Data Engineer</option>
-                                        <option value="Frontend">Front End</option>
-                                        <option value="Backend">Back End</option>
-                                        <option value="Data Science">Data Science</option>
-                                        <option value="Data Analyst">Data Analyst</option>
-                                        <option value="Networking">Networking</option>
-                                        <option value="RPA">RPA</option>
-                                        <option value="Database Administrator">Database Administrator</option>
-                                        <option value="Database Engineer">Database Engineer</option>
-                                        <option value="Database Analyst">Database Analyst</option>
-                                        <option value="Database Analyst">Manual</option>
-                                        <option value="Database Analyst">Automation</option>
-                                        <option value="Technical Writer">Technical Writer</option>
-                                        <option value="Solution Analyst">Solution Analyst</option>
+                                        <option value="Back End Developer">Back End Developer</option>
                                         <option value="Business Analyst">Business Analyst</option>
-                                        <option value="Scrum Master">Scrum Master</option>
+                                        <option value="Business Intelligent Engineer">Business Intelligent Engineer</option>
+                                            <option value="Data Analyst">Data Analyst</option>
+                                            <option value="Data Engineer">Data Engineer</option>
+                                            <option value="Database Administrator">Database Administrator</option>
+                                            <option value="Database Analyst">Database Analyst</option>
+                                            <option value="Database Engineer">Database Engineer</option>
+                                            <option value="Devops Engineer">Devops Engineer</option>
+                                            <option value="Developer">Developer</option>
+                                            <option value="Front End Developer">Front End Developer</option>
+                                            <option value="Head of IT">Head of IT</option>
+                                            <option value="IT Admin">IT Admin</option>
+                                            <option value="IT Applications Support">IT Applications Support</option>
+                                            <option value="Manager">Manager</option>
+                                            <option value="Mobile Developer">Mobile Developer</option>
+                                            <option value="Outsystems Developer">Outsystems Developer</option>
+                                            <option value="Project Manager">Project Manager</option>
+                                            <option value="Quality Assurance">Quality Assurance</option>
+                                            <option value="Sage 300 Consultant">Sage 300 Consultant</option>
+                                            <option value="SAP ABAP Developer">SAP ABAP Developer</option>
+                                            <option value="Scrum Master">Scrum Master</option>
+                                            <option value="Software Engineer">Software Engineer</option>
+                                            <option value="System Analyst">System Analyst</option>
+                                            <option value="UiPath Engineer">UiPath Engineer</option>
+                                            <option value=".Net Developer">.Net Developer</option>
 
                                     </select>
                                 </div>
@@ -881,9 +890,9 @@
                         </div>
                         <div class="form-group">
                             <div class="row pl-4 pr-4">
-                                <div class="col-sm-3 col-md" style="color: black">Birthdate </div>
+                                <div class="col-sm-3 col-md" style="color: black">Age </div>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" id="birthdate2" required>
+                                    <input type="text" class="form-control" id="birthdate2" required>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
