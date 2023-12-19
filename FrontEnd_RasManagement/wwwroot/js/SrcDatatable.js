@@ -350,9 +350,9 @@ function Src(selectedCategory) {
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
                         var checkTrue =
-                            '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
+                            '<span class="fas fa-check-circle" style="color: #0ba80b;"></span>';
                         var checkFalse =
-                            '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
+                            '<span class="fas fa-times-circle" style="color: #ee463a;"></span>';
 
                         if (data === "true") {
                             return '<div class="text-center">' + checkTrue + "</div>";
@@ -420,9 +420,9 @@ function Src(selectedCategory) {
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
                         var checkTrue =
-                            '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
+                            '<span class="fas fa-check-circle" style="color: #0ba80b;"></span>';
                         var checkFalse =
-                            '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
+                            '<span class="fas fa-times-circle" style="color: #ee463a;"></span>';
 
                         if (data === "true") {
                             return '<div class="text-center">' + checkTrue + "</div>";
