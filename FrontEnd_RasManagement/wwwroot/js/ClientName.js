@@ -87,7 +87,7 @@ function Save() {
   }
 
   var CLientName = new Object(); //object baru
-  CLientName.nameOfClient = $("#clientName").val().toUpperCase(); //value insert dari id pada input
+  CLientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/ClientName/AddValidasi",
@@ -163,7 +163,7 @@ function GetById(id) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      var obj = result.data; //data yg kita dapat dr API
+      var obj = result.data;
       $("#clientId").val(obj.id);
       $("#clientName").val(obj.nameOfClient);
       $("#Modal").modal("show");
@@ -177,8 +177,8 @@ function GetById(id) {
 }
 
 function Update() {
-  table = $("#tbDataCleint").DataTable()
   var isValid = true;
+
   $("input[required]").each(function () {
     var element = $(this);
     if (!element.val()) {
@@ -195,48 +195,45 @@ function Update() {
 
   var ClientName = new Object(); //object baru
   ClientName.id = $("#clientId").val();
-  ClientName.nameOfClient = $("#clientName").val().toUpperCase(); //value insert dari id pada input
+  ClientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
 
   $.ajax({
-    url: "https://localhost:7177/api/ClientName/AddValidasi",
+    url: "https://localhost:7177/api/ClientName/ChangeData",
     type: "PUT",
     data: JSON.stringify(ClientName),
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-    success: function(result) {
-      const logMessage = `Has updated the client name, client Id ${ClientName.id}`;
+
+    success: function (result) {
+      const logMessage = `Has change client ${ClientName.id}`;
       SaveLogUpdate(logMessage);
-      if(result.status == 200){
-      Swal.fire({
+      if (result.status == 200) {
+        Swal.fire({
           icon: "success",
           title: "Success...",
-          text: "Data has been updated!",
+          text: "Data has been added!",
           showConfirmButton: false,
           timer: 1500,
-      });
-      $("#Modal").modal("hide");
-      table.ajax.reload();
-  } else if(result.status == 400){
-    Swal.fire({
-      icon: "error",
-      title: "Failed...",
-      text: "Client Name Already Exists!",
-      showConfirmButton: false,
-      timer: 1500,
-  });
-  }},
-  error: function(errormessage) {
+        });
+        $("#Modal").modal("hide");
+        $("#tbDataCleint").DataTable().ajax.reload();
+      }
+    },
+    error: function (xhr, status, error) {
       Swal.fire({
-          icon: "error",
-          title: "Failed...",
-          text: "Unknown",
-          showConfirmButton: false,
-          timer: 1500,
+        icon: "error",
+        title: "Error",
+        html:
+          "Client <span style='text-decoration: underline; font-weight: bold;'>" +
+          ClientName.nameOfClient +
+          "</span> already exists",
+        showConfirmButton: false,
+        timer: 1500,
       });
-  }
-});
+    },
+  });
 }
 
 function Delete(id, nameOfClient) {

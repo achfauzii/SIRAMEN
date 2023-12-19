@@ -2,7 +2,7 @@ var table = null;
 $(document).ready(function () {
   table = $("#TB_Department").DataTable({
     responsive: true,
-    
+
     ajax: {
       url: "https://localhost:7177/api/Department",
       type: "GET",
@@ -32,10 +32,11 @@ $(document).ready(function () {
             row.deptId +
             ')"><i class="fa fa-edit"></i></button >' +
             "&nbsp;" +
-              '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
-              row.deptId +
-              "', '" +
-              row.namaDept + "'"+
+            '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
+            row.deptId +
+            "', '" +
+            row.namaDept +
+            "'" +
             ')"><i class="fa fa-trash"></i></button >'
           );
         },
@@ -69,8 +70,8 @@ $(document).ready(function () {
 });
 
 function Save() {
-  table = $("#TB_Department").DataTable()
-  console.log('Save function - table:', table);
+  table = $("#TB_Department").DataTable();
+  console.log("Save function - table:", table);
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -97,10 +98,10 @@ function Save() {
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-  
-      success: function (result) {
-          const logMessage = `Has added department ${Department.namaDept}`;
-          SaveLogUpdate(logMessage);
+
+    success: function (result) {
+      const logMessage = `Has added department ${Department.namaDept}`;
+      SaveLogUpdate(logMessage);
       if (result.status == 200) {
         Swal.fire({
           icon: "success",
@@ -110,18 +111,21 @@ function Save() {
           timer: 1500,
         });
         $("#Modal").modal("hide");
-          $('#TB_Department').DataTable().ajax.reload()
+        $("#TB_Department").DataTable().ajax.reload();
       }
     },
     error: function (xhr, status, error) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        html:  "Department <span style='text-decoration: underline; font-weight: bold;'>" + Department.namaDept + "</span> already exists",
+        html:
+          "Department <span style='text-decoration: underline; font-weight: bold;'>" +
+          Department.namaDept +
+          "</span> already exists",
         showConfirmButton: false,
         timer: 1500,
       });
-    }
+    },
   });
 }
 
@@ -175,7 +179,7 @@ function GetByIdDept(deptId) {
 }
 
 function UpdateDept() {
-  table = $("#TB_Department").DataTable()
+  table = $("#TB_Department").DataTable();
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -202,44 +206,45 @@ function UpdateDept() {
     data: JSON.stringify(Department),
     contentType: "application/json; charset=utf-8",
     headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-    success: function(result) {
-        const logMessage = `Has updated the department name, department Id ${Department.deptId}`;
-        SaveLogUpdate(logMessage);
-        if(result.status == 200){
+    success: function (result) {
+      const logMessage = `Has updated the department name, department Id ${Department.deptId}`;
+      SaveLogUpdate(logMessage);
+      if (result.status == 200) {
         Swal.fire({
-            icon: "success",
-            title: "Success...",
-            text: "Data has been updated!",
-            showConfirmButton: false,
-            timer: 1500,
+          icon: "success",
+          title: "Success...",
+          text: "Data has been updated!",
+          showConfirmButton: false,
+          timer: 1500,
         });
         $("#Modal").modal("hide");
         table.ajax.reload();
-    } else if(result.status == 400){
+      } else if (result.status == 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Failed...",
+          text: "Department Name Already Exists!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    },
+    error: function (errormessage) {
       Swal.fire({
         icon: "error",
         title: "Failed...",
-        text: "Department Name Already Exists!",
+        text: "Unknown",
         showConfirmButton: false,
         timer: 1500,
-    });
-    }},
-    error: function(errormessage) {
-        Swal.fire({
-            icon: "error",
-            title: "Failed...",
-            text: "Unknown",
-            showConfirmButton: false,
-            timer: 1500,
-        });
-    }
-});
+      });
+    },
+  });
 }
 
 function Delete(deptId, deptName) {
-  table = $("#TB_Department").DataTable()
+  table = $("#TB_Department").DataTable();
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -258,11 +263,11 @@ function Delete(deptId, deptName) {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
-          success: function (result) {
-              const logMessage = `Has deleted department ${deptName}`;
-              SaveLogUpdate(logMessage);
+        success: function (result) {
+          const logMessage = `Has deleted department ${deptName}`;
+          SaveLogUpdate(logMessage);
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
-           $('#TB_Department').DataTable().ajax.reload()
+          $("#TB_Department").DataTable().ajax.reload();
         },
         error: function (errormessage) {
           Swal.fire("Error!", "Cant Delete, Department Is Not Empty", "error");

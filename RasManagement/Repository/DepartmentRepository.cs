@@ -9,11 +9,11 @@
             this.context = context;
         }
         public async Task<bool> DepartmentIsExist(string name, int? id = null)
-{
-             var departmentExists = await context.Departments
-        .AnyAsync(a => a.NamaDept == name && (id == null || a.DeptId != id));
+        {
+            var departmentExists = await context.Departments
+       .AnyAsync(a => a.NamaDept == name && (id == null || a.DeptId != id));
 
-        return departmentExists;
+            return departmentExists;
         }
 
         public async Task<Department> UpdateDepartment(int id, string newName)
@@ -38,5 +38,5 @@
 
             return newDepartment;
         }
-        }
+    }
 }
