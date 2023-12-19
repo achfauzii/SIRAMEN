@@ -9,9 +9,9 @@
             this.context = context;
         }
         public async Task<bool> DepartmentIsExist(string name, int? id = null)
-{
-             var departmentExists = await context.Departments
-        .AnyAsync(a => a.NamaDept == name && (id == null || a.DeptId != id));
+        {
+            var departmentExists = await context.Departments
+       .AnyAsync(a => a.NamaDept == name && (id == null || a.DeptId != id));
 
         return departmentExists;
         }
@@ -27,6 +27,7 @@
             await context.SaveChangesAsync();
             return departmentToUpdate;
         }
+
         public async Task<Department> AddDepartment(string name)
         {
             // Assuming you have a Department model and DbSet<Department> in your context
@@ -38,5 +39,5 @@
 
             return newDepartment;
         }
-        }
+    }
 }
