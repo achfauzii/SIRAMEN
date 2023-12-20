@@ -34,6 +34,16 @@ var pastelColors = [
 ];
 
 $(document).ready(function () {
+  $("#experience_year").on("keyup", function () {
+    var regex = /^[0-9<>\s]+$/;
+
+    if (!regex.test(this.value)) {
+      var value = this.value.replace(/^[^0-9<>]/g, "");
+      this.value = value;
+      return;
+    }
+  });
+
   getClientList();
 
   getUniversitasList();
@@ -306,39 +316,42 @@ function Src(selectedCategory) {
       },
       {
         data: "birthdate",
-        render: function(data) {
-                    return data.trim() !== "" ? data + " Years Old" : "";
-                }
+        render: function (data) {
+          return data.trim() !== "" ? data + " Years Old" : "";
         },
       },
 
       {
         data: "experienceInYear",
-        render: function (data) {
-          var year = data.substring(0, 1);
-          var month = data.substring(3, 4);
-          if (year >= 5) {
-            if (month != "" || year > 5) {
-              return "> 5 Years";
-            } else {
-              return year + " Years";
-            }
-          } else if (year < 1) {
-            return "< 1 Year";
-          } else if (year > 1) {
-            if (month != "") {
-              return year + " Years " + month + " Months";
-            } else {
-              return year + " Years";
-            }
-          } else {
-            if (month != "") {
-              return year + " Year " + month + " Months";
-            } else {
-              return year + " Year";
-            }
-          }
-        },
+        // render: function (data) {
+        //   var year = data.substring(0, 1);
+        //   var month = data.substring(3, 4);
+        //   if (year >= 5) {
+        //     if (month != "" || year > 5) {
+        //       return "> 5 Years";
+        //     } else {
+        //       return year + " Years";
+        //     }
+        //   } else if (year < 1) {
+        //     if (month != "") {
+        //       return "< 1 Year";
+        //     } else {
+        //       return "0 Year";
+        //     }
+        //   } else if (year > 1) {
+        //     if (month != "") {
+        //       return year + " Years " + month + " Months";
+        //     } else {
+        //       return year + " Years";
+        //     }
+        //   } else {
+        //     if (month != "") {
+        //       return year + " Year " + month + " Months";
+        //     } else {
+        //       return year + " Year";
+        //     }
+        //   }
+        // },
       },
       {
         data: "filteringBy",
@@ -742,16 +755,17 @@ function Src(selectedCategory) {
     $("#domicile2").val(data.domisili);
 
     if (data.birthdate) {
-      $("#birthdate2").val(data.birthdate.substring(0, 10));
+      $("#age").val(data.birthdate);
     } else {
-      $("#birthdate2").val("");
+      $("#age").val("");
     }
 
     $("#level2").val(data.level);
     $("#statusOffering").val(data.status);
 
-    $("#experience_year2").val(data.experienceInYear.substring(0, 1));
-    $("#experience_month2").val(data.experienceInYear.substring(3, 4));
+    $("#experience").val(data.experienceInYear);
+    // $("#experience_year2").val(data.experienceInYear.substring(0, 1));
+    // $("#experience_month2").val(data.experienceInYear.substring(3, 4));
 
     $("#filteringby2").val(data.filteringBy);
     var checkbox2 = document.getElementById("workstatus2");
@@ -1092,8 +1106,9 @@ function ClearScreenUpt() {
   $("#domicile2").val("");
   $("#age").val("");
   $("#level2").val("");
-  $("#experience_year2").val("");
-  $("#experience_month2").val("");
+  $("#experience").val("");
+  // $("#experience_year2").val("");
+  // $("#experience_month2").val("");
   $("#filteringby2").val("");
   $('input[name="workstatus2"]').prop("checked", false);
   $("#notice2").val("");
@@ -1144,6 +1159,8 @@ function ClearScreenUpt() {
   $("#collapseExample").collapse("hide");
 
   $(".error-message-update").css("display", "none");
+
+  $("#experience_error").hide();
 
   var elems = document.getElementsByClassName("btn-status");
   for (var i = 0; i < elems.length; i += 1) {
@@ -1531,16 +1548,22 @@ function Save() {
   }
   workstatus = workstatus.toString();
   financial = financial.toString();
-
+  debugger;
   if (
-    $("#experience_month").val() != null ||
-    $("#experience_month").val() != ""
+    $("#experience_month").val() == null ||
+    $("#experience_month").val() == ""
   ) {
-    var experience =
-      $("#experience_year").val() + ", " + $("#experience_month").val();
+    var experience = $("#experience_year").val() + " Years";
   } else {
-    var experience = $("#experience_year").val();
+    var experience =
+      $("#experience_year").val() +
+      " Years, " +
+      $("#experience_month").val() +
+      " Months";
   }
+  console.log($("#experience_month").val());
+  console.log(experience);
+  debugger;
 
   var NonRasCandidate = new Object(); //object baru
   NonRasCandidate.nonRasId = $("#nonrasid").val();
@@ -1666,7 +1689,7 @@ function Update() {
     }
   });
 
-  if (!$("#experience_year").val()) {
+  if (!$("#experience").val()) {
     $("#experience_error").show();
     isValid = false;
   }
@@ -1705,7 +1728,8 @@ function Update() {
   NonRasCandidate.domisili = $("#domicile2").val();
   NonRasCandidate.birthdate = $("#age").val();
   NonRasCandidate.level = $("#level2").val();
-  NonRasCandidate.experienceInYear = experience;
+  NonRasCandidate.experienceInYear = $("#experience").val();
+  // NonRasCandidate.experienceInYear = experience;
   NonRasCandidate.filteringBy = $("#filteringby2").val();
   NonRasCandidate.workStatus = workstatus;
   NonRasCandidate.noticePeriode = $("#notice2").val();
