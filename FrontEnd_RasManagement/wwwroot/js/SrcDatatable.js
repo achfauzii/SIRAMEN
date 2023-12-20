@@ -356,9 +356,9 @@ function Src(selectedCategory) {
                         var checkFalse =
                             '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
 
-                        if (data === "true" || data==="True") {
+                        if (data === "true" || data === "True") {
                             return '<div class="text-center">' + checkTrue + "</div>";
-                        } else if (data === "false" || data==="False") {
+                        } else if (data === "false" || data === "False") {
                             return '<div class="text-center">' + checkFalse + "</div>";
                         }
                         return " ";
@@ -488,7 +488,7 @@ function Src(selectedCategory) {
             {
                 data: "intwDateByRas",
                 render: function (data, type, row) {
-                    if (data == null || data=="") {
+                    if (data == null || data == "") {
                         return "";
                     } else {
                         if (type === "display" || type === "filter") {
@@ -710,6 +710,8 @@ function Src(selectedCategory) {
                     if (type === "display" || type === "filter") {
                         // Format tanggal dalam format yang diinginkan
                         return moment(data).format("YYYY-MM-DD ");
+                    } else if (data == null || data == "") {
+                        return " ";
                     }
                     // Untuk tipe data lain, kembalikan data aslinya
                     return data;
@@ -1662,7 +1664,7 @@ function Update() {
              }*/
 
         // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-       /* if (input.attr("id") === "ipk2") {
+        if (input.attr("id") === "ipk2") {
             var ipk = input.val().trim();
             var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
@@ -1672,7 +1674,7 @@ function Update() {
             } else {
                 $(".error-format-ipk-update").hide(); // Menyembunyikan pesan error format IPK
             }
-        }*/
+        }
     });
 
     var workstatus = $("#workstatus2").is(":checked");
@@ -1966,7 +1968,53 @@ function fetchCategories() {
         });
 }
 
+// Fungsi untuk membuat navigasi dan datatable
+/*function createNavigation(categories) {
+    categories.unshift('All');
+    const filterNavigation = document.getElementById('filterNavigation');
+    const navList = document.createElement('ul');
+    navList.className = 'nav nav-tabs';
 
+    const maxVisibleCategories = 7;
+
+    categories.forEach(category => {
+        const listItem = document.createElement('li');
+        listItem.className = 'nav-item';
+
+        const link = document.createElement('a');
+        link.className = 'nav-link text-sm';
+        link.href = '#';
+        link.setAttribute('data-category', category.toLowerCase());
+        link.textContent = capitalizeWords(category);
+
+        listItem.appendChild(link);
+        navList.appendChild(listItem);
+
+        if (category == 'All') { // Tandai 'All' sebagai aktif secara default
+            link.classList.add('active');
+        }
+        // Tambahkan event listener untuk setiap link kategori
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const selectedCategory = this.getAttribute('data-category');
+            //console.log('Selected category:', selectedCategory);
+
+            navList.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Tambahkan kelas 'active' pada link yang dipilih
+            this.classList.add('active');
+
+            // Panggil fungsi Src dengan kategori yang dipilih
+            Src(selectedCategory);
+        });
+    });
+
+
+    filterNavigation.appendChild(navList);
+
+}*/
 
 function createNavigation(categories) {
     let maxVisibleCategories = 6;
