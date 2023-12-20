@@ -1436,11 +1436,6 @@ function Save() {
 function Update() {
   var isValid = true;
 
-  if (!$("#experience_year2").val()) {
-    $("#experience_error").show();
-    isValid = false;
-  }
-
   $("input[required],select[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
@@ -1476,6 +1471,11 @@ function Update() {
   }
   workstatus = workstatus.toString();
   financial = financial.toString();
+
+  if (!$("#experience_year2").val()) {
+    $("#experience_error2").show();
+    isValid = false;
+  }
 
   if (
     $("#experience_month2").val() == null ||
@@ -1523,7 +1523,6 @@ function Update() {
   var intwUserHidden = $("#intwuserHiden").val();
   var dateIntwUserHidden = $("#dateintwuserHiden").val();
 
-  console.log(NonRasCandidate);
   var newNameUser = $("#nameUser2").val();
   if (newNameUser === "" || newNameUser === null) {
     newNameUser = null;
