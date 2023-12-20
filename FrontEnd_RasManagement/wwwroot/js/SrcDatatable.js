@@ -445,7 +445,7 @@ function Src(selectedCategory) {
             {
                 data: "intwDateByRas",
                 render: function (data, type, row) {
-                    if (data == null || data=="") {
+                    if (data == null) {
                         return "";
                     } else {
                         if (type === "display" || type === "filter") {
@@ -573,7 +573,7 @@ function Src(selectedCategory) {
                 render: function (data, type, row) {
                     var dateuser = row.intwDateUser;
 
-                    if (dateuser == null|| dataeuse =="") {
+                    if (dateuser == null) {
                         return "";
                     } else if (!dateuser.includes("<br/>")) {
                         return dateuser;
