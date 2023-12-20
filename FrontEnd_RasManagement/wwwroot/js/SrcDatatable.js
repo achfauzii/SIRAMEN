@@ -1915,7 +1915,7 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-    let maxVisibleCategories = 7;
+    let maxVisibleCategories = 6;
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
     // Mendeteksi lebar layar saat halaman dimuat
