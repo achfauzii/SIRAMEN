@@ -34,15 +34,15 @@ var pastelColors = [
 ];
 
 $(document).ready(function () {
-  $("#experience_year").on("keyup", function () {
-    var regex = /^[0-9<>\s]+$/;
+  // $("#experience_year").on("keyup", function () {
+  //   var regex = /^[0-9<>\s]+$/;
 
-    if (!regex.test(this.value)) {
-      var value = this.value.replace(/^[^0-9<>]/g, "");
-      this.value = value;
-      return;
-    }
-  });
+  //   if (!regex.test(this.value)) {
+  //     var value = this.value.replace(/^[^0-9<>]/g, "");
+  //     this.value = value;
+  //     return;
+  //   }
+  // });
 
   getClientList();
 
@@ -307,35 +307,35 @@ function Src(selectedCategory) {
 
       {
         data: "experienceInYear",
-        // render: function (data) {
-        //   var year = data.substring(0, 1);
-        //   var month = data.substring(3, 4);
-        //   if (year >= 5) {
-        //     if (month != "" || year > 5) {
-        //       return "> 5 Years";
-        //     } else {
-        //       return year + " Years";
-        //     }
-        //   } else if (year < 1) {
-        //     if (month != "") {
-        //       return "< 1 Year";
-        //     } else {
-        //       return "0 Year";
-        //     }
-        //   } else if (year > 1) {
-        //     if (month != "") {
-        //       return year + " Years " + month + " Months";
-        //     } else {
-        //       return year + " Years";
-        //     }
-        //   } else {
-        //     if (month != "") {
-        //       return year + " Year " + month + " Months";
-        //     } else {
-        //       return year + " Year";
-        //     }
-        //   }
-        // },
+        render: function (data) {
+          var year = data.substring(0, 1);
+          var month = data.substring(3, 4);
+          if (year >= 5) {
+            if (month != "" || year > 5) {
+              return "> 5 Years";
+            } else {
+              return year + " Years";
+            }
+          } else if (year < 1) {
+            if (month != "") {
+              return "< 1 Year";
+            } else {
+              return "0 Year";
+            }
+          } else if (year > 1) {
+            if (month != "") {
+              return year + " Years " + month + " Months";
+            } else {
+              return year + " Years";
+            }
+          } else {
+            if (month != "") {
+              return year + " Year " + month + " Months";
+            } else {
+              return year + " Year";
+            }
+          }
+        },
       },
       {
         data: "filteringBy",
@@ -523,43 +523,6 @@ function Src(selectedCategory) {
               userData.statusArray[userData.statusArray.length - 1];
 
             return lastStatus;
-
-            //NAMPILIN STATUS INTERVIEW PER USER
-            /*var intwuser = row.intwUser;
-                                    var nameofuser = row.nameOfUser;
-                
-                                    if (intwuser == null) {
-                                        return "";
-                                    } else if (!intwuser.includes('<br/>')) {
-                                        return intwuser;
-                                    } else {
-                                        const intwUserArray = intwuser.split('<br/>');
-                                        const nameOfUserArray = nameofuser.split('<br/>');
-                
-                                        // Membuat objek untuk menyimpan data berdasarkan nama user
-                                        const userDataMap = new Map();
-                
-                                        // Mengumpulkan data berdasarkan nama user
-                                        for (let i = 0; i < intwUserArray.length; i++) {
-                                            const userName = nameOfUserArray[i];
-                
-                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
-                                            if (!userDataMap.has(userName)) {
-                                                userDataMap.set(userName, { statusArray: [] });
-                                            }
-                
-                                            // Menambahkan status ke dalam array yang sesuai
-                                            userDataMap.get(userName).statusArray.push(intwUserArray[i]);
-                                        }
-                
-                                        // Menampilkan data terakhir untuk setiap nama user
-                                        let lastStatusByUser = "";
-                                        userDataMap.forEach((userData, userName) => {
-                                            const lastStatus = userData.statusArray[userData.statusArray.length - 1];
-                                            lastStatusByUser += `<li>${lastStatus}</li>`;
-                                        });
-                
-                                        return lastStatusByUser;*/
           }
         },
       },
@@ -589,64 +552,8 @@ function Src(selectedCategory) {
             const lastDate = userDate.dateArray[userDate.dateArray.length - 1];
 
             return lastDate;
-
-            //NAMPILIN TANGGAL PER USER
-            /*var dateuser = row.intwDateUser;
-                                    var nameofuser = row.nameOfUser;
-                
-                                    if (dateuser == null) {
-                                        return "";
-                                    } else if (!dateuser.includes('<br/>')) {
-                                        return dateuser;
-                                    } else {
-                                        const dateuserArray = dateuser.split('<br/>');
-                                        const nameOfUserArray = nameofuser.split('<br/>');
-                
-                                        // Membuat objek untuk menyimpan data berdasarkan nama user
-                                        const userDataMap = new Map();
-                
-                                        // Mengumpulkan data berdasarkan nama user
-                                        for (let i = 0; i < dateuserArray.length; i++) {
-                                            const userName = nameOfUserArray[i];
-                                                
-                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
-                                            if (!userDataMap.has(userName)) {
-                                                userDataMap.set(userName, { dateArray: [] });
-                                            }
-                
-                                            // Menambahkan status ke dalam array yang sesuai
-                                            userDataMap.get(userName).dateArray.push(dateuserArray[i]);
-                                        }
-                
-                                        // Menampilkan data terakhir untuk setiap nama user
-                                        let lastDateByUser = "";
-                                        userDataMap.forEach((userData, userName) => {
-                                            const lastDate = userData.dateArray[userData.dateArray.length - 1];
-                                            lastDateByUser += `<li>${lastDate}</li>`;
-                                        });
-                
-                                        return lastDateByUser;*/
           }
         },
-        /*render: function (data, type, row) {
-                            if (data == null) {
-                                return " ";
-                            } else {
-        
-                                var dates = data.split('<br/>');
-                                var formattedDates = [];
-        
-                                // Filter nilai null dan "<br/>"
-                                for (var i = 0; i < dates.length; i++) {
-                                    if (dates[i] && dates[i] !== '<br/>') {
-                                        formattedDates.push(dates[i]);
-                                    }
-                                }
-                            }
-        
-                            // Menggabungkan data yang telah diformat kembali
-                            return '<li>' + formattedDates.join("</li><li>") + '</li>';
-                        }*/
       },
       {
         data: "levelRekom",
@@ -732,9 +639,9 @@ function Src(selectedCategory) {
     $("#level2").val(data.level);
     $("#statusOffering").val(data.status);
 
-    $("#experience").val(data.experienceInYear);
-    // $("#experience_year2").val(data.experienceInYear.substring(0, 1));
-    // $("#experience_month2").val(data.experienceInYear.substring(3, 4));
+    // $("#experience").val(data.experienceInYear);
+    $("#experience_year2").val(data.experienceInYear.substring(0, 1));
+    $("#experience_month2").val(data.experienceInYear.substring(3, 4));
 
     $("#filteringby2").val(data.filteringBy);
     var checkbox2 = document.getElementById("workstatus2");
@@ -1068,9 +975,9 @@ function ClearScreenUpt() {
   $("#domicile2").val("");
   $("#age").val("");
   $("#level2").val("");
-  $("#experience").val("");
-  // $("#experience_year2").val("");
-  // $("#experience_month2").val("");
+  // $("#experience").val("");
+  $("#experience_year2").val("");
+  $("#experience_month2").val("");
   $("#filteringby2").val("");
   $('input[name="workstatus2"]').prop("checked", false);
   $("#notice2").val("");
@@ -1421,22 +1328,16 @@ function Save() {
   }
   workstatus = workstatus.toString();
   financial = financial.toString();
-  debugger;
+
   if (
     $("#experience_month").val() == null ||
     $("#experience_month").val() == ""
   ) {
-    var experience = $("#experience_year").val() + " Years";
+    var experience = $("#experience_year").val();
   } else {
     var experience =
-      $("#experience_year").val() +
-      " Years, " +
-      $("#experience_month").val() +
-      " Months";
+      $("#experience_year").val() + ", " + $("#experience_month").val();
   }
-  console.log($("#experience_month").val());
-  console.log(experience);
-  debugger;
 
   var NonRasCandidate = new Object(); //object baru
   NonRasCandidate.nonRasId = $("#nonrasid").val();
@@ -1534,6 +1435,12 @@ function Save() {
 
 function Update() {
   var isValid = true;
+
+  if (!$("#experience_year2").val()) {
+    $("#experience_error").show();
+    isValid = false;
+  }
+
   $("input[required],select[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
@@ -1559,11 +1466,6 @@ function Update() {
     }
   });
 
-  if (!$("#experience").val()) {
-    $("#experience_error").show();
-    isValid = false;
-  }
-
   var workstatus = $("#workstatus2").is(":checked");
   var financial = $("#financial2").is(":checked");
   if (!workstatus) {
@@ -1576,14 +1478,13 @@ function Update() {
   financial = financial.toString();
 
   if (
-    $("#experience_month2").val() != null ||
-    $("#experience_month2").val() != ""
+    $("#experience_month2").val() == null ||
+    $("#experience_month2").val() == ""
   ) {
-    var experience =
-      $("#experience_year2").val() + ", " + $("#experience_month2").val();
+    var experience = $("#experience_year2").val();
   } else {
     var experience =
-      $("#experience_year2").val() == null ? 0 : $("#experience_year2").val();
+      $("#experience_year2").val() + ", " + $("#experience_month2").val();
   }
 
   var NonRasCandidate = new Object(); //object baru
@@ -1598,8 +1499,8 @@ function Update() {
   NonRasCandidate.domisili = $("#domicile2").val();
   NonRasCandidate.birthdate = $("#age").val();
   NonRasCandidate.level = $("#level2").val();
-  NonRasCandidate.experienceInYear = $("#experience").val();
-  // NonRasCandidate.experienceInYear = experience;
+  // NonRasCandidate.experienceInYear = $("#experience").val();
+  NonRasCandidate.experienceInYear = experience;
   NonRasCandidate.filteringBy = $("#filteringby2").val();
   NonRasCandidate.workStatus = workstatus;
   NonRasCandidate.noticePeriode = $("#notice2").val();
@@ -1622,6 +1523,7 @@ function Update() {
   var intwUserHidden = $("#intwuserHiden").val();
   var dateIntwUserHidden = $("#dateintwuserHiden").val();
 
+  console.log(NonRasCandidate);
   var newNameUser = $("#nameUser2").val();
   if (newNameUser === "" || newNameUser === null) {
     newNameUser = null;
