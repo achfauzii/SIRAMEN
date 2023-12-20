@@ -332,10 +332,10 @@ function Src(selectedCategory) {
             {
                 data: "workStatus",
                 render: function (data) {
-                    if (data === "true") {
+                    if (data === "true" || data === "True") {
                         return (data =
                             '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>');
-                    } else if (data === "false") {
+                    } else if (data === "false" || data === "False") {
                         return (data =
                             '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
                     } else {
@@ -356,9 +356,9 @@ function Src(selectedCategory) {
                         var checkFalse =
                             '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
 
-                        if (data === "true") {
+                        if (data === "true" || data==="True") {
                             return '<div class="text-center">' + checkTrue + "</div>";
-                        } else if (data === "false") {
+                        } else if (data === "false" || data==="False") {
                             return '<div class="text-center">' + checkFalse + "</div>";
                         }
                         return " ";
@@ -467,9 +467,9 @@ function Src(selectedCategory) {
                         var checkFalse =
                             '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
 
-                        if (data === "true") {
+                        if (data === "true" || data === "True") {
                             return '<div class="text-center">' + checkTrue + "</div>";
-                        } else if (data === "false") {
+                        } else if (data === "false" || data === "False") {
                             return '<div class="text-center">' + checkFalse + "</div>";
                         }
                         return " ";
