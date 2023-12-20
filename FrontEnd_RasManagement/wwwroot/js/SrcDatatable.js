@@ -707,11 +707,13 @@ function Src(selectedCategory) {
             {
                 data: "lastModified",
                 render: function (data, type, row) {
+
                     if (data != null) {
                         if (type === "display" || type === "filter") {
                             // Format tanggal dalam format yang diinginkan
                             return moment(data).format("YYYY-MM-DD ");
                         }
+
                     }
                     // Untuk tipe data lain, kembalikan data aslinya
                     return " ";
@@ -2017,7 +2019,7 @@ function fetchCategories() {
 }*/
 
 function createNavigation(categories) {
-    let maxVisibleCategories = 7;
+    let maxVisibleCategories = 6;
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
     // Mendeteksi lebar layar saat halaman dimuat

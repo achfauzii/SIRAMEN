@@ -171,7 +171,6 @@ function SharedShortListCandidate(selectedCategory) {
             },
             {
                 data: "birthdate",
-
             },
 
             {
@@ -189,6 +188,7 @@ function SharedShortListCandidate(selectedCategory) {
                             '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
                     }
                     return " ";
+
                 },
             },
             {
@@ -210,6 +210,7 @@ function SharedShortListCandidate(selectedCategory) {
                             return '<div class="text-center">' + checkFalse + "</div>";
                         }
                         return " ";
+
                     }
 
                     // Untuk tipe data lain, kembalikan data aslinya
@@ -274,7 +275,8 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-    let maxVisibleCategories = 9;
+
+    let maxVisibleCategories = 8;
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
     // Mendeteksi lebar layar saat halaman dimuat
@@ -399,7 +401,6 @@ function createDropdown(categories) {
 
     return dropdownContainer;
 }
-
 
 
 // Fungsi untuk mengubah huruf besar di awal dan setelah spasi
