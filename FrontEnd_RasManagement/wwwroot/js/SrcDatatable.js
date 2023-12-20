@@ -1812,10 +1812,10 @@ function Update() {
     } else {
         Swal.fire({
             icon: "warning",
-            title: "Data failed to added!",
-            text: "There is client data that has been deleted, or a data input error",
-            showConfirmButtom: false,
-            timer: 4000,
+            title: "Data Gagal dimasukkan!",
+            text: "There is a client data that has been deleted, or data input error",
+            showConfirmButtom: true,
+
         });
         return;
     }
