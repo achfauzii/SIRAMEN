@@ -114,13 +114,6 @@ $(document).ready(function () {
         }
     });
 
-    //Setelah element interview by RAS terisi
-    // Setelah mengisi nilai pada elemen intwByRAS dan dateIntwRAS, aktifkan elemen intwUser, nameUser, dan dateIntwUser
-    /* $('#intwByRAS, #dateIntwRAS').on('change', function () {
-           if ($('#intwByRAS').val() && $('#dateIntwRAS').val()) {
-               $('#intwUser, #nameUser, #dateIntwUser').prop('disabled', false);
-           }
-       });*/
 });
 
 function htmlspecialchars(str) {
@@ -179,12 +172,7 @@ function Src(selectedCategory) {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
             data: function (d) {
-                // Customize request parameters here if needed
-                // Example: d.customParam = 'value';
-                // Mengambil kategori yang dipilih dari filter-navigation
-                //var selectedCategory = $('#filterNavigation .nav-link.active').data('category');
                 d.order = d.order[0];
-                // Menambahkan parameter 'category' ke data yang dikirim ke server
                 if (selectedCategory != "all") {
                     d.search.category = selectedCategory;
                 } else {
@@ -194,7 +182,6 @@ function Src(selectedCategory) {
                 return JSON.stringify(d);
             },
         },
-        //dom: 'Bfrtip',
 
         columns: [
             {
@@ -260,8 +247,6 @@ function Src(selectedCategory) {
                         return a;
                     }
                     var skillsetArray = data.split(",");
-                    //console.log(data);
-
                     // Container untuk pill badges
                     var badgeContainer = $('<div class="badge-container"></div>');
 
@@ -291,9 +276,6 @@ function Src(selectedCategory) {
             },
             {
                 data: "education",
-                /*render: function (data, type, row) {
-                            return htmlspecialchars(data);
-                        }*/
             },
             {
                 data: "ipk",
@@ -309,9 +291,7 @@ function Src(selectedCategory) {
                 render: function(data) {
                     return data.trim() !== "" ? data + " Years Old" : "";
                 }
-               
             },
-
             {
                 data: "experienceInYear",
             },
@@ -469,21 +449,6 @@ function Src(selectedCategory) {
                         const lastName = userData.nameArray[userData.nameArray.length - 1];
 
                         return lastName;
-
-                        //NAMPILIN PER USER
-                        /*var nameOfUser = row.nameOfUser;
-                                    if (nameOfUser == null) {
-                                        return " ";
-                                    } else if (!nameOfUser.includes('<br/>')) {
-                                        return nameOfUser;
-                                    } else {
-                                        // Extract unique usernames from the nameOfUser column
-                                        const nameOfUserArray = nameOfUser.split('<br/>');
-                                        const uniqueUsernames = Array.from(new Set(nameOfUserArray.filter(name => name.trim() !== 'null')));
-                
-                                        // Return the unique usernames in the rendered cell
-                                        return '<li>' + uniqueUsernames.join('</li><li>') + '</li>';
-                                    }*/
                     }
                 },
             },
@@ -513,43 +478,7 @@ function Src(selectedCategory) {
                             userData.statusArray[userData.statusArray.length - 1];
 
                         return lastStatus;
-
-                        //NAMPILIN STATUS INTERVIEW PER USER
-                        /*var intwuser = row.intwUser;
-                                    var nameofuser = row.nameOfUser;
-                
-                                    if (intwuser == null) {
-                                        return "";
-                                    } else if (!intwuser.includes('<br/>')) {
-                                        return intwuser;
-                                    } else {
-                                        const intwUserArray = intwuser.split('<br/>');
-                                        const nameOfUserArray = nameofuser.split('<br/>');
-                
-                                        // Membuat objek untuk menyimpan data berdasarkan nama user
-                                        const userDataMap = new Map();
-                
-                                        // Mengumpulkan data berdasarkan nama user
-                                        for (let i = 0; i < intwUserArray.length; i++) {
-                                            const userName = nameOfUserArray[i];
-                
-                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
-                                            if (!userDataMap.has(userName)) {
-                                                userDataMap.set(userName, { statusArray: [] });
-                                            }
-                
-                                            // Menambahkan status ke dalam array yang sesuai
-                                            userDataMap.get(userName).statusArray.push(intwUserArray[i]);
-                                        }
-                
-                                        // Menampilkan data terakhir untuk setiap nama user
-                                        let lastStatusByUser = "";
-                                        userDataMap.forEach((userData, userName) => {
-                                            const lastStatus = userData.statusArray[userData.statusArray.length - 1];
-                                            lastStatusByUser += `<li>${lastStatus}</li>`;
-                                        });
-                
-                                        return lastStatusByUser;*/
+                       
                     }
                 },
             },
@@ -579,64 +508,10 @@ function Src(selectedCategory) {
                         const lastDate = userDate.dateArray[userDate.dateArray.length - 1];
 
                         return lastDate;
-
-                        //NAMPILIN TANGGAL PER USER
-                        /*var dateuser = row.intwDateUser;
-                                    var nameofuser = row.nameOfUser;
-                
-                                    if (dateuser == null) {
-                                        return "";
-                                    } else if (!dateuser.includes('<br/>')) {
-                                        return dateuser;
-                                    } else {
-                                        const dateuserArray = dateuser.split('<br/>');
-                                        const nameOfUserArray = nameofuser.split('<br/>');
-                
-                                        // Membuat objek untuk menyimpan data berdasarkan nama user
-                                        const userDataMap = new Map();
-                
-                                        // Mengumpulkan data berdasarkan nama user
-                                        for (let i = 0; i < dateuserArray.length; i++) {
-                                            const userName = nameOfUserArray[i];
-                                                
-                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
-                                            if (!userDataMap.has(userName)) {
-                                                userDataMap.set(userName, { dateArray: [] });
-                                            }
-                
-                                            // Menambahkan status ke dalam array yang sesuai
-                                            userDataMap.get(userName).dateArray.push(dateuserArray[i]);
-                                        }
-                
-                                        // Menampilkan data terakhir untuk setiap nama user
-                                        let lastDateByUser = "";
-                                        userDataMap.forEach((userData, userName) => {
-                                            const lastDate = userData.dateArray[userData.dateArray.length - 1];
-                                            lastDateByUser += `<li>${lastDate}</li>`;
-                                        });
-                
-                                        return lastDateByUser;*/
+                       
                     }
                 },
-                /*render: function (data, type, row) {
-                            if (data == null) {
-                                return " ";
-                            } else {
-        
-                                var dates = data.split('<br/>');
-                                var formattedDates = [];
-        
-                                // Filter nilai null dan "<br/>"
-                                for (var i = 0; i < dates.length; i++) {
-                                    if (dates[i] && dates[i] !== '<br/>') {
-                                        formattedDates.push(dates[i]);
-                                    }
-                                }
-                            }
-        
-                            // Menggabungkan data yang telah diformat kembali
-                            return '<li>' + formattedDates.join("</li><li>") + '</li>';
-                        }*/
+           
             },
             {
                 data: "levelRekom",
@@ -775,31 +650,7 @@ function Src(selectedCategory) {
         const selectNameUser2 = $("#nameUser2");
         const dataNameUser = data.nameOfUser;
         selectNameUser2.val(null).trigger("change");
-        /*if (dataNameUser == null) {
-                selectNameUser2.val(null).trigger("change");
-            }
-            else if (!dataNameUser.includes('<br/>')) {
-                const optionNotExists = selectNameUser2.find("option[value='" + dataNameUser + "']").length === 0;
-    
-                if (optionNotExists) {
-                    const newOption = new Option(dataNameUser, dataNameUser, true, true);
-                    selectNameUser2.append(newOption).trigger('change');
-                }
-                selectNameUser2.val(null).trigger("change");
-            } else {
-                const nameOfUserArray = dataNameUser.split('<br/>');
-                nameOfUserArray.forEach(value => {
-                    const optionNotExists = selectNameUser2.find("option[value='" + value + "']").length === 0;
-    
-                    if (optionNotExists) {
-                        const newOption = new Option(value, value, true, true);
-                        console.log(newOption);
-                        selectNameUser2.append(newOption).trigger('change');
-                    }
-                });
-                selectNameUser2.val(null).trigger("change");
-    
-            }*/
+        
 
         if (data.intwByRas) {
             if (
@@ -829,22 +680,7 @@ function Src(selectedCategory) {
                 !data.nameOfUser.includes("<br/>") ||
                 !data.intwDateUser.includes("<br/>")
             ) {
-                /*  var elems = document.getElementsByClassName('btn-status');
-                          for (var i = 0; i < elems.length; i += 1) {
-                              elems[i].style.display = 'block';
-                          }*/
-                /*$(selectNameUser).select2({
-                            width: '100%',
-                            tags: true,
-                            dropdownParent: $('#offeringSourceList')
-                        });
-                        const optionNotExists = selectNameUser.find("option[value='" + dataNameUser + "']").length === 0;
-        
-                        if (optionNotExists) {
-                            const newOption = new Option(dataNameUser, dataNameUser, true, true);
-                            selectNameUser.append(newOption).trigger('change');
-        
-                        }*/
+                
                 selectNameUser.val(dataNameUser).trigger("change");
                 $("#intwUser").val(data.intwUser).prop("disabled", false);
                 $("#nameUser").val(data.nameOfUser).prop("disabled", false);
@@ -878,14 +714,7 @@ function Src(selectedCategory) {
                     beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
                 }
 
-                /*nameOfUserArray.forEach(value => {
-                            const optionNotExists = selectNameUser.find("option[value='" + value + "']").length === 0;
-        
-                            if (optionNotExists) {
-                                const newOption = new Option(value, value, true, true);
-                                selectNameUser.append(newOption).trigger('change');
-                            }
-                        });*/
+               
                 selectNameUser.val(lastNameOfUser).trigger("change");
                 // Menyimpan data sebelum data terakhir ke elemen tersembunyi
                 $("#intwuserHiden").val(beforeLastIntwUser);
@@ -947,16 +776,7 @@ function Src(selectedCategory) {
                     containerElement.appendChild(dateLabel);
                 });
             }
-            // Jika data #intwByRAS ada, atur nilai #intwUser dan tampilkan elemen #intwUser
-            //$('#intwByRAS').val(intwByRAS);
-            /* $('#intwUser').val(data.intwUser).prop('disabled', false);
-                   if (data.intwDateUser) {
-                       $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
-                   } else {
-                       $('#dateIntwUser').val('').prop('disabled', false);
-                   }
-                   
-                   $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
+          
         } else if (data.intwByRas === "" || data.intwByRas == null) {
             // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
             $("#intwUser").prop("disabled", true);
@@ -975,11 +795,7 @@ function Src(selectedCategory) {
             //console.log(data.intwUser);
         }
 
-        /*if (data.intwDateUser) {
-                $('#dateIntwUser').val(data.intwDateUser.substring(0, 10));
-            } else {
-                $('#dateIntwUser').val('');
-            }*/
+      
 
         $("#levelRekom").val(data.levelRekom);
         $("#status").val(data.status);
@@ -987,14 +803,6 @@ function Src(selectedCategory) {
 
         //alert('You clicked on ' + data.fullname + "'s row");
     });
-
-    /*   $('#filterNavigation .nav-link').click(function () {
-             $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
-             $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
-       
-             // Mereload data DataTables dengan kategori yang baru
-             table.ajax.reload();
-         });*/
 
     function formatDate2(date) {
         var d = new Date(date),
@@ -1098,10 +906,7 @@ function ClearScreenUpt() {
         input.next(".error-message_").hide();
         $(".error-format-ipk-update").hide();
     });
-    /*if (data.intwByRas) {
-          $('#displayIntwUser2').val('').show();
-      } else {
-      }*/
+    
     $("#displayIntwUser2").val("").hide();
     $("#displayDateIntwUser2").val("").hide();
 
@@ -1339,92 +1144,6 @@ function formInputLocation() {
         });
 }
 
-/*function getBadgeColor(skill) {
-    // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
-    if (skill.toLowerCase().includes(".net web api")) {
-        return "badge-pastel-teal"; // Warna biru
-    } else if (skill.toLowerCase().includes(".net web mvc")) {
-        return "badge-pastel-cus0";
-    } else if (skill.toLowerCase().includes("codeigniter")) {
-        return "badge-pastel-coral";
-    } else if (skill.toLowerCase().includes("bootstrap")) {
-        return "badge-pastel-purple";
-    }
-    else if (skill.toLowerCase().includes("php")) {
-        return "badge-pastel-indigo";
-    }
-    else if (skill.toLowerCase().includes("python")) {
-        return "badge-pastel-silver";
-    }
-    else if (skill.toLowerCase().includes("laravel")) {
-        return "badge-pastel-coral";
-    }
-    else if (skill.toLowerCase().includes("react")) {
-        return "badge-pastel-rose";
-    }
-    else if (skill.toLowerCase().includes("spring")) {
-        return "badge-pastel-mint";
-    }
-    else if (skill.toLowerCase().includes("sql server")) {
-        return "badge-pastel-cus1";
-    }
-    else if (skill.toLowerCase().includes("oracle")) {
-        return "badge-pastel-cus2";
-    }
-    else if (skill.toLowerCase().includes("google data studio")) {
-        return "badge-pastel-cus3";
-    }
-    else {
-        return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-}
-
-function getBadgeColorPosition(position) {
-    // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
-    if (position.toLowerCase().includes("fullstack")) {
-        return "badge-pastel-teal"; // Warna biru
-    } else if (position.toLowerCase().includes("front end")) {
-        return "badge-pastel-cus0";
-    } else if (position.toLowerCase().includes("back end")) {
-        return "badge-pastel-coral";
-    } else if (position.toLowerCase().includes("data science")) {
-        return "badge-pastel-purple";
-    }
-    else if (position.toLowerCase().includes("database administrator")) {
-        return "badge-pastel-indigo";
-    }
-    else if (position.toLowerCase().includes("database analyst") || position.toLowerCase().includes("data analyst")) {
-        return "badge-pastel-silver";
-    }
-    else if (position.toLowerCase().includes("database engineer" || "data engineer")) {
-        return "badge-pastel-coral";
-    }
-    else if (position.toLowerCase().includes("rpa")) {
-        return "badge-pastel-rose";
-    }
-    else if (position.toLowerCase().includes("scrum master")) {
-        return "badge-pastel-mint";
-    }
-    else if (position.toLowerCase().includes("manual")) {
-        return "badge-pastel-cus1";
-    }
-    else if (position.toLowerCase().includes("automation")) {
-        return "badge-pastel-cus2";
-    }
-    else if (position.toLowerCase().includes("technical writer")) {
-        return "badge-pastel-cus3";
-    }
-    else if (position.toLowerCase().includes("business analyst")) {
-        return "badge-pastel-cus4";
-    }
-    else if (position.toLowerCase().includes("solution analyst")) {
-        return "badge-pastel-cus5";
-    }
-    else {
-        return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-}*/
-
 function Save() {
     var isValid = true;
 
@@ -1537,12 +1256,7 @@ function Save() {
     let currentDate = `${day}-${month}-${year}`;
 
     NonRasCandidate.lastModified = formatDate(Date());
-    /*    if (!NonRasCandidate.position.some(Boolean)) {
-              $('.position').closest('.form-group').find('.error-message').show();
-              isValid = false;
-          } else {
-              $('.position').closest('.form-group').find('.error-message').hide();
-          }*/
+   
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/Shortlist/Add",
@@ -1592,15 +1306,17 @@ function Save() {
 
 function Update() {
     var isValid = true;
-    $("input[requiredUpdate],select[requiredUpdate").each(function () {
+    $("input[required],select[required]").each(function () {
         var input = $(this);
-        /* if (!input.val()) {
-                 input.next('.error-message-update').show();
-                 isValid = false;
-             } else {
-                 input.next('.error-message-update').hide();
-             }*/
-
+        if (!input.val()) {
+            console.log(input.attr("name") + " kosong");
+            console.log(input.attr("id") + " kosong");
+            console.log(input + " kosong");
+            input.next(".error-message").show();
+            isValid = false;
+        } else {
+            input.next(".error-message").hide();
+        }
         // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
         if (input.attr("id") === "ipk2") {
             var ipk = input.val().trim();
@@ -1751,54 +1467,7 @@ function Update() {
     }
 
 
-    //Bates
-    /*   var date1 = $('#dateIntwUser').val();
-         var date2 = $('#dateIntwUser2').val 
-         var datehidden = $('#dateintwuserHiden').val();
-         //var dataToSave = null;
-         if (date1 !== "" && date2 == "" && datehidden == "") {
-             var dataToSave = date1;
-         } else if (date1 !== "" && date2 !== "" && datehidden == "") {
-             var dataToSave = date1 + "<br/>" + date2;
-         } else if (date1 !== "" && date2 == "" && datehidden !== "") {
-             var dataToSave = datehidden + date1;
-         }
-         else if (date1 !== "" && date2 !== "" && datehidden !== "") {
-             var dataToSave = datehidden + date1 + "<br/>" + date2;
-         }
-     
-     
-         var intwuser1 = $('#intwUser').val();
-         var intwuser2 = $('#intwUser2').val();
-         var intwuserhidden = $('#intwuserHiden').val();
-         //var intwuser = null;
-     
-     
-         if (intwuser1 !== "" && intwuser2 == null && intwuserhidden == "") {
-             var intwuser = intwuser1;
-         } else if (intwuser1 !== "" && intwuser2 !== "" && intwuserhidden == "") {
-             var intwuser = intwuser1 + "<br/>" + intwuser2;
-         } else if (intwuser1 !== "" && intwuser2 == null && intwuserhidden !== "") {
-             var intwuser = intwuserhidden + intwuser1;
-         } else if (intwuser1 !== "" && intwuser2 !== null && intwuserhidden !== "") {
-             var intwuser = intwuserhidden + intwuser1 + "<br/>" + intwuser2;
-         }
-     
-     
-         var nameuser1 = $('#nameUser').val();
-         var nameuser2 = $('#nameUser2').val();
-         var nameuserhidden = $('#nameUserhidden').val();
-     
-         if (nameuser1 !== "" && nameuser2 == "" && nameuserhidden == "") {
-             var nameuser = nameuser1;
-         } else if (nameuser1 !== "" && nameuser2 !== "" && nameuserhidden == "") {
-             var nameuser = nameuser1 + "<br/>" + nameuser2;
-         } else if (nameuser1 !== "" && nameuser2 == "" && nameuserhidden !== "") {
-             var nameuser = nameuserhidden + nameuser1;
-         } else if (nameuser1 !== "" && nameuser2 !== "" && nameuserhidden !== "") {
-             var nameuser = nameuserhidden + nameuser1 + "<br/>" + nameuser2;
-         }
-     */
+
 
     NonRasCandidate.intwDateByRas = $("#dateIntwRAS").val();
     NonRasCandidate.intwUser = intwUser_;
@@ -1857,17 +1526,7 @@ function Update() {
     }
 }
 
-/*function newOfferingFields() {
-    document.getElementById('displayDateIntwUser2').style.display = "block";
-    document.getElementById('displayIntwUser2').style.display = "block";
-}
 
-function newProses2() {
-    document.getElementById('displayIntwUser3').style.display = "block";
-    document.getElementById('displayDateIntwUser3').style.display = "block";
-
-
-}*/
 
 function formatCurrency(input) {
     // Menghapus semua karakter selain angka
@@ -1905,53 +1564,6 @@ function fetchCategories() {
         });
 }
 
-// Fungsi untuk membuat navigasi dan datatable
-/*function createNavigation(categories) {
-    categories.unshift('All');
-    const filterNavigation = document.getElementById('filterNavigation');
-    const navList = document.createElement('ul');
-    navList.className = 'nav nav-tabs';
-
-    const maxVisibleCategories = 7;
-
-    categories.forEach(category => {
-        const listItem = document.createElement('li');
-        listItem.className = 'nav-item';
-
-        const link = document.createElement('a');
-        link.className = 'nav-link text-sm';
-        link.href = '#';
-        link.setAttribute('data-category', category.toLowerCase());
-        link.textContent = capitalizeWords(category);
-
-        listItem.appendChild(link);
-        navList.appendChild(listItem);
-
-        if (category == 'All') { // Tandai 'All' sebagai aktif secara default
-            link.classList.add('active');
-        }
-        // Tambahkan event listener untuk setiap link kategori
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            const selectedCategory = this.getAttribute('data-category');
-            //console.log('Selected category:', selectedCategory);
-
-            navList.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-
-            // Tambahkan kelas 'active' pada link yang dipilih
-            this.classList.add('active');
-
-            // Panggil fungsi Src dengan kategori yang dipilih
-            Src(selectedCategory);
-        });
-    });
-
-
-    filterNavigation.appendChild(navList);
-
-}*/
 
 function createNavigation(categories) {
     let maxVisibleCategories = 7;
