@@ -171,21 +171,6 @@ function SharedShortListCandidate(selectedCategory) {
             },
             {
                 data: "birthdate",
-                render: function (data, type, row) {
-                    if (data === "") {
-                        return "";
-                    }
-                    var datenow = Date.now();
-                    var birth = new Date(data);
-
-                    var milidetik = datenow - birth.getTime();
-                    var daysremain = Math.ceil(milidetik / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
-                    var years = Math.floor(daysremain / 365); // Menghitung bulan
-                    var age = years + " tahun";
-
-                    //console.log(age);
-                    return age;
-                },
             },
 
             {
@@ -195,13 +180,15 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "workStatus",
                 render: function (data) {
-                    if (data === "true") {
+                    if (data === "true" || data === "True") {
                         return (data =
                             '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>');
-                    } else {
+                    } else if (data === "false" || data === "False") {
                         return (data =
                             '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
                     }
+                    return " ";
+
                 },
             },
             {
@@ -217,10 +204,13 @@ function SharedShortListCandidate(selectedCategory) {
                         var checkFalse =
                             '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
 
-                        if (data === "true") {
+                        if (data === "true" || data === "True") {
                             return '<div class="text-center">' + checkTrue + "</div>";
+                        } else if (data === "false" || data === "False") {
+                            return '<div class="text-center">' + checkFalse + "</div>";
                         }
-                        return '<div class="text-center">' + checkFalse + "</div>";
+                        return " ";
+
                     }
 
                     // Untuk tipe data lain, kembalikan data aslinya
@@ -285,6 +275,7 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
+
     let maxVisibleCategories = 8;
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
@@ -411,91 +402,6 @@ function createDropdown(categories) {
     return dropdownContainer;
 }
 
-/*function getBadgeColor(skill) {
-    // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
-    if (skill.toLowerCase().includes(".net web api")) {
-        return "badge-pastel-teal"; // Warna biru
-    } else if (skill.toLowerCase().includes(".net web mvc")) {
-        return "badge-pastel-cus0";
-    } else if (skill.toLowerCase().includes("codeigniter")) {
-        return "badge-pastel-coral"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    } else if (skill.toLowerCase().includes("bootstrap")) {
-        return "badge-pastel-purple"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-    else if (skill.toLowerCase().includes("php")) {
-        return "badge-pastel-indigo"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-    else if (skill.toLowerCase().includes("python")) {
-        return "badge-pastel-silver"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-    else if (skill.toLowerCase().includes("laravel")) {
-        return "badge-pastel-coral";
-    }
-    else if (skill.toLowerCase().includes("react")) {
-        return "badge-pastel-rose";
-    }
-    else if (skill.toLowerCase().includes("spring")) {
-        return "badge-pastel-mint";
-    }
-    else if (skill.toLowerCase().includes("sql server")) {
-        return "badge-pastel-cus1";
-    }
-    else if (skill.toLowerCase().includes("oracle")) {
-        return "badge-pastel-cus2";
-    }
-    else if (skill.toLowerCase().includes("google data studio")) {
-        return "badge-pastel-cus3";
-    }
-    else {
-        return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-}
-
-function getBadgeColorPosition(position) {
-    // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
-    if (position.toLowerCase().includes("fullstack")) {
-        return "badge-pastel-teal"; // Warna biru
-    } else if (position.toLowerCase().includes("front end")) {
-        return "badge-pastel-cus0";
-    } else if (position.toLowerCase().includes("back end")) {
-        return "badge-pastel-coral";
-    } else if (position.toLowerCase().includes("data science")) {
-        return "badge-pastel-purple";
-    }
-    else if (position.toLowerCase().includes("database administrator")) {
-        return "badge-pastel-indigo";
-    }
-    else if (position.toLowerCase().includes("database analyst") || position.toLowerCase().includes("data analyst")) {
-        return "badge-pastel-silver";
-    }
-    else if (position.toLowerCase().includes("database engineer" || "data engineer")) {
-        return "badge-pastel-coral";
-    }
-    else if (position.toLowerCase().includes("rpa")) {
-        return "badge-pastel-rose";
-    }
-    else if (position.toLowerCase().includes("scrum master")) {
-        return "badge-pastel-mint";
-    }
-    else if (position.toLowerCase().includes("manual")) {
-        return "badge-pastel-cus1";
-    }
-    else if (position.toLowerCase().includes("automation")) {
-        return "badge-pastel-cus2";
-    }
-    else if (position.toLowerCase().includes("technical writer")) {
-        return "badge-pastel-cus3";
-    }
-    else if (position.toLowerCase().includes("business analyst")) {
-        return "badge-pastel-cus4";
-    }
-    else if (position.toLowerCase().includes("solution analyst")) {
-        return "badge-pastel-cus5";
-    }
-    else {
-        return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-}*/
 
 // Fungsi untuk mengubah huruf besar di awal dan setelah spasi
 function capitalizeWords(str) {
