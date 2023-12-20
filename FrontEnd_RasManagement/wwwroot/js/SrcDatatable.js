@@ -340,149 +340,399 @@ function Src(selectedCategory) {
       {
         data: "filteringBy",
       },
-      {
-        data: "workStatus",
-        render: function (data) {
-          if (data === "true") {
-            return (data =
-              '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>');
-          } else {
-            return (data =
-              '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
-          }
-        },
-      },
-      {
-        data: "noticePeriode",
-      },
-      {
-        data: "financialIndustry",
-        render: function (data, type, row) {
-          if (type === "display" || type === "filter") {
-            // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-            var checkTrue =
-              '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
-            var checkFalse =
-              '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
+     
+            {
+                data: "workStatus",
+                render: function (data) {
+                    if (data === "true" || data === "True") {
+                        return (data =
+                            '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>');
+                    } else if (data === "false" || data === "False") {
+                        return (data =
+                            '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
+                    } else {
+                        return " ";
+                    }
+                },
+            },
+            {
+                data: "noticePeriode",
+            },
+            {
+                data: "financialIndustry",
+                render: function (data, type, row) {
+                    if (type === "display" || type === "filter") {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkTrue =
+                            '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
+                        var checkFalse =
+                            '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
 
-            if (data === "true") {
-              return '<div class="text-center">' + checkTrue + "</div>";
-            }
-            return '<div class="text-center">' + checkFalse + "</div>";
-          }
+                        if (data === "true" || data === "True") {
+                            return '<div class="text-center">' + checkTrue + "</div>";
+                        } else if (data === "false" || data === "False") {
+                            return '<div class="text-center">' + checkFalse + "</div>";
+                        }
+                        return " ";
+                    }
 
-          // Untuk tipe data lain, kembalikan data aslinya
-          return data;
-        },
-      },
-      {
-        data: "rawCv",
-        render: function (data, type, row) {
-          if (type === "display" || type === "filter") {
-            // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-            var checkTrue = '<a href ="' + data + '"> Raw Cv </a>';
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                },
+            },
+            {
+                data: "rawCv",
+                render: function (data, type, row) {
+                    if (type === "display" || type === "filter") {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' CV </a>';
 
-            return checkTrue;
-          }
+                        return checkTrue;
+                    }
 
-          // Untuk tipe data lain, kembalikan data aslinya
-          return data;
-        },
-      },
-      {
-        data: "cvBerca",
-        render: function (data, type, row) {
-          if (type === "display" || type === "filter") {
-            // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-            var checkTrue = '<a href ="' + data + '"> Cv Berca </a>';
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                },
+            },
+            {
+                data: "cvBerca",
+                render: function (data, type, row) {
+                    if (type === "display" || type === "filter") {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' Berca CV </a>';
 
-            return checkTrue;
-          }
+                        return checkTrue;
+                    }
 
-          // Untuk tipe data lain, kembalikan data aslinya
-          return data;
-        },
-      },
-      {
-        data: "englishLevel",
-      },
-      {
-        data: "currentSalary",
-        render: function (data) {
-          if (data === "Rp ") {
-            return " ";
-          }
-          return data;
-        },
-      },
-      {
-        data: "expectedSalary",
-        render: function (data) {
-          if (data === "Rp ") {
-            return " ";
-          }
-          return data;
-        },
-      },
-      {
-        //"data":"negotiable"
-        data: "negotiable",
-        render: function (data, type, row) {
-          if (type === "display" || type === "filter") {
-            // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-            var checkTrue =
-              '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
-            var checkFalse =
-              '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                },
+            },
+            {
+                data: "englishLevel",
+            },
+            {
+                data: "currentSalary",
+                render: function (data) {
+                    if (data === "Rp ") {
+                        return " ";
+                    } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
+                        return data; // Mengembalikan data tanpa pemformatan tambahan
+                    }
 
-            if (data === "true") {
-              return '<div class="text-center">' + checkTrue + "</div>";
-            } else if (data === null) {
-              return " ";
-            }
-            return '<div class="text-center">' + checkFalse + "</div>";
-          }
+                    // Mengonversi string menjadi angka
+                    const numericData = parseFloat(data);
 
-          // Untuk tipe data lain, kembalikan data aslinya
-          return data;
-        },
-      },
-      {
-        data: "techTest",
-      },
-      {
-        data: "intwByRas",
-      },
-      {
-        data: "intwDateByRas",
-        render: function (data, type, row) {
-          if (data == null) {
-            return "";
-          } else {
-            if (type === "display" || type === "filter") {
-              // Format tanggal dalam format yang diinginkan
-              return moment(data).format("DD MMMM YYYY");
-            }
-            // Untuk tipe data lain, kembalikan data aslinya
+                    // Memeriksa apakah data adalah angka
+                    if (!isNaN(numericData)) {
+                        // Memformat angka menjadi format mata uang Indonesia
+                        const formattedData = numericData.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                        });
 
-            return data;
-          }
-        },
-      },
-      {
-        data: "nameOfUser",
-        render: function (data, type, row) {
-          var nameUser = row.nameOfUser;
+                        return formattedData;
+                    }
 
-          if (nameUser == null) {
-            return "";
-          } else if (!nameUser.includes("<br/>")) {
-            return nameUser;
-          } else {
-            const nameUserArray = nameUser.split("<br/>");
+                    return data;
+                },
 
-            // Membuat objek untuk menyimpan data
-            const userData = { nameArray: [] };
+            },
+            {
+                data: "expectedSalary",
+                render: function (data) {
+                    if (data === "Rp ") {
+                        return " ";
+                    } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
+                        return data; // Mengembalikan data tanpa pemformatan tambahan
+                    }
+
+                    // Mengonversi string menjadi angka
+                    const numericData = parseFloat(data);
+
+                    // Memeriksa apakah data adalah angka
+                    if (!isNaN(numericData)) {
+                        // Memformat angka menjadi format mata uang Indonesia
+                        const formattedData = numericData.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                        });
+
+                        return formattedData;
+                    }
+
+                    return data;
+                },
+            },
+            {
+                //"data":"negotiable"
+                data: "negotiable",
+                render: function (data, type, row) {
+                    if (type === "display" || type === "filter") {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkTrue =
+                            '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
+                        var checkFalse =
+                            '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
+
+                        if (data === "true" || data === "True") {
+                            return '<div class="text-center">' + checkTrue + "</div>";
+                        } else if (data === "false" || data === "False") {
+                            return '<div class="text-center">' + checkFalse + "</div>";
+                        }
+                        return " ";
+                    }
+
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                },
+            },
+            {
+                data: "techTest",
+            },
+            {
+                data: "intwByRas",
+            },
+            {
+                data: "intwDateByRas",
+                render: function (data, type, row) {
+                    if (data == null || data == "") {
+                        return "";
+                    } else {
+                        if (type === "display" || type === "filter") {
+                            // Format tanggal dalam format yang diinginkan
+                            return moment(data).format("DD MMMM YYYY");
+                        }
+                        // Untuk tipe data lain, kembalikan data aslinya
+
+                        return data;
+                    }
+                },
+            },
+            {
+                data: "nameOfUser",
+                render: function (data, type, row) {
+                    var nameUser = row.nameOfUser;
+
+                    if (nameUser == null || nameUser == "") {
+                        return "";
+                    } else if (!nameUser.includes("<br/>")) {
+                        return nameUser;
+                    } else {
+                        const nameUserArray = nameUser.split("<br/>");
+
+                        // Membuat objek untuk menyimpan data
+                        const userData = { nameArray: [] };
+
+                        // Mengumpulkan data status
+                        for (let i = 0; i < nameUserArray.length; i++) {
+                            // Menambahkan status ke dalam array yang sesuai
+                            userData.nameArray.push(nameUserArray[i]);
+                        }
+
+                        // Menampilkan data terakhir
+                        const lastName = userData.nameArray[userData.nameArray.length - 1];
+
+                        return lastName;
+
+                        //NAMPILIN PER USER
+                        /*var nameOfUser = row.nameOfUser;
+                                    if (nameOfUser == null) {
+                                        return " ";
+                                    } else if (!nameOfUser.includes('<br/>')) {
+                                        return nameOfUser;
+                                    } else {
+                                        // Extract unique usernames from the nameOfUser column
+                                        const nameOfUserArray = nameOfUser.split('<br/>');
+                                        const uniqueUsernames = Array.from(new Set(nameOfUserArray.filter(name => name.trim() !== 'null')));
+                
+                                        // Return the unique usernames in the rendered cell
+                                        return '<li>' + uniqueUsernames.join('</li><li>') + '</li>';
+                                    }*/
+                    }
+                },
+            },
+            {
+                data: "intwUser",
+                render: function (data, type, row) {
+                    var intwuser = row.intwUser;
+
+                    if (intwuser == null || intwuser == "") {
+                        return "";
+                    } else if (!intwuser.includes("<br/>")) {
+                        return intwuser;
+                    } else {
+                        const intwUserArray = intwuser.split("<br/>");
+
+                        // Membuat objek untuk menyimpan data
+                        const userData = { statusArray: [] };
+
+                        // Mengumpulkan data status
+                        for (let i = 0; i < intwUserArray.length; i++) {
+                            // Menambahkan status ke dalam array yang sesuai
+                            userData.statusArray.push(intwUserArray[i]);
+                        }
+
+                        // Menampilkan data terakhir
+                        const lastStatus =
+                            userData.statusArray[userData.statusArray.length - 1];
+
+                        return lastStatus;
+
+                        //NAMPILIN STATUS INTERVIEW PER USER
+                        /*var intwuser = row.intwUser;
+                                    var nameofuser = row.nameOfUser;
+                
+                                    if (intwuser == null) {
+                                        return "";
+                                    } else if (!intwuser.includes('<br/>')) {
+                                        return intwuser;
+                                    } else {
+                                        const intwUserArray = intwuser.split('<br/>');
+                                        const nameOfUserArray = nameofuser.split('<br/>');
+                
+                                        // Membuat objek untuk menyimpan data berdasarkan nama user
+                                        const userDataMap = new Map();
+                
+                                        // Mengumpulkan data berdasarkan nama user
+                                        for (let i = 0; i < intwUserArray.length; i++) {
+                                            const userName = nameOfUserArray[i];
+                
+                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
+                                            if (!userDataMap.has(userName)) {
+                                                userDataMap.set(userName, { statusArray: [] });
+                                            }
+                
+                                            // Menambahkan status ke dalam array yang sesuai
+                                            userDataMap.get(userName).statusArray.push(intwUserArray[i]);
+                                        }
+                
+                                        // Menampilkan data terakhir untuk setiap nama user
+                                        let lastStatusByUser = "";
+                                        userDataMap.forEach((userData, userName) => {
+                                            const lastStatus = userData.statusArray[userData.statusArray.length - 1];
+                                            lastStatusByUser += `<li>${lastStatus}</li>`;
+                                        });
+                
+                                        return lastStatusByUser;*/
+                    }
+                },
+            },
+
+            {
+                data: "intwDateUser",
+                render: function (data, type, row) {
+                    var dateuser = row.intwDateUser;
+
+                    if (dateuser == null || dateuser == "") {
+                        return "";
+                    } else if (!dateuser.includes("<br/>")) {
+                        return dateuser;
+                    } else {
+                        const dateUserArray = dateuser.split("<br/>");
+
+                        // Membuat objek untuk menyimpan data
+                        const userDate = { dateArray: [] };
+
+                        // Mengumpulkan data status
+                        for (let i = 0; i < dateUserArray.length; i++) {
+                            // Menambahkan status ke dalam array yang sesuai
+                            userDate.dateArray.push(dateUserArray[i]);
+                        }
+
+                        // Menampilkan data terakhir
+                        const lastDate = userDate.dateArray[userDate.dateArray.length - 1];
+
+                        return lastDate;
+
+                        //NAMPILIN TANGGAL PER USER
+                        /*var dateuser = row.intwDateUser;
+                                    var nameofuser = row.nameOfUser;
+                
+                                    if (dateuser == null) {
+                                        return "";
+                                    } else if (!dateuser.includes('<br/>')) {
+                                        return dateuser;
+                                    } else {
+                                        const dateuserArray = dateuser.split('<br/>');
+                                        const nameOfUserArray = nameofuser.split('<br/>');
+                
+                                        // Membuat objek untuk menyimpan data berdasarkan nama user
+                                        const userDataMap = new Map();
+                
+                                        // Mengumpulkan data berdasarkan nama user
+                                        for (let i = 0; i < dateuserArray.length; i++) {
+                                            const userName = nameOfUserArray[i];
+                                                
+                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
+                                            if (!userDataMap.has(userName)) {
+                                                userDataMap.set(userName, { dateArray: [] });
+                                            }
+                
+                                            // Menambahkan status ke dalam array yang sesuai
+                                            userDataMap.get(userName).dateArray.push(dateuserArray[i]);
+                                        }
+                
+                                        // Menampilkan data terakhir untuk setiap nama user
+                                        let lastDateByUser = "";
+                                        userDataMap.forEach((userData, userName) => {
+                                            const lastDate = userData.dateArray[userData.dateArray.length - 1];
+                                            lastDateByUser += `<li>${lastDate}</li>`;
+                                        });
+                
+                                        return lastDateByUser;*/
+                    }
+                },
+                /*render: function (data, type, row) {
+                            if (data == null) {
+                                return " ";
+                            } else {
+        
+                                var dates = data.split('<br/>');
+                                var formattedDates = [];
+        
+                                // Filter nilai null dan "<br/>"
+                                for (var i = 0; i < dates.length; i++) {
+                                    if (dates[i] && dates[i] !== '<br/>') {
+                                        formattedDates.push(dates[i]);
+                                    }
+                                }
+                            }
+        
+                            // Menggabungkan data yang telah diformat kembali
+                            return '<li>' + formattedDates.join("</li><li>") + '</li>';
+                        }*/
+            },
+            {
+                data: "levelRekom",
+            },
+            {
+                data: "status",
+            },
+            {
+                data: "notes",
+            },
+            {
+                data: "lastModified",
+                render: function (data, type, row) {
+
+                    if (data != null) {
+                        if (type === "display" || type === "filter") {
+                            // Format tanggal dalam format yang diinginkan
+                            return moment(data).format("YYYY-MM-DD ");
+                        }
+
+                    }
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return " ";
+                },
+            },
+        ],
+
 
             // Mengumpulkan data status
             for (let i = 0; i < nameUserArray.length; i++) {
@@ -1542,6 +1792,7 @@ function Update() {
       $(".error-message-update").css("display", "block");
       return false; // Field tidak valid
     }
+
   }
   if ($("#nameUser2").is(":visible")) {
     if ($("#dateIntwUserr").val() === "") {
@@ -1682,6 +1933,7 @@ function Update() {
       text: "There is client data that has been deleted, or a data input error",
       showConfirmButtom: false,
       timer: 4000,
+
     });
     return;
   }
@@ -1781,42 +2033,18 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-  let maxVisibleCategories = 7;
-  categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
+    let maxVisibleCategories = 6;
+    categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
-  // Mendeteksi lebar layar saat halaman dimuat
-  const screenWidth = window.innerWidth || document.documentElement.clientWidth;
+    // Mendeteksi lebar layar saat halaman dimuat
+    const screenWidth = window.innerWidth || document.documentElement.clientWidth;
 
-  // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
-  if (screenWidth <= 1024) {
-    maxVisibleCategories = 5;
-  }
-  if (screenWidth < 850) {
-    maxVisibleCategories = 4;
-  }
-  if (screenWidth < 750) {
-    maxVisibleCategories = 3;
-  }
-  if (screenWidth <= 500) {
-    maxVisibleCategories = 1;
-  }
-  const navList = document.createElement("ul");
-  navList.className = "nav nav-tabs";
-
-  // Loop untuk menambahkan item navigasi sampai index 6 (item ke-7)
-  for (let i = 0; i < Math.min(categories.length, maxVisibleCategories); i++) {
-    const listItem = document.createElement("li");
-    listItem.className = "nav-item";
-
-    const link = document.createElement("a");
-    link.className = "nav-link text-sm";
-    link.href = "#";
-    link.setAttribute("data-category", categories[i].toLowerCase());
-    link.textContent = capitalizeWords(categories[i]);
-
-    if (i === 0) {
-      // Tandai 'All' sebagai aktif secara default
-      link.classList.add("active");
+    // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
+    if (screenWidth <= 1024) {
+        maxVisibleCategories = 5;
+    }
+    if (screenWidth < 850) {
+        maxVisibleCategories = 4;
     }
 
     listItem.appendChild(link);
