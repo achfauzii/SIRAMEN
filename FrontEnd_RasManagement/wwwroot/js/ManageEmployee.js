@@ -457,6 +457,7 @@ function fetchDepartments() {
 }
 
 function GetByIdPlacement(accountId, placementStatus) {
+  table = $("#dataTableEmployee").DataTable()
   $(".PlacementStatus")
     .closest(".form-group")
     .find(".error-message-status")
@@ -508,6 +509,7 @@ function GetByIdPlacement(accountId, placementStatus) {
 }
 
 function SaveTurnOver() {
+  table = $("#dataTableEmployee").DataTable()
   var isValid = true;
 
   // Validasi select options
@@ -593,7 +595,7 @@ function SaveTurnOver() {
           });
         }
 
-        location.reload();
+        table.ajax.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to turn over", "error");
@@ -603,6 +605,7 @@ function SaveTurnOver() {
 
 // Fungsi yang dipanggil saat nilai dropdown PlacementStatus berubah
 function handlePlacementStatusChange() {
+  table = $("#dataTableEmployee").DataTable()
   var selectedOption = document.getElementById("Status").value;
   var inputCompany = document.getElementById("inputCompany");
 
@@ -654,6 +657,7 @@ function handlePlacementStatusChange() {
 */
 
 function UpdatePlacement() {
+  table = $("#dataTableEmployee").DataTable()
   var Placement = new Object();
   Placement.accountId = $("#AccountId").val();
   Placement.placementStatusId = $("#PlacementID").val();
@@ -761,6 +765,7 @@ function ClearScreenPlacement() {
 }
 
 function Save(accountId) {
+  table = $("#dataTableEmployee").DataTable()
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -810,7 +815,7 @@ function Save(accountId) {
         showConfirmButtom: false,
         timer: 1500,
       }).then(() => {
-        location.reload();
+        table.ajax.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to added!", "error");
@@ -819,6 +824,7 @@ function Save(accountId) {
 }
 
 function Update() {
+  table = $("#dataTableEmployee").DataTable()
   var placement = new Object();
   placement.placementStatusId = $("#placementStatusId").val();
   placement.companyName = $("#companyName_").val();
@@ -851,11 +857,11 @@ function Update() {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        location.reload();
+        table.ajax.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to update", "error");
-      location.reload();
+      table.ajax.reload();
     }
   });
 }
@@ -879,62 +885,6 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-/*function GetByIdPlacement(accountId, placementStatus) {
-    
-
-    var fullName = ''; // Untuk menyimpan fullname dari kedua pemanggilan API
-
-    // Pemanggilan pertama
-    var firstApiCall = $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            
-            var obj = result.data;
-            fullName = obj.fullname; // Simpan fullname dari pemanggilan pertama
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-    // Pemanggilan kedua
-    var secondApiCall = $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            
-            var obj = result.data;
-            $('#AccountId').val(accountId);
-            $('#PlacementID').val(obj.placementStatusId);
-            $('#PlacementStatus').val(placementStatus);
-            $('#CompanyName').val(obj.companyName);
-            $('#Description').val(obj.description);
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-    // Menunggu kedua pemanggilan API selesai
-    $.when(firstApiCall, secondApiCall).done(function () {
-        // Setelah keduanya selesai, tampilkan fullname
-        $('#FullName').text(fullName);
-        console.log(fullName);
-        $('#Modal').modal('show');
-        $('#Update').show();
-    });
-}*/
 
 function GetByIdPlacement(accountId, placementStatus) {
   $(".PlacementStatus")
@@ -988,6 +938,7 @@ function GetByIdPlacement(accountId, placementStatus) {
 }
 
 function SaveTurnOver() {
+  table = $("#dataTableEmployee").DataTable()
   var isValid = true;
 
   // Validasi select options
@@ -1080,7 +1031,7 @@ function SaveTurnOver() {
           });
         }
 
-        location.reload();
+        table.ajax.reload();
       });
     } else {
       Swal.fire("Error!", "Turn Over status failed to update", "error");
@@ -1090,6 +1041,7 @@ function SaveTurnOver() {
 
 // Fungsi yang dipanggil saat nilai dropdown PlacementStatus berubah
 function handlePlacementStatusChange() {
+  table = $("#dataTableEmployee").DataTable()
   var selectedOption = document.getElementById("Status").value;
   var inputCompany = document.getElementById("inputCompany");
 
@@ -1124,6 +1076,7 @@ function GetContract(accountId) {
 }
 
 function UpdateContract() {
+  table = $("#dataTableEmployee").DataTable()
   var isValid = true;
   $("input[requiredContract]").each(function () {
     var input = $(this);
@@ -1164,7 +1117,7 @@ function UpdateContract() {
         SaveLogUpdate(logMessage);
       $("#modalContract").modal("hide");
       setTimeout(function () {
-        location.reload();
+        table.ajax.reload();
       }, 1800); // 3000 milliseconds = 3 seconds
     } else {
       Swal.fire("Error!", "Data failed to update", "error");
@@ -1174,6 +1127,7 @@ function UpdateContract() {
 }
 
 function UpdatePlacement() {
+  table = $("#dataTableEmployee").DataTable()
   var Placement = new Object();
   Placement.accountId = $("#AccountId").val();
   Placement.placementStatusId = $("#PlacementID").val();
@@ -1209,56 +1163,6 @@ function UpdatePlacement() {
   });
 }
 
-/*function GetById(accountId) {
-    const startDate = document.getElementById("showStartDate");
-    const endDate = document.getElementById("showEndDate");
-    startDate.style.display = "none";
-    endDate.style.display = "block";
-    var accountId = accountId;
-    $.ajax({
-        type: 'GET',
-        url: 'https://localhost:7177/api/EmployeePlacements/accountId?accountId=' + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: true,
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then((result) => {
-        $('#modal-add').modal('hide');
-        $('#modal-add').on('hidden.bs.modal', function () {
-            $(this).data('bs.modal', null);
-        });
-       
-        var obj = result.data; //data yg didapat dari api
-
-        // Konversi string tanggal menjadi objek Date
-        var startDate = new Date(obj.startDate);
-        var endDate = new Date(obj.endDate);
-
-        // Fungsi untuk memformat tanggal menjadi "yyyy-MM-dd" (format yang diharapkan input date)
-        function formatDate(date) {
-            var year = date.getFullYear();
-            var month = (date.getMonth() + 1).toString().padStart(2, '0');
-            var day = date.getDate().toString().padStart(2, '0');
-            return year + "-" + month + "-" + day;
-        }
-
-        $('#companyName').val(obj.companyName);
-        $('#jobRole').val(obj.jobRole);
-        $('#startDate').val(formatDate(startDate));
-        $('#endDate').val(formatDate(endDate));
-        $('#description').val(obj.description);
-        $('input[name="status"][value="' + obj.placementStatus + '"]').prop('checked', true);
-        $('#Update').show();
-        $('#Add').hide();
-
-
-
-    })
-}
-*/
 
 function ClearScreenContract() {
   $("#AccountId").val("");
@@ -1317,6 +1221,7 @@ function ClearScreenChangeStatus() {
 }
 
 function Save(accountId) {
+  table = $("#dataTableEmployee").DataTable()
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -1368,7 +1273,7 @@ function Save(accountId) {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        location.reload();
+        table.ajax.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to added", "error");
@@ -1377,6 +1282,7 @@ function Save(accountId) {
 }
 
 function Update() {
+  table = $("#dataTableEmployee").DataTable()
   var placement = new Object();
   placement.placementStatusId = $("#placementStatusId").val();
   placement.companyName = $("#companyName_").val();
@@ -1411,11 +1317,11 @@ function Update() {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        location.reload();
+        table.ajax.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to update", "error");
-      location.reload();
+      table.ajax.reload();
     }
   });
 }

@@ -8,10 +8,10 @@
         {
             this.context = context;
         }
-        public async Task<bool> ClientNameIsExist(string clientname)
+        public async Task<bool> ClientNameIsExist(string name, int? id = null)
         {
             // Use AnyAsync to check if any department with the given name exists
-            var clientnameExists = await context.ClientNames.AnyAsync(a => a.NameOfClient == clientname);
+            var clientnameExists = await context.ClientNames.AnyAsync(a => a.NameOfClient == name && (id == null || a.Id != id));
 
             return clientnameExists;
         }
