@@ -123,7 +123,6 @@ $(document).ready(function () {
         "No";
     }
   });
-
 });
 
 function htmlspecialchars(str) {
@@ -174,24 +173,24 @@ function Src(selectedCategory) {
     pageLength: 10,
     order: [[0, "asc"]],
 
-        ajax: {
-            url: "https://localhost:7177/api/Shortlist/NonRasDatatable", // Your API endpoint
-            type: "POST",
-            contentType: "application/json",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            data: function (d) {
-                d.order = d.order[0];
-                if (selectedCategory != "all") {
-                    d.search.category = selectedCategory;
-                } else {
-                    d.search.category = "";
-                }
+    ajax: {
+      url: "https://localhost:7177/api/Shortlist/NonRasDatatable", // Your API endpoint
+      type: "POST",
+      contentType: "application/json",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+      data: function (d) {
+        d.order = d.order[0];
+        if (selectedCategory != "all") {
+          d.search.category = selectedCategory;
+        } else {
+          d.search.category = "";
+        }
 
-                return JSON.stringify(d);
-            },
-        },
+        return JSON.stringify(d);
+      },
+    },
 
     columns: [
       {
@@ -239,26 +238,26 @@ function Src(selectedCategory) {
             // Atur warna latar belakang badge sesuai dengan kata yang sama
             badge.css("background-color", badgeColor);
 
-                        badgeContainer.append(badge);
-                        if (i < posisitionSplit.length - 1) {
-                            badgeContainer.append(" ");
-                        }
-                    }
-                    // Kembalikan HTML dari container badge
-                    return badgeContainer.html();
-                },
-            },
-            {
-                data: "skillset",
-                render: function (data) {
-                    // Pisahkan data skillset menjadi array berdasarkan koma
-                    if (data == null) {
-                        var a = "b";
-                        return a;
-                    }
-                    var skillsetArray = data.split(",");
-                    // Container untuk pill badges
-                    var badgeContainer = $('<div class="badge-container"></div>');
+            badgeContainer.append(badge);
+            if (i < posisitionSplit.length - 1) {
+              badgeContainer.append(" ");
+            }
+          }
+          // Kembalikan HTML dari container badge
+          return badgeContainer.html();
+        },
+      },
+      {
+        data: "skillset",
+        render: function (data) {
+          // Pisahkan data skillset menjadi array berdasarkan koma
+          if (data == null) {
+            var a = "b";
+            return a;
+          }
+          var skillsetArray = data.split(",");
+          // Container untuk pill badges
+          var badgeContainer = $('<div class="badge-container"></div>');
 
           // Loop melalui setiap elemen dalam array
           for (var i = 0; i < skillsetArray.length; i++) {
@@ -494,14 +493,14 @@ function Src(selectedCategory) {
             // Menampilkan data terakhir
             const lastName = userData.nameArray[userData.nameArray.length - 1];
 
-                        return lastName;
-                    }
-                },
-            },
-            {
-                data: "intwUser",
-                render: function (data, type, row) {
-                    var intwuser = row.intwUser;
+            return lastName;
+          }
+        },
+      },
+      {
+        data: "intwUser",
+        render: function (data, type, row) {
+          var intwuser = row.intwUser;
 
           if (intwuser == null) {
             return "";
@@ -978,21 +977,6 @@ function Src(selectedCategory) {
       $("#nameUser").prop("disabled", true);
       $("#dateIntwUser").prop("disabled", true);
     }
-    //console.log(data.intwUser);
-                    // Append labels to the user container
-                    containerElement.appendChild(judulLabel);
-                    containerElement.appendChild(intwLabel);
-                    containerElement.appendChild(dateLabel);
-                });
-            }
-          
-        } else if (data.intwByRas === "" || data.intwByRas == null) {
-            // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
-            $("#intwUser").prop("disabled", true);
-            $("#nameUser").prop("disabled", true);
-            $("#dateIntwUser").prop("disabled", true);
-        }
-        //console.log(data.intwUser);
 
     if (data.intwUser) {
       /*var offer = document.getElementById("formoffer");
@@ -1003,8 +987,6 @@ function Src(selectedCategory) {
       $("#offer").hide();
       //console.log(data.intwUser);
     }
-
-      
 
     $("#levelRekom").val(data.levelRekom);
     $("#status").val(data.status);
@@ -1123,12 +1105,12 @@ function ClearScreenUpt() {
   $("input[requiredUpdate],select[requiredUpdate]").each(function () {
     var input = $(this);
 
-        input.next(".error-message_").hide();
-        $(".error-format-ipk-update").hide();
-    });
-    
-    $("#displayIntwUser2").val("").hide();
-    $("#displayDateIntwUser2").val("").hide();
+    input.next(".error-message_").hide();
+    $(".error-format-ipk-update").hide();
+  });
+
+  $("#displayIntwUser2").val("").hide();
+  $("#displayDateIntwUser2").val("").hide();
 
   $("#nameUser2").next().hide();
 
@@ -1501,47 +1483,47 @@ function Save() {
   // This arrangement can be altered based on how we want the date's format to appear.
   let currentDate = `${day}-${month}-${year}`;
 
-    NonRasCandidate.lastModified = formatDate(Date());
-   
-    $.ajax({
-        type: "POST",
-        url: "https://localhost:7177/api/Shortlist/Add",
-        data: JSON.stringify(NonRasCandidate),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-    }).then((result) => {
-        //
-        const logMesagge = `Has Added Shortlist Candidate ${NonRasCandidate.fullname}`;
-        SaveLogUpdate(logMesagge);
-        if (result.status == 200) {
-            Swal.fire({
-                icon: "success",
-                title: "Success...",
-                text: "Data has been added!",
-                showConfirmButtom: false,
-                timer: 1500,
-            });
-            $("#Modal").modal("hide");
-            table.ajax.reload();
-            ClearScreenSave();
-        } else {
-            Swal.fire({
-                icon: "warning",
-                title: "Data Gagal dimasukkan!",
-                showConfirmButtom: false,
-                timer: 1500,
-            });
-            $("#Modal").modal("hide");
-            table.ajax.reload();
-        }
-    });
-    function formatDate(date) {
-        var d = new Date(date),
-            month = "" + (d.getMonth() + 1),
-            day = "" + d.getDate(),
-            year = d.getFullYear();
+  NonRasCandidate.lastModified = formatDate(Date());
+
+  $.ajax({
+    type: "POST",
+    url: "https://localhost:7177/api/Shortlist/Add",
+    data: JSON.stringify(NonRasCandidate),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    //
+    const logMesagge = `Has Added Shortlist Candidate ${NonRasCandidate.fullname}`;
+    SaveLogUpdate(logMesagge);
+    if (result.status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Success...",
+        text: "Data has been added!",
+        showConfirmButtom: false,
+        timer: 1500,
+      });
+      $("#Modal").modal("hide");
+      table.ajax.reload();
+      ClearScreenSave();
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Data Gagal dimasukkan!",
+        showConfirmButtom: false,
+        timer: 1500,
+      });
+      $("#Modal").modal("hide");
+      table.ajax.reload();
+    }
+  });
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
@@ -1551,22 +1533,22 @@ function Save() {
 }
 
 function Update() {
-    var isValid = true;
-    $("input[required],select[required]").each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            console.log(input.attr("name") + " kosong");
-            console.log(input.attr("id") + " kosong");
-            console.log(input + " kosong");
-            input.next(".error-message").show();
-            isValid = false;
-        } else {
-            input.next(".error-message").hide();
-        }
-        // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-        if (input.attr("id") === "ipk2") {
-            var ipk = input.val().trim();
-            var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+  var isValid = true;
+  $("input[required],select[required]").each(function () {
+    var input = $(this);
+    if (!input.val()) {
+      console.log(input.attr("name") + " kosong");
+      console.log(input.attr("id") + " kosong");
+      console.log(input + " kosong");
+      input.next(".error-message").show();
+      isValid = false;
+    } else {
+      input.next(".error-message").hide();
+    }
+    // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+    if (input.attr("id") === "ipk2") {
+      var ipk = input.val().trim();
+      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
       if (!validIPK.test(ipk)) {
         $(".error-format-ipk-update").show(); // Menampilkan pesan error format IPK
@@ -1803,8 +1785,6 @@ function Update() {
     return;
   }
 
-
-
   NonRasCandidate.techTest = $("#techTest").val();
   NonRasCandidate.intwDateByRas = $("#dateIntwRAS").val();
   NonRasCandidate.intwUser = intwUser_;
@@ -1863,8 +1843,6 @@ function Update() {
   }
 }
 
-
-
 function formatCurrency(input) {
   // Menghapus semua karakter selain angka
   var value = input.value.replace(/\D/g, "");
@@ -1900,7 +1878,6 @@ function fetchCategories() {
       );
     });
 }
-
 
 function createNavigation(categories) {
   let maxVisibleCategories = 7;
