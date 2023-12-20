@@ -358,9 +358,24 @@
                     <div class="form-group">
                         <div class="row pl-2 pr-2">
                             <div class="col-sm-3 col-md" style="color: black">Experience</div>
-                            <div class="col-sm-9">
+                            <div class="col-sm-4 col-md-5">
+                                    <div class="input-group input-group-sm ">
+                                        <input type="number" class="form-control" id="experience_year" required_>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Year</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-md-4">
+                                    <div class="input-group input-group-sm ">
+                                        <input type="number" class="form-control" id="experience_month" >
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Month</span>
+                                        </div>
+                                    </div>
+                                </div>
                                 @*<input type="number" class="form-control" id="experience" required>*@
-                                <select id="experience" class="selectExperience form-control" name="state" required_>
+                                @* <select id="experience" class="selectExperience form-control" name="state" required_>
                                     <option selected disabled>Choose...</option>
                                     <option value="< 1 Year">< 1 Year</option>
                                     <option value="1 Year">1 Year</option>
@@ -369,8 +384,12 @@
                                     <option value="4 Years">4 Years</option>
                                     <option value="5 Years">5 Years</option>
                                     <option value="> 5 Years">> 5 Years</option>
-                                </select>
-                                <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                                </select> *@
+                        </div>
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md"></div>
+                            <div class="col-sm-9 col-md-9">
+                                <span class="error-message_" id="experience_error" style="color: red; display: none;">Experience year is required!</span>
                             </div>
                         </div>
                     </div>
@@ -914,8 +933,23 @@
                         <div class="form-group">
                             <div class="row pl-4 pr-4">
                                 <div class="col-sm-3 col-md" style="color: black">Experience</div>
-                                <div class="col-sm-9">
-                                    <select id="experience2" class="selectExperience form-control" name="state" required>
+                                <div class="col-sm-4 col-md-5">
+                                    <div class="input-group input-group-sm ">
+                                        <input type="number" class="form-control" id="experience_year2" required>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Year</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-md-4">
+                                    <div class="input-group input-group-sm ">
+                                        <input type="number" class="form-control" id="experience_month2" >
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Month</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                    @* <select id="experience2" class="selectExperience form-control" name="state" required>
                                         <option value="< 1 Years">< 1 Year</option>
                                         <option value="1 Year">1 Year</option>
                                         <option value="2 Years">2 Years</option>
@@ -923,8 +957,7 @@
                                         <option value="5 Years">5 Years</option>
                                         <option value="> 5 Years">> 5 Years</option>
                                     </select>
-                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                                </div>
+                                    <span class="error-message" style="color: red; display: none;">This field is required!</span> *@
                             </div>
                         </div>
                         <div class="form-group">

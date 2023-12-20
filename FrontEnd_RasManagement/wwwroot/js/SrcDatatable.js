@@ -325,6 +325,31 @@ function Src(selectedCategory) {
 
       {
         data: "experienceInYear",
+        render: function (data) {
+          var year = data.substring(0, 1);
+          var month = data.substring(3, 4);
+          if (year >= 5) {
+            if (month != "" || year > 5) {
+              return "> 5 Years";
+            } else {
+              return year + " Years";
+            }
+          } else if (year < 1) {
+            return "< 1 Year";
+          } else if (year > 1) {
+            if (month != "") {
+              return year + " Years " + month + " Months";
+            } else {
+              return year + " Years";
+            }
+          } else {
+            if (month != "") {
+              return year + " Year " + month + " Months";
+            } else {
+              return year + " Year";
+            }
+          }
+        },
       },
       {
         data: "filteringBy",
@@ -735,7 +760,10 @@ function Src(selectedCategory) {
 
     $("#level2").val(data.level);
     $("#statusOffering").val(data.status);
-    $("#experience2").val(data.experienceInYear);
+
+    $("#experience_year2").val(data.experienceInYear.substring(0, 1));
+    $("#experience_month2").val(data.experienceInYear.substring(3, 4));
+
     $("#filteringby2").val(data.filteringBy);
     var checkbox2 = document.getElementById("workstatus2");
     if (data.workStatus == "true") {
@@ -1035,7 +1063,8 @@ function ClearScreenSave() {
   $("#domicile").val("");
   $("#birthdate").val("");
   $("#level").val("");
-  $("#experience").val("");
+  $("#experience_year").val("");
+  $("#experience_month").val("");
   $("#filteringby").val("");
   $('input[name="nego"]').prop("checked", false);
   $("#notice").val("");
@@ -1075,7 +1104,8 @@ function ClearScreenUpt() {
   $("#domicile2").val("");
   $("#birthdate2").val("");
   $("#level2").val("");
-  $("#experience2").val("");
+  $("#experience_year2").val("");
+  $("#experience_month2").val("");
   $("#filteringby2").val("");
   $('input[name="workstatus2"]').prop("checked", false);
   $("#notice2").val("");
@@ -1465,6 +1495,10 @@ function Save() {
         }*/
   });
 
+  if (!$("#experience_year").val()) {
+    $("#experience_error").show();
+    isValid = false;
+  }
   // Validasi select options
   //var selectedRegencies = $('#selectRegencies').val();
   var selectedUniversity = $("#UniversityName").val();
@@ -1510,6 +1544,16 @@ function Save() {
   workstatus = workstatus.toString();
   financial = financial.toString();
 
+  if (
+    $("#experience_month").val() != null ||
+    $("#experience_month").val() != ""
+  ) {
+    var experience =
+      $("#experience_year").val() + ", " + $("#experience_month").val();
+  } else {
+    var experience = $("#experience_year").val();
+  }
+
   var NonRasCandidate = new Object(); //object baru
   NonRasCandidate.nonRasId = $("#nonrasid").val();
   NonRasCandidate.fullname = $("#Name")
@@ -1526,7 +1570,7 @@ function Save() {
   NonRasCandidate.domisili = $("#domicile").val();
   NonRasCandidate.birthdate = $("#birthdate").val();
   NonRasCandidate.level = $("#level").val();
-  NonRasCandidate.experienceInYear = $("#experience").val();
+  NonRasCandidate.experienceInYear = experience;
   NonRasCandidate.filteringBy = $("#filteringby").val();
   NonRasCandidate.workStatus = workstatus;
   NonRasCandidate.noticePeriode = $("#notice").val();
@@ -1634,6 +1678,11 @@ function Update() {
     }
   });
 
+  if (!$("#experience_year").val()) {
+    $("#experience_error").show();
+    isValid = false;
+  }
+
   var workstatus = $("#workstatus2").is(":checked");
   var financial = $("#financial2").is(":checked");
   if (!workstatus) {
@@ -1644,6 +1693,17 @@ function Update() {
   }
   workstatus = workstatus.toString();
   financial = financial.toString();
+
+  if (
+    $("#experience_month2").val() != null ||
+    $("#experience_month2").val() != ""
+  ) {
+    var experience =
+      $("#experience_year2").val() + ", " + $("#experience_month2").val();
+  } else {
+    var experience =
+      $("#experience_year2").val() == null ? 0 : $("#experience_year2").val();
+  }
 
   var NonRasCandidate = new Object(); //object baru
   NonRasCandidate.nonRasId = $("#nonrasid2").val();
@@ -1657,7 +1717,7 @@ function Update() {
   NonRasCandidate.domisili = $("#domicile2").val();
   NonRasCandidate.birthdate = $("#birthdate2").val();
   NonRasCandidate.level = $("#level2").val();
-  NonRasCandidate.experienceInYear = $("#experience2").val();
+  NonRasCandidate.experienceInYear = experience;
   NonRasCandidate.filteringBy = $("#filteringby2").val();
   NonRasCandidate.workStatus = workstatus;
   NonRasCandidate.noticePeriode = $("#notice2").val();
