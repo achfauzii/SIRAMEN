@@ -27,6 +27,7 @@
             await context.SaveChangesAsync();
             return departmentToUpdate;
         }
+
         public async Task<Department> AddDepartment(string name)
         {
             // Assuming you have a Department model and DbSet<Department> in your context

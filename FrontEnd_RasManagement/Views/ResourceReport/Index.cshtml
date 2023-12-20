@@ -79,23 +79,9 @@
         }
     }
 
-    
 
-    table.dataTable tbody td:nth-child(14) {
-        max-width: 180px;
-        word-wrap: break-word;
-        /*white-space: nowrap;*/
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
 
-    table.dataTable tbody td:nth-child(15) {
-        max-width: 180px;
-        word-wrap: break-word;
-        /*white-space: nowrap;*/
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
+ 
 
 </style>
 
@@ -109,24 +95,6 @@
 
     <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
 
-        @*<ul class="nav nav-tabs">
-        <li class="nav-item">
-        <a class="nav-link text-sm " id="all" href="#">All</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-sm " href="#" data-category="Fullstack">Fullstack</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-sm" href="#" data-category="Frontend">Frontend</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-sm" href="#" data-category="Backend">Backend</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-sm" href="#" data-category="Data Science">Data Science</a>
-        </li>
-
-        </ul>*@
     </nav>
 
     <div class="card-body pr-0 pb-1 pl-3">
@@ -153,6 +121,7 @@
                     <th>Current Salary</th>
                     <th>Expected Salary</th>
                     <th>Negotiable</th>
+                    <th>Tech Test Result</th>
                     <th>Interview by RAS</th>
                     <th>Interview Date by RAS</th>
                     <th>Name of User</th>
@@ -207,23 +176,32 @@
 
                                 <p class="p-0 m-0">
                                     <select class="position form-control" id="position" name="position[]" multiple="multiple" style="width: 100%;" required>
-                                        <option value="Fullstack">Fullstack</option>
-                                        <option value="Data Engineer">Data Engineer</option>
-                                        <option value="Frontend">Front End</option>
-                                        <option value="Backend">Back End</option>
-                                        <option value="Data Science">Data Science</option>
-                                         <option value="Data Analyst">Data Analyst</option>
-                                        <option value="Networking">Networking</option>
-                                        <option value="RPA">RPA</option>
-                                        <option value="Database Administrator">Database Administrator</option>
-                                        <option value="Database Engineer">Database Engineer</option>
-                                        <option value="Database Analyst">Database Analyst</option>
-                                        <option value="Database Analyst">Manual</option>
-                                        <option value="Database Analyst">Automation</option>
-                                        <option value="Technical Writer">Technical Writer</option>
-                                        <option value="Solution Analyst">Solution Analyst</option>
-                                        <option value="Business Analyst">Business Analyst</option>
-                                        <option value="Scrum Master">Scrum Master</option>
+                                            <option value="Back End Developer">Back End Developer</option>
+                                            <option value="Business Analyst">Business Analyst</option>
+                                            <option value="Business Intelligent Engineer">Business Intelligent Engineer</option>
+                                            <option value="Data Analyst">Data Analyst</option>
+                                            <option value="Data Engineer">Data Engineer</option>
+                                            <option value="Database Administrator">Database Administrator</option>
+                                            <option value="Database Analyst">Database Analyst</option>
+                                            <option value="Database Engineer">Database Engineer</option>
+                                            <option value="Devops Engineer">Devops Engineer</option>
+                                            <option value="Developer">Developer</option>
+                                            <option value="Front End Developer">Front End Developer</option>
+                                            <option value="Head of IT">Head of IT</option>
+                                            <option value="IT Admin">IT Admin</option>
+                                            <option value="IT Applications Support">IT Applications Support</option>
+                                            <option value="Manager">Manager</option>
+                                            <option value="Mobile Developer">Mobile Developer</option>
+                                            <option value="Outsystems Developer">Outsystems Developer</option>
+                                            <option value="Project Manager">Project Manager</option>
+                                            <option value="Quality Assurance">Quality Assurance</option>
+                                            <option value="Sage 300 Consultant">Sage 300 Consultant</option>
+                                            <option value="SAP ABAP Developer">SAP ABAP Developer</option>
+                                            <option value="Scrum Master">Scrum Master</option>
+                                            <option value="Software Engineer">Software Engineer</option>
+                                            <option value="System Analyst">System Analyst</option>
+                                            <option value="UiPath Engineer">UiPath Engineer</option>
+                                            <option value=".Net Developer">.Net Developer</option>
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
                                 </p>
@@ -284,7 +262,7 @@
                         <div class="row pl-2 pr-2">
                             <div class="col-sm-3 col-md" style="color: black">IPK</div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" oninput="numeric(this);" onpaste="numeric(this);" id="ipk" required_>
+                                <input type="text" class="form-control" oninput="numeric(this);" onpaste="numeric(this);" id="ipk"  required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                                 <span class="error-format-ipk" style="color: red; display: none;">Enter the correct GPA!</span>                       
                             </div>
@@ -293,14 +271,11 @@
                     <div class="form-group">
                         <div class="row pl-2 pr-2">
                             <div class="col-sm-3 col-md" style="color: black">University</div>
-                            <div class="col-sm-9">
-                              <p>
-                                <select id="UniversityName" class="form-control selectUniversity" required>
+                            <div class="col-sm-9">                              
+                                <select id="UniversityName" class="form-control selectUniversity" required_>
                                     <option></option>
                                 </select>
-                              </p>
-                                <span class="error-message-u" style="color: red; display: none;">This field is required!</span>
-
+                                <span class="error-message-u" style="color: red; display: none;">This field is required!</span>                              
                             </div>
                         </div>
                     </div>
@@ -326,10 +301,12 @@
                     </div>
                     <div class="form-group">
                         <div class="row pl-2 pr-2">
-                            <div class="col-sm-3 col-md" style="color: black">Birthdate </div>
-                            <div class="col-sm-9">
-                                <input type="date" class="form-control" id="birthdate">
-                                @*<span class="error-message_" style="color: red; display: none;">This field is required!</span>*@
+                            <div class="col-sm-3 col-md" style="color: black">Age </div>
+                            <div class="col-sm-9 input-group input-group-sm">
+                                <input type="number" class="form-control" id="age1">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Years</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -341,7 +318,9 @@
                                     <option selected disabled>Choose...</option>
                                     <option value="Fresh Graduate">Fresh Graduate</option>
                                     <option value="Junior">Junior</option>
+                                    <option value="Junior to Middle">Junior to Middle</option>
                                     <option value="Middle">Middle</option>
+                                    <option value="Middle to Senior">Middle to Senior</option>
                                     <option value="Senior">Senior</option>
                                 </select>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
@@ -350,20 +329,32 @@
                     </div>
                     <div class="form-group">
                         <div class="row pl-2 pr-2">
-                            <div class="col-sm-3 col-md" style="color: black">Experience</div>
-                            <div class="col-sm-9">
-                                @*<input type="number" class="form-control" id="experience" required>*@
-                                <select id="experience" class="selectExperience form-control" name="state" required_>
-                                    <option selected disabled>Choose...</option>
-                                    <option value="< 1 Year">< 1 Year</option>
-                                    <option value="1 Year">1 Year</option>
-                                    <option value="2 Years">2 Years</option>
-                                    <option value="3 Years">3 Years</option>
-                                    <option value="4 Years">4 Years</option>
-                                    <option value="5 Years">5 Years</option>
-                                    <option value="> 5 Years">> 5 Years</option>
-                                </select>
+                            <div class="col-sm-3 col-md" style="color: black">Experience<span class="text-danger">*</span></div>
+                            <div class="col-sm-4 col-md-5">
+                                    <div class="input-group input-group-sm ">
+                                        <input type="number" min="0" maxlength="2" class="form-control" id="experience_year">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Years</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-md-4">
+                                    <div class="input-group input-group-sm ">
+                                        <input type="number" min="1" max="11" maxlength="2" class="form-control" id="experience_month" >
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Months</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @* <div class="col-sm-9">
+                                <input type="text" class="form-control" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="experience_year" required_>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
+                            </div> *@
+                        </div>
+                        <div class="row pl-2 pr-2">
+                            <div class="col-sm-3 col-md"></div>
+                            <div class="col-sm-9 col-md-9">
+                                <span class="error-message_" id="experience_error" style="color: red; display: none;">Experience year is required!</span>
                             </div>
                         </div>
                     </div>
@@ -373,8 +364,9 @@
                             <div class="col-sm-9">
                                 <select id="filteringby" class="selectFiltering form-control" name="state" required_>
                                     <option selected disabled>Choose...</option>
-                                    <option value="Recruitment">Recruitment</option>
-                                    <option value="RAS">RAS</option>
+                                    <option value="Jobstreet">Jobstreet</option>
+                                        <option value="RAS">RAS</option>
+                                        <option value="Recruitment">Recruitment</option>
                                 </select>
                                 <span class="error-message_" style="color: red; display: none;">This field is required!</span>
                             </div>
@@ -521,11 +513,16 @@
 
                 <div class="pr-4 pl-4 pb-1">  <hr></div>
                 <form>
-
+                    <div class="form-group row pr-4 pl-4">
+                        <label for="" class="col-sm-2 col-form-label">Tech Test Result</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="techTest"> </input>
+                        </div>
+                    </div>
                     <div class="form-group row pr-4 pl-4">
                         <label for="" class="col-sm-2 col-form-label">Interview By Ras</label>
                         <div class="col-sm-5">
-                            <select class=" form-control form-control-sm" id="intwByRAS" required>
+                            <select class=" form-control form-control-sm" id="intwByRAS" >
                                 <option selected disabled>Choose...</option>
                                 <option value="Hold">Hold</option>
                                 <option value="Scheduling">Scheduling</option>
@@ -551,7 +548,7 @@
                         <label for="" class="col-sm-2 col-form-label">Interview User</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
-                            <select class="nameUser form-control" id="nameUser" name="nameUser" style="width: 100%;" required>
+                            <select class="nameUser form-control" id="nameUser" name="nameUser" style="width: 100%;">
                                 <option></option>
                             </select>
 
@@ -627,18 +624,6 @@
                                 </select>
                                 <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
                             </div>
-                            <!--New Offering Process-->
-                            @* <div class="mt-2" style="display:none" id="displayIntwUser3">
-                            <select class=" form-control form-control-sm" id="intwUserr2" requiredUpdate>
-                            <option selected disabled>Choose...</option>
-                            <option value="Done">Done</option>
-                            <option value="Hold">Hold</option>
-                            <option value="Scheduling">Scheduling</option>
-                            <option value="Reject">Reject</option>
-                            <option value="Submitted Cv">Submitted Cv</option>
-                            </select>
-                            <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
-                            </div>*@
 
                         </div>
                         <div class="col-sm-5" id="displayFormOffer" style="display:none">
@@ -779,23 +764,32 @@
                                 <div class="col-sm-3 col-md" style="color: black">Position</div>
                                 <div class="col-sm-9">
                                     <select class="position form-control" id="position2" name="position[]" multiple="multiple" style="width: 100%;">
-                                        <option value="Fullstack">Fullstack</option>
-                                        <option value="Data Engineer">Data Engineer</option>
-                                        <option value="Frontend">Front End</option>
-                                        <option value="Backend">Back End</option>
-                                        <option value="Data Science">Data Science</option>
-                                        <option value="Data Analyst">Data Analyst</option>
-                                        <option value="Networking">Networking</option>
-                                        <option value="RPA">RPA</option>
-                                        <option value="Database Administrator">Database Administrator</option>
-                                        <option value="Database Engineer">Database Engineer</option>
-                                        <option value="Database Analyst">Database Analyst</option>
-                                        <option value="Database Analyst">Manual</option>
-                                        <option value="Database Analyst">Automation</option>
-                                        <option value="Technical Writer">Technical Writer</option>
-                                        <option value="Solution Analyst">Solution Analyst</option>
+                                        <option value="Back End Developer">Back End Developer</option>
                                         <option value="Business Analyst">Business Analyst</option>
-                                        <option value="Scrum Master">Scrum Master</option>
+                                        <option value="Business Intelligent Engineer">Business Intelligent Engineer</option>
+                                            <option value="Data Analyst">Data Analyst</option>
+                                            <option value="Data Engineer">Data Engineer</option>
+                                            <option value="Database Administrator">Database Administrator</option>
+                                            <option value="Database Analyst">Database Analyst</option>
+                                            <option value="Database Engineer">Database Engineer</option>
+                                            <option value="Devops Engineer">Devops Engineer</option>
+                                            <option value="Developer">Developer</option>
+                                            <option value="Front End Developer">Front End Developer</option>
+                                            <option value="Head of IT">Head of IT</option>
+                                            <option value="IT Admin">IT Admin</option>
+                                            <option value="IT Applications Support">IT Applications Support</option>
+                                            <option value="Manager">Manager</option>
+                                            <option value="Mobile Developer">Mobile Developer</option>
+                                            <option value="Outsystems Developer">Outsystems Developer</option>
+                                            <option value="Project Manager">Project Manager</option>
+                                            <option value="Quality Assurance">Quality Assurance</option>
+                                            <option value="Sage 300 Consultant">Sage 300 Consultant</option>
+                                            <option value="SAP ABAP Developer">SAP ABAP Developer</option>
+                                            <option value="Scrum Master">Scrum Master</option>
+                                            <option value="Software Engineer">Software Engineer</option>
+                                            <option value="System Analyst">System Analyst</option>
+                                            <option value="UiPath Engineer">UiPath Engineer</option>
+                                            <option value=".Net Developer">.Net Developer</option>
 
                                     </select>
                                 </div>
@@ -843,7 +837,7 @@
                             <div class="row pl-4 pr-4">
                                 <div class="col-sm-3 col-md" style="color: black">Domicile</div>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="domicile2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" required>
+                                    <input type="text" class="form-control" id="domicile2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" >
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -861,10 +855,8 @@
                             <div class="row pl-4 pr-4">
                                 <div class="col-sm-3 col-md" style="color: black">IPK</div>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="ipk2" oninput="numeric(this);" onpaste="numeric(this);" requiredUpdate>
-                                  
-                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                                     <span class="error-format-ipk-update" style="color: red; display: none;">Enter the correct GPA!</span>
+                                    <input type="text" class="form-control" id="ipk2" oninput="numeric(this);" onpaste="numeric(this);" required>
+                                    <span class="error-format-ipk-update" style="color: red; display: none;">Enter the correct GPA!</span>
                                 </div>
                             </div>
                         </div>
@@ -881,11 +873,14 @@
                         </div>
                         <div class="form-group">
                             <div class="row pl-4 pr-4">
-                                <div class="col-sm-3 col-md" style="color: black">Birthdate </div>
-                                <div class="col-sm-9">
-                                    <input type="date" class="form-control" id="birthdate2" required>
-                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <div class="col-sm-3 col-md" style="color: black">Age </div>
+                                <div class="col-sm-9 input-group input-group-sm">
+                                    <input type="number" class="form-control" id="age" >
+                                    <div class="input-group-append ">
+                                        <span class="input-group-text">Years</span>
+                                    </div>
                                 </div>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -894,9 +889,11 @@
                                 <div class="col-sm-9">
                                     <select id="level2" class="selectLevel form-control" name="state" required>
                                         <option value="Fresh Graduate">Fresh Graduate</option>
-                                        <option value="Junior">Junior</option>
-                                        <option value="Middle">Middle</option>
-                                        <option value="Senior">Senior</option>
+                                    <option value="Junior">Junior</option>
+                                    <option value="Junior to Middle">Junior to Middle</option>
+                                    <option value="Middle">Middle</option>
+                                    <option value="Middle to Senior">Middle to Senior</option>
+                                    <option value="Senior">Senior</option>
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
@@ -904,17 +901,28 @@
                         </div>
                         <div class="form-group">
                             <div class="row pl-4 pr-4">
-                                <div class="col-sm-3 col-md" style="color: black">Experience</div>
-                                <div class="col-sm-9">
-                                    <select id="experience2" class="selectExperience form-control" name="state" required>
-                                        <option value="< 1 Years">< 1 Year</option>
-                                        <option value="1 Year">1 Year</option>
-                                        <option value="2 Years">2 Years</option>
-                                        <option value="4 Years">4 Years</option>
-                                        <option value="5 Years">5 Years</option>
-                                        <option value="> 5 Years">> 5 Years</option>
-                                    </select>
-                                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <div class="col-sm-3 col-md" style="color: black">Experience<span class="text-danger">*</span></div>
+                                <div class="col-sm-4 col-md-5">
+                                    <div class="input-group input-group-sm ">
+                                        <input type="number" min="0" maxlength="2" class="form-control" id="experience_year2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Years</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-md-4">
+                                    <div class="input-group input-group-sm ">
+                                        <input type="number" min="0" max="11" maxlength="2" class="form-control" id="experience_month2" >
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Months</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pl-2 pr-2">
+                                <div class="col-sm-3 col-md"></div>
+                                <div class="col-sm-9 col-md-9">
+                                    <span class="error-message" id="experience_error2" style="color: red; display: none;">Experience year is required!</span>
                                 </div>
                             </div>
                         </div>
@@ -923,8 +931,9 @@
                                 <div class="col-sm-3 col-md" style="color: black">Filtering By</div>
                                 <div class="col-sm-9">
                                     <select id="filteringby2" class="selectFiltering form-control" name="state" required>
-                                        <option value="Recruitment">Recruitment</option>
+                                        <option value="Jobstreet">Jobstreet</option>
                                         <option value="RAS">RAS</option>
+                                        <option value="Recruitment">Recruitment</option>
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
@@ -984,7 +993,7 @@
                             <div class="row pl-4 pr-4">
                                 <div class="col-sm-3 col-md" style="color: black">English</div>
                                 <div class="col-sm-9">
-                                    <select id="english2" class="selectFiltering form-control" name="state" required>
+                                    <select id="english2" class="selectFiltering form-control" name="state" >
                                         <option value="Advanced">Advanced</option>
                                         <option value="Intermediate">Intermediate</option>
                                         <option value="Low">Low</option>
@@ -997,7 +1006,7 @@
                             <div class="row pl-4 pr-4">
                                 <div class="col-sm-3 col-md" style="color: black">Current Salary</div>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="current2" required onkeyup="formatCurrency(this);" placeholder="Rp ">
+                                    <input type="text" class="form-control" id="current2"  onkeyup="formatCurrency(this);" placeholder="Rp ">
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>
@@ -1006,7 +1015,7 @@
                             <div class="row pl-4 pr-4">
                                 <div class="col-sm-3 col-md" style="color: black">Expected Salary</div>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="expected2" required onkeyup="formatCurrency(this);" placeholder="Rp ">
+                                    <input type="text" class="form-control" id="expected2"  onkeyup="formatCurrency(this);" placeholder="Rp ">
                                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                 </div>
                             </div>

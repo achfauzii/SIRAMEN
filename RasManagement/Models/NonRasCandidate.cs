@@ -45,6 +45,8 @@ public partial class NonRasCandidate
 
     public string? Negotiable { get; set; }
 
+    public string? TechTest { get; set; }
+
     public string? IntwByRas { get; set; }
 
     public string? IntwDateByRas { get; set; }
