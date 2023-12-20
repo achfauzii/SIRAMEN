@@ -1619,7 +1619,7 @@ function Update() {
              }*/
 
         // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-        if (input.attr("id") === "ipk2") {
+       /* if (input.attr("id") === "ipk2") {
             var ipk = input.val().trim();
             var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
@@ -1629,7 +1629,7 @@ function Update() {
             } else {
                 $(".error-format-ipk-update").hide(); // Menyembunyikan pesan error format IPK
             }
-        }
+        }*/
     });
 
     var workstatus = $("#workstatus2").is(":checked");
