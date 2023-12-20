@@ -306,20 +306,9 @@ function Src(selectedCategory) {
       },
       {
         data: "birthdate",
-        render: function (data, type, row) {
-          if (data === "") {
-            return "";
-          }
-          var datenow = Date.now();
-          var birth = new Date(data);
-
-          var milidetik = datenow - birth.getTime();
-          var daysremain = Math.ceil(milidetik / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
-          var years = Math.floor(daysremain / 365); // Menghitung bulan
-          var age = years + " tahun";
-
-          //console.log(age);
-          return age;
+        render: function(data) {
+                    return data.trim() !== "" ? data + " Years Old" : "";
+                }
         },
       },
 
@@ -1061,7 +1050,7 @@ function ClearScreenSave() {
   $("#ipk").val("");
   $("#UniversityName").val("");
   $("#domicile").val("");
-  $("#birthdate").val("");
+  $("#age1").val("");
   $("#level").val("");
   $("#experience_year").val("");
   $("#experience_month").val("");
@@ -1079,7 +1068,6 @@ function ClearScreenSave() {
   $("#UniversityName").val("").trigger("change");
   $("input[required_],select[required_]").each(function () {
     var input = $(this);
-
     input.next(".error-message_").hide();
 
     $(".error-format-ipk").hide();
@@ -1102,7 +1090,7 @@ function ClearScreenUpt() {
   $("#ipk2").val("");
   $("#UniversityName2").val("");
   $("#domicile2").val("");
-  $("#birthdate2").val("");
+  $("#age").val("");
   $("#level2").val("");
   $("#experience_year2").val("");
   $("#experience_month2").val("");
@@ -1568,7 +1556,7 @@ function Save() {
   NonRasCandidate.ipk = $("#ipk").val();
   NonRasCandidate.university = $("#UniversityName").val();
   NonRasCandidate.domisili = $("#domicile").val();
-  NonRasCandidate.birthdate = $("#birthdate").val();
+  NonRasCandidate.birthdate = $("#age1").val();
   NonRasCandidate.level = $("#level").val();
   NonRasCandidate.experienceInYear = experience;
   NonRasCandidate.filteringBy = $("#filteringby").val();
@@ -1715,7 +1703,7 @@ function Update() {
   NonRasCandidate.ipk = $("#ipk2").val();
   NonRasCandidate.university = $("#UniversityName2").val();
   NonRasCandidate.domisili = $("#domicile2").val();
-  NonRasCandidate.birthdate = $("#birthdate2").val();
+  NonRasCandidate.birthdate = $("#age").val();
   NonRasCandidate.level = $("#level2").val();
   NonRasCandidate.experienceInYear = experience;
   NonRasCandidate.filteringBy = $("#filteringby2").val();
