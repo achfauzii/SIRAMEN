@@ -124,13 +124,6 @@ $(document).ready(function () {
     }
   });
 
-  //Setelah element interview by RAS terisi
-  // Setelah mengisi nilai pada elemen intwByRAS dan dateIntwRAS, aktifkan elemen intwUser, nameUser, dan dateIntwUser
-  /* $('#intwByRAS, #dateIntwRAS').on('change', function () {
-           if ($('#intwByRAS').val() && $('#dateIntwRAS').val()) {
-               $('#intwUser, #nameUser, #dateIntwUser').prop('disabled', false);
-           }
-       });*/
 });
 
 function htmlspecialchars(str) {
@@ -181,30 +174,24 @@ function Src(selectedCategory) {
     pageLength: 10,
     order: [[0, "asc"]],
 
-    ajax: {
-      url: "https://localhost:7177/api/Shortlist/NonRasDatatable", // Your API endpoint
-      type: "POST",
-      contentType: "application/json",
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-      },
-      data: function (d) {
-        // Customize request parameters here if needed
-        // Example: d.customParam = 'value';
-        // Mengambil kategori yang dipilih dari filter-navigation
-        //var selectedCategory = $('#filterNavigation .nav-link.active').data('category');
-        d.order = d.order[0];
-        // Menambahkan parameter 'category' ke data yang dikirim ke server
-        if (selectedCategory != "all") {
-          d.search.category = selectedCategory;
-        } else {
-          d.search.category = "";
-        }
+        ajax: {
+            url: "https://localhost:7177/api/Shortlist/NonRasDatatable", // Your API endpoint
+            type: "POST",
+            contentType: "application/json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            data: function (d) {
+                d.order = d.order[0];
+                if (selectedCategory != "all") {
+                    d.search.category = selectedCategory;
+                } else {
+                    d.search.category = "";
+                }
 
-        return JSON.stringify(d);
-      },
-    },
-    //dom: 'Bfrtip',
+                return JSON.stringify(d);
+            },
+        },
 
     columns: [
       {
@@ -252,28 +239,26 @@ function Src(selectedCategory) {
             // Atur warna latar belakang badge sesuai dengan kata yang sama
             badge.css("background-color", badgeColor);
 
-            badgeContainer.append(badge);
-            if (i < posisitionSplit.length - 1) {
-              badgeContainer.append(" ");
-            }
-          }
-          // Kembalikan HTML dari container badge
-          return badgeContainer.html();
-        },
-      },
-      {
-        data: "skillset",
-        render: function (data) {
-          // Pisahkan data skillset menjadi array berdasarkan koma
-          if (data == null) {
-            var a = "b";
-            return a;
-          }
-          var skillsetArray = data.split(",");
-          //console.log(data);
-
-          // Container untuk pill badges
-          var badgeContainer = $('<div class="badge-container"></div>');
+                        badgeContainer.append(badge);
+                        if (i < posisitionSplit.length - 1) {
+                            badgeContainer.append(" ");
+                        }
+                    }
+                    // Kembalikan HTML dari container badge
+                    return badgeContainer.html();
+                },
+            },
+            {
+                data: "skillset",
+                render: function (data) {
+                    // Pisahkan data skillset menjadi array berdasarkan koma
+                    if (data == null) {
+                        var a = "b";
+                        return a;
+                    }
+                    var skillsetArray = data.split(",");
+                    // Container untuk pill badges
+                    var badgeContainer = $('<div class="badge-container"></div>');
 
           // Loop melalui setiap elemen dalam array
           for (var i = 0; i < skillsetArray.length; i++) {
@@ -509,29 +494,14 @@ function Src(selectedCategory) {
             // Menampilkan data terakhir
             const lastName = userData.nameArray[userData.nameArray.length - 1];
 
-            return lastName;
-
-            //NAMPILIN PER USER
-            /*var nameOfUser = row.nameOfUser;
-                                    if (nameOfUser == null) {
-                                        return " ";
-                                    } else if (!nameOfUser.includes('<br/>')) {
-                                        return nameOfUser;
-                                    } else {
-                                        // Extract unique usernames from the nameOfUser column
-                                        const nameOfUserArray = nameOfUser.split('<br/>');
-                                        const uniqueUsernames = Array.from(new Set(nameOfUserArray.filter(name => name.trim() !== 'null')));
-                
-                                        // Return the unique usernames in the rendered cell
-                                        return '<li>' + uniqueUsernames.join('</li><li>') + '</li>';
-                                    }*/
-          }
-        },
-      },
-      {
-        data: "intwUser",
-        render: function (data, type, row) {
-          var intwuser = row.intwUser;
+                        return lastName;
+                    }
+                },
+            },
+            {
+                data: "intwUser",
+                render: function (data, type, row) {
+                    var intwuser = row.intwUser;
 
           if (intwuser == null) {
             return "";
@@ -1009,6 +979,20 @@ function Src(selectedCategory) {
       $("#dateIntwUser").prop("disabled", true);
     }
     //console.log(data.intwUser);
+                    // Append labels to the user container
+                    containerElement.appendChild(judulLabel);
+                    containerElement.appendChild(intwLabel);
+                    containerElement.appendChild(dateLabel);
+                });
+            }
+          
+        } else if (data.intwByRas === "" || data.intwByRas == null) {
+            // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
+            $("#intwUser").prop("disabled", true);
+            $("#nameUser").prop("disabled", true);
+            $("#dateIntwUser").prop("disabled", true);
+        }
+        //console.log(data.intwUser);
 
     if (data.intwUser) {
       /*var offer = document.getElementById("formoffer");
@@ -1020,11 +1004,7 @@ function Src(selectedCategory) {
       //console.log(data.intwUser);
     }
 
-    /*if (data.intwDateUser) {
-                $('#dateIntwUser').val(data.intwDateUser.substring(0, 10));
-            } else {
-                $('#dateIntwUser').val('');
-            }*/
+      
 
     $("#levelRekom").val(data.levelRekom);
     $("#status").val(data.status);
@@ -1143,15 +1123,12 @@ function ClearScreenUpt() {
   $("input[requiredUpdate],select[requiredUpdate]").each(function () {
     var input = $(this);
 
-    input.next(".error-message_").hide();
-    $(".error-format-ipk-update").hide();
-  });
-  /*if (data.intwByRas) {
-          $('#displayIntwUser2').val('').show();
-      } else {
-      }*/
-  $("#displayIntwUser2").val("").hide();
-  $("#displayDateIntwUser2").val("").hide();
+        input.next(".error-message_").hide();
+        $(".error-format-ipk-update").hide();
+    });
+    
+    $("#displayIntwUser2").val("").hide();
+    $("#displayDateIntwUser2").val("").hide();
 
   $("#nameUser2").next().hide();
 
@@ -1389,92 +1366,6 @@ function formInputLocation() {
     });
 }
 
-/*function getBadgeColor(skill) {
-    // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
-    if (skill.toLowerCase().includes(".net web api")) {
-        return "badge-pastel-teal"; // Warna biru
-    } else if (skill.toLowerCase().includes(".net web mvc")) {
-        return "badge-pastel-cus0";
-    } else if (skill.toLowerCase().includes("codeigniter")) {
-        return "badge-pastel-coral";
-    } else if (skill.toLowerCase().includes("bootstrap")) {
-        return "badge-pastel-purple";
-    }
-    else if (skill.toLowerCase().includes("php")) {
-        return "badge-pastel-indigo";
-    }
-    else if (skill.toLowerCase().includes("python")) {
-        return "badge-pastel-silver";
-    }
-    else if (skill.toLowerCase().includes("laravel")) {
-        return "badge-pastel-coral";
-    }
-    else if (skill.toLowerCase().includes("react")) {
-        return "badge-pastel-rose";
-    }
-    else if (skill.toLowerCase().includes("spring")) {
-        return "badge-pastel-mint";
-    }
-    else if (skill.toLowerCase().includes("sql server")) {
-        return "badge-pastel-cus1";
-    }
-    else if (skill.toLowerCase().includes("oracle")) {
-        return "badge-pastel-cus2";
-    }
-    else if (skill.toLowerCase().includes("google data studio")) {
-        return "badge-pastel-cus3";
-    }
-    else {
-        return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-}
-
-function getBadgeColorPosition(position) {
-    // Contoh logika: Jika skillset mengandung "NET", gunakan warna biru; jika tidak, gunakan warna pink
-    if (position.toLowerCase().includes("fullstack")) {
-        return "badge-pastel-teal"; // Warna biru
-    } else if (position.toLowerCase().includes("front end")) {
-        return "badge-pastel-cus0";
-    } else if (position.toLowerCase().includes("back end")) {
-        return "badge-pastel-coral";
-    } else if (position.toLowerCase().includes("data science")) {
-        return "badge-pastel-purple";
-    }
-    else if (position.toLowerCase().includes("database administrator")) {
-        return "badge-pastel-indigo";
-    }
-    else if (position.toLowerCase().includes("database analyst") || position.toLowerCase().includes("data analyst")) {
-        return "badge-pastel-silver";
-    }
-    else if (position.toLowerCase().includes("database engineer" || "data engineer")) {
-        return "badge-pastel-coral";
-    }
-    else if (position.toLowerCase().includes("rpa")) {
-        return "badge-pastel-rose";
-    }
-    else if (position.toLowerCase().includes("scrum master")) {
-        return "badge-pastel-mint";
-    }
-    else if (position.toLowerCase().includes("manual")) {
-        return "badge-pastel-cus1";
-    }
-    else if (position.toLowerCase().includes("automation")) {
-        return "badge-pastel-cus2";
-    }
-    else if (position.toLowerCase().includes("technical writer")) {
-        return "badge-pastel-cus3";
-    }
-    else if (position.toLowerCase().includes("business analyst")) {
-        return "badge-pastel-cus4";
-    }
-    else if (position.toLowerCase().includes("solution analyst")) {
-        return "badge-pastel-cus5";
-    }
-    else {
-        return "badge-pastel-gold"; // Warna pink (pastikan Anda memiliki kelas CSS "badge-pink")
-    }
-}*/
-
 function Save() {
   var isValid = true;
 
@@ -1610,52 +1501,47 @@ function Save() {
   // This arrangement can be altered based on how we want the date's format to appear.
   let currentDate = `${day}-${month}-${year}`;
 
-  NonRasCandidate.lastModified = formatDate(Date());
-  /*    if (!NonRasCandidate.position.some(Boolean)) {
-              $('.position').closest('.form-group').find('.error-message').show();
-              isValid = false;
-          } else {
-              $('.position').closest('.form-group').find('.error-message').hide();
-          }*/
-  $.ajax({
-    type: "POST",
-    url: "https://localhost:7177/api/Shortlist/Add",
-    data: JSON.stringify(NonRasCandidate),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    //
-    const logMesagge = `Has Added Shortlist Candidate ${NonRasCandidate.fullname}`;
-    SaveLogUpdate(logMesagge);
-    if (result.status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been added!",
-        showConfirmButtom: false,
-        timer: 1500,
-      });
-      $("#Modal").modal("hide");
-      table.ajax.reload();
-      ClearScreenSave();
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Data Gagal dimasukkan!",
-        showConfirmButtom: false,
-        timer: 1500,
-      });
-      $("#Modal").modal("hide");
-      table.ajax.reload();
-    }
-  });
-  function formatDate(date) {
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
+    NonRasCandidate.lastModified = formatDate(Date());
+   
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:7177/api/Shortlist/Add",
+        data: JSON.stringify(NonRasCandidate),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        //
+        const logMesagge = `Has Added Shortlist Candidate ${NonRasCandidate.fullname}`;
+        SaveLogUpdate(logMesagge);
+        if (result.status == 200) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: "Data has been added!",
+                showConfirmButtom: false,
+                timer: 1500,
+            });
+            $("#Modal").modal("hide");
+            table.ajax.reload();
+            ClearScreenSave();
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title: "Data Gagal dimasukkan!",
+                showConfirmButtom: false,
+                timer: 1500,
+            });
+            $("#Modal").modal("hide");
+            table.ajax.reload();
+        }
+    });
+    function formatDate(date) {
+        var d = new Date(date),
+            month = "" + (d.getMonth() + 1),
+            day = "" + d.getDate(),
+            year = d.getFullYear();
 
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
@@ -1665,20 +1551,22 @@ function Save() {
 }
 
 function Update() {
-  var isValid = true;
-  $("input[requiredUpdate],select[requiredUpdate").each(function () {
-    var input = $(this);
-    /* if (!input.val()) {
-                 input.next('.error-message-update').show();
-                 isValid = false;
-             } else {
-                 input.next('.error-message-update').hide();
-             }*/
-
-    // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-    if (input.attr("id") === "ipk2") {
-      var ipk = input.val().trim();
-      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+    var isValid = true;
+    $("input[required],select[required]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            console.log(input.attr("name") + " kosong");
+            console.log(input.attr("id") + " kosong");
+            console.log(input + " kosong");
+            input.next(".error-message").show();
+            isValid = false;
+        } else {
+            input.next(".error-message").hide();
+        }
+        // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+        if (input.attr("id") === "ipk2") {
+            var ipk = input.val().trim();
+            var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
       if (!validIPK.test(ipk)) {
         $(".error-format-ipk-update").show(); // Menampilkan pesan error format IPK
@@ -1915,54 +1803,7 @@ function Update() {
     return;
   }
 
-  //Bates
-  /*   var date1 = $('#dateIntwUser').val();
-         var date2 = $('#dateIntwUser2').val 
-         var datehidden = $('#dateintwuserHiden').val();
-         //var dataToSave = null;
-         if (date1 !== "" && date2 == "" && datehidden == "") {
-             var dataToSave = date1;
-         } else if (date1 !== "" && date2 !== "" && datehidden == "") {
-             var dataToSave = date1 + "<br/>" + date2;
-         } else if (date1 !== "" && date2 == "" && datehidden !== "") {
-             var dataToSave = datehidden + date1;
-         }
-         else if (date1 !== "" && date2 !== "" && datehidden !== "") {
-             var dataToSave = datehidden + date1 + "<br/>" + date2;
-         }
-     
-     
-         var intwuser1 = $('#intwUser').val();
-         var intwuser2 = $('#intwUser2').val();
-         var intwuserhidden = $('#intwuserHiden').val();
-         //var intwuser = null;
-     
-     
-         if (intwuser1 !== "" && intwuser2 == null && intwuserhidden == "") {
-             var intwuser = intwuser1;
-         } else if (intwuser1 !== "" && intwuser2 !== "" && intwuserhidden == "") {
-             var intwuser = intwuser1 + "<br/>" + intwuser2;
-         } else if (intwuser1 !== "" && intwuser2 == null && intwuserhidden !== "") {
-             var intwuser = intwuserhidden + intwuser1;
-         } else if (intwuser1 !== "" && intwuser2 !== null && intwuserhidden !== "") {
-             var intwuser = intwuserhidden + intwuser1 + "<br/>" + intwuser2;
-         }
-     
-     
-         var nameuser1 = $('#nameUser').val();
-         var nameuser2 = $('#nameUser2').val();
-         var nameuserhidden = $('#nameUserhidden').val();
-     
-         if (nameuser1 !== "" && nameuser2 == "" && nameuserhidden == "") {
-             var nameuser = nameuser1;
-         } else if (nameuser1 !== "" && nameuser2 !== "" && nameuserhidden == "") {
-             var nameuser = nameuser1 + "<br/>" + nameuser2;
-         } else if (nameuser1 !== "" && nameuser2 == "" && nameuserhidden !== "") {
-             var nameuser = nameuserhidden + nameuser1;
-         } else if (nameuser1 !== "" && nameuser2 !== "" && nameuserhidden !== "") {
-             var nameuser = nameuserhidden + nameuser1 + "<br/>" + nameuser2;
-         }
-     */
+
 
   NonRasCandidate.techTest = $("#techTest").val();
   NonRasCandidate.intwDateByRas = $("#dateIntwRAS").val();
@@ -2022,17 +1863,7 @@ function Update() {
   }
 }
 
-/*function newOfferingFields() {
-    document.getElementById('displayDateIntwUser2').style.display = "block";
-    document.getElementById('displayIntwUser2').style.display = "block";
-}
 
-function newProses2() {
-    document.getElementById('displayIntwUser3').style.display = "block";
-    document.getElementById('displayDateIntwUser3').style.display = "block";
-
-
-}*/
 
 function formatCurrency(input) {
   // Menghapus semua karakter selain angka
@@ -2070,53 +1901,6 @@ function fetchCategories() {
     });
 }
 
-// Fungsi untuk membuat navigasi dan datatable
-/*function createNavigation(categories) {
-    categories.unshift('All');
-    const filterNavigation = document.getElementById('filterNavigation');
-    const navList = document.createElement('ul');
-    navList.className = 'nav nav-tabs';
-
-    const maxVisibleCategories = 7;
-
-    categories.forEach(category => {
-        const listItem = document.createElement('li');
-        listItem.className = 'nav-item';
-
-        const link = document.createElement('a');
-        link.className = 'nav-link text-sm';
-        link.href = '#';
-        link.setAttribute('data-category', category.toLowerCase());
-        link.textContent = capitalizeWords(category);
-
-        listItem.appendChild(link);
-        navList.appendChild(listItem);
-
-        if (category == 'All') { // Tandai 'All' sebagai aktif secara default
-            link.classList.add('active');
-        }
-        // Tambahkan event listener untuk setiap link kategori
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            const selectedCategory = this.getAttribute('data-category');
-            //console.log('Selected category:', selectedCategory);
-
-            navList.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-
-            // Tambahkan kelas 'active' pada link yang dipilih
-            this.classList.add('active');
-
-            // Panggil fungsi Src dengan kategori yang dipilih
-            Src(selectedCategory);
-        });
-    });
-
-
-    filterNavigation.appendChild(navList);
-
-}*/
 
 function createNavigation(categories) {
   let maxVisibleCategories = 7;
