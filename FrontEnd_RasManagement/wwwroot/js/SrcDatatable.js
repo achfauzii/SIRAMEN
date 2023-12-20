@@ -306,7 +306,7 @@ function Src(selectedCategory) {
             },
             {
                 data: "birthdate",
-                render: function (data, type, row) {
+                /*render: function (data, type, row) {
                     if (data === "") {
                         return "";
                     }
@@ -320,7 +320,7 @@ function Src(selectedCategory) {
 
                     //console.log(age);
                     return age;
-                },
+                },*/
             },
 
             {
@@ -335,9 +335,11 @@ function Src(selectedCategory) {
                     if (data === "true") {
                         return (data =
                             '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>');
-                    } else {
+                    } else if (data === "false") {
                         return (data =
                             '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
+                    } else {
+                        return " ";
                     }
                 },
             },
@@ -356,8 +358,10 @@ function Src(selectedCategory) {
 
                         if (data === "true") {
                             return '<div class="text-center">' + checkTrue + "</div>";
+                        } else if (data === "false") {
+                            return '<div class="text-center">' + checkFalse + "</div>";
                         }
-                        return '<div class="text-center">' + checkFalse + "</div>";
+                        return " ";
                     }
 
                     // Untuk tipe data lain, kembalikan data aslinya
@@ -369,7 +373,7 @@ function Src(selectedCategory) {
                 render: function (data, type, row) {
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '"> Raw Cv </a>';
+                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' CV </a>';
 
                         return checkTrue;
                     }
@@ -383,7 +387,7 @@ function Src(selectedCategory) {
                 render: function (data, type, row) {
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '"> Cv Berca </a>';
+                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' Berca CV </a>';
 
                         return checkTrue;
                     }
@@ -400,16 +404,55 @@ function Src(selectedCategory) {
                 render: function (data) {
                     if (data === "Rp ") {
                         return " ";
+                    } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
+                        return data; // Mengembalikan data tanpa pemformatan tambahan
                     }
+
+                    // Mengonversi string menjadi angka
+                    const numericData = parseFloat(data);
+
+                    // Memeriksa apakah data adalah angka
+                    if (!isNaN(numericData)) {
+                        // Memformat angka menjadi format mata uang Indonesia
+                        const formattedData = numericData.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                        });
+
+                        return formattedData;
+                    }
+
                     return data;
                 },
+
             },
             {
                 data: "expectedSalary",
                 render: function (data) {
                     if (data === "Rp ") {
                         return " ";
+                    } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
+                        return data; // Mengembalikan data tanpa pemformatan tambahan
                     }
+
+                    // Mengonversi string menjadi angka
+                    const numericData = parseFloat(data);
+
+                    // Memeriksa apakah data adalah angka
+                    if (!isNaN(numericData)) {
+                        // Memformat angka menjadi format mata uang Indonesia
+                        const formattedData = numericData.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                        });
+
+                        return formattedData;
+                    }
+
                     return data;
                 },
             },
@@ -426,10 +469,10 @@ function Src(selectedCategory) {
 
                         if (data === "true") {
                             return '<div class="text-center">' + checkTrue + "</div>";
-                        } else if (data === null) {
-                            return " ";
+                        } else if (data === "false") {
+                            return '<div class="text-center">' + checkFalse + "</div>";
                         }
-                        return '<div class="text-center">' + checkFalse + "</div>";
+                        return " ";
                     }
 
                     // Untuk tipe data lain, kembalikan data aslinya
@@ -445,7 +488,7 @@ function Src(selectedCategory) {
             {
                 data: "intwDateByRas",
                 render: function (data, type, row) {
-                    if (data == null) {
+                    if (data == null || data=="") {
                         return "";
                     } else {
                         if (type === "display" || type === "filter") {
@@ -463,7 +506,7 @@ function Src(selectedCategory) {
                 render: function (data, type, row) {
                     var nameUser = row.nameOfUser;
 
-                    if (nameUser == null) {
+                    if (nameUser == null || nameUser == "") {
                         return "";
                     } else if (!nameUser.includes("<br/>")) {
                         return nameUser;
@@ -506,7 +549,7 @@ function Src(selectedCategory) {
                 render: function (data, type, row) {
                     var intwuser = row.intwUser;
 
-                    if (intwuser == null) {
+                    if (intwuser == null || intwuser == "") {
                         return "";
                     } else if (!intwuser.includes("<br/>")) {
                         return intwuser;
@@ -573,7 +616,7 @@ function Src(selectedCategory) {
                 render: function (data, type, row) {
                     var dateuser = row.intwDateUser;
 
-                    if (dateuser == null) {
+                    if (dateuser == null || dateuser == "") {
                         return "";
                     } else if (!dateuser.includes("<br/>")) {
                         return dateuser;
@@ -1753,7 +1796,7 @@ function Update() {
         newNameUser == null &&
         newIntwUser == null &&
         newDateIntwUser == "") {
-      
+
     }
     else {
         Swal.fire({
@@ -1761,7 +1804,7 @@ function Update() {
             title: "Data Gagal dimasukkan!",
             text: "There is a client data that has been deleted, or data input error",
             showConfirmButtom: true,
-            
+
         });
         return;
 
