@@ -233,9 +233,14 @@
 
 <script src="~/js/ManageEmployee.js"></script>
 <script>
+
+    document.getElementById("backButton").addEventListener("click", function () {
+        history.back();
+    });
+
     document.getElementById("startDate").min = new Date().toISOString().split("T")[0];
-    document.getElementById("endDate").addEventListener('change', function(e){
-        if(e.target.value < $('#startDate').val()){
+    document.getElementById("endDate").addEventListener('change', function (e) {
+        if (e.target.value < $('#startDate').val()) {
             $('#Update').addClass('disabled');
             return;
         } else {

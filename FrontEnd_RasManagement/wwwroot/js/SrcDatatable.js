@@ -1754,8 +1754,7 @@ function Update() {
             icon: "warning",
             title: "Data failed to added!",
             text: "There is client data that has been deleted, or a data input error",
-            showConfirmButtom: false,
-            timer: 4000,
+            showConfirmButtom: false
         });
         return;
 
