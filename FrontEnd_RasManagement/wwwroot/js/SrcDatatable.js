@@ -356,9 +356,9 @@ function Src(selectedCategory) {
                         var checkFalse =
                             '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
 
-                        if (data === "true" || data==="True") {
+                        if (data === "true" || data === "True") {
                             return '<div class="text-center">' + checkTrue + "</div>";
-                        } else if (data === "false" || data==="False") {
+                        } else if (data === "false" || data === "False") {
                             return '<div class="text-center">' + checkFalse + "</div>";
                         }
                         return " ";
@@ -488,7 +488,7 @@ function Src(selectedCategory) {
             {
                 data: "intwDateByRas",
                 render: function (data, type, row) {
-                    if (data == null || data=="") {
+                    if (data == null || data == "") {
                         return "";
                     } else {
                         if (type === "display" || type === "filter") {
@@ -707,12 +707,14 @@ function Src(selectedCategory) {
             {
                 data: "lastModified",
                 render: function (data, type, row) {
-                    if (type === "display" || type === "filter") {
-                        // Format tanggal dalam format yang diinginkan
-                        return moment(data).format("YYYY-MM-DD ");
+                    if (data != null) {
+                        if (type === "display" || type === "filter") {
+                            // Format tanggal dalam format yang diinginkan
+                            return moment(data).format("YYYY-MM-DD ");
+                        }
                     }
                     // Untuk tipe data lain, kembalikan data aslinya
-                    return data;
+                    return " ";
                 },
             },
         ],
