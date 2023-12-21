@@ -316,7 +316,7 @@ function Src(selectedCategory) {
                         } else {
                             return year + " Years";
                         }
-                    } else if (year < 1) {
+                    } else if (year < 1) {  
                         if (month != "") {
                             return "< 1 Year";
                         } else {
