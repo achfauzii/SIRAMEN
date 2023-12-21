@@ -1,4 +1,5 @@
 var table = null;
+var isTruncated = null;
 var softlColors = [
     "#B7E4C7", // Mint Green
     "#FFD8B1", // Soft Peach
@@ -32,9 +33,21 @@ var pastelColors = [
     "#D2E0FB",
     "#F7F5EB",
 ];
-function expandContent(element, originalData) {
-    element.innerHTML = decodeURIComponent(originalData);
+function toggleContent(element, originalData) {
+    var content = document.getElementById(element).innerHTML;
+    isTruncated = content.includes('... (Read More)');
+
+    var decodeData = decodeURIComponent(originalData);
+    if (isTruncated) {
+        // Currently truncated, expand to show full content
+        document.getElementById(element).innerHTML = decodeData + '<span class="expand-content text-primary" onclick="toggleContent(\''+element+'\', \'' + originalData + '\')"> (Show Less)</span>';
+    } else {
+        // Currently showing full content, truncate to show less
+        document.getElementById(element).innerHTML = decodeData.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\''+element+'\', \'' + originalData + '\')">... (Read More)</span>';
+    }
 }
+
+
 $(document).ready(function () {
     // $("#experience_year").on("keyup", function () {
     //   var regex = /^[0-9<>\s]+$/;
@@ -700,8 +713,8 @@ function Src(selectedCategory) {
                 "render": function (data, type, row) {
                     if (type === 'display' && data.length > 20) {
                         var encodedData = encodeURIComponent(data);
-                        return '<div>' +
-                            '<span class="expand-content" onclick="expandContent(this, \'' + encodedData + '\')">' + data.substring(0, 20) + '<font color="blue"> (Read More)</font></span>' +
+                        return '<div id="notes'+row.nonRasId+'">' +
+                             data.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\'notes'+row.nonRasId+'\', \'' + encodedData + '\')">... (Read More)</span>' +
                             '</div>';
                     } else {
                         return data;
