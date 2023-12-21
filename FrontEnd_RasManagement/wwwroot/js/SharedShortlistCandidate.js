@@ -122,8 +122,6 @@ function SharedShortListCandidate(selectedCategory) {
                         return a;
                     }
                     var skillsetArray = data.split(",");
-                    //console.log(data);
-
                     // Container untuk pill badges
                     var badgeContainer = $('<div class="badge-container"></div>');
 
@@ -276,7 +274,7 @@ function fetchCategories() {
 
 function createNavigation(categories) {
 
-    let maxVisibleCategories = 8;
+    let maxVisibleCategories = 6;
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
     // Mendeteksi lebar layar saat halaman dimuat
@@ -284,16 +282,16 @@ function createNavigation(categories) {
 
     // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
     if (screenWidth <= 1024) {
-        maxVisibleCategories = 7; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
-    }
-    if (screenWidth < 850) {
-        maxVisibleCategories = 6; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
-    }
-    if (screenWidth < 750) {
         maxVisibleCategories = 5; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
     }
-    if (screenWidth <= 500) {
+    if (screenWidth < 850) {
+        maxVisibleCategories = 4; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+    }
+    if (screenWidth < 750) {
         maxVisibleCategories = 3; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+    }
+    if (screenWidth <= 500) {
+        maxVisibleCategories = 2; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
     }
     const navList = document.createElement("ul");
     navList.className = "nav nav-tabs";

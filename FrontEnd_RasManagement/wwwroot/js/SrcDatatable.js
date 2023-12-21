@@ -858,9 +858,9 @@ function Src(selectedCategory) {
 
         if (data.intwByRas) {
             if (
-                data.intwUser == null ||
-                data.nameOfUser == null ||
-                data.intwDateUser == null
+                data.intwUser == null || data.intwUse == "" ||
+                data.nameOfUser == null || data.nameOfUser == ""||
+                data.intwDateUser == null || data.intwDateUser 
             ) {
                 /*$(selectNameUser).select2({
                                     width: '100%',
@@ -871,6 +871,7 @@ function Src(selectedCategory) {
                 $("#intwUser").val(data.intwUser).prop("disabled", false);
                 $("#nameUser").val(data.nameOfUser).prop("disabled", false);
                 $("#dateIntwUser").val("").prop("disabled", false);
+                $("#status").hide();
 
                 if (data.intwDateUser) {
                     $("#dateIntwUser")
@@ -1014,6 +1015,7 @@ function Src(selectedCategory) {
                          $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
         } else if (data.intwByRas === "" || data.intwByRas == null) {
             // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
+            $("#status").hide();
             $("#intwUser").prop("disabled", true);
             $("#nameUser").prop("disabled", true);
             $("#dateIntwUser").prop("disabled", true);
@@ -1573,16 +1575,23 @@ function Update() {
     $("input[required],select[required]").each(function () {
         var input = $(this);
         if (!input.val()) {
-            console.log(input.attr("name") + " kosong");
+            Swal.fire({
+                icon: "warning",
+                title: "Data failed to Update!",
+                text: "Field " + input.attr("name")+" is required",
+               // showConfirmButtom: false,
+                timer: 4000,
+            });
+/*            console.log(input.attr("name") + " kosong");
             console.log(input.attr("id") + " kosong");
-            console.log(input + " kosong");
+            console.log(input + " kosong");*/
             input.next(".error-message").show();
             isValid = false;
         } else {
             input.next(".error-message").hide();
         }
         // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-        if (input.attr("id") === "ipk2") {
+      /*  if (input.attr("id") === "ipk2") {
             var ipk = input.val().trim();
             var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
@@ -1592,7 +1601,7 @@ function Update() {
             } else {
                 $(".error-format-ipk-update").hide(); // Menyembunyikan pesan error format IPK
             }
-        }
+        }*/
     });
 
     var workstatus = $("#workstatus2").is(":checked");
@@ -1961,7 +1970,7 @@ function createNavigation(categories) {
         link.addEventListener("click", function (e) {
             e.preventDefault();
             const selectedCategory = this.getAttribute("data-category");
-            console.log("Selected category:", selectedCategory);
+          
 
             navList.querySelectorAll(".nav-link").forEach((link) => {
                 link.classList.remove("active");
@@ -2027,7 +2036,7 @@ function createDropdown(categories) {
         dropdownItem.addEventListener("click", function (e) {
             e.preventDefault();
             const selectedCategory = this.textContent;
-            console.log("Selected category:", selectedCategory);
+            
 
             Src(selectedCategory);
         });
