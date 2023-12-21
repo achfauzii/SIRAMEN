@@ -279,7 +279,7 @@ function Src(selectedCategory) {
                         var word = skillsetArray[i].trim();
                         var badgeColor = getColorForWord(word);
                         var badge = $(
-                            '<span class="badge badge-pill badge-pastel" style="margin: 0.2rem">' + word + "</span>"
+                            '<span class="badge badge-pill badge-pastel" style="margin: 0.1rem">' + word + "</span>"
                         );
 
                         // Atur warna latar belakang badge sesuai dengan kata yang sama
