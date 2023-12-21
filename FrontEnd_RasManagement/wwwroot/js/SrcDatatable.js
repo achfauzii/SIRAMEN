@@ -779,8 +779,13 @@ function Src(selectedCategory) {
     $("#statusOffering").val(data.status);
 
     // $("#experience").val(data.experienceInYear);
-    $("#experience_year2").val(data.experienceInYear.substring(0, 1));
-    $("#experience_month2").val(data.experienceInYear.substring(3, 4));
+    if (data.experienceInYear === null || data.experienceInYear === "") {
+      $("#experience_year2").val(data.experienceInYear);
+      $("#experience_month2").val(data.experienceInYear);
+    } else {
+      $("#experience_year2").val(data.experienceInYear.substring(0, 1));
+      $("#experience_month2").val(data.experienceInYear.substring(3, 4));
+    }
 
     $("#filteringby2").val(data.filteringBy);
     var checkbox2 = document.getElementById("workstatus2");
@@ -1546,7 +1551,7 @@ function Save() {
         timer: 1500,
       });
       $("#Modal").modal("hide");
-      table.ajax.reload();
+      $("#resource").DataTable().ajax.reload();
       ClearScreenSave();
     } else {
       Swal.fire({
@@ -1556,7 +1561,7 @@ function Save() {
         timer: 1500,
       });
       $("#Modal").modal("hide");
-      table.ajax.reload();
+      $("#resource").DataTable().ajax.reload();
     }
   });
   function formatDate(date) {
@@ -1855,7 +1860,7 @@ function Update() {
         timer: 1500,
       });
       $("#offeringSourceList").modal("hide");
-      table.ajax.reload();
+      $("#resource").DataTable().ajax.reload();
       ClearScreenUpt();
     } else {
       Swal.fire({
@@ -1865,7 +1870,7 @@ function Update() {
         timer: 1500,
       });
       $("#Modal").modal("hide");
-      table.ajax.reload();
+      $("#resource").DataTable().ajax.reload();
     }
   });
 
