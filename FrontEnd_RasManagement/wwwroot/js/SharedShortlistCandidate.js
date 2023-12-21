@@ -130,7 +130,7 @@ function SharedShortListCandidate(selectedCategory) {
                         var word = skillsetArray[i].trim();
                         var badgeColor = getColorForWord(word);
                         var badge = $(
-                            '<span class="badge badge-pill badge-pastel">' + word + "</span>"
+                            '<span class="badge badge-pill badge-pastel;" style="margin: 0.1rem">' + word + "</span>"
                         );
 
                         // Atur warna latar belakang badge sesuai dengan kata yang sama
@@ -231,7 +231,12 @@ function SharedShortListCandidate(selectedCategory) {
                 },
             },
         ],
-
+        "columnDefs": [
+            {
+                "targets": [2], 
+                "className": "customWrap"
+            }
+        ],
         searching: true,
     });
 
@@ -274,7 +279,8 @@ function fetchCategories() {
 
 function createNavigation(categories) {
 
-    let maxVisibleCategories = 6;
+    let maxVisibleCategories = 7;
+
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
     // Mendeteksi lebar layar saat halaman dimuat
