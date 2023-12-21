@@ -32,7 +32,9 @@ var pastelColors = [
     "#D2E0FB",
     "#F7F5EB",
 ];
-
+function expandContent(element, originalData) {
+    element.innerHTML = decodeURIComponent(originalData);
+}
 $(document).ready(function () {
     // $("#experience_year").on("keyup", function () {
     //   var regex = /^[0-9<>\s]+$/;
@@ -695,6 +697,16 @@ function Src(selectedCategory) {
             },
             {
                 data: "notes",
+                "render": function (data, type, row) {
+                    if (type === 'display' && data.length > 20) {
+                        var encodedData = encodeURIComponent(data);
+                        return '<div>' +
+                            '<span class="expand-content" onclick="expandContent(this, \'' + encodedData + '\')">' + data.substring(0, 20) + '<font color="blue"> (Read More)</font></span>' +
+                            '</div>';
+                    } else {
+                        return data;
+                    }
+                }
             },
             {
                 data: "lastModified",
@@ -709,8 +721,14 @@ function Src(selectedCategory) {
                     return " ";
                 },
             },
+            
         ],
-
+        "columnDefs": [
+            {
+                "targets": [28], 
+                "className": "customWrap"
+            }
+        ],
         searching: true,
     });
 
