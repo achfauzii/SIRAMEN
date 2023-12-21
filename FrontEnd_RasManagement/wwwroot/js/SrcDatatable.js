@@ -323,31 +323,35 @@ function Src(selectedCategory) {
             {
                 data: "experienceInYear",
                 render: function (data) {
-                    var year = data.substring(0, 1);
-                    var month = data.substring(3, 4);
-                    if (year >= 5) {
-                        if (month != "" || year > 5) {
-                            return "> 5 Years";
-                        } else {
-                            return year + " Years";
-                        }
-                    } else if (year < 1) {
-                        if (month != "") {
-                            return "< 1 Year";
-                        } else {
-                            return "0 Year";
-                        }
-                    } else if (year > 1) {
-                        if (month != "") {
-                            return year + " Years " + month + " Months";
-                        } else {
-                            return year + " Years";
-                        }
+                    if (data == null || data == "") {
+                        return "";
                     } else {
-                        if (month != "") {
-                            return year + " Year " + month + " Months";
+                        var year = data.substring(0, 1);
+                        var month = data.substring(3, 4);
+                        if (year >= 5) {
+                            if (month != "" || year > 5) {
+                                return "> 5 Years";
+                            } else {
+                                return year + " Years";
+                            }
+                        } else if (year < 1) {
+                            if (month != "") {
+                                return "< 1 Year";
+                            } else {
+                                return "0 Year";
+                            }
+                        } else if (year > 1) {
+                            if (month != "") {
+                                return year + " Years " + month + " Months";
+                            } else {
+                                return year + " Years";
+                            }
                         } else {
-                            return year + " Year";
+                            if (month != "") {
+                                return year + " Year " + month + " Months";
+                            } else {
+                                return year + " Year";
+                            }
                         }
                     }
                 },
@@ -1637,10 +1641,10 @@ function Update() {
     workstatus = workstatus.toString();
     financial = financial.toString();
 
-    if (!$("#experience_year2").val()) {
-        $("#experience_error2").show();
-        isValid = false;
-    }
+    // if (!$("#experience_year2").val()) {
+    //     $("#experience_error2").show();
+    //     isValid = false;
+    // }
 
     if (
         $("#experience_month2").val() == null ||

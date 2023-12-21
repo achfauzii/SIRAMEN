@@ -233,7 +233,12 @@ function SharedShortListCandidate(selectedCategory) {
                 },
             },
         ],
-
+        "columnDefs": [
+            {
+                "targets": [2], 
+                "className": "customWrap"
+            }
+        ],
         searching: true,
     });
 
@@ -276,7 +281,7 @@ function fetchCategories() {
 
 function createNavigation(categories) {
 
-    let maxVisibleCategories = 8;
+    let maxVisibleCategories = 7;
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
     // Mendeteksi lebar layar saat halaman dimuat

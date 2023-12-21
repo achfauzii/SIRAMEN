@@ -107,35 +107,17 @@
             padding: 4px 8px;
         }
 
+        .customWrap {
+            white-space: normal !important; 
+            word-wrap: break-word;
+          
+        }
+
         @@media (min-width: 768px) {
             .dataTables_filter {
                 margin-right: 10px;
             }
         }
-
-
-        table.dataTable tbody td:nth-child(3) {
-            max-width: 400px;
-            word-wrap: break-word;
-            text-overflow: unset;
-            /*white-space: nowrap;*/
-            /*overflow: clip;*/
-        }
-
-        table.dataTable tbody td:nth-child(14) {
-            max-width: 180px;
-            word-wrap: break-word;
-            /*white-space: nowrap;*/
-            overflow: hidden;
-        }
-
-        table.dataTable tbody td:nth-child(15) {
-            max-width: 180px;
-            word-wrap: break-word;
-            /*white-space: nowrap;*/
-            overflow: hidden;
-        }
-
 
         .footer {
             left: 0;
@@ -202,7 +184,7 @@
                                     <tr>
                                         <th>Fullname</th>
                                         <th>Position</th>
-                                        <th>Skillset</th>
+                                        <th style="min-width: 300px;">Skillset</th>
                                         <th>Level Recommendation</th>
 
                                         <th>Level</th>
