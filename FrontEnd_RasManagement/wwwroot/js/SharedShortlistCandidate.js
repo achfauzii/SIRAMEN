@@ -280,8 +280,7 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-
-    let maxVisibleCategories = 7;
+    let maxVisibleCategories = 6;
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
     // Mendeteksi lebar layar saat halaman dimuat
@@ -289,16 +288,16 @@ function createNavigation(categories) {
 
     // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
     if (screenWidth <= 1024) {
-        maxVisibleCategories = 7; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 5;
     }
     if (screenWidth < 850) {
-        maxVisibleCategories = 6; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 4;
     }
     if (screenWidth < 750) {
-        maxVisibleCategories = 5; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 3;
     }
     if (screenWidth <= 500) {
-        maxVisibleCategories = 3; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+        maxVisibleCategories = 1;
     }
     const navList = document.createElement("ul");
     navList.className = "nav nav-tabs";
@@ -336,7 +335,7 @@ function createNavigation(categories) {
             this.classList.add("active");
 
             // Panggil fungsi Src dengan kategori yang dipilih
-            SharedShortListCandidate(selectedCategory);
+            Src(selectedCategory);
         });
     }
 
@@ -395,7 +394,7 @@ function createDropdown(categories) {
             const selectedCategory = this.textContent;
             console.log("Selected category:", selectedCategory);
 
-            SharedShortListCandidate(selectedCategory);
+            Src(selectedCategory);
         });
 
         dropdownMenu.appendChild(dropdownItem);
