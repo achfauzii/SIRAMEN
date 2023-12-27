@@ -40,10 +40,10 @@ function toggleContent(element, originalData) {
     var decodeData = decodeURIComponent(originalData);
     if (isTruncated) {
         // Currently truncated, expand to show full content
-        document.getElementById(element).innerHTML = decodeData + '<span class="expand-content text-primary" onclick="toggleContent(\''+element+'\', \'' + originalData + '\')"> (Show Less)</span>';
+        document.getElementById(element).innerHTML = decodeData + '<span class="expand-content text-primary" onclick="toggleContent(\'' + element + '\', \'' + originalData + '\')"> (Show Less)</span>';
     } else {
         // Currently showing full content, truncate to show less
-        document.getElementById(element).innerHTML = decodeData.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\''+element+'\', \'' + originalData + '\')">... (Read More)</span>';
+        document.getElementById(element).innerHTML = decodeData.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\'' + element + '\', \'' + originalData + '\')">... (Read More)</span>';
     }
 }
 
@@ -401,7 +401,7 @@ function Src(selectedCategory) {
             {
                 data: "rawCv",
                 render: function (data, type, row) {
-                    if (data == "" || data == null) {
+                    if (data == "" || data == null || data == " ") {
 
                         return " ";
 
@@ -420,7 +420,7 @@ function Src(selectedCategory) {
             {
                 data: "cvBerca",
                 render: function (data, type, row) {
-                    if (data == "" || data == null) {
+                    if (data == "" || data == null || data == " ") {
                         return " ";
 
                     }
@@ -441,7 +441,7 @@ function Src(selectedCategory) {
             {
                 data: "currentSalary",
                 render: function (data) {
-                    if (data === "Rp " || data == "" || data == null) {
+                    if (data === "Rp " || data == "" || data == null || data == " ") {
                         return " ";
                     } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
                         return data; // Mengembalikan data tanpa pemformatan tambahan
@@ -470,7 +470,7 @@ function Src(selectedCategory) {
             {
                 data: "expectedSalary",
                 render: function (data) {
-                    if (data === "Rp " || data == "" || data == null) {
+                    if (data === "Rp " || data == "" || data == null || data == " ") {
                         return " ";
                     } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
                         return data; // Mengembalikan data tanpa pemformatan tambahan
@@ -521,7 +521,7 @@ function Src(selectedCategory) {
             {
                 data: "techTest",
                 render: function (data, type, row) {
-                    if (data == "" || data == null) {
+                    if (data == "" || data == null || data == " ") {
 
                         return " ";
                     }
@@ -542,7 +542,7 @@ function Src(selectedCategory) {
             {
                 data: "intwDateByRas",
                 render: function (data, type, row) {
-                    if (data == null || data == "") {
+                    if (data == null || data == "" || data == " ") {
                         return "";
                     } else {
                         if (type === "display" || type === "filter") {
@@ -741,8 +741,8 @@ function Src(selectedCategory) {
                 "render": function (data, type, row) {
                     if (type === 'display' && data.length > 20) {
                         var encodedData = encodeURIComponent(data);
-                        return '<div id="notes'+row.nonRasId+'">' +
-                             data.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\'notes'+row.nonRasId+'\', \'' + encodedData + '\')">... (Read More)</span>' +
+                        return '<div id="notes' + row.nonRasId + '">' +
+                            data.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\'notes' + row.nonRasId + '\', \'' + encodedData + '\')">... (Read More)</span>' +
                             '</div>';
                     } else {
                         return data;
@@ -762,11 +762,11 @@ function Src(selectedCategory) {
                     return " ";
                 },
             },
-            
+
         ],
         "columnDefs": [
             {
-                "targets": [2,28], 
+                "targets": [2, 28],
                 "className": "customWrap"
             }
         ],
