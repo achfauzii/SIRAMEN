@@ -221,9 +221,13 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "cvBerca",
                 render: function (data, type, row) {
+                    if (data == "" || data == null) {
+                        return " ";
+
+                    }
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '"> Cv Berca </a>';
+                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' Berca CV </a>';
 
                         return checkTrue;
                     }

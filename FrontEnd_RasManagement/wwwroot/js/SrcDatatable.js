@@ -308,6 +308,9 @@ function Src(selectedCategory) {
             {
                 data: "experienceInYear",
                 render: function (data) {
+                    if (data == "" || data == null) {
+                        return " ";
+                    }
                     var year = data.substring(0, 1);
                     var month = data.substring(3, 4);
                     if (year >= 5) {
@@ -382,6 +385,11 @@ function Src(selectedCategory) {
             {
                 data: "rawCv",
                 render: function (data, type, row) {
+                    if (data == "" || data == null) {
+
+                        return " ";
+
+                    }
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
                         var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' CV </a>';
@@ -396,6 +404,10 @@ function Src(selectedCategory) {
             {
                 data: "cvBerca",
                 render: function (data, type, row) {
+                    if (data == "" || data == null) {
+                        return " ";
+
+                    }
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
                         var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' Berca CV </a>';
@@ -492,6 +504,21 @@ function Src(selectedCategory) {
             },
             {
                 data: "techTest",
+                render: function (data, type, row) {
+                    if (data == "" || data == null) {
+
+                        return " ";
+                    }
+                    if (type === "display" || type === "filter") {
+                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' Test Result </a>';
+
+                        return checkTrue;
+                    }
+
+                    // Untuk tipe data lain, kembalikan data aslinya
+                    return data;
+                },
             },
             {
                 data: "intwByRas",
