@@ -1,4 +1,5 @@
 var table = null;
+var isTruncated = null;
 var softlColors = [
     "#B7E4C7", // Mint Green
     "#FFD8B1", // Soft Peach
@@ -32,6 +33,20 @@ var pastelColors = [
     "#D2E0FB",
     "#F7F5EB",
 ];
+function toggleContent(element, originalData) {
+    var content = document.getElementById(element).innerHTML;
+    isTruncated = content.includes('... (Read More)');
+
+    var decodeData = decodeURIComponent(originalData);
+    if (isTruncated) {
+        // Currently truncated, expand to show full content
+        document.getElementById(element).innerHTML = decodeData + '<span class="expand-content text-primary" onclick="toggleContent(\''+element+'\', \'' + originalData + '\')"> (Show Less)</span>';
+    } else {
+        // Currently showing full content, truncate to show less
+        document.getElementById(element).innerHTML = decodeData.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\''+element+'\', \'' + originalData + '\')">... (Read More)</span>';
+    }
+}
+
 
 $(document).ready(function () {
     // $("#experience_year").on("keyup", function () {
@@ -264,7 +279,7 @@ function Src(selectedCategory) {
                         var word = skillsetArray[i].trim();
                         var badgeColor = getColorForWord(word);
                         var badge = $(
-                            '<span class="badge badge-pill badge-pastel">' + word + "</span>"
+                            '<span class="badge badge-pill badge-pastel" style="margin: 0.1rem">' + word + "</span>"
                         );
 
                         // Atur warna latar belakang badge sesuai dengan kata yang sama
@@ -308,34 +323,35 @@ function Src(selectedCategory) {
             {
                 data: "experienceInYear",
                 render: function (data) {
-                    if (data == "" || data == null) {
-                        return " ";
-                    }
-                    var year = data.substring(0, 1);
-                    var month = data.substring(3, 4);
-                    if (year >= 5) {
-                        if (month != "" || year > 5) {
-                            return "> 5 Years";
-                        } else {
-                            return year + " Years";
-                        }
-                    } else if (year < 1) {
-                        if (month != "") {
-                            return "< 1 Year";
-                        } else {
-                            return "0 Year";
-                        }
-                    } else if (year > 1) {
-                        if (month != "") {
-                            return year + " Years " + month + " Months";
-                        } else {
-                            return year + " Years";
-                        }
+                    if (data == null || data == "") {
+                        return "";
                     } else {
-                        if (month != "") {
-                            return year + " Year " + month + " Months";
+                        var year = data.substring(0, 1);
+                        var month = data.substring(3, 4);
+                        if (year >= 5) {
+                            if (month != "" || year > 5) {
+                                return "> 5 Years";
+                            } else {
+                                return year + " Years";
+                            }
+                        } else if (year < 1) {
+                            if (month != "") {
+                                return "< 1 Year";
+                            } else {
+                                return "0 Year";
+                            }
+                        } else if (year > 1) {
+                            if (month != "") {
+                                return year + " Years " + month + " Months";
+                            } else {
+                                return year + " Years";
+                            }
                         } else {
-                            return year + " Year";
+                            if (month != "") {
+                                return year + " Year " + month + " Months";
+                            } else {
+                                return year + " Year";
+                            }
                         }
                     }
                 },
@@ -722,6 +738,16 @@ function Src(selectedCategory) {
             },
             {
                 data: "notes",
+                "render": function (data, type, row) {
+                    if (type === 'display' && data.length > 20) {
+                        var encodedData = encodeURIComponent(data);
+                        return '<div id="notes'+row.nonRasId+'">' +
+                             data.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\'notes'+row.nonRasId+'\', \'' + encodedData + '\')">... (Read More)</span>' +
+                            '</div>';
+                    } else {
+                        return data;
+                    }
+                }
             },
             {
                 data: "lastModified",
@@ -736,8 +762,14 @@ function Src(selectedCategory) {
                     return " ";
                 },
             },
+            
         ],
-
+        "columnDefs": [
+            {
+                "targets": [2,28], 
+                "className": "customWrap"
+            }
+        ],
         searching: true,
     });
 
@@ -1633,10 +1665,10 @@ function Update() {
     workstatus = workstatus.toString();
     financial = financial.toString();
 
-    if (!$("#experience_year2").val()) {
-        $("#experience_error2").show();
-        isValid = false;
-    }
+    // if (!$("#experience_year2").val()) {
+    //     $("#experience_error2").show();
+    //     isValid = false;
+    // }
 
     if (
         $("#experience_month2").val() == null ||
@@ -1839,10 +1871,10 @@ function Update() {
     } else {
         Swal.fire({
             icon: "warning",
-            title: "Data failed to added!",
-            text: "There is client data that has been deleted, or a data input error",
-            showConfirmButtom: false,
-            timer: 4000,
+            title: "Data Gagal dimasukkan!",
+            text: "There is a client data that has been deleted, or data input error",
+            showConfirmButtom: true,
+
         });
         return;
     }
