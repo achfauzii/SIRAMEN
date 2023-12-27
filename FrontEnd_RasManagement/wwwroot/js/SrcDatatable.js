@@ -179,11 +179,10 @@ function Src(selectedCategory) {
         fixedColumns: {
             left: window.innerWidth > 1024 ? 1 : null,
         },
-
+        fixedHeader: true, 
         scrollX: true,
         processing: true,
         serverSide: true,
-        //fixedColumns: true,
         lengthMenu: [5, 10, 50, 75, 100],
         pageLength: 10,
         order: [[0, "asc"]],
