@@ -122,8 +122,6 @@ function SharedShortListCandidate(selectedCategory) {
                         return a;
                     }
                     var skillsetArray = data.split(",");
-                    //console.log(data);
-
                     // Container untuk pill badges
                     var badgeContainer = $('<div class="badge-container"></div>');
 
@@ -132,7 +130,7 @@ function SharedShortListCandidate(selectedCategory) {
                         var word = skillsetArray[i].trim();
                         var badgeColor = getColorForWord(word);
                         var badge = $(
-                            '<span class="badge badge-pill badge-pastel">' + word + "</span>"
+                            '<span class="badge badge-pill badge-pastel;" style="margin: 0.1rem">' + word + "</span>"
                         );
 
                         // Atur warna latar belakang badge sesuai dengan kata yang sama
@@ -233,7 +231,12 @@ function SharedShortListCandidate(selectedCategory) {
                 },
             },
         ],
-
+        "columnDefs": [
+            {
+                "targets": [2], 
+                "className": "customWrap"
+            }
+        ],
         searching: true,
     });
 
@@ -276,7 +279,8 @@ function fetchCategories() {
 
 function createNavigation(categories) {
 
-    let maxVisibleCategories = 8;
+    let maxVisibleCategories = 7;
+
     categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
     // Mendeteksi lebar layar saat halaman dimuat
@@ -284,16 +288,16 @@ function createNavigation(categories) {
 
     // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
     if (screenWidth <= 1024) {
-        maxVisibleCategories = 7; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
-    }
-    if (screenWidth < 850) {
-        maxVisibleCategories = 6; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
-    }
-    if (screenWidth < 750) {
         maxVisibleCategories = 5; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
     }
-    if (screenWidth <= 500) {
+    if (screenWidth < 850) {
+        maxVisibleCategories = 4; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+    }
+    if (screenWidth < 750) {
         maxVisibleCategories = 3; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+    }
+    if (screenWidth <= 500) {
+        maxVisibleCategories = 2; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
     }
     const navList = document.createElement("ul");
     navList.className = "nav nav-tabs";

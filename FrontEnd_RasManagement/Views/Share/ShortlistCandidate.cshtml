@@ -107,33 +107,16 @@
             padding: 4px 8px;
         }
 
+        .customWrap {
+            white-space: normal !important; 
+            word-wrap: break-word;
+          
+        }
+
         @@media (min-width: 768px) {
             .dataTables_filter {
                 margin-right: 10px;
             }
-        }
-
-
-        table.dataTable tbody td:nth-child(3) {
-            max-width: 400px;
-            word-wrap: break-word;
-            text-overflow: unset;
-            /*white-space: nowrap;*/
-            /*overflow: clip;*/
-        }
-
-        table.dataTable tbody td:nth-child(14) {
-            max-width: 180px;
-            word-wrap: break-word;
-            /*white-space: nowrap;*/
-            overflow: hidden;
-        }
-
-        table.dataTable tbody td:nth-child(15) {
-            max-width: 180px;
-            word-wrap: break-word;
-            /*white-space: nowrap;*/
-            overflow: hidden;
         }
 
 
@@ -175,26 +158,10 @@
 
                     <div class="card mb-3 rounded-bottom border-0">
 
-                        <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
-                            @*  <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                            <a class="nav-link text-sm " id="all" href="#">All</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link text-sm " href="#" data-category="Fullstack">Fullstack</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link text-sm" href="#" data-category="Frontend">Frontend</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link text-sm" href="#" data-category="Backend">Backend</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link text-sm" href="#" data-category="Data Science">Data Science</a>
-                            </li>
+                       <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
 
-                            </ul>*@
                         </nav>
+
 
                         <div class="card-body pr-0 pb-1 pl-3">
                             <table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
@@ -202,9 +169,8 @@
                                     <tr>
                                         <th>Fullname</th>
                                         <th>Position</th>
-                                        <th>Skillset</th>
+                                        <th style="min-width: 300px;">Skillset</th>
                                         <th>Level Recommendation</th>
-
                                         <th>Level</th>
 
                                         <th>Education</th>
@@ -220,10 +186,6 @@
                                         <th>Financial Industry</th>
 
                                         <th>CV Berca</th>
-
-
-
-
 
                                     </tr>
                                 </thead>
