@@ -441,7 +441,7 @@ function Src(selectedCategory) {
             {
                 data: "currentSalary",
                 render: function (data) {
-                    if (data === "Rp ") {
+                    if (data === "Rp " || data == "" || data == null) {
                         return " ";
                     } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
                         return data; // Mengembalikan data tanpa pemformatan tambahan
@@ -470,7 +470,7 @@ function Src(selectedCategory) {
             {
                 data: "expectedSalary",
                 render: function (data) {
-                    if (data === "Rp ") {
+                    if (data === "Rp " || data == "" || data == null) {
                         return " ";
                     } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
                         return data; // Mengembalikan data tanpa pemformatan tambahan
@@ -1605,7 +1605,7 @@ function Save() {
         } else {
             Swal.fire({
                 icon: "warning",
-                title: "Data Gagal dimasukkan!",
+                title: "Data failed to added!",
                 showConfirmButtom: false,
                 timer: 1500,
             });
@@ -1871,7 +1871,7 @@ function Update() {
     } else {
         Swal.fire({
             icon: "warning",
-            title: "Data Gagal dimasukkan!",
+            title: "Data failed to added!",
             text: "There is a client data that has been deleted, or data input error",
             showConfirmButtom: true,
 
@@ -1915,7 +1915,7 @@ function Update() {
         } else {
             Swal.fire({
                 icon: "warning",
-                title: "Data Gagal dimasukkan!",
+                title: "Data failed to update!",
                 showConfirmButtom: false,
                 timer: 1500,
             });
