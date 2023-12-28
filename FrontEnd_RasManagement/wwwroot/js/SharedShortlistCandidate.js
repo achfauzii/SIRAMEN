@@ -220,7 +220,7 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "cvBerca",
                 render: function (data, type, row) {
-                    if (data == "" || data == null) {
+                    if (data == "" || data == null || data==" ") {
                         return " ";
 
                     }
