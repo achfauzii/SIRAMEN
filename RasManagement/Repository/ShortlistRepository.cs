@@ -27,9 +27,9 @@ namespace RasManagement.Repository
             {
                 // Jika belum ada data sama sekali, maka ID dimulai dari 0
                 //return DateTime.Now.ToString("ddMMyyyy") + "000";
-                return ras + "00";
+                return ras + "001";
             }
-            return $"{ras}{countNonRas.ToString("D3")}";
+            return $"{ras}{countNonRas + 1:D3}";
         }
 
         public int Add(NonRasCandidate nonRasCandidate)
@@ -41,34 +41,34 @@ namespace RasManagement.Repository
             return save;
         }
 
-    /*    public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
-        {
-            var nonRas = await _context.NonRasCandidates.FindAsync(nonRasCandidate.NonRasId);
-
-            if (nonRas != null)
+        /*    public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
             {
+                var nonRas = await _context.NonRasCandidates.FindAsync(nonRasCandidate.NonRasId);
 
-                _context.NonRasCandidates.Update(nonRasCandidate);
-
-                // Simpan perubahan ke database
-                try
+                if (nonRas != null)
                 {
-                    return await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    // Tangani kesalahan jika diperlukan
-                    Console.WriteLine($"Error updating data: {ex.Message}");
-                    return 0; // Atau return -1 atau kode yang sesuai untuk menandakan kesalahan
-                }
-            }
-            else
-            {
-                // Tidak ditemukan akun dengan AccountId yang sesuai
-                return 0; // Atau kode lain yang sesuai
-            }
 
-        }*/
+                    _context.NonRasCandidates.Update(nonRasCandidate);
+
+                    // Simpan perubahan ke database
+                    try
+                    {
+                        return await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        // Tangani kesalahan jika diperlukan
+                        Console.WriteLine($"Error updating data: {ex.Message}");
+                        return 0; // Atau return -1 atau kode yang sesuai untuk menandakan kesalahan
+                    }
+                }
+                else
+                {
+                    // Tidak ditemukan akun dengan AccountId yang sesuai
+                    return 0; // Atau kode lain yang sesuai
+                }
+
+            }*/
 
     }
 }
