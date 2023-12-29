@@ -1075,6 +1075,7 @@ function Src(selectedCategory) {
             $("#intwUser").prop("disabled", true);
             $("#nameUser").prop("disabled", true);
             $("#dateIntwUser").prop("disabled", true);
+            $("#status").prop("disabled", true);
         }
 
         if (data.intwUser) {
@@ -1459,7 +1460,7 @@ function Save() {
             input.next(".error-message_").hide();
         }
         // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-        /*if (input.attr("id") === "ipk") {
+        if (input.attr("id") === "ipk") {
                 var ipk = input.val().trim();
                 var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
     
@@ -1469,7 +1470,7 @@ function Save() {
                 } else {
                     $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
                 }
-            }*/
+            }
     });
 
     if (!$("#experience_year").val()) {
