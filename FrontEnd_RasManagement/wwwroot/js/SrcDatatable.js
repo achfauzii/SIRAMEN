@@ -179,7 +179,7 @@ function Src(selectedCategory) {
         fixedColumns: {
             left: window.innerWidth > 1024 ? 1 : null,
         },
-        fixedHeader: true, 
+        fixedHeader: true,
         scrollX: true,
         processing: true,
         serverSide: true,
@@ -1075,6 +1075,7 @@ function Src(selectedCategory) {
             $("#intwUser").prop("disabled", true);
             $("#nameUser").prop("disabled", true);
             $("#dateIntwUser").prop("disabled", true);
+            $("#status").prop("disabled", true);
         }
 
         if (data.intwUser) {
@@ -1459,7 +1460,7 @@ function Save() {
             input.next(".error-message_").hide();
         }
         // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-        /*if (input.attr("id") === "ipk") {
+        if (input.attr("id") === "ipk") {
                 var ipk = input.val().trim();
                 var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
     
@@ -1469,7 +1470,7 @@ function Save() {
                 } else {
                     $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
                 }
-            }*/
+            }
     });
 
     if (!$("#experience_year").val()) {
@@ -2004,7 +2005,7 @@ function createNavigation(categories) {
         link.className = "nav-link text-sm";
         link.href = "#";
         link.setAttribute("data-category", categories[i].toLowerCase());
-        link.textContent = capitalizeWords(categories[i]);
+        link.textContent = categories[i];
 
         if (i === 0) {
             // Tandai 'All' sebagai aktif secara default
@@ -2080,7 +2081,7 @@ function createDropdown(categories) {
         const dropdownItem = document.createElement("a");
         dropdownItem.className = "dropdown-item";
         dropdownItem.href = "#";
-        dropdownItem.textContent = capitalizeWords(category);
+        dropdownItem.textContent = category;
 
         dropdownItem.addEventListener("click", function (e) {
             e.preventDefault();

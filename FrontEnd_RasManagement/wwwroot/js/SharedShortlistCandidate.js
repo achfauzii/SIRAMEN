@@ -46,7 +46,7 @@ function SharedShortListCandidate(selectedCategory) {
         fixedColumns: {
             left: 2,
         },
-        fixedHeader: true, 
+        fixedHeader: true,
         scrollX: true,
         processing: true,
         serverSide: true,
@@ -170,10 +170,46 @@ function SharedShortListCandidate(selectedCategory) {
             },
             {
                 data: "birthdate",
+                render: function (data) {
+                    return data.trim() !== "" ? data + " Years Old" : "";
+                },
             },
 
             {
                 data: "experienceInYear",
+                render: function (data) {
+                    if (data == null || data == "") {
+                        return "";
+                    } else {
+                        var year = data.substring(0, 1);
+                        var month = data.substring(3, 4);
+                        if (year >= 5) {
+                            if (month != "" || year > 5) {
+                                return "> 5 Years";
+                            } else {
+                                return year + " Years";
+                            }
+                        } else if (year < 1) {
+                            if (month != "") {
+                                return "< 1 Year";
+                            } else {
+                                return "0 Year";
+                            }
+                        } else if (year > 1) {
+                            if (month != "") {
+                                return year + " Years " + month + " Months";
+                            } else {
+                                return year + " Years";
+                            }
+                        } else {
+                            if (month != "") {
+                                return year + " Year " + month + " Months";
+                            } else {
+                                return year + " Year";
+                            }
+                        }
+                    }
+                },
             },
 
             {
@@ -220,7 +256,7 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "cvBerca",
                 render: function (data, type, row) {
-                    if (data == "" || data == null || data==" ") {
+                    if (data == "" || data == null || data == " ") {
                         return " ";
 
                     }
@@ -238,7 +274,7 @@ function SharedShortListCandidate(selectedCategory) {
         ],
         "columnDefs": [
             {
-                "targets": [2], 
+                "targets": [2],
                 "className": "customWrap"
             }
         ],
@@ -316,7 +352,7 @@ function createNavigation(categories) {
         link.className = "nav-link text-sm";
         link.href = "#";
         link.setAttribute("data-category", categories[i].toLowerCase());
-        link.textContent = capitalizeWords(categories[i]);
+        link.textContent = categories[i];
 
         if (i === 0) {
             // Tandai 'All' sebagai aktif secara default
@@ -392,7 +428,7 @@ function createDropdown(categories) {
         const dropdownItem = document.createElement("a");
         dropdownItem.className = "dropdown-item";
         dropdownItem.href = "#";
-        dropdownItem.textContent = capitalizeWords(category);
+        dropdownItem.textContent = category;
 
         dropdownItem.addEventListener("click", function (e) {
             e.preventDefault();
