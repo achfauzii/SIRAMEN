@@ -46,6 +46,7 @@ function SharedShortListCandidate(selectedCategory) {
         fixedColumns: {
             left: 2,
         },
+        fixedHeader: true, 
         scrollX: true,
         processing: true,
         serverSide: true,
