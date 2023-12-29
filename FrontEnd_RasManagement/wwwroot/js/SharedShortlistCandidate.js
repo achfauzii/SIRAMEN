@@ -46,6 +46,7 @@ function SharedShortListCandidate(selectedCategory) {
         fixedColumns: {
             left: 2,
         },
+        fixedHeader: true, 
         scrollX: true,
         processing: true,
         serverSide: true,
@@ -219,9 +220,13 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "cvBerca",
                 render: function (data, type, row) {
+                    if (data == "" || data == null || data==" ") {
+                        return " ";
+
+                    }
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '"> Cv Berca </a>';
+                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' Berca CV </a>';
 
                         return checkTrue;
                     }
@@ -311,7 +316,7 @@ function createNavigation(categories) {
         link.className = "nav-link text-sm";
         link.href = "#";
         link.setAttribute("data-category", categories[i].toLowerCase());
-        link.textContent = capitalizeWords(categories[i]);
+        link.textContent = categories[i];
 
         if (i === 0) {
             // Tandai 'All' sebagai aktif secara default
@@ -387,7 +392,7 @@ function createDropdown(categories) {
         const dropdownItem = document.createElement("a");
         dropdownItem.className = "dropdown-item";
         dropdownItem.href = "#";
-        dropdownItem.textContent = capitalizeWords(category);
+        dropdownItem.textContent = category;
 
         dropdownItem.addEventListener("click", function (e) {
             e.preventDefault();
