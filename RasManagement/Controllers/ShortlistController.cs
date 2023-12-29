@@ -31,7 +31,7 @@ namespace RasManagement.Controllers
 
             var cleaningPositions = uniquePositions
             .SelectMany(position => position.Split(',').Select(p => p.Trim()))
-            .Select(position => position.ToLowerInvariant())
+            .Select(position => position)
             .Distinct()
             .ToList();
             if (uniquePositions != null)

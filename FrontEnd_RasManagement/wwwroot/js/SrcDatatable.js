@@ -2030,6 +2030,32 @@ function createNavigation(categories) {
       link.classList.add("active");
     }
 
+    if (screenWidth < 750) {
+        maxVisibleCategories = 3;
+    }
+    if (screenWidth <= 500) {
+        maxVisibleCategories = 1;
+    }
+    const navList = document.createElement("ul");
+    navList.className = "nav nav-tabs";
+
+    // Loop untuk menambahkan item navigasi sampai index 6 (item ke-7)
+    for (let i = 0; i < Math.min(categories.length, maxVisibleCategories); i++) {
+        const listItem = document.createElement("li");
+        listItem.className = "nav-item";
+
+        const link = document.createElement("a");
+        link.className = "nav-link text-sm";
+        link.href = "#";
+        link.setAttribute("data-category", categories[i].toLowerCase());
+        link.textContent = categories[i];
+
+        if (i === 0) {
+            // Tandai 'All' sebagai aktif secara default
+            link.classList.add("active");
+        }
+
+
     listItem.appendChild(link);
 
     navList.appendChild(listItem);
@@ -2078,35 +2104,39 @@ function createNavigation(categories) {
 
 // Fungsi untuk membuat dropdown
 function createDropdown(categories) {
-  const dropdownContainer = document.createElement("li");
-  dropdownContainer.className = "nav-item dropdown ml-auto"; // Untuk mengatur ke kanan (ml-auto)
+    const dropdownContainer = document.createElement("li");
+    dropdownContainer.className = "nav-item dropdown ml-auto"; // Untuk mengatur ke kanan (ml-auto)
 
-  const dropdownToggle = document.createElement("a");
-  dropdownToggle.className = "nav-link dropdown-toggle";
-  dropdownToggle.href = "#";
-  dropdownToggle.setAttribute("id", "navbarDropdown");
-  dropdownToggle.setAttribute("role", "button");
-  dropdownToggle.setAttribute("data-toggle", "dropdown");
-  dropdownToggle.setAttribute("aria-haspopup", "true");
-  dropdownToggle.setAttribute("aria-expanded", "false");
-  dropdownToggle.textContent = "More";
+    const dropdownToggle = document.createElement("a");
+    dropdownToggle.className = "nav-link dropdown-toggle";
+    dropdownToggle.href = "#";
+    dropdownToggle.setAttribute("id", "navbarDropdown");
+    dropdownToggle.setAttribute("role", "button");
+    dropdownToggle.setAttribute("data-toggle", "dropdown");
+    dropdownToggle.setAttribute("aria-haspopup", "true");
+    dropdownToggle.setAttribute("aria-expanded", "false");
+    dropdownToggle.textContent = "More";
 
-  const dropdownMenu = document.createElement("div");
-  dropdownMenu.className = "dropdown-menu";
-  dropdownMenu.setAttribute("aria-labelledby", "navbarDropdown");
+    const dropdownMenu = document.createElement("div");
+    dropdownMenu.className = "dropdown-menu";
+    dropdownMenu.setAttribute("aria-labelledby", "navbarDropdown");
 
-  categories.forEach((category) => {
-    const dropdownItem = document.createElement("a");
-    dropdownItem.className = "dropdown-item";
-    dropdownItem.href = "#";
-    dropdownItem.textContent = capitalizeWords(category);
+    categories.forEach((category) => {
+        const dropdownItem = document.createElement("a");
+        dropdownItem.className = "dropdown-item";
+        dropdownItem.href = "#";
+        dropdownItem.textContent = category;
 
-    dropdownItem.addEventListener("click", function (e) {
-      e.preventDefault();
-      const selectedCategory = this.textContent;
-      console.log("Selected category:", selectedCategory);
+        dropdownItem.addEventListener("click", function (e) {
+            e.preventDefault();
+            const selectedCategory = this.textContent;
+            console.log("Selected category:", selectedCategory);
 
-      Src(selectedCategory);
+            Src(selectedCategory);
+        });
+
+        dropdownMenu.appendChild(dropdownItem);
+
     });
 
     dropdownMenu.appendChild(dropdownItem);
