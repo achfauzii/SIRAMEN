@@ -46,7 +46,7 @@ function SharedShortListCandidate(selectedCategory) {
         fixedColumns: {
             left: 2,
         },
-        fixedHeader: true, 
+        fixedHeader: true,
         scrollX: true,
         processing: true,
         serverSide: true,
@@ -220,7 +220,7 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "cvBerca",
                 render: function (data, type, row) {
-                    if (data == "" || data == null || data==" ") {
+                    if (data == "" || data == null || data == " ") {
                         return " ";
 
                     }
@@ -238,7 +238,7 @@ function SharedShortListCandidate(selectedCategory) {
         ],
         "columnDefs": [
             {
-                "targets": [2], 
+                "targets": [2],
                 "className": "customWrap"
             }
         ],
