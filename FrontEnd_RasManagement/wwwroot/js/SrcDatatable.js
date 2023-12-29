@@ -1592,6 +1592,7 @@ function Save() {
   let month = date.getMonth() + 1;
   let year = date.getFullYear();
 
+  console.log(NonRasCandidate);
   // This arrangement can be altered based on how we want the date's format to appear.
   let currentDate = `${day}-${month}-${year}`;
 
