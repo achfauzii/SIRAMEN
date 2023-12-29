@@ -33,10 +33,7 @@
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
+            
           });
 
           const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];

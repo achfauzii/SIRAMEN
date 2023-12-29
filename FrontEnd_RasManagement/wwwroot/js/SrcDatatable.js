@@ -1,4 +1,5 @@
 var table = null;
+var isTruncated = null;
 var softlColors = [
   "#B7E4C7", // Mint Green
   "#FFD8B1", // Soft Peach
@@ -32,6 +33,31 @@ var pastelColors = [
   "#D2E0FB",
   "#F7F5EB",
 ];
+function toggleContent(element, originalData) {
+  var content = document.getElementById(element).innerHTML;
+  isTruncated = content.includes("... (Read More)");
+
+  var decodeData = decodeURIComponent(originalData);
+  if (isTruncated) {
+    // Currently truncated, expand to show full content
+    document.getElementById(element).innerHTML =
+      decodeData +
+      '<span class="expand-content text-primary" onclick="toggleContent(\'' +
+      element +
+      "', '" +
+      originalData +
+      "')\"> (Show Less)</span>";
+  } else {
+    // Currently showing full content, truncate to show less
+    document.getElementById(element).innerHTML =
+      decodeData.substring(0, 20) +
+      '<span class="expand-content text-primary" onclick="toggleContent(\'' +
+      element +
+      "', '" +
+      originalData +
+      "')\">... (Read More)</span>";
+  }
+}
 
 $(document).ready(function () {
   // $("#experience_year").on("keyup", function () {
@@ -164,11 +190,10 @@ function Src(selectedCategory) {
     fixedColumns: {
       left: window.innerWidth > 1024 ? 1 : null,
     },
-
+    fixedHeader: true,
     scrollX: true,
     processing: true,
     serverSide: true,
-    //fixedColumns: true,
     lengthMenu: [5, 10, 50, 75, 100],
     pageLength: 10,
     order: [[0, "asc"]],
@@ -264,7 +289,9 @@ function Src(selectedCategory) {
             var word = skillsetArray[i].trim();
             var badgeColor = getColorForWord(word);
             var badge = $(
-              '<span class="badge badge-pill badge-pastel">' + word + "</span>"
+              '<span class="badge badge-pill badge-pastel" style="margin: 0.1rem">' +
+                word +
+                "</span>"
             );
 
             // Atur warna latar belakang badge sesuai dengan kata yang sama
@@ -386,6 +413,9 @@ function Src(selectedCategory) {
       {
         data: "rawCv",
         render: function (data, type, row) {
+          if (data == "" || data == null || data == " ") {
+            return " ";
+          }
           if (type === "display" || type === "filter") {
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
             var checkTrue =
@@ -401,6 +431,9 @@ function Src(selectedCategory) {
       {
         data: "cvBerca",
         render: function (data, type, row) {
+          if (data == "" || data == null || data == " ") {
+            return " ";
+          }
           if (type === "display" || type === "filter") {
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
             var checkTrue =
@@ -419,7 +452,7 @@ function Src(selectedCategory) {
       {
         data: "currentSalary",
         render: function (data) {
-          if (data === "Rp ") {
+          if (data === "Rp " || data == "" || data == null || data == " ") {
             return " ";
           } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
             return data; // Mengembalikan data tanpa pemformatan tambahan
@@ -447,7 +480,7 @@ function Src(selectedCategory) {
       {
         data: "expectedSalary",
         render: function (data) {
-          if (data === "Rp ") {
+          if (data === "Rp " || data == "" || data == null || data == " ") {
             return " ";
           } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
             return data; // Mengembalikan data tanpa pemformatan tambahan
@@ -497,6 +530,21 @@ function Src(selectedCategory) {
       },
       {
         data: "techTest",
+        render: function (data, type, row) {
+          if (data == "" || data == null || data == " ") {
+            return " ";
+          }
+          if (type === "display" || type === "filter") {
+            // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+            var checkTrue =
+              '<a href ="' + data + '"> ' + row.fullname + " Test Result </a>";
+
+            return checkTrue;
+          }
+
+          // Untuk tipe data lain, kembalikan data aslinya
+          return data;
+        },
       },
       {
         data: "intwByRas",
@@ -504,7 +552,7 @@ function Src(selectedCategory) {
       {
         data: "intwDateByRas",
         render: function (data, type, row) {
-          if (data == null || data == "") {
+          if (data == null || data == "" || data == " ") {
             return "";
           } else {
             if (type === "display" || type === "filter") {
@@ -700,6 +748,25 @@ function Src(selectedCategory) {
       },
       {
         data: "notes",
+        render: function (data, type, row) {
+          if (type === "display" && data.length > 20) {
+            var encodedData = encodeURIComponent(data);
+            return (
+              '<div id="notes' +
+              row.nonRasId +
+              '">' +
+              data.substring(0, 20) +
+              '<span class="expand-content text-primary" onclick="toggleContent(\'notes' +
+              row.nonRasId +
+              "', '" +
+              encodedData +
+              "')\">... (Read More)</span>" +
+              "</div>"
+            );
+          } else {
+            return data;
+          }
+        },
       },
       {
         data: "lastModified",
@@ -715,7 +782,12 @@ function Src(selectedCategory) {
         },
       },
     ],
-
+    columnDefs: [
+      {
+        targets: [2, 28],
+        className: "customWrap",
+      },
+    ],
     searching: true,
   });
 
@@ -779,13 +851,8 @@ function Src(selectedCategory) {
     $("#statusOffering").val(data.status);
 
     // $("#experience").val(data.experienceInYear);
-    if (data.experienceInYear === null || data.experienceInYear === "") {
-      $("#experience_year2").val(data.experienceInYear);
-      $("#experience_month2").val(data.experienceInYear);
-    } else {
-      $("#experience_year2").val(data.experienceInYear.substring(0, 1));
-      $("#experience_month2").val(data.experienceInYear.substring(3, 4));
-    }
+    $("#experience_year2").val(data.experienceInYear.substring(0, 1));
+    $("#experience_month2").val(data.experienceInYear.substring(3, 4));
 
     $("#filteringby2").val(data.filteringBy);
     var checkbox2 = document.getElementById("workstatus2");
@@ -1551,17 +1618,17 @@ function Save() {
         timer: 1500,
       });
       $("#Modal").modal("hide");
-      $("#resource").DataTable().ajax.reload();
+      table.ajax.reload();
       ClearScreenSave();
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Data Gagal dimasukkan!",
+        title: "Data failed to added!",
         showConfirmButtom: false,
         timer: 1500,
       });
       $("#Modal").modal("hide");
-      $("#resource").DataTable().ajax.reload();
+      table.ajax.reload();
     }
   });
   function formatDate(date) {
@@ -1617,8 +1684,8 @@ function Update() {
   financial = financial.toString();
 
   // if (!$("#experience_year2").val()) {
-  //   $("#experience_error2").show();
-  //   isValid = false;
+  //     $("#experience_error2").show();
+  //     isValid = false;
   // }
 
   if (
@@ -1822,7 +1889,7 @@ function Update() {
   } else {
     Swal.fire({
       icon: "warning",
-      title: "Data Gagal dimasukkan!",
+      title: "Data failed to added!",
       text: "There is a client data that has been deleted, or data input error",
       showConfirmButtom: true,
     });
@@ -1860,17 +1927,17 @@ function Update() {
         timer: 1500,
       });
       $("#offeringSourceList").modal("hide");
-      $("#resource").DataTable().ajax.reload();
+      table.ajax.reload();
       ClearScreenUpt();
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Data Gagal dimasukkan!",
+        title: "Data failed to update!",
         showConfirmButtom: false,
         timer: 1500,
       });
       $("#Modal").modal("hide");
-      $("#resource").DataTable().ajax.reload();
+      table.ajax.reload();
     }
   });
 
