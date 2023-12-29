@@ -1075,6 +1075,7 @@ function Src(selectedCategory) {
             $("#intwUser").prop("disabled", true);
             $("#nameUser").prop("disabled", true);
             $("#dateIntwUser").prop("disabled", true);
+            $("#status").prop("disabled", true);
         }
 
         if (data.intwUser) {
