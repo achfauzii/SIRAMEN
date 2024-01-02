@@ -3,6 +3,7 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 }
+
 <div class="row">
 
     <!-- Employee RAS Total -->
@@ -15,7 +16,7 @@
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             Top Positions
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">Developer</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="topPosition"></div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
@@ -36,11 +37,10 @@
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                            Level Mastery 
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="countIdle">Junior</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="topLevel"></div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
-
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                           Skill Spectrum
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="countOnsite">Java</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="topSkill"></div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
@@ -68,9 +68,19 @@
         </div>
     </div>
 </div>
-
-<div>
-   <canvas id="salaryChart" width="1000" height="400"></canvas>
+<div class="row mb-4">
+<div class="col-4">
+    <div class="card d-none d-lg-block h-100">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Candidate Diagrams</h6>
+        </div>
+        <div class="card-body p-3">
+            <center><div class="chart-bar">
+                <canvas id="statisticChart" ></canvas>
+            </div></center>
+        </div>
+    </div>
+</div>
 </div>
 @section script{
     <script src="~/js/ResourceReport/Statistic.js"></script>

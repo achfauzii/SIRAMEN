@@ -263,7 +263,7 @@ namespace RasManagement.Controllers
     foreach (var candidate in candidates)
     {
         // Membagi string skill berdasarkan koma dan membersihkan whitespace
-        var skills = candidate.Skillset?.Split(',').Select(skill => skill.Trim()).Select(skill => skill.ToLower());
+        var skills = candidate.Skillset?.Split(',').Select(skill => skill.Trim());
 
         // Menghitung jumlah kemunculan masing-masing skill
         foreach (var skill in skills)
@@ -278,43 +278,56 @@ namespace RasManagement.Controllers
         }
     }
 
-    // Query untuk menghitung posisi
-    var positionData = await _context.NonRasCandidates
-        .GroupBy(c => new { c.Position })
-        .Select(group => new
-        {
-            Position = group.Key.Position,
-            Count = group.Count()
-        })
-        .ToListAsync();
-
-    // Query untuk menghitung level
-    var levelData = await _context.NonRasCandidates
-        .GroupBy(c => new { c.Level })
-        .Select(group => new
-        {
-            Level = group.Key.Level,
-            Count = group.Count()
-        })
-        .ToListAsync();
-
-    // Membuat list hasil untuk dikirim sebagai response
-    var data = new List<object>();
-    data.AddRange(positionData.Select(data => new
+    var mostCommonPosition = _context.NonRasCandidates
+    .GroupBy(c => c.Position)
+    .OrderByDescending(group => group.Count())
+    .Select(group => new
     {
-        data.Position,
-        data.Count
-    }));
-    data.AddRange(skillCounts.Select(pair => new
+        Position = group.Key,
+        Count = group.Count()
+    })
+    .FirstOrDefault();
+
+// Query untuk menghitung skillset
+var mostCommonSkill = skillCounts
+    .OrderByDescending(pair => pair.Value)
+    .Select(pair => new
     {
         Skill = pair.Key,
         Count = pair.Value
-    }));
-    data.AddRange(levelData.Select(data => new
+    })
+    .FirstOrDefault();
+
+// Query untuk menghitung level
+var mostCommonLevel = _context.NonRasCandidates
+    .GroupBy(c => c.Level)
+    .OrderByDescending(group => group.Count())
+    .Select(group => new
     {
-        data.Level,
-        data.Count
-    }));
+        Level = group.Key,
+        Count = group.Count()
+    })
+    .FirstOrDefault();
+
+// Membuat list hasil untuk dikirim sebagai response
+var data = new List<object>
+{
+    new
+    {
+        Position = mostCommonPosition?.Position,
+        Count = mostCommonPosition?.Count
+    },
+    new
+    {
+        Skill = mostCommonSkill?.Skill,
+        Count = mostCommonSkill?.Count
+    },
+    new
+    {
+        Level = mostCommonLevel?.Level,
+        Count = mostCommonLevel?.Count
+    }
+};
 
             return StatusCode(200,
                     new
