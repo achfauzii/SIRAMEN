@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+}
+<div class="row">
+
+    <!-- Employee RAS Total -->
+    <div class="col-xl col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-1">
+            <a href="/ManageEmployee/Index" class="nav-link collapsed card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-3" style="margin: -25px 0;">
+                        <span style="font-size: 10px;">Resource</span>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Top Positions
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Developer</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Employee Status Idle -->
+    <div class="col-xl col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-1">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-3" style="margin: -25px 0;">
+                        <span style="font-size: 10px;">Resource</span>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                           Level Mastery 
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="countIdle">Junior</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Status Onsite -->
+    <div class="col-xl col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-1">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-3" style="margin: -25px 0;">
+                        <span style="font-size: 10px;">Resource</span>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Skill Spectrum
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="countOnsite">Java</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+   <canvas id="salaryChart" width="1000" height="400"></canvas>
+</div>
+@section script{
+    <script src="~/js/ResourceReport/Statistic.js"></script>
+}
