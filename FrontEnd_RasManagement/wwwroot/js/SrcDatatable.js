@@ -69,6 +69,26 @@ $(document).ready(function () {
   //     return;
   //   }
   // });
+  $("#export_excel").on("click", function () {
+    $("#resource").DataTable().page.len(-1).draw();
+    // var table = $("#resource").DataTable();
+    var data = table.data();
+
+    console.log(data);
+    $.ajax({
+      url: "/ResourceReport/ExportToExcel/",
+      type: "POST",
+      dataType: "json",
+      contentType: "application/json;",
+      data: data,
+      success: function () {
+        alert("success");
+      },
+      error: function () {
+        alert("failure");
+      },
+    });
+  });
 
   getClientList();
 
@@ -194,7 +214,13 @@ function Src(selectedCategory) {
     scrollX: true,
     processing: true,
     serverSide: true,
-    lengthMenu: [5, 10, 50, 75, 100],
+    stateSave: true,
+    paging: true,
+    pagingType: "full_numbers",
+    lengthMenu: [
+      [5, 10, 50, 75, 100, -1],
+      [5, 10, 50, 75, 100, "All"],
+    ],
     pageLength: 10,
     order: [[0, "asc"]],
 
@@ -789,6 +815,8 @@ function Src(selectedCategory) {
       },
     ],
     searching: true,
+    dom: "lBfrtip",
+    buttons: ["copy", "excel", "csv", "pdf", "print"],
   });
 
   function getLastValue(data, key) {
@@ -1592,7 +1620,6 @@ function Save() {
   let month = date.getMonth() + 1;
   let year = date.getFullYear();
 
-  console.log(NonRasCandidate);
   // This arrangement can be altered based on how we want the date's format to appear.
   let currentDate = `${day}-${month}-${year}`;
 
