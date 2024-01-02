@@ -320,7 +320,7 @@ function Src(selectedCategory) {
             },
 
             {
-                data: "experienceInYear",
+                 data: "experienceInYear",
                 render: function (data) {
                     if (data == null || data == "") {
                         return "";
@@ -1070,7 +1070,7 @@ function Src(selectedCategory) {
                          }
                          
                          $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
-        } else if (data.intwByRas === "" || data.intwByRas == null) {
+        } else if (data.intwByRas === "" || data.intwByRas == null || data.intwByRas == " ") {
             // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
             $("#intwUser").prop("disabled", true);
             $("#nameUser").prop("disabled", true);
