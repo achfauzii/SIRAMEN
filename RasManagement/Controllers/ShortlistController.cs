@@ -253,6 +253,76 @@ namespace RasManagement.Controllers
 
             return Ok(response);
         }
+        [HttpGet("Statistic")]
+        public async Task<IActionResult> Statistic(){
+        var candidates = await _context.NonRasCandidates.ToListAsync();
 
+    // Membuat dictionary untuk menyimpan jumlah kemunculan masing-masing skill
+    var skillCounts = new Dictionary<string, int>();
+
+    foreach (var candidate in candidates)
+    {
+        // Membagi string skill berdasarkan koma dan membersihkan whitespace
+        var skills = candidate.Skillset?.Split(',').Select(skill => skill.Trim()).Select(skill => skill.ToLower());
+
+        // Menghitung jumlah kemunculan masing-masing skill
+        foreach (var skill in skills)
+        {
+            if (string.IsNullOrEmpty(skill))
+                continue;
+
+            if (skillCounts.ContainsKey(skill))
+                skillCounts[skill]++;
+            else
+                skillCounts[skill] = 1;
+        }
+    }
+
+    // Query untuk menghitung posisi
+    var positionData = await _context.NonRasCandidates
+        .GroupBy(c => new { c.Position })
+        .Select(group => new
+        {
+            Position = group.Key.Position,
+            Count = group.Count()
+        })
+        .ToListAsync();
+
+    // Query untuk menghitung level
+    var levelData = await _context.NonRasCandidates
+        .GroupBy(c => new { c.Level })
+        .Select(group => new
+        {
+            Level = group.Key.Level,
+            Count = group.Count()
+        })
+        .ToListAsync();
+
+    // Membuat list hasil untuk dikirim sebagai response
+    var data = new List<object>();
+    data.AddRange(positionData.Select(data => new
+    {
+        data.Position,
+        data.Count
+    }));
+    data.AddRange(skillCounts.Select(pair => new
+    {
+        Skill = pair.Key,
+        Count = pair.Value
+    }));
+    data.AddRange(levelData.Select(data => new
+    {
+        data.Level,
+        data.Count
+    }));
+
+            return StatusCode(200,
+                    new
+                    {
+                        status = HttpStatusCode.OK,
+                        message = "Data Ditemukan",
+                        Data = data
+                    });
+        }
     }
 }

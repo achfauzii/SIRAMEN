@@ -50,7 +50,7 @@ namespace FrontEnd_RasManagement.Controllers
             return View();
         }
 
-        public IActionResult Candidate()
+        public IActionResult Statistic()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\5lqzduxz.03q~" />
     <Content Remove="wwwroot\js\Certificate.js~RF61bbfa4.TMP" />
     <Content Remove="wwwroot\js\NonFormalEdu.js~RF631c258.TMP" />
     <Content Remove="wwwroot\js\Qualification.js" />
