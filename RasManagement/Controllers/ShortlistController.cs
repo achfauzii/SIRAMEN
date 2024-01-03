@@ -257,28 +257,28 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> Statistic(){
         var candidates = await _context.NonRasCandidates.ToListAsync();
 
-    // Membuat dictionary untuk menyimpan jumlah kemunculan masing-masing skill
-    var skillCounts = new Dictionary<string, int>();
+// Membuat dictionary untuk menyimpan jumlah kemunculan masing-masing skill
+var skillCounts = new Dictionary<string, int>();
 
-    foreach (var candidate in candidates)
+foreach (var candidate in candidates)
+{
+    // Membagi string skill berdasarkan koma dan membersihkan whitespace
+    var skills = candidate.Skillset?.Split(',').Select(skill => skill.Trim());
+
+    // Menghitung jumlah kemunculan masing-masing skill
+    foreach (var skill in skills)
     {
-        // Membagi string skill berdasarkan koma dan membersihkan whitespace
-        var skills = candidate.Skillset?.Split(',').Select(skill => skill.Trim());
+        if (string.IsNullOrEmpty(skill))
+            continue;
 
-        // Menghitung jumlah kemunculan masing-masing skill
-        foreach (var skill in skills)
-        {
-            if (string.IsNullOrEmpty(skill))
-                continue;
-
-            if (skillCounts.ContainsKey(skill))
-                skillCounts[skill]++;
-            else
-                skillCounts[skill] = 1;
-        }
+        if (skillCounts.ContainsKey(skill))
+            skillCounts[skill]++;
+        else
+            skillCounts[skill] = 1;
     }
+}
 
-    var mostCommonPosition = _context.NonRasCandidates
+var mostCommonPosition = _context.NonRasCandidates
     .GroupBy(c => c.Position)
     .OrderByDescending(group => group.Count())
     .Select(group => new
@@ -288,17 +288,6 @@ namespace RasManagement.Controllers
     })
     .FirstOrDefault();
 
-// Query untuk menghitung skillset
-var mostCommonSkill = skillCounts
-    .OrderByDescending(pair => pair.Value)
-    .Select(pair => new
-    {
-        Skill = pair.Key,
-        Count = pair.Value
-    })
-    .FirstOrDefault();
-
-// Query untuk menghitung level
 var mostCommonLevel = _context.NonRasCandidates
     .GroupBy(c => c.Level)
     .OrderByDescending(group => group.Count())
@@ -309,7 +298,49 @@ var mostCommonLevel = _context.NonRasCandidates
     })
     .FirstOrDefault();
 
-// Membuat list hasil untuk dikirim sebagai response
+var toplevel = mostCommonLevel?.Level;
+var candidates5 = await _context.NonRasCandidates.Where(c => c.Level == toplevel).ToListAsync();
+
+// Membuat dictionary untuk menyimpan jumlah kemunculan masing-masing skill
+var skillCounts5 = new Dictionary<string, int>();
+
+foreach (var candidate in candidates5)
+{
+    // Membagi string skill berdasarkan koma dan membersihkan whitespace
+    var skills = candidate.Skillset?.Split(',').Select(skill => skill.Trim());
+
+    // Menghitung jumlah kemunculan masing-masing skill
+    foreach (var skilldata in skills)
+    {
+        if (string.IsNullOrEmpty(skilldata))
+            continue;
+
+        if (skillCounts5.ContainsKey(skilldata))
+            skillCounts5[skilldata]++;
+        else
+            skillCounts5[skilldata] = 1;
+    }
+}
+
+var mostCommonSkill = skillCounts
+    .OrderByDescending(pair => pair.Value)
+    .Select(pair => new
+    {
+        Skill = pair.Key,
+        Count = pair.Value
+    })
+    .FirstOrDefault();
+
+var topSkills = skillCounts5
+    .OrderByDescending(pair => pair.Value)
+    .Take(5)
+    .Select(pair => new
+    {
+        Skill = pair.Key,
+        Count = pair.Value
+    })
+    .ToList();
+
 var data = new List<object>
 {
     new
@@ -319,22 +350,31 @@ var data = new List<object>
     },
     new
     {
-        Skill = mostCommonSkill?.Skill,
-        Count = mostCommonSkill?.Count
+        Level = mostCommonLevel?.Level,
+        Count = mostCommonLevel?.Count
     },
     new
     {
-        Level = mostCommonLevel?.Level,
-        Count = mostCommonLevel?.Count
-    }
+        Skill = mostCommonSkill?.Skill,
+        Count = mostCommonSkill?.Count
+    },
 };
+
+var data2 = new List<object>{};
+
+data2.AddRange(topSkills.Select(topSkill => new
+{
+    Skill = topSkill.Skill,
+    Count = topSkill.Count
+}));
 
             return StatusCode(200,
                     new
                     {
                         status = HttpStatusCode.OK,
                         message = "Data Ditemukan",
-                        Data = data
+                        Data = data,
+                        table = data2
                     });
         }
     }

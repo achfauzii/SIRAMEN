@@ -189,23 +189,10 @@ function tableUniv(universitiesData) {
         orderable: false,
         targets: 0,
         render: function (data, type, row, meta) {
-          return meta.row + meta.settings._iDisplayStart + 1 + ".";
+          return meta.row + 1 + ".";
         },
       },
     ],
-    drawCallback: function (settings) {
-      var api = this.api();
-      var rows = api.rows({ page: "current" }).nodes();
-      api
-        .column(1, { page: "current" })
-        .data()
-        .each(function (group, i) {
-          $(rows)
-            .eq(i)
-            .find("td:first")
-            .html(i + 1);
-        });
-    },
   });
 
   table.clear().draw();
