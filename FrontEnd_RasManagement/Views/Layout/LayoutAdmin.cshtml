@@ -261,6 +261,13 @@
                     <span>Shortlist Candidate</span>
                 </a>
             </li>
+            <li class="nav-item @(currentUrl == "/ResourceReport/Statistic" ? "active" : "")">
+                <a class="nav-link collapsed menu" href="/ResourceReport/Statistic" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-table"></i>
+                    <span>Candidate Statistic</span>
+                </a>
+            </li>
 
             @*<li class="nav-item @(currentUrl == "/ResourceReport/ShorlistCandidate" ? "active" : "")">
             <a class="nav-link collapsed" href="/ResourceReport/ShorlistCandidate" data-target="#collapseUtilities"
@@ -483,8 +490,8 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
-
     <script src="~/js/JwtUtils.js"></script>
+
     <script src="~/js/ChangePassword.js"></script>
     <script src="~/js/HistoryLog.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
