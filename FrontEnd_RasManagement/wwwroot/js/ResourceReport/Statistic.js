@@ -1,83 +1,67 @@
-const ctx = document.getElementById('salaryChart').getContext('2d');
+$(document).ready(function () {
+const ctx = document.getElementById('statisticChart').getContext('2d');
 
-// Data contoh
-const salaryRanges = ['1-2', '2-3', '3-4', '4-5', '5-6'];
-const skillData = [5, 8, 12, 10, 6];
-const positionData = [3, 6, 10, 8, 2];
-const levelData = [2, 4, 8, 5, 3];
-const skill2Data = [4, 7, 11, 9, 5];
-const skill3Data = [3, 8, 3, 8, 4];
 
-// Konfigurasi grafik
-const salaryChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: salaryRanges,
-        datasets: [
-          {
-              label: 'Skill Tertinggi (JavaScript)',
-              borderColor: 'rgba(54, 162, 235, 1)',
-              data: skillData,
-              fill: false,
-          },
-          {
-              label: 'Posisi Terbanyak (Backend)',
-              borderColor: 'rgba(255, 99, 132, 1)',
-              data: positionData,
-              fill: false,
-          },
-          {
-              label: 'Level Terbanyak (Senior Developer)',
-              borderColor: 'rgba(255, 205, 86, 1)',
-              data: levelData,
-              fill: false,
-          },
-          {
-              label: 'Skill2',
-              borderColor: 'rgba(153, 102, 255, 1)',
-              data: skill2Data,
-              fill: false,
-              hidden: true,
-          },
-          {
-              label: 'Skill3',
-              borderColor: 'rgba(255, 159, 64, 1)',
-              data: skill3Data,
-              fill: false,
-              hidden: true,
-          },
-        ],
+  $.ajax({
+    url: "https://localhost:7177/api/Shortlist/Statistic",
+    type: "GET",
+    datatype: "json",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-    options: {
-        responsive: true,
-        scales: {
-            x: {
-                type: 'category',
-                title: {
-                    display: true,
-                    text: 'Rentang Gaji (juta)'
-                }
-            },
-            y: {
-                type: 'linear',
-                title: {
-                    display: true,
-                    text: 'Jumlah Kandidat'
-                }
-            }
-        },
-        plugins: {
-            legend: {
-                onClick: (e, legendItem) => {
-                    const index = legendItem.datasetIndex;
-                    const chart = e.chart;
-                    const meta = chart.getDatasetMeta(index);
+    success: function (statistic) {
+        var result = statistic.data;
+        const labelChart = result.map(item => {
+            return Object.values(item)[0];
+          });
+        tableData = statistic.table
+        console.log(tableData)
+        const countChart = result.map(item => item.count);
+        document.getElementById("topPosition").textContent= labelChart[0]
+        document.getElementById("topLevel").textContent= labelChart[1]
+        document.getElementById("topSkill").textContent= labelChart[2]
+        document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+labelChart[1]+ " Level"
+        chart(labelChart,countChart)
+        table()
+    }})
 
-                    // Toggle visibility saat legend di-klik
-                    meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null;
-                    chart.update();
-                }
-            }
+function chart(labelChart,countChart){
+    const salaryChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labelChart,
+            datasets: [{
+              label: 'Total',
+              data: countChart,
+              backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+              ],
+              hoverOffset: 4
+            }]
+          },
+    });
+}    
+
+function table(){
+    var data = tableData
+
+    var table = $('#tableSkills').DataTable({
+      "searching": false,
+      "paging": false,
+      "ordering": false
+    });
+
+        function populateTable() {
+            table.clear();
+
+            data.forEach(function (entry, index) {
+                table.row.add([index + 1, entry.skill, entry.count]).draw();
+            });
         }
-    },
-});
+        populateTable();
+}
+}
+)

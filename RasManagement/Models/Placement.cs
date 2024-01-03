@@ -23,4 +23,6 @@ public partial class Placement
     public string AccountId { get; set; } = null!;
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
+
+    public virtual ICollection<TimeSheet> TimeSheets { get; set; } = new List<TimeSheet>();
 }
