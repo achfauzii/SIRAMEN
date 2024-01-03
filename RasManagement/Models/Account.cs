@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RasManagement.Models;
 
@@ -66,6 +67,8 @@ public partial class Account
     public virtual Role? Role { get; set; } = null!;
 
     public virtual ICollection<ShortlistCandidate> ShortlistCandidates { get; set; } = new List<ShortlistCandidate>();
+
+    public virtual ICollection<TimeSheet> TimeSheets { get; set; } = new List<TimeSheet>();
 
     public virtual ICollection<TurnOver> TurnOvers { get; set; } = new List<TurnOver>();
 }
