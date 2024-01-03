@@ -21,6 +21,7 @@ const ctx = document.getElementById('statisticChart').getContext('2d');
         document.getElementById("topPosition").textContent= labelChart[0]
         document.getElementById("topLevel").textContent= labelChart[1]
         document.getElementById("topSkill").textContent= labelChart[2]
+        document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+labelChart[1]+ " Level"
         chart(labelChart,countChart)
         table()
     }})
