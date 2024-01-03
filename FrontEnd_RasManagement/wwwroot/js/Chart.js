@@ -180,6 +180,7 @@ function tableUniv(universitiesData) {
   var table = $("#tableUniv").DataTable({
     paging: true,
     pageLength: 5,
+    "ordering": false,
     order: [[2, "desc"]],
     lengthChange: false,
     searching: false,
