@@ -14,10 +14,8 @@ $(document).ready(function () {
   });
   fetchDepartments();
 
-  // Tambahkan penanganan acara ke elemen PlacementStatus
-  document
-    .getElementById("Status")
-    .addEventListener("change", handlePlacementStatusChange);
+    document.getElementById("Status").addEventListener("change",
+        handlePlacementStatusChange);
 
   // Panggil fungsi saat halaman dimuat untuk mengatur keadaan awal
   window.addEventListener("load", function () {

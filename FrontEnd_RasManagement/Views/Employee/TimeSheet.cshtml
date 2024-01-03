@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewData["Title"] = "TimeSheet";
+    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+}
+<style>
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF;
+    }
+
+    .modal-notify .modal-header {
+        border-radius: 3px 3px 0 0;
+    }
+
+    .modal-notify .modal-content {
+        border-radius: 3px;
+    }
+</style>
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+    <section id="time-sheet-page">
+      @*  <div class="row">
+            <div class="col-12 mt-3 mb-1">
+                <h4 class="text-uppercase">Minimal Statistics Cards</h4>
+                <p>Statistics on minimal cards.</p>
+            </div>
+        </div>*@
+        <div class="row">
+            <div class="col-xl-6 col-sm-6 col-12">
+                <div class="card shadow">
+                <div class="card-content">
+                    <div class="card-body m-0 pl-4 pt-3 pb-3 pr-3">
+                        <div class="media d-flex p-0">
+                                <div class="align-self-center">
+                                <i class="far fa-calendar-check fa-4x text-primary float-left"></i>
+                                </div>
+                                <div class="media-body text-left pt-0 pl-4">
+                                    <div class="row">
+                                        <span class="col-4 text-dark text-sm">Name</span>
+                                        <span class="col-0 text-sm">:</span>
+                                        <span class="col text-dark text-sm">Achmad Fauzi</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="col-4 text-dark text-sm">Role</span>
+                                        <span class="col-0 text-sm">:</span>
+                                        <span class="col text-dark">RAS</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="col-4 text-dark text-sm">Project Name</span>
+                                        <span class="col-0 text-sm">:</span>
+                                        <span class="col text-dark text-sm">RAS</span>
+                                    </div>
+                                        @*<div class="row">
+                                            <span class="col-4 text-dark text-sm">Month</span>
+                                            <span class="col-0 text-sm">:</span>
+                                            <span class="col text-dark text-sm">RAS</span>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="mb-2">Time Sheet</h5>
+        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" id="newActivity" data-toggle="modal" data-target="#timeSheetModal" onclick="clearScreen();">
+            + Add Activity
+        </button>
+        <table id="timeSheetTable" class="table table-striped table-bordered text-nowrap w-100" style="font-size:13px; color:black">
+            <thead style="background-color:#FFFFFF">
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Activity Detail</th>
+                    <th scope="col">Flag</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Known By</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="timeSheetModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#90d6e8">
+                <h5 class="modal-title white-text w-100 font-weight-bold" style="color:black">Time Sheet</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearScreen();>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>  
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Activity:</label>
+                        <textarea class="form-control" id="activity"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Flag:</label>
+                        <select class="form-control form-control-sm" id="flag">
+                            <option value="WFO">WFO</option>
+                            <option value="WFH">WFH</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Category:</label>
+                            <select class="form-control form-control-sm" id="category">
+                                <option value="Meeting/Discussion">Meeting/Discussion</option>
+                                <option value="Coding">Coding</option>
+                                <option value="Testing">Testing</option>
+                                <option value="UAS/SIT">UAS/SIT</option>
+                                <option value="Ticketing">Ticketing</option>
+                                <option value="Docummentation">Docummentation</option>
+                                <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+                                <option value="Support">Support</option>
+                                <option value="Review">Review</option>
+                                <option value="GoLive/Deploy">GoLive/Deploy</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                             <label for="message-text" class="col-form-label">Status:</label>
+                            <select class="form-control form-control-sm" id="status">
+                                <option value="In Progress">In Progress</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Done">Done</option>
+                                <option value="Need Approval">Need Approval</option>
+                            </select>
+                        </div>
+                    </div>
+
+                     <div class="form-group">
+                        <label for="message-text" class="col-form-label">Known By:</label>
+                        <input class="form-control form-control-sm" type="text" id="knownBy">
+                    </div
+                   
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearScreen();">Close</button>
+                <button type="button" class="btn btn-warning" id="Update">Update</button>
+                <button type="button" class="btn btn-primary" id="Save" >Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script
+    {
+    <script src="~/js/TimeSheetEmp.js"></script>
+}
