@@ -170,10 +170,46 @@ function SharedShortListCandidate(selectedCategory) {
             },
             {
                 data: "birthdate",
+                render: function (data) {
+                    return data.trim() !== "" ? data + " Years Old" : "";
+                },
             },
 
             {
                 data: "experienceInYear",
+                render: function (data) {
+                    if (data == null || data == "") {
+                        return "";
+                    } else {
+                        var year = data.substring(0, 1);
+                        var month = data.substring(3, 4);
+                        if (year >= 5) {
+                            if (month != "" || year > 5) {
+                                return "> 5 Years";
+                            } else {
+                                return year + " Years";
+                            }
+                        } else if (year < 1) {
+                            if (month != "") {
+                                return "< 1 Year";
+                            } else {
+                                return "0 Year";
+                            }
+                        } else if (year > 1) {
+                            if (month != "") {
+                                return year + " Years " + month + " Months";
+                            } else {
+                                return year + " Years";
+                            }
+                        } else {
+                            if (month != "") {
+                                return year + " Year " + month + " Months";
+                            } else {
+                                return year + " Year";
+                            }
+                        }
+                    }
+                },
             },
 
             {

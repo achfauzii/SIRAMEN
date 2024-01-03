@@ -68,5 +68,7 @@ public partial class Account
 
     public virtual ICollection<ShortlistCandidate> ShortlistCandidates { get; set; } = new List<ShortlistCandidate>();
 
+    public virtual ICollection<TimeSheet> TimeSheets { get; set; } = new List<TimeSheet>();
+
     public virtual ICollection<TurnOver> TurnOvers { get; set; } = new List<TurnOver>();
 }
