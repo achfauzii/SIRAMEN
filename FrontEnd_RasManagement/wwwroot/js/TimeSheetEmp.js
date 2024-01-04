@@ -5,7 +5,8 @@
     return fetch(apiUrl, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         body: JSON.stringify(data)
     })
