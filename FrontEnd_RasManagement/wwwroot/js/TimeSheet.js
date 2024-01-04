@@ -1,48 +1,25 @@
 ﻿$(document).ready(function () {
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
-    $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-            var obj = result.data.result;
 
-            $('#fullName').text(obj.fullname);
-
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        },
-    });
-    //Get CompanyName (Placement)
-    $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-            var obj = result.data;
-            var obj = result.data;
-            if (obj && obj.length > 0) {
-                var lastData = obj[0];
-                $('#compName').text(lastData.companyName);
-            } else {
-                console.log('Tidak ada data');
-            }
-
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        },
-    });
+    //Employee Info
+    getEmployee(accountId)
+        .then(function (employee) {
+            $('#fullName').text(employee.fullname);
+        })
+        .catch(function (error) {
+            alert(error);
+        });
+    //Placment Comp Name
+    getPlacement(accountId)
+        .then(function (employee) {
+            $('#compName').text(employee.companyName);
+        })
+        .catch(function (error) {
+            alert(error);
+        });
+  
+   
 
     $("#backButton").on("click", function () {
         history.back(); // Go back to the previous page
@@ -50,6 +27,13 @@
 })
 
 
+
+
+
+
+function submitMonth() {
+
+}
 function save() {
     // Ganti URL_target dengan URL endpoint API yang sesuai
     const apiUrl = 'URL_target';
@@ -107,4 +91,59 @@ function parseJwt(token) {
     );
 
     return JSON.parse(jsonPayload);
+}
+
+
+function getEmployee(accountId) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                var obj = result.data.result;
+                resolve(obj);
+
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            },
+        });
+    })
+}
+
+
+function getPlacement(accountId) {
+    return new Promise(function (resolve, reject) {
+        //Get CompanyName (Placement)
+        $.ajax({
+            url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                var obj = result.data;
+                var obj = result.data;
+                if (obj && obj.length > 0) {
+                    var lastData = obj[0];
+
+                    resolve(lastData);
+                } else {
+                    console.log('Tidak ada data');
+                }
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            },
+        });
+    })
 }
