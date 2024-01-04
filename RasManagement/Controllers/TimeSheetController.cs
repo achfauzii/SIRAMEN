@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RasManagement.BaseController;
 using RasManagement.Repository;
+using System.Globalization;
 using System.Net;
 
 namespace RasManagement.Controllers
@@ -33,10 +34,17 @@ namespace RasManagement.Controllers
         }
 
         [HttpGet("TimeSheetByAccountIdAndMonth")]
-        public async Task<IActionResult> GetTimeSheetByAccountIdAndMonth([FromQuery] string accountId, [FromQuery] DateTime month)
+        public async Task<IActionResult> GetTimeSheetByAccountIdAndMonth([FromQuery] string accountId, [FromQuery] string month)
         {
-            var get = await timeSheetRepository.GetTimeSheetsByAccountIdAndDate(accountId, month);
-            if (get != null)
+            // Menerjemahkan string bulan menjadi objek DateTime untuk memperoleh bulan yang sesuai
+            DateTime targetDate;
+            if (!DateTime.TryParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out targetDate))
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Month Not Valid" });
+            }
+
+            var get = await timeSheetRepository.GetTimeSheetsByAccountIdAndMonth(accountId, targetDate);
+            if (get != null && get.Any())
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
             }
@@ -45,6 +53,7 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
             }
         }
+
     }
 
 }

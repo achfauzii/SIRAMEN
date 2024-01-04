@@ -18,15 +18,17 @@
             return timeSheetAccount;
         }
 
-        public async Task<List<TimeSheet>> GetTimeSheetsByAccountIdAndDate(string accountId, DateTime targetDate)
+        public async Task<List<TimeSheet>> GetTimeSheetsByAccountIdAndMonth(string accountId, DateTime targetDate)
         {
             var timeSheets = await context.TimeSheets
                 .Where(ts => ts.AccountId == accountId
-                        && ts.Date.HasValue // Pastikan ada tanggal yang ada
-                        && ts.Date.Value.Date == targetDate.Date)
+                        && ts.Date.HasValue
+                        && ts.Date.Value.Month == targetDate.Month
+                        && ts.Date.Value.Year == targetDate.Year)
                 .ToListAsync();
 
             return timeSheets;
         }
+
     }
 }
