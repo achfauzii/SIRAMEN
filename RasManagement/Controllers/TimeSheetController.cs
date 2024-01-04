@@ -31,6 +31,20 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
             }
         }
+
+        [HttpGet("TimeSheetByAccountIdAndMonth")]
+        public async Task<IActionResult> GetTimeSheetByAccountIdAndMonth([FromQuery] string accountId, [FromQuery] DateTime month)
+        {
+            var get = await timeSheetRepository.GetTimeSheetsByAccountIdAndDate(accountId, month);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
     }
 
 }
