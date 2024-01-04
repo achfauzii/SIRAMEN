@@ -1590,7 +1590,7 @@ function Save() {
   }
 
   var NonRasCandidate = new Object(); //object baru
-  NonRasCandidate.nonRasId = $("#nonrasid").val();
+  //NonRasCandidate.nonRasId = 0;
   NonRasCandidate.fullname = $("#Name")
     .val()
     .toLowerCase()
