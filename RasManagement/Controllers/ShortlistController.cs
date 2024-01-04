@@ -158,7 +158,7 @@ namespace RasManagement.Controllers
                     });
             }
         }
-
+        
         [AllowAnonymous]
         [HttpPost("ShortListCandidate")]
         public async Task<IActionResult> GetDataShared([FromBody] DataTablesRequest request)
