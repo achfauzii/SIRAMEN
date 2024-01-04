@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Org.BouncyCastle.Pqc.Crypto.Lms;
 using RasManagement.Interface;
 using RasManagement.Models;
@@ -34,12 +35,12 @@ namespace RasManagement.Repository
 
         public int Add(NonRasCandidate nonRasCandidate)
         {
-            nonRasCandidate.NonRasId = GenerateNonId();
+          /*  nonRasCandidate.NonRasId = GenerateNonId()*/;
             nonRasCandidate.IntwDateByRas = null;
             _context.Entry(nonRasCandidate).State = EntityState.Added;
             var save = _context.SaveChanges();
             return save;
-        }
+        }        
 
         /*    public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
             {
