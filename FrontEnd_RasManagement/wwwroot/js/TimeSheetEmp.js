@@ -1,11 +1,60 @@
-﻿function save() {
+﻿$(document).ready(function () {
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    $.ajax({
+        url: "https://localhost:7177/api/Employees/accountId?accountId="+accid,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            var obj = result.data.result; 
+            
+            $('#fullName').text(obj.fullname);
+         
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
+    });
+    //Get CompanyName (Placement)
+    $.ajax({
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accid,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            var obj = result.data;
+            var obj = result.data;
+            if (obj && obj.length > 0) {
+                var lastData = obj[0];
+                $('#compName').text(lastData.companyName);
+            } else {
+                console.log('Tidak ada data');
+            }
+           
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
+    });
+})
+
+
+function save() {
     // Ganti URL_target dengan URL endpoint API yang sesuai
     const apiUrl = 'URL_target';
 
     return fetch(apiUrl, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         body: JSON.stringify(data)
     })
@@ -39,3 +88,19 @@ function clearScreen() {
 
 }
 
+
+function parseJwt(token) {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+        window
+            .atob(base64)
+            .split("")
+            .map(function (c) {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+}
