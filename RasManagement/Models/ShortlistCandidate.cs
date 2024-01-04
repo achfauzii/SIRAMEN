@@ -46,6 +46,4 @@ public partial class ShortlistCandidate
     public string? Notes { get; set; }
 
     public virtual Account? Account { get; set; }
-
-    public virtual ICollection<OfferCandidate> OfferCandidates { get; set; } = new List<OfferCandidate>();
 }
