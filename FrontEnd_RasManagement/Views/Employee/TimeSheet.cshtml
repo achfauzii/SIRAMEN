@@ -23,12 +23,6 @@
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
 <section id="time-sheet-page">
-    @*  <div class="row">
-    <div class="col-12 mt-3 mb-1">
-    <h4 class="text-uppercase">Minimal Statistics Cards</h4>
-    <p>Statistics on minimal cards.</p>
-    </div>
-    </div>*@
     <div class="row">
         <div class="col-xl-6 col-sm-6 col-12">
             <div class="card shadow">
@@ -44,40 +38,16 @@
                                     <span class="col-0 text-sm">:</span>
                                     <span id="fullName" class="col text-dark text-sm"></span>
                                 </div>
-
-                                <div class="media-body text-left pt-0 pl-4">
-                                    <div class="row">
-                                        <span class="col-4 text-dark text-sm">Name</span>
-                                        <span class="col-0 text-sm">:</span>
-                                        <span id="fullName" class="col text-dark text-sm" ></span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-4 text-dark text-sm">Role</span>
-                                        <span class="col-0 text-sm">:</span>
-                                        <span class="col text-dark">RAS</span>
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-4 text-dark text-sm">Project Name</span>
-                                        <span class="col-0 text-sm">:</span>
-                                        <span class="col text-dark text-sm" id="compName"></span>
-                                    </div>
-                                        @*<div class="row">
-                                            <span class="col-4 text-dark text-sm">Month</span>
-                                            <span class="col-0 text-sm">:</span>
-                                            <span class="col text-dark text-sm">RAS</span>
-                                        </div>*@
-
+                                <div class="row">
+                                    <span class="col-4 text-dark text-sm">Role</span>
+                                    <span class="col-0 text-sm">:</span>
+                                    <span class="col text-dark">RAS</span>
                                 </div>
                                 <div class="row">
                                     <span class="col-4 text-dark text-sm">Project Name</span>
                                     <span class="col-0 text-sm">:</span>
                                     <span class="col text-dark text-sm" id="compName"></span>
                                 </div>
-                                @*<div class="row">
-                                <span class="col-4 text-dark text-sm">Month</span>
-                                <span class="col-0 text-sm">:</span>
-                                <span class="col text-dark text-sm">RAS</span>
-                                </div>*@
                             </div>
                         </div>
                     </div>
@@ -103,6 +73,7 @@
                     <th scope="col">Category</th>
                     <th scope="col">Status</th>
                     <th scope="col">Known By</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
         </table>
@@ -127,6 +98,7 @@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
                         <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
+                        <input class="form-control form-control-sm" type="text" id="date" hidden>
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Flag</label>
