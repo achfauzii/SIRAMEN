@@ -5,7 +5,7 @@ namespace RasManagement.Models;
 
 public partial class NonRasCandidate
 {
-    public string NonRasId { get; set; } = null!;
+    public int NonRasId { get; set; }
 
     public string? Fullname { get; set; }
 

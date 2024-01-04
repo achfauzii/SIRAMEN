@@ -35,7 +35,7 @@ namespace RasManagement.Repository
 
         public int Add(NonRasCandidate nonRasCandidate)
         {
-            nonRasCandidate.NonRasId = GenerateNonId();
+          /*  nonRasCandidate.NonRasId = GenerateNonId()*/;
             nonRasCandidate.IntwDateByRas = null;
             _context.Entry(nonRasCandidate).State = EntityState.Added;
             var save = _context.SaveChanges();
