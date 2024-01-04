@@ -177,36 +177,38 @@ $(document).ready(function () {
 
 //Table
 function tableUniv(universitiesData) {
-  var table = $("#tableUniv").DataTable({
-    paging: true,
-    pageLength: 5,
-    "ordering": false,
-    order: [[2, "desc"]],
-    lengthChange: false,
-    searching: false,
-    // "order": [2, 'desc'], //kalau order nomer urutnya malah acak
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 0,
-        render: function (data, type, row, meta) {
-          return meta.row + 1 + ".";
-        },
-      },
-    ],
-  });
 
-  table.clear().draw();
+    var table = $("#tableUniv").DataTable({
+        paging: true,
+        pageLength: 5,
+        "ordering": false,
+        order: [[2, "desc"]],
+        lengthChange: false,
+        searching: false,
+        // "order": [2, 'desc'], //kalau order nomer urutnya malah acak
+        columnDefs: [
+            {
+                orderable: false,
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1 + ".";
+                },
+            },
+        ],
+    });
 
-  var count = 1;
-  for (const universityName in universitiesData) {
-    var totalAccounts = universitiesData[universityName].totalAccounts;
 
-    // Add data to the DataTable
-    table.row.add([count, universityName, totalAccounts]).draw();
+    table.clear().draw();
 
-    count++;
-  }
+    var count = 1;
+    for (const universityName in universitiesData) {
+        var totalAccounts = universitiesData[universityName].totalAccounts;
+
+        // Add data to the DataTable
+        table.row.add([count, universityName, totalAccounts]).draw();
+
+        count++;
+    }
 }
 
 //Chart

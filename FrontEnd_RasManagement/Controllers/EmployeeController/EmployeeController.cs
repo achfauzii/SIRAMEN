@@ -101,6 +101,19 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
+        public IActionResult TimeSheet()
+        {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+            ViewData["UserRole"] = role;
+            //End Validate
+            return View();
+        }
+
         [HttpPost]
         public IActionResult UploadImage()
         {
