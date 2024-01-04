@@ -177,6 +177,7 @@ $(document).ready(function () {
 
 //Table
 function tableUniv(universitiesData) {
+
     var table = $("#tableUniv").DataTable({
         paging: true,
         pageLength: 5,
@@ -195,6 +196,7 @@ function tableUniv(universitiesData) {
             },
         ],
     });
+
 
     table.clear().draw();
 
