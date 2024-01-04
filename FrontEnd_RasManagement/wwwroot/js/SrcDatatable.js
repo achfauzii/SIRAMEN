@@ -216,7 +216,7 @@ function Src(selectedCategory) {
                             '<div class="row"><div class="col-4 text-left mr-5">' +
                             data +
                             '</div><div class="col text-right"><i class="far fa-edit edit" style="color: #0011ff; margin-right: 10px; visibility: hidden;"></i>' +
-                            '<i class="far fa-trash-alt" onclick="return Delete(\'' + row.nonRasId + '\')" style="color: #ff0000; visibility: hidden;"></i></div></div>';
+                            '<i class="far fa-trash-alt" onclick="return Delete(' + row.nonRasId + ')" style="color: #ff0000; visibility: hidden;"></i></div></div>';
 
                         $(document).on("mouseover", ".row", function () {
                             $(this).find("i").css("visibility", "visible");
@@ -1131,7 +1131,7 @@ function Delete(NonRasId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Shortlist/DeleteCandidate?NonRasId=" + NonRasId,
+                url: "https://localhost:7177/api/Shortlist/" + NonRasId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {
@@ -1153,7 +1153,7 @@ function Delete(NonRasId) {
 function ClearScreenSave() {
     $("#nonrasid").val("");
     $("#Name").val(""); //value insert dari id pada input
-
+    document.getElementById('Save').disabled = false;
     $("#position").val(null).trigger("change");
     $("#skillset").val(null).trigger("change");
     $("#degree").val("");
@@ -1625,6 +1625,7 @@ function Save() {
         //
         const logMesagge = `Has Added Shortlist Candidate ${NonRasCandidate.fullname}`;
         SaveLogUpdate(logMesagge);
+        document.getElementById('Save').disabled = true;
         if (result.status == 200) {
             Swal.fire({
                 icon: "success",
