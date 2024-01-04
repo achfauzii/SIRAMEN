@@ -362,8 +362,6 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.ToTable("NonRAS_Candidate");
 
             entity.Property(e => e.NonRasId)
-                .HasMaxLength(20)
-                .IsUnicode(false)
                 .HasColumnName("NonRAS_Id");
             entity.Property(e => e.Birthdate)
                 .HasMaxLength(30)
