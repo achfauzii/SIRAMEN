@@ -85,13 +85,9 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     return (
-                        '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-                        row.certificateId +
-                        ')"><i class="fa fa-edit"></i></button >' +
-                        "&nbsp;" +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
-                        row.certificateId +
-                        ')"><i class="fa fa-trash"></i></button >'
+                        '<button class="btn btn-sm btn-warning mr-2 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return getById(' +
+                        row.id +
+                        ')"><i class="fa fa-edit"></i></button >'
                     );
                 },
             },
@@ -99,9 +95,9 @@ $(document).ready(function () {
     });
 })
 
-function getById(TimeSheetId) {
+function getById(Id) {
     $.ajax({
-        url: "https://localhost:7177/api/TimeSheet/" + TimeSheetId,
+        url: "https://localhost:7177/api/TimeSheet/" + Id,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -111,12 +107,15 @@ function getById(TimeSheetId) {
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
-            $("#timeSheetId").val(obj.TimeSheetId); //ngambil data dr api
-            $("#activity").val(obj.Activity);
-            $("#flag").val(obj.Flag);
-            $("#category").val(obj.Category);
-            $("#status").val(obj.Status);
-            $("#knownBy").val(obj.KnownBy);
+            console.log(result.data);
+            $("#timeSheetId").val(obj.id); //ngambil data dr api
+            $("#activity").val(obj.activity);
+            $("#date").val(obj.date);
+            console.log(obj.date);
+            $("#flag").val(obj.flag);
+            $("#category").val(obj.category);
+            $("#status").val(obj.status);
+            $("#knownBy").val(obj.knownBy);
             $("#timeSheetModal").modal("show");
             $("#Save").hide();
             $("#Update").show();
@@ -145,6 +144,8 @@ function Update() {
         return;
     }
     var TimeSheet = new Object();
+    TimeSheet.Id = $("#timeSheetId").val();
+    TimeSheet.Date = $("#date").val();
     TimeSheet.Activity = $("#activity").val();
     TimeSheet.Flag = $("#flag").val();
     TimeSheet.Category = $("#category").val();
