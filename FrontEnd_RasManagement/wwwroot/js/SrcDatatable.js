@@ -213,9 +213,10 @@ function Src(selectedCategory) {
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
                         var icon =
-                            '<div class="row"><div class="col-4 text-left mr-4">' +
+                            '<div class="row"><div class="col-4 text-left mr-5">' +
                             data +
-                            '</div><div class="col text-right"><i class="far fa-edit" style="color: #0011ff; visibility: hidden;"></i></div></div>';
+                            '</div><div class="col text-right"><i class="far fa-edit edit" style="color: #0011ff; margin-right: 10px; visibility: hidden;"></i>' +
+                            '<i class="far fa-trash-alt" onclick="return Delete(\'' + row.nonRasId + '\')" style="color: #ff0000; visibility: hidden;"></i></div></div>';
 
                         $(document).on("mouseover", ".row", function () {
                             $(this).find("i").css("visibility", "visible");
@@ -778,7 +779,7 @@ function Src(selectedCategory) {
         return match ? match[0] : null;
     }
 
-    table.on("click", "tbody tr i", function () {
+    table.on("click", "tbody tr i.edit", function () {
         // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
 
         let row = $(this).closest("tr");
@@ -1114,6 +1115,39 @@ function Src(selectedCategory) {
 
         return [year, month, day].join("/");
     }
+}
+
+function Delete(NonRasId) {
+    // debugger;
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No",
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: "https://localhost:7177/api/Shortlist/DeleteCandidate?NonRasId=" + NonRasId,
+                type: "DELETE",
+                dataType: "json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+            }).then((result) => {
+                // debugger;
+                if (result.status == 200) {
+                    Swal.fire("Deleted!", "Data has been deleted.", "success");
+                    table.ajax.reload();
+                } else {
+                    Swal.fire("Error!", "Data failed to deleted.", "error");
+                }
+            });
+        }
+    });
 }
 
 function ClearScreenSave() {

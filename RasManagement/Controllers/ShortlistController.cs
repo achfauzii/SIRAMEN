@@ -159,6 +159,25 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpDelete("DeleteCandidate")]
+        public IActionResult DeleteCandidate(string NonRasId)
+        {
+            var delete = shortlistRepository.DeleteCandidate(NonRasId);
+            if (delete >= 1)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Dihapus", Data = delete });
+            }
+            else if (delete == 0)
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data dengan Id " + NonRasId + " Tidak Ditemukan", Data = delete });
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = delete });
+            }
+        }
+
+
         [AllowAnonymous]
         [HttpPost("ShortListCandidate")]
         public async Task<IActionResult> GetDataShared([FromBody] DataTablesRequest request)
