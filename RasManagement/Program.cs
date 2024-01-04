@@ -67,6 +67,7 @@ builder.Services.AddScoped<ShortlistRepository>();
 builder.Services.AddScoped<AssetsRepository>();
 builder.Services.AddScoped<HistoryLogRepository>();
 builder.Services.AddScoped<ClientNameRepository>();
+builder.Services.AddScoped<TimeSheetRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 
