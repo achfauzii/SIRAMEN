@@ -6,12 +6,12 @@ namespace FrontEnd_RasManagement.Controllers
 {
     public class ResourceReport : Controller
     {
-        public DataTable DataTable { get; set; }
+        public DataTable DataTableSrc { get; set; }
 
         public void OnGet()
         {
             // Replace this with your logic to populate the DataTable
-            DataTable = GetDataTable();
+            DataTableSrc = GetDataTable();
         }
 
         public IActionResult Index()
@@ -69,14 +69,14 @@ namespace FrontEnd_RasManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult ExportToExcel([FromBody] DataTable request)
+        public IActionResult ExportToExcel([FromBody] Object request)
         {
             // Assume you have a DataTable named "myDataTable"
             DataTable myDataTable = GetDataTable();
 
             // var dataSrc = request.GetType().GetProperties();
-            Console.WriteLine(request);
-            myDataTable.Rows.Clear();
+            // Console.WriteLine(request.ToString());
+            // myDataTable.Rows.Clear();
 
             // Add new rows from the clientDataTable
             // foreach (DataRow row in request.Rows)
@@ -88,6 +88,8 @@ namespace FrontEnd_RasManagement.Controllers
             // for (int i = 0; i < request.Length; i++) {
             //     myDataTable.Rows.Add(request[i])
             // }
+
+            myDataTable.Rows.Add(1, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
 
             // Specify the sheet name for the Excel file
             string sheetName = "Shortlist Candidate";
