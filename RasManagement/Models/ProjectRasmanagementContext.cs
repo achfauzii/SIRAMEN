@@ -750,8 +750,8 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasConstraintName("FK_TurnOver_Department");
         });
 
-        // OnModelCreatingPartial(modelBuilder);
+        OnModelCreatingPartial(modelBuilder);
     }
 
-    // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
