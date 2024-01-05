@@ -64,7 +64,10 @@ $(document).ready(function () {
     // $("#resource").DataTable().buttons("excel", null).trigger();
     $("#resource").DataTable().page.len(9999999).draw();
 
-    $("#resource").DataTable().buttons("excel").trigger();
+    // console.log($("#resource").DataTable().page.info().length);
+    if ($("#resource").DataTable().page.info().length > 9999) {
+      $("#excelButton").click();
+    }
     // table.buttons.exportData();
 
     // var dataSrc = table.data().toArray();
@@ -810,20 +813,31 @@ function Src(selectedCategory) {
       },
     ],
     searching: true,
-    // dom: "lBfrtip",
-    // buttons: [
-    //   {
-    //     extend: "excel",
-    //     exportOptions: {
-    //       page: "all",
-    //     },
-    //     // action: function (e, dt, node, config) {
-    //     //   dt.page.len(9999999).draw();
-    //     //   dt.buttons.exportData();
-    //     // },
-    //   },
-    // ],
+    dom: "lBfrtip",
+    buttons: [
+      {
+        extend: "excel",
+        className: "buttonsToHide",
+        exportOptions: {
+          page: "all",
+        },
+        attr: {
+          id: "excelButton",
+        },
+        // action: function (e, dt, node, config) {
+        //   dt.page.len(9999999).draw();
+        //   dt.buttons.exportData();
+        // },
+      },
+    ],
   });
+
+  table
+    .buttons()
+    .container()
+    .appendTo($(".col-sm-6:eq(0)", table.table().container()));
+
+  table.buttons(".buttonsToHide").nodes().addClass("d-none");
 
   function getLastValue(data, key) {
     const regex = new RegExp(`([^<br/>]+)(?!.*<br\/>)`);

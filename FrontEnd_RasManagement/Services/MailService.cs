@@ -1635,6 +1635,8 @@ namespace FrontEnd_RasManagement.Services
       var today = DateTime.Now.ToString("ddMMyy", CultureInfo.InvariantCulture);
       var randomId = (new Random()).Next(100, 1000);
 
+      var now = DateTime.Now.ToString("HH:mm dd-MM-yyyy", CultureInfo.InvariantCulture);
+
       var _email = new MimeMessage();
       _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
       _email.To.Add(MailboxAddress.Parse("yogi.prasetio@berca.co.id"));
@@ -1840,6 +1842,20 @@ namespace FrontEnd_RasManagement.Services
                                                                 bgcolor=""#ffffff"">
                                                                 <tbody style=""padding: 24px;"">
                                                                   
+                                                                  <tr>
+                                                                    <td style=""font-size: 16px; margin: 0;""
+                                                                      align=""left"" bgcolor=""#ffffff"">
+                                                                      Date Time
+                                                                    </td>
+                                                                    </td>
+                                                                    <td style=""font-size: 16px; margin: 0;""
+                                                                      align=""left"" bgcolor=""#ffffff"">
+                                                                      :
+                                                                    <td style=""font-size: 16px; margin: 0;""
+                                                                      align=""left"" bgcolor=""#ffffff"">
+                                                                      " + now + @"
+                                                                    </td>
+                                                                  </tr>
                                                                   <tr>
                                                                     <td style=""font-size: 16px; margin: 0;""
                                                                       align=""left"" bgcolor=""#ffffff"">

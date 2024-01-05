@@ -235,6 +235,13 @@ function kirimPengaduan() {
     dataType: "json",
     data: JSON.stringify(data),
 
+    beforeSend: function () {
+      $("#loader").show();
+    },
+    complete: function () {
+      $("#loader").hide();
+    },
+
     success: function (d) {
       $("#email").val("");
       $("#name").val("");
