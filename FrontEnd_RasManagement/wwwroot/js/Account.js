@@ -33,7 +33,6 @@
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
-            
           });
 
           const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
@@ -193,17 +192,60 @@ function getTime() {
 }
 
 function kirimPengaduan() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  var isValid = true;
+  $("input[required],textarea[required]").each(function () {
+    var input = $(this);
+
+    if (!input.val()) {
+      input.addClass("is-invalid");
+      isValid = false;
+    } else {
+      input.removeClass("is-invalid");
+    }
+  });
+
+  if (!isValid) {
+    return;
+  }
+
   const data = {
-    name: $("#name").val(),
     email: $("#email").val(),
+    name: $("#name").val(),
     message: $("#description").val(),
   };
-  fetch("/Announce/SendEmailPengaduan", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      //'Authorization': 'Bearer access_token_here'
+
+  console.log(data);
+
+  $.ajax({
+    type: "POST",
+    url: "/Announce/SendEmailPengaduan",
+    contentType: "application/json",
+    dataType: "json",
+    data: JSON.stringify(data),
+
+    success: function (d) {
+      $("#email").val("");
+      $("#name").val("");
+      $("#description").val("");
+      Toast.fire({
+        icon: "success",
+        text: "The complaint has been successfully reported.",
+      });
     },
-    body: JSON.stringify(data),
+    failed: function (er) {
+      console.log("Error : " + er.message);
+    },
   });
 }

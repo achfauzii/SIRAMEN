@@ -1632,12 +1632,12 @@ namespace FrontEnd_RasManagement.Services
 
     public async Task SendEmailPengaduan(PengaduanVM data)
     {
-      var today = DateTime.Now.ToString("dd/MM/yy", CultureInfo.InvariantCulture);
+      var today = DateTime.Now.ToString("ddMMyy", CultureInfo.InvariantCulture);
       var randomId = (new Random()).Next(100, 1000);
 
       var _email = new MimeMessage();
       _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-      _email.To.Add(MailboxAddress.Parse(_mailSettings.Mail));
+      _email.To.Add(MailboxAddress.Parse("yogi.prasetio@berca.co.id"));
       _email.Subject = $"Pengaduan #{today}-{randomId}";
       var builder = new BodyBuilder();
 
@@ -1851,7 +1851,7 @@ namespace FrontEnd_RasManagement.Services
                                                                       :
                                                                     <td style=""font-size: 16px; margin: 0;""
                                                                       align=""left"" bgcolor=""#ffffff"">
-                                                                      <a href='" + data.email + @"'>" + data.email + @"</a>
+                                                                      <a href='mailto:" + data.email + @"?subject=Re: " + _email.Subject + @"'>" + data.email + @"</a>
                                                                     </td>
                                                                   </tr>
                                                                   <tr>
@@ -1874,7 +1874,7 @@ namespace FrontEnd_RasManagement.Services
                                                                       Message
                                                                     </td>
                                                                     <td style=""font-size: 16px; margin: 0;""
-                                                                      align=""left"" bgcolor=""#ffffff"">
+                                                                      align=""left"" valign=""top"" bgcolor=""#ffffff"">
                                                                       :
                                                                     </td>                                                                    
                                                                     <td style=""font-size: 16px; margin: 0;""
