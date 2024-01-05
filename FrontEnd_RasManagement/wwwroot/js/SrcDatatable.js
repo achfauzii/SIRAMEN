@@ -61,31 +61,7 @@ function toggleContent(element, originalData) {
 
 $(document).ready(function () {
   $("#export_excel").on("click", function () {
-    // $("#resource").DataTable().buttons("excel", null).trigger();
-    $("#resource").DataTable().page.len(9999999).draw();
-
-    $("#resource").DataTable().buttons("excel").trigger();
-    // table.buttons.exportData();
-
-    // var dataSrc = table.data().toArray();
-
-    // console.log(dataSrc);
-
-    // $.ajax({
-    //   url: "/ResourceReport/ExportToExcel",
-    //   type: "POST",
-    //   dataType: "json",
-    //   contentType: "application/json;",
-    //   data: dataSrc,
-    //   success: function () {
-    //     $("#resource").DataTable().page.len(10).draw();
-    //     alert("success");
-    //   },
-    //   error: function (e) {
-    //     console.log(e.responseText);
-    //     alert("failure");
-    //   },
-    // });
+   
   });
 
   getClientList();
@@ -205,6 +181,19 @@ function Src(selectedCategory) {
     $("#resource").DataTable().destroy();
   }
   table = $("#resource").DataTable({
+    dom: 'Bfrtip',
+    buttons: [
+      {
+          extend: 'excel',
+        
+          exportOptions: {
+            columns: [0, 1, 30, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 31, 32, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 33, 29,],
+              modifier: {
+                  page: 'current'
+              }
+          }
+      }
+  ],
     fixedColumns: {
       left: window.innerWidth > 1024 ? 1 : null,
     },
@@ -328,6 +317,8 @@ function Src(selectedCategory) {
           return badgeContainer.html();
         },
       },
+      
+     
       {
         data: "level",
       },
@@ -449,6 +440,7 @@ function Src(selectedCategory) {
           return data;
         },
       },
+      
       {
         data: "cvBerca",
         render: function (data, type, row) {
@@ -467,6 +459,7 @@ function Src(selectedCategory) {
           return data;
         },
       },
+      
       {
         data: "englishLevel",
       },
@@ -789,6 +782,8 @@ function Src(selectedCategory) {
           }
         },
       },
+     
+      
       {
         data: "lastModified",
         render: function (data, type, row) {
@@ -802,27 +797,35 @@ function Src(selectedCategory) {
           return " ";
         },
       },
+      {
+        data: "skillset",
+      },
+      {
+        data: "rawCv",
+        
+      },
+      {
+        data: "cvBerca",
+        
+      },
+      {
+        data: "notes",
+        
+      },
+      
     ],
     columnDefs: [
       {
         targets: [2, 28],
         className: "customWrap",
       },
+      {
+        targets: [30,31,32,33], 
+        visible: false,
+      }
     ],
     searching: true,
-    // dom: "lBfrtip",
-    // buttons: [
-    //   {
-    //     extend: "excel",
-    //     exportOptions: {
-    //       page: "all",
-    //     },
-    //     // action: function (e, dt, node, config) {
-    //     //   dt.page.len(9999999).draw();
-    //     //   dt.buttons.exportData();
-    //     // },
-    //   },
-    // ],
+   
   });
 
   function getLastValue(data, key) {
