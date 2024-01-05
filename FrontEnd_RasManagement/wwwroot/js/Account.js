@@ -191,3 +191,19 @@ function getTime() {
 
   return timeStamp;
 }
+
+function kirimPengaduan() {
+  const data = {
+    name: $("#name").val(),
+    email: $("#email").val(),
+    message: $("#description").val(),
+  };
+  fetch("/Announce/SendEmailPengaduan", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      //'Authorization': 'Bearer access_token_here'
+    },
+    body: JSON.stringify(data),
+  });
+}
