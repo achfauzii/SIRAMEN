@@ -8,6 +8,7 @@ using MailKit.Net.Smtp;
 using System.Web.Helpers;
 using MimeKit.Text;
 using System.Threading;
+using System.Globalization;
 //using System.Net.Mail;
 
 namespace FrontEnd_RasManagement.Services
@@ -1631,10 +1632,13 @@ namespace FrontEnd_RasManagement.Services
 
     public async Task SendEmailPengaduan(PengaduanVM data)
     {
+      var today = DateTime.Now.ToString("dd/MM/yy", CultureInfo.InvariantCulture);
+      var randomId = (new Random()).Next(100, 1000);
+
       var _email = new MimeMessage();
       _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-      _email.To.Add(MailboxAddress.Parse("yogi.prasetio@berca.co.id"));
-      _email.Subject = $"{data.subject} [{data.name}]";
+      _email.To.Add(MailboxAddress.Parse(_mailSettings.Mail));
+      _email.Subject = $"Pengaduan #{today}-{randomId}";
       var builder = new BodyBuilder();
 
       builder.HtmlBody = @"
@@ -1839,7 +1843,7 @@ namespace FrontEnd_RasManagement.Services
                                                                   <tr>
                                                                     <td style=""font-size: 16px; margin: 0;""
                                                                       align=""left"" bgcolor=""#ffffff"">
-                                                                      Subject
+                                                                      Email
                                                                     </td>
                                                                     </td>
                                                                     <td style=""font-size: 16px; margin: 0;""
@@ -1847,13 +1851,13 @@ namespace FrontEnd_RasManagement.Services
                                                                       :
                                                                     <td style=""font-size: 16px; margin: 0;""
                                                                       align=""left"" bgcolor=""#ffffff"">
-                                                                      <b>" + data.subject + @"</b>
+                                                                      <a href='" + data.email + @"'>" + data.email + @"</a>
                                                                     </td>
                                                                   </tr>
                                                                   <tr>
                                                                     <td style=""font-size: 16px; margin: 0;""
                                                                       align=""left"" bgcolor=""#ffffff"">
-                                                                      From
+                                                                      Name
                                                                     </td>
                                                                     <td style=""font-size: 16px; margin: 0;""
                                                                       align=""left"" bgcolor=""#ffffff"">
@@ -1861,12 +1865,12 @@ namespace FrontEnd_RasManagement.Services
                                                                     </td>
                                                                     <td style=""font-size: 16px; margin: 0;""
                                                                       align=""left"" bgcolor=""#ffffff"">
-                                                                      " + data.name + @"
+                                                                      <b>" + data.name + @"</b>
                                                                     </td>
                                                                   </tr>
                                                                   <tr>
                                                                     <td style=""font-size: 16px; margin: 0;""
-                                                                      align=""left"" bgcolor=""#ffffff"">
+                                                                      align=""left"" valign=""top"" bgcolor=""#ffffff"">
                                                                       Message
                                                                     </td>
                                                                     <td style=""font-size: 16px; margin: 0;""
