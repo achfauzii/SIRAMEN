@@ -50,7 +50,7 @@ namespace RasManagement.Controllers
             }
             else
             {
-                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data not found", Data = get });
             }
         }
 

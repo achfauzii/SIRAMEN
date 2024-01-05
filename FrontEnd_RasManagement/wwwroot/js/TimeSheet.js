@@ -1,4 +1,4 @@
-﻿var table = null;
+﻿//var table = null;
 $(document).ready(function () {
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
@@ -33,67 +33,66 @@ $(document).ready(function () {
 
 
 function submitMonth() {
+
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
     var month = $("#month").val();
-    table = $("#timeSheetTable").DataTable({
-        ajax: {
-            url: "https://localhost:7177/api/TimeSheet/accountId?accountId=" + accountId, // Your API endpoint
-            type: "GET",
-            contentType: "application/json",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            dataSrc: function (response) {
-                if (!response || response.length === 0) {
-                    document.getElementById('badgeDisplay').hidden = true;
-                    $('#timeSheetTable').html('<p>No data available</p>');
-                }
-                return response;
-            },
 
-        },
-        columns: [
-            {
-                data: null,
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+    if (month !== "") {
+        //GET datatable
+        document.getElementById('badgeDisplay').hidden = true;
+        document.getElementById('tableTimeSheet').hidden = false;
+        if ($.fn.DataTable.isDataTable("#timeSheetTable")) {
+            $("#timeSheetTable").DataTable().destroy();
+        }
+        table = $("#timeSheetTable").DataTable({
+            responsive: true,
+            ajax: {
+                url: "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId="+accountId+"&month="+month,
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
-            },
-            {
-                data: "date",
-                render: function (data, type, row) {
-                    if (type === "display" || type === "filter") {
-                        // Format tanggal dalam format yang diinginkan
-                        return moment(data).format("DD MMMM YYYY");
-                    }
-                    return data;
 
-                },
             },
-            { data: "activity" },
-            { data: "flag" },
-            { data: "category" },
-            { data: "status" },
-            { data: "knownBy" },
-            {
-                data: null,
-                render: function (data, type, row) {
-                    return (
-                        '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-                        row.certificateId +
-                        ')"><i class="fa fa-edit"></i></button >' +
-                        "&nbsp;" +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
-                        row.certificateId +
-                        ')"><i class="fa fa-trash"></i></button >'
-                    );
+            columns: [
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                    },
                 },
-            },
-        ]
-    });
+                {
+                    data: "date",
+                    render: function (data, type, row) {
+                        if (type === "display" || type === "filter") {
+                            // Format tanggal dalam format yang diinginkan
+                            return moment(data).format("DD MMMM YYYY");
+                        }
+                        // Untuk tipe data lain, kembalikan data aslinya
 
-    document.getElementById('tableTimeSheet').hidden = false;
+                        return data;
+
+                    },
+                },
+                { data: "activity" },
+                { data: "flag" },
+                { data: "category" },
+                { data: "status" },
+                { data: "knownBy" },
+               
+            ]
+        });
+         //document.getElementById('badgeDisplay').hidden = true;
+  
+        
+    } else {
+        document.getElementById('badgeDisplay').hidden = false;
+        document.getElementById('tableTimeSheet').hidden = true;
+    }
+
+   
 }
 
 
