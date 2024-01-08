@@ -1,5 +1,6 @@
 ﻿//var table = null;
 $(document).ready(function () {
+  
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
 
@@ -25,6 +26,19 @@ $(document).ready(function () {
     $("#backButton").on("click", function () {
         history.back(); // Go back to the previous page
     });
+
+
+
+    $('#download-button').on('click', function () {
+        // Memuat konten header dari file header.html
+        $.get('TimeSheetToPdf', function (headerContent) {
+            // Menggabungkan konten header dengan konten DataTables
+            var finalContent = headerContent + $('#timeSheetTable').html();
+
+            // Membuat PDF menggunakan HTML2PDF
+            html2pdf().from(finalContent).save();
+        });
+    });
 })
 
 
@@ -47,6 +61,45 @@ function submitMonth() {
         }
         table = $("#timeSheetTable").DataTable({
             responsive: true,
+            /*dom: 'Bfrtip',*/
+            /*buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    text: 'Export PDF',
+                    title: '',
+                    filename: 'TimeSheet_Report',
+                    download: 'open',
+                    customize: function (doc) {
+                        // Tambahkan konten khusus ke header
+                        doc['header'] = function () {
+                            return {
+                                columns: [
+                                    {
+                                        alignment: 'left',
+                                        text: ''
+                                        // Tambahkan konten khusus header Anda di sini
+                                    }
+                                ],
+                                margin: [10, 10] // Atur margin jika diperlukan
+                            };
+                        };
+                        // Tambahkan konten khusus ke footer jika perlu
+                        doc['footer'] = function () {
+                            return {
+                                columns: [
+                                    {
+                                        alignment: 'center',
+                                        text: 'Footer Kustom di Sini'
+                                        // Tambahkan konten khusus footer Anda di sini
+                                    }
+                                ],
+                                margin: [10, 10] // Atur margin jika diperlukan
+                            };
+                        };
+                    }
+                }
+            ],
+           */
             ajax: {
                 url: "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId="+accountId+"&month="+month,
                 type: "GET",
@@ -178,4 +231,25 @@ function getPlacement(accountId) {
             },
         });
     })
+}
+
+function openPreviewPdf() {
+    // Ubah URL sesuai dengan URL tempat PDF di-host atau disimpan
+    var urlParams = new URLSearchParams(window.location.search);
+    accountId = urlParams.get("accountId");
+    var pdfURL = '/TimeSheets/Timesheettopdf?accountId='+accountId; // Ganti dengan URL PDF Anda
+    var urlParams = new URLSearchParams(window.location.search);
+    accountId = urlParams.get("accountId");
+        getEmployee(accountId)
+            .then(function (employeeData) {
+                // Mendapatkan elemen berdasarkan ID dan mengisikan data Employee ke dalamnya
+                var fullNameElement = document.getElementById('fullName');
+                fullNameElement.textContent = employeeData.fullName; // Mengisikan nama lengkap ke elemen
+
+                // Membuka PDF dalam tab baru saat tombol diklik
+                window.open(pdfURL, '_blank');
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
 }
