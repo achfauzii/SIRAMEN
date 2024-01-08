@@ -1,7 +1,8 @@
 ﻿//var table = null;
 var month;
+var accountId;
 $(document).ready(function () {
-    openPreviewPdf();
+
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
 
@@ -9,6 +10,7 @@ $(document).ready(function () {
     getEmployee(accountId)
         .then(function (employee) {
             $('#fullName').text(employee.fullname);
+            $('#fullNamePreview').text(employee.fullname);
         })
         .catch(function (error) {
             alert(error);
@@ -30,7 +32,7 @@ $(document).ready(function () {
 
 
 
-    $('#download-button').on('click', function () {
+  /*  $('#download-button').on('click', function () {
         // Memuat konten header dari file header.html
         $.get('TimeSheetToPdf', function (headerContent) {
             // Menggabungkan konten header dengan konten DataTables
@@ -39,7 +41,8 @@ $(document).ready(function () {
             // Membuat PDF menggunakan HTML2PDF
             html2pdf().from(finalContent).save();
         });
-    });
+    });*/
+   
 })
 
 
@@ -146,6 +149,14 @@ function submitMonth() {
         document.getElementById('tableTimeSheet').hidden = true;
     }
 
+    document.getElementById('previewPDF').addEventListener('click', function () {
+     
+    window.location.href = '/TimeSheets/Timesheettopdf';
+       
+        console.log(accountId);
+     
+
+    });
    
 }
 
@@ -246,7 +257,7 @@ function openPreviewPdf() {
         getEmployee(accountId)
             .then(function (employeeData) {
                 // Mendapatkan elemen berdasarkan ID dan mengisikan data Employee ke dalamnya
-                var fullNameElement = document.getElementById('fullName');
+                var fullNameElement = document.getElementById('fullNamePreview');
                 fullNameElement.textContent = employeeData.fullName; // Mengisikan nama lengkap ke elemen
           
                 // Membuka PDF dalam tab baru saat tombol diklik
