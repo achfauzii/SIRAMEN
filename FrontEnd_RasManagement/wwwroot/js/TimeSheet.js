@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿//var table = null;
+$(document).ready(function () {
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
 
@@ -33,6 +34,65 @@
 
 function submitMonth() {
 
+    var urlParams = new URLSearchParams(window.location.search);
+    accountId = urlParams.get("accountId");
+    var month = $("#month").val();
+
+    if (month !== "") {
+        //GET datatable
+        document.getElementById('badgeDisplay').hidden = true;
+        document.getElementById('tableTimeSheet').hidden = false;
+        if ($.fn.DataTable.isDataTable("#timeSheetTable")) {
+            $("#timeSheetTable").DataTable().destroy();
+        }
+        table = $("#timeSheetTable").DataTable({
+            responsive: true,
+            ajax: {
+                url: "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId="+accountId+"&month="+month,
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+
+            },
+            columns: [
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                    },
+                },
+                {
+                    data: "date",
+                    render: function (data, type, row) {
+                        if (type === "display" || type === "filter") {
+                            // Format tanggal dalam format yang diinginkan
+                            return moment(data).format("DD MMMM YYYY");
+                        }
+                        // Untuk tipe data lain, kembalikan data aslinya
+
+                        return data;
+
+                    },
+                },
+                { data: "activity" },
+                { data: "flag" },
+                { data: "category" },
+                { data: "status" },
+                { data: "knownBy" },
+               
+            ]
+        });
+         //document.getElementById('badgeDisplay').hidden = true;
+  
+        
+    } else {
+        document.getElementById('badgeDisplay').hidden = false;
+        document.getElementById('tableTimeSheet').hidden = true;
+    }
+
+   
 }
 
 
