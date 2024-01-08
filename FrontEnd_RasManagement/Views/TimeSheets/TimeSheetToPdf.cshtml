@@ -11,7 +11,7 @@
     <title>Invoice</title>
 
     <style>
-        @@font-face {
+  /*      @@font-face {
             font-family: "Inter";
             src: url("Inter-Regular.ttf") format("truetype");
             font-weight: 400;
@@ -37,7 +37,7 @@
             src: url("SpaceMono-Regular.ttf") format("truetype");
             font-weight: 400;
             font-style: normal;
-        }
+        }*/
 
         .intro-form p span {
             display: inline-block;
@@ -324,7 +324,7 @@
                     <p>
                         <span>Name</span>
                         <span>:</span>
-                        <span id="fullName" class="text-dark text-sm fullName"></span>
+                        <span id="fullNamePreview" class="col text-dark text-sm"></span>
                         </br>
                         <span>Role</span>
                         <span>:</span>
@@ -342,7 +342,7 @@
             </div>
 
             <div class="table-box">
-                <table id="timeSheetTablePDF" class="table text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
+                <table id="timeSheetTablePdf" class="table table-striped table-bordered text-nowrap w-100" style="font-size:13px; color:black">
                     <thead style="background-color:#FFFFFF">
                         <tr>
                             <th scope="col">No</th>
@@ -381,6 +381,7 @@
         </div>
     </div>
     <script src="~/js/TimeSheet.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
             var downloadBtn = $("#download-button");;

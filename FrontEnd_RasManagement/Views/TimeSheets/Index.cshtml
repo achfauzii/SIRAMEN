@@ -41,7 +41,226 @@
             font-size: 14px; /* Atur ukuran tombol Previous dan Next */
         }
 
+/*pdf Style*/
+    .intro-form p span {
+        display: inline-block;
+        width: 100px; /* Atur lebar sesuai kebutuhan */
+    }
 
+        .intro-form p span:nth-child(odd) {
+            font-weight: bold; /* Membuat label-label seperti 'Name', 'Role' menjadi tebal */
+        }
+
+    .intro-form p {
+        line-height: 1.3; /* Mengatur spasi antar baris agar terlihat lebih jelas */
+    }
+
+
+    body {
+        font-size: 0.75rem;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        color: #000000;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    #pspdfkit-header {
+        font-size: 0.625rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 400;
+        color: #717885;
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+        width: 100%;
+    }
+
+    .header-columns {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+
+    .logo {
+        height: 1.5rem;
+        width: auto;
+        margin-right: 1rem;
+    }
+
+    .logotype {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+    }
+
+    h2 {
+        font-family: "Space Mono", monospace;
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+
+    h4 {
+        font-family: "Space Mono", monospace;
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .page {
+        margin-left: 5rem;
+        margin-right: 5rem;
+    }
+
+    .intro-table {
+        display: flex;
+        justify-content: space-between;
+        margin: 3rem 0 3rem 0;
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+    }
+
+    .intro-form {
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #000000;
+        width: 50%;
+    }
+
+        .intro-form:last-child {
+            border-right: none;
+        }
+
+    .intro-table-title {
+        font-size: 0.625rem;
+        margin: 0;
+    }
+
+    .intro-form-item {
+        padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+    }
+
+        .intro-form-item:first-child {
+            padding-left: 0;
+        }
+
+        .intro-form-item:last-child {
+            padding-right: 0;
+        }
+
+    .intro-form-item-border {
+        padding: 1.25rem 0 0.75rem 1.5rem;
+        border-bottom: 1px solid #000000;
+    }
+
+        .intro-form-item-border:last-child {
+            border-bottom: none;
+        }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        margin-top: 6rem;
+    }
+
+    .no-border {
+        border: none;
+    }
+
+    .border {
+        border: 1px solid #000000;
+    }
+
+    .border-bottom {
+        border: 1px solid #000000;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .signer {
+        display: flex;
+        justify-content: space-between;
+        gap: 2.5rem;
+        margin: 2rem 0 2rem 0;
+    }
+
+    .signer-item {
+        flex-grow: 1;
+    }
+
+
+    .intro-text {
+        width: 60%;
+    }
+
+    .table-box table,
+    .summary-box table {
+        width: 100%;
+        font-size: 0.625rem;
+    }
+
+    .table-box table {
+        padding-top: 2rem;
+    }
+
+    .table-box td:first-child,
+    .summary-box td:first-child {
+        width: 50%;
+    }
+
+    .table-box td:last-child,
+    .summary-box td:last-child {
+        text-align: right;
+    }
+
+    .table-box table tr.heading td {
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        height: 1.5rem;
+    }
+
+    .table-box table tr.item td,
+    .summary-box table tr.item td {
+        border-bottom: 1px solid #d7dce4;
+        height: 1.5rem;
+    }
+
+    .summary-box table tr.no-border-item td {
+        border-bottom: none;
+        height: 1.5rem;
+    }
+
+    .summary-box table tr.total td {
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        height: 1.5rem;
+    }
+
+        .summary-box table tr.item td:first-child,
+        .summary-box table tr.total td:first-child {
+            border: none;
+            height: 1.5rem;
+        }
+
+    #pspdfkit-footer {
+        font-size: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+        color: #717885;
+        margin-top: 2.5rem;
+        bottom: 2.5rem;
+        position: absolute;
+        width: 100%;
+    }
+
+    .footer-columns {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
@@ -153,10 +372,91 @@
     </div>
 </div>
 
+
+@*PDF TIMESHEET*@
+<button id="download-button">Download as PDF</button>
+<div id="timeSheetPdf">
+    <div id="pspdfkit-header">
+        <div class="header-columns">
+            <div class="logotype">
+                <img class="logo" src="/img/logo_putih.png">
+                <p></p>
+
+            </div>
+
+            <div>
+                <p>Jl. Abdul Muis No.62, Kec. Gambir, Jakarta Pusat.</p>
+            </div>
+        </div>
+    </div>
+
+    @*Body*@
+    <div class="page" style="page-break-after: always">
+        <div>
+            <h2>Time Sheet #</h2>
+        </div>
+
+        <div class="intro-table">
+            <div class="intro-form">
+                <p>
+                    <span>Name</span>
+                    <span>:</span>
+                    <span id="fullNamePreview"></span>
+                    </br>
+                    <span>Role</span>
+                    <span>:</span>
+                    <span>RAS</span>
+                    </br>
+                    <span>Project Name</span>
+                    <span>:</span>
+                    <span>RAS</span>
+                    </br>
+                    <span>Month</span>
+                    <span>:</span>
+                    <span>RAS</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="table-box">
+            <table id="timeSheetTablePdf">
+                <thead style="background-color:#FFFFFF">
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Activity Detail</th>
+                        <th scope="col">Flag</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Known By</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    const button = document.getElementById("download-button");
+
+    function generatePDF() {
+        // Choose the element that your content will be rendered to.
+        const element = document.getElementById("timeSheetPdf");
+        // Choose the element and save the PDF for your user.
+        html2pdf().from(element).save();
+    }
+
+    button.addEventListener("click", generatePDF);
+</script>
 @section script
     {
     <script src="~/js/TimeSheet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+    <!-- html2pdf CDN link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
 @*    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>

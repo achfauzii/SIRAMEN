@@ -1,23 +1,33 @@
 ﻿//var table = null;
+var month;
+var accountId;
 $(document).ready(function () {
-  var urlParams = new URLSearchParams(window.location.search);
-  accountId = urlParams.get("accountId");
 
-  //Employee Info
-  getEmployee(accountId)
-    .then(function (employee) {
-      $(".fullName").text(employee.fullname);
-    })
-    .catch(function (error) {
-      alert(error);
-    });
-  //Placment Comp Name
-  getPlacement(accountId)
-    .then(function (employee) {
-      $("#compName").text(employee.companyName);
-    })
-    .catch(function (error) {
-      alert(error);
+    var urlParams = new URLSearchParams(window.location.search);
+    accountId = urlParams.get("accountId");
+
+    //Employee Info
+    getEmployee(accountId)
+        .then(function (employee) {
+            $('#fullName').text(employee.fullname);
+            $('#fullNamePreview').text(employee.fullname);
+        })
+        .catch(function (error) {
+            alert(error);
+        });
+    //Placment Comp Name
+    getPlacement(accountId)
+        .then(function (employee) {
+            $('#compName').text(employee.companyName);
+        })
+        .catch(function (error) {
+            alert(error);
+        });
+  
+   
+
+    $("#backButton").on("click", function () {
+        history.back(); // Go back to the previous page
     });
 
   $("#backButton").on("click", function () {
@@ -30,14 +40,29 @@ $(document).ready(function () {
       // Menggabungkan konten header dengan konten DataTables
       var finalContent = headerContent + $("#timeSheetTable").html();
 
-      // Membuat PDF menggunakan HTML2PDF
-      html2pdf().from(finalContent).save();
-    });
-  });
+  /*  $('#download-button').on('click', function () {
+        // Memuat konten header dari file header.html
+        $.get('TimeSheetToPdf', function (headerContent) {
+            // Menggabungkan konten header dengan konten DataTables
+            var finalContent = headerContent + $('#timeSheetTable').html();
 
-  $(".timeSheetMonth").on("change", function () {
-    var month = $(".timeSheetMonth").val();
-    $("#timeSheetMonth").text(month);
+            // Membuat PDF menggunakan HTML2PDF
+            html2pdf().from(finalContent).save();
+        });
+    });*/
+   
+})
+
+
+
+
+
+
+function submitMonth() {
+
+    var urlParams = new URLSearchParams(window.location.search);
+    accountId = urlParams.get("accountId");
+    month = $("#month").val();
 
     if (month !== "") {
       //GET datatable
@@ -202,12 +227,15 @@ function submitMonth() {
 
   $("#ttd").hide();
 
-  $("#previewPDF").on("click", function () {
-    // const element = document.getElementById("timeSheetPdf");
-    // $("#ttd").show();
-    // html2pdf().from(element).save();
-    openPreviewPdf(table.rows().data().toArray());
-  });
+    document.getElementById('previewPDF').addEventListener('click', function () {
+     
+    window.location.href = '/TimeSheets/Timesheettopdf';
+       
+        console.log(accountId);
+     
+
+    });
+   
 }
 
 function clearScreen() {
@@ -290,62 +318,64 @@ function getPlacement(accountId) {
   });
 }
 
-function openPreviewPdf(dataTable) {
-  let tablePDF = $("#timeSheetTablePDF").DataTable();
-  let data = table.rows().data().toArray();
+function openPreviewPdf() {   
+    var urlParams = new URLSearchParams(window.location.search);
+    accountId = urlParams.get("accountId");
+    var pdfURL = '/TimeSheets/Timesheettopdf?accountId='+accountId; // Ganti dengan URL PDF Anda
+    var urlParams = new URLSearchParams(window.location.search);
+    debugger;
+    accountId = urlParams.get("accountId");
+        getEmployee(accountId)
+            .then(function (employeeData) {
+                // Mendapatkan elemen berdasarkan ID dan mengisikan data Employee ke dalamnya
+                var fullNameElement = document.getElementById('fullNamePreview');
+                fullNameElement.textContent = employeeData.fullName; // Mengisikan nama lengkap ke elemen
+          
+                // Membuka PDF dalam tab baru saat tombol diklik
+                window.open(pdfURL, '_blank');
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
 
-  //   // Clear the second table (if needed)
-  //   tablePDF.clear().draw();
+   var table = $("#timeSheetTablePdf").DataTable({
+        responsive: true,
+       
+        ajax: {
+            url: "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" + accountId + "&month=" + month,
+            type: "GET",
+            contentType: "application/json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
 
-  //   // Add the data to the second table
-  tablePDF.rows.add(dataTable).draw();
-  tablePDF.rows.add(data).draw();
+        },
+        columns: [
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                },
+            },
+            {
+                data: "date",
+                render: function (data, type, row) {
+                    if (type === "display" || type === "filter") {
+                        // Format tanggal dalam format yang diinginkan
+                        return moment(data).format("DD MMMM YYYY");
+                    }
+                    // Untuk tipe data lain, kembalikan data aslinya
 
-  //   //   console.log(table.rows().data().toArray());
-  console.log(tablePDF.rows().data().toArray());
+                    return data;
 
-  // Ubah URL sesuai dengan URL tempat PDF di-host atau disimpan
-  var urlParams = new URLSearchParams(window.location.search);
-  accountId = urlParams.get("accountId");
-  var pdfURL = "/TimeSheets/Timesheettopdf?accountId=" + accountId; // Ganti dengan URL PDF Anda
-  var urlParams = new URLSearchParams(window.location.search);
-  accountId = urlParams.get("accountId");
-  getEmployee(accountId)
-    .then(function (employeeData) {
-      // Mendapatkan elemen berdasarkan ID dan mengisikan data Employee ke dalamnya
-      var fullNameElement = document.getElementById("fullName");
-      fullNameElement.textContent = employeeData.fullName; // Mengisikan nama lengkap ke elemen
-      //   var fulnameElement = document.getElementById("fullname-emp");
-      //   fulnameElement.textContent = employeeData.fullName;
-      //   $("#fullname-emp").text(employeeData.fullname);
+                },
+            },
+            { data: "activity" },
+            { data: "flag" },
+            { data: "category" },
+            { data: "status" },
+            { data: "knownBy" },
 
-      // Membuka PDF dalam tab baru saat tombol diklik
-      window.open(pdfURL, "_blank");
-      tablePDF.row
-        .add([
-          "1",
-          "08/01/2024",
-          "Uvuea shhdhdjh hshds osas",
-          "WFC",
-          "Discussion",
-          "Done",
-          "Anonymous",
-        ])
-        .draw();
-    })
-    .catch(function (error) {
-      console.error("Error:", error);
+        ]
     });
-  tablePDF.rows.add(dataTable).draw();
-  tablePDF.row
-    .add([
-      "1",
-      "08/01/2024",
-      "Uvuea shhdhdjh hshds osas",
-      "WFC",
-      "Discussion",
-      "Done",
-      "Anonymous",
-    ])
-    .draw();
 }
