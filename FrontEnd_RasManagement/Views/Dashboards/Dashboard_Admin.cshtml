@@ -169,29 +169,22 @@
   box-shadow: 0 20px 20px -10px rgba(255, 152, 0, 0.5);
 }
 #to-show{
-   
-   
-    margin-left:-350px !important;
-    margin-right:72px !important;
-    margin-top:-170px !important;
+    position:fixed;
+	z-index: 9;
+	bottom:3rem;
+	right:6rem;
+	box-shadow: 2px 2px 3px #999;
+ 
 }
-*{
-        border: 1px solid red;
-    }
-</style>
 
+</style>
 
 
 @* <button class="act-btn border-0" data-toggle="modal" data-target="#ModalAnnouncement" data-tooltip="tooltip" data-placement="left" title="Create Announcement" onclick="clearAnnounce();">
     <i class="fa fa-bullhorn" style="font-size: 0.55em; display: flex; justify-content: center; align-items: center;"></i>
 </button> *@
     
-<div class="floating-container">
-  <div class="floating-button">+</div>
-  <div class="element-container">
-      <span class="float-element"   id="reportbutton">
-      <i class="fa-regular fa-flag"></i>
-      <div id="to-show" class="card shadow-lg bg-white d-none" style="margin-bottom: 3.5rem; margin-right: 1rem">
+  <div id="to-show" class="card shadow-lg bg-white d-none" style="margin-bottom: 3.5rem; margin-right: 1rem">
         <div class="card-header text-center">
             <h6 class="text-dark" style="font-weight: bold;">Report Feedback</h6>
         </div>
@@ -199,13 +192,19 @@
             <form id="pengaduan">
                 <div class="form-group">
                     <div class="input-group">
-                        <textarea class="form-control" id="description" rows="3" placeholder="Enter your description" autocomplete="off" required></textarea>
+                        <textarea class="form-control" id="description" rows="3" placeholder="Enter your description" autocomplete="off" style="max-height: 200px;min-height:50px;" required></textarea>
                     </div>
                 </div>
                 <button type="button" onclick="kirimPengaduan();" class="btn btn-secondary btn-user btn-block">Submit</button>
             </form>
         </div>
     </div>
+<div class="floating-container">
+  <div class="floating-button">+</div>
+  <div class="element-container">
+      
+      <span class="float-element"   id="reportbutton">
+      <i class="fa-regular fa-flag"></i>
     </span>
       <span class="float-element" data-toggle="modal" data-target="#ModalAnnouncement" data-tooltip="tooltip" data-placement="left" title="Create Announcement">
       <i class="fa fa-bullhorn">

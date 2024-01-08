@@ -204,25 +204,14 @@ function kirimPengaduan() {
     timerProgressBar: true,
   });
 
-  var isValid = true;
-  $("input[required],textarea[required]").each(function () {
-    var input = $(this);
+ 
 
-    if (!input.val()) {
-      input.addClass("is-invalid");
-      isValid = false;
-    } else {
-      input.removeClass("is-invalid");
-    }
-  });
-
-  if (!isValid) {
-    return;
-  }
+ 
+  const userInfo = getUserNameEmail()
 
   const data = {
-    email: $("#email").val(),
-    name: $("#name").val(),
+    email: userInfo ? userInfo.email : $("#email").val(),
+    name: userInfo ? userInfo.name : $("#name").val(),
     message: $("#description").val(),
   };
 
@@ -255,4 +244,19 @@ function kirimPengaduan() {
       console.log("Error : " + er.message);
     },
   });
+}
+function getUserNameEmail() {
+  var token = sessionStorage.getItem("Token");
+  if (token) {
+      var base64Url = token.split(".")[1];
+      var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      var payload = JSON.parse(atob(base64));
+
+      return {
+        name: payload.Name,
+        email: payload.Email
+      };
+  }
+
+  return null;
 }
