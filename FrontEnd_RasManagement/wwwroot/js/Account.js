@@ -1,4 +1,8 @@
 ﻿$(document).ready(function () {
+  $("#reportbutton").on("click", function(){
+  $("#to-show").toggleClass("d-none");
+  })
+
   $("#loginForm").on("submit", async function (event) {
     event.preventDefault();
     $("#loader").show();
@@ -198,10 +202,6 @@ function kirimPengaduan() {
     showConfirmButton: false,
     timer: 2000,
     timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
   });
 
   var isValid = true;
