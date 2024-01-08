@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RasManagement.BaseController;
 using RasManagement.Repository;
 using System.Globalization;
@@ -53,6 +54,64 @@ namespace RasManagement.Controllers
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data not found", Data = get });
             }
         }
+
+        /*[HttpPost("AddTimeSheet")]
+        public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
+        {
+            var addTimeSheet = timeSheetRepository.AddTimeSheet(timeSheet);
+            if (addTimeSheet >= 1)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Dihapus", Data = addTimeSheet });
+            }
+            else if (addTimeSheet == 0)
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, Data = addTimeSheet });
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = addTimeSheet });
+            }
+        }
+*/
+        [HttpPost("AddTimeSheet")]
+        public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
+        {
+            if (timeSheetRepository.IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+            {
+                int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
+
+                // If the operation is successful, return a 200 OK response
+                return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Ditambahkan", Data = addTimeSheetResult });
+            }
+            else
+            {
+                // Handle the case where the date is not unique
+                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Tanggal sudah digunakan untuk TimeSheet lain." });
+            }
+        }
+
+        /*[HttpPost("AddTimeSheet")]
+        public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
+        {
+            try
+            {
+                int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
+
+                // If the operation is successful, return a 200 OK response
+                return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Ditambahkan", Data = addTimeSheetResult });
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Handle the specific exception when the date is not unique
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                // Handle other unexpected exceptions
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = ex.Message });
+            }
+        }*/
+
 
     }
 
