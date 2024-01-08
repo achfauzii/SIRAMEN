@@ -98,15 +98,24 @@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
                         <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
-                        <input class="form-control form-control-sm" type="text" id="date" hidden>
+                        <input class="form-control form-control-sm" type="text" id="lastPlacementId" hidden>
+
                     </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Flag</label>
-                        <select class="form-control form-control-sm" id="flag" required>
-                            <option value="WFO">WFO</option>
-                            <option value="WFH">WFH</option>
-                        </select>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Flag</label>
+                            <select class="form-control form-control-sm" id="flag" required>
+                                <option value="WFO">WFO</option>
+                                <option value="WFH">WFH</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Date</label>
+                            <input type="date" class="form-control form-control-sm" id="inputDate" required> </input>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
                     </div>
                     <div class="row mb-2">
                         <div class="col">

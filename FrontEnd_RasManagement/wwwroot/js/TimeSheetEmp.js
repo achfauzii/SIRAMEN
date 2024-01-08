@@ -1,4 +1,5 @@
 var table = null;
+
 $(document).ready(function () {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
@@ -20,6 +21,7 @@ $(document).ready(function () {
             alert(errormessage.responseText);
         },
     });
+
     //Get CompanyName (Placement)
     $.ajax({
         url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accid,
@@ -35,6 +37,8 @@ $(document).ready(function () {
             if (obj && obj.length > 0) {
                 var lastData = obj[0];
                 $('#compName').text(lastData.companyName);
+                $('#lastPlacementId').val(lastData.placementStatusId);
+
             } else {
                 console.log('Tidak ada data');
             }
@@ -107,11 +111,13 @@ function getById(Id) {
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
-            console.log(result.data);
+        
             $("#timeSheetId").val(obj.id); //ngambil data dr api
+            $('#lastPlacementId').val(obj.placementStatusId);
             $("#activity").val(obj.activity);
-            $("#date").val(obj.date);
-            console.log(obj.date);
+            const date= formatDate(obj.date);
+            $("#inputDate").val(date);
+     
             $("#flag").val(obj.flag);
             $("#category").val(obj.category);
             $("#status").val(obj.status);
@@ -145,7 +151,7 @@ function Update() {
     }
     var TimeSheet = new Object();
     TimeSheet.Id = $("#timeSheetId").val();
-    TimeSheet.Date = $("#date").val();
+    TimeSheet.Date = $("#inputDate").val();
     TimeSheet.Activity = $("#activity").val();
     TimeSheet.Flag = $("#flag").val();
     TimeSheet.Category = $("#category").val();
@@ -206,7 +212,9 @@ function Update() {
 }
 
 function save() {
-
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+  
     var isValid = true;
 
     $("input[required],select[required],textarea[required]").each(function () {
@@ -219,46 +227,26 @@ function save() {
         }
     });
 
+
+
     if (!isValid) {
         return;
     }
-    debugger;
-    const date = new Date();
+
+
+ 
+
     var TimeSheet = new Object();
-    TimeSheet.Date = formatDate(Date());
+    TimeSheet.Date = $("#inputDate").val();
     TimeSheet.Activity = $("#activity").val();
     TimeSheet.Flag = $("#flag").val();
     TimeSheet.Category = $("#category").val();
     TimeSheet.Status = $("#status").val();
     TimeSheet.KnownBy = $("#knownBy").val();
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
     TimeSheet.AccountId = accid;
-
-    //get placement status id
-    $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accid,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-            var obj = result.data;
-            if (obj && obj.length > 0) {
-                var lastData = obj[0];
-                TimeSheet.PlacementStatusId = lastData.placementStatusId;
-            } else {
-                console.log('Tidak ada data');
-            }
-
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        },
-    });
-
+    TimeSheet.PlacementStatusId = $('#lastPlacementId').val();
+ 
+   
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/TimeSheet",
@@ -290,17 +278,7 @@ function save() {
             table.ajax.reload();
         }
     });
-    function formatDate(date) {
-        var d = new Date(date),
-            month = "" + (d.getMonth() + 1),
-            day = "" + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2) month = "0" + month;
-        if (day.length < 2) day = "0" + day;
-
-        return [year, month, day].join("-");
-    }
+  
 }
 
 function clearScreen() {
@@ -308,6 +286,8 @@ function clearScreen() {
     document.getElementById('flag').selectedIndex = 0;
     document.getElementById('category').selectedIndex = 0;
     document.getElementById('status').selectedIndex = 0;
+    document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+
     $("#knownBy").val("");
 
     $("#Update").hide();
@@ -331,3 +311,45 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 }
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+}
+
+/*function getPlacement(accountId) {
+    return new Promise(function (resolve, reject) {
+        //Get CompanyName (Placement)
+        $.ajax({
+            url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                var obj = result.data;
+                var obj = result.data;
+                if (obj && obj.length > 0) {
+                    var lastData = obj[0];
+
+                    resolve(lastData);
+                } else {
+                    console.log('Tidak ada data');
+                }
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            },
+        });
+    })
+}*/
