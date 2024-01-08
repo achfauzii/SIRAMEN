@@ -204,19 +204,19 @@ function kirimPengaduan() {
     },
   });
 
-  var isValid = true;
-  $("input[required],textarea[required]").each(function () {
+  var valid = true;
+    $("input[required-report],textarea[required-report]").each(function () {
     var input = $(this);
 
     if (!input.val()) {
       input.addClass("is-invalid");
-      isValid = false;
+      valid = false;
     } else {
       input.removeClass("is-invalid");
     }
   });
 
-  if (!isValid) {
+  if (!valid) {
     return;
   }
 
