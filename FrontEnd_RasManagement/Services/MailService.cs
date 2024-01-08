@@ -1639,7 +1639,7 @@ namespace FrontEnd_RasManagement.Services
 
       var _email = new MimeMessage();
       _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-      _email.To.Add(MailboxAddress.Parse("yogi.prasetio@berca.co.id"));
+      _email.To.Add(MailboxAddress.Parse(_mailSettings.Mail));
       _email.Subject = $"Pengaduan #{today}-{randomId}";
       var builder = new BodyBuilder();
 
@@ -1845,7 +1845,7 @@ namespace FrontEnd_RasManagement.Services
                                                                   <tr>
                                                                     <td style=""font-size: 16px; margin: 0;""
                                                                       align=""left"" bgcolor=""#ffffff"">
-                                                                      Date Time
+                                                                      Date
                                                                     </td>
                                                                     </td>
                                                                     <td style=""font-size: 16px; margin: 0;""

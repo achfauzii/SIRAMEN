@@ -61,13 +61,11 @@ function toggleContent(element, originalData) {
 
 $(document).ready(function () {
   $("#export_excel").on("click", function () {
-    // $("#resource").DataTable().buttons("excel", null).trigger();
-    $("#resource").DataTable().page.len(9999999).draw();
+    // $("#resource").DataTable().page.len(9999999).draw();
 
-    // console.log($("#resource").DataTable().page.info().length);
-    if ($("#resource").DataTable().page.info().length > 9999) {
-      $("#excelButton").click();
-    }
+    // if ($("#resource").DataTable().page.info().length > 9999) {
+    $("#excelButton").click();
+    // }
   });
 
   getClientList();
@@ -187,22 +185,6 @@ function Src(selectedCategory) {
     $("#resource").DataTable().destroy();
   }
   table = $("#resource").DataTable({
-    dom: "Bfrtip",
-    buttons: [
-      {
-        extend: "excel",
-
-        exportOptions: {
-          columns: [
-            0, 1, 30, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 31, 32, 16, 17, 18,
-            19, 20, 21, 22, 23, 24, 25, 26, 27, 33, 29,
-          ],
-          modifier: {
-            page: "current",
-          },
-        },
-      },
-    ],
     fixedColumns: {
       left: window.innerWidth > 1024 ? 1 : null,
     },
@@ -211,8 +193,8 @@ function Src(selectedCategory) {
     processing: true,
     serverSide: true,
     lengthMenu: [
-      [5, 10, 50, 75, 100, 99999],
-      [5, 10, 50, 75, 100, "all"],
+      [5, 10, 50, 100, 99999],
+      [5, 10, 50, 100, "All"],
     ],
     pageLength: 10,
     order: [[0, "asc"]],
@@ -816,6 +798,42 @@ function Src(selectedCategory) {
       {
         data: "notes",
       },
+      {
+        data: "workStatus",
+        render: function (data) {
+          if (data === "true" || data === "True") {
+            return (data = "Active");
+          } else if (data === "false" || data === "False") {
+            return (data = "Inactive");
+          } else {
+            return " ";
+          }
+        },
+      },
+      {
+        data: "financialIndustry",
+        render: function (data) {
+          if (data === "true" || data === "True") {
+            return (data = "Yes");
+          } else if (data === "false" || data === "False") {
+            return (data = "No");
+          } else {
+            return " ";
+          }
+        },
+      },
+      {
+        data: "negotiable",
+        render: function (data) {
+          if (data === "true" || data === "True") {
+            return (data = "Yes");
+          } else if (data === "false" || data === "False") {
+            return (data = "No");
+          } else {
+            return " ";
+          }
+        },
+      },
     ],
     columnDefs: [
       {
@@ -823,7 +841,7 @@ function Src(selectedCategory) {
         className: "customWrap",
       },
       {
-        targets: [30, 31, 32, 33],
+        targets: [30, 31, 32, 33, 34, 35, 36],
         visible: false,
       },
     ],
@@ -834,15 +852,17 @@ function Src(selectedCategory) {
         extend: "excel",
         className: "buttonsToHide",
         exportOptions: {
-          page: "all",
+          columns: [
+            0, 1, 30, 3, 4, 5, 6, 7, 8, 9, 10, 34, 12, 35, 31, 32, 16, 17, 18,
+            36, 20, 21, 22, 23, 24, 25, 26, 27, 33, 29,
+          ],
+          modifier: {
+            page: "current",
+          },
         },
         attr: {
           id: "excelButton",
         },
-        // action: function (e, dt, node, config) {
-        //   dt.page.len(9999999).draw();
-        //   dt.buttons.exportData();
-        // },
       },
     ],
   });
