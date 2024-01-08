@@ -1639,7 +1639,7 @@ namespace FrontEnd_RasManagement.Services
 
       var _email = new MimeMessage();
       _email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-      _email.To.Add(MailboxAddress.Parse("fayyad.nandi@berca.co.id"));
+      _email.To.Add(MailboxAddress.Parse(_mailSettings.Mail));
       _email.Subject = $"Pengaduan #{today}-{randomId}";
       var builder = new BodyBuilder();
 
