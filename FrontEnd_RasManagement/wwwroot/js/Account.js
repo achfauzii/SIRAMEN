@@ -111,84 +111,84 @@
 });
 
 function showPassword() {
-  let temp = document.getElementById("exampleInputPassword");
+    let temp = document.getElementById("exampleInputPassword");
 
-  if (temp.type === "password") {
-    temp.type = "text";
-  } else {
-    temp.type = "password";
-  }
+    if (temp.type === "password") {
+        temp.type = "text";
+    } else {
+        temp.type = "password";
+    }
 }
 
 function parseJwt(token) {
-  var base64Url = token.split(".")[1];
-  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  var jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+        window
+            .atob(base64)
+            .split("")
+            .map(function (c) {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+    );
 
-  return JSON.parse(jsonPayload);
+    return JSON.parse(jsonPayload);
 }
 function SaveLog(logData) {
-  var timeNow = new Date().toISOString();
-  var timeStamp = getTime();
-  const data = {
-    id: 0,
-    accountId: logData.AccountId,
-    name: logData.Name,
-    activity: "Has Log In",
-    timeStamp: timeStamp,
-  };
-  fetch("https://localhost:7177/api/HistoryLog", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      //'Authorization': 'Bearer access_token_here'
-    },
-    body: JSON.stringify(data),
-  });
-}
-function Logout() {
-  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const timeStamp = getTime();
-  if (decodedtoken.RoleId == "2") {
+    var timeNow = new Date().toISOString();
+    var timeStamp = getTime();
     const data = {
-      id: 0,
-      accountId: decodedtoken.AccountId,
-      name: decodedtoken.Name,
-      activity: "Has Log Out",
-      timeStamp: timeStamp,
+        id: 0,
+        accountId: logData.AccountId,
+        name: logData.Name,
+        activity: "Has Log In",
+        timeStamp: timeStamp,
     };
     fetch("https://localhost:7177/api/HistoryLog", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        //'Authorization': 'Bearer access_token_here'
-      },
-      body: JSON.stringify(data),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            //'Authorization': 'Bearer access_token_here'
+        },
+        body: JSON.stringify(data),
     });
-  }
+}
+function Logout() {
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const timeStamp = getTime();
+    if (decodedtoken.RoleId == "2") {
+        const data = {
+            id: 0,
+            accountId: decodedtoken.AccountId,
+            name: decodedtoken.Name,
+            activity: "Has Log Out",
+            timeStamp: timeStamp,
+        };
+        fetch("https://localhost:7177/api/HistoryLog", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                //'Authorization': 'Bearer access_token_here'
+            },
+            body: JSON.stringify(data),
+        });
+    }
 
-  sessionStorage.removeItem("Token"); //Remove Session
-  window.location.href = "https://localhost:7109/"; //Kembali Ke halaman Awal
+    sessionStorage.removeItem("Token"); //Remove Session
+    window.location.href = "https://localhost:7109/"; //Kembali Ke halaman Awal
 }
 
 function getTime() {
-  var timeNow = new Date().toISOString();
-  var timeStamp =
-    timeNow.substr(0, 11) +
-    new Date().toLocaleTimeString("en-US", {
-      timeZone: "Asia/Jakarta",
-      hour12: false,
-    });
+    var timeNow = new Date().toISOString();
+    var timeStamp =
+        timeNow.substr(0, 11) +
+        new Date().toLocaleTimeString("en-US", {
+            timeZone: "Asia/Jakarta",
+            hour12: false,
+        });
 
-  return timeStamp;
+    return timeStamp;
 }
 
 function kirimPengaduan() {
