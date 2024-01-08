@@ -1,114 +1,113 @@
 ﻿$(document).ready(function () {
-    $("#loginForm").on("submit", async function (event) {
-        event.preventDefault();
-        $("#loader").show();
-        const url = "https://localhost:7177/api/Accounts";
-        const data = {
-            email: $("#exampleInputEmail").val(),
-            password: $("#exampleInputPassword").val(),
-        };
-        const option = {
-            method: "POST",
-            headers: new Headers({
-                "Content-Type": "application/json",
-            }),
-            body: JSON.stringify(data),
-        };
+  $("#loginForm").on("submit", async function (event) {
+    event.preventDefault();
+    $("#loader").show();
+    const url = "https://localhost:7177/api/Accounts";
+    const data = {
+      email: $("#exampleInputEmail").val(),
+      password: $("#exampleInputPassword").val(),
+    };
+    const option = {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify(data),
+    };
 
-        try {
-            const response = await fetch(url, option);
-            const json = await response.json();
+    try {
+      const response = await fetch(url, option);
+      const json = await response.json();
 
-            if (response.ok) {
-                var token = json.data;
-                sessionStorage.setItem("Token", token);
-                var decodedToken = parseJwt(token);
+      if (response.ok) {
+        var token = json.data;
+        sessionStorage.setItem("Token", token);
+        var decodedToken = parseJwt(token);
 
-                //loaderContainer.innerHTML = "";
+        //loaderContainer.innerHTML = "";
 
-                $.post("/Accounts/Auth", { token }).done(function () {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: true,
+        $.post("/Accounts/Auth", { token }).done(function () {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          });
 
-                    });
+          const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
+          var Role = getValueByIndex(decodedToken, 8);
+          if (Role === "Admin") {
+            SaveLog(decodedToken);
+            Toast.fire({
+              icon: "success",
+              title: "Signed in successfully",
+              text: "Hi " + decodedToken.Name,
+              didClose: () => {
+                window.location.replace("/dashboards/dashboard_admin");
+              },
+            });
+          } else if (Role === "Super_Admin") {
+            Toast.fire({
+              icon: "success",
+              title: "Signed in successfully",
+              text: "Hi " + decodedToken.Name,
+              didClose: () => {
+                window.location.replace("/dashboards/dashboard_superadmin");
+              },
+            });
+          } else if (Role === "Employee") {
+            Toast.fire({
+              icon: "success",
+              title: "Signed in successfully",
+              text: "Hi " + decodedToken.Name,
+              didClose: () => {
+                window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
+              },
+            });
+          } else {
+            Swal.fire({
+              icon: "warning",
+              title: "Failed Login",
+              text: "Your Account Has Ben Suspended",
+              showConfirmButtom: false,
+              timer: 1500,
+            });
+          }
+        });
+      } else if (response.status == 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "Failed Login",
+          text: "Your Account Has Ben Suspended",
+          showConfirmButtom: false,
+        });
+      } else {
+        // loaderContainer.innerHTML = "";
 
-                    const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
-                    var Role = getValueByIndex(decodedToken, 8);
-                    if (Role === "Admin") {
-                        SaveLog(decodedToken);
-                        Toast.fire({
-                            icon: "success",
-                            title: "Signed in successfully",
-                            text: "Hi " + decodedToken.Name,
-                            didClose: () => {
-                                window.location.replace("/dashboards/dashboard_admin");
-                            },
-                        });
-                    } else if (Role === "Super_Admin") {
-                        Toast.fire({
-                            icon: "success",
-                            title: "Signed in successfully",
-                            text: "Hi " + decodedToken.Name,
-                            didClose: () => {
-                                window.location.replace("/dashboards/dashboard_superadmin");
-                            },
-                        });
-                    } else if (Role === "Employee") {
-                        Toast.fire({
-                            icon: "success",
-                            title: "Signed in successfully",
-                            text: "Hi " + decodedToken.Name,
-                            didClose: () => {
-                                window.location.replace("/Dashboards/Employee"); // Redirect to user dashboard
-                            },
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Failed Login",
-                            text: "Your Account Has Ben Suspended",
-                            showConfirmButtom: false,
-                            timer: 1500,
-                        });
-                    }
-                });
-            } else if (response.status == 400) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Failed Login",
-                    text: "Your Account Has Ben Suspended",
-                    showConfirmButtom: false,
-                });
-            } else {
-                // loaderContainer.innerHTML = "";
+        Toastify({
+          text: "Incorrect email or password !",
 
-                Toastify({
-                    text: "Incorrect email or password !",
+          duration: 3000,
+          style: {
+            background: "#DC3545",
+          },
+        }).showToast();
+      }
+    } catch (error) {
+      //loaderContainer.innerHTML = "";
 
-                    duration: 3000,
-                    style: {
-                        background: "#DC3545",
-                    },
-                }).showToast();
-            }
-        } catch (error) {
-            //loaderContainer.innerHTML = "";
+      Toastify({
+        text: "Incorrect email or password !",
 
-            Toastify({
-                text: "Incorrect email or password !",
-
-                duration: 3000,
-                style: {
-                    background: "#DC3545",
-                },
-            }).showToast();
-        }
-        $("#loader").hide();
-    });
+        duration: 3000,
+        style: {
+          background: "#DC3545",
+        },
+      }).showToast();
+    }
+    $("#loader").hide();
+  });
 });
 
 function showPassword() {
@@ -190,4 +189,70 @@ function getTime() {
         });
 
     return timeStamp;
+}
+
+function kirimPengaduan() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  var isValid = true;
+  $("input[required],textarea[required]").each(function () {
+    var input = $(this);
+
+    if (!input.val()) {
+      input.addClass("is-invalid");
+      isValid = false;
+    } else {
+      input.removeClass("is-invalid");
+    }
+  });
+
+  if (!isValid) {
+    return;
+  }
+
+  const data = {
+    email: $("#email").val(),
+    name: $("#name").val(),
+    message: $("#description").val(),
+  };
+
+  console.log(data);
+
+  $.ajax({
+    type: "POST",
+    url: "/Announce/SendEmailPengaduan",
+    contentType: "application/json",
+    dataType: "json",
+    data: JSON.stringify(data),
+
+    beforeSend: function () {
+      $("#loader").show();
+    },
+    complete: function () {
+      $("#loader").hide();
+    },
+
+    success: function (d) {
+      $("#email").val("");
+      $("#name").val("");
+      $("#description").val("");
+      Toast.fire({
+        icon: "success",
+        text: "The complaint has been successfully reported.",
+      });
+    },
+    failed: function (er) {
+      console.log("Error : " + er.message);
+    },
+  });
 }

@@ -73,6 +73,7 @@ public partial class ProjectRasmanagementContext : DbContext
             optionsBuilder.UseSqlServer(connectionString);
         }
     }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>

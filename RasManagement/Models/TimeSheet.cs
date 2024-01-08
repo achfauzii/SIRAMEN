@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace RasManagement.Models;
 
@@ -22,8 +23,8 @@ public partial class TimeSheet
     public int? PlacementStatusId { get; set; }
 
     public string? AccountId { get; set; }
-
+    [JsonIgnore]
     public virtual Account? Account { get; set; }
-
+    [JsonIgnore]
     public virtual Placement? PlacementStatus { get; set; }
 }

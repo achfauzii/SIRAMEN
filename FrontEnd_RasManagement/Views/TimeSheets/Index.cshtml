@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+}
+
+<style>
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF;
+    }
+
+    .modal-notify .modal-header {
+        border-radius: 3px 3px 0 0;
+    }
+
+    .modal-notify .modal-content {
+        border-radius: 3px;
+    }
+
+    input[type="month"]::-webkit-calendar-picker-indicator {
+        margin-left: -25px;
+    }
+
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info,
+    .dataTables_paginate {
+        font-size: 14px; /* Atur ukuran teks */
+    }
+
+        .dataTables_length select,
+        .dataTables_filter input[type="search"] {
+            height: 24px; /* Atur tinggi elemen dropdown dan input search */
+            font-size: 14px; /* Atur ukuran teks dropdown dan input search */
+        }
+
+        .dataTables_paginate .paginate_button {
+            font-size: 14px; /* Atur ukuran tombol Previous dan Next */
+        }
+
+
+</style>
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+<section id="time-sheet-page">
+
+    <div class="row mb-2">
+        <div class="col-xl-6 col-sm-6 col-10">
+            <div class="card shadow">
+                <div class="card-content">
+                    <div class="card-body m-0 pl-4 pt-3 pb-3 pr-3">
+                        <div class="media d-flex p-0">
+                            <div class="align-self-center">
+                                <i class="far fa-calendar-check fa-3x text-primary float-left"></i>
+                            </div>
+                            <div class="media-body text-left pt-0 pl-4">
+                                <div class="row">
+                                    <span style="font-size: 16px;" class="col-4 text-dark text-sm">Name</span>
+                                    <span style="font-size: 16px;" class="col-0 text-sm">:</span>
+                                    <span style="font-size: 16px;" id="fullName" class="col text-dark text-sm"></span>
+                                </div>
+                                <div class="row">
+                                    <span style="font-size: 16px;" class="col-4 text-dark text-sm">Role</span>
+                                    <span style="font-size: 16px;" class="col-0 text-sm">:</span>
+                                    <span style="font-size: 16px;" class="col text-dark">RAS</span>
+                                </div>
+                         @*       <div class="row">
+                                    <span style="font-size: 15px;" class="col-4 text-dark text-sm">Project Name</span>
+                                    <span style="font-size: 15px;" class="col-0 text-sm">:</span>
+                                    <span style="font-size: 15px;" class="col text-dark text-sm" id="compName"></span>
+                                </div>*@
+                                <div class="row">
+                                    <span style="font-size: 16px;" class="col-4 text-dark text-sm">Month</span>
+                                    <span style="font-size: 16px;" class="col-0 text-sm">:</span>
+                                    <span style="font-size: 16px;" class="col text-dark text-sm">
+
+                                        <input type="month" class="text-dark p-0 m-0" id="month" style="font-size: 16px; outline: none; border:none" id="inputMonth" onchange="submitMonth();">
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-sm-6 col-2 text-right">
+            <button id="backButton" class="btn btn-secondary rounded-circle mr-3">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+</section>
+
+
+<div class="text-center mt-5" id="badgeDisplay">
+
+    <span class="badge badge-warning p-2">Select Month to display the Time Sheet !</span>
+</div>
+
+<div class="card mt-2 mb-3" id="tableTimeSheet" hidden>
+    <div class="card-body">
+        <h5 class="mb-2">Time Sheet</h5>
+        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" id="previewPDF" data-toggle="modal" onclick="openPreviewPdf()">
+            Preview PDF
+        </button>
+        <table id="timeSheetTable" class="table table-striped table-bordered text-nowrap w-100" style="font-size:13px; color:black">
+            <thead style="background-color:#FFFFFF">
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Activity Detail</th>
+                    <th scope="col">Flag</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Known By</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section script
+    {
+    <script src="~/js/TimeSheet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+@*    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>*@
+
+}
