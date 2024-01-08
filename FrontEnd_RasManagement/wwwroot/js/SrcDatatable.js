@@ -1222,6 +1222,39 @@ function Src(selectedCategory) {
   }
 }
 
+function Delete(NonRasId) {
+  // debugger;
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.value) {
+      $.ajax({
+        url: "https://localhost:7177/api/Shortlist/" + NonRasId,
+        type: "DELETE",
+        dataType: "json",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+      }).then((result) => {
+        // debugger;
+        if (result.status == 200) {
+          Swal.fire("Deleted!", "Data has been deleted.", "success");
+          table.ajax.reload();
+        } else {
+          Swal.fire("Error!", "Data failed to deleted.", "error");
+        }
+      });
+    }
+  });
+}
+
 function ClearScreenSave() {
   $("#nonrasid").val("");
   $("#Name").val(""); //value insert dari id pada input
