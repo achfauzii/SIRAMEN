@@ -62,7 +62,6 @@ $(document).ready(function () {
         },
         columns: [
             {
-                data: null,
                 render: function (data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 },
@@ -95,7 +94,27 @@ $(document).ready(function () {
                     );
                 },
             },
-        ]
+        ],
+        order: [[1, 'desc']],
+        columnDefs: [
+            {
+                targets: [0, 2, 3, 4, 5, 6,7],
+                orderable: false,
+            },
+        ],
+        //Agar nomor tidak berubah
+        drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+            api.column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },
     });
 })
 
