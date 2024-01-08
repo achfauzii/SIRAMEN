@@ -62,7 +62,6 @@ $(document).ready(function () {
         },
         columns: [
             {
-                data: null,
                 render: function (data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 },
@@ -95,7 +94,27 @@ $(document).ready(function () {
                     );
                 },
             },
-        ]
+        ],
+        order: [[1, 'desc']],
+        columnDefs: [
+            {
+                targets: [0, 2, 3, 4, 5, 6,7],
+                orderable: false,
+            },
+        ],
+        //Agar nomor tidak berubah
+        drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+            api.column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },
     });
 })
 
@@ -111,13 +130,13 @@ function getById(Id) {
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
-        
+
             $("#timeSheetId").val(obj.id); //ngambil data dr api
             $('#lastPlacementId').val(obj.placementStatusId);
             $("#activity").val(obj.activity);
-            const date= formatDate(obj.date);
+            const date = formatDate(obj.date);
             $("#inputDate").val(date);
-     
+
             $("#flag").val(obj.flag);
             $("#category").val(obj.category);
             $("#status").val(obj.status);
@@ -214,7 +233,7 @@ function Update() {
 function save() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
-  
+
     var isValid = true;
 
     $("input[required],select[required],textarea[required]").each(function () {
@@ -227,14 +246,9 @@ function save() {
         }
     });
 
-
-
     if (!isValid) {
         return;
     }
-
-
- 
 
     var TimeSheet = new Object();
     TimeSheet.Date = $("#inputDate").val();
@@ -245,17 +259,17 @@ function save() {
     TimeSheet.KnownBy = $("#knownBy").val();
     TimeSheet.AccountId = accid;
     TimeSheet.PlacementStatusId = $('#lastPlacementId').val();
- 
-   
+
     $.ajax({
         type: "POST",
-        url: "https://localhost:7177/api/TimeSheet",
+        url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
         data: JSON.stringify(TimeSheet),
         contentType: "application/json; charset=utf-8",
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
     }).then((result) => {
+        console.log(result.status);
         if (result.status == 200) {
             Swal.fire({
                 icon: "success",
@@ -268,6 +282,7 @@ function save() {
             table.ajax.reload();
             clearScreen();
         } else {
+            console.log(result.status);
             Swal.fire({
                 icon: "warning",
                 title: "Data failed to added!",
@@ -277,8 +292,27 @@ function save() {
             $("#timeSheetModal").modal("hide");
             table.ajax.reload();
         }
-    });
-  
+    },
+        (jqXHR, textStatus, errorThrown) => {
+            if (jqXHR.status === 400) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Time Sheet with the same date already exists!",
+                    showConfirmButtom: false,
+                    timer: 1500,
+                });
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Data failed to added!",
+                    showConfirmButtom: false,
+                    timer: 1500,
+                });
+            }
+        }
+    );
+
 }
 
 function clearScreen() {
