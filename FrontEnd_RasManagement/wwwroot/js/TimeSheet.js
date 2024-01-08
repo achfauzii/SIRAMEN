@@ -1,6 +1,7 @@
 ﻿//var table = null;
+var month;
 $(document).ready(function () {
-  
+    openPreviewPdf();
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
 
@@ -50,7 +51,7 @@ function submitMonth() {
 
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
-    var month = $("#month").val();
+    month = $("#month").val();
 
     if (month !== "") {
         //GET datatable
@@ -234,22 +235,65 @@ function getPlacement(accountId) {
 }
 
 function openPreviewPdf() {
-    // Ubah URL sesuai dengan URL tempat PDF di-host atau disimpan
+    
+
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
     var pdfURL = '/TimeSheets/Timesheettopdf?accountId='+accountId; // Ganti dengan URL PDF Anda
     var urlParams = new URLSearchParams(window.location.search);
+    debugger;
     accountId = urlParams.get("accountId");
         getEmployee(accountId)
             .then(function (employeeData) {
                 // Mendapatkan elemen berdasarkan ID dan mengisikan data Employee ke dalamnya
                 var fullNameElement = document.getElementById('fullName');
                 fullNameElement.textContent = employeeData.fullName; // Mengisikan nama lengkap ke elemen
-
+          
                 // Membuka PDF dalam tab baru saat tombol diklik
                 window.open(pdfURL, '_blank');
             })
             .catch(function (error) {
                 console.error('Error:', error);
             });
+
+   var table = $("#timeSheetTablePdf").DataTable({
+        responsive: true,
+       
+        ajax: {
+            url: "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" + accountId + "&month=" + month,
+            type: "GET",
+            contentType: "application/json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+
+        },
+        columns: [
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                },
+            },
+            {
+                data: "date",
+                render: function (data, type, row) {
+                    if (type === "display" || type === "filter") {
+                        // Format tanggal dalam format yang diinginkan
+                        return moment(data).format("DD MMMM YYYY");
+                    }
+                    // Untuk tipe data lain, kembalikan data aslinya
+
+                    return data;
+
+                },
+            },
+            { data: "activity" },
+            { data: "flag" },
+            { data: "category" },
+            { data: "status" },
+            { data: "knownBy" },
+
+        ]
+    });
 }
