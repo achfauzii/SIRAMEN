@@ -20,7 +20,7 @@ public partial class Placement
 
     public DateTime? EndDate { get; set; }
 
-    public string? PIC { get; set; }
+    public string? PICname { get; set; }
     public string AccountId { get; set; } = null!;
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
