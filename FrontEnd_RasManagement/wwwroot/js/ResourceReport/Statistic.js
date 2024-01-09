@@ -1,7 +1,5 @@
 $(document).ready(function () {
 const ctx = document.getElementById('statisticChart').getContext('2d');
-const ctx2 = document.getElementById('statisticChart2').getContext('2d');
-
 
   $.ajax({
     url: "https://localhost:7177/api/Shortlist/Statistic",
@@ -24,7 +22,6 @@ const ctx2 = document.getElementById('statisticChart2').getContext('2d');
         document.getElementById("topSkill").textContent= labelChart[2]
         document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+labelChart[1]+ " Level"
         chart(labelChart,countChart)
-        chart2(labelChart,countChart)
         table()
     }})
 
@@ -46,24 +43,7 @@ function chart(labelChart,countChart){
           },
     });
 }    
-function chart2(labelChart,countChart){
-    const salaryChart = new Chart(ctx2, {
-        type: 'pie',
-        data: {
-            labels: labelChart,
-            datasets: [{
-              label: 'Total',
-              data: countChart,
-              backgroundColor: [
-                'rgb(75, 192, 192)',
-                'rgb(255, 159, 64)',
-                'rgb(153, 102, 255)',
-              ],
-              hoverOffset: 4
-            }]
-          },
-    });
-}    
+
 
 function table(){
     var data = tableData
