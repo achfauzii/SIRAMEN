@@ -49,6 +49,7 @@ $(document).ready(function () {
     history.back(); // Go back to the previous page
   });
 
+
   /*  $('#download-button').on('click', function () {
         // Memuat konten header dari file header.html
         $.get('TimeSheetToPdf', function (headerContent) {
@@ -59,7 +60,9 @@ $(document).ready(function () {
             html2pdf().from(finalContent).save();
         });
     });*/
+
 });
+
 
 function submitMonth() {
   var urlParams = new URLSearchParams(window.location.search);
@@ -157,6 +160,7 @@ function submitMonth() {
         { data: "knownBy" },
       ],
     });
+
 
     fetch(
       "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
