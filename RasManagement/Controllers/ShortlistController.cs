@@ -282,12 +282,13 @@ namespace RasManagement.Controllers
             var mostCommonPosition = _context.NonRasCandidates
                 .GroupBy(c => c.Position)
                 .OrderByDescending(group => group.Count())
+                .Take(3)
                 .Select(group => new
                 {
                     Position = group.Key,
                     Count = group.Count()
                 })
-                .FirstOrDefault();
+                .ToList();
 
             var mostCommonLevel = _context.NonRasCandidates
                 .GroupBy(c => c.Level)
@@ -343,31 +344,28 @@ namespace RasManagement.Controllers
                 .ToList();
 
             var data = new List<object>
-{
-    new
-    {
-        Position = mostCommonPosition?.Position,
-        Count = mostCommonPosition?.Count
-    },
-    new
-    {
-        Level = mostCommonLevel?.Level,
-        Count = mostCommonLevel?.Count
-    },
-    new
-    {
-        Skill = mostCommonSkill?.Skill,
-        Count = mostCommonSkill?.Count
-    },
-};
+            {
+                
+                new
+                {
+                    Level = mostCommonLevel?.Level,
+                    Count = mostCommonLevel?.Count
+                },
+                new
+                {
+                    Skill = mostCommonSkill?.Skill,
+                    Count = mostCommonSkill?.Count
+                },
+            };
 
             var data2 = new List<object> { };
-
             data2.AddRange(topSkills.Select(topSkill => new
             {
                 Skill = topSkill.Skill,
                 Count = topSkill.Count
             }));
+
+            var data3 = mostCommonPosition;
 
             return StatusCode(200,
                     new
@@ -375,7 +373,8 @@ namespace RasManagement.Controllers
                         status = HttpStatusCode.OK,
                         message = "Data Ditemukan",
                         Data = data,
-                        table = data2
+                        table = data2,
+                        TopPosition = data3
                     });
         }
     }

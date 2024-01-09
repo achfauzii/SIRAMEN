@@ -1,5 +1,6 @@
 $(document).ready(function () {
 const ctx = document.getElementById('statisticChart').getContext('2d');
+const ctx2 = document.getElementById('statisticChart2').getContext('2d');
 
 
   $.ajax({
@@ -11,18 +12,19 @@ const ctx = document.getElementById('statisticChart').getContext('2d');
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (statistic) {
-        var result = statistic.data;
-        const labelChart = result.map(item => {
-            return Object.values(item)[0];
-          });
+        const topPosition = statistic.topPosition;
+
+        // Creating two variables for 'position' and 'count'
+        const labelChart = topPosition.map(item => item.position);
+        const countChart = topPosition.map(item => item.count);
         tableData = statistic.table
-        console.log(tableData)
-        const countChart = result.map(item => item.count);
+
         document.getElementById("topPosition").textContent= labelChart[0]
         document.getElementById("topLevel").textContent= labelChart[1]
         document.getElementById("topSkill").textContent= labelChart[2]
         document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+labelChart[1]+ " Level"
         chart(labelChart,countChart)
+        chart2(labelChart,countChart)
         table()
     }})
 
@@ -38,6 +40,24 @@ function chart(labelChart,countChart){
                 'rgb(255, 99, 132)',
                 'rgb(255, 205, 86)',
                 'rgb(54, 162, 235)',
+              ],
+              hoverOffset: 4
+            }]
+          },
+    });
+}    
+function chart2(labelChart,countChart){
+    const salaryChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: labelChart,
+            datasets: [{
+              label: 'Total',
+              data: countChart,
+              backgroundColor: [
+                'rgb(75, 192, 192)',
+                'rgb(255, 159, 64)',
+                'rgb(153, 102, 255)',
               ],
               hoverOffset: 4
             }]
