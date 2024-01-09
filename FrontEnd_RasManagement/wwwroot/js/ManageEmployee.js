@@ -456,58 +456,6 @@ function fetchDepartments() {
   });
 }
 
-function GetByIdPlacement(accountId, placementStatus) {
-  table = $("#dataTableEmployee").DataTable()
-  $(".PlacementStatus")
-    .closest(".form-group")
-    .find(".error-message-status")
-    .hide();
-  $("#date").val("");
-  var inputCompany = document.getElementById("inputCompany");
-  inputCompany.style.display = "none";
-  $.ajax({
-    url:
-      "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
-      accountId,
-    type: "GET",
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-    success: function (result) {
-      var obj = result.data; //data yg kita dapat dr API
-      $.ajax({
-        url:
-          "https://localhost:7177/api/Employees/accountId?accountId=" +
-          accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-          var employee = result.data;
-
-          //document.getElementById('FullName').text = employee.result.fullname;
-          $("#Fullname").text(employee.result.fullname);
-        },
-      });
-      $("#AccountId").val(accountId);
-      $("#PlacementID").val(obj.placementStatusId);
-      $("#Status").val(placementStatus);
-      $("#CompanyName").val(obj.companyName);
-      $("#Description").val(obj.description);
-      $("#Modal").modal("show");
-      $("#Update").show();
-    },
-    error: function (errormessage) {
-      alert(errormessage.responseText);
-    },
-  });
-}
-
 function SaveTurnOver() {
   table = $("#dataTableEmployee").DataTable()
   var isValid = true;
@@ -764,7 +712,7 @@ function ClearScreenPlacement() {
   });
 }
 
-function Save(accountId) {
+/*function Save(accountId) {
   table = $("#dataTableEmployee").DataTable()
   var isValid = true;
 
@@ -822,50 +770,9 @@ function Save(accountId) {
       Swal.fire("Error!", "Data failed to added!", "error");
     }
   });
-}
+}*/
 
-function Update() {
-  table = $("#dataTableEmployee").DataTable()
-  var placement = new Object();
-  placement.placementStatusId = $("#placementStatusId").val();
-  placement.companyName = $("#companyName_").val();
-  placement.jobRole = $("#jobRole").val();
-  placement.startDate = $("#startDate").val();
 
-  placement.endDate = $("#endDate").val();
-  if (placement.endDate == "") {
-    placement.endDate = null;
-  }
-  placement.description = $("#description").val(); //value insert dari id pada input
-  placement.placementStatus = $('input[name="status"]:checked').val();
-  placement.accountId = $("#accountId").val();
-
-  $.ajax({
-    url: "https://localhost:7177/api/EmployeePlacements",
-    type: "PUT",
-    data: JSON.stringify(placement),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    $("#modalPlacement").modal("hide");
-    if (result.status == 200) {
-      Swal.fire({
-        title: "Success!",
-        text: "Data has been update",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        table.ajax.reload();
-      });
-    } else {
-      Swal.fire("Error!", "Data failed to update", "error");
-      table.ajax.reload();
-    }
-  });
-}
 
 function Detail(id) {
   window.location.href = "/ManageEmployee/DetailEmployee?accountId=" + id;
@@ -925,7 +832,8 @@ function GetByIdPlacement(accountId, placementStatus) {
         },
       });
       $("#AccountId").val(accountId);
-      $("#PlacementID").val(obj.placementStatusId);
+        $("#PlacementID").val(obj.placementStatusId);
+        $("#picName").val(obj.picName);
       $("#Status").val(placementStatus);
       $("#CompanyName").val(obj.companyName);
       $("#Description").val(obj.description);
@@ -1237,12 +1145,13 @@ function Save(accountId) {
 
   if (!isValid) {
     return;
-  }
+    }
+    
   var placement = new Object(); //object baru
   placement.companyName = $("#companyName_").val();
   placement.jobRole = $("#jobRole").val();
   placement.startDate = $("#startDate").val();
-
+    placement.picName = $("#picName").val();
   placement.description = $("#description").val(); //value insert dari id pada input
 
   placement.placementStatus = $('input[name="status"]:checked').val();
@@ -1274,7 +1183,7 @@ function Save(accountId) {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        table.ajax.reload();
+        location.ajax.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to added", "error");
@@ -1283,12 +1192,13 @@ function Save(accountId) {
 }
 
 function Update() {
-  table = $("#dataTableEmployee").DataTable()
+
   var placement = new Object();
   placement.placementStatusId = $("#placementStatusId").val();
   placement.companyName = $("#companyName_").val();
   placement.jobRole = $("#jobRole").val();
-  placement.startDate = $("#startDate").val();
+    placement.startDate = $("#startDate").val();
+    placement.picName = $("#picName").val();
 
   placement.endDate = $("#endDate").val();
   if (placement.endDate == "") {
@@ -1318,11 +1228,11 @@ function Update() {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        table.ajax.reload();
+        location.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to update", "error");
-      table.ajax.reload();
+      location.reload();
     }
   });
 }
