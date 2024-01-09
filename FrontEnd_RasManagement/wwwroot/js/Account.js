@@ -204,9 +204,7 @@ function kirimPengaduan() {
     timerProgressBar: true,
   });
 
- 
 
- 
   const userInfo = getUserNameEmail()
 
   const data = {
