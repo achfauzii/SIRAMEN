@@ -300,17 +300,17 @@ $(document).ready(function () {
                     orderable: false, // menonaktifkan order
                     render: function (data, type, row) {
                         return (
-                           '<div class="text-center row">' +
-              '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
-              row.accountId +
-              '\')"><i class="far fa-file-pdf"></i></a>' +
-              '<a href="#" class="ml-2 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
-                row.accountId +
-              '\')"><i class="far fa-calendar-check"></i></a>' +  
-              '<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
-              row.accountId +
-              '\')"><i class="far fa-edit"></i></a>' +
-              "</div>"
+                            '<div class="text-center row">' +
+                            '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
+                            row.accountId +
+                            '\')"><i class="far fa-file-pdf"></i></a>' +
+                            '<a href="#" class="ml-2 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
+                            row.accountId +
+                            '\')"><i class="far fa-calendar-check"></i></a>' +
+                            '<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
+                            row.accountId +
+                            '\')"><i class="far fa-edit"></i></a>' +
+                            "</div>"
                         );
                     },
                 },
@@ -391,62 +391,6 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
-/*function GetByIdPlacement(accountId, placementStatus) {
-    
-
-    var fullName = ''; // Untuk menyimpan fullname dari kedua pemanggilan API
-
-    // Pemanggilan pertama
-    var firstApiCall = $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            
-            var obj = result.data;
-            fullName = obj.fullname; // Simpan fullname dari pemanggilan pertama
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-    // Pemanggilan kedua
-    var secondApiCall = $.ajax({
-        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-        success: function (result) {
-            
-            var obj = result.data;
-            $('#AccountId').val(accountId);
-            $('#PlacementID').val(obj.placementStatusId);
-            $('#PlacementStatus').val(placementStatus);
-            $('#CompanyName').val(obj.companyName);
-            $('#Description').val(obj.description);
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-    // Menunggu kedua pemanggilan API selesai
-    $.when(firstApiCall, secondApiCall).done(function () {
-        // Setelah keduanya selesai, tampilkan fullname
-        $('#FullName').text(fullName);
-        console.log(fullName);
-        $('#Modal').modal('show');
-        $('#Update').show();
-    });
-}*/
 
 function fetchDepartments() {
     $.ajax({
@@ -479,227 +423,105 @@ function fetchDepartments() {
 
 
 function SaveTurnOver() {
-  table = $("#dataTableEmployee").DataTable()
-  var isValid = true;
-
-  // Validasi select options
-  var status = $("#Status").val();
-
-  if (!status) {
-    $(".PlacementStatus")
-      .closest(".form-group")
-      .find(".error-message-status")
-      .show();
-    isValid = false;
-  } else {
-    $(".PlacementStatus")
-      .closest(".form-group")
-      .find(".error-message-status")
-      .hide();
-  }
-
-  if (!isValid) {
-    return;
-  }
-  var deptIdValue = $("#deptId").val();
-  var TurnOver = new Object(); //object baru
-
-  TurnOver.status = $("#Status").val();
-  // TurnOver.deptId = $('#DeptId').val();
-  TurnOver.deptId = deptIdValue ? deptIdValue : null;
-
-  TurnOver.description = $("#Description").val();
-  TurnOver.accountId = $("#AccountId").val();
-  TurnOver.exitDate = $("#date").val();
-
-  var updateRole = new Object();
-  updateRole.accountId = $("#AccountId").val();
-  updateRole.roleId = "4";
-
-  $.ajax({
-    type: "POST",
-
-    url: "https://localhost:7177/api/TurnOver",
-    data: JSON.stringify(TurnOver),
-
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (
-      (result.status == result.status) == 201 ||
-      result.status == 204 ||
-      result.status == 200
-    ) {
-       // debugger;
-      //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
-     
-      Swal.fire({
-        title: "Success!",
-        text: "Turn Over Status has Updated",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        if (
-          TurnOver.status == "Blacklist" ||
-          TurnOver.status == "Resign" ||
-          TurnOver.status == "Transfer"
-        ) {
-          $.ajax({
-            url: "https://localhost:7177/api/Accounts/UpdateRole",
-            type: "PUT",
-            data: JSON.stringify(updateRole),
-            contentType: "application/json; charset=utf-8",
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-          }).then((updateResult) => {
-              if (updateResult.status === 200) {
-                 
-              // Handle the success of roleId update if needed
-            } else {
-              // Handle any errors that occur during roleId update
-            }
-          });
-        }
-
-
-    // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
-    if (selectedOption === "Transfer") {
-        inputCompany.style.display = "block";
-    } else {
-        inputCompany.style.display = "none";
-    }
-}
-
-/*function UpdateContract() {
-    var Account = new Object();
-    Account.accountId = $('#accountId').val();
-    Account.startContract = $('#StartContract').val();
-    Account.endContract = $('#EndContract').val();
-    $.ajax({
-        url: 'https://localhost:7177/api/Accounts/UpdateContract',
-        type: 'PUT',
-        data: JSON.stringify(Account),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-
-    }).then((result) => {
-        
-        if (result.status == 200) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Data has been update!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            $('#Modal').modal('hide');
-            table.ajax.reload();
-        }
-        else {
-            Swal.fire(
-                'Error!',
-                result.message,
-                'error'
-            )
-            table.ajax.reload();
-        }
-    });
-}
-*/
-
-/*function UpdatePlacement() {
     table = $("#dataTableEmployee").DataTable()
-    var Placement = new Object();
-    Placement.accountId = $("#AccountId").val();
-    Placement.placementStatusId = $("#PlacementID").val();
-    Placement.placementStatus = $("#PlacementStatus").val();
-    Placement.companyName = $("#CompanyName").val();
-    Placement.description = $("#Description").val();
-    *//*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-      const accid = decodedtoken.AccountId;
-      Account.accountId = accid;*//*
+    var isValid = true;
+
+    // Validasi select options
+    var status = $("#Status").val();
+
+    if (!status) {
+        $(".PlacementStatus")
+            .closest(".form-group")
+            .find(".error-message-status")
+            .show();
+        isValid = false;
+    } else {
+        $(".PlacementStatus")
+            .closest(".form-group")
+            .find(".error-message-status")
+            .hide();
+    }
+
+    if (!isValid) {
+        return;
+    }
+    var deptIdValue = $("#deptId").val();
+    var TurnOver = new Object(); //object baru
+
+    TurnOver.status = $("#Status").val();
+    // TurnOver.deptId = $('#DeptId').val();
+    TurnOver.deptId = deptIdValue ? deptIdValue : null;
+
+    TurnOver.description = $("#Description").val();
+    TurnOver.accountId = $("#AccountId").val();
+    TurnOver.exitDate = $("#date").val();
+
+    var updateRole = new Object();
+    updateRole.accountId = $("#AccountId").val();
+    updateRole.roleId = "4";
+
     $.ajax({
-        url: "https://localhost:7177/api/Accounts/UpdateTurnOver",
-        type: "PUT",
-        data: JSON.stringify(Placement),
+        type: "POST",
+
+        url: "https://localhost:7177/api/TurnOver",
+        data: JSON.stringify(TurnOver),
+
         contentType: "application/json; charset=utf-8",
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
     }).then((result) => {
-        if (result.status == 200) {
+        if (
+            (result.status == result.status) == 201 ||
+            result.status == 204 ||
+            result.status == 200
+        ) {
+            // debugger;
+            //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+
             Swal.fire({
+                title: "Success!",
+                text: "Turn Over Status has Updated",
                 icon: "success",
-                title: "Success...",
-                text: "Data has been update!",
                 showConfirmButton: false,
                 timer: 1500,
-            });
-            $("#Modal").modal("hide");
-            table.ajax.reload();
-        } else {
-            Swal.fire("Error!", "data failed to be update", "error");
-            table.ajax.reload();
+            }).then(() => {
+                if (
+                    TurnOver.status == "Blacklist" ||
+                    TurnOver.status == "Resign" ||
+                    TurnOver.status == "Transfer"
+                ) {
+                    $.ajax({
+                        url: "https://localhost:7177/api/Accounts/UpdateRole",
+                        type: "PUT",
+                        data: JSON.stringify(updateRole),
+                        contentType: "application/json; charset=utf-8",
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                        },
+                    }).then((updateResult) => {
+                        if (updateResult.status === 200) {
+
+                            // Handle the success of roleId update if needed
+                        } else {
+                            // Handle any errors that occur during roleId update
+                        }
+                    });
+                }
+
+
+                // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
+                if (selectedOption === "Transfer") {
+                    inputCompany.style.display = "block";
+                } else {
+                    inputCompany.style.display = "none";
+                }
+            })
         }
-    });
-}*/
-
-/*function GetById(accountId) {
-    const startDate = document.getElementById("showStartDate");
-    const endDate = document.getElementById("showEndDate");
-    startDate.style.display = "none";
-    endDate.style.display = "block";
-    var accountId = accountId;
-    $.ajax({
-        type: 'GET',
-        url: 'https://localhost:7177/api/EmployeePlacements/accountId?accountId=' + accountId,
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: true,
-        headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("Token")
-        },
-    }).then((result) => {
-        $('#modal-add').modal('hide');
-        $('#modal-add').on('hidden.bs.modal', function () {
-            $(this).data('bs.modal', null);
-        });
-       
-        var obj = result.data; //data yg didapat dari api
-
-        // Konversi string tanggal menjadi objek Date
-        var startDate = new Date(obj.startDate);
-        var endDate = new Date(obj.endDate);
-
-        // Fungsi untuk memformat tanggal menjadi "yyyy-MM-dd" (format yang diharapkan input date)
-        function formatDate(date) {
-            var year = date.getFullYear();
-            var month = (date.getMonth() + 1).toString().padStart(2, '0');
-            var day = date.getDate().toString().padStart(2, '0');
-            return year + "-" + month + "-" + day;
-        }
-
-        $('#companyName').val(obj.companyName);
-        $('#jobRole').val(obj.jobRole);
-        $('#startDate').val(formatDate(startDate));
-        $('#endDate').val(formatDate(endDate));
-        $('#description').val(obj.description);
-        $('input[name="status"][value="' + obj.placementStatus + '"]').prop('checked', true);
-        $('#Update').show();
-        $('#Add').hide();
-
-
-
     })
 }
-*/
+
+
 
 function ClearScreenPlacement() {
     const startDate = document.getElementById("showStartDate");
@@ -725,7 +547,7 @@ function ClearScreenPlacement() {
 /*function Save(accountId) {
   table = $("#dataTableEmployee").DataTable()
   var isValid = true;
-
+ 
   $("input[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
@@ -735,7 +557,7 @@ function ClearScreenPlacement() {
       input.next(".error-message").hide();
     }
   });
-
+ 
   if (!isValid) {
     return;
   }
@@ -743,13 +565,13 @@ function ClearScreenPlacement() {
   placement.companyName = $("#companyName_").val();
   placement.jobRole = $("#jobRole").val();
   placement.startDate = $("#startDate").val();
-
+ 
     placement.description = $("#description").val(); //value insert dari id pada input
     placement.picName = $("#picName").val();
-
+ 
   placement.placementStatus = $('input[name="status"]:checked').val();
   placement.accountId = accountId;
-
+ 
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/EmployeePlacements",
@@ -760,7 +582,7 @@ function ClearScreenPlacement() {
     },
   }).then((result) => {
     $("#modalPlacement").modal("hide");
-
+ 
     if (
       (result.status == result.status) == 201 ||
       result.status == 204 ||
@@ -803,55 +625,55 @@ function parseJwt(token) {
 
 
 function GetByIdPlacement(accountId, placementStatus) {
-  $(".PlacementStatus")
-    .closest(".form-group")
-    .find(".error-message-status")
-    .hide();
-  $("#date").val("");
-  var inputCompany = document.getElementById("inputCompany");
-  inputCompany.style.display = "none";
-  $.ajax({
-    url:
-      "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
-      accountId,
-    type: "GET",
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-    success: function (result) {
-      var obj = result.data; //data yg kita dapat dr API
-      $.ajax({
+    $(".PlacementStatus")
+        .closest(".form-group")
+        .find(".error-message-status")
+        .hide();
+    $("#date").val("");
+    var inputCompany = document.getElementById("inputCompany");
+    inputCompany.style.display = "none";
+    $.ajax({
         url:
-          "https://localhost:7177/api/Employees/accountId?accountId=" +
-          accountId,
+            "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
+            accountId,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-          var employee = result.data;
+            var obj = result.data; //data yg kita dapat dr API
+            $.ajax({
+                url:
+                    "https://localhost:7177/api/Employees/accountId?accountId=" +
+                    accountId,
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+                success: function (result) {
+                    var employee = result.data;
 
-          //document.getElementById('FullName').text = employee.result.fullname;
-          $("#Fullname").text(employee.result.fullname);
+                    //document.getElementById('FullName').text = employee.result.fullname;
+                    $("#Fullname").text(employee.result.fullname);
+                },
+            });
+            $("#AccountId").val(accountId);
+            $("#PlacementID").val(obj.placementStatusId);
+            $("#picName").val(obj.picName);
+            $("#Status").val(placementStatus);
+            $("#CompanyName").val(obj.companyName);
+            $("#Description").val(obj.description);
+            $("#Modal").modal("show");
+            $("#Update").show();
         },
-      });
-      $("#AccountId").val(accountId);
-        $("#PlacementID").val(obj.placementStatusId);
-        $("#picName").val(obj.picName);
-      $("#Status").val(placementStatus);
-      $("#CompanyName").val(obj.companyName);
-      $("#Description").val(obj.description);
-      $("#Modal").modal("show");
-      $("#Update").show();
-    },
-    error: function (errormessage) {
-      alert(errormessage.responseText);
-    },
-  });
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
+    });
 }
 
 function SaveTurnOver() {
@@ -948,7 +770,7 @@ function SaveTurnOver() {
                     });
                 }
                 $("#Modal").modal("hide");
-                table.ajax.reload();
+                location.reload();
             });
         } else {
             Swal.fire("Error!", "Turn Over status failed to update", "error");
@@ -1139,111 +961,111 @@ function ClearScreenChangeStatus() {
 }
 
 function Save(accountId) {
-  table = $("#dataTableEmployee").DataTable()
-  var isValid = true;
+    table = $("#dataTableEmployee").DataTable()
+    var isValid = true;
 
-  $("input[required]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message").show();
-      isValid = false;
-    } else {
-      input.next(".error-message").hide();
-    }
-  });
+    $("input[required]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message").show();
+            isValid = false;
+        } else {
+            input.next(".error-message").hide();
+        }
+    });
 
-  if (!isValid) {
-    return;
+    if (!isValid) {
+        return;
     }
-    
-  var placement = new Object(); //object baru
-  placement.companyName = $("#companyName_").val();
-  placement.jobRole = $("#jobRole").val();
-  placement.startDate = $("#startDate").val();
+
+    var placement = new Object(); //object baru
+    placement.companyName = $("#companyName_").val();
+    placement.jobRole = $("#jobRole").val();
+    placement.startDate = $("#startDate").val();
     placement.picName = $("#picName").val();
-  placement.description = $("#description").val(); //value insert dari id pada input
+    placement.description = $("#description").val(); //value insert dari id pada input
 
-  placement.placementStatus = $('input[name="status"]:checked').val();
-  placement.accountId = accountId;
+    placement.placementStatus = $('input[name="status"]:checked').val();
+    placement.accountId = accountId;
 
-  $.ajax({
-    type: "POST",
-    url: "https://localhost:7177/api/EmployeePlacements",
-    data: JSON.stringify(placement),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    $("#modalPlacement").modal("hide");
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:7177/api/EmployeePlacements",
+        data: JSON.stringify(placement),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        $("#modalPlacement").modal("hide");
 
-    if (
-      (result.status == result.status) == 201 ||
-      result.status == 204 ||
-      result.status == 200
-    ) {
-      //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
-        const logMessage = `Has added placement to account ID ${placement.accountId}, status ${placement.placementStatus}`;
-        SaveLogUpdate(logMessage);
-      Swal.fire({
-        title: "Success!",
-        text: "Data has been added!",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        location.ajax.reload();
-      });
-    } else {
-      Swal.fire("Error!", "Data failed to added", "error");
-    }
-  });
+        if (
+            (result.status == result.status) == 201 ||
+            result.status == 204 ||
+            result.status == 200
+        ) {
+            //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+            const logMessage = `Has added placement to account ID ${placement.accountId}, status ${placement.placementStatus}`;
+            SaveLogUpdate(logMessage);
+            Swal.fire({
+                title: "Success!",
+                text: "Data has been added!",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500,
+            }).then(() => {
+                location.ajax.reload();
+            });
+        } else {
+            Swal.fire("Error!", "Data failed to added", "error");
+        }
+    });
 }
 
 function Update() {
 
-  var placement = new Object();
-  placement.placementStatusId = $("#placementStatusId").val();
-  placement.companyName = $("#companyName_").val();
-  placement.jobRole = $("#jobRole").val();
+    var placement = new Object();
+    placement.placementStatusId = $("#placementStatusId").val();
+    placement.companyName = $("#companyName_").val();
+    placement.jobRole = $("#jobRole").val();
     placement.startDate = $("#startDate").val();
     placement.picName = $("#picName").val();
 
-  placement.endDate = $("#endDate").val();
-  if (placement.endDate == "") {
-    placement.endDate = null;
-  }
-  placement.description = $("#description").val(); //value insert dari id pada input
-  placement.placementStatus = $('input[name="status"]:checked').val();
-  placement.accountId = $("#accountId").val();
-
-  $.ajax({
-    url: "https://localhost:7177/api/EmployeePlacements",
-    type: "PUT",
-    data: JSON.stringify(placement),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    $("#modalPlacement").modal("hide");
-      if (result.status == 200) {
-          const logMessage = `Has Changed Placement of Account ID ${placement.accountId}, Placement Status Id ${placement.placementStatusId}, Status ${placement.placementStatus}`;
-          SaveLogUpdate(logMessage);
-      Swal.fire({
-        title: "Success!",
-        text: "Data has been Update!",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        location.reload();
-      });
-    } else {
-      Swal.fire("Error!", "Data failed to update", "error");
-      location.reload();
+    placement.endDate = $("#endDate").val();
+    if (placement.endDate == "") {
+        placement.endDate = null;
     }
-  });
+    placement.description = $("#description").val(); //value insert dari id pada input
+    placement.placementStatus = $('input[name="status"]:checked').val();
+    placement.accountId = $("#accountId").val();
+
+    $.ajax({
+        url: "https://localhost:7177/api/EmployeePlacements",
+        type: "PUT",
+        data: JSON.stringify(placement),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        $("#modalPlacement").modal("hide");
+        if (result.status == 200) {
+            const logMessage = `Has Changed Placement of Account ID ${placement.accountId}, Placement Status Id ${placement.placementStatusId}, Status ${placement.placementStatus}`;
+            SaveLogUpdate(logMessage);
+            Swal.fire({
+                title: "Success!",
+                text: "Data has been Update!",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500,
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire("Error!", "Data failed to update", "error");
+            location.reload();
+        }
+    });
 }
 
 function GenerateCv(accountId) {
@@ -1289,4 +1111,5 @@ function GetByIdAsset(assetsManagementId) {
             alert(errormessage.responseText);
         },
     });
+
 }
