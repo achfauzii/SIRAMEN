@@ -1,4 +1,5 @@
 ﻿using FrontEnd_RasManagement.Services;
+using FrontEnd_RasManagement.Settings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrontEnd_RasManagement.Controllers
@@ -18,6 +19,22 @@ namespace FrontEnd_RasManagement.Controllers
             {
                 return RedirectToAction("Login", "Accounts");
             }
+            return View();
+        }
+
+        public IActionResult TimeSheetToPdf()
+        {
+            /*  if (!JwtHelper.IsAuthenticated(HttpContext))
+              {
+                  return RedirectToAction("Login", "Accounts");
+              }
+
+              var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+              if (role != "Admin" && role != "Super_Admin")
+              {
+                  return RedirectToAction("Login", "Accounts");
+              }*/
             return View();
         }
     }
