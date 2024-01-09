@@ -137,14 +137,14 @@ $(document).ready(function () {
                             var icon =
                                 '<div class="row"><div class="col-4 text-left mr-5">' +
                                 data +
-                                '</div><div class="col text-right"><i class="fas fa-external-link-alt" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' + row.accountId + "')\"></i>";
+                                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' + row.accountId + "')\"></i>";
 
                             $(document).on("mouseover", ".row", function () {
-                                $(this).find("i").css("visibility", "visible");
+                                $(this).find("i.edit").css("visibility", "visible");
                             });
 
                             $(document).on("mouseout", ".row", function () {
-                                $(this).find("i").css("visibility", "hidden");
+                                $(this).find("i.edit").css("visibility", "hidden");
                             });
                             var expand = icon;
                             return expand;
