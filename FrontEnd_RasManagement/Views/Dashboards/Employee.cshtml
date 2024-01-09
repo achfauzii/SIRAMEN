@@ -53,67 +53,71 @@
         }
     }
     .act-btn {
-        background: #33A6CB;
-        opacity: 80%;
-        display: block;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        text-align: center;
-        color: white;
-        font-size: 32px;
-        font-weight: bold;
-        /*border-radius: 50%;*/
-        border-radius: 50%;
-        text-decoration: none;
-        transition: ease all 0.3s;
-        position: fixed;
-        right: 30px;
-        bottom: 30px;
-        z-index: 1;
-    }
-    .bottom-right {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
-    .act-btn:hover {
-        background: gray;
-        transform: scale(1.2);
-        
-    }
-    #to-show {
-      display: none; 
-    }
-    .bottom-right:hover > #to-show {
-        display: block; 
-        position:fixed;
-	z-index: 9;
-	bottom:-0.1rem;
-	right:1rem;
-	box-shadow: 2px 2px 3px #999;
-    }
+    background: #33A6CB;
+    opacity: 80%;
+    display: block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: ease all 0.3s;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    z-index: 1;
+}
+
+.coverh {
+  
+    position: fixed;
+    z-index: 9;
+    bottom: -15px; /* Adjust this value to increase the hover height */
+    right: -10px; /* Adjust this value to increase the hover width */
+     /* Adjust this value to increase the hover height */
+}
+
+.card-container {
+    display: none;
+    position: fixed;
+    z-index: 9;
+    bottom: 0;
+    right: 0;
+ 
+
+}
+
+.coverh:hover  .card-container  {
+    display: block;
+}
+
+
 
 </style>
-<div class="bottom-right">
+<div class="coverh">
     <button class="act-btn border-0" data-tooltip="tooltip" data-placement="left" title="Report Feedback">
         <i class="fa-regular fa-flag" id="icon-button" style="font-size: 0.55em; display: flex; justify-content: center; align-items: center;"></i>
     </button>
-
-    <div id="to-show" class="card shadow-lg bg-white" style="margin-bottom: 5.5rem; margin-right: 1rem">
-        <div class="card-header text-center">
-            <h6 class="text-dark" style="font-weight: bold;">Report Feedback</h6>
-        </div>
-         <div class="card-body">
-            <form id="pengaduan">
-              
-                <div class="form-group">
-                    <div class="input-group">
-                        <textarea class="form-control" id="description" rows="3" placeholder="Enter your description" autocomplete="off" style="max-height: 200px;min-height:50px;" required></textarea>
+    
+    <div class="card-container">
+        <div id="to-show" class="card shadow bg-white" style="margin-bottom: 5.5rem; margin-right: 1rem">
+            <div class="card-header text-center">
+                <h6 class="text-dark" style="font-weight: bold;">Report Feedback</h6>
+            </div>
+            <div class="card-body">
+                <form id="pengaduan">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <textarea class="form-control" id="description" rows="3" placeholder="Enter your description" autocomplete="off" style="max-height: 200px;min-height:50px;" required></textarea>
+                        </div>
                     </div>
-                </div>
-                <button type="button" onclick="kirimPengaduan();" class="btn btn-secondary btn-user btn-block">Submit</button>
-            </form>
+                    <button type="button" onclick="kirimPengaduan();" class="btn btn-secondary btn-user btn-block">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
