@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    
+
     // Mendapatkan nilai parameter accountId dari URL
     $("#backButton").on("click", function () {
         history.back(); // Go back to the previous page
@@ -72,6 +72,10 @@ function placement() {
                     <div class="col  " style="color: black">Description </div>
                     <div class="col-10">: ${placement.description} </div>
                 </div>
+                <div class="row">
+                    <div class="col  " style="color: black">PIC Name</div>
+                    <div class="col-10">: ${placement.picName} </div>
+                </div>
                 `;
                 // Tambahkan elemen placement ke div dengan id "placementData"
                 document.getElementById("placementData").appendChild(placementElement);
@@ -137,6 +141,7 @@ function GetById(accountId, placementStatusId) {
 
         $("#placementStatusId").val(placementStatusId);
         $("#companyName_").val(obj.companyName);
+        $("#picName").val(obj.picName);
         $("#jobRole").val(obj.jobRole);
         $("#startDate").val(formatDate(startDate));
         $("#endDate").val(endDate);
