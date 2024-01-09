@@ -7,24 +7,31 @@ $(document).ready(function () {
   var urlParams = new URLSearchParams(window.location.search);
   accountId = urlParams.get("accountId");
 
-  const button = document.getElementById("download-button");
+  $("#timeSheetPdf").hide();
 
-  function generatePDF() {
+  // button.addEventListener("click", generatePDF);
+  $("#exportPDF").on("click", function () {
+    $("#timeSheetPdf").show();
+
     // Choose the element that your content will be rendered to.
     const element = document.getElementById("timeSheetPdf");
 
     var opt = {
-      filename: "TimeSheet " + $(".fullName")[0].innerHTML + ".pdf",
+      filename: "Time Sheet " + $(".fullName")[0].innerHTML + ".pdf",
       image: { type: "jpeg", quality: 1 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
     };
 
     // Choose the element and save the PDF for your user.
-    html2pdf().set(opt).from(element).save();
-  }
-
-  button.addEventListener("click", generatePDF);
+    html2pdf()
+      .set(opt)
+      .from(element)
+      .save()
+      .then((e) => {
+        $("#timeSheetPdf").hide();
+      });
+  });
 
   //Employee Info
   getEmployee(accountId)
@@ -65,6 +72,7 @@ function submitMonth() {
   var urlParams = new URLSearchParams(window.location.search);
   accountId = urlParams.get("accountId");
   month = $("#month").val();
+  $("#timeSheetMonth").text(moment(month).format("MMMM YYYY"));
 
   if (month !== "") {
     //GET datatable
@@ -80,45 +88,7 @@ function submitMonth() {
 
     table = $("#timeSheetTable").DataTable({
       responsive: true,
-      /*dom: 'Bfrtip',*/
-      /*buttons: [
-                {
-                    extend: 'pdfHtml5',
-                    text: 'Export PDF',
-                    title: '',
-                    filename: 'TimeSheet_Report',
-                    download: 'open',
-                    customize: function (doc) {
-                        // Tambahkan konten khusus ke header
-                        doc['header'] = function () {
-                            return {
-                                columns: [
-                                    {
-                                        alignment: 'left',
-                                        text: ''
-                                        // Tambahkan konten khusus header Anda di sini
-                                    }
-                                ],
-                                margin: [10, 10] // Atur margin jika diperlukan
-                            };
-                        };
-                        // Tambahkan konten khusus ke footer jika perlu
-                        doc['footer'] = function () {
-                            return {
-                                columns: [
-                                    {
-                                        alignment: 'center',
-                                        text: 'Footer Kustom di Sini'
-                                        // Tambahkan konten khusus footer Anda di sini
-                                    }
-                                ],
-                                margin: [10, 10] // Atur margin jika diperlukan
-                            };
-                        };
-                    }
-                }
-            ],
-           */
+      order: [1, "asc"],
       ajax: {
         url:
           "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
@@ -158,6 +128,11 @@ function submitMonth() {
       ],
     });
 
+    var tableBody = document
+      .getElementById("timeSheetTablePdf")
+      .getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = "";
+
     fetch(
       "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
         accountId +
@@ -165,16 +140,23 @@ function submitMonth() {
         month
     )
       .then((response) => response.json())
-      .then((data) => {
+      .then((result) => {
         // Manipulasi tabel dengan data yang didapat dari API
         const tableBody = document
           .getElementById("timeSheetTablePdf")
           .getElementsByTagName("tbody")[0];
 
-        data.data.forEach((item) => {
+        result.data.sort(function (a, b) {
+          return new Date(a.date) - new Date(b.date);
+        });
+
+        var number = 1;
+        result.data.forEach((item) => {
           const row = tableBody.insertRow(-1);
-          row.insertCell(0).textContent = item.id;
-          row.insertCell(1).textContent = moment(data).format("DD MMMM YYYY");
+          row.insertCell(0).textContent = number++;
+          row.insertCell(1).textContent = moment(item.date).format(
+            "DD MMMM YYYY"
+          );
           row.insertCell(2).textContent = item.activity;
           row.insertCell(3).textContent = item.flag;
           row.insertCell(4).textContent = item.category;
@@ -189,12 +171,12 @@ function submitMonth() {
     document.getElementById("tableTimeSheet").hidden = true;
   }
 
-  openPreviewPdf(table.rows().data().toArray());
-  document.getElementById("previewPDF").addEventListener("click", function () {
-    window.location.href = "/TimeSheets/Timesheettopdf";
+  // openPreviewPdf(table.rows().data().toArray());
+  // document.getElementById("previewPDF").addEventListener("click", function () {
+  //   window.location.href = "/TimeSheets/Timesheettopdf";
 
-    console.log(accountId);
-  });
+  //   console.log(accountId);
+  // });
 }
 
 function clearScreen() {
@@ -279,8 +261,7 @@ function getPlacement(accountId) {
 
 function openPreviewPdf(dataTS) {
   var dataTimeSheet = table.rows().data().toArray();
-  console.log(dataTimeSheet);
-  console.log(dataTS);
+
   // tablePdf.rows.add(dataTimeSheet).draw();
   $("#timeSheetMonth").text(moment(month).format("MMMM YYYY"));
 
