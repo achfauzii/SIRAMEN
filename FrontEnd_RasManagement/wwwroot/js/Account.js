@@ -33,7 +33,6 @@
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
-            
           });
 
           const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
@@ -112,82 +111,148 @@
 });
 
 function showPassword() {
-  let temp = document.getElementById("exampleInputPassword");
+    let temp = document.getElementById("exampleInputPassword");
 
-  if (temp.type === "password") {
-    temp.type = "text";
-  } else {
-    temp.type = "password";
-  }
+    if (temp.type === "password") {
+        temp.type = "text";
+    } else {
+        temp.type = "password";
+    }
 }
 
 function parseJwt(token) {
-  var base64Url = token.split(".")[1];
-  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  var jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+        window
+            .atob(base64)
+            .split("")
+            .map(function (c) {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+    );
 
-  return JSON.parse(jsonPayload);
+    return JSON.parse(jsonPayload);
 }
 function SaveLog(logData) {
-  var timeNow = new Date().toISOString();
-  var timeStamp = getTime();
-  const data = {
-    id: 0,
-    accountId: logData.AccountId,
-    name: logData.Name,
-    activity: "Has Log In",
-    timeStamp: timeStamp,
-  };
-  fetch("https://localhost:7177/api/HistoryLog", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      //'Authorization': 'Bearer access_token_here'
-    },
-    body: JSON.stringify(data),
-  });
-}
-function Logout() {
-  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const timeStamp = getTime();
-  if (decodedtoken.RoleId == "2") {
+    var timeNow = new Date().toISOString();
+    var timeStamp = getTime();
     const data = {
-      id: 0,
-      accountId: decodedtoken.AccountId,
-      name: decodedtoken.Name,
-      activity: "Has Log Out",
-      timeStamp: timeStamp,
+        id: 0,
+        accountId: logData.AccountId,
+        name: logData.Name,
+        activity: "Has Log In",
+        timeStamp: timeStamp,
     };
     fetch("https://localhost:7177/api/HistoryLog", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        //'Authorization': 'Bearer access_token_here'
-      },
-      body: JSON.stringify(data),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            //'Authorization': 'Bearer access_token_here'
+        },
+        body: JSON.stringify(data),
     });
-  }
+}
+function Logout() {
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const timeStamp = getTime();
+    if (decodedtoken.RoleId == "2") {
+        const data = {
+            id: 0,
+            accountId: decodedtoken.AccountId,
+            name: decodedtoken.Name,
+            activity: "Has Log Out",
+            timeStamp: timeStamp,
+        };
+        fetch("https://localhost:7177/api/HistoryLog", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                //'Authorization': 'Bearer access_token_here'
+            },
+            body: JSON.stringify(data),
+        });
+    }
 
-  sessionStorage.removeItem("Token"); //Remove Session
-  window.location.href = "https://localhost:7109/"; //Kembali Ke halaman Awal
+    sessionStorage.removeItem("Token"); //Remove Session
+    window.location.href = "https://localhost:7109/"; //Kembali Ke halaman Awal
 }
 
 function getTime() {
-  var timeNow = new Date().toISOString();
-  var timeStamp =
-    timeNow.substr(0, 11) +
-    new Date().toLocaleTimeString("en-US", {
-      timeZone: "Asia/Jakarta",
-      hour12: false,
-    });
+    var timeNow = new Date().toISOString();
+    var timeStamp =
+        timeNow.substr(0, 11) +
+        new Date().toLocaleTimeString("en-US", {
+            timeZone: "Asia/Jakarta",
+            hour12: false,
+        });
 
-  return timeStamp;
+    return timeStamp;
+}
+
+function kirimPengaduan() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  var valid = true;
+    $("input[required-report],textarea[required-report]").each(function () {
+    var input = $(this);
+
+    if (!input.val()) {
+      input.addClass("is-invalid");
+      valid = false;
+    } else {
+      input.removeClass("is-invalid");
+    }
+  });
+
+  if (!valid) {
+    return;
+  }
+
+  const data = {
+    email: $("#email").val(),
+    name: $("#name").val(),
+    message: $("#description").val(),
+  };
+
+  console.log(data);
+
+  $.ajax({
+    type: "POST",
+    url: "/Announce/SendEmailPengaduan",
+    contentType: "application/json",
+    dataType: "json",
+    data: JSON.stringify(data),
+
+    beforeSend: function () {
+      $("#loader").show();
+    },
+    complete: function () {
+      $("#loader").hide();
+    },
+
+    success: function (d) {
+      $("#email").val("");
+      $("#name").val("");
+      $("#description").val("");
+      Toast.fire({
+        icon: "success",
+        text: "The complaint has been successfully reported.",
+      });
+    },
+    failed: function (er) {
+      console.log("Error : " + er.message);
+    },
+  });
 }
