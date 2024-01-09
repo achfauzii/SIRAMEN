@@ -548,6 +548,10 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Placement_status");
+            entity.Property(e => e.PICname)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("PIC");
             entity.Property(e => e.StartDate).HasColumnType("date");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Placements)
