@@ -65,45 +65,6 @@ function submitMonth() {
         }
         table = $("#timeSheetTable").DataTable({
             responsive: true,
-            /*dom: 'Bfrtip',*/
-            /*buttons: [
-                {
-                    extend: 'pdfHtml5',
-                    text: 'Export PDF',
-                    title: '',
-                    filename: 'TimeSheet_Report',
-                    download: 'open',
-                    customize: function (doc) {
-                        // Tambahkan konten khusus ke header
-                        doc['header'] = function () {
-                            return {
-                                columns: [
-                                    {
-                                        alignment: 'left',
-                                        text: ''
-                                        // Tambahkan konten khusus header Anda di sini
-                                    }
-                                ],
-                                margin: [10, 10] // Atur margin jika diperlukan
-                            };
-                        };
-                        // Tambahkan konten khusus ke footer jika perlu
-                        doc['footer'] = function () {
-                            return {
-                                columns: [
-                                    {
-                                        alignment: 'center',
-                                        text: 'Footer Kustom di Sini'
-                                        // Tambahkan konten khusus footer Anda di sini
-                                    }
-                                ],
-                                margin: [10, 10] // Atur margin jika diperlukan
-                            };
-                        };
-                    }
-                }
-            ],
-           */
             ajax: {
                 url: "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId="+accountId+"&month="+month,
                 type: "GET",

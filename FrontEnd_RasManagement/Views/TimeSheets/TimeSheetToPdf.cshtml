@@ -278,10 +278,10 @@
     </style>
 
     <!-- html2pdf CDN link -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+ @*   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
             integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
             crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
+            referrerpolicy="no-referrer"></script>*@
     <!-- Custom styles for this template-->
     @*<link href="~/startbootstrap-sb-admin-2-gh-pages/css/sb-admin-2.min.css" rel="stylesheet">*@
 
@@ -360,14 +360,20 @@
     </div>
     <script src="~/js/TimeSheet.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <script>
         const button = document.getElementById("download-button");
 
         function generatePDF() {
-            // Choose the element that your content will be rendered to.
-            const element = document.getElementById("timeSheetPdf");
-            // Choose the element and save the PDF for your user.
-            html2pdf().from(element).save();
+       
+            var printDoc = new jsPDF();
+            printDoc.fromHTML($('#timeSheetPdf').get(0), 10, 10, {
+                'width': 180
+            });
+            printDoc.autoPrint();
+            printDoc.output("dataurlnewwindow");
+            // this opens a new popup,  after this the PDF opens the print window view but there are browser inconsistencies with how this is handled
+        
         }
 
         button.addEventListener("click", generatePDF);
