@@ -18,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure SMTP settings from appsettings.json
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.Configure<TimeSheet>(builder.Configuration.GetSection("TimeSheet"));
 builder.Services.AddTransient<IMailService, MailService>();
 
 

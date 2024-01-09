@@ -1,4 +1,8 @@
 ﻿$(document).ready(function () {
+  $("#reportbutton").on("click", function(){
+  $("#to-show").toggleClass("d-none");
+  })
+
   $("#loginForm").on("submit", async function (event) {
     event.preventDefault();
     $("#loader").show();
@@ -198,31 +202,14 @@ function kirimPengaduan() {
     showConfirmButton: false,
     timer: 2000,
     timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
   });
 
-  var valid = true;
-    $("input[required-report],textarea[required-report]").each(function () {
-    var input = $(this);
 
-    if (!input.val()) {
-      input.addClass("is-invalid");
-      valid = false;
-    } else {
-      input.removeClass("is-invalid");
-    }
-  });
-
-  if (!valid) {
-    return;
-  }
+  const userInfo = getUserNameEmail()
 
   const data = {
-    email: $("#email").val(),
-    name: $("#name").val(),
+    email: userInfo ? userInfo.email : $("#email").val(),
+    name: userInfo ? userInfo.name : $("#name").val(),
     message: $("#description").val(),
   };
 
@@ -255,4 +242,19 @@ function kirimPengaduan() {
       console.log("Error : " + er.message);
     },
   });
+}
+function getUserNameEmail() {
+  var token = sessionStorage.getItem("Token");
+  if (token) {
+      var base64Url = token.split(".")[1];
+      var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      var payload = JSON.parse(atob(base64));
+
+      return {
+        name: payload.Name,
+        email: payload.Email
+      };
+  }
+
+  return null;
 }
