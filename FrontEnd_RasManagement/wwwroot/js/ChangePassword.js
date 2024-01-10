@@ -200,7 +200,7 @@ function fetchContractInfo() {
           </div>
           <div>
           <div class="small text-gray-500">Reminder</div>        
-            The expiry date for <b>${notif.fullname}</b> placement at <b>${notif.placement}</b> is approaching, with <b>${notif.days}</b> days remaining on the contract.
+            <b>${notif.fullname}</b> contract at <b>${notif.placement}</b> is less than a month.
           </div>
         </a>`;
       });
@@ -211,5 +211,6 @@ function fetchContractInfo() {
         $("#noNotif").hide();
         document.getElementById("notifCount").innerHTML = dataEmployee.length;
       }
+      // The expiry date for <b>${notif.fullname}</b> placement at <b>${notif.placement}</b> is approaching, with <b>${notif.days}</b> days remaining on the contract.
     });
 }
