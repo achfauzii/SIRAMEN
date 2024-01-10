@@ -15,8 +15,7 @@ $(document).ready(function () {
   var afterPrint = function () {
     $("#timeSheetPdf").hide();
 
-    document.getElementById("badgeDisplay").hidden = false;
-    document.getElementById("tableTimeSheet").hidden = true;
+      location.reload();
   };
 
   if (window.matchMedia) {
