@@ -200,10 +200,10 @@
         </div>
     </div>
 <div class="floating-container">
-  <div class="floating-button">+</div>
+  <div class="floating-button"><i class="fa-solid fa-plus"></i></div>
   <div class="element-container">
       
-      <span class="float-element"   id="reportbutton">
+    <span class="float-element" data-tooltip="tooltip" data-placement="left" title="Create Announcement" id="reportbutton" >
       <i class="fa-regular fa-flag"></i>
     </span>
       <span class="float-element" data-toggle="modal" data-target="#ModalAnnouncement" data-tooltip="tooltip" data-placement="left" title="Create Announcement">
@@ -544,6 +544,14 @@
 
 @*<script src="~/js/Chart.js"></script>*@
 <script>
+  
+ $('span[data-tooltip="tooltip"]').tooltip({
+    animated: 'fade',
+    placement: 'bottom',
+    trigger: 'click'
+});
+  
+  
     function updateClock() {
         var now = new Date();
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
