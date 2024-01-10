@@ -8,29 +8,42 @@ $(document).ready(function () {
   accountId = urlParams.get("accountId");
 
   $("#timeSheetPdf").hide();
+  var beforePrint = function () {
+    $("#timeSheetPdf").show();
+  };
+
+  var afterPrint = function () {
+    $("#timeSheetPdf").hide();
+
+    document.getElementById("badgeDisplay").hidden = false;
+    document.getElementById("tableTimeSheet").hidden = true;
+  };
+
+  if (window.matchMedia) {
+    var mediaQueryList = window.matchMedia("print");
+    mediaQueryList.addListener(function (mql) {
+      if (mql.matches) {
+        beforePrint();
+      } else {
+        afterPrint();
+      }
+    });
+  }
+
+  window.onbeforeprint = beforePrint;
+  window.onafterprint = afterPrint;
 
   // button.addEventListener("click", generatePDF);
   $("#exportPDF").on("click", function () {
     $("#timeSheetPdf").show();
+    var printContents = document.getElementById("timeSheetPdf").innerHTML;
+    var originalContents = document.body.innerHTML;
 
-    // Choose the element that your content will be rendered to.
-    const element = document.getElementById("timeSheetPdf");
+    document.body.innerHTML = printContents;
 
-    var opt = {
-      filename: "Time Sheet " + $(".fullName")[0].innerHTML + ".pdf",
-      image: { type: "jpeg", quality: 1 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
-    };
+    window.print();
 
-    // Choose the element and save the PDF for your user.
-    html2pdf()
-      .set(opt)
-      .from(element)
-      .save()
-      .then((e) => {
-        $("#timeSheetPdf").hide();
-      });
+    document.body.innerHTML = originalContents;
   });
 
   //Employee Info
@@ -55,17 +68,6 @@ $(document).ready(function () {
   $("#backButton").on("click", function () {
     history.back(); // Go back to the previous page
   });
-
-  /*  $('#download-button').on('click', function () {
-        // Memuat konten header dari file header.html
-        $.get('TimeSheetToPdf', function (headerContent) {
-            // Menggabungkan konten header dengan konten DataTables
-            var finalContent = headerContent + $('#timeSheetTable').html();
-
-            // Membuat PDF menggunakan HTML2PDF
-            html2pdf().from(finalContent).save();
-        });
-    });*/
 });
 
 function submitMonth() {
@@ -87,6 +89,7 @@ function submitMonth() {
     }
 
     table = $("#timeSheetTable").DataTable({
+      scrollX: true,
       responsive: true,
       order: [1, "asc"],
       ajax: {
@@ -163,6 +166,18 @@ function submitMonth() {
           row.insertCell(5).textContent = item.status;
           row.insertCell(6).textContent = item.knownBy;
         });
+
+        var placementId = result.data[0].placementStatusId;
+
+        fetch(
+          "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
+            placementId
+        )
+          .then((r) => r.json())
+          .then((res) => {
+            $(".companyName").text(res.data.companyName);
+            $("#picName").text(res.data.picName);
+          });
       });
 
     //document.getElementById('badgeDisplay').hidden = true;
