@@ -151,7 +151,7 @@ function submitMonth() {
                 result.data.sort(function (a, b) {
                     return new Date(a.date) - new Date(b.date);
                 });
-                debugger;
+              
                 var number = 1;
                 result.data.forEach((item) => {
                     const row = tableBody.insertRow(-1);
