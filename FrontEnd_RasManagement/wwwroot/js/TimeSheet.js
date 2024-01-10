@@ -12,25 +12,45 @@ $(document).ready(function () {
   // button.addEventListener("click", generatePDF);
   $("#exportPDF").on("click", function () {
     $("#timeSheetPdf").show();
+    var printContents = document.getElementById("timeSheetPdf").innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
 
     // Choose the element that your content will be rendered to.
-    const element = document.getElementById("timeSheetPdf");
+    // const element = document.getElementById("timeSheetPdf");
 
-    var opt = {
-      filename: "Time Sheet " + $(".fullName")[0].innerHTML + ".pdf",
-      image: { type: "jpeg", quality: 1 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
-    };
+    // var opt = {
+    //   margin: [1, 0, 1, 0],
+    //   filename: "Time Sheet " + $(".fullName")[0].innerHTML + ".pdf",
+    //   image: { type: "jpeg", quality: 1 },
+    //   html2canvas: {
+    //     scale: 2,
+    //     useCORS: true,
+    //     dpi: 192,
+    //     letterRendering: true,
+    //     scrollY: 0,
+    //   },
+    //   jsPDF: {
+    //     unit: "cm",
+    //     format: "A4",
+    //     orientation: "portrait",
+    //     putTotalPages: true,
+    //   },
+    // };
 
-    // Choose the element and save the PDF for your user.
-    html2pdf()
-      .set(opt)
-      .from(element)
-      .save()
-      .then((e) => {
-        $("#timeSheetPdf").hide();
-      });
+    // // Choose the element and save the PDF for your user.
+    // html2pdf()
+    //   .set(opt)
+    //   .from(element)
+    //   .save()
+    //   .then((e) => {
+    //     $("#timeSheetPdf").hide();
+    //   });
   });
 
   //Employee Info
@@ -115,8 +135,6 @@ function submitMonth() {
               // Format tanggal dalam format yang diinginkan
               return moment(data).format("DD MMMM YYYY");
             }
-            // Untuk tipe data lain, kembalikan data aslinya
-
             return data;
           },
         },
@@ -126,6 +144,19 @@ function submitMonth() {
         { data: "status" },
         { data: "knownBy" },
       ],
+      drawCallback: function (settings) {
+        var api = this.api();
+        var rows = api.rows({ page: "current" }).nodes();
+        var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+        var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+        api
+          .column(0, { page: "current" })
+          .nodes()
+          .each(function (cell, i) {
+            cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+          });
+      },
     });
 
     var tableBody = document
@@ -163,6 +194,18 @@ function submitMonth() {
           row.insertCell(5).textContent = item.status;
           row.insertCell(6).textContent = item.knownBy;
         });
+
+        var placementId = result.data[0].placementStatusId;
+
+        fetch(
+          "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
+            placementId
+        )
+          .then((r) => r.json())
+          .then((res) => {
+            $(".companyName").text(res.data.companyName);
+            $("#picName").text(res.data.picName);
+          });
       });
 
     //document.getElementById('badgeDisplay').hidden = true;
