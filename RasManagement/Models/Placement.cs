@@ -21,7 +21,8 @@ public partial class Placement
     public DateTime? EndDate { get; set; }
 
     public string? PicName { get; set; }
-    public string AccountId { get; set; } = null!;
+
+  public string AccountId { get; set; } = null!;
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
 
