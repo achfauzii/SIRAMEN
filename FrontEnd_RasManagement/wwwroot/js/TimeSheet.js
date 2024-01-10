@@ -134,14 +134,12 @@ function submitMonth() {
             .getElementById("timeSheetTablePdf")
             .getElementsByTagName("tbody")[0];
         tableBody.innerHTML = "";
+        
         fetch(
-            "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" + accountId + "&month=" + month,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
-                }
-            }
+            "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+            accountId +
+            "&month=" +
+            month
         )
             .then((response) => response.json())
             .then((result) => {
@@ -153,7 +151,7 @@ function submitMonth() {
                 result.data.sort(function (a, b) {
                     return new Date(a.date) - new Date(b.date);
                 });
-
+                debugger;
                 var number = 1;
                 result.data.forEach((item) => {
                     const row = tableBody.insertRow(-1);

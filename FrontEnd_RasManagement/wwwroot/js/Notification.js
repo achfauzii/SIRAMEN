@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿/*$(document).ready(function () {
 
     fetch('https://localhost:7177/api/EmployeePlacements', {
         method: 'GET', // Metode HTTP seperti GET, POST, PUT, dll.
@@ -55,7 +55,7 @@
             console.log(newData);
                
 
-     /*       var now = Date.now();
+     *//*       var now = Date.now();
             var end = new Date(item.endDate);
             var timeDiff = end.getTime() - now; // Menghitung selisih dalam milidetik
             var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
@@ -70,7 +70,7 @@
                     startDate: item.startDate,
                     endDate: item.endDate
                 };
-            }*/
+            }*//*
           
 
 
@@ -80,4 +80,4 @@
             console.error('There has been a problem with your fetch operation:', error);
         });
 
-})
+})*/
