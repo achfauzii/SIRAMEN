@@ -154,6 +154,7 @@ $(document).ready(function () {
                         return data;
                     },
                 },
+                { data: "position" },
                 { data: "email" },
                 { data: "gender" },
                 { data: "address" },

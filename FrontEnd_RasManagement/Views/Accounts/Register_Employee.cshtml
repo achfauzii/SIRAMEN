@@ -15,32 +15,20 @@
                 </div>
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="nik">Nomor Induk Karyawan</label>
-                    <input type="number" class="form-control" maxlength="6" onkeyup="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
-                    oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="nik" name="nik" required>
+                    <input type="number" class="form-control" maxlength="6" onkeyup="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                           oninput=" handleInput(event, this);" onpaste="handleInput(event, this); " id="nik" name="nik" required>
                     <span class="error-message" id="validateNIK" style="color: red; display: none;">Please Input Max 6 Digit Number</span>
                 </div>
             </div>
 
             <div class="form-group row">
-                
+
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Email</label>
                     <input type="email" class="form-control " id="email" name="email" required>
                     <span class="error-message" id="validateEmail" style="color: red; display: none;">The field must use the email domain @@berca.co.id.</span>
                 </div>
-                 <div class="col-sm">
-                    <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire" required>Prohire
-                        <label class="form-check-label" for="radio1"></label>
-                    </div>
-                    <div class="form-check" id="batch">
-                        <input type="radio" class="form-check-input" id="bootcamp" name="hiredStatus"  value="Bootcamp" required>Bootcamp
-                        <label class="form-check-label" for="radio2"></label>
 
-                    </div>
-
-                </div>
                 <div class="col-sm">
                     <label class="text-dark" for="exampleInputEmail1">Gender</label>
                     <div class="form-check">
@@ -49,6 +37,24 @@
                     </div>
                     <div class="form-check">
                         <input type="radio" class="form-check-input" id="radio2" name="gender" value="Female" required>Female
+                        <label class="form-check-label" for="radio2"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Position</label>
+                    <input type="text" class="form-control " id="position" name="position" required>
+                </div>
+                <div class="col-sm">
+                    <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="prohire" name="hiredStatus" value="Prohire" required>Prohire
+                        <label class="form-check-label" for="radio1"></label>
+                    </div>
+                    <div class="form-check" id="batch">
+                        <input type="radio" class="form-check-input" id="bootcamp" name="hiredStatus" value="Bootcamp" required>Bootcamp
                         <label class="form-check-label" for="radio2"></label>
                     </div>
                 </div>
@@ -63,7 +69,7 @@
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="duration">Contract Duration</label>
                     <div class="input-group">
-                        <input type="number" class="form-control " id="duration" onkeyup="SetEndContract(this.value);" name="duration"  required>
+                        <input type="number" class="form-control " id="duration" onkeyup="SetEndContract(this.value);" name="duration" required>
                         <div class="input-group-append">
                             <span class="input-group-text">Month</span>
                         </div>
@@ -80,7 +86,7 @@
                 </div>
                 <div class="col-sm-6">
                     <label class="text-dark" for="exampleInputEmail1">End Contract</label>
-                    <input type="date" class="form-control " id="end" name="end" >
+                    <input type="date" class="form-control " id="end" name="end">
                     <span class="error-message" style="color: red; display: none;">Field is required.</span>
                 </div>
             </div>
@@ -97,36 +103,36 @@
 
 
 <script>
-   
-$(document).ready(function () {
-  $('input[required]').each(function () {
-     $(this).prev('label').append('<span style="color: red;">*</span>');
-     $(this).closest('.form-check').prev('label').append('<span style="color: red;">*</span>');
-     $(this).closest('.input-group').prev('label').append('<span style="color: red;">*</span>');
-     
-  });
-})
-    
-    document.getElementById('prohire').addEventListener('click', function() {        
+
+    $(document).ready(function () {
+        $('input[required]').each(function () {
+            $(this).prev('label').append('<span style="color: red;">*</span>');
+            $(this).closest('.form-check').prev('label').append('<span style="color: red;">*</span>');
+            $(this).closest('.input-group').prev('label').append('<span style="color: red;">*</span>');
+
+        });
+    })
+
+    document.getElementById('prohire').addEventListener('click', function () {
         $('#duration').val('');
         $('#join').val('');
         $('#start').val('');
         $('#end').val('');
     });
 
-    document.getElementById('bootcamp').addEventListener('click', function() {
+    document.getElementById('bootcamp').addEventListener('click', function () {
         var startContract = new Date();
         let endContract = new Date(startContract);
         endContract.setDate(1);
         endContract.setMonth(endContract.getMonth() + 3);
 
-  
+
         const yyyy = endContract.getFullYear();
         let mm = endContract.getMonth() + 1;
         if (mm < 10) mm = '0' + mm;
         let lastDay = new Date(yyyy, mm, 0);
 
-        const endContractForm = yyyy + '-' + mm  + '-' + lastDay.getDate();
+        const endContractForm = yyyy + '-' + mm + '-' + lastDay.getDate();
         document.getElementById('duration').removeAttribute('disabled');
         $('#duration').val(3);
         $('#join').val(startContract.toISOString().slice(0, 10));
@@ -134,38 +140,38 @@ $(document).ready(function () {
         $('#end').val(endContractForm);
     });
 
-    document.getElementById('start').addEventListener('change', function () {        
+    document.getElementById('start').addEventListener('change', function () {
         $('#join').val(this.value);
 
         document.getElementById('duration').removeAttribute('disabled');
-        if($('#duration').val() != ''){
+        if ($('#duration').val() != '') {
             var startContract = new Date($('#join').val());
             let endContract = new Date(startContract);
-   
+
 
             endContract.setMonth(endContract.getMonth() + parseInt($('#duration').val()));
-            
+
             const yyyy = endContract.getFullYear();
             let mm = endContract.getMonth() + 1;
             if (mm < 10) mm = '0' + mm;
             let lastDay = new Date(yyyy, mm, 0);
-            
-            const endContractForm = yyyy + '-' + mm  + '-' + lastDay.getDate();
+
+            const endContractForm = yyyy + '-' + mm + '-' + lastDay.getDate();
             $('#end').val(endContractForm);
         }
     });
 
-    function SetEndContract(duration){
+    function SetEndContract(duration) {
         var startContract = new Date($('#join').val());
         let endContract = new Date(startContract);
         endContract.setMonth(endContract.getMonth() + parseInt(duration));
-        
+
         const yyyy = endContract.getFullYear();
         let mm = endContract.getMonth() + 1;
         if (mm < 10) mm = '0' + mm;
         let lastDay = new Date(yyyy, mm, 0);
 
-        const endContractForm = yyyy + '-' + mm  + '-' + lastDay.getDate();
+        const endContractForm = yyyy + '-' + mm + '-' + lastDay.getDate();
         $('#end').val(endContractForm);
     };
 
@@ -196,19 +202,19 @@ $(document).ready(function () {
         // Generate a random UUID
 
         //Validasi Nama
-         if (!validateName) {
-           $('#fullName').focus();
+        if (!validateName) {
+            $('#fullName').focus();
             return;
         }
-         if (!validateNIK) {
-           $('#nik').focus();
+        if (!validateNIK) {
+            $('#nik').focus();
             return;
         }
-         if (!validateEmail) {
-           $('#email').focus();
+        if (!validateEmail) {
+            $('#email').focus();
             return;
         }
-        
+
         const password = uuidv4();
 
         // Print the UUID
@@ -242,8 +248,8 @@ $(document).ready(function () {
         })
             .then(function (response) {
                 if (response.ok) {
-                    if(hiredStatus == 'Bootcamp'){
-                        response.json().then(function (item) {                      
+                    if (hiredStatus == 'Bootcamp') {
+                        response.json().then(function (item) {
                             //Add Data Template
                             var NonFormal = new Object(); //bikin objek baru
                             NonFormal.Name = "C# Training";
@@ -288,7 +294,7 @@ $(document).ready(function () {
 
                             const endPeriode = yyyy + "-" + mm;
                             var periodEmployement = startPeriode + " - " + endPeriode;
-                     
+
 
                             var EmploymentHistory = {
                                 companyName: "PT. Berca Hardayaperkasa",
@@ -351,7 +357,7 @@ $(document).ready(function () {
 
                         // Tampilkan pesan error menggunakan SweetAlert
                         Swal.fire('Error', errorMessage, 'error');
-                        
+
                     });
 
                 }
@@ -370,7 +376,7 @@ $(document).ready(function () {
                 return v.toString(16);
             });
     };
-    $("#email, #nik, #fullName").on("keyup", function() {
+    $("#email, #nik, #fullName").on("keyup", function () {
         var value = $(this).val();
         var errorMessage = "";
         var isValidCharacter = true;  // Inisialisasi dengan nilai default true
@@ -387,7 +393,7 @@ $(document).ready(function () {
             errorMessage = "Max 6 Digits";
         } else if ($(this).is("#fullName")) {
             var regex = /^[a-zA-Z'-\s]+$/;
-            
+
             if (regex.test(value) || value === '') {
                 isValidCharacter = true;
                 validateName = true;
@@ -399,14 +405,14 @@ $(document).ready(function () {
         }
 
         if (!isValidCharacter) {
-        $(this).next(".error-message").text(errorMessage).show();
-        
+            $(this).next(".error-message").text(errorMessage).show();
+
         } else if (isValidCharacter) {
             $(this).next(".error-message").hide();
         }
     });
 
-    function capitalizeName(name){
+    function capitalizeName(name) {
         return name
             .toLowerCase()
             .split(' ')

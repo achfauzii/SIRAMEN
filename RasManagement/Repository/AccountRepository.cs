@@ -135,6 +135,7 @@ namespace RasManagement.Repository
                 NIK = registerVM.NIK,
                 Email = registerVM.Email,
                 Password = passwordHash,
+                Position = registerVM.Position,
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
                 JoinDate=registerVM.JoinDate,
