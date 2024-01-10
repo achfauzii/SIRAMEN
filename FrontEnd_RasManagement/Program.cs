@@ -32,6 +32,7 @@ builder.Services.AddSession(options =>
 //package
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+var timeSheetSettings = builder.Services.Configure<TimeSheet>(builder.Configuration.GetSection("TimeSheet"));
 builder.Services.AddTransient<IMailService, MailService>();
 builder.Services.AddHostedService<MyBackground>();
 

@@ -1,7 +1,6 @@
 $(document).ready(function () {
 const ctx = document.getElementById('statisticChart').getContext('2d');
 
-
   $.ajax({
     url: "https://localhost:7177/api/Shortlist/Statistic",
     type: "GET",
@@ -11,13 +10,13 @@ const ctx = document.getElementById('statisticChart').getContext('2d');
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (statistic) {
-        var result = statistic.data;
-        const labelChart = result.map(item => {
-            return Object.values(item)[0];
-          });
+        const topPosition = statistic.topPosition;
+
+        // Creating two variables for 'position' and 'count'
+        const labelChart = topPosition.map(item => item.position);
+        const countChart = topPosition.map(item => item.count);
         tableData = statistic.table
-        console.log(tableData)
-        const countChart = result.map(item => item.count);
+
         document.getElementById("topPosition").textContent= labelChart[0]
         document.getElementById("topLevel").textContent= labelChart[1]
         document.getElementById("topSkill").textContent= labelChart[2]
@@ -44,6 +43,7 @@ function chart(labelChart,countChart){
           },
     });
 }    
+
 
 function table(){
     var data = tableData
