@@ -8,61 +8,41 @@ $(document).ready(function () {
     accountId = urlParams.get("accountId");
 
     $("#timeSheetPdf").hide();
+    var beforePrint = function () {
+        $("#timeSheetPdf").show();
+    };
 
+    var afterPrint = function () {
+        $("#timeSheetPdf").hide();
 
-  // button.addEventListener("click", generatePDF);
-  $("#exportPDF").on("click", function () {
-    $("#timeSheetPdf").show();
-    var printContents = document.getElementById("timeSheetPdf").innerHTML;
-    var originalContents = document.body.innerHTML;
+        location.reload();
+    };
 
-    document.body.innerHTML = printContents;
+    if (window.matchMedia) {
+        var mediaQueryList = window.matchMedia("print");
+        mediaQueryList.addListener(function (mql) {
+            if (mql.matches) {
+                beforePrint();
+            } else {
+                afterPrint();
+            }
+        });
+    }
 
-    window.print();
+    window.onbeforeprint = beforePrint;
+    window.onafterprint = afterPrint;
 
-    document.body.innerHTML = originalContents;
+    // button.addEventListener("click", generatePDF);
+    $("#exportPDF").on("click", function () {
+        $("#timeSheetPdf").show();
+        var printContents = document.getElementById("timeSheetPdf").innerHTML;
+        var originalContents = document.body.innerHTML;
 
-    // Choose the element that your content will be rendered to.
-    // const element = document.getElementById("timeSheetPdf");
+        document.body.innerHTML = printContents;
 
-    // var opt = {
-    //   margin: [1, 0, 1, 0],
-    //   filename: "Time Sheet " + $(".fullName")[0].innerHTML + ".pdf",
-    //   image: { type: "jpeg", quality: 1 },
-    //   html2canvas: {
-    //     scale: 2,
-    //     useCORS: true,
-    //     dpi: 192,
-    //     letterRendering: true,
-    //     scrollY: 0,
-    //   },
-    //   jsPDF: {
-    //     unit: "cm",
-    //     format: "A4",
-    //     orientation: "portrait",
-    //     putTotalPages: true,
-    //   },
-    // };
+        window.print();
 
-    // // Choose the element and save the PDF for your user.
-    // html2pdf()
-    //   .set(opt)
-    //   .from(element)
-    //   .save()
-    //   .then((e) => {
-    //     $("#timeSheetPdf").hide();
-    //   });
-  });
-
-
-        // Choose the element and save the PDF for your user.
-        html2pdf()
-            .set(opt)
-            .from(element)
-            .save()
-            .then((e) => {
-                $("#timeSheetPdf").hide();
-            });
+        document.body.innerHTML = originalContents;
     });
 
     //Employee Info
@@ -87,17 +67,6 @@ $(document).ready(function () {
     $("#backButton").on("click", function () {
         history.back(); // Go back to the previous page
     });
-
-    /*  $('#download-button').on('click', function () {
-          // Memuat konten header dari file header.html
-          $.get('TimeSheetToPdf', function (headerContent) {
-              // Menggabungkan konten header dengan konten DataTables
-              var finalContent = headerContent + $('#timeSheetTable').html();
-  
-              // Membuat PDF menggunakan HTML2PDF
-              html2pdf().from(finalContent).save();
-          });
-      });*/
 });
 
 function submitMonth() {
@@ -117,7 +86,6 @@ function submitMonth() {
         if ($.fn.DataTable.isDataTable("#timeSheetTablePdf")) {
             $("#timeSheetTablePdf").DataTable().destroy();
         }
-
 
         table = $("#timeSheetTable").DataTable({
             scrollX: true,
@@ -162,17 +130,18 @@ function submitMonth() {
             ],
         });
 
-
         var tableBody = document
             .getElementById("timeSheetTablePdf")
             .getElementsByTagName("tbody")[0];
         tableBody.innerHTML = "";
-
         fetch(
-            "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
-            accountId +
-            "&month=" +
-            month
+            "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" + accountId + "&month=" + month,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                }
+            }
         )
             .then((response) => response.json())
             .then((result) => {
@@ -185,34 +154,32 @@ function submitMonth() {
                     return new Date(a.date) - new Date(b.date);
                 });
 
+                var number = 1;
+                result.data.forEach((item) => {
+                    const row = tableBody.insertRow(-1);
+                    row.insertCell(0).textContent = number++;
+                    row.insertCell(1).textContent = moment(item.date).format(
+                        "DD MMMM YYYY"
+                    );
+                    row.insertCell(2).textContent = item.activity;
+                    row.insertCell(3).textContent = item.flag;
+                    row.insertCell(4).textContent = item.category;
+                    row.insertCell(5).textContent = item.status;
+                    row.insertCell(6).textContent = item.knownBy;
+                });
 
-        var number = 1;
-        result.data.forEach((item) => {
-          const row = tableBody.insertRow(-1);
-          row.insertCell(0).textContent = number++;
-          row.insertCell(1).textContent = moment(item.date).format(
-            "DD MMMM YYYY"
-          );
-          row.insertCell(2).textContent = item.activity;
-          row.insertCell(3).textContent = item.flag;
-          row.insertCell(4).textContent = item.category;
-          row.insertCell(5).textContent = item.status;
-          row.insertCell(6).textContent = item.knownBy;
-        });
+                var placementId = result.data[0].placementStatusId;
 
-        var placementId = result.data[0].placementStatusId;
-
-        fetch(
-          "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
-            placementId
-        )
-          .then((r) => r.json())
-          .then((res) => {
-            $(".companyName").text(res.data.companyName);
-            $("#picName").text(res.data.picName);
-          });
-      });
-
+                fetch(
+                    "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
+                    placementId
+                )
+                    .then((r) => r.json())
+                    .then((res) => {
+                        $(".companyName").text(res.data.companyName);
+                        $("#picName").text(res.data.picName);
+                    });
+            });
 
         //document.getElementById('badgeDisplay').hidden = true;
     } else {
