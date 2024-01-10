@@ -257,21 +257,14 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> Statistic()
         {
             var candidates = await _context.NonRasCandidates.ToListAsync();
-
-            // Membuat dictionary untuk menyimpan jumlah kemunculan masing-masing skill
             var skillCounts = new Dictionary<string, int>();
-
             foreach (var candidate in candidates)
             {
-                // Membagi string skill berdasarkan koma dan membersihkan whitespace
                 var skills = candidate.Skillset?.Split(',').Select(skill => skill.Trim());
-
-                // Menghitung jumlah kemunculan masing-masing skill
                 foreach (var skill in skills)
                 {
                     if (string.IsNullOrEmpty(skill))
                         continue;
-
                     if (skillCounts.ContainsKey(skill))
                         skillCounts[skill]++;
                     else
@@ -290,28 +283,31 @@ namespace RasManagement.Controllers
                 })
                 .ToList();
 
-            var mostCommonLevel = _context.NonRasCandidates
+            var levelCounts = _context.NonRasCandidates
+                .Where(c => c.Level != null && c.Level != "")
                 .GroupBy(c => c.Level)
-                .OrderByDescending(group => group.Count())
                 .Select(group => new
                 {
                     Level = group.Key,
                     Count = group.Count()
                 })
-                .FirstOrDefault();
+                .OrderByDescending(result => result.Count)
+                .ToList();
 
-            var toplevel = mostCommonLevel?.Level;
+            
+
+            var mostCommonLevel = levelCounts.FirstOrDefault();
+            var toplevel = mostCommonLevel.Level ;
             var candidates5 = await _context.NonRasCandidates.Where(c => c.Level == toplevel).ToListAsync();
+            
 
-            // Membuat dictionary untuk menyimpan jumlah kemunculan masing-masing skill
+            
             var skillCounts5 = new Dictionary<string, int>();
 
             foreach (var candidate in candidates5)
             {
-                // Membagi string skill berdasarkan koma dan membersihkan whitespace
                 var skills = candidate.Skillset?.Split(',').Select(skill => skill.Trim());
 
-                // Menghitung jumlah kemunculan masing-masing skill
                 foreach (var skilldata in skills)
                 {
                     if (string.IsNullOrEmpty(skilldata))
@@ -323,15 +319,9 @@ namespace RasManagement.Controllers
                         skillCounts5[skilldata] = 1;
                 }
             }
+            
+            var mostCommonSkill = skillCounts.OrderByDescending(kv => kv.Value).FirstOrDefault();
 
-            var mostCommonSkill = skillCounts
-                .OrderByDescending(pair => pair.Value)
-                .Select(pair => new
-                {
-                    Skill = pair.Key,
-                    Count = pair.Value
-                })
-                .FirstOrDefault();
 
             var topSkills = skillCounts5
                 .OrderByDescending(pair => pair.Value)
@@ -345,7 +335,6 @@ namespace RasManagement.Controllers
 
             var data = new List<object>
             {
-                
                 new
                 {
                     Level = mostCommonLevel?.Level,
@@ -353,8 +342,8 @@ namespace RasManagement.Controllers
                 },
                 new
                 {
-                    Skill = mostCommonSkill?.Skill,
-                    Count = mostCommonSkill?.Count
+                    Skill = mostCommonSkill.Key,
+                    Count = mostCommonSkill.Value
                 },
             };
 
@@ -367,6 +356,14 @@ namespace RasManagement.Controllers
 
             var data3 = mostCommonPosition;
 
+            var data4 = new List<object> { };
+            data4.AddRange(topSkills.Select(topSkill => new
+            {
+                Skill = topSkill.Skill,
+                Count = topSkill.Count
+            }));
+             var data5 = mostCommonSkill;
+
             return StatusCode(200,
                     new
                     {
@@ -374,7 +371,9 @@ namespace RasManagement.Controllers
                         message = "Data Ditemukan",
                         Data = data,
                         table = data2,
-                        TopPosition = data3
+                        TopPosition = data3,
+                        allLevel = levelCounts,
+                        topskill = data5,
                     });
         }
     }

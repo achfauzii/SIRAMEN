@@ -9,23 +9,51 @@ $(document).ready(function () {
 
     $("#timeSheetPdf").hide();
 
-    // button.addEventListener("click", generatePDF);
-    $("#exportPDF").on("click", function () {
-        $("#timeSheetPdf").show();
 
-        // Choose the element that your content will be rendered to.
-        const element = document.getElementById("timeSheetPdf");
+  // button.addEventListener("click", generatePDF);
+  $("#exportPDF").on("click", function () {
+    $("#timeSheetPdf").show();
+    var printContents = document.getElementById("timeSheetPdf").innerHTML;
+    var originalContents = document.body.innerHTML;
 
-        var opt = {
-          
-            filename: "Time Sheet " + $(".fullName")[0].innerHTML + ".pdf",
-            image: { type: "jpeg", quality: 1 },
-            html2canvas: { scale: 2, scrollY: 0 },
-     
-            jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
-       
+    document.body.innerHTML = printContents;
 
-        };
+    window.print();
+
+    document.body.innerHTML = originalContents;
+
+    // Choose the element that your content will be rendered to.
+    // const element = document.getElementById("timeSheetPdf");
+
+    // var opt = {
+    //   margin: [1, 0, 1, 0],
+    //   filename: "Time Sheet " + $(".fullName")[0].innerHTML + ".pdf",
+    //   image: { type: "jpeg", quality: 1 },
+    //   html2canvas: {
+    //     scale: 2,
+    //     useCORS: true,
+    //     dpi: 192,
+    //     letterRendering: true,
+    //     scrollY: 0,
+    //   },
+    //   jsPDF: {
+    //     unit: "cm",
+    //     format: "A4",
+    //     orientation: "portrait",
+    //     putTotalPages: true,
+    //   },
+    // };
+
+    // // Choose the element and save the PDF for your user.
+    // html2pdf()
+    //   .set(opt)
+    //   .from(element)
+    //   .save()
+    //   .then((e) => {
+    //     $("#timeSheetPdf").hide();
+    //   });
+  });
+
 
         // Choose the element and save the PDF for your user.
         html2pdf()
@@ -90,6 +118,7 @@ function submitMonth() {
             $("#timeSheetTablePdf").DataTable().destroy();
         }
 
+
         table = $("#timeSheetTable").DataTable({
             scrollX: true,
             responsive: true,
@@ -133,6 +162,7 @@ function submitMonth() {
             ],
         });
 
+
         var tableBody = document
             .getElementById("timeSheetTablePdf")
             .getElementsByTagName("tbody")[0];
@@ -155,20 +185,34 @@ function submitMonth() {
                     return new Date(a.date) - new Date(b.date);
                 });
 
-                var number = 1;
-                result.data.forEach((item) => {
-                    const row = tableBody.insertRow(-1);
-                    row.insertCell(0).textContent = number++;
-                    row.insertCell(1).textContent = moment(item.date).format(
-                        "DD MMMM YYYY"
-                    );
-                    row.insertCell(2).textContent = item.activity;
-                    row.insertCell(3).textContent = item.flag;
-                    row.insertCell(4).textContent = item.category;
-                    row.insertCell(5).textContent = item.status;
-                    row.insertCell(6).textContent = item.knownBy;
-                });
-            });
+
+        var number = 1;
+        result.data.forEach((item) => {
+          const row = tableBody.insertRow(-1);
+          row.insertCell(0).textContent = number++;
+          row.insertCell(1).textContent = moment(item.date).format(
+            "DD MMMM YYYY"
+          );
+          row.insertCell(2).textContent = item.activity;
+          row.insertCell(3).textContent = item.flag;
+          row.insertCell(4).textContent = item.category;
+          row.insertCell(5).textContent = item.status;
+          row.insertCell(6).textContent = item.knownBy;
+        });
+
+        var placementId = result.data[0].placementStatusId;
+
+        fetch(
+          "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
+            placementId
+        )
+          .then((r) => r.json())
+          .then((res) => {
+            $(".companyName").text(res.data.companyName);
+            $("#picName").text(res.data.picName);
+          });
+      });
+
 
         //document.getElementById('badgeDisplay').hidden = true;
     } else {

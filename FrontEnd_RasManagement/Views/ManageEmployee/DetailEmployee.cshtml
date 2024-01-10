@@ -197,31 +197,30 @@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
-                    <div class="form-group mb-1" id="showEndDate" style="display: none;">
+                    <div class="form-group mb-1" id="showEndDate">
                         <label class="m-0" for="exampleInputEmail1">End Date</label>
                         <input type="date" class="form-control " id="endDate" name="endDate">
-                    </div>
-
-                    <div class="form-group mb-1">
-                        <label for="exampleFormControlTextarea1" class=" m-0">Description</label>
-                        <textarea class="form-control" id="description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" rows="2"></textarea>
-                    </div>
-
+                    </div>                   
 
                     <div class="form-group row mb-1">
                         <div class="col-sm-6 mb-1 mb-sm-0">
                             <label class="text-dark mb-0" for="exampleInputEmail1 ">Status</label>
-                            <div class="form-check">
+                            <div class="form-check mx-2">
                                 <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite" required>
                                 <label class="form-check-label" for="radio1">Onsite</label>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check mx-2">
                                 <input type="radio" class="form-check-input" id="idle" name="status" value="Idle" required>
                                 <label class="form-check-label" for="radio2">Idle</label>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group mb-1">
+                        <label for="exampleFormControlTextarea1" class=" m-0">Description</label>
+                        <textarea class="form-control" id="description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" rows="2"></textarea>
                     </div>
                 </form>
             </div>
@@ -238,22 +237,3 @@
 
 <script src="~/js/ManageEmployee.js"></script>
 <script src="~/js/DetailEmployee.js"></script>
-<script>
-
-    document.getElementById("backButton").addEventListener("click", function () {
-        history.back();
-    });
-
-    document.getElementById("startDate").min = new Date().toISOString().split("T")[0];
-    document.getElementById("endDate").addEventListener('change', function (e) {
-        if (e.target.value < $('#startDate').val()) {
-            $('#Update').addClass('disabled');
-            return;
-        } else {
-            $('#Update').removeClass('disabled');
-        }
-    });
-    document.getElementById('backButton').addEventListener('click', function(){
-        window.location.href = "/ManageEmployee/Index";
-    });
-</script>
