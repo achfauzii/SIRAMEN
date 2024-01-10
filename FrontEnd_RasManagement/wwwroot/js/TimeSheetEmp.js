@@ -51,6 +51,8 @@ $(document).ready(function () {
 
     //GET datatable
     table = $("#timeSheetTable").DataTable({
+        scrollX: true,
+/*        responsive: true,*/
         ajax: {
             url: "https://localhost:7177/api/TimeSheet/accountId?accountId=" + accid, // Your API endpoint
             type: "GET",
