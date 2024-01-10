@@ -73,7 +73,7 @@ public partial class ProjectRasmanagementContext : DbContext
             optionsBuilder.UseSqlServer(connectionString);
         }
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -548,7 +548,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Placement_status");
-            entity.Property(e => e.PICname)
+            entity.Property(e => e.PicName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("PIC");

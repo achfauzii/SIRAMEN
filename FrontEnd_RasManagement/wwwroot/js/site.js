@@ -386,7 +386,8 @@ function matchCustom(params, data) {
 $(document).ajaxComplete(function () {
   $('[data-tooltip="tooltip"]').tooltip({
     trigger: "hover",
-  });
+  }).click(function () {
+    $('[data-tooltip="tooltip"]').tooltip("hide");})
 });
 
 function GetEmployeeList() {

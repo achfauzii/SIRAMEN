@@ -55,24 +55,7 @@ namespace RasManagement.Controllers
             }
         }
 
-        /*[HttpPost("AddTimeSheet")]
-        public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
-        {
-            var addTimeSheet = timeSheetRepository.AddTimeSheet(timeSheet);
-            if (addTimeSheet >= 1)
-            {
-                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Dihapus", Data = addTimeSheet });
-            }
-            else if (addTimeSheet == 0)
-            {
-                return StatusCode(404, new { status = HttpStatusCode.NotFound, Data = addTimeSheet });
-            }
-            else
-            {
-                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = addTimeSheet });
-            }
-        }
-*/
+        
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
@@ -90,24 +73,17 @@ namespace RasManagement.Controllers
             }
         }
 
-        /*[HttpPost("AddTimeSheet")]
-        public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
+        /*[HttpGet("ByCurrentMonth")]
+        public async Task<IActionResult> GetTimeSheetsByAccountAndCurrentMonth(string accountId)
         {
             try
             {
-                int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
-
-                // If the operation is successful, return a 200 OK response
-                return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Ditambahkan", Data = addTimeSheetResult });
-            }
-            catch (InvalidOperationException ex)
-            {
-                // Handle the specific exception when the date is not unique
-                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = ex.Message });
+                var timeSheets = await timeSheetRepository.GetCurrentMonth(accountId);
+                return Ok(timeSheets);
             }
             catch (Exception ex)
             {
-                // Handle other unexpected exceptions
+                // Handle other exceptions
                 return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = ex.Message });
             }
         }*/
