@@ -29,6 +29,7 @@ public partial class AssetsManagement
     public bool? Charger { get; set; }
 
     public string AccountId { get; set; } = null!;
+
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
 }

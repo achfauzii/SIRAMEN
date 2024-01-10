@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
     var employeeData = ViewData["EmployeeData"] as dynamic;
@@ -65,6 +65,7 @@
                     <th>No</th>
                     <th>NIK</th>
                     <th>Name</th>
+                    <th>Position</th>
                     <th>Email</th>
                     <th>Gender</th>
                     <th>Address</th>
@@ -111,11 +112,11 @@
                             <span class="badge badge-secondary rounded-pill" style="font-size: 12px;"> Grey </span>
                             <span class="bullet-text">: Asset data is empty</span>
                         </li>
-                    </ul>    
+                    </ul>
                 </small>
             </div>
         </div>
-            
+
     </div>
 </div>
 
@@ -135,7 +136,7 @@
                         <input type="text" class="form-control" id="AccountId" hidden>
                         <label for="PlacementStatus">Change Status</label>
                         <select id="Status" class="form-control PlacementStatus" placeholder="Select Turn Over Status" required>
-                            
+
                             <option value="Blacklist">Blacklist</option>
                             <option value="Resign">Resign</option>
                             <option value="Transfer">Transfer</option>
