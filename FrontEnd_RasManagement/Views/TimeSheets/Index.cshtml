@@ -57,7 +57,7 @@
     }
 
 
-    body {
+    .pdf-body {
         font-size: 0.75rem;
         font-family: "Inter", sans-serif;
         font-weight: 400;
@@ -265,8 +265,6 @@
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 <section id="time-sheet-page">
 
     <div class="row mb-2">
@@ -353,7 +351,7 @@
 
 @*PDF TIMESHEET*@
 @* <button id="download-button">Download as PDF</button> *@
-<div id="timeSheetPdf">
+<div id="timeSheetPdf" class="pdf-body">
     <div id="pspdfkit-header">
         <div class="header-columns">
             <div class="logotype">
