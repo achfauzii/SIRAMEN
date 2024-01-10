@@ -1,7 +1,6 @@
 $(document).ready(function () {
 const ctx = document.getElementById('statisticChart').getContext('2d');
 
-
   $.ajax({
     url: "https://localhost:7177/api/Shortlist/Statistic",
     type: "GET",
@@ -11,17 +10,18 @@ const ctx = document.getElementById('statisticChart').getContext('2d');
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (statistic) {
-        var result = statistic.data;
-        const labelChart = result.map(item => {
-            return Object.values(item)[0];
-          });
+        const topPosition = statistic.allLevel;
+
+        // Creating two variables for 'position' and 'count'
+        const labelChart = topPosition.map(item => item.level);
+        const countChart = topPosition.map(item => item.count);
         tableData = statistic.table
-        console.log(tableData)
-        const countChart = result.map(item => item.count);
-        document.getElementById("topPosition").textContent= labelChart[0]
-        document.getElementById("topLevel").textContent= labelChart[1]
-        document.getElementById("topSkill").textContent= labelChart[2]
-        document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+labelChart[1]+ " Level"
+      
+        document.getElementById("topPosition").textContent= statistic.topPosition[0]["position"]
+        console.log()
+        document.getElementById("topLevel").textContent= statistic.data[0]["level"]
+        document.getElementById("topSkill").textContent= statistic.data[1]["skill"]
+        document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+statistic.data[0]["level"]+ " Level"
         chart(labelChart,countChart)
         table()
     }})
@@ -35,15 +35,32 @@ function chart(labelChart,countChart){
               label: 'Total',
               data: countChart,
               backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 205, 86)',
-                'rgb(54, 162, 235)',
-              ],
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56',
+                '#4BC0C0',
+                '#9966CC',
+                '#FF8C00',
+                '#87CEEB',
+                '#FFD700',
+                '#32CD32',
+                '#FF4500',
+                '#9370DB',
+                '#40E0D0',
+                '#FF6347',
+                '#8A2BE2',
+                '#00FF7F',
+                '#FF5733',
+                '#5F9EA0',
+                '#FF1493',
+                '#6A5ACD',
+            ],
               hoverOffset: 4
             }]
           },
     });
 }    
+
 
 function table(){
     var data = tableData
