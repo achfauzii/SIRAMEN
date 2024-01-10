@@ -6,6 +6,17 @@
   document.getElementById("startDate").min = new Date()
     .toISOString()
     .split("T")[0];
+
+  document.getElementById("endDate").min = new Date()
+    .toISOString()
+    .split("T")[0];
+
+  $("#startDate").on("change", function () {
+    document.getElementById("endDate").min = new Date(this.value)
+      .toISOString()
+      .split("T")[0];
+  });
+
   document.getElementById("endDate").addEventListener("change", function (e) {
     if (e.target.value < $("#startDate").val()) {
       $("#Update").addClass("disabled");
