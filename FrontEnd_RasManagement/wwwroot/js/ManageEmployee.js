@@ -54,126 +54,127 @@ $(document).ready(function () {
         },
       },
 
-      initComplete: function () {
-        4;
-        var api = this.api();
+      
+            initComplete: function () {
+                4;
+                var api = this.api();
 
-        // For each column
-        api
-          .columns()
-          .eq(0)
-          .each(function (colIdx) {
-            // Set the header cell to contain the input element
-            var cell = $(".filters th").eq(
-              $(api.column(colIdx).header()).index()
-            );
-            var title = $(cell).text();
-            // Check if the column is "No", "Gender", or "Placement Status"
-            if (title !== "No" && title !== "Action" && title !== "Assets") {
-              $(cell).html(
-                '<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="' +
-                  title +
-                  '" />'
-              );
-              // On every keypress in this input
-              $(
-                "input",
-                $(".filters th").eq($(api.column(colIdx).header()).index())
-              )
-                .off("keyup change")
-                .on("keyup change", function (e) {
-                  e.stopPropagation();
-                  // Get the search value
-                  $(this).attr("title", $(this).val());
-                  var regexr = "({search})"; //$(this).parents('th').find('select').val();
-                  var cursorPosition = this.selectionStart;
-                  // Search the column for that value
-                  api
-                    .column(colIdx)
-                    .search(
-                      this.value != ""
-                        ? regexr.replace("{search}", "(((" + this.value + ")))")
-                        : "",
-                      this.value != "",
-                      this.value == ""
-                    )
-                    .draw();
-                  $(this)
-                    .focus()[0]
-                    .setSelectionRange(cursorPosition, cursorPosition);
-                });
-            } else {
-              // For columns "No", "Gender", and "Placement Status", leave the header cell empty
-              var cell = $(".filters th").eq(
-                $(api.column(colIdx).header()).index()
-              );
-              $(cell).html("");
-            }
-            if (title === "Placement Status") {
-              // Filter Placement Status column to show only "Idle"
-              var placementStatusColumn = api.column(colIdx);
-              placementStatusColumn
-                .search("^(Idle|Onsite)$", true, false)
-                .draw();
-            }
-          });
-      },
-      columns: [
-        //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
+                // For each column
+                api
+                    .columns()
+                    .eq(0)
+                    .each(function (colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $(".filters th").eq(
+                            $(api.column(colIdx).header()).index()
+                        );
+                        var title = $(cell).text();
+                        // Check if the column is "No", "Gender", or "Placement Status"
+                        if (title !== "No" && title !== "Action" && title !== "Assets") {
+                            $(cell).html(
+                                '<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="' +
+                                title +
+                                '" />'
+                            );
+                            // On every keypress in this input
+                            $(
+                                "input",
+                                $(".filters th").eq($(api.column(colIdx).header()).index())
+                            )
+                                .off("keyup change")
+                                .on("keyup change", function (e) {
+                                    e.stopPropagation();
+                                    // Get the search value
+                                    $(this).attr("title", $(this).val());
+                                    var regexr = "({search})"; //$(this).parents('th').find('select').val();
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != ""
+                                                ? regexr.replace("{search}", "(((" + this.value + ")))")
+                                                : "",
+                                            this.value != "",
+                                            this.value == ""
+                                        )
+                                        .draw();
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        } else {
 
-        {
-          // orderable: false, // menonaktifkan order hanya pada kolom tertentu
-          data: null,
-          width: "4%",
-          render: function (data, type, row, meta) {
-            return meta.row + meta.settings._iDisplayStart + 1 + ".";
-          },
-        },
+                            // For columns "No", "Gender", and "Placement Status", leave the header cell empty
+                            var cell = $(".filters th").eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            $(cell).html("");
+                        }
+                        if (title === "Placement Status") {
+                            // Filter Placement Status column to show only "Idle"
+                            var placementStatusColumn = api.column(colIdx);
+                            placementStatusColumn
+                                .search("^(Idle|Onsite)$", true, false)
+                                .draw();
+                        }
+                    });
+            },
+            columns: [
+                //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
-        { data: "nik" },
-        {
-          data: "fullname",
-          render: function (data, type, row) {
-            if (type === "display" || type === "filter") {
-              // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-              var icon =
-                '<div class="row"><div class="col-4 text-left mr-5">' +
-                data +
-                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
-                row.accountId +
-                "')\"></i>";
+                {
+                    // orderable: false, // menonaktifkan order hanya pada kolom tertentu
+                    data: null,
+                    width: "4%",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                    },
+                },
 
-              $(document).on("mouseover", ".row", function () {
-                $(this).find("i.edit").css("visibility", "visible");
-              });
+                { data: "nik" },
+                {
+                    data: "fullname",
+                    render: function (data, type, row) {
+                        if (type === "display" || type === "filter") {
+                            // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+                            var icon =
+                                '<div class="row"><div class="col-4 text-left mr-5">' +
+                                data +
+                                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' + row.accountId + "')\"></i>";
 
-              $(document).on("mouseout", ".row", function () {
-                $(this).find("i.edit").css("visibility", "hidden");
-              });
-              var expand = icon;
-              return expand;
-            }
+                            $(document).on("mouseover", ".row", function () {
+                                $(this).find("i.edit").css("visibility", "visible");
+                            });
 
-            // Untuk tipe data lain, kembalikan data aslinya
-            return data;
-          },
-        },
-        { data: "email" },
-        { data: "gender" },
-        { data: "address" },
-        {
-          render: function (data, type, row) {
-            //var accountId = row.accountId;
-            var placementStatus = "Idle"; // Default value jika data tidak ditemukan
+                            $(document).on("mouseout", ".row", function () {
+                                $(this).find("i.edit").css("visibility", "hidden");
+                            });
+                            var expand = icon;
+                            return expand;
+                        }
 
-            row.placements.forEach(function (placement) {
-              if (placement.placementStatus !== "Idle") {
-                placementStatus = placement.placementStatus;
-              }
-            });
+                        // Untuk tipe data lain, kembalikan data aslinya
+                        return data;
+                    },
+                },
+                { data: "position" },
+                { data: "email" },
+                { data: "gender" },
+                { data: "address" },
+                {
+                    render: function (data, type, row) {
+                        //var accountId = row.accountId;
+                        var placementStatus = "Idle"; // Default value jika data tidak ditemukan
 
-            if (placementStatus == "Idle") {
-              /*placementStatus =
+                        row.placements.forEach(function (placement) {
+                            if (placement.placementStatus !== "Idle") {
+                                placementStatus = placement.placementStatus;
+                            }
+                        });
+
+                        if (placementStatus == "Idle") {
+                            /*placementStatus =
                                 '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
                                 row.accountId +
                                 "', 'Idle')\">Idle</button>";*/
@@ -900,6 +901,7 @@ function Save(accountId) {
   placement.companyName = $("#companyName_").val();
   placement.jobRole = $("#jobRole").val();
   placement.startDate = $("#startDate").val();
+  placement.endDate = $("#endDate").val();
   placement.picName = $("#picName").val();
   placement.description = $("#description").val(); //value insert dari id pada input
 
