@@ -8,42 +8,6 @@ $(document).ready(function () {
   accountId = urlParams.get("accountId");
 
   $("#timeSheetPdf").hide();
-  var beforePrint = function () {
-    $("#timeSheetPdf").show();
-  };
-
-  var afterPrint = function () {
-    $("#timeSheetPdf").hide();
-
-    location.reload();
-  };
-
-  if (window.matchMedia) {
-    var mediaQueryList = window.matchMedia("print");
-    mediaQueryList.addListener(function (mql) {
-      if (mql.matches) {
-        beforePrint();
-      } else {
-        afterPrint();
-      }
-    });
-  }
-
-  window.onbeforeprint = beforePrint;
-  window.onafterprint = afterPrint;
-
-  // button.addEventListener("click", generatePDF);
-  $("#exportPDF").on("click", function () {
-    $("#timeSheetPdf").show();
-    var printContents = document.getElementById("timeSheetPdf").innerHTML;
-    var originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents;
-
-    window.print();
-
-    document.body.innerHTML = originalContents;
-  });
 
   //Employee Info
   getEmployee(accountId)
@@ -128,6 +92,19 @@ function submitMonth() {
         { data: "status" },
         { data: "knownBy" },
       ],
+      drawCallback: function (settings) {
+        var api = this.api();
+        var rows = api.rows({ page: "current" }).nodes();
+        var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+        var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+        api
+          .column(0, { page: "current" })
+          .nodes()
+          .each(function (cell, i) {
+            cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+          });
+      },
     });
 
     var tableBody = document
@@ -174,6 +151,7 @@ function submitMonth() {
         )
           .then((r) => r.json())
           .then((res) => {
+            var res1;
             $(".companyName").text(res.data.companyName);
             $("#picName").text(res.data.picName);
           });
@@ -296,4 +274,40 @@ function openPreviewPdf(dataTS) {
     .catch(function (error) {
       console.error("Error:", error);
     });
+}
+
+function exportPDF() {
+  var beforePrint = function () {
+    $("#timeSheetPdf").show();
+  };
+
+  var afterPrint = function () {
+    $("#timeSheetPdf").hide();
+
+    location.reload();
+  };
+
+  if (window.matchMedia) {
+    var mediaQueryList = window.matchMedia("print");
+    mediaQueryList.addListener(function (mql) {
+      if (mql.matches) {
+        beforePrint();
+      } else {
+        afterPrint();
+      }
+    });
+  }
+
+  window.onbeforeprint = beforePrint;
+  window.onafterprint = afterPrint;
+
+  $("#timeSheetPdf").show();
+  var printContents = document.getElementById("timeSheetPdf").innerHTML;
+  var originalContents = document.body.innerHTML;
+
+  document.body.innerHTML = printContents;
+
+  window.print();
+
+  document.body.innerHTML = originalContents;
 }
