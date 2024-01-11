@@ -56,8 +56,6 @@ public partial class NonRasCandidate
 
     public string? IntwUser { get; set; }
 
-    public string? NameOfUser { get; set; }
-
     public string? IntwDateUser { get; set; }
 
     public string? LevelRekom { get; set; }
@@ -70,4 +68,7 @@ public partial class NonRasCandidate
 
     [JsonIgnore]
     public virtual ICollection<TrackingInterview>? TrackingInterviews { get; set; } = new List<TrackingInterview>();
+
+    [JsonIgnore]
+    public virtual ClientName? Client { get; set; }
 }

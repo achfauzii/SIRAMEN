@@ -12,4 +12,6 @@ public partial class ClientName
     public virtual ICollection<Position> Positions { get; set; } = new List<Position>();
 
     public virtual ICollection<TrackingInterview> TrackingInterviews { get; set; } = new List<TrackingInterview>();
+
+    public virtual ICollection<NonRasCandidate> NonRasCandidates { get; set; } = new List<NonRasCandidate>();
 }
