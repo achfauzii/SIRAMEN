@@ -12,6 +12,8 @@ namespace RasManagement.ViewModel
 
         public string Password { get; set; } = null!;
 
+        public string? Position { get; set; }
+
         public DateTime? JoinDate { get; set; }
 
         public DateTime? StartContract { get; set; }

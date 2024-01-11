@@ -8,7 +8,7 @@ public partial class Placement
 {
     public int PlacementStatusId { get; set; }
 
-    public string? CompanyName { get; set; }
+    public string CompanyName { get; set; } = null!;
 
     public string? JobRole { get; set; }
 
@@ -22,7 +22,8 @@ public partial class Placement
 
     public string? PicName { get; set; }
 
-  public string AccountId { get; set; } = null!;
+    public string AccountId { get; set; } = null!;
+
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
 
