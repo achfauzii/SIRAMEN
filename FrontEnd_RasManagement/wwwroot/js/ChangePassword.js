@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-  //changePassword;
+  fetchContractInfo();
 });
 function clearScreen() {
   $("#accountId").val("");
@@ -16,7 +16,6 @@ function clearScreen() {
 }
 
 function updatePassword() {
-    
   var isValid = true;
 
   $("input[req]").each(function () {
@@ -63,7 +62,6 @@ function updatePassword() {
     return; // Hentikan eksekusi lebih lanjut
   }
 
-
   fetch("https://localhost:7177/api/Accounts/ChangePassword", {
     method: "PUT", // Atur metode sesuai kebutuhan
     headers: {
@@ -78,8 +76,7 @@ function updatePassword() {
     }),
   })
     .then((response) => response.json())
-      .then((data) => {
-        
+    .then((data) => {
       Swal.fire({
         icon: "success",
         title: "Success...",
@@ -87,15 +84,13 @@ function updatePassword() {
         showConfirmButton: false,
         timer: 2000,
       }).then(() => {
-          if (decodedtoken.RoleId == "2") {
-              SaveLog_(decodedtoken);
-          }
-            
-          
+        if (decodedtoken.RoleId == "2") {
+          SaveLog_(decodedtoken);
+        }
+
         $("#changePasswordModal").modal("hide");
         location.reload();
       });
-        
     })
     .catch((error) => {
       Swal.fire({
@@ -139,23 +134,83 @@ function togglePasswordVisibility(inputId) {
 }
 
 function SaveLog_(logData) {
-    //debugger;
+  //debugger;
 
-    const data_ = {
-        id: 0,
-        accountId: logData.AccountId,
-        name: logData.Name,
-        activity: 'Has Change Password',
-        timeStamp: new Date().toISOString()
-    };
+  const data_ = {
+    id: 0,
+    accountId: logData.AccountId,
+    name: logData.Name,
+    activity: "Has Change Password",
+    timeStamp: new Date().toISOString(),
+  };
 
-    fetch('https://localhost:7177/api/HistoryLog', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            //'Authorization': 'Bearer access_token_here' 
-        },
-        body: JSON.stringify(data_)
-    })
+  fetch("https://localhost:7177/api/HistoryLog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      //'Authorization': 'Bearer access_token_here'
+    },
+    body: JSON.stringify(data_),
+  });
+}
 
+function fetchContractInfo() {
+  var dataEmployee = [];
+  fetch("https://localhost:7177/api/Employees", {
+    method: "GET",
+    datatype: "json",
+    dataSrc: "data",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      result.data.forEach(function (emp) {
+        if (emp.placements.length > 0) {
+          var endContract = new Date(emp.endContract);
+          var endPlacement = new Date(
+            emp.placements[emp.placements.length - 1].endDate
+          );
+
+          var timeDiff = endContract.getTime() - endPlacement; // Menghitung selisih dalam milidetik
+          var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
+
+          if (daysremain < 30) {
+            var data = {
+              accountId: emp.accountId,
+              fullname: emp.fullname,
+              placement: emp.placements[emp.placements.length - 1].companyName,
+              days: daysremain,
+            };
+            dataEmployee.push(data);
+          }
+          console.log(daysremain);
+        }
+      });
+
+      var notification = document.getElementById("notification");
+      dataEmployee.forEach(function (notif) {
+        notification.innerHTML += `
+        <a class="dropdown-item d-flex align-items-center" href="/ManageEmployee/DetailEmployee?accountId=${notif.accountId}">
+          <div class="mr-3">
+            <div class="icon-circle bg-primary">
+              <i class="fas fa-file-alt text-white"></i>
+            </div>
+          </div>
+          <div>
+          <div class="small text-gray-500">Reminder</div>        
+            <b>${notif.fullname}</b> contract at <b>${notif.placement}</b> is less than a month.
+          </div>
+        </a>`;
+      });
+      if (dataEmployee.length == 0) {
+        $("#noNotif").show();
+        $("#notifCount").hide();
+      } else {
+        $("#noNotif").hide();
+        document.getElementById("notifCount").innerHTML = dataEmployee.length;
+      }
+      // The expiry date for <b>${notif.fullname}</b> placement at <b>${notif.placement}</b> is approaching, with <b>${notif.days}</b> days remaining on the contract.
+    });
 }
