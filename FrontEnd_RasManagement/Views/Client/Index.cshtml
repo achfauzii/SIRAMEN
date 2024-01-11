@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
@@ -14,6 +13,13 @@
         background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
     }
 
+    .modal:nth-of-type(odd) {
+        z-index: 1052 !important;
+    }
+
+    .modal-backdrop.show:nth-of-type(even) {
+        z-index: 1051 !important;
+    }
 </style>
 
 <!-- /.card-header -->
@@ -75,4 +81,107 @@
     </div>
 </div>
 
+@*Modal Position Information*@
+<!-- Modal -->
+<div class="modal fade" id="informationClientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark" id="modalTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#positionModal" onclick="clearScreenPosition();">
+                    + New Position
+                </button>
+                <div class="card">
+                    <div class="card-header p-1 pl-2 text-dark">
+                        <span id="position">Front End</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*CRUD Position*@
+<!-- Modal -->
+<div class="modal mt-3" id="positionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><b>Position</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <input type="text" class="form-control" id="positionId" hidden>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="ClientName">Position Name</label>
+                            <input type="text" class="form-control form-control-sm" id="positionName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Position Name" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Level</label>
+                            <select class="form-control form-control-sm" id="positionLevel" required>
+                                <option value="Fresh Graduate">Fresh Graduate</option>
+                                <option value="Junior">Junior</option>
+                                <option value="Midle">Midle</option>
+                                <option value="Senior">Senior</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Quantity</label>
+                            <input type="text" class="form-control form-control-sm" id="positionQuantity" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Client Name" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">status</label>
+                            <select class="form-control form-control-sm" id="positionStatus" required>
+                                <option value="Open">Open</option>
+                                <option value="Hold">Hold</option>
+                                <option value="Closed">Closed</option>
+                                <option value="Fullfill">Fullfill</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="">Notes</label>
+                        <textarea type="text" class="form-control form-control-sm" id="positionNotes" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder=""></textarea>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="savePosition" onclick="Save();">Save</button>
+                <button type="button" class="btn btn-warning" id="updatePosition" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" clearScreenPosition();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="~/js/ClientName.js"></script>
