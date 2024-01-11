@@ -176,8 +176,8 @@ function fetchContractPlacement() {
           var today = new Date();
           var timeDiff = today.getTime() - endPlacement; // Menghitung selisih dalam milidetik
           var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
-
-          if (daysremain < 30) {
+            var daysremainPositive = Math.abs(daysremain);
+            if (daysremainPositive <= 30) {
             var data = {
               accountId: emp.accountId,
               fullname: emp.fullname,
@@ -186,7 +186,8 @@ function fetchContractPlacement() {
             };
             dataEmployee.push(data);
           }
-          console.log(daysremain);
+            //console.log(daysremainPositive);
+         
         }
       });
 
