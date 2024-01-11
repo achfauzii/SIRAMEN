@@ -14,6 +14,27 @@ $(document).ready(function () {
 
   var afterPrint = function () {
     $("#timeSheetPdf").hide();
+    var beforePrint = function () {
+        $("#timeSheetPdf").show();
+    };
+
+    var afterPrint = function () {
+        $("#timeSheetPdf").hide();
+
+        location.reload();
+    };
+
+    if (window.matchMedia) {
+        var mediaQueryList = window.matchMedia("print");
+        mediaQueryList.addListener(function (mql) {
+            if (mql.matches) {
+                beforePrint();
+            } else {
+                afterPrint();
+            }
+        });
+    }
+
 
     location.reload();
   };
@@ -86,6 +107,7 @@ function submitMonth() {
     if ($.fn.DataTable.isDataTable("#timeSheetTablePdf")) {
       $("#timeSheetTablePdf").DataTable().destroy();
     }
+
 
     table = $("#timeSheetTable").DataTable({
       scrollX: true,
@@ -184,6 +206,7 @@ function submitMonth() {
     document.getElementById("badgeDisplay").hidden = false;
     document.getElementById("tableTimeSheet").hidden = true;
   }
+
 
   // openPreviewPdf(table.rows().data().toArray());
   // document.getElementById("previewPDF").addEventListener("click", function () {
@@ -297,3 +320,4 @@ function openPreviewPdf(dataTS) {
       console.error("Error:", error);
     });
 }
+

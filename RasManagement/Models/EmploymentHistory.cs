@@ -16,7 +16,8 @@ public partial class EmploymentHistory
 
     public string Description { get; set; } = null!;
 
-    public string? AccountId { get; set; }
+    public string? AccountId { get; set; } = null!;
+
     [JsonIgnore]
-    public virtual Account? Account { get; set; }
+    public virtual Account? Account { get; set; } = null!;
 }
