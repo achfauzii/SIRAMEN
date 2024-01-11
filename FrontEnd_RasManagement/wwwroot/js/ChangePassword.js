@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-  fetchContractInfo();
+  fetchContractPlacement();
 });
 function clearScreen() {
   $("#accountId").val("");
@@ -154,7 +154,7 @@ function SaveLog_(logData) {
   });
 }
 
-function fetchContractInfo() {
+function fetchContractPlacement() {
   var dataEmployee = [];
   fetch("https://localhost:7177/api/Employees", {
     method: "GET",
@@ -173,7 +173,8 @@ function fetchContractInfo() {
             emp.placements[emp.placements.length - 1].endDate
           );
 
-          var timeDiff = endContract.getTime() - endPlacement; // Menghitung selisih dalam milidetik
+          var today = new Date();
+          var timeDiff = today.getTime() - endPlacement; // Menghitung selisih dalam milidetik
           var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
 
           if (daysremain < 30) {
