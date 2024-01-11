@@ -22,6 +22,7 @@ public partial class TimeSheet
 
     public int? PlacementStatusId { get; set; }
 
+    public string? PicName { get; set; }
     public string? AccountId { get; set; }
     [JsonIgnore]
     public virtual Account? Account { get; set; }
