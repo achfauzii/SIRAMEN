@@ -901,6 +901,7 @@ function Save(accountId) {
   placement.companyName = $("#companyName_").val();
   placement.jobRole = $("#jobRole").val();
   placement.startDate = $("#startDate").val();
+  placement.endDate = $("#endDate").val();
   placement.picName = $("#picName").val();
   placement.description = $("#description").val(); //value insert dari id pada input
 
