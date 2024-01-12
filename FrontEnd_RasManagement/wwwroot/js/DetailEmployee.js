@@ -118,6 +118,7 @@ function GetById(accountId, placementStatusId) {
   const endDate = document.getElementById("showEndDate");
   startDate.style.display = "none";
   endDate.style.display = "block";
+
   var accountId = accountId;
   $.ajax({
     type: "GET",
@@ -160,6 +161,10 @@ function GetById(accountId, placementStatusId) {
       var endDate_ = new Date(obj.endDate);
       endDate = formatDate(endDate_);
     }
+
+    document.getElementById("endDate").min = new Date(startDate)
+      .toISOString()
+      .split("T")[0];
 
     $("#placementStatusId").val(placementStatusId);
     $("#companyName_").val(obj.companyName);
