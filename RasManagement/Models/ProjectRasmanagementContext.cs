@@ -467,6 +467,11 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("Work_Status");
+            entity.Property(e => e.Client_Id).HasColumnName("Client_Id");
+
+            entity.HasOne(d => d.Client).WithMany(e => e.NonRasCandidates)
+                .HasForeignKey(d => d.Client_Id)
+                .HasConstraintName("FK_NonRas_Client");
         });
 
         modelBuilder.Entity<Placement>(entity =>
