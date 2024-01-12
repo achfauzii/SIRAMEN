@@ -274,16 +274,99 @@ function Delete(id, nameOfClient) {
 
 function detailPosition(id) {
     $('#informationClientModal').modal("show");
-    $("#modalTitle").text("Job List");
-    console.log(id);
+    $('#clientId').val(id);
+    fetch("https://localhost:7177/api/ClientName/" + id,
+        {
+            method: 'GET',
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+        }
+    )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Lakukan sesuatu dengan data yang diterima dari API
+            var clientName = data.data.nameOfClient;
+            $("#modalTitle").text("Position List " + clientName);
+        })
+        .catch(error => {
+            // Tangani kesalahan yang mungkin terjadi selama permintaan
+            console.error('Fetch error:', error);
+        });
+
+
+
 }
 
 function clearScreenPosition() {
-   // $("#clientId").val("");
+    // $("#clientId").val("");
     //$("#clientName").val("");
     $("#updatePosition").hide();
     $("#savePosition").show()
 }
+
+function savePosition() {
+
+    const clientId = document.getElementById('clientId').value;
+    const positionName = document.getElementById('positionName').value;
+    const positionLevel = document.getElementById('positionLevel').value;
+    const positionQuantity = document.getElementById('positionQuantity').value;
+    const positionStatus = document.getElementById('positionStatus').value;
+    const positionNotes = document.getElementById('positionNotes').value;
+
+
+    const newPositionData = {
+        
+        "positionClient": positionName,
+        "level": positionLevel,
+        "quantity": positionQuantity,
+        "status": positionStatus,
+        "notes": positionNotes,
+        "clientId": clientId
+    };
+
+    fetch("https://localhost:7177/api/Position",
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            body: JSON.stringify(newPositionData),
+        }
+    )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status == 200) {
+                Swal.fire({
+                    title: "Success!",
+                    text: "Data Position has ben Added!",
+                    icon: "success"
+                });
+                const logMessage = `Has added position ${newPositionData.positionName} in Client Id ${newPositionData.clientId}`;
+                SaveLogUpdate(logMessage);
+                $("#positionModal").modal("hide");
+                $("#informationClientModal .modal-body").load(target, function () {
+                    $("#informationClientModal").modal("show");
+                });
+            }
+        })
+        .catch(error => {
+            // Tangani kesalahan yang mungkin terjadi selama permintaan
+            console.error('Fetch error:', error);
+        });
+}
+
 const closeButton = document.querySelector(
     '.btn.btn-danger[data-dismiss="modal"]'
 );
