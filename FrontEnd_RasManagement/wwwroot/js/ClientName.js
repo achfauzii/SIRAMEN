@@ -273,9 +273,17 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
+    $('#informationClientModal').modal("show");
+    $("#modalTitle").text("Job List");
     console.log(id);
 }
 
+function clearScreenPosition() {
+   // $("#clientId").val("");
+    //$("#clientName").val("");
+    $("#updatePosition").hide();
+    $("#savePosition").show()
+}
 const closeButton = document.querySelector(
     '.btn.btn-danger[data-dismiss="modal"]'
 );

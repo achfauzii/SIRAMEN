@@ -42,7 +42,7 @@
             font-size: 14px; /* Atur ukuran tombol Previous dan Next */
         }
 
-/*pdf Style*/
+    /*pdf Style*/
     .intro-form p span {
         display: inline-block;
         width: 100px; /* Atur lebar sesuai kebutuhan */
@@ -81,7 +81,7 @@
                                     <span style="font-size: 16px;" class="col-0 text-sm">:</span>
                                     <span style="font-size: 16px;" class="col text-dark">RAS</span>
                                 </div>
-                               <div class="row">
+                                <div class="row">
                                     <span style="font-size: 15px;" class="col-4 text-dark text-sm">Project Name</span>
                                     <span style="font-size: 15px;" class="col-0 text-sm">:</span>
                                     <span style="font-size: 15px;" class="col text-dark text-sm companyName" id="companyName"></span>
@@ -124,7 +124,7 @@
             </button></div>
         </div>
     </div>
-    <div class="card-body">        
+    <div class="card-body">
         <table id="timeSheetTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
@@ -146,7 +146,7 @@
 @*PDF TIMESHEET*@
 @* <button id="download-button">Download as PDF</button> *@
 
-<div id="timeSheetPdf" >
+<div id="timeSheetPdf">
     <style>
         .pdf-body {
             font-size: 0.75rem;
@@ -219,9 +219,9 @@
             width: 50%;
         }
 
-        .intro-form:last-child {
-            border-right: none;
-        }
+            .intro-form:last-child {
+                border-right: none;
+            }
 
         .intro-table-title {
             font-size: 0.625rem;
@@ -232,22 +232,22 @@
             padding: 1.25rem 1.5rem 1.25rem 1.5rem;
         }
 
-        .intro-form-item:first-child {
-            padding-left: 0;
-        }
+            .intro-form-item:first-child {
+                padding-left: 0;
+            }
 
-        .intro-form-item:last-child {
-            padding-right: 0;
-        }
+            .intro-form-item:last-child {
+                padding-right: 0;
+            }
 
         .intro-form-item-border {
             padding: 1.25rem 0 0.75rem 1.5rem;
             border-bottom: 1px solid #000000;
         }
 
-        .intro-form-item-border:last-child {
-            border-bottom: none;
-        }
+            .intro-form-item-border:last-child {
+                border-bottom: none;
+            }
 
         .form {
             display: flex;
@@ -329,11 +329,11 @@
             height: 1.5rem;
         }
 
-        .summary-box table tr.item td:first-child,
-        .summary-box table tr.total td:first-child {
-            border: none;
-            height: 1.5rem;
-        }
+            .summary-box table tr.item td:first-child,
+            .summary-box table tr.total td:first-child {
+                border: none;
+                height: 1.5rem;
+            }
 
         #pspdfkit-footer {
             font-size: 0.5rem;
@@ -403,44 +403,44 @@
         </div>
 
         @* <div class="table-box"> *@
-            <table id="timeSheetTablePdf" class="table table-striped table-bordered timeSheetTable" style="width: 100%; ">
-                <thead class="text-dark">
-                    <tr>
-                        <th valign="middle">No</th>
-                        <th valign="middle">Date</th>
-                        <th valign="middle">Activity Detail</th>
-                        <th valign="middle">Flag</th>
-                        <th valign="middle">Category</th>
-                        <th valign="middle">Status</th>
-                        <th valign="middle">Known By</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+        <table id="timeSheetTablePdf" class="table table-striped table-bordered timeSheetTable" style="width: 100%; ">
+            <thead class="text-dark">
+                <tr>
+                    <th valign="middle">No</th>
+                    <th valign="middle">Date</th>
+                    <th valign="middle">Activity Detail</th>
+                    <th valign="middle">Flag</th>
+                    <th valign="middle">Category</th>
+                    <th valign="middle">Status</th>
+                    <th valign="middle">Known By</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
         @* </div> *@
 
-
+        <br/><br/>
         <div class="row mt-4">
-                <div class="col-3"></div>
-                <div class="col-3 text-center">TTD PEGAWAI</div>
-                <div class="col-3 text-center">DIPERIKSA OLEH</div>
-                <div class="col-3 text-center">DIKETAHUI OLEH</div>
-            </div>
-            <div class="row m-4"></div>
-            <div class="row m-4"></div>
-            <div class="row m-4"></div>
-            <div class="row mt-4">
-                <div class="col-3"></div>
-                <div id="fullnamePdf" class="col-3 fullName"></div>
-                <div class="col-3">@Model.Examiner</div>
-                <div class="col-3" id="picName"></div>
-            </div>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-3">DATE: </div>
-                <div class="col-3">DATE: </div>
-                <div class="col-3">DATE: </div>
-            </div>
+            <div class="col-3"></div>
+            <div class="col-3">TTD PEGAWAI</div>
+            <div class="col-3">DIPERIKSA OLEH</div>
+            <div class="col-3">DIKETAHUI OLEH</div>
+        </div>
+        <div class="row m-4"></div>
+        <div class="row m-4"></div>
+        <div class="row m-4"></div>
+        <div class="row mt-4">
+            <div class="col-3"></div>
+            <div id="fullnamePdf" class="col-3 fullName"></div>
+            <div class="col-3">@Model.Examiner</div>
+            <div class="col-3" id="picName"></div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-3">DATE: </div>
+            <div class="col-3">DATE: </div>
+            <div class="col-3">DATE: </div>
+        </div>
     </div>
 </div>
 

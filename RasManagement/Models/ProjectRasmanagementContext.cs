@@ -439,9 +439,6 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(8)
                 .IsUnicode(false)
                 .HasColumnName("Level_Rekom");
-            entity.Property(e => e.NameOfUser)
-                .IsUnicode(false)
-                .HasColumnName("NameOf_User");
             entity.Property(e => e.Negotiable)
                 .HasMaxLength(5)
                 .IsUnicode(false);
@@ -518,7 +515,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Notes).IsUnicode(false);
-            entity.Property(e => e.Position1)
+            entity.Property(e => e.PositionClient)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Position");
@@ -645,9 +642,6 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.IntvwStatus)
                 .IsUnicode(false)
                 .HasColumnName("Intvw_status");
-            entity.Property(e => e.NameOfUser)
-                .IsUnicode(false)
-                .HasColumnName("Name_of_user");
             entity.Property(e => e.NonRasId).HasColumnName("NonRAS_Id");
             entity.Property(e => e.Notes).IsUnicode(false);
             entity.Property(e => e.PositionId).HasColumnName("Position_Id");

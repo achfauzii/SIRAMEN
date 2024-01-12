@@ -21,7 +21,6 @@ public partial class TimeSheet
     public string? KnownBy { get; set; }
 
     public int? PlacementStatusId { get; set; }
-
     public string? AccountId { get; set; }
     [JsonIgnore]
     public virtual Account? Account { get; set; }
