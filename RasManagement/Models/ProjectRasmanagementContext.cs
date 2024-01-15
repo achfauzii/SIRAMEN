@@ -509,7 +509,7 @@ public partial class ProjectRasmanagementContext : DbContext
         {
             entity.ToTable("Position");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            //entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.ClientId).HasColumnName("Client_Id");
             entity.Property(e => e.Level)
                 .HasMaxLength(50)
