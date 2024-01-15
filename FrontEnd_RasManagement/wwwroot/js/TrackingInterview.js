@@ -4,6 +4,7 @@ $(document).ready(function () {
   $("#Update").hide();
   $("#btnNewProcess").hide();
   table = $("#trackingIntvw").DataTable({
+    responsive: true,
     ajax: {
       url: "https://localhost:7177/api/Tracking/Interview", // Your API endpoint
       type: "GET",
@@ -107,7 +108,7 @@ function getResource() {
       result.data.forEach((item) => {
         var option = new Option(
           "RAS - " + item.fullname,
-          item.accountId,
+          "RAS," + item.accountId,
           true,
           false
         );
@@ -128,7 +129,7 @@ function getResource() {
       result.data.forEach((item) => {
         var option = new Option(
           "Non RAS - " + item.fullname,
-          item.nonRasId,
+          "NON," + item.nonRasId,
           true,
           false
         );
@@ -234,11 +235,10 @@ function Save() {
   var TrackingInterview = new Object();
 
   var resource = $("#resource").val();
-  if (resource.substr(0, 3) === "RAS") {
-    // TrackingInterview.nonRasId = resource;
-    TrackingInterview.accountId = resource;
+  if (resource.split(",")[0] === "RAS") {
+    TrackingInterview.accountId = resource.split(",")[1];
   } else {
-    TrackingInterview.nonRasId = resource;
+    TrackingInterview.nonRasId = resource.split(",")[1];
   }
 
   TrackingInterview.clientId = $("#client").val();
@@ -248,6 +248,7 @@ function Save() {
   TrackingInterview.notes = $("#notes").val();
 
   // console.log(TrackingInterview);
+  // return;
   // debugger;
 
   $.ajax({
@@ -300,9 +301,13 @@ function GetById(trackingId) {
 
       $("#trackingId").val(obj.id);
       if (obj.accountId != null) {
-        $("#resource").val(obj.accountId).trigger("change");
+        $("#resource")
+          .val("RAS," + obj.accountId)
+          .trigger("change");
       } else {
-        $("#resource").val(obj.nonRasId).trigger("change");
+        $("#resource")
+          .val("NON," + obj.nonRasId)
+          .trigger("change");
       }
       $("#client").val(obj.clientId).trigger("change");
       $("#position").val(obj.positionId).trigger("change");
@@ -376,12 +381,10 @@ function Update() {
   var TrackingInterview = new Object();
 
   var resource = $("#resource").val();
-  console.log(resource.substr(0, 3));
-  if (resource.substr(0, 3) === "RAS") {
-    // TrackingInterview.nonRasId = resource;
-    TrackingInterview.accountId = resource;
+  if (resource.split(",")[0] === "RAS") {
+    TrackingInterview.accountId = resource.split(",")[1];
   } else {
-    TrackingInterview.nonRasId = resource;
+    TrackingInterview.nonRasId = resource.split(",")[1];
   }
 
   TrackingInterview.id = $("#trackingId").val();
