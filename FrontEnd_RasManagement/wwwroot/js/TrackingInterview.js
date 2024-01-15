@@ -107,7 +107,7 @@ function getResource() {
       result.data.forEach((item) => {
         var option = new Option(
           "RAS - " + item.fullname,
-          item.accountId,
+          "RAS," + item.accountId,
           true,
           false
         );
@@ -128,7 +128,7 @@ function getResource() {
       result.data.forEach((item) => {
         var option = new Option(
           "Non RAS - " + item.fullname,
-          item.nonRasId,
+          "NON," + item.nonRasId,
           true,
           false
         );
@@ -234,11 +234,10 @@ function Save() {
   var TrackingInterview = new Object();
 
   var resource = $("#resource").val();
-  if (resource.substr(0, 3) === "RAS") {
-    // TrackingInterview.nonRasId = resource;
-    TrackingInterview.accountId = resource;
+  if (resource.split(",")[0] === "RAS") {
+    TrackingInterview.accountId = resource.split(",")[1];
   } else {
-    TrackingInterview.nonRasId = resource;
+    TrackingInterview.nonRasId = resource.split(",")[1];
   }
 
   TrackingInterview.clientId = $("#client").val();
@@ -248,6 +247,7 @@ function Save() {
   TrackingInterview.notes = $("#notes").val();
 
   // console.log(TrackingInterview);
+  // return;
   // debugger;
 
   $.ajax({
@@ -376,12 +376,10 @@ function Update() {
   var TrackingInterview = new Object();
 
   var resource = $("#resource").val();
-  console.log(resource.substr(0, 3));
-  if (resource.substr(0, 3) === "RAS") {
-    // TrackingInterview.nonRasId = resource;
-    TrackingInterview.accountId = resource;
+  if (resource.split(",")[0] === "RAS") {
+    TrackingInterview.accountId = resource.split(",")[1];
   } else {
-    TrackingInterview.nonRasId = resource;
+    TrackingInterview.nonRasId = resource.split(",")[1];
   }
 
   TrackingInterview.id = $("#trackingId").val();
