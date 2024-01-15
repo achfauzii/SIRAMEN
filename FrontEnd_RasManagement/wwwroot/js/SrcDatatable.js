@@ -181,6 +181,7 @@ function handleInput(event, input) {
 }
 
 function Src(selectedCategory) {
+  // $.fn.dataTable.ext.errMode = "throw";
   if ($.fn.DataTable.isDataTable("#resource")) {
     $("#resource").DataTable().destroy();
   }
@@ -193,8 +194,8 @@ function Src(selectedCategory) {
     processing: true,
     serverSide: true,
     lengthMenu: [
-      [5, 10, 50, 100, 99999],
-      [5, 10, 50, 100, "All"],
+      [10, 50, 100, 99999],
+      [10, 50, 100, "All"],
     ],
     pageLength: 10,
     order: [[0, "asc"]],
@@ -207,6 +208,7 @@ function Src(selectedCategory) {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
       data: function (d) {
+        // console.log(JSON.stringify(d));
         d.order = d.order[0];
         if (selectedCategory != "all") {
           d.search.category = selectedCategory;
@@ -570,33 +572,34 @@ function Src(selectedCategory) {
         },
       },
       {
-        data: "nameOfUser",
-        render: function (data, type, row) {
-          var nameUser = row.nameOfUser;
+        // data: "1",
+        data: "client_Id",
+        // render: function (data, type, row) {
+        //   var nameUser = row.clientId;
 
-          if (nameUser == null || nameUser == "") {
-            return "";
-          } else if (!nameUser.includes("<br/>")) {
-            return nameUser;
-          } else {
-            const nameUserArray = nameUser.split("<br/>");
+        //   if (nameUser == null || nameUser == "") {
+        //     return "";
+        //   } else if (!nameUser.includes("<br/>")) {
+        //     return nameUser;
+        //   } else {
+        //     const nameUserArray = nameUser.split("<br/>");
 
-            // Membuat objek untuk menyimpan data
-            const userData = { nameArray: [] };
+        //     // Membuat objek untuk menyimpan data
+        //     const userData = { nameArray: [] };
 
-            // Mengumpulkan data status
-            for (let i = 0; i < nameUserArray.length; i++) {
-              // Menambahkan status ke dalam array yang sesuai
-              userData.nameArray.push(nameUserArray[i]);
-            }
+        //     // Mengumpulkan data status
+        //     for (let i = 0; i < nameUserArray.length; i++) {
+        //       // Menambahkan status ke dalam array yang sesuai
+        //       userData.nameArray.push(nameUserArray[i]);
+        //     }
 
-            // Menampilkan data terakhir
-            const lastName = userData.nameArray[userData.nameArray.length - 1];
+        //     // Menampilkan data terakhir
+        //     const lastName = userData.nameArray[userData.nameArray.length - 1];
 
-            return lastName;
+        //     return lastName;
 
-            //NAMPILIN PER USER
-            /*var nameOfUser = row.nameOfUser;
+        //NAMPILIN PER USER
+        /*var nameOfUser = row.nameOfUser;
                                     if (nameOfUser == null) {
                                         return " ";
                                     } else if (!nameOfUser.includes('<br/>')) {
@@ -609,8 +612,8 @@ function Src(selectedCategory) {
                                         // Return the unique usernames in the rendered cell
                                         return '<li>' + uniqueUsernames.join('</li><li>') + '</li>';
                                     }*/
-          }
-        },
+        //   }
+        // },
       },
       {
         data: "intwUser",

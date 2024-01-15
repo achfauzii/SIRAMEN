@@ -384,10 +384,13 @@ function matchCustom(params, data) {
   return null;
 }
 $(document).ajaxComplete(function () {
-  $('[data-tooltip="tooltip"]').tooltip({
-    trigger: "hover",
-  }).click(function () {
-    $('[data-tooltip="tooltip"]').tooltip("hide");})
+  $('[data-tooltip="tooltip"]')
+    .tooltip({
+      trigger: "hover",
+    })
+    .click(function () {
+      $('[data-tooltip="tooltip"]').tooltip("hide");
+    });
 });
 
 function GetEmployeeList() {
@@ -405,6 +408,7 @@ function GetEmployeeList() {
   }).then((result) => {
     if (result != null) {
       result.data.forEach((item) => {
+        console.log(item);
         var option = new Option(item.fullname, item.fullname, true, false);
         selectEmployee.add(option);
 
