@@ -16,7 +16,8 @@ namespace RasManagement.Controllers
             this.positionRepository = positionRepository;
         }
 
-        [HttpGet("Client")]
+
+        [HttpGet("ByClientId")]
         public async Task<IActionResult> GetPositionbyClientId(int clientId)
         {
             var get = await positionRepository.GetPositionByClientId(clientId);
