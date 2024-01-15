@@ -15,6 +15,7 @@ const ctx = document.getElementById('statisticChart').getContext('2d');
         // Creating two variables for 'position' and 'count'
         const labelChart = topPosition.map(item => item.level);
         const countChart = topPosition.map(item => item.count);
+        const positionChart = topPosition.map(item => item.topPosition);
         tableData = statistic.table
       
         document.getElementById("topPosition").textContent= statistic.topPosition[0]["position"]
@@ -22,43 +23,49 @@ const ctx = document.getElementById('statisticChart').getContext('2d');
         document.getElementById("topLevel").textContent= statistic.data[0]["level"]
         document.getElementById("topSkill").textContent= statistic.data[1]["skill"]
         document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+statistic.data[0]["level"]+ " Level"
-        chart(labelChart,countChart)
+        chart(labelChart,countChart, positionChart)
         table()
     }})
-
-function chart(labelChart,countChart){
+ 
+    const footer = (tooltipItems, data) => {
+      const positionData = data.datasets[tooltipItems[0].datasetIndex].positions[tooltipItems[0].index];
+      return `Position: ${positionData.position}, Count: ${positionData.count}`;
+    };
+function chart(labelChart,countChart, positionChart){
     const salaryChart = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: labelChart,
             datasets: [{
-              label: 'Total',
+              label: 'Total Candidate',
               data: countChart,
               backgroundColor: [
                 '#FF6384',
                 '#36A2EB',
                 '#FFCE56',
-                '#4BC0C0',
-                '#9966CC',
-                '#FF8C00',
-                '#87CEEB',
-                '#FFD700',
-                '#32CD32',
-                '#FF4500',
-                '#9370DB',
-                '#40E0D0',
-                '#FF6347',
-                '#8A2BE2',
-                '#00FF7F',
-                '#FF5733',
-                '#5F9EA0',
-                '#FF1493',
-                '#6A5ACD',
-            ],
-              hoverOffset: 4
+              ],
+              hoverOffset: 10,
+              weight: 50,
+              borderColor: '#fff'
             }]
-          },
-    });
+        },
+        options: {
+         
+          plugins: {
+            tooltip: {
+              callbacks: {
+                footer: function (tooltipItems) {
+                  const count= [10, 12, 15];
+                  const datasetIndex = tooltipItems[0].dataIndex;
+                  console.log(positionChart[datasetIndex])
+                  const positionData = positionChart[datasetIndex];
+                  return `\nTop Position: ${positionData}`;
+                },
+              }
+            }
+          }
+        }
+  });
 }    
 
 
