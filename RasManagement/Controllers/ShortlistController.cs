@@ -283,16 +283,22 @@ namespace RasManagement.Controllers
                 })
                 .ToList();
 
-            var levelCounts = _context.NonRasCandidates
-                .Where(c => c.Level != null && c.Level != "")
-                .GroupBy(c => c.Level)
-                .Select(group => new
-                {
-                    Level = group.Key,
-                    Count = group.Count()
-                })
-                .OrderByDescending(result => result.Count)
-                .ToList();
+           var levelCounts = _context.NonRasCandidates
+            .Where(c => c.Level != null && c.Level != "")
+            .GroupBy(c => c.Level)
+            .Select(group => new
+            {
+                Level = group.Key,
+                Count = group.Count(),
+                TopPosition = group.GroupBy(c => c.Position)
+                                .OrderByDescending(positionGroup => positionGroup.Count())
+                                .Take(1)
+                                .Select(positionGroup => positionGroup.Key)
+                                .FirstOrDefault(),
+                
+            })
+            .OrderByDescending(result => result.Count)
+            .ToList();
 
             
 
