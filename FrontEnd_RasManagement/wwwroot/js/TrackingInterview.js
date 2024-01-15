@@ -4,6 +4,7 @@ $(document).ready(function () {
   $("#Update").hide();
   $("#btnNewProcess").hide();
   table = $("#trackingIntvw").DataTable({
+    responsive: true,
     ajax: {
       url: "https://localhost:7177/api/Tracking/Interview", // Your API endpoint
       type: "GET",
