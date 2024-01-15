@@ -1,5 +1,6 @@
 ﻿var table = null;
 $(document).ready(function () {
+
     table = $("#tbDataCleint").DataTable({
         responsive: true,
 
@@ -273,6 +274,7 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
+  
     $('#informationClientModal').modal("show");
     $('#clientId').val(id);
     fetch("https://localhost:7177/api/ClientName/" + id,
@@ -293,6 +295,96 @@ function detailPosition(id) {
             // Lakukan sesuatu dengan data yang diterima dari API
             var clientName = data.data.nameOfClient;
             $("#modalTitle").text("Position List " + clientName);
+
+            //Get Data Position
+            fetch("https://localhost:7177/api/Position/ByClientId?clientId=" + id,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                    },
+                }
+            )
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var dataContainer = document.getElementById("dataPositionContainer");
+                
+                    data.data.forEach(function (data) {
+                        // Menambahkan data ke dalam container
+                       
+                        dataContainer.innerHTML += `
+                            <div class="col-sm-6">
+                                <div class="card mb-4" id="dataCardPosition">
+                                         <div class="card-header p-1 pl-2 text-dark">
+                                                Status :
+                                            
+                                                           <span id="status" class="${getStatusColorClass(data.status)}">${data.status}</span>
+                                            
+                                               
+                                         </div>
+                                         <div class="card-body text-dark pt-3 pb-3">
+                                             
+                                                       <div class="row">
+                                                                <div class="col-9 ml-1">
+                                                                           <h6 class="mb-0 font-weight-bolder">${data.positionClient}</h5>
+                                                                </div>
+                                                                <div class="col text-right">
+                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee"><i class="far fa-edit"></i></a>
+                                                                </div>
+                                                              
+                                                       </div>
+                                                        <div class="row ml-1">
+                                                                 <h6>${data.level}</h6>
+                                                       </div>
+
+                                                       <div class="row">
+                                                           
+                                                                      <div class="col-md-3 ml-1">Quantity</div>
+                                                                      <div class="col-md-0">: </div>
+                                                                      <div class="col-md-8">${data.quantity}</div>
+
+                                                       </div>
+                                                       <div class="row ">
+                                                           
+                                                                      <div class="col-md-3 ml-1">Notes</div>
+                                                                      <div class="col-md-0">:</div>
+                                                                      <div class="col-md-8">${data.notes}</div>
+                                                               
+                                                        
+                                                       </div>
+                                                                                        
+                
+                                                    
+                                         </div>
+                                </div>
+                            </div>
+                                
+                                 
+                            `;
+                    });
+                    function getStatusColorClass(status) {
+                        switch (status) {
+                            case 'Hold':
+                                return 'text-warning';
+                            case 'Open':
+                                return 'text-success'; 
+                            case 'Closed':
+                                return 'text-danger'
+                            default:
+                                return 'text-primary'; 
+                        }
+                    }
+                })
+                .catch(error => {
+                    // Tangani kesalahan yang mungkin terjadi selama permintaan
+                    console.error('Fetch error:', error);
+                });
+            var a = "https://localhost:7177/api/Position/ByClientId?clientId=1"
         })
         .catch(error => {
             // Tangani kesalahan yang mungkin terjadi selama permintaan
@@ -306,8 +398,11 @@ function detailPosition(id) {
 function clearScreenPosition() {
     // $("#clientId").val("");
     //$("#clientName").val("");
+    var form = document.querySelector('#positionModal .needs-validation');
     $("#updatePosition").hide();
     $("#savePosition").show()
+    form.classList.remove('was-validated');
+    form.reset();
 }
 
 function savePosition() {
@@ -319,9 +414,18 @@ function savePosition() {
     const positionStatus = document.getElementById('positionStatus').value;
     const positionNotes = document.getElementById('positionNotes').value;
 
+    // Loop over them and prevent submission
+    var form = document.querySelector('#positionModal .needs-validation');
+
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add('was-validated');
+        return;
+    }
 
     const newPositionData = {
-        
+
         "positionClient": positionName,
         "level": positionLevel,
         "quantity": positionQuantity,
@@ -355,16 +459,22 @@ function savePosition() {
                 });
                 const logMessage = `Has added position ${newPositionData.positionName} in Client Id ${newPositionData.clientId}`;
                 SaveLogUpdate(logMessage);
+              
                 $("#positionModal").modal("hide");
-                $("#informationClientModal .modal-body").load(target, function () {
-                    $("#informationClientModal").modal("show");
-                });
+             
+                var dataContainer = document.getElementById("dataPositionContainer");
+                dataContainer.innerHTML = '';
+                detailPosition(clientId);
+   
             }
         })
         .catch(error => {
             // Tangani kesalahan yang mungkin terjadi selama permintaan
             console.error('Fetch error:', error);
         });
+    console.log("clientId before calling detailPosition:", clientId);
+
+   
 }
 
 const closeButton = document.querySelector(
@@ -373,3 +483,8 @@ const closeButton = document.querySelector(
 closeButton.addEventListener("click", function () {
     // kode untuk menutup modal
 });
+
+function clearData() {
+    var dataContainer = document.getElementById("dataPositionContainer");
+    dataContainer.innerHTML = '';
+}
