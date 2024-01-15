@@ -179,7 +179,7 @@ function getPosition(idClient) {
   //   console.log(idClient);
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Position/Client?clientId=" + idClient,
+    url: "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
