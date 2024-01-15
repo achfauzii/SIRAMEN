@@ -300,9 +300,13 @@ function GetById(trackingId) {
 
       $("#trackingId").val(obj.id);
       if (obj.accountId != null) {
-        $("#resource").val(obj.accountId).trigger("change");
+        $("#resource")
+          .val("RAS," + obj.accountId)
+          .trigger("change");
       } else {
-        $("#resource").val(obj.nonRasId).trigger("change");
+        $("#resource")
+          .val("NON," + obj.nonRasId)
+          .trigger("change");
       }
       $("#client").val(obj.clientId).trigger("change");
       $("#position").val(obj.positionId).trigger("change");
