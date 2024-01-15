@@ -572,7 +572,8 @@ function Src(selectedCategory) {
         },
       },
       {
-        data: "clientId",
+        // data: "1",
+        data: "client_Id",
         // render: function (data, type, row) {
         //   var nameUser = row.clientId;
 
