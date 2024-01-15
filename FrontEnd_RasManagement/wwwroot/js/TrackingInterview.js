@@ -1,0 +1,384 @@
+﻿var table = null;
+
+$(document).ready(function () {
+  $("#Update").hide();
+  table = $("#trackingIntvw").DataTable({
+    ajax: {
+      url: "https://localhost:7177/api/Tracking/Interview", // Your API endpoint
+      type: "GET",
+      contentType: "application/json",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + meta.settings._iDisplayStart + 1 + ".";
+        },
+      },
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          var emp = row.fullnameEmployee;
+          var nonras = row.fullnameNonRAS;
+
+          if (type === "display" || type === "filter") {
+            if (emp != null) {
+              var icon =
+                '<div class="row"><div class="col-4 text-left mr-5">' +
+                emp +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetById(\'' +
+                row.id +
+                "')\"></i>";
+            } else {
+              var icon =
+                '<div class="row"><div class="col-4 text-left mr-5">' +
+                nonras +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetById(\'' +
+                row.id +
+                "')\"></i>";
+            }
+
+            // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+
+            $(document).on("mouseover", ".row", function () {
+              $(this).find("i.edit").css("visibility", "visible");
+            });
+
+            $(document).on("mouseout", ".row", function () {
+              $(this).find("i.edit").css("visibility", "hidden");
+            });
+            var expand = icon;
+            return expand;
+          }
+
+          // Untuk tipe data lain, kembalikan data aslinya
+          return data;
+        },
+      },
+      { data: "position" },
+      { data: "client" },
+      { data: "intStatus" },
+      { data: "intDate" },
+      {
+        data: "notes",
+      },
+    ],
+    order: [[1, "desc"]],
+    drawCallback: function (settings) {
+      var api = this.api();
+      var rows = api.rows({ page: "current" }).nodes();
+      var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+      var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+      api
+        .column(0, { page: "current" })
+        .nodes()
+        .each(function (cell, i) {
+          cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+        });
+    },
+  });
+
+  getResource();
+  getClient();
+
+  $("#client").on("change", function () {
+    $("#position").removeAttr("disabled");
+    getPosition(this.value);
+  });
+});
+
+function getResource() {
+  var selectResource = document.getElementById("resource");
+
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/Employees",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      result.data.forEach((item) => {
+        var option = new Option(item.fullname, item.accountId, true, false);
+        selectResource.add(option);
+      });
+    }
+  });
+
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/Shortlist",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      result.data.forEach((item) => {
+        var option = new Option(item.fullname, item.nonRasId, true, false);
+        selectResource.add(option);
+      });
+    }
+  });
+  $("#resource").select2({
+    placeholder: "Select Resource",
+    width: "100%",
+    height: "100%",
+    allowClear: true,
+    tags: true,
+  });
+}
+
+function getClient() {
+  var selectClient = document.getElementById("client");
+
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/ClientName",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      result.data.forEach((item) => {
+        var option = new Option(item.nameOfClient, item.id, true, false);
+        selectClient.add(option);
+      });
+    }
+  });
+
+  $("#client").select2({
+    placeholder: "Select Client",
+    width: "100%",
+    height: "100%",
+    allowClear: true,
+    tags: true,
+  });
+}
+
+function getPosition(idClient) {
+  var selectPosition = document.getElementById("position");
+
+  //   console.log(idClient);
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/Position/Client?clientId=" + idClient,
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      console.log(result.data);
+      result.data.forEach((item) => {
+        var option = new Option(item.positionClient, item.id, true, false);
+        selectPosition.add(option);
+      });
+    }
+  });
+}
+
+function clearScreen() {
+  //   $("#trackingModal").show();
+
+  document.getElementById("resource").selectedIndex = "0";
+  document.getElementById("client").selectedIndex = "0";
+  document.getElementById("position").selectedIndex = "0";
+  document.getElementById("intStatus").selectedIndex = "0";
+
+  $("#intDate").val();
+  $("#notes").val();
+}
+
+function Save() {
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
+
+  var isValid = true;
+
+  $("input[required],select[required],textarea[required]").each(function () {
+    var input = $(this);
+    if (!input.val()) {
+      input.next(".error-message").show();
+      isValid = false;
+    } else {
+      input.next(".error-message").hide();
+    }
+  });
+
+  if (!isValid) {
+    return;
+  }
+
+  var TrackingInterview = new Object();
+
+  var resource = $("#resource").val();
+  console.log(resource.substr(0, 3));
+  if (resource.substr(0, 3) === "RAS") {
+    // TrackingInterview.nonRasId = resource;
+    TrackingInterview.accountId = resource;
+  } else {
+    TrackingInterview.nonRasId = resource;
+  }
+
+  TrackingInterview.clientId = $("#client").val();
+  TrackingInterview.positionId = $("#position").val();
+  TrackingInterview.intvwDate = $("#intDate").val();
+  TrackingInterview.intvwStatus = $("#intStatus").val();
+  TrackingInterview.notes = $("#notes").val();
+
+  // console.log(TrackingInterview);
+  // debugger;
+
+  $.ajax({
+    type: "POST",
+    url: "https://localhost:7177/api/Tracking",
+    data: JSON.stringify(TrackingInterview),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    console.log(result.status);
+    if (result.status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Success...",
+        text: "Data has been added!",
+        showConfirmButtom: false,
+        timer: 1500,
+      });
+      $("#trackingModal").modal("hide");
+      table.ajax.reload();
+      clearScreen();
+    } else {
+      console.log(result.status);
+      Swal.fire({
+        icon: "warning",
+        title: "Data failed to added!",
+        showConfirmButtom: false,
+        timer: 1500,
+      });
+      $("#trackingModal").modal("hide");
+      table.ajax.reload();
+    }
+  });
+}
+
+function GetById(trackingId) {
+  $.ajax({
+    url: "https://localhost:7177/api/Tracking/" + trackingId,
+    type: "GET",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (result) {
+      //debugger;
+      var obj = result.data; //data yg dapet dr id
+
+      console.log(obj);
+      $("#trackingId").val(obj.id);
+      if (obj.accountId != null) {
+        $("#resource").val(obj.accountId).trigger("change");
+      } else {
+        $("#resource").val(obj.nonRasId).trigger("change");
+      }
+      $("#client").val(obj.clientId).trigger("change");
+      $("#position").val(obj.positionId).trigger("change");
+      const intDate = new Date(obj.intvwDate).toISOString().slice(0, 10);
+      console.log(intDate);
+      $("#intDate").val(intDate);
+      $("#intStatus").val(obj.intvwStatus).trigger("change");
+      $("#notes").val(obj.notes);
+
+      $("#trackingModal").modal("show");
+      $("#Save").hide();
+      $("#Update").show();
+    },
+    error: function (errormessage) {
+      alert(errormessage.responseText);
+    },
+  });
+}
+
+function Update() {
+  // debugger;
+  var isValid = true;
+
+  $("input[required],select[required],textarea[required]").each(function () {
+    var input = $(this);
+    if (!input.val()) {
+      input.next(".error-message").show();
+      isValid = false;
+    } else {
+      input.next(".error-message").hide();
+    }
+  });
+
+  if (!isValid) {
+    return;
+  }
+
+  var TrackingInterview = new Object();
+
+  var resource = $("#resource").val();
+  console.log(resource.substr(0, 3));
+  if (resource.substr(0, 3) === "RAS") {
+    // TrackingInterview.nonRasId = resource;
+    TrackingInterview.accountId = resource;
+  } else {
+    TrackingInterview.nonRasId = resource;
+  }
+
+  TrackingInterview.id = $("#trackingId").val();
+  TrackingInterview.clientId = $("#client").val();
+  TrackingInterview.positionId = $("#position").val();
+  TrackingInterview.intvwDate = $("#intDate").val();
+  TrackingInterview.intvwStatus = $("#intStatus").val();
+  TrackingInterview.notes = $("#notes").val();
+
+  // console.log(TrackingInterview);
+  // debugger;
+
+  $.ajax({
+    type: "PUT",
+    url: "https://localhost:7177/api/Tracking",
+    data: JSON.stringify(TrackingInterview),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    console.log(result.status);
+    if (result.status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Success...",
+        text: "Data has been added!",
+        showConfirmButtom: false,
+        timer: 1500,
+      });
+      $("#trackingModal").modal("hide");
+      table.ajax.reload();
+      clearScreen();
+    } else {
+      console.log(result.status);
+      Swal.fire({
+        icon: "warning",
+        title: "Data failed to added!",
+        showConfirmButtom: false,
+        timer: 1500,
+      });
+      $("#trackingModal").modal("hide");
+      table.ajax.reload();
+    }
+  });
+}
