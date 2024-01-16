@@ -572,8 +572,48 @@ function Src(selectedCategory) {
         },
       },
       {
+        // data: "1",
         data: "client_Id",
-        
+        // render: function (data, type, row) {
+        //   var nameUser = row.clientId;
+
+        //   if (nameUser == null || nameUser == "") {
+        //     return "";
+        //   } else if (!nameUser.includes("<br/>")) {
+        //     return nameUser;
+        //   } else {
+        //     const nameUserArray = nameUser.split("<br/>");
+
+        //     // Membuat objek untuk menyimpan data
+        //     const userData = { nameArray: [] };
+
+        //     // Mengumpulkan data status
+        //     for (let i = 0; i < nameUserArray.length; i++) {
+        //       // Menambahkan status ke dalam array yang sesuai
+        //       userData.nameArray.push(nameUserArray[i]);
+        //     }
+
+        //     // Menampilkan data terakhir
+        //     const lastName = userData.nameArray[userData.nameArray.length - 1];
+
+        //     return lastName;
+
+        //NAMPILIN PER USER
+        /*var nameOfUser = row.nameOfUser;
+                                    if (nameOfUser == null) {
+                                        return " ";
+                                    } else if (!nameOfUser.includes('<br/>')) {
+                                        return nameOfUser;
+                                    } else {
+                                        // Extract unique usernames from the nameOfUser column
+                                        const nameOfUserArray = nameOfUser.split('<br/>');
+                                        const uniqueUsernames = Array.from(new Set(nameOfUserArray.filter(name => name.trim() !== 'null')));
+                
+                                        // Return the unique usernames in the rendered cell
+                                        return '<li>' + uniqueUsernames.join('</li><li>') + '</li>';
+                                    }*/
+        //   }
+        // },
       },
       {
         data: "intwUser",

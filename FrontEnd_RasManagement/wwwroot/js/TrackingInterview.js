@@ -2,7 +2,9 @@
 
 $(document).ready(function () {
   $("#Update").hide();
+  $("#btnNewProcess").hide();
   table = $("#trackingIntvw").DataTable({
+    responsive: true,
     ajax: {
       url: "https://localhost:7177/api/Tracking/Interview", // Your API endpoint
       type: "GET",
@@ -104,7 +106,12 @@ function getResource() {
   }).then((result) => {
     if (result != null) {
       result.data.forEach((item) => {
-        var option = new Option(item.fullname, item.accountId, true, false);
+        var option = new Option(
+          "RAS - " + item.fullname,
+          "RAS," + item.accountId,
+          true,
+          false
+        );
         selectResource.add(option);
       });
     }
@@ -120,7 +127,12 @@ function getResource() {
   }).then((result) => {
     if (result != null) {
       result.data.forEach((item) => {
-        var option = new Option(item.fullname, item.nonRasId, true, false);
+        var option = new Option(
+          "Non RAS - " + item.fullname,
+          "NON," + item.nonRasId,
+          true,
+          false
+        );
         selectResource.add(option);
       });
     }
@@ -154,7 +166,7 @@ function getClient() {
   });
 
   $("#client").select2({
-    placeholder: "Select Client",
+    placeholder: "Choose Client",
     width: "100%",
     height: "100%",
     allowClear: true,
@@ -168,14 +180,13 @@ function getPosition(idClient) {
   //   console.log(idClient);
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/Position/Client?clientId=" + idClient,
+    url: "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
     if (result != null) {
-      console.log(result.data);
       result.data.forEach((item) => {
         var option = new Option(item.positionClient, item.id, true, false);
         selectPosition.add(option);
@@ -185,15 +196,20 @@ function getPosition(idClient) {
 }
 
 function clearScreen() {
-  //   $("#trackingModal").show();
+  $(".process").remove();
+  clearProcess();
 
-  document.getElementById("resource").selectedIndex = "0";
-  document.getElementById("client").selectedIndex = "0";
+  $("#resource").select2("val", $("#resource option:eq(0)").val());
+  $("#client").select2("val", $("#client option:eq(0)").val());
+
   document.getElementById("position").selectedIndex = "0";
   document.getElementById("intStatus").selectedIndex = "0";
 
-  $("#intDate").val();
-  $("#notes").val();
+  $("#intDate").val("");
+  $("#notes").val("");
+
+  $("#Save").show();
+  $("#Update").hide();
 }
 
 function Save() {
@@ -219,12 +235,10 @@ function Save() {
   var TrackingInterview = new Object();
 
   var resource = $("#resource").val();
-  console.log(resource.substr(0, 3));
-  if (resource.substr(0, 3) === "RAS") {
-    // TrackingInterview.nonRasId = resource;
-    TrackingInterview.accountId = resource;
+  if (resource.split(",")[0] === "RAS") {
+    TrackingInterview.accountId = resource.split(",")[1];
   } else {
-    TrackingInterview.nonRasId = resource;
+    TrackingInterview.nonRasId = resource.split(",")[1];
   }
 
   TrackingInterview.clientId = $("#client").val();
@@ -234,6 +248,7 @@ function Save() {
   TrackingInterview.notes = $("#notes").val();
 
   // console.log(TrackingInterview);
+  // return;
   // debugger;
 
   $.ajax({
@@ -245,7 +260,6 @@ function Save() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    console.log(result.status);
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -258,7 +272,6 @@ function Save() {
       table.ajax.reload();
       clearScreen();
     } else {
-      console.log(result.status);
       Swal.fire({
         icon: "warning",
         title: "Data failed to added!",
@@ -272,6 +285,8 @@ function Save() {
 }
 
 function GetById(trackingId) {
+  $("#btnNewProcess").show();
+
   $.ajax({
     url: "https://localhost:7177/api/Tracking/" + trackingId,
     type: "GET",
@@ -284,19 +299,41 @@ function GetById(trackingId) {
       //debugger;
       var obj = result.data; //data yg dapet dr id
 
-      console.log(obj);
       $("#trackingId").val(obj.id);
       if (obj.accountId != null) {
-        $("#resource").val(obj.accountId).trigger("change");
+        $("#resource")
+          .val("RAS," + obj.accountId)
+          .trigger("change");
       } else {
-        $("#resource").val(obj.nonRasId).trigger("change");
+        $("#resource")
+          .val("NON," + obj.nonRasId)
+          .trigger("change");
       }
       $("#client").val(obj.clientId).trigger("change");
       $("#position").val(obj.positionId).trigger("change");
-      const intDate = new Date(obj.intvwDate).toISOString().slice(0, 10);
-      console.log(intDate);
-      $("#intDate").val(intDate);
-      $("#intStatus").val(obj.intvwStatus).trigger("change");
+
+      const intDateArray = obj.intvwDate.split("<br>");
+      const intStatusArray = obj.intvwStatus.split("<br>");
+
+      setProcess(intDateArray.length - 1);
+
+      var elementDate = document.getElementsByClassName("intDate");
+      var elementStatus = document.getElementsByClassName("intStatus");
+
+      for (let i = 0; i < intDateArray.length; i++) {
+        elementDate[i].value = new Date(intDateArray[i])
+          .toISOString()
+          .slice(0, 10);
+      }
+
+      for (let i = 0; i < intStatusArray.length; i++) {
+        elementStatus[i].value = intStatusArray[i];
+      }
+
+      // const intDate = new Date(obj.intvwDate).toISOString().slice(0, 10);
+
+      // $("#intDate").val(intDate);
+      // $("#intStatus").val(obj.intvwStatus).trigger("change");
       $("#notes").val(obj.notes);
 
       $("#trackingModal").modal("show");
@@ -310,7 +347,7 @@ function GetById(trackingId) {
 }
 
 function Update() {
-  // debugger;
+  debugger;
   var isValid = true;
 
   $("input[required],select[required],textarea[required]").each(function () {
@@ -327,26 +364,37 @@ function Update() {
     return;
   }
 
+  var intDateArray = document.getElementsByClassName("intDate");
+  var intStatusArray = document.getElementsByClassName("intStatus");
+
+  var intDate = "";
+  var intStatus = "";
+  for (var i = 0; i < intDateArray.length; i += 1) {
+    intDate += intDateArray[i].value + "<br>";
+  }
+
+  for (var i = 0; i < intStatusArray.length; i += 1) {
+    console.log(intStatusArray[i].value);
+    intStatus += intStatusArray[i].value + "<br>";
+  }
+
   var TrackingInterview = new Object();
 
   var resource = $("#resource").val();
-  console.log(resource.substr(0, 3));
-  if (resource.substr(0, 3) === "RAS") {
-    // TrackingInterview.nonRasId = resource;
-    TrackingInterview.accountId = resource;
+  if (resource.split(",")[0] === "RAS") {
+    TrackingInterview.accountId = resource.split(",")[1];
   } else {
-    TrackingInterview.nonRasId = resource;
+    TrackingInterview.nonRasId = resource.split(",")[1];
   }
 
   TrackingInterview.id = $("#trackingId").val();
   TrackingInterview.clientId = $("#client").val();
   TrackingInterview.positionId = $("#position").val();
-  TrackingInterview.intvwDate = $("#intDate").val();
-  TrackingInterview.intvwStatus = $("#intStatus").val();
+  TrackingInterview.intvwDate = intDate.substr(0, intDate.length - 4);
+  TrackingInterview.intvwStatus = intStatus.substr(0, intStatus.length - 4);
   TrackingInterview.notes = $("#notes").val();
 
   // console.log(TrackingInterview);
-  // debugger;
 
   $.ajax({
     type: "PUT",
@@ -381,4 +429,78 @@ function Update() {
       table.ajax.reload();
     }
   });
+}
+
+function newProcess() {
+  $("#process").append(`<div class="row mb-2 process">
+                            <div class="col">
+                                <input class="form-control form-control-sm intDate" type="date" id="intDate" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="col">
+                                <select class=" form-control form-control-sm intStatus" id="intStatus" >
+                                        <option selected disabled>Choose...</option>
+                                        <option value="Submitted CV">Submitted CV</option>
+                                        <option value="Hold">Hold</option>
+                                        <option value="Scheduling">Scheduling</option>
+                                        <option value="Technical Test">Technical Test</option>
+                                        <option value="Done">Done</option>
+                                        <option value="Reject">Reject</option>
+                                    </select>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>`);
+}
+
+function setProcess(length) {
+  for (let i = 0; i < length; i++) {
+    $("#process").append(`<div class="row mb-2 process">
+                            <div class="col">
+                                <input class="form-control form-control-sm intDate" type="date" id="intDate" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="col">
+                                <select class=" form-control form-control-sm intStatus" id="intStatus" >
+                                        <option selected disabled>Choose...</option>
+                                        <option value="Submitted CV">Submitted CV</option>
+                                        <option value="Hold">Hold</option>
+                                        <option value="Scheduling">Scheduling</option>
+                                        <option value="Technical Test">Technical Test</option>
+                                        <option value="Done">Done</option>
+                                        <option value="Reject">Reject</option>
+                                    </select>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>`);
+  }
+}
+
+function clearProcess() {
+  $("#process").append(`<div class="row mb-2 process">
+                            <div class="col">
+                                <label for="message-text" class="col-form-label">Interview Date</label>                            
+                                <input class="form-control form-control-sm intDate" type="date" id="intDate" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="col">
+                                <label for="message-text" class="col-form-label">Interview Status</label>
+                                <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newProcess();">+ New </button>
+                                <select class=" form-control form-control-sm intStatus" id="intStatus" >
+                                        <option selected disabled>Choose...</option>
+                                        <option value="Submitted CV">Submitted CV</option>
+                                        <option value="Hold">Hold</option>
+                                        <option value="Scheduling">Scheduling</option>
+                                        <option value="Technical Test">Technical Test</option>
+                                        <option value="Done">Done</option>
+                                        <option value="Reject">Reject</option>
+                                    </select>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>
+                    </div>`);
+
+  var btnSave = $("#Save").css("display");
+  if (btnSave == "block") {
+    $("#btnNewProcess").hide();
+  }
 }
