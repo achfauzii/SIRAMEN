@@ -274,10 +274,11 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
-
+    clearData();
     $('#informationClientModal').modal("show");
     $('#clientId').val(id);
-    $('#showArchiveButton').text("Show Archive Position");
+    const showCheckbox = document.getElementById("showArchive");
+    const statusIndicator_ = document.querySelector(".status-indicator_");
     fetch("https://localhost:7177/api/ClientName/" + id,
         {
             method: 'GET',
@@ -314,12 +315,14 @@ function detailPosition(id) {
                 })
                 .then(data => {
                     var dataContainer = document.getElementById("dataPositionContainer");
+                    showCheckbox.addEventListener("change", function () {
+                        if (this.checked) {
+                            statusIndicator_.textContent = "Hide Archive Position";
+                            dataContainer.innerHTML = "";
 
-                    data.data.forEach(function (data) {
-                        // Menambahkan data ke dalam container
-                        //var positionId = data.id;
-                        if (data.status != "Archive") {
-                            dataContainer.innerHTML += `
+                            // Tampilkan semua data termasuk yang di-archive
+                            data.data.forEach(function (data) {
+                                dataContainer.innerHTML += `
                             <div class="col-sm-6">
                                 <div class="card mb-4" id="dataCardPosition">
                                          <div class="card-header p-1 pl-2 text-dark">
@@ -368,67 +371,71 @@ function detailPosition(id) {
                                 
                                  
                             `;
+                            });
+                        } else {
+                            statusIndicator_.textContent = "Show Archive Position";
+                            data.data.forEach(function (data) {
+                            
+
+                                if (data.status != "Archive") {
+                                    dataContainer.innerHTML += `
+                            <div class="col-sm-6">
+                                <div class="card mb-4" id="dataCardPosition">
+                                         <div class="card-header p-1 pl-2 text-dark">
+                                                Status :
+                                            
+                                                           <span id="status" class="${getStatusColorClass(data.status)}">${data.status}</span>
+                                            
+                                               
+                                         </div>
+                                         <div class="card-body text-dark pt-3 pb-3">
+                                             
+                                                       <div class="row">
+                                                                <div class="col-9 ml-1">
+                                                                           <h6 class="mb-0 font-weight-bolder">${data.positionClient}</h5>
+                                                                </div>
+                                                                <div class="col text-right">
+                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>
+                                                                </div>
+                                                              
+                                                       </div>
+                                                        <div class="row ml-1">
+                                                                 <h6>${data.level}</h6>
+                                                       </div>
+
+                                                       <div class="row">
+                                                           
+                                                                      <div class="col-md-3 ml-1">Quantity</div>
+                                                                      <div class="col-md-0">: </div>
+                                                                      <div class="col-md-8">${data.quantity}</div>
+
+                                                       </div>
+                                                       <div class="row ">
+                                                           
+                                                                      <div class="col-md-3 ml-1">Notes</div>
+                                                                      <div class="col-md-0">:</div>
+                                                                      <div class="col-md-8">${data.notes}</div>
+                                                               
+                                                        
+                                                       </div>
+                                                                                        
+                
+                                                    
+                                         </div>
+                                </div>
+                            </div>
+                                
+                                 
+                            `;
+                                }
+
+                            });
                         }
-                      
                     });
-                    var showArchiveButton = document.getElementById("showArchiveButton");
-                    showArchiveButton.addEventListener("click", function () {
-                        // Reset dataContainer sebelum menambahkan data termasuk yang di-archive
-                        dataContainer.innerHTML = "";
-
-                        // Tampilkan semua data termasuk yang di-archive
-                        data.data.forEach(function (data) {
-                            dataContainer.innerHTML += `
-                            <div class="col-sm-6">
-                                <div class="card mb-4" id="dataCardPosition">
-                                         <div class="card-header p-1 pl-2 text-dark">
-                                                Status :
-                                            
-                                                           <span id="status" class="${getStatusColorClass(data.status)}">${data.status}</span>
-                                            
-                                               
-                                         </div>
-                                         <div class="card-body text-dark pt-3 pb-3">
-                                             
-                                                       <div class="row">
-                                                                <div class="col-9 ml-1">
-                                                                           <h6 class="mb-0 font-weight-bolder">${data.positionClient}</h5>
-                                                                </div>
-                                                                <div class="col text-right">
-                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>
-                                                                </div>
-                                                              
-                                                       </div>
-                                                        <div class="row ml-1">
-                                                                 <h6>${data.level}</h6>
-                                                       </div>
-
-                                                       <div class="row">
-                                                           
-                                                                      <div class="col-md-3 ml-1">Quantity</div>
-                                                                      <div class="col-md-0">: </div>
-                                                                      <div class="col-md-8">${data.quantity}</div>
-
-                                                       </div>
-                                                       <div class="row ">
-                                                           
-                                                                      <div class="col-md-3 ml-1">Notes</div>
-                                                                      <div class="col-md-0">:</div>
-                                                                      <div class="col-md-8">${data.notes}</div>
-                                                               
-                                                        
-                                                       </div>
-                                                                                        
-                
-                                                    
-                                         </div>
-                                </div>
-                            </div>
-                                
-                                 
-                            `;
-                        });
-                    });
+                  
+                   
+                       
+                    
 
 
                     function getStatusColorClass(status) {
