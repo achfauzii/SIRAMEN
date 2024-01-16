@@ -94,9 +94,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#positionModal" onclick="clearScreenPosition();">
-                    + New Position
-                </button>
+           
+                <div class="row justify-content-between">
+                    <span class="col-4 text-left">
+                        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#positionModal" onclick="clearScreenPosition();">
+                            + New Position
+                        </button>
+                    </span>
+                    <span class="col-4 text-right">
+                           <button style="font-size: 12px;" id="showArchiveButton" type="button" class="btn btn-sm btn-info text-light mb-2">
+                        
+                    </button>
+                    </span>
+                 
+                </div>
                 <div class="row" id="dataPositionContainer">
 
                 
@@ -173,6 +184,7 @@
                                 <option value="Hold">Hold</option>
                                 <option value="Closed">Closed</option>
                                 <option value="Fullfill">Fullfill</option>
+                                <option value="Archive">Archive</option>
                             </select>
                             <div class="invalid-feedback">
                                 This field is required.
