@@ -1,4 +1,21 @@
 ﻿$(document).ready(function () {
+  var url = window.location.pathname;
+
+  console.log(url);
+  if (
+    url === "/Dashboards/Employee" ||
+    url === "/Employee/TimeSheet" ||
+    url === "/Employee/AssetsManagement" ||
+    url === "/GenerateCv/GenerateCvEmployee"
+  ) {
+    alert(true);
+    $("#overview").addClass("collapsed");
+    $("#collapseTwo").removeClass("show");
+  } else {
+    $("#overview").removeClass("collapsed");
+    $("#collapseTwo").addClass("show");
+  }
+
   fetchContractPlacement();
 });
 function clearScreen() {
@@ -176,8 +193,8 @@ function fetchContractPlacement() {
           var today = new Date();
           var timeDiff = today.getTime() - endPlacement; // Menghitung selisih dalam milidetik
           var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
-            var daysremainPositive = Math.abs(daysremain);
-            if (daysremainPositive <= 30) {
+          var daysremainPositive = Math.abs(daysremain);
+          if (daysremainPositive <= 30) {
             var data = {
               accountId: emp.accountId,
               fullname: emp.fullname,
@@ -186,8 +203,7 @@ function fetchContractPlacement() {
             };
             dataEmployee.push(data);
           }
-            //console.log(daysremainPositive);
-         
+          //console.log(daysremainPositive);
         }
       });
 

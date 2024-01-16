@@ -5,6 +5,7 @@ $(document).ready(function () {
   $("#btnNewProcess").hide();
   table = $("#trackingIntvw").DataTable({
     responsive: true,
+    searchable: true,
     ajax: {
       url: "https://localhost:7177/api/Tracking/Interview", // Your API endpoint
       type: "GET",
@@ -227,6 +228,10 @@ function getPosition(idClient) {
     },
   }).then((result) => {
     if (result != null) {
+      $("#position").empty();
+      $("#position").append(`<option selected disabled>
+        Choose Position
+      </option>`);
       result.data.forEach((item) => {
         var option = new Option(item.positionClient, item.id, true, false);
         selectPosition.add(option);
@@ -414,7 +419,6 @@ function Update() {
   }
 
   for (var i = 0; i < intStatusArray.length; i += 1) {
-    console.log(intStatusArray[i].value);
     intStatus += intStatusArray[i].value + "<br>";
   }
 
@@ -445,7 +449,6 @@ function Update() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    console.log(result.status);
     if (result.status == 200) {
       Swal.fire({
         icon: "success",
@@ -458,7 +461,6 @@ function Update() {
       table.ajax.reload();
       clearScreen();
     } else {
-      console.log(result.status);
       Swal.fire({
         icon: "warning",
         title: "Data failed to added!",
@@ -563,8 +565,6 @@ function fetchCategories() {
       // Memanggil fungsi untuk membuat navigasi berdasarkan data yang diterima
 
       createNavigation(result.data);
-      console.log(result.data);
-      console.log(result.data.nameOfClient);
     })
     .catch((error) => {
       console.error(
@@ -576,7 +576,7 @@ function fetchCategories() {
 
 function createNavigation(categories) {
   let maxVisibleCategories = 6;
-  categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
+  categories.unshift({ id: 0, nameOfClient: "All" }); // Menambahkan opsi "All" ke dalam array categories
 
   // Mendeteksi lebar layar saat halaman dimuat
   const screenWidth = window.innerWidth || document.documentElement.clientWidth;
@@ -624,16 +624,19 @@ function createNavigation(categories) {
     link.addEventListener("click", function (e) {
       e.preventDefault();
       const selectedCategory = this.getAttribute("data-category");
-      console.log("Selected category:", selectedCategory);
+
+      if (selectedCategory == "all") {
+        console.log(selectedCategory);
+        table.columns().search("").draw();
+      } else {
+        table.column(3).search(selectedCategory).draw();
+      }
 
       navList.querySelectorAll(".nav-link").forEach((link) => {
         link.classList.remove("active");
       });
 
       this.classList.add("active");
-
-      // Panggil fungsi Src dengan kategori yang dipilih
-      Src(selectedCategory);
     });
   }
 
@@ -681,22 +684,25 @@ function createDropdown(categories) {
   dropdownMenu.className = "dropdown-menu";
   dropdownMenu.setAttribute("aria-labelledby", "navbarDropdown");
 
-  categories.forEach((category) => {
+  for (let i = 0; i < categories.length; i++) {
     const dropdownItem = document.createElement("a");
     dropdownItem.className = "dropdown-item";
     dropdownItem.href = "#";
-    dropdownItem.textContent = category.nameOfClient;
+    dropdownItem.textContent = categories[i].nameOfClient;
 
     dropdownItem.addEventListener("click", function (e) {
       e.preventDefault();
       const selectedCategory = this.textContent;
-      console.log("Selected category:", selectedCategory);
-
-      Src(selectedCategory);
+      if (selectedCategory == "all") {
+        console.log("selected: " + selectedCategory);
+        table.search("").draw();
+      } else {
+        table.column(3).search(selectedCategory).draw();
+      }
     });
 
     dropdownMenu.appendChild(dropdownItem);
-  });
+  }
 
   dropdownContainer.appendChild(dropdownToggle);
   dropdownContainer.appendChild(dropdownMenu);
