@@ -81,7 +81,8 @@ $(document).ready(function () {
         $("#birth").show();
       }
     });
-  }
+    }
+    GetEmployeeList();
 });
 
 function clearAnnounce() {
@@ -365,10 +366,10 @@ function SendAnnouncement() {
   }
 
   document.getElementById("AnnounceForm").reset();
-  $("#ModalAnnouncement").modal("hide");
+    $("#ModalAnnouncement").modal("hide");
 
   $("#birth").hide();
-  $("#death").hide();
+    $("#death").hide();
 
   document.getElementById("NameEmployee").selectedIndex = "0";
   document.getElementById("EmployeeName").selectedIndex = "0";
@@ -393,7 +394,7 @@ $(document).ajaxComplete(function () {
 function GetEmployeeList() {
   //Get Employee
   var selectEmployee = document.getElementById("NameEmployee");
-  var select = document.getElementById("EmployeeName");
+    var select = document.getElementById("EmployeeName");
 
   $.ajax({
     type: "GET",
@@ -411,21 +412,21 @@ function GetEmployeeList() {
         var opt = new Option(item.fullname, item.fullname, true, false);
         select.add(opt);
       });
-    }
-  });
-  $("#NameEmployee").select2({
-    placeholder: "Select Employee",
-    width: "100%",
-    height: "100%",
-    allowClear: true,
-    tags: true,
-  });
+      }
+      $("#NameEmployee").select2({
+          placeholder: "Select Employee",
+          width: "100%",
+          height: "100%",
+          allowClear: true,
+          tags: true,
+      });
 
-  $("#EmployeeName").select2({
-    placeholder: "Select Employee",
-    width: "100%",
-    height: "100%",
-    allowClear: true,
-    tags: true,
+      $("#EmployeeName").select2({
+          placeholder: "Select Employee",
+          width: "100%",
+          height: "100%",
+          allowClear: true,
+          tags: true,
+      });
   });
 }
