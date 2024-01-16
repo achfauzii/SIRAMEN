@@ -76,11 +76,11 @@
     </section>
     <!-- /.content -->
 
-<script src="~/js/ManageEmployee/ActivityTalendar.js"></script>
+<script src="~/js/ManageEmployee/ActivityCalendar.js"></script>
 <!-- jQuery UI -->
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
 <!-- fullCalendar 2.2.5 -->
-<script src="../plugins/moment/moment.min.js"></script>
+<script src="~/js/ManageEmployee/moment.min.js"></script>
 <script src="~/js/ManageEmployee/Calendar.js"></script>
 <script>
   $(function () {
@@ -196,7 +196,7 @@
           borderColor    : '#3c8dbc' //Primary (light-blue)
         }
       ],
-      editable  : true,
+      editable  : false,
       droppable : true, // this allows things to be dropped onto the calendar !!!
       drop      : function(info) {
         // is the "remove after drop" checkbox checked?
