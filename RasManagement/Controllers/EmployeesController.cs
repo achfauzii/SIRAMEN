@@ -137,6 +137,20 @@ namespace RasManagement.Controllers
             return Ok(response);
         }
 
-        
+       /* [HttpGet("checkingProfile")]
+        public IActionResult CheckingProfile(string accountId)
+        {
+            var checkingProfile = employeeRepository.CheckProfile(accountId);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }*/
+
+
     }
 }

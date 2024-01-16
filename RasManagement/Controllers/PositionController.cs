@@ -1,24 +1,26 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using RasManagement.BaseController;
 using RasManagement.Repository;
+using System.Net;
 
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TrackingController : BaseController<TrackingInterview, TrackingRepository, int>
+    public class PositionController : BaseController<Position, PositionRepository, int>
     {
-        private readonly TrackingRepository trackingRepository;
-        public TrackingController(TrackingRepository trackingRepository) : base(trackingRepository)
+        private readonly PositionRepository positionRepository;
+        public PositionController(PositionRepository positionRepository) : base(positionRepository)
         {
-            this.trackingRepository = trackingRepository;
+            this.positionRepository = positionRepository;
         }
-        [HttpGet("Interview")]
-        public async Task<IActionResult> GetTrackingInterview()
+
+
+        [HttpGet("ByClientId")]
+        public async Task<IActionResult> GetPositionbyClientId(int clientId)
         {
-            var get = trackingRepository.GetTrackingInterview();
+            var get = await positionRepository.GetPositionByClientId(clientId);
             if (get != null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });

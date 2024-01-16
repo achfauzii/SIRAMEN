@@ -16,8 +16,6 @@ public partial class TrackingInterview
 
     public int? PositionId { get; set; }
 
-    public string? NameOfUser { get; set; }
-
     public string? IntvwDate { get; set; }
 
     public string? IntvwStatus { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace RasManagement.Models;
 
@@ -7,7 +8,7 @@ public partial class Position
 {
     public int Id { get; set; }
 
-    public string? Position1 { get; set; }
+    public string? PositionClient { get; set; }
 
     public string? Level { get; set; }
 
@@ -18,8 +19,8 @@ public partial class Position
     public string? Notes { get; set; }
 
     public int? ClientId { get; set; }
-
+    [JsonIgnore]
     public virtual ClientName? Client { get; set; }
-
-    public virtual ICollection<TrackingInterview> TrackingInterviews { get; set; } = new List<TrackingInterview>();
+    [JsonIgnore]
+    public virtual ICollection<TrackingInterview>? TrackingInterviews { get; set; } = new List<TrackingInterview>();
 }

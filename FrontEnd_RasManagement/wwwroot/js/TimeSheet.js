@@ -38,7 +38,7 @@ function submitMonth() {
     accountId = urlParams.get("accountId");
     month = $("#month").val();
     $("#timeSheetMonth").text(moment(month).format("MMMM YYYY"));
-    $(".companyName").text("");
+
     if (month !== "") {
         //GET datatable
         document.getElementById("badgeDisplay").hidden = true;
@@ -53,7 +53,6 @@ function submitMonth() {
 
         table = $("#timeSheetTable").DataTable({
             scrollX: true,
-           /* responsive: true,*/
             order: [1, "asc"],
             ajax: {
                 url:

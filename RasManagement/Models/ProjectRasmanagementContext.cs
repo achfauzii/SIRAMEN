@@ -439,9 +439,6 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(8)
                 .IsUnicode(false)
                 .HasColumnName("Level_Rekom");
-            entity.Property(e => e.NameOfUser)
-                .IsUnicode(false)
-                .HasColumnName("NameOf_User");
             entity.Property(e => e.Negotiable)
                 .HasMaxLength(5)
                 .IsUnicode(false);
@@ -470,6 +467,11 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("Work_Status");
+            entity.Property(e => e.Client_Id).HasColumnName("Client_Id");
+
+         /*   entity.HasOne(d => d.Client).WithMany(e => e.NonRasCandidates)
+                .HasForeignKey(d => d.Client_Id)
+                .HasConstraintName("FK_NonRas_Client");*/
         });
 
         modelBuilder.Entity<Placement>(entity =>
@@ -512,13 +514,13 @@ public partial class ProjectRasmanagementContext : DbContext
         {
             entity.ToTable("Position");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            //entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.ClientId).HasColumnName("Client_Id");
             entity.Property(e => e.Level)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Notes).IsUnicode(false);
-            entity.Property(e => e.Position1)
+            entity.Property(e => e.PositionClient)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Position");
@@ -645,9 +647,6 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.IntvwStatus)
                 .IsUnicode(false)
                 .HasColumnName("Intvw_status");
-            entity.Property(e => e.NameOfUser)
-                .IsUnicode(false)
-                .HasColumnName("Name_of_user");
             entity.Property(e => e.NonRasId).HasColumnName("NonRAS_Id");
             entity.Property(e => e.Notes).IsUnicode(false);
             entity.Property(e => e.PositionId).HasColumnName("Position_Id");
