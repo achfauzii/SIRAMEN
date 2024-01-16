@@ -53,7 +53,6 @@ function submitMonth() {
 
         table = $("#timeSheetTable").DataTable({
             scrollX: true,
-           
             order: [1, "asc"],
             ajax: {
                 url:
