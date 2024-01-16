@@ -274,7 +274,7 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
-  
+
     $('#informationClientModal').modal("show");
     $('#clientId').val(id);
     fetch("https://localhost:7177/api/ClientName/" + id,
@@ -313,10 +313,11 @@ function detailPosition(id) {
                 })
                 .then(data => {
                     var dataContainer = document.getElementById("dataPositionContainer");
-                
+
                     data.data.forEach(function (data) {
                         // Menambahkan data ke dalam container
-                       
+                        //var positionId = data.id;
+                        console.log(data.id)
                         dataContainer.innerHTML += `
                             <div class="col-sm-6">
                                 <div class="card mb-4" id="dataCardPosition">
@@ -334,7 +335,7 @@ function detailPosition(id) {
                                                                            <h6 class="mb-0 font-weight-bolder">${data.positionClient}</h5>
                                                                 </div>
                                                                 <div class="col text-right">
-                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee"><i class="far fa-edit"></i></a>
+                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>
                                                                 </div>
                                                               
                                                        </div>
@@ -372,11 +373,11 @@ function detailPosition(id) {
                             case 'Hold':
                                 return 'text-warning';
                             case 'Open':
-                                return 'text-success'; 
+                                return 'text-success';
                             case 'Closed':
                                 return 'text-danger'
                             default:
-                                return 'text-primary'; 
+                                return 'text-primary';
                         }
                     }
                 })
@@ -393,6 +394,106 @@ function detailPosition(id) {
 
 
 
+}
+
+function GetByIdPosition(id) {
+    $.ajax({
+        url: "https://localhost:7177/api/Position/" + id,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            var obj = result.data;
+            console.log(obj);
+            $("#positionId").val(obj.id);
+            $("#positionName").val(obj.positionClient);
+            $("#positionQuantity").val(obj.quantity);
+            $("#positionStatus").val(obj.status);
+            $("#positionLevel").val(obj.level);
+            $("#positionNotes").val(obj.notes);
+            $("#positionModal").modal("show");
+            $("#updatePosition").show();
+            $("#savePosition").hide();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
+    });
+}
+
+function updatePosition() {
+    var form = document.querySelector('#positionModal .needs-validation');
+
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add('was-validated');
+        return;
+    }
+
+    const clientId = document.getElementById('clientId').value;
+    const positionId = document.getElementById('positionId').value;
+    const positionName = document.getElementById('positionName').value;
+    const positionLevel = document.getElementById('positionLevel').value;
+    const positionQuantity = document.getElementById('positionQuantity').value;
+    const positionStatus = document.getElementById('positionStatus').value;
+    const positionNotes = document.getElementById('positionNotes').value;
+
+    const position = {
+
+        "id": positionId,
+        "positionClient": positionName,
+        "level": positionLevel,
+        "quantity": positionQuantity,
+        "status": positionStatus,
+        "notes": positionNotes,
+        "clientId": clientId
+    };
+    console.log(position);
+    fetch("https://localhost:7177/api/Position",
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            body: JSON.stringify(position),
+        }
+    )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status == 200) {
+                Swal.fire({
+                    title: "Success!",
+                    text: "Data Position has ben Added!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                const logMessage = `Has added position ${position.positionClient} in Client Id ${position.clientId}`;
+                SaveLogUpdate(logMessage);
+
+                $("#positionModal").modal("hide");
+
+                var dataContainer = document.getElementById("dataPositionContainer");
+                dataContainer.innerHTML = '';
+                detailPosition(clientId);
+
+            }
+        })
+        .catch(error => {
+            // Tangani kesalahan yang mungkin terjadi selama permintaan
+            console.error('Fetch error:', error);
+        });
+    console.log("clientId before calling detailPosition:", clientId);
 }
 
 function clearScreenPosition() {
@@ -455,17 +556,19 @@ function savePosition() {
                 Swal.fire({
                     title: "Success!",
                     text: "Data Position has ben Added!",
-                    icon: "success"
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
                 });
                 const logMessage = `Has added position ${newPositionData.positionName} in Client Id ${newPositionData.clientId}`;
                 SaveLogUpdate(logMessage);
-              
+
                 $("#positionModal").modal("hide");
-             
+
                 var dataContainer = document.getElementById("dataPositionContainer");
                 dataContainer.innerHTML = '';
                 detailPosition(clientId);
-   
+
             }
         })
         .catch(error => {
@@ -474,7 +577,7 @@ function savePosition() {
         });
     console.log("clientId before calling detailPosition:", clientId);
 
-   
+
 }
 
 const closeButton = document.querySelector(
