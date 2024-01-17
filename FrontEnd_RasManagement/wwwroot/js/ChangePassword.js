@@ -1,21 +1,4 @@
 ﻿$(document).ready(function () {
-  var url = window.location.pathname;
-
-  console.log(url);
-  if (
-    url === "/Dashboards/Employee" ||
-    url === "/Employee/TimeSheet" ||
-    url === "/Employee/AssetsManagement" ||
-    url === "/GenerateCv/GenerateCvEmployee"
-  ) {
-    alert(true);
-    $("#overview").addClass("collapsed");
-    $("#collapseTwo").removeClass("show");
-  } else {
-    $("#overview").removeClass("collapsed");
-    $("#collapseTwo").addClass("show");
-  }
-
   fetchContractPlacement();
 });
 function clearScreen() {

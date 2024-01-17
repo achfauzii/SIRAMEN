@@ -443,6 +443,24 @@
         </div>
     </div>
 
+    <script>
+        $(document).ready(function () {
+            var url = window.location.pathname;
+
+            if (
+                url === "/Dashboards/Employee" ||
+                url === "/Employee/TimeSheet" ||
+                url === "/Employee/AssetsManagement" ||
+                url === "/GenerateCv/GenerateCvEmployee"
+            ) {
+                $("#overview").addClass("collapsed");
+                $("#collapseTwo").removeClass("show");
+            } else {
+                $("#overview").removeClass("collapsed");
+                $("#collapseTwo").addClass("show");
+            }
+        });
+    </script>
     <!-- Custom script with url-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
