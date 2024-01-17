@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     table = $("#tbDataCleint").DataTable({
         responsive: true,
-
+       
         ajax: {
             url: "https://localhost:7177/api/ClientName",
             type: "GET",
@@ -274,7 +274,7 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
-    clearData();
+
     $('#informationClientModal').modal("show");
     $('#clientId').val(id);
     const showCheckbox = document.getElementById("showArchive");
@@ -315,6 +315,64 @@ function detailPosition(id) {
                 })
                 .then(data => {
                     var dataContainer = document.getElementById("dataPositionContainer");
+                    statusIndicator_.textContent = "Show Archive Position";
+                    data.data.forEach(function (data) {
+
+
+                        if (data.status != "Archive") {
+                            dataContainer.innerHTML += `
+                            <div class="col-sm-6">
+                                <div class="card mb-4" id="dataCardPosition">
+                                         <div class="card-header p-1 pl-2 text-dark">
+                                                Status :
+                                            
+                                                           <span id="status" class="${getStatusColorClass(data.status)}">${data.status}</span>
+                                            
+                                               
+                                         </div>
+                                         <div class="card-body text-dark pt-3 pb-3">
+                                             
+                                                       <div class="row">
+                                                                <div class="col-9 ml-1">
+                                                                           <h6 class="mb-0 font-weight-bolder">${data.positionClient}</h5>
+                                                                </div>
+                                                                <div class="col text-right">
+                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>
+                                                                </div>
+                                                              
+                                                       </div>
+                                                        <div class="row ml-1">
+                                                                 <h6>${data.level}</h6>
+                                                       </div>
+
+                                                       <div class="row">
+                                                           
+                                                                      <div class="col-md-3 ml-1">Quantity</div>
+                                                                      <div class="col-md-0">: </div>
+                                                                      <div class="col-md-8">${data.quantity}</div>
+
+                                                       </div>
+                                                       <div class="row ">
+                                                           
+                                                                      <div class="col-md-3 ml-1">Notes</div>
+                                                                      <div class="col-md-0">:</div>
+                                                                      <div class="col-md-8">${data.notes}</div>
+                                                               
+                                                        
+                                                       </div>
+                                                                                        
+                
+                                                    
+                                         </div>
+                                </div>
+                            </div>
+                                
+                                 
+                            `;
+                        }
+
+                    });
+
                     showCheckbox.addEventListener("change", function () {
                         if (this.checked) {
                             statusIndicator_.textContent = "Hide Archive Position";
@@ -368,14 +426,13 @@ function detailPosition(id) {
                                          </div>
                                 </div>
                             </div>
-                                
-                                 
                             `;
                             });
                         } else {
                             statusIndicator_.textContent = "Show Archive Position";
+                            dataContainer.innerHTML = "";
                             data.data.forEach(function (data) {
-                            
+
 
                                 if (data.status != "Archive") {
                                     dataContainer.innerHTML += `
@@ -430,7 +487,9 @@ function detailPosition(id) {
                                 }
 
                             });
-                        }
+
+                        } 
+                           
                     });
                   
                    
@@ -446,6 +505,8 @@ function detailPosition(id) {
                                 return 'text-success';
                             case 'Closed':
                                 return 'text-danger'
+                            case 'Archive':
+                                return 'text-info';
                             default:
                                 return 'text-primary';
                         }

@@ -1,6 +1,9 @@
 ﻿using FrontEnd_RasManagement.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace FrontEnd_RasManagement.Controllers.EmployeeController
 {
@@ -20,15 +23,23 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
                 return RedirectToAction("Login", "Accounts");
             }
             //End Validate
+        
             return View();
         }
 
-        public IActionResult Educations()
+        public async Task<IActionResult> Educations()
         {
+       
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
+            }
+        
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee","Dashboards");
             }
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
             ViewData["UserRole"] = role;
@@ -36,12 +47,18 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
-        public IActionResult EmploymentHistory()
+
+        public async Task<IActionResult> EmploymentHistory()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
+            }
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee", "Dashboards");
             }
             //End Validate
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
@@ -49,12 +66,17 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
-        public IActionResult ProjectHistory()
+        public async Task<IActionResult> ProjectHistory()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
+            }
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee", "Dashboards");
             }
             //End Validate
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
@@ -62,12 +84,17 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
-        public IActionResult AssetsManagement()
+        public async Task<IActionResult> AssetsManagement()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
+            }
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee", "Dashboards");
             }
             //End Validate
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
@@ -75,12 +102,17 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
-        public IActionResult Certificate()
+        public async Task<IActionResult> Certificate()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
+            }
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee", "Dashboards");
             }
             //End Validate
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
@@ -88,12 +120,17 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
-        public IActionResult Qualification()
+        public async Task<IActionResult> Qualification()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
+            }
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee", "Dashboards");
             }
             //End Validate
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
@@ -101,12 +138,17 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             return View();
         }
 
-        public IActionResult TimeSheet()
+        public async Task<IActionResult> TimeSheet()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
+            }
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee", "Dashboards");
             }
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
             ViewData["UserRole"] = role;
@@ -139,6 +181,9 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
 
             return Content("Terjadi kesalahan saat mengunggah file");
         }
+
+       
+        
 
     }
 }
