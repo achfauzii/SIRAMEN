@@ -98,7 +98,15 @@
 
 
 </style>
-<div class="coverh">
+
+@if (ViewData["AlertMessage"] != null)
+{
+    <div class="alert alert-info text-danger" role="alert">
+        @ViewData["AlertMessage"]
+    </div>
+}
+
+<div class="cover">
     <button class="act-btn border-0" data-tooltip="tooltip" data-placement="left" title="Report Feedback">
         <i class="fa-regular fa-flag" id="icon-button" style="font-size: 0.55em; display: flex; justify-content: center; align-items: center;"></i>
     </button>
