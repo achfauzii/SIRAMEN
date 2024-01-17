@@ -1,4 +1,4 @@
-﻿var table = null;
+var table = null;
 $(document).ready(function () {
 
     table = $("#tbDataCleint").DataTable({
