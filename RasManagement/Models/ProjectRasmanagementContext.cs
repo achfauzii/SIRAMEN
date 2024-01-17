@@ -305,6 +305,9 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Years)
                 .HasMaxLength(10)
                 .IsUnicode(false);
+            entity.Property(e => e.Ipk)
+                .HasMaxLength(5)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.FormalEdus)
                 .HasForeignKey(d => d.AccountId)
