@@ -92,7 +92,7 @@ namespace RasManagement.Controllers
                     return "#f39c12"; // Yellow
                 case "WFC":
                     return "#00a65a"; // Green
-                case "Sakit":
+                case "Cuti / Sakit":
                     return "#6c757d"; // Grey
                 default:
                     return "#f56954"; // Red
