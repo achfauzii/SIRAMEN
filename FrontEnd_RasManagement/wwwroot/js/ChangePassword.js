@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿var dataEmployee = [];
+var dataEmployeeCV = [];
+$(document).ready(function () {
+  checkOverviewEmployee();
   fetchContractPlacement();
 });
 function clearScreen() {
@@ -155,7 +158,6 @@ function SaveLog_(logData) {
 }
 
 function fetchContractPlacement() {
-  var dataEmployee = [];
   fetch("https://localhost:7177/api/Employees", {
     method: "GET",
     datatype: "json",
@@ -193,7 +195,7 @@ function fetchContractPlacement() {
       var notification = document.getElementById("notification");
       dataEmployee.forEach(function (notif) {
         notification.innerHTML += `
-        <a class="dropdown-item d-flex align-items-center" href="/ManageEmployee/DetailEmployee?accountId=${notif.accountId}">
+        <a class="dropdown-item d-flex align-items-center notification-item" href="/ManageEmployee/DetailEmployee?accountId=${notif.accountId}">
           <div class="mr-3">
             <div class="icon-circle bg-primary">
               <i class="fas fa-file-alt text-white"></i>
@@ -205,13 +207,106 @@ function fetchContractPlacement() {
           </div>
         </a>`;
       });
-      if (dataEmployee.length == 0) {
+      // if (dataEmployee.length == 0) {
+      //   $("#noNotif").show();
+      //   $("#notifCount").hide();
+      // } else {
+      //   $("#noNotif").hide();
+      //   document.getElementById("notifCount").innerHTML = dataEmployee.length;
+      // }
+    });
+}
+
+function checkOverviewEmployee() {
+  fetch("https://localhost:7177/api/Employees/CheckOverviewEmployee", {
+    method: "GET",
+    datatype: "json",
+    dataSrc: "data",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      result.data.forEach(function (emp) {
+        var personal = true,
+          formalEdu = true,
+          qualification = true;
+        if (
+          emp.fullname == null ||
+          emp.nickname == null ||
+          emp.birthplace == null ||
+          emp.birthdate == null ||
+          emp.religion == null ||
+          emp.gender == null ||
+          emp.maritalstatus == null ||
+          emp.nationality == null ||
+          emp.address == null
+        ) {
+          personal = false;
+        }
+        if (emp.formalEdus.length == 0) {
+          formalEdu = false;
+        }
+        if (emp.qualifications.length == 0) {
+          qualification = false;
+        }
+
+        if (personal == false && formalEdu == false && qualification == false) {
+          dataEmployeeCV.push(
+            `${emp.fullname} personal data, education and qualifications are still incomplete.`
+          );
+        } else if (personal == false && formalEdu == false) {
+          dataEmployeeCV.push(
+            `${emp.fullname} personal data and education are still incomplete.`
+          );
+        } else if (personal == false && qualification == false) {
+          dataEmployeeCV.push(
+            `${emp.fullname} personal data and qualifications are still incomplete.`
+          );
+        } else if (formalEdu == false && qualification == false) {
+          dataEmployeeCV.push(
+            `${emp.fullname} education and qualifications are still incomplete.`
+          );
+        } else if (personal == false) {
+          dataEmployeeCV.push(
+            `${emp.fullname} personal data are still incomplete.`
+          );
+        } else if (formalEdu == false) {
+          dataEmployeeCV.push(
+            `${emp.fullname} education are still incomplete.`
+          );
+        } else if (qualification == false) {
+          dataEmployeeCV.push(
+            `${emp.fullname} qualifications are still incomplete.`
+          );
+        }
+        // console.log(dataEmployee);
+      });
+
+      var notification = document.getElementById("notification");
+      dataEmployeeCV.forEach(function (notif) {
+        notification.innerHTML += `
+        <div class="dropdown-item d-flex align-items-center notification-item">
+          <div class="mr-3">
+            <div class="icon-circle bg-warning">
+              <i class="fas fa-user text-white"></i>
+            </div>
+          </div>
+          <div>
+          <div class="small text-gray-500">CV Employee</div>
+            ${notif}
+          </div>
+        </div>`;
+      });
+      var notifLength = dataEmployee.length + dataEmployeeCV.length;
+
+      if (notifLength == 0) {
         $("#noNotif").show();
         $("#notifCount").hide();
       } else {
         $("#noNotif").hide();
-        document.getElementById("notifCount").innerHTML = dataEmployee.length;
+        document.getElementById("notifCount").innerHTML = notifLength;
       }
-      // The expiry date for <b>${notif.fullname}</b> placement at <b>${notif.placement}</b> is approaching, with <b>${notif.days}</b> days remaining on the contract.
     });
 }
