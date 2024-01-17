@@ -1,8 +1,12 @@
 ﻿var dataEmployee = [];
 var dataEmployeeCV = [];
+
+var notification = document.getElementById("notification");
+var element = document.getElementById("btnBell");
+var elementAlert = document.getElementById("alertNotif");
 $(document).ready(function () {
-  checkOverviewEmployee();
   fetchContractPlacement();
+  checkOverviewEmployee();
 });
 function clearScreen() {
   $("#accountId").val("");
@@ -192,7 +196,6 @@ function fetchContractPlacement() {
         }
       });
 
-      var notification = document.getElementById("notification");
       dataEmployee.forEach(function (notif) {
         notification.innerHTML += `
         <a class="dropdown-item d-flex align-items-center notification-item" href="/ManageEmployee/DetailEmployee?accountId=${notif.accountId}">
@@ -229,10 +232,8 @@ function checkOverviewEmployee() {
     .then((response) => response.json())
     .then((result) => {
       result.data.forEach(function (emp) {
-        var personal = true,
-          formalEdu = true,
-          qualification = true;
         if (
+          //Check Personal Detail
           emp.fullname == null ||
           emp.nickname == null ||
           emp.birthplace == null ||
@@ -241,50 +242,26 @@ function checkOverviewEmployee() {
           emp.gender == null ||
           emp.maritalstatus == null ||
           emp.nationality == null ||
-          emp.address == null
+          emp.address == null ||
+          //Check Education
+          emp.formalEdus.length == 0 ||
+          emp.nonFormalEdus.length == 0 ||
+          //Check Qualifications
+          emp.qualifications.framework == null ||
+          emp.qualifications.programmingLanguage == null ||
+          emp.qualifications.database == null ||
+          //Check Certificate
+          emp.certificates.length == 0 ||
+          //Check Employeement History
+          emp.employmentHistories.length == 0 ||
+          //Check Project History
+          emp.projectHistories.length == 0
         ) {
-          personal = false;
-        }
-        if (emp.formalEdus.length == 0) {
-          formalEdu = false;
-        }
-        if (emp.qualifications.length == 0) {
-          qualification = false;
-        }
-
-        if (personal == false && formalEdu == false && qualification == false) {
-          dataEmployeeCV.push(
-            `${emp.fullname} personal data, education and qualifications are still incomplete.`
-          );
-        } else if (personal == false && formalEdu == false) {
-          dataEmployeeCV.push(
-            `${emp.fullname} personal data and education are still incomplete.`
-          );
-        } else if (personal == false && qualification == false) {
-          dataEmployeeCV.push(
-            `${emp.fullname} personal data and qualifications are still incomplete.`
-          );
-        } else if (formalEdu == false && qualification == false) {
-          dataEmployeeCV.push(
-            `${emp.fullname} education and qualifications are still incomplete.`
-          );
-        } else if (personal == false) {
-          dataEmployeeCV.push(
-            `${emp.fullname} personal data are still incomplete.`
-          );
-        } else if (formalEdu == false) {
-          dataEmployeeCV.push(
-            `${emp.fullname} education are still incomplete.`
-          );
-        } else if (qualification == false) {
-          dataEmployeeCV.push(
-            `${emp.fullname} qualifications are still incomplete.`
-          );
+          dataEmployeeCV.push(`${emp.fullname} data is still incomplete.`);
         }
         // console.log(dataEmployee);
       });
 
-      var notification = document.getElementById("notification");
       dataEmployeeCV.forEach(function (notif) {
         notification.innerHTML += `
         <div class="dropdown-item d-flex align-items-center notification-item">
@@ -304,9 +281,63 @@ function checkOverviewEmployee() {
       if (notifLength == 0) {
         $("#noNotif").show();
         $("#notifCount").hide();
+      } else if (notifLength > 3) {
+        $("#noNotif").hide();
+        document.getElementById("notifCount").innerHTML = "3+";
+        var notifItem = document.getElementsByClassName("notification-item");
+
+        notification.innerHTML += `<span
+          class="dropdown-item text-center small text-dark-500"
+          id="showAllNotif" onclick="showAllNotification()">
+          Show All Notifications
+        </span>`;
+
+        notification.innerHTML += `<span
+          class="dropdown-item text-center small text-dark-500"
+          id="hideAllNotif" onclick="hideAllNotification()">
+          Hide Notifications
+        </span>`;
+        $("#hideAllNotif").hide();
+
+        $("#showAllNotif").css("cursor", "pointer");
+        $("#hideAllNotif").css("cursor", "pointer");
+        for (let i = notifLength; i > 3; i--) {
+          notifItem[i - 1].classList.remove("d-flex");
+          notifItem[i - 1].style.display = "none";
+        }
       } else {
         $("#noNotif").hide();
         document.getElementById("notifCount").innerHTML = notifLength;
       }
     });
+}
+
+function showAllNotification() {
+  var notifLength = dataEmployee.length + dataEmployeeCV.length;
+  var notifItem = document.getElementsByClassName("notification-item");
+  $("#showAllNotif").hide();
+  $("#hideAllNotif").show();
+
+  for (let i = notifLength; i > 3; i--) {
+    notifItem[i - 1].classList.add("d-flex");
+    notifItem[i - 1].style.display = "block";
+  }
+
+  $("#alertNotif").trigger("click");
+  $("#alertNotif").show();
+}
+
+function hideAllNotification() {
+  var notifLength = dataEmployee.length + dataEmployeeCV.length;
+  var notifItem = document.getElementsByClassName("notification-item");
+  $("#hideAllNotif").hide();
+  $("#showAllNotif").show();
+
+  for (let i = notifLength; i > 3; i--) {
+    notifItem[i - 1].classList.remove("d-flex");
+    notifItem[i - 1].style.display = "none";
+  }
+
+  $("#alertNotif").trigger("click");
+  $("#alertNotif").show();
 }
