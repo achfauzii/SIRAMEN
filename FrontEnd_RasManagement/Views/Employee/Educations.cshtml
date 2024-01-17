@@ -33,6 +33,7 @@
                     <th scope="col">Location</th>
                     <th scope="col">Major</th>
                     <th scope="col">Degree</th>
+                    <th scope="col">IPK</th>
                     <th scope="col">Graduation Year</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -139,6 +140,12 @@
                             <option value="S2">S2</option>
                         </select>
                         <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Ipk">IPK</label>
+                        <input type="text" class="form-control" id="Ipk" oninput="numeric(this);"  onpaste="numeric(this);" placeholder="Enter Your IPK/GPA" required>
+                        <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-format-ipk" style="color: red; display: none;">Enter the correct GPA!</span>
                     </div>
                     <div class="form-group">
                         <label for="GraduationYears">Graduation Year</label>

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <None Remove="Controllers\AccountsController.cs~RF54e8a70.TMP" />
+    <None Remove="Views\Layout\LayoutEmployee.cshtml~RF984032.TMP" />
   </ItemGroup>
 
   <ItemGroup>
