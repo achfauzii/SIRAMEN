@@ -15,14 +15,15 @@ const ctx = document.getElementById('statisticChart').getContext('2d');
         // Creating two variables for 'position' and 'count'
         const labelChart = topPosition.map(item => item.level);
         const countChart = topPosition.map(item => item.count);
-        const positionChart = topPosition.map(item => item.topPosition);
-        tableData = statistic.table
+        const positionChart = topPosition.map(item => item.topThreePositionbyLevel);
+        tableData = statistic.sortedSkills
       
-        document.getElementById("topPosition").textContent= statistic.topPosition[0]["position"]
+        document.getElementById("topPosition").textContent= statistic.topThreePosition[0]["position"]
         console.log()
-        document.getElementById("topLevel").textContent= statistic.data[0]["level"]
-        document.getElementById("topSkill").textContent= statistic.data[1]["skill"]
-        document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+statistic.data[0]["level"]+ " Level"
+        document.getElementById("topLevel").textContent= statistic.allLevel[0]["level"]
+        document.getElementById("topSkill").textContent= statistic.sortedSkills[0]["key"]
+        // document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+statistic.allLevel[0]["level"]+ " Level"
+        document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+ "All" +" Level"
         chart(labelChart,countChart, positionChart)
         table()
     }})
@@ -57,9 +58,8 @@ function chart(labelChart,countChart, positionChart){
                 footer: function (tooltipItems) {
                   const count= [10, 12, 15];
                   const datasetIndex = tooltipItems[0].dataIndex;
-                  console.log(positionChart[datasetIndex])
                   const positionData = positionChart[datasetIndex];
-                  return `\nTop Position: ${positionData}`;
+                  return `\nTop Position \n1. ${positionData[0].position}: ${positionData[0].count} \n2. ${positionData[1].position}: ${positionData[1].count} \n3. ${positionData[2].position}: ${positionData[2].count}`;
                 },
               }
             }
@@ -82,7 +82,7 @@ function table(){
             table.clear();
 
             data.forEach(function (entry, index) {
-                table.row.add([index + 1, entry.skill, entry.count]).draw();
+                table.row.add([index + 1, entry.key, entry.value]).draw();
             });
         }
         populateTable();

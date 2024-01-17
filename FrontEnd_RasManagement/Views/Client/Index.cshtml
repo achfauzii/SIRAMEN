@@ -13,11 +13,11 @@
         background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
     }
 
-    .modal:nth-of-type(odd) {
+    .modal.positionModal:nth-of-type(odd) {
         z-index: 1052 !important;
     }
 
-    .modal-backdrop.show:nth-of-type(even) {
+    .modal-backdrop.positionModal.show:nth-of-type(even) {
         z-index: 1051 !important;
     }
 
@@ -126,7 +126,7 @@
 
 @*CRUD Position*@
 <!-- Modal -->
-<div class="modal" id="positionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal positionModal" id="positionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
