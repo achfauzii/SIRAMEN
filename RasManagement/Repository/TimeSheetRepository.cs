@@ -31,6 +31,19 @@ namespace RasManagement.Repository
 
             return timeSheets;
         }
+        public async Task<List<TimeSheet>> GetTimeSheetsByMonth(DateTime start, DateTime end)
+        {
+            var timeSheets = await context.TimeSheets
+                .Where(ts => ts.Date.HasValue
+                            && ts.Date >= start
+                            && ts.Date <= end)
+                .ToListAsync();
+            
+            
+
+            return timeSheets;
+        }
+       
 
         public int AddTimeSheet(TimeSheet timeSheet)
         {

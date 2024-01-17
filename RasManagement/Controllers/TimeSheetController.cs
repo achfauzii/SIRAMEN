@@ -54,8 +54,48 @@ namespace RasManagement.Controllers
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data not found", Data = get });
             }
         }
-
         
+        [HttpGet("TimeSheetByMonth")]
+        public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end)
+        {
+            var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end);
+            var groupedByDay = get.GroupBy(a => a.Date);
+
+            var resultWithTitles = new List<object>();
+            
+            foreach (var dayGroup in groupedByDay)
+            {
+            // Group by Flag within each day group
+            var countFlag = dayGroup
+                .GroupBy(a => a.Flag)
+                .Select(flagGroup => new
+                {
+                    title = flagGroup.Key + ": " + flagGroup.Count(),
+                    start = dayGroup.Key,
+                    allDay = true,
+                    backgroundColor = GetColorByFlag(flagGroup.Key),
+                    borderColor = GetColorByFlag(flagGroup.Key),
+                })
+                .ToList();
+                
+            resultWithTitles.AddRange(countFlag);
+            }
+           return StatusCode(200, resultWithTitles );
+        }
+        private string GetColorByFlag(string flag)
+        {
+            switch (flag)
+            {
+                case "WFO":
+                    return "#0073b7"; // Blue
+                case "WFH":
+                    return "#f39c12"; // Yellow
+                case "WFC":
+                    return "#00a65a"; // Green
+                default:
+                    return "f56954"; // Red
+            }
+        }
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
