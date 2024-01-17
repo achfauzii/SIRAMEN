@@ -59,7 +59,7 @@ function chart(labelChart,countChart, positionChart){
                   const count= [10, 12, 15];
                   const datasetIndex = tooltipItems[0].dataIndex;
                   const positionData = positionChart[datasetIndex];
-                  return `\nTop Position \n1. ${positionData[0].position}\n    Count: ${positionData[0].count} \n2. ${positionData[1].position}\n    Count: ${positionData[1].count} \n3. ${positionData[2].position}\n    Count: ${positionData[2].count}`;
+                  return `\nTop Position \n1. ${positionData[0].position}: ${positionData[0].count} \n2. ${positionData[1].position}: ${positionData[1].count} \n3. ${positionData[2].position}: ${positionData[2].count}`;
                 },
               }
             }
