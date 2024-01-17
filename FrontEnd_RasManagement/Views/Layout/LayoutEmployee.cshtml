@@ -209,13 +209,6 @@
 
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item @(currentUrl == "/Employee/TimeSheet" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Employee/TimeSheet" data-target="#collapseUtilities"
-                   aria-controls="collapseUtilities">
-                    <i class="far fa-fw fa-calendar-check"></i>
-                    <span>Time Sheet</span>
-                </a>
-            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -256,6 +249,14 @@
                         </a>
                     </div>
                 </div>
+            </li>
+
+            <li class="nav-item @(currentUrl == "/Employee/TimeSheet" ? "active" : "")">
+                <a class="nav-link collapsed" href="/Employee/TimeSheet" data-target="#collapseUtilities"
+                   aria-controls="collapseUtilities">
+                    <i class="far fa-fw fa-calendar-check"></i>
+                    <span>Time Sheet</span>
+                </a>
             </li>
 
             <li class="nav-item  @(currentUrl == "/Employee/AssetsManagement" ? "active" : "")">
