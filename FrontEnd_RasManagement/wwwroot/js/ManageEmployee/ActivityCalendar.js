@@ -60,9 +60,10 @@ $(function () {
     headerToolbar: {
       left  : 'prev,next today',
       center: 'title',
-      right : 'dayGridMonth,timeGridWeek,timeGridDay'
+      right : ''
     },
     themeSystem: 'bootstrap',
+    lazyFetching: false,
     events: {url : 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth'}, 
     extraParams: function() {
       return {

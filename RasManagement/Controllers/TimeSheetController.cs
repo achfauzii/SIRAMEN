@@ -85,20 +85,9 @@ namespace RasManagement.Controllers
                 var resultWithTitles = new List<object>();
                 foreach (var dayGroup in groupedByDay)
                 {
-                var countFlag = dayGroup
-                    .GroupBy(a => a.Flag)
-                    .Select(flagGroup => new
-                    {
-                        title = "test minggu",
-                        start = dayGroup.Key,
-                        allDay = true,
-                        backgroundColor = GetColorByFlag(flagGroup.Key),
-                        borderColor = GetColorByFlag(flagGroup.Key),
-                    })
-                    .ToList();
-                resultWithTitles.AddRange(countFlag);
+                    
                 }
-            return StatusCode(200, resultWithTitles );
+            return StatusCode(200, groupedByDay );
             }
 
         }
