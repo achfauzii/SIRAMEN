@@ -63,7 +63,18 @@ $(function () {
       right : 'dayGridMonth,timeGridWeek,timeGridDay'
     },
     themeSystem: 'bootstrap',
-    events: 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth',
+    events: {url : 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth'}, 
+    extraParams: function() {
+      return {
+        cachebuster: new Date().valueOf()
+        }
+      },
+    viewRender: function(view, element) {
+      // Fetch data from your API based on the current view
+      var startDate = view.start;
+      var endDate = view.end;
+      fetchDataAndUpdateEvents(startDate, endDate);},
+
     editable  : false,
     droppable : true, // this allows things to be dropped onto the calendar !!!
     drop      : function(info) {
