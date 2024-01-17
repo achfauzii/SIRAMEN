@@ -208,14 +208,14 @@ function Src(selectedCategory) {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
       data: function (d) {
-        // console.log(JSON.stringify(d));
+         console.log(JSON.stringify(d));
         d.order = d.order[0];
         if (selectedCategory != "all") {
           d.search.category = selectedCategory;
         } else {
           d.search.category = "";
         }
-
+ 
         return JSON.stringify(d);
       },
     },
