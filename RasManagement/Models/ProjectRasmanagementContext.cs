@@ -142,6 +142,13 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.StartContract)
                 .HasColumnType("date")
                 .HasColumnName("Start_contract");
+            entity.Property(e => e.Level)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.FinancialIndustry)
+                .HasMaxLength(5)
+                .IsUnicode(false)
+                .HasColumnName("Financial_Industry");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)

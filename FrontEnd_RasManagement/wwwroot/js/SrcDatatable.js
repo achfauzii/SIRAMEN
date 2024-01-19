@@ -903,7 +903,7 @@ function Src(selectedCategory) {
         const newOption = new Option(value, value, true, true);
         positionSelect.append(newOption).trigger("change");
       }
-    });
+    });''
     positionSelect.val(selectedPosition).trigger("change");
 
     const skillSelect = $("#skillset2");

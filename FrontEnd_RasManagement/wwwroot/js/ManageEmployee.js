@@ -158,12 +158,39 @@ $(document).ready(function () {
             return data;
           },
         },
-        { data: "position" },
-        { data: "email" },
-        { data: "gender" },
-        { data: "address" },
+          { data: "position" },
+          {
+              render: function (data, type, row) {
+                  var levelStatus = row.level;
+
+                  if (levelStatus === "Fresh Graduate") {
+                      return (
+                          '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#modalLevel" onclick="GetbyLevel(\'' + row.accountId + '\')">' +
+                          row.level +
+                          '</span>'
+                      );
+                  } else if (levelStatus === "Junior" || levelStatus === "Junior to Middle" || levelStatus === "Middle to Senior") {
+                      return (
+                          '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-target="#modalLevel" onclick = "GetbyLevel(\'' + row.accountId + '\')">' +
+                          row.level +
+                          '</span>'
+                      );
+                  } else {
+                      return (
+                          '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-target="#modalLevel" onclick="GetbyLevel(\'' +
+                          row.accountId + '\')">' +
+                          row.level +
+                          '</span>'
+                      );
+                  }
+              }
+          },
+          { data: "email" },
+          { data: "gender" },
+          { data: "address" },
+          { data: "financialIndustry" },
         {
-          render: function (data, type, row) {
+            render: function (data, type, row) {
             //var accountId = row.accountId;
             var placementStatus = "Idle"; // Default value jika data tidak ditemukan
 
@@ -1031,3 +1058,76 @@ function GetByIdAsset(assetsManagementId) {
     },
   });
 }
+
+function GetbyLevel(accountId) {
+    $.ajax({
+        url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            console.log(result)
+
+            var obj = result.data.result;
+            $("#accountLevel").val(obj.accountId); //ngambil data dr api
+            $("#levelchange").val(obj.level);
+            $("#modalLevel").modal("show");
+            // Clear existing options
+            $('#levelchange').empty();
+
+            // Create and append new options based on the selected level
+            var levels = ["Fresh Graduate", "Junior", "Junior to Middle", "Middle", "Middle to Senior", "Senior"];
+            for (var i = 0; i < levels.length; i++) {
+                var option = $('<option>', {
+                    value: levels[i],
+                    text: levels[i],
+                    selected: levels[i] === obj.level
+                });
+                $('#levelchange').append(option);
+            }
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
+    });
+}
+function UpdateLevel() {  
+    accountId = $("#accountLevel").val();
+    level = $("#levelchange").val();
+    levelData = { "level": level };
+    
+    $.ajax({
+        url: "https://localhost:7177/api/Employees/"+ accountId,
+        type: "PUT",
+        data: JSON.stringify(levelData),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            // Handle success, for example, close the modal
+            $("#modalLevel").modal("hide");
+            if (result.status == 200) {
+                const logMessage = `Has Changed Level of Account ID ${accountId}, Level ${level}`;
+                SaveLogUpdate(logMessage);
+                Swal.fire({
+                    title: "Success!",
+                    text: "Data has been Update!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire("Error!", "Data failed to update", "error");
+                location.reload();
+            }
+        }
+    })
+}
+
