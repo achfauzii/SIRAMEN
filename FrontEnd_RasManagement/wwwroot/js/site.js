@@ -82,6 +82,7 @@ $(document).ready(function () {
       }
     });
   }
+  GetEmployeeList();
 });
 
 function clearAnnounce() {
@@ -408,7 +409,6 @@ function GetEmployeeList() {
   }).then((result) => {
     if (result != null) {
       result.data.forEach((item) => {
-        console.log(item);
         var option = new Option(item.fullname, item.fullname, true, false);
         selectEmployee.add(option);
 
@@ -416,20 +416,20 @@ function GetEmployeeList() {
         select.add(opt);
       });
     }
-  });
-  $("#NameEmployee").select2({
-    placeholder: "Select Employee",
-    width: "100%",
-    height: "100%",
-    allowClear: true,
-    tags: true,
-  });
+    $("#NameEmployee").select2({
+      placeholder: "Select Employee",
+      width: "100%",
+      height: "100%",
+      allowClear: true,
+      tags: true,
+    });
 
-  $("#EmployeeName").select2({
-    placeholder: "Select Employee",
-    width: "100%",
-    height: "100%",
-    allowClear: true,
-    tags: true,
+    $("#EmployeeName").select2({
+      placeholder: "Select Employee",
+      width: "100%",
+      height: "100%",
+      allowClear: true,
+      tags: true,
+    });
   });
 }
