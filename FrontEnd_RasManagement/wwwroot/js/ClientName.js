@@ -217,7 +217,7 @@ function Update() {
                 Swal.fire({
                     icon: "success",
                     title: "Success...",
-                    text: "Data has been added!",
+                    text: "Data has been updated!",
                     showConfirmButton: false,
                     timer: 1500,
                 });
