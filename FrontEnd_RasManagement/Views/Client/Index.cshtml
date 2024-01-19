@@ -138,13 +138,13 @@
             <div class="modal-body">
                 <form class="needs-validation">
 
-                    <input type="text" class="form-control" id="clientId" hidden>
+                    <input type="text" class="form-control" id="client_Id" hidden>
                     <input type="text" class="form-control" id="positionId" hidden>
 
                     <div class="row">
                         <div class="col">
                             <label for="ClientName">Position Name</label>
-                            <input type="text" class="form-control form-control-sm" id="positionName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Position Name" required>
+                            <input type="text" class="form-control form-control-sm" id="positionName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Position Name" required-pos>
                             <div class="invalid-feedback">
                                 This field is required.
                             </div>
@@ -154,11 +154,11 @@
                     <div class="row">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Level</label>
-                            <select class="custom-select custom-select-sm" id="positionLevel" required>
+                            <select class="custom-select custom-select-sm" id="positionLevel" required-pos>
                                 <option selected disabled value="">Choose...</option>
                                 <option value="Fresh Graduate">Fresh Graduate</option>
                                 <option value="Junior">Junior</option>
-                                <option value="Midle">Midle</option>
+                                <option value="Middle">Middle</option>
                                 <option value="Senior">Senior</option>
                             </select>
                             <div class="invalid-feedback">
@@ -170,14 +170,14 @@
                     <div class="row">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Quantity</label>
-                            <input type="number" class="form-control form-control-sm" id="positionQuantity" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Number of positions required" required>
+                            <input type="number" class="form-control form-control-sm" id="positionQuantity" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Number of positions required" required-pos>
                             <div class="invalid-feedback">
                                 This field is required.
                             </div>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Status</label>
-                            <select class="custom-select custom-select-sm" id="positionStatus" required>
+                            <select class="custom-select custom-select-sm" id="positionStatus" required-pos>
                                 <option selected disabled value="">Choose...</option>
                                 <option value="Open">Open</option>
                                 <option value="Hold">Hold</option>
