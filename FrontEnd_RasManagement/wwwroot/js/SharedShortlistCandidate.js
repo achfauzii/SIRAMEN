@@ -75,7 +75,7 @@ function SharedShortListCandidate(selectedCategory) {
                 } else {
                     d.search.category = "";
                 }
-
+                console.log(d);
                 return JSON.stringify(d);
             },
         },
@@ -147,9 +147,7 @@ function SharedShortListCandidate(selectedCategory) {
                     return badgeContainer.html();
                 },
             },
-            {
-                data: "levelRekom",
-            },
+
             {
                 data: "level",
             },
@@ -165,9 +163,7 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "university",
             },
-            {
-                data: "domisili",
-            },
+ 
             {
                 data: "birthdate",
                 render: function (data) {

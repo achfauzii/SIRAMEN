@@ -20,7 +20,6 @@ public partial class NonRasCandidate
 
     public string? University { get; set; }
 
-    public string? Domisili { get; set; }
 
     public string? Birthdate { get; set; }
 
@@ -31,6 +30,7 @@ public partial class NonRasCandidate
     public string? FilteringBy { get; set; }
 
     public string? WorkStatus { get; set; }
+    public string? Domisili { get; set; }
 
     public string? NoticePeriode { get; set; }
 

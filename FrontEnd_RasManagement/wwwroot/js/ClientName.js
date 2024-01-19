@@ -76,7 +76,7 @@ $(document).ready(function () {
 function Save() {
     var isValid = true;
 
-    $("input[required]").each(function () {
+    $("input[required_]").each(function () {
         var element = $(this);
         if (!element.val()) {
             element.next(".error-message").show();
@@ -182,8 +182,8 @@ function GetById(id) {
 
 function Update() {
     var isValid = true;
-
-    $("input[required]").each(function () {
+    debugger;
+    $("input[required_]").each(function () {
         var element = $(this);
         if (!element.val()) {
             element.next(".error-message").show();
@@ -217,7 +217,7 @@ function Update() {
                 Swal.fire({
                     icon: "success",
                     title: "Success...",
-                    text: "Data has been added!",
+                    text: "Data has been updated!",
                     showConfirmButton: false,
                     timer: 1500,
                 });
@@ -604,7 +604,7 @@ function updatePosition() {
             if (data.status == 200) {
                 Swal.fire({
                     title: "Success!",
-                    text: "Data Position has ben Added!",
+                    text: "Data Position has ben updated!",
                     icon: "success",
                     showConfirmButton: false,
                     timer: 1500,
@@ -639,15 +639,7 @@ function clearScreenPosition() {
 }
 
 function savePosition() {
-
-    const clientId = document.getElementById('clientId').value;
-    const positionName = document.getElementById('positionName').value;
-    const positionLevel = document.getElementById('positionLevel').value;
-    const positionQuantity = document.getElementById('positionQuantity').value;
-    const positionStatus = document.getElementById('positionStatus').value;
-    const positionNotes = document.getElementById('positionNotes').value;
-
-    // Loop over them and prevent submission
+    debugger;
     var form = document.querySelector('#positionModal .needs-validation');
 
     if (form.checkValidity() === false) {
@@ -656,6 +648,15 @@ function savePosition() {
         form.classList.add('was-validated');
         return;
     }
+    const clientId = document.getElementById('clientId').value;
+    const positionName = document.getElementById('positionName').value;
+    const positionLevel = document.getElementById('positionLevel').value;
+    const positionQuantity = document.getElementById('positionQuantity').value;
+    const positionStatus = document.getElementById('positionStatus').value;
+    const positionNotes = document.getElementById('positionNotes').value;
+
+    // Loop over them and prevent submission
+
 
     const newPositionData = {
 
