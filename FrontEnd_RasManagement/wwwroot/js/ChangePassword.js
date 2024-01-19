@@ -1,5 +1,12 @@
-﻿$(document).ready(function () {
+﻿var dataEmployee = [];
+var dataEmployeeCV = [];
+
+var notification = document.getElementById("notification");
+var element = document.getElementById("btnBell");
+var elementAlert = document.getElementById("alertNotif");
+$(document).ready(function () {
   fetchContractPlacement();
+  checkOverviewEmployee();
 });
 function clearScreen() {
   $("#accountId").val("");
@@ -155,7 +162,6 @@ function SaveLog_(logData) {
 }
 
 function fetchContractPlacement() {
-  var dataEmployee = [];
   fetch("https://localhost:7177/api/Employees", {
     method: "GET",
     datatype: "json",
@@ -176,8 +182,8 @@ function fetchContractPlacement() {
           var today = new Date();
           var timeDiff = today.getTime() - endPlacement; // Menghitung selisih dalam milidetik
           var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
-            var daysremainPositive = Math.abs(daysremain);
-            if (daysremainPositive <= 30) {
+          var daysremainPositive = Math.abs(daysremain);
+          if (daysremainPositive <= 30) {
             var data = {
               accountId: emp.accountId,
               fullname: emp.fullname,
@@ -186,15 +192,13 @@ function fetchContractPlacement() {
             };
             dataEmployee.push(data);
           }
-            //console.log(daysremainPositive);
-         
+          //console.log(daysremainPositive);
         }
       });
 
-      var notification = document.getElementById("notification");
       dataEmployee.forEach(function (notif) {
         notification.innerHTML += `
-        <a class="dropdown-item d-flex align-items-center" href="/ManageEmployee/DetailEmployee?accountId=${notif.accountId}">
+        <a class="dropdown-item d-flex align-items-center notification-item" href="/ManageEmployee/DetailEmployee?accountId=${notif.accountId}">
           <div class="mr-3">
             <div class="icon-circle bg-primary">
               <i class="fas fa-file-alt text-white"></i>
@@ -206,13 +210,134 @@ function fetchContractPlacement() {
           </div>
         </a>`;
       });
-      if (dataEmployee.length == 0) {
+      // if (dataEmployee.length == 0) {
+      //   $("#noNotif").show();
+      //   $("#notifCount").hide();
+      // } else {
+      //   $("#noNotif").hide();
+      //   document.getElementById("notifCount").innerHTML = dataEmployee.length;
+      // }
+    });
+}
+
+function checkOverviewEmployee() {
+  fetch("https://localhost:7177/api/Employees/CheckOverviewEmployee", {
+    method: "GET",
+    datatype: "json",
+    dataSrc: "data",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      result.data.forEach(function (emp) {
+        if (
+          //Check Personal Detail
+          emp.fullname == null ||
+          emp.nickname == null ||
+          emp.birthplace == null ||
+          emp.birthdate == null ||
+          emp.religion == null ||
+          emp.gender == null ||
+          emp.maritalstatus == null ||
+          emp.nationality == null ||
+          emp.address == null ||
+          //Check Education
+          emp.formalEdus.length == 0 ||
+          emp.nonFormalEdus.length == 0 ||
+          //Check Qualifications
+          emp.qualifications.framework == null ||
+          emp.qualifications.programmingLanguage == null ||
+          emp.qualifications.database == null ||
+          //Check Certificate
+          emp.certificates.length == 0 ||
+          //Check Employeement History
+          emp.employmentHistories.length == 0 ||
+          //Check Project History
+          emp.projectHistories.length == 0
+        ) {
+          dataEmployeeCV.push(`${emp.fullname} data is still incomplete.`);
+        }
+        // console.log(dataEmployee);
+      });
+
+      dataEmployeeCV.forEach(function (notif) {
+        notification.innerHTML += `
+        <div class="dropdown-item d-flex align-items-center notification-item">
+          <div class="mr-3">
+            <div class="icon-circle bg-warning">
+              <i class="fas fa-user text-white"></i>
+            </div>
+          </div>
+          <div>
+          <div class="small text-gray-500">CV Employee</div>
+            ${notif}
+          </div>
+        </div>`;
+      });
+      var notifLength = dataEmployee.length + dataEmployeeCV.length;
+
+      if (notifLength == 0) {
         $("#noNotif").show();
         $("#notifCount").hide();
+      } else if (notifLength > 3) {
+        $("#noNotif").hide();
+        document.getElementById("notifCount").innerHTML = "3+";
+        var notifItem = document.getElementsByClassName("notification-item");
+
+        notification.innerHTML += `<span
+          class="dropdown-item text-center small text-dark-500"
+          id="showAllNotif" onclick="showAllNotification()">
+          Show All Notifications
+        </span>`;
+
+        notification.innerHTML += `<span
+          class="dropdown-item text-center small text-dark-500"
+          id="hideAllNotif" onclick="hideAllNotification()">
+          Hide Notifications
+        </span>`;
+        $("#hideAllNotif").hide();
+
+        $("#showAllNotif").css("cursor", "pointer");
+        $("#hideAllNotif").css("cursor", "pointer");
+        for (let i = notifLength; i > 3; i--) {
+          notifItem[i - 1].classList.remove("d-flex");
+          notifItem[i - 1].style.display = "none";
+        }
       } else {
         $("#noNotif").hide();
-        document.getElementById("notifCount").innerHTML = dataEmployee.length;
+        document.getElementById("notifCount").innerHTML = notifLength;
       }
-      // The expiry date for <b>${notif.fullname}</b> placement at <b>${notif.placement}</b> is approaching, with <b>${notif.days}</b> days remaining on the contract.
     });
+}
+
+function showAllNotification() {
+  var notifLength = dataEmployee.length + dataEmployeeCV.length;
+  var notifItem = document.getElementsByClassName("notification-item");
+  $("#showAllNotif").hide();
+  $("#hideAllNotif").show();
+
+  for (let i = notifLength; i > 3; i--) {
+    notifItem[i - 1].classList.add("d-flex");
+    notifItem[i - 1].style.display = "block";
+  }
+
+  $("#alertNotif").trigger("click");
+  $("#alertNotif").show();
+}
+
+function hideAllNotification() {
+  var notifLength = dataEmployee.length + dataEmployeeCV.length;
+  var notifItem = document.getElementsByClassName("notification-item");
+  $("#hideAllNotif").hide();
+  $("#showAllNotif").show();
+
+  for (let i = notifLength; i > 3; i--) {
+    notifItem[i - 1].classList.remove("d-flex");
+    notifItem[i - 1].style.display = "none";
+  }
+
+  $("#alertNotif").trigger("click");
+  $("#alertNotif").show();
 }

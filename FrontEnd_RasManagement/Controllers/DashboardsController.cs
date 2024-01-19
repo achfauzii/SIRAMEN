@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using NuGet.Common;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
+
 namespace FrontEnd_RasManagement.Controllers
 {
     public class DashboardsController : Controller
@@ -12,15 +14,21 @@ namespace FrontEnd_RasManagement.Controllers
         //Dashboard Employee
         public async Task<IActionResult> Employee()
         {
+        
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
             }
-
+           
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (check == false)
+            {
+                ViewData["AlertMessage"] = "You need to fill out your profile before accessing other pages.";
+            }
+          
             var date = await GetTimeNow();
             /* int totalEmployee = await GetTotalEmployee();*/
             ViewBag.FormattedDate = date;
-            /*  ViewBag.TotalEmployee = totalEmployee;*/
 
             return View();
         }
@@ -121,5 +129,9 @@ namespace FrontEnd_RasManagement.Controllers
 
             return totalEmployee;
         }
+
+       
+
+
     }
 }

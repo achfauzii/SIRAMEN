@@ -207,7 +207,47 @@
                 Interface
             </div>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" id="overview" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-file"></i>
+                    <span>Career Overview</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
 
+                        <a class="collapse-item p-2 @(currentUrl == "/Employee/Educations" ? "active" : "")" href="/Employee/Educations" data-target="#collapseUtilities"
+                        aria-controls="collapseUtilities">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Educations</span>
+                        </a>
+
+                        <a class="collapse-item p-2 @(currentUrl == "/Employee/Qualification" ? "active" : "")" href="/Employee/Qualification" data-target="#collapsePages"
+                        aria-controls="collapsePages">
+                            <i class="fas fa-users-cog"></i>
+                            <span>Qualifications</span>
+                        </a>
+
+                        <a class="collapse-item p-2  @(currentUrl == "/Employee/Certificate" ? "active" : "")" href="/Employee/Certificate" data-target="#collapsePages"
+                        aria-controls="collapsePages">
+                            <i class="fas fa-award"></i>
+                            <span>Achievement / Certificate</span>
+                        </a>
+
+                        <a class="collapse-item p-2 @(currentUrl == "/Employee/EmploymentHistory" ? "active" : "")" href="/Employee/EmploymentHistory" data-target="#collapsePages"
+                        aria-controls="collapsePages">
+                            <i class="fas fa-business-time"></i>
+                            <span>Employment History</span>
+                        </a>
+
+                        <a class="collapse-item p-2 @(currentUrl == "/Employee/ProjectHistory" ? "active" : "")" href="/Employee/ProjectHistory" data-target="#collapsePages"
+                        aria-controls="collapsePages">
+                            <i class="fas fa-tasks"></i>
+                            <span>Project History</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item @(currentUrl == "/Employee/TimeSheet" ? "active" : "")">
@@ -215,46 +255,6 @@
                    aria-controls="collapseUtilities">
                     <i class="far fa-fw fa-calendar-check"></i>
                     <span>Time Sheet</span>
-                </a>
-            </li>
-
-            <li class="nav-item @(currentUrl == "/Employee/Educations" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Employee/Educations" data-target="#collapseUtilities"
-                   aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-user-graduate"></i>
-                    <span>Educations</span>
-                </a>
-            </li>
-
-            <li class="nav-item  @(currentUrl == "/Employee/Qualification" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Employee/Qualification" data-target="#collapsePages"
-                   aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-users-cog"></i>
-                    <span>Qualifications</span>
-                </a>
-            </li>
-
-            <li class="nav-item  @(currentUrl == "/Employee/Certificate" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Employee/Certificate" data-target="#collapsePages"
-                   aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-award"></i>
-                    <span>Achievement / Certificate</span>
-                </a>
-            </li>
-
-            <li class="nav-item  @(currentUrl == "/Employee/EmploymentHistory" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Employee/EmploymentHistory" data-target="#collapsePages"
-                   aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-business-time"></i>
-                    <span>Employment History</span>
-                </a>
-            </li>
-
-            <li class="nav-item  @(currentUrl == "/Employee/ProjectHistory" ? "active" : "")">
-                <a class="nav-link collapsed" href="/Employee/ProjectHistory" data-target="#collapsePages"
-                   aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-tasks"></i>
-                    <span>Project History</span>
                 </a>
             </li>
 
@@ -443,6 +443,24 @@
         </div>
     </div>
 
+    <script>
+        $(document).ready(function () {
+            var url = window.location.pathname;
+
+            if (
+                url === "/Dashboards/Employee" ||
+                url === "/Employee/TimeSheet" ||
+                url === "/Employee/AssetsManagement" ||
+                url === "/GenerateCv/GenerateCvEmployee"
+            ) {
+                $("#overview").addClass("collapsed");
+                $("#collapseTwo").removeClass("show");
+            } else {
+                $("#overview").removeClass("collapsed");
+                $("#collapseTwo").addClass("show");
+            }
+        });
+    </script>
     <!-- Custom script with url-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
