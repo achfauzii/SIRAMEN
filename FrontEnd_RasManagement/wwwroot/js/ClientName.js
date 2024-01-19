@@ -92,7 +92,7 @@ function Save() {
 
   var Client = new Object(); //object baru
   Client.nameOfClient = $("#clientName").val(); //value insert dari id pada input
-  console.log(Client);
+
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/ClientName/AddValidasi",
@@ -202,7 +202,6 @@ function Update() {
   var ClientName = new Object(); //object baru
   ClientName.id = $("#clientId").val();
   ClientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
-  console.log(ClientName);
 
   $.ajax({
     url: "https://localhost:7177/api/ClientName/ChangeData",
@@ -216,7 +215,7 @@ function Update() {
     success: function (result) {
       const logMessage = `Has change client ${ClientName.id}`;
       SaveLogUpdate(logMessage);
-      console.log(ClientName);
+
       if (result.status == 200) {
         Swal.fire({
           icon: "success",
@@ -607,7 +606,7 @@ function updatePosition() {
     notes: positionNotes,
     clientId: clientId,
   };
-  console.log(position);
+
   fetch("https://localhost:7177/api/Position", {
     method: "PUT",
     headers: {
