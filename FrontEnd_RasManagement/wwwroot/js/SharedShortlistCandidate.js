@@ -77,7 +77,7 @@ function SharedShortListCandidate(selectedCategory) {
                 } else {
                     d.search.category = "";
                 }
-
+                console.log(d);
                 return JSON.stringify(d);
             },
         },
@@ -152,6 +152,7 @@ function SharedShortListCandidate(selectedCategory) {
             //{
             //    data: "levelRekom",
             //},
+
             {
                 data: "level",
             },
@@ -178,6 +179,7 @@ function SharedShortListCandidate(selectedCategory) {
                 // render: function (data) {
                 //     return data.trim() !== "" ? data + " Years Old" : "";
                 // },
+
             },
 
             {

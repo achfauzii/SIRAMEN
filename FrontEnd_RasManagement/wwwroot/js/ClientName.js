@@ -192,6 +192,7 @@ function Update() {
       isValid = false;
     } else {
       element.next(".error-message").hide();
+
     }
   });
 
@@ -267,6 +268,7 @@ function Delete(id, nameOfClient) {
           SaveLogUpdate(logMessage);
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           $("#tbDataCleint").DataTable().ajax.reload();
+
         },
         error: function (errormessage) {
           Swal.fire("Error!", "Cant Delete, client Is Not Empty", "error");
