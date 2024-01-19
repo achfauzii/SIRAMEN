@@ -20,7 +20,6 @@ public partial class NonRasCandidate
 
     public string? University { get; set; }
 
-    public string? Domisili { get; set; }
 
     public string? Birthdate { get; set; }
 
@@ -54,11 +53,7 @@ public partial class NonRasCandidate
 
     public string? IntwDateByRas { get; set; }
 
-    public string? IntwUser { get; set; }
-
-    public string? IntwDateUser { get; set; }
-
-    public string? LevelRekom { get; set; }
+  
 
     public string? Status { get; set; }
 
@@ -66,7 +61,7 @@ public partial class NonRasCandidate
 
     public DateTime? LastModified { get; set; }
 
-    public int? Client_Id { get; set; }
+
 
     [JsonIgnore]
     public virtual ICollection<TrackingInterview>? TrackingInterviews { get; set; } = new List<TrackingInterview>();

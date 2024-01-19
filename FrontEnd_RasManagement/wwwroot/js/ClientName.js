@@ -182,7 +182,7 @@ function GetById(id) {
 
 function Update() {
     var isValid = true;
-
+    debugger;
     $("input[required]").each(function () {
         var element = $(this);
         if (!element.val()) {
