@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
@@ -92,11 +92,7 @@
         .dataTables_filter {
             margin-right: 10px;
         }
-    }
-
-
-
- 
+    } 
 
 </style>
 
@@ -141,21 +137,11 @@
                     <th>Negotiable</th>
                     <th>Tech Test Result</th>
                     <th>Interview by RAS</th>
-                    <th>Interview Date by RAS</th>
-                    <th>Name of User</th>
-                    <th>Interview User</th>
-                    <th>Interview Date by User</th>
+                    <th>Interview Date by RAS</th>                    
                     <th>Level Recommendation</th>
                     <th>Status</th>
                     <th style="width: 300px;">Notes</th>
                     <th>Last Modified</th>
-                    <th style="width: 300px;">Skillset</th>                    
-                    <th>Raw CV</th>
-                    <th>CV Berca</th>
-                    <th style="width: 300px;">Notes</th>
-                    <th>Work Status</th>
-                    <th>Financial Industry</th>
-                    <th>Negotiable</th>
                 </tr>
             </thead>
             <tbody>
@@ -164,9 +150,6 @@
         </table>
     </div>
 </div>
-
-
-
 
 
 @*Modal*@
@@ -197,8 +180,6 @@
                         <div class="row pl-2 pr-2">
                             <div class="col-sm-3 col-md" style="color: black">Position</div>
                             <div class="col-sm-9">
-
-
                                 <p class="p-0 m-0">
                                     <select class="position form-control" id="position" name="position[]" multiple="multiple" style="width: 100%;" required>
                                             <option value="Back End Developer">Back End Developer</option>
@@ -230,8 +211,6 @@
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
                                 </p>
-
-
                             </div>
                         </div>
                     </div>
@@ -265,8 +244,7 @@
                                         <option value="Bootstrap">Bootstrap</option>
                                         <option value="Google Data Studio">Google Data Studio</option>
                                          <option value="Oracle">Oracle</option>
-                                         <option value="SQL Server">SQL Server</option>
-                                        	
+                                         <option value="SQL Server">SQL Server</option>                                       	
 
                                     </select>
                                     <span class="error-message" style="color: red; display: none;">Please select at least one Skill Set.</span>
@@ -565,167 +543,8 @@
                     </div>
 
                     <!--History User-->
-                    <div class="form-group row pr-4 pl-4" id="historyUser">
-                    </div>
+                    
 
-                    <!--Interview by User-->
-                    <div class="form-group row pr-4 pl-4">
-                        <label for="" class="col-sm-2 col-form-label">Interview User</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
-                            <select class="nameUser form-control" id="nameUser" name="nameUser" style="width: 100%;">
-                                <option></option>
-                            </select>
-
-                            @*<input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="nameUser">*@
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-
-                            <div class="mt-2">
-                                <input type="text" id="intwuserHiden" class="form-control form-control-sm" hidden>
-                                <select class=" form-control form-control-sm" id="intwUser">
-                                    <option selected disabled>Choose...</option>
-                                    <option value="Submitted CV">Submitted CV</option>
-                                    <option value="Hold">Hold</option>
-                                    <option value="Scheduling">Scheduling</option>
-                                    <option value="Technical Test">Technical Test</option>
-                                    <option value="Done">Done</option>
-                                    <option value="Reject">Reject</option>
-                                  
-                                </select>
-                            </div>
-                            <!--New Offering Process-->
-                            <div class="mt-2" style="display:none" id="displayIntwUser2">
-                                <select class=" form-control form-control-sm" id="intwUser2">
-                                    <option selected disabled>Choose...</option>
-                                    <option value="Submitted CV">Submitted CV</option>
-                                    <option value="Hold">Hold</option>
-                                    <option value="Scheduling">Scheduling</option>
-                                    <option value="Technical Test">Technical Test</option>
-                                    <option value="Done">Done</option>
-                                    <option value="Reject">Reject</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="col-sm-5" id="formoffer">
-                            <button type="button" id="status" class="btn btn-sm btn-outline-info btn-status" style="display:none" onclick="newOfferingFields();">+ Status Process</button>
-
-                            <div class="mt-2">
-                                <input type="text" class="form-control form-control-sm" id="dateintwuserHiden" hidden>
-                                <input type="date" class="form-control form-control-sm" id="dateIntwUser">
-                            </div>
-
-                            <!--New Offering Process-->
-                            <div class="mt-2" style="display:none" id="displayDateIntwUser2">
-                                <input type="date" class="form-control form-control-sm" id="dateIntwUser2">
-                            </div>
-
-                            <div class="mt-2">
-                                <button type="button" id="offer" class="btn btn-sm btn-outline-info" onclick="newClientFields();">+ New Process</button>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!--New Client Process-->
-                    <div class="form-group row pr-4 pl-4">
-                        <label for="" class="col-sm-2 col-form-label" style="display:none" id="displayUserLabel">Interview User</label>
-                        <div class="col-sm-5">
-                            <select class="nameUser2 form-control" id="nameUser2" name="nameUser2" style="width: 100%; display: none;" requiredUpdate>
-                                <option></option>
-                            </select>
-                            @*<input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" style="display:none" id="nameUser2" requiredUpdate>*@
-                            <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
-
-                            <div class="mt-2">
-                                <select class=" form-control form-control-sm" id="displayUserItw" style="display:none" requiredUpdate>
-                                    <option selected disabled>Choose...</option>
-                                    <option value="Submitted CV">Submitted CV</option>
-                                    <option value="Hold">Hold</option>
-                                    <option value="Scheduling">Scheduling</option>
-                                    <option value="Technical Test">Technical Test</option>
-                                    <option value="Done">Done</option>
-                                    <option value="Reject">Reject</option>
-                                </select>
-                                <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
-                            </div>
-
-                        </div>
-                        <div class="col-sm-5" id="displayFormOffer" style="display:none">
-                            @* <button type="button" id="userbaru" class="btn btn-sm btn-outline-info" onclick="newProses2();">+ Status Process</button>*@
-
-                            <div class="mt-2">
-                                <input type="date" class="form-control form-control-sm" id="dateIntwUserr" requiredUpdate>
-                                <span class="error-message-update" style="color: red; display: none;">This field is required!</span>
-                            </div>
-
-                            <!--New Offering Process-->
-                            <div class="mt-2" style="display:none" id="displayDateIntwUser3">
-                                <input type="date" class="form-control form-control-sm" id="dateIntwUserr2">
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    @*<div class="form-group row pr-4 pl-4">
-                    <label for="" class="col-sm-2 col-form-label">Interview User</label>
-                    <div class="col-sm-5">
-                    <input type="text" id="intwuserHiden" class="form-control form-control-sm" hidden>
-                    <select class=" form-control form-control-sm" id="intwUser">
-                    <option selected disabled>Choose...</option>
-                    <option value="Done">Done</option>
-                    <option value="Hold">Hold</option>
-                    <option value="Scheduling">Scheduling</option>
-                    <option value="Reject">Reject</option>
-                    <option value="Submitted Cv">Submitted Cv</option>
-                    </select>
-
-                    <!--New Offering Process-->
-                    <div class="mt-2" style="display:none" id="displayIntwUser2">
-                    <select class=" form-control form-control-sm" id="intwUser2">
-                    <option selected disabled>Choose...</option>
-                    <option value="Done">Done</option>
-                    <option value="Hold">Hold</option>
-                    <option value="Scheduling">Scheduling</option>
-                    <option value="Reject">Reject</option>
-                    <option value="Submitted Cv">Submitted Cv</option>
-                    </select>
-                    </div>
-
-                    </div>
-                    <div class="col-sm-5">
-                    <input type="text" class="form-control form-control-sm" id="dateintwuserHiden" hidden>
-                    <input type="date" class="form-control form-control-sm" id="dateIntwUser">
-
-                    <!--New Offering Process-->
-                    <div class="mt-2" style="display:none" id="displayDateIntwUser2">
-                    <input type="date" class="form-control form-control-sm" id="dateIntwUser2">
-                    </div>
-
-                    </div>
-                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                    </div>*@
-
-
-                    @*<div class="form-group row pr-4 pl-4">
-                    <label for="" class="col-sm-2 col-form-label">Name Of User</label>
-
-                    <div class="col-sm-5">
-                    <input type="text" class="form-control form-control-sm" id="nameUserhidden" hidden>
-                    <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="nameUser">
-                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
-
-                    <!--New Offering Process-->
-                    <div class="mt-2" style="display:none" >
-                    <input type="text" class="form-control form-control-sm" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Name Of User" id="nameUser2">
-                    </div>
-
-                    </div>
-                    <div class="col-sm-5" id="formoffer">
-                    <button type="button" id="offer" class="btn btn-sm btn-outline-info" onclick="newOfferingFields();">+ Offering Process</button>
-                    </div>
-                    </div>*@
 
                     <div class="form-group row pr-4 pl-4 mt-4">
                         <label for="" class="col-sm-2 col-form-label">Level Rekom</label>
@@ -1073,8 +892,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 
