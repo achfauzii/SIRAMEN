@@ -34,29 +34,31 @@ var pastelColors = [
 ];
 
 $(document).ready(function () {
+    // SharedShortListRAS("all");
     SharedShortListCandidate("all");
     fetchCategories();
 });
+
 function SharedShortListCandidate(selectedCategory) {
     //$('#all').addClass('active');
     if ($.fn.DataTable.isDataTable("#resource")) {
         $("#resource").DataTable().destroy();
     }
-    table = $("#resource").DataTable({
-        fixedColumns: {
-            left: 2,
-        },
+    var table = $("#resource").DataTable({
         fixedHeader: true,
         scrollX: true,
         processing: true,
         serverSide: true,
-        //fixedColumns: true,
+        // fixedColumns: true,
         lengthMenu: [5, 10, 50, 75, 100],
         pageLength: 10,
+        fixedColumns: {
+            left: 2,
+        },
         order: [[0, "asc"]],
 
         ajax: {
-            url: "https://localhost:7177/api/Shortlist/ShortListCandidate", // Your API endpoint
+            url: "https://localhost:7177/api/Shortlist/ShortListRAS", // Your API endpoint
             type: "POST",
             contentType: "application/json",
             headers: {
@@ -89,7 +91,7 @@ function SharedShortListCandidate(selectedCategory) {
                 data: "position",
                 render: function (data) {
                     if (data == null) {
-                        var a = "b";
+                        var a = " ";
                         return a;
                     }
                     var posisitionSplit = data.split(",");
@@ -147,9 +149,9 @@ function SharedShortListCandidate(selectedCategory) {
                     return badgeContainer.html();
                 },
             },
-            {
-                data: "levelRekom",
-            },
+            //{
+            //    data: "levelRekom",
+            //},
             {
                 data: "level",
             },
@@ -161,18 +163,21 @@ function SharedShortListCandidate(selectedCategory) {
             },
             {
                 data: "ipk",
+                // render: function(data){
+                //     return null;
+                // }
             },
             {
                 data: "university",
             },
+            //{
+            //    data: "domisili",
+            //},
             {
-                data: "domisili",
-            },
-            {
-                data: "birthdate",
-                render: function (data) {
-                    return data.trim() !== "" ? data + " Years Old" : "";
-                },
+                data: "age",
+                // render: function (data) {
+                //     return data.trim() !== "" ? data + " Years Old" : "";
+                // },
             },
 
             {
@@ -215,14 +220,20 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "workStatus",
                 render: function (data) {
-                    if (data === "true" || data === "True") {
+                    
+                    if (data == "Onsite"){
                         return (data =
-                            '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>');
+                            '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Onsite</span>');
+                    }
+                    else if (data === "true" || data === "True") {
+                        return (data =
+                            '<span class="badge badge-pill badge-primary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>');
                     } else if (data === "false" || data === "False") {
                         return (data =
                             '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
-                    }
-                    return " ";
+                    } 
+                    return (data =
+                        '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Idle</span>');
 
                 },
             },
@@ -281,6 +292,7 @@ function SharedShortListCandidate(selectedCategory) {
         searching: true,
     });
 
+
     /*    $('#filterNavigation .nav-link').click(function () {
               $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
               $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
@@ -290,7 +302,9 @@ function SharedShortListCandidate(selectedCategory) {
           });*/
 }
 
+
 // Fungsi untuk mengambil data kategori dari API
+
 function fetchCategories() {
     fetch("https://localhost:7177/api/Shortlist/Position", {
         method: "GET",
