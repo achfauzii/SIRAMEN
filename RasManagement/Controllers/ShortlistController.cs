@@ -16,7 +16,9 @@ namespace RasManagement.Controllers
     public class ShortlistController : BaseController<NonRasCandidate, ShortlistRepository, int>
     {
         private readonly ShortlistRepository shortlistRepository;
+        // private readonly EmployeeRepository employeeRepository;
         private readonly ProjectRasmanagementContext _context;
+
         public ShortlistController(ShortlistRepository shortlistRepository, ProjectRasmanagementContext context) : base(shortlistRepository)
         {
             this.shortlistRepository = shortlistRepository;
@@ -67,10 +69,6 @@ namespace RasManagement.Controllers
         {
             //var employees = await employeeRepository.GetEmployeeData();
             var query = _context.NonRasCandidates.AsQueryable();
-
-
-
-
 
             // Implementasi pencarian
             if (!string.IsNullOrEmpty(request.Search?.Value))
@@ -160,7 +158,98 @@ namespace RasManagement.Controllers
                     });
             }
         }
+
         
+
+        [AllowAnonymous]
+        [HttpPost("ShortListRAS")]
+        public async Task<IActionResult> GetDataSharedRAS([FromBody] DataTablesRequest request)
+        {
+            //var employees = await employeeRepository.GetEmployeeData();
+            var query = shortlistRepository.GetSharedShortList().AsQueryable();
+            // Filter berdasarkan kategori (Category)
+
+            // Implementasi pencarian
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchTerm = request.Search.Value.ToLower();
+                query = query.Where(e =>
+                    e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
+                    e.Position.ToLower().Contains(searchTerm) || 
+                    e.Skillset.ToLower().Contains(searchTerm)
+                );
+            }
+
+            if (!string.IsNullOrEmpty(request.Search?.Category))
+            {
+                var category = request.Search.Category.ToLower();
+                query = query.Where(e =>
+
+                    e.Position.ToLower().Contains(category)
+                );
+
+                if (!string.IsNullOrEmpty(request.Search?.Value))
+                {
+                    var searchTerm = request.Search.Value.ToLower();
+                    query = query.Where(e =>
+                        e.Fullname.ToLower().Contains(searchTerm) ||
+                        e.Position.ToLower().Contains(category) ||
+                        e.Skillset.ToLower().Contains(category)
+                    );
+                }
+            }
+
+            var sortColumnIndex = request.Order.column;
+            var sortDirection = request.Order.dir;
+            if (sortColumnIndex == 0)
+            {
+                query = sortDirection == "asc" ? query.OrderBy(c => c.Fullname) : query.OrderByDescending(c => c.Fullname);
+            }
+            else if (sortColumnIndex == 1)
+            {
+                query = sortDirection == "asc" ? query.OrderBy(c => c.Position) : query.OrderByDescending(c => c.Position);
+            }
+
+            else
+            {
+                query = sortDirection == "asc" ? query.OrderBy(c => c.Fullname) : query.OrderByDescending(c => c.Fullname);
+            }
+
+            var shortList = shortlistRepository.GetSharedShortList();
+            var displayResult = shortList.Skip(request.Start)
+                .Take(request.Length)
+                .Select(e => new
+                {
+                    e.Fullname,
+                    e.Position,
+                    e.Skillset,
+                    e.Education,
+                    e.Ipk,
+                    e.University,
+                    e.Domisili,
+                    e.Age,
+                    e.Level,
+                    e.ExperienceInYear,
+                    e.WorkStatus,
+                    e.NoticePeriode,
+                    e.FinancialIndustry,
+                    e.CvBerca,
+                    e.LevelRekom
+                    
+                })
+                .ToList();
+            var response = new DataTablesResponse
+            {
+                Draw = request.Draw,
+                RecordsTotal = shortList.Count(),
+                RecordsFiltered = shortList.Count(), // Count total
+                Data = displayResult// Data hasil 
+            };
+
+            return Ok(response);
+        }
+
+
         [AllowAnonymous]
         [HttpPost("ShortListCandidate")]
         public async Task<IActionResult> GetDataShared([FromBody] DataTablesRequest request)
@@ -169,8 +258,6 @@ namespace RasManagement.Controllers
             var query = _context.NonRasCandidates.AsQueryable();
             // Filter berdasarkan kategori (Category)
 
-
-
             // Implementasi pencarian
             if (!string.IsNullOrEmpty(request.Search?.Value))
             {
@@ -178,7 +265,7 @@ namespace RasManagement.Controllers
                 query = query.Where(e =>
                     e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
                     e.Position.ToLower().Contains(searchTerm) ||
-                      e.Skillset.ToLower().Contains(searchTerm)
+                    e.Skillset.ToLower().Contains(searchTerm)
                 );
             }
 
