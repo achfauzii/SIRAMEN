@@ -110,7 +110,7 @@
                 <div class="col-sm-3">
                 <label class="text-dark" for="exampleInputEmail1">Financial Industry</label>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="financialAcc" name="financialAcc" value="True" required>
+                        <input type="checkbox" class="form-check-input" id="financialAcc" name="financialAcc" value="True">
                         <span class="status-indicator-acc" style="font-size: smaller">No</span>
                     </div>
                 </div>
@@ -279,7 +279,6 @@
     $(".positionAcc").select2({
         placeholder: "Choose....",
         tags: true,
-        tokenSeparators: [',', ' ']
     });
 
 
@@ -297,7 +296,7 @@
         var gender = document.querySelector('input[name="gender"]:checked').value;
         
         // Validate selected positions
-        var selectedPositions = $(".positionAcc").val().join(", ");
+        var selectedPositions = $("#positionAcc").val().join(", ");
         //if (selectedPositions.length === 0) {
         //    $('#positionError').show();
         //    return;
@@ -444,7 +443,7 @@
                     Swal.fire('Success', 'Registration Employee successful', 'success');
                     var form = document.getElementById('createAccountForm');
                     form.reset(); // Reset form setelah pengiriman berhasil
-
+                    $("#positionAcc").val().
 
                     $.post("/Accounts/NewAccount", { email, password })
                         .done(function () {
