@@ -85,9 +85,22 @@ namespace RasManagement.Controllers
                 var resultWithTitles = new List<object>();
                 foreach (var dayGroup in groupedByDay)
                 {
-                    
-                }
-            return StatusCode(200, groupedByDay );
+                var accountIds  = dayGroup
+                .Select(item => new 
+                {
+                    title = item.AccountId +" "+ item.Activity,
+                    start = dayGroup.Key,
+                    allDay = true,
+                    backgroundColor = GetColorByFlag(item.Flag),
+                    borderColor = GetColorByFlag(item.Flag),
+                })
+                .ToList();;
+
+                 
+                
+            resultWithTitles.AddRange(accountIds);
+            }
+            return StatusCode(200, resultWithTitles );
             }
 
         }

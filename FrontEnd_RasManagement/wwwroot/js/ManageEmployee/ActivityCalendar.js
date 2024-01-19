@@ -56,11 +56,11 @@ $(function () {
     }
   });
 
-  var calendar = new Calendar(calendarEl, {
+  var calendar = new FullCalendar.Calendar(calendarEl, {
     headerToolbar: {
-      left  : 'prev,next today',
+      left  : 'prev,next today',  
       center: 'title',
-      right : ''
+      right : 'dayGridMonth,dayGridWeek,dayGridDay'
     },
     themeSystem: 'bootstrap',
     lazyFetching: false,
