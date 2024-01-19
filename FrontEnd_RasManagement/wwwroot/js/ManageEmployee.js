@@ -276,9 +276,9 @@ $(document).ready(function () {
               var checkFalse =
                 '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
 
-              if (data === "yes" || data === "Yes") {
+              if (data === "true" || data === "True") {
                 return '<div class="text-center">' + checkTrue + "</div>";
-              } else if (data === "no" || data === "No") {
+              } else if (data === "false" || data === "False") {
                 return '<div class="text-center">' + checkFalse + "</div>";
               }
               return " ";

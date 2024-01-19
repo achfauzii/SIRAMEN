@@ -200,7 +200,7 @@
         //// add function automate financial and level
         var financialCheck = document.getElementById('financialAcc');
         //const statusIndicatorAc = document.querySelector(".status-indicator-acc");
-        financialCheck.checked = "Yes";
+        @* financialCheck.checked = "True"; *@
 
         var statusIndicatorbot = document.querySelector('.status-indicator-acc');
         if (statusIndicatorbot) {
@@ -271,7 +271,9 @@
     
     var financial = $("#financialAcc").is(":checked");
     if (!financial) {
-        financial = "No";
+        financial = "False";
+    } else {
+        financial = "True";
     }
     //financial = financial.tostring();
 
