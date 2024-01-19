@@ -66,9 +66,11 @@
                     <th>NIK</th>
                     <th>Name</th>
                     <th>Position</th>
+                    <th>Level</th>
                     <th>Email</th>
                     <th>Gender</th>
                     <th>Address</th>
+                    <th>Financial Industry</th>
                     <th>Placement Status</th>
                     <th>Placement Location</th>
                     <th>Hired Status</th>
@@ -226,6 +228,37 @@
                 <!-- You can add more content or styling as needed -->
             </div>
 
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Info Level-->
+<!-- Modal Info Level-->
+<div class="modal fade" id="modalLevel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Level</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm">
+                    <label class="text-dark" for="accountLevel">Account ID</label>
+                    <input type="text" class="form-control" id="accountLevel" readonly>
+
+                    <label class="text-dark" for="levelchange">Level</label>
+                    <select id="levelchange" class="selectLevel form-control" name="state" required>
+                        <option selected disabled>Choose...</option>
+                    </select>
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" id="update" data-dismiss="modal" onclick="UpdateLevel()">Edit</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

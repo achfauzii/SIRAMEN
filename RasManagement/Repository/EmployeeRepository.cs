@@ -89,6 +89,10 @@ namespace RasManagement.Repository
             {
                 existingEmployee.Image = updatedData.Image;
             }
+            if (!string.IsNullOrEmpty(updatedData.level))
+            {
+                existingEmployee.Level = updatedData.level;
+            }
 
             _context.Update(existingEmployee);
             await _context.SaveChangesAsync();

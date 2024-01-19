@@ -27,6 +27,9 @@ namespace RasManagement.ViewModel
         public string Gender { get; set; }
 
         public string RoleId { get; set; } = null!;
+        
+        public string? Level { get; set; }
+        public string? FinancialIndustry { get; set; }
 
 
     }

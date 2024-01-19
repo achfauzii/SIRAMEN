@@ -491,15 +491,221 @@ function Src(selectedCategory) {
                     // Mengonversi string menjadi angka
                     const numericData = parseFloat(data);
 
-                    // Memeriksa apakah data adalah angka
-                    if (!isNaN(numericData)) {
-                        // Memformat angka menjadi format mata uang Indonesia
-                        const formattedData = numericData.toLocaleString("id-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
-                        });
+            // Menampilkan data terakhir
+            const lastDate = userDate.dateArray[userDate.dateArray.length - 1];
+
+            return moment(lastDate).format("DD MMMM YYYY");
+
+            //NAMPILIN TANGGAL PER USER
+            /*var dateuser = row.intwDateUser;
+                                    var nameofuser = row.nameOfUser;
+                
+                                    if (dateuser == null) {
+                                        return "";
+                                    } else if (!dateuser.includes('<br/>')) {
+                                        return dateuser;
+                                    } else {
+                                        const dateuserArray = dateuser.split('<br/>');
+                                        const nameOfUserArray = nameofuser.split('<br/>');
+                
+                                        // Membuat objek untuk menyimpan data berdasarkan nama user
+                                        const userDataMap = new Map();
+                
+                                        // Mengumpulkan data berdasarkan nama user
+                                        for (let i = 0; i < dateuserArray.length; i++) {
+                                            const userName = nameOfUserArray[i];
+                                                
+                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
+                                            if (!userDataMap.has(userName)) {
+                                                userDataMap.set(userName, { dateArray: [] });
+                                            }
+                
+                                            // Menambahkan status ke dalam array yang sesuai
+                                            userDataMap.get(userName).dateArray.push(dateuserArray[i]);
+                                        }
+                
+                                        // Menampilkan data terakhir untuk setiap nama user
+                                        let lastDateByUser = "";
+                                        userDataMap.forEach((userData, userName) => {
+                                            const lastDate = userData.dateArray[userData.dateArray.length - 1];
+                                            lastDateByUser += `<li>${lastDate}</li>`;
+                                        });
+                
+                                        return lastDateByUser;*/
+          }
+        },
+      },
+      {
+        data: "levelRekom",
+      },
+      {
+        data: "status",
+      },
+      {
+        data: "notes",
+        render: function (data, type, row) {
+          if (type === "display" && data.length > 20) {
+            var encodedData = encodeURIComponent(data);
+            return (
+              '<div id="notes' +
+              row.nonRasId +
+              '">' +
+              data.substring(0, 20) +
+              '<span class="expand-content text-primary" onclick="toggleContent(\'notes' +
+              row.nonRasId +
+              "', '" +
+              encodedData +
+              "')\">... (Read More)</span>" +
+              "</div>"
+            );
+          } else {
+            return data;
+          }
+        },
+      },
+
+      {
+        data: "lastModified",
+        render: function (data, type, row) {
+          if (data != null) {
+            if (type === "display" || type === "filter") {
+              // Format tanggal dalam format yang diinginkan
+              return moment(data).format("YYYY-MM-DD ");
+            }
+          }
+          // Untuk tipe data lain, kembalikan data aslinya
+          return " ";
+        },
+      },
+      {
+        data: "skillset",
+      },
+      {
+        data: "rawCv",
+      },
+      {
+        data: "cvBerca",
+      },
+      {
+        data: "notes",
+      },
+      {
+        data: "workStatus",
+        render: function (data) {
+          if (data === "true" || data === "True") {
+            return (data = "Active");
+          } else if (data === "false" || data === "False") {
+            return (data = "Inactive");
+          } else {
+            return " ";
+          }
+        },
+      },
+      {
+        data: "financialIndustry",
+        render: function (data) {
+          if (data === "true" || data === "True") {
+            return (data = "Yes");
+          } else if (data === "false" || data === "False") {
+            return (data = "No");
+          } else {
+            return " ";
+          }
+        },
+      },
+      {
+        data: "negotiable",
+        render: function (data) {
+          if (data === "true" || data === "True") {
+            return (data = "Yes");
+          } else if (data === "false" || data === "False") {
+            return (data = "No");
+          } else {
+            return " ";
+          }
+        },
+      },
+    ],
+    columnDefs: [
+      {
+        targets: [2, 28],
+        className: "customWrap",
+      },
+      {
+        targets: [30, 31, 32, 33, 34, 35, 36],
+        visible: false,
+      },
+    ],
+    searching: true,
+    dom: "lBfrtip",
+    buttons: [
+      {
+        extend: "excel",
+        className: "buttonsToHide",
+        exportOptions: {
+          columns: [
+            0, 1, 30, 3, 4, 5, 6, 7, 8, 9, 10, 34, 12, 35, 31, 32, 16, 17, 18,
+            36, 20, 21, 22, 23, 24, 25, 26, 27, 33, 29,
+          ],
+          modifier: {
+            page: "current",
+          },
+        },
+        attr: {
+          id: "excelButton",
+        },
+      },
+    ],
+  });
+
+  table
+    .buttons()
+    .container()
+    .appendTo($(".col-sm-6:eq(0)", table.table().container()));
+
+  table.buttons(".buttonsToHide").nodes().addClass("d-none");
+
+  function getLastValue(data, key) {
+    const regex = new RegExp(`([^<br/>]+)(?!.*<br\/>)`);
+    const match = data[key].match(regex);
+    return match ? match[0] : null;
+  }
+
+  table.on("click", "tbody tr i", function () {
+    // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
+
+    let row = $(this).closest("tr");
+    let data = table.row(row).data();
+    $("#offeringSourceList").modal("show");
+    document.getElementById("displayName").textContent = data.fullname;
+    $("#nonrasid2").val(data.nonRasId);
+    $("#Name2").val(data.fullname);
+
+    const positionSelect = $("#position2");
+    const selectedPosition = data.position.split(", ");
+    selectedPosition.forEach((value) => {
+      const optionNotExists =
+        positionSelect.find("option[value='" + value + "']").length === 0;
+
+      if (optionNotExists) {
+        const newOption = new Option(value, value, true, true);
+        positionSelect.append(newOption).trigger("change");
+      }
+    });''
+    positionSelect.val(selectedPosition).trigger("change");
+
+    const skillSelect = $("#skillset2");
+    const selectedSkillset = data.skillset.split(", ");
+    selectedSkillset.forEach((value) => {
+      const optionNotExists =
+        skillSelect.find("option[value='" + value + "']").length === 0;
+
+      if (optionNotExists) {
+        const newOption = new Option(value, value, true, true);
+        skillSelect.append(newOption).trigger("change");
+      }
+    });
+    skillSelect.val(selectedSkillset).trigger("change");
 
                         return formattedData;
                     }
