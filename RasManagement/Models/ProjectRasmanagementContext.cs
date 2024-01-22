@@ -650,10 +650,6 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.IntvwStatus)
                 .IsUnicode(false)
                 .HasColumnName("Intvw_status");
-            entity.Property(e => e.PositionName)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Position_name");
             entity.Property(e => e.NonRasId).HasColumnName("NonRAS_Id");
             entity.Property(e => e.Notes).IsUnicode(false);
             entity.Property(e => e.PositionId).HasColumnName("Position_Id");

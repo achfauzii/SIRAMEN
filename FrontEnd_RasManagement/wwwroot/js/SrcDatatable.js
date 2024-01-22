@@ -610,16 +610,37 @@ function Src(selectedCategory) {
           return " ";
         },
       },
+      {
+        data: "skillset",
+      },
+      {
+        data: "workStatus",
+      },
+      {
+        data: "financialIndustry",
+      },
+      {
+        data: "rawCv",
+      },
+      {
+        data: "cvBerca",
+      },
+      {
+        data: "negotiable",
+      },
+      {
+        data: "notes",
+      },
     ],
     columnDefs: [
       {
         targets: [2, 25],
         className: "customWrap",
       },
-      /*{
-                targets: [20, 21, 22, 23, 24, 25, 26],
-                visible: false,
-            },*/
+      {
+        targets: [27, 28, 29, 30, 31, 32, 33],
+        visible: false,
+      },
     ],
     searching: true,
     dom: "lBfrtip",
@@ -629,8 +650,8 @@ function Src(selectedCategory) {
         className: "buttonsToHide",
         exportOptions: {
           columns: [
-            0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 17, 18, 20, 21, 22, 23, 24,
-            25, 26, 27,
+            0, 1, 27, 3, 4, 5, 6, 7, 8, 9, 10, 28, 12, 29, 30, 31, 16, 17, 18,
+            32, 20, 21, 22, 23, 24, 33, 26,
           ],
           modifier: {
             page: "current",
@@ -789,9 +810,7 @@ function Src(selectedCategory) {
                         });
                         selectNameUser2.val(null).trigger("change");
             
-                    }*/
-
-    /*if (data.intwByRas) {
+                    }*/ /*if (data.intwByRas) {
             if (
                 data.intwUser == null ||
                 data.nameOfUser == null ||
@@ -957,8 +976,7 @@ $("#intwUser").prop("disabled", true);
 $("#nameUser").prop("disabled", true);
 $("#dateIntwUser").prop("disabled", true);
 $("#status").prop("disabled", true);
-}*/
-    /* if (data.intwUser) {
+}*/ /* if (data.intwUser) {
      */ /*var offer = document.getElementById("formoffer");
                           offer.show();*/ /*
 $("#offer").show();
@@ -966,8 +984,7 @@ $("#offer").show();
 } else {
 $("#offer").hide();
 //console.log(data.intwUser);
-}*/
-    $("#levelRekom").val(data.levelRekom);
+}*/ $("#levelRekom").val(data.levelRekom);
     $("#status").val(data.status);
     $("#notes").val(data.notes);
 
