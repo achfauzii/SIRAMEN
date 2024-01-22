@@ -76,13 +76,14 @@ $(document).ready(function () {
     })
     .DataTable({
       fixedColumns: {
-        left: window.innerWidth > 1024 ? 2 : null,
+        leftColumns: window.innerWidth > 1024 ? 3 : null,
       },
-      fixedHeader: true,
       paging: true,
-      scrollX: true,
-      orderCellsTop: true,
       fixedHeader: true,
+      scrollX: true,
+      scrollY: true,
+      scrollCollapse: true,
+      orderCellsTop: true,
 
       ajax: {
         url: "https://localhost:7177/api/Employees",
@@ -163,7 +164,6 @@ $(document).ready(function () {
         //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
         {
-          // orderable: false, // menonaktifkan order hanya pada kolom tertentu
           data: null,
           width: "4%",
           render: function (data, type, row, meta) {
@@ -203,7 +203,7 @@ $(document).ready(function () {
           data: "position",
           render: function (data) {
             if (data == null) {
-              var a = "b";
+              var a = "";
               return a;
             }
 
@@ -436,6 +436,7 @@ $(document).ready(function () {
         {
           data: null,
           orderable: false, // menonaktifkan order
+          width: "7%",
           render: function (data, type, row) {
             return (
               '<div class="text-center row">' +
@@ -451,6 +452,12 @@ $(document).ready(function () {
               "</div>"
             );
           },
+        },
+      ],
+      columnDefs: [
+        {
+          defaultContent: "-",
+          targets: "_all",
         },
       ],
       //"order": [], // menonaktifkan order pada semua kolom
