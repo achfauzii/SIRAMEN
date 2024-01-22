@@ -1035,6 +1035,8 @@ function Delete(NonRasId) {
       }).then((result) => {
         // debugger;
         if (result.status == 200) {
+          const logMesagge = `Has Removed Shortlist Candidate ${NonRasCandidate.fullname}`;
+          SaveLogUpdate(logMesagge);
           Swal.fire("Deleted!", "Data has been deleted.", "success");
           table.ajax.reload();
         } else {
