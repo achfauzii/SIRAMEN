@@ -242,7 +242,7 @@ function SharedShortListCandidate(selectedCategory) {
             {
                 data: "noticePeriode",
                 render: function (data, type, row) {
-                if (data == null){
+                if (row.workStatus == "Onsite"){
                     var startc = Date.now();
                     var endc = new Date(row.endDate);
         
@@ -262,7 +262,6 @@ function SharedShortListCandidate(selectedCategory) {
                     var daysInMonth = daysremain % 30; // Menghitung sisa hari
                     //console.log(monthsRemaining);
                     //console.log(daysInMonth)
-                    var result = "ASAP";
         
                     if (monthsRemaining > 2) {
                       // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
@@ -290,8 +289,13 @@ function SharedShortListCandidate(selectedCategory) {
                       }
                     }
                     return result;
-                } else{
+                }else if (row.workStatus === "true" || data === "True" ){
                     return data;
+                } else if (data === "false" || data === "False"){
+                    return data;
+                }else {
+                    var result = "ASAP";
+                    return result;
                 }
                 }
             },
