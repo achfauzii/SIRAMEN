@@ -6,7 +6,6 @@ var element = document.getElementById("btnBell");
 var elementAlert = document.getElementById("alertNotif");
 $(document).ready(function () {
   fetchContractPlacement();
-  checkOverviewEmployee();
 });
 function clearScreen() {
   $("#accountId").val("");
@@ -172,6 +171,7 @@ function fetchContractPlacement() {
   })
     .then((response) => response.json())
     .then((result) => {
+      var notificationDate = [];
       result.data.forEach(function (emp) {
         if (emp.placements.length > 0) {
           var endContract = new Date(emp.endContract);
@@ -184,15 +184,17 @@ function fetchContractPlacement() {
           var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
           var daysremainPositive = Math.abs(daysremain);
           if (daysremainPositive <= 30) {
+            endPlacement.setDate(endPlacement.getDate() - 30);
+            notificationDate.push(endPlacement);
             var data = {
               accountId: emp.accountId,
               fullname: emp.fullname,
               placement: emp.placements[emp.placements.length - 1].companyName,
               days: daysremain,
+              date: endPlacement.toLocaleDateString(),
             };
             dataEmployee.push(data);
           }
-          //console.log(daysremainPositive);
         }
       });
 
@@ -205,18 +207,14 @@ function fetchContractPlacement() {
             </div>
           </div>
           <div>
-          <div class="small text-gray-500">Reminder</div>        
+          <div class="small text-gray-500">Reminder &nbsp;<span class="badge-lg badge-pill badge-success">${notif.date}</span></div>
             <b>${notif.fullname}</b> contract at <b>${notif.placement}</b> is less than a month.
           </div>
         </a>`;
       });
-      // if (dataEmployee.length == 0) {
-      //   $("#noNotif").show();
-      //   $("#notifCount").hide();
-      // } else {
-      //   $("#noNotif").hide();
-      //   document.getElementById("notifCount").innerHTML = dataEmployee.length;
-      // }
+    })
+    .then(() => {
+      checkOverviewEmployee();
     });
 }
 
@@ -271,7 +269,7 @@ function checkOverviewEmployee() {
             </div>
           </div>
           <div>
-          <div class="small text-gray-500">CV Employee</div>
+          <div class="small text-gray-500">CV Employee - ${new Date().toLocaleDateString()}</div>
             ${notif}
           </div>
         </div>`;

@@ -33,7 +33,8 @@ namespace RasManagement.Repository
             return $"{ras}{countNonRas + 1:D3}";
         }
 
-        public string EmployeeAge(string birthDateString){
+        public string EmployeeAge(string birthDateString)
+        {
             if (DateTime.TryParse(birthDateString, out DateTime birthDate))
             {
                 // Extract the year from the birthdate
@@ -69,38 +70,37 @@ namespace RasManagement.Repository
 
             return result;
         }
-                
 
-    // Convert age to string
-            
+
+        // Convert age to string
+
 
         public List<SharedShortListVM> GetSharedShortList()
         {// Possible null reference argument.
             var employees = _context.Accounts.Include(a => a.FormalEdus).Include(a => a.Placements).Include(a => a.Qualifications).Where(a => a.RoleId == "3")
                     .Select(emp => new SharedShortListVM
-                {
-                    AccountId = emp.AccountId,
-                    Fullname = emp.Fullname,
-                    Position = emp.Position,
-                    Skillset = emp.Qualifications.Count != 0 ? emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Framework 
+                    {
+                        AccountId = emp.AccountId,
+                        Fullname = emp.Fullname,
+                        Position = emp.Position,
+                        Skillset = emp.Qualifications.Count != 0 ? emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Framework
                                 + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].ProgrammingLanguage
-                                + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Database  
+                                + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Database
                                 + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Tools : "",
-                    // Level= emp.Level,  
-                    Education = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Degree + "-" +
+                        Level = emp.Level,
+                        Education = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Degree + "-" +
                                 emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Major : "",
-                    Ipk = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Ipk : "",
-                    University = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].UniversityName : "",
-                    Birthdate = emp.Birthdate,
-                    Age = EmployeeAge(emp.Birthdate.ToString()),
-                    WorkStatus = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].PlacementStatus : "",
-                    // NoticePeriode = EmployeeNoticePeriode(emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].StartDate: "",
-                    //                                     emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].StartDate: ""),
-                    // FinancialIndustry= emp.FinancialIndustry,
-                    CvBerca = "https://localhost:7109/GenerateCv/Index?accountId=" + emp.AccountId,
+                        Ipk = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Ipk : "",
+                        University = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].UniversityName : "",
+                        Age = emp.Birthdate != null ? DateTime.Now.Year - emp.Birthdate.Value.Year + " Years Old" : "",
+                        WorkStatus = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].PlacementStatus : "",
+                        // NoticePeriode = EmployeeNoticePeriode(emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].StartDate: "",
+                        //                                     emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].StartDate: ""),
+                        FinancialIndustry = emp.FinancialIndustry,
+                        CvBerca = "https://localhost:7109/GenerateCv/Index?accountId=" + emp.AccountId,
 
 
-                }).ToList();
+                    }).ToList();
             var nonras = _context.NonRasCandidates.Select(non => new SharedShortListVM
             {
                 NonRAS_Id = non.NonRasId,
@@ -131,12 +131,13 @@ namespace RasManagement.Repository
 
         public int Add(NonRasCandidate nonRasCandidate)
         {
-          /*  nonRasCandidate.NonRasId = GenerateNonId()*/;
+            /*  nonRasCandidate.NonRasId = GenerateNonId()*/
+            ;
             nonRasCandidate.IntwDateByRas = null;
             _context.Entry(nonRasCandidate).State = EntityState.Added;
             var save = _context.SaveChanges();
             return save;
-        }        
+        }
 
         /*    public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
             {
