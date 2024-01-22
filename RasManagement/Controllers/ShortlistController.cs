@@ -71,6 +71,9 @@ namespace RasManagement.Controllers
             //var employees = await employeeRepository.GetEmployeeData();
             var query = _context.NonRasCandidates.AsQueryable();
 
+            //Filter isDeleted False
+            query = query.Where(f => f.isDeleted != true);
+
             // Implementasi pencarian
             if (!string.IsNullOrEmpty(request.Search?.Value))
             {
@@ -325,7 +328,7 @@ namespace RasManagement.Controllers
                     e.NoticePeriode,
                     e.FinancialIndustry,
                     e.CvBerca,
-           
+
 
 
                 })
@@ -403,6 +406,24 @@ namespace RasManagement.Controllers
                         sortedSkills,
 
                     });
+        }
+
+        [HttpGet("SoftDelete/{key}")]
+        public IActionResult DeleteAccount(int key)
+        {
+            var delete = shortlistRepository.Delete(key);
+            if (delete >= 1)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Dihapus", Data = delete });
+            }
+            else if (delete == 0)
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data dengan Id " + key + "Tidak Ditemukan", Data = delete });
+            }
+            else
+            {
+                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = delete });
+            }
         }
 
     }

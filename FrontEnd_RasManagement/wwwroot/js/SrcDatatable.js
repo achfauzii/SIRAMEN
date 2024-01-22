@@ -1026,8 +1026,8 @@ function Delete(NonRasId) {
   }).then((result) => {
     if (result.value) {
       $.ajax({
-        url: "https://localhost:7177/api/Shortlist/" + NonRasId,
-        type: "DELETE",
+        url: "https://localhost:7177/api/Shortlist/SoftDelete/" + NonRasId,
+        type: "GET",
         dataType: "json",
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
