@@ -207,56 +207,56 @@
                 Interface
             </div>
 
+            <!-- Nav Item - Utilities Collapse Menu -->
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" id="overview" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-file"></i>
-                    <span>Career Overview</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="far fa-fw fa-file-alt"></i>
+                    <span>Data for CV</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
+                    <div class="bg-custom py-2 collapse-inner rounded" style="background-color: #4e73df">
 
-                        <a class="collapse-item p-2 @(currentUrl == "/Employee/Educations" ? "active" : "")" href="/Employee/Educations" data-target="#collapseUtilities"
-                        aria-controls="collapseUtilities">
-                            <i class="fas fa-user-graduate"></i>
+                        <a class="nav-link collapsed" href="/Employee/Educations" data-target="#collapseUtilities"
+                           aria-controls="collapseUtilities">
+                            <i class="fas fa-fw fa-user-graduate"></i>
                             <span>Educations</span>
                         </a>
 
-                        <a class="collapse-item p-2 @(currentUrl == "/Employee/Qualification" ? "active" : "")" href="/Employee/Qualification" data-target="#collapsePages"
-                        aria-controls="collapsePages">
-                            <i class="fas fa-users-cog"></i>
+                        <a class="nav-link collapsed" href="/Employee/Qualification" data-target="#collapsePages"
+                           aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-users-cog"></i>
                             <span>Qualifications</span>
                         </a>
 
-                        <a class="collapse-item p-2  @(currentUrl == "/Employee/Certificate" ? "active" : "")" href="/Employee/Certificate" data-target="#collapsePages"
-                        aria-controls="collapsePages">
-                            <i class="fas fa-award"></i>
-                            <span>Achievement / Certificate</span>
+                        <a class="nav-link collapsed" href="/Employee/Certificate" data-target="#collapsePages"
+                           aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-award"></i>
+                            <span>Achievement/Certificate</span>
                         </a>
 
-                        <a class="collapse-item p-2 @(currentUrl == "/Employee/EmploymentHistory" ? "active" : "")" href="/Employee/EmploymentHistory" data-target="#collapsePages"
-                        aria-controls="collapsePages">
-                            <i class="fas fa-business-time"></i>
+                        <a class="nav-link collapsed" href="/Employee/EmploymentHistory" data-target="#collapsePages"
+                           aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-business-time"></i>
                             <span>Employment History</span>
                         </a>
 
-                        <a class="collapse-item p-2 @(currentUrl == "/Employee/ProjectHistory" ? "active" : "")" href="/Employee/ProjectHistory" data-target="#collapsePages"
-                        aria-controls="collapsePages">
-                            <i class="fas fa-tasks"></i>
+                        <a class="nav-link collapsed" href="/Employee/ProjectHistory" data-target="#collapsePages"
+                           aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-tasks"></i>
                             <span>Project History</span>
                         </a>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item @(currentUrl == "/Employee/TimeSheet" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/TimeSheet" data-target="#collapseUtilities"
                    aria-controls="collapseUtilities">
                     <i class="far fa-fw fa-calendar-check"></i>
                     <span>Time Sheet</span>
                 </a>
-            </li>
+            </li>   
 
             <li class="nav-item  @(currentUrl == "/Employee/AssetsManagement" ? "active" : "")">
                 <a class="nav-link collapsed" href="/Employee/AssetsManagement" data-target="#collapsePages"
@@ -367,8 +367,6 @@
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
-    
-
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">

@@ -292,9 +292,12 @@ function Save() {
   TrackingInterview.intvwStatus = $("#intStatus").val();
   TrackingInterview.notes = $("#notes").val();
 
-  // console.log(TrackingInterview);
-  // return;
-  // debugger;
+  var candidateName = $("#resource option:selected").text();
+  if (candidateName.substr(0, 3) == "RAS") {
+    candidateName = candidateName.substr(6);
+  } else {
+    candidateName = candidateName.substr(10);
+  }
 
   $.ajax({
     type: "POST",
@@ -306,6 +309,9 @@ function Save() {
     },
   }).then((result) => {
     if (result.status == 200) {
+      const logMessage = `Has added tracking interview for ${candidateName}`;
+      SaveLogUpdate(logMessage);
+
       Swal.fire({
         icon: "success",
         title: "Success...",
@@ -438,7 +444,12 @@ function Update() {
   TrackingInterview.intvwStatus = intStatus.substr(0, intStatus.length - 4);
   TrackingInterview.notes = $("#notes").val();
 
-  // console.log(TrackingInterview);
+  var candidateName = $("#resource option:selected").text();
+  if (candidateName.substr(0, 3) == "RAS") {
+    candidateName = candidateName.substr(6);
+  } else {
+    candidateName = candidateName.substr(10);
+  }
 
   $.ajax({
     type: "PUT",
@@ -450,6 +461,9 @@ function Update() {
     },
   }).then((result) => {
     if (result.status == 200) {
+      const logMessage = `Has added tracking interview for ${candidateName}`;
+      SaveLogUpdate(logMessage);
+
       Swal.fire({
         icon: "success",
         title: "Success...",

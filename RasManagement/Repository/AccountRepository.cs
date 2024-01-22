@@ -144,6 +144,8 @@ namespace RasManagement.Repository
                 EndContract = registerVM.EndContract,
                 RoleId = registerVM.RoleId,
                 IsChangePassword = false,
+                Level = registerVM.Level,
+                FinancialIndustry = registerVM.FinancialIndustry,
             };
             _context.Entry(account).State = EntityState.Added;
 
