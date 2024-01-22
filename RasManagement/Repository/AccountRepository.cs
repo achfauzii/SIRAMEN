@@ -370,13 +370,15 @@ namespace RasManagement.Repository
             string sql = "UPDATE Account " +
                          "SET Start_contract = @StartContract, " +
                          "    End_contract = @EndContract " +
+                         "    Position = @Position " +
                          "WHERE Account_Id = @AccountId";
 
             // Parameter untuk kueri SQL
             object[] parameters = {
                 new SqlParameter("@StartContract", contractVM.StartContract),
                 new SqlParameter("@EndContract", contractVM.EndContract),
-                new SqlParameter("@AccountId", contractVM.AccountId)
+                new SqlParameter("@AccountId", contractVM.AccountId),
+                new SqlParameter("@Position", contractVM.Position)
             };
 
             // Jalankan kueri SQL secara async
