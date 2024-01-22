@@ -130,7 +130,6 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(15)
                 .IsUnicode(false);
             entity.Property(e => e.Position)
-                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Religion)
                 .HasMaxLength(15)
@@ -142,6 +141,13 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.StartContract)
                 .HasColumnType("date")
                 .HasColumnName("Start_contract");
+            entity.Property(e => e.Level)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.FinancialIndustry)
+                .HasMaxLength(5)
+                .IsUnicode(false)
+                .HasColumnName("Financial_Industry");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
@@ -305,6 +311,9 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Years)
                 .HasMaxLength(10)
                 .IsUnicode(false);
+            entity.Property(e => e.Ipk)
+                .HasMaxLength(5)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.FormalEdus)
                 .HasForeignKey(d => d.AccountId)
@@ -463,9 +472,9 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasColumnName("Work_Status");
             /*entity.Property(e => e.Client_Id).HasColumnName("Client_Id");*/
 
-         /*   entity.HasOne(d => d.Client).WithMany(e => e.NonRasCandidates)
-                .HasForeignKey(d => d.Client_Id)
-                .HasConstraintName("FK_NonRas_Client");*/
+            /*   entity.HasOne(d => d.Client).WithMany(e => e.NonRasCandidates)
+                   .HasForeignKey(d => d.Client_Id)
+                   .HasConstraintName("FK_NonRas_Client");*/
         });
 
         modelBuilder.Entity<Placement>(entity =>
