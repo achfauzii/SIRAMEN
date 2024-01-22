@@ -11,7 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
- /*   [Authorize(Roles = "Employee,Admin")]*/
+    [Authorize(Roles = "Employee,Admin")]
     public class TimeSheetController : BaseController<TimeSheet, TimeSheetRepository, int>
     {
         private readonly TimeSheetRepository timeSheetRepository;
