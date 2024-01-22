@@ -22,7 +22,7 @@
                     fullnameNonRAS = ti.NonRas.Fullname,
                     fullnameEmployee = ti.Account.Fullname,
                     client = ti.Client.NameOfClient,
-                    position = ti.Position.PositionClient,
+                    position = ti.PositionName,
                     intDate = ti.IntvwDate,
                     intStatus = ti.IntvwStatus,
                     notes = ti.Notes

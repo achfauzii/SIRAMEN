@@ -246,19 +246,20 @@
             </div>
             <div class="modal-body">
                 <div class="col-sm">
-                    <label class="text-dark" for="accountLevel">Account ID</label>
-                    <input type="text" class="form-control" id="accountLevel" readonly>
+                    <input type="hidden" class="form-control" id="accountLevel" readonly>
 
                     <label class="text-dark" for="levelchange">Level</label>
                     <select id="levelchange" class="selectLevel form-control" name="state" required>
                         <option selected disabled>Choose...</option>
                     </select>
-                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" id="update" data-dismiss="modal" onclick="UpdateLevel()">Edit</button>
-                    </div>
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>                    
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="update" data-dismiss="modal" onclick="UpdateLevel()">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -287,3 +288,7 @@
 </div>
 
 <script src="~/js/ManageEmployee.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>

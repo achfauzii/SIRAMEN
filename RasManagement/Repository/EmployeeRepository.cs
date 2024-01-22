@@ -6,7 +6,7 @@ using System.Linq;
 using RasManagement.ViewModel;
 namespace RasManagement.Repository
 {
-    public class EmployeeRepository: GeneralRepository<ProjectRasmanagementContext, Account, string>
+    public class EmployeeRepository : GeneralRepository<ProjectRasmanagementContext, Account, string>
     {
         private readonly ProjectRasmanagementContext _context;
         public EmployeeRepository(ProjectRasmanagementContext _context) : base(_context)
@@ -22,7 +22,7 @@ namespace RasManagement.Repository
 
         public async Task<IEnumerable<Object>> GetTurnOff()
         {
-            
+
             var accounts = _context.Accounts.Include(a => a.Placements).Where(a => a.RoleId == "4");
             return accounts;
 
@@ -40,7 +40,7 @@ namespace RasManagement.Repository
 
             return account;
         }
-        public async Task<bool> Update(string accountId,UpdateEmployeeVM updatedData)
+        public async Task<bool> Update(string accountId, UpdateEmployeeVM updatedData)
         {
             var existingEmployee = await _context.Accounts.SingleOrDefaultAsync(a => a.AccountId == accountId && (a.RoleId == "2" || a.RoleId == "3"));
 
@@ -100,10 +100,19 @@ namespace RasManagement.Repository
             return true;
         }
 
-
-
-        //Employeement
-
+        public async Task<IEnumerable<Object>> CheckOverviewEmployee()
+        {
+            var employees = _context.Accounts
+                                    .Include(e => e.FormalEdus)
+                                    .Include(ne => ne.NonFormalEdus)
+                                    .Include(q => q.Qualifications)
+                                    .Include(c => c.Certificates)
+                                    .Include(eh => eh.EmploymentHistories)
+                                    .Include(ph => ph.ProjectHistories)
+                                    .Where(con => con.RoleId == "3")
+                                    .ToList();
+            return employees;
+        }
 
     }
 }

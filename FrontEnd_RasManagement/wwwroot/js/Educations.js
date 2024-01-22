@@ -59,6 +59,7 @@ function Educations() {
       },
       { data: "major" },
       { data: "degree" },
+      { data: "ipk" },
       { data: "years" },
       {
         // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
@@ -79,12 +80,12 @@ function Educations() {
       },
     ],
 
-    order: [[5, "desc"]],
+    order: [[6, "desc"]],
     //"responsive": true,
     //Buat ngilangin order kolom No dan Action
     columnDefs: [
       {
-        targets: [0, 2, 3, 4, 5, 6],
+        targets: [0, 2, 3, 4, 5, 6, 7],
         orderable: false,
       },
     ],
@@ -226,6 +227,11 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
+function numeric(input) {
+    var numericValue = input.value.replace(/[^\d.,]/g, "");
+    input.value = numericValue;
+}
+
 function SaveFormal() {
   var isValid = true;
 
@@ -237,6 +243,19 @@ function SaveFormal() {
     } else {
       input.next(".error-message-formal").hide();
     }
+
+      // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+      if (input.attr("id") === "Ipk") {
+          var ipk = input.val().trim();
+          var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+          if (!validIPK.test(ipk)) {
+              $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+              isValid = false;
+          } else {
+              $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+          }
+      }
   });
 
   // Validasi select options
@@ -286,6 +305,7 @@ function SaveFormal() {
   FormalEdu.location = $("#selectRegencies").val();
   FormalEdu.major = $("#Major").val();
   FormalEdu.degree = $("#Degree").val();
+  FormalEdu.ipk = $("#Ipk").val();
   FormalEdu.years = $("#GraduationYears").val();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
@@ -313,7 +333,7 @@ function SaveFormal() {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Data Gagal dimasukkan!",
+        title: "Data failed to added!",
         showConfirmButtom: false,
         timer: 1500,
       });
@@ -330,13 +350,15 @@ function ClearScreenFormal() {
   //$('#Location').val('');
   $("#Major").val("").trigger("change");
   $("#Degree").val("");
+  $("#Ipk").val("");
   $("#GraduationYears").selectedindex = "0";
   $("#Update").hide();
   $("#Save").show();
   $("input[required]").each(function () {
     var input = $(this);
-
     input.next(".error-message-formal").hide();
+
+      $(".error-format-ipk").hide();
   });
   $(".selectRegencies").closest(".form-group").find(".error-message").hide();
   $(".selectUniversity")
@@ -405,6 +427,7 @@ function GetById(formalEduId) {
       $("#Major").val(obj.major);
       $("#Major").trigger("change");
       $("#Degree").val(obj.degree);
+      $("#Ipk").val(obj.ipk);
       $("#GraduationYears").val(obj.years);
       $("#AccountId").accid;
       $("#ModalFormal").modal("show");
@@ -428,6 +451,19 @@ function UpdateFormal() {
     } else {
       input.next(".error-message-formal").hide();
     }
+
+      // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+      if (input.attr("id") === "Ipk") {
+          var ipk = input.val().trim();
+          var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+          if (!validIPK.test(ipk)) {
+              $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+              isValid = false;
+          } else {
+              $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+          }
+      }
   });
 
   if (!isValid) {
@@ -441,6 +477,7 @@ function UpdateFormal() {
   FormalEdu.Location = $("#selectRegencies").val();
   FormalEdu.Major = $("#Major").val();
   FormalEdu.Degree = $("#Degree").val();
+  FormalEdu.ipk = $("#Ipk").val();
   FormalEdu.Years = $("#GraduationYears").val();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
