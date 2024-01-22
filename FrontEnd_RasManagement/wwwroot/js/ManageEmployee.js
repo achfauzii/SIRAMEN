@@ -75,10 +75,6 @@ $(document).ready(function () {
       $("#loader").css("display", processing ? "block" : "none");
     })
     .DataTable({
-      fixedColumns: {
-        left: window.innerWidth > 1024 ? 2 : null,
-      },
-      fixedHeader: true,
       paging: true,
       scrollX: true,
       orderCellsTop: true,
