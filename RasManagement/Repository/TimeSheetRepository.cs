@@ -44,7 +44,8 @@ namespace RasManagement.Repository
                     var countFlag = dayGroup
                     .GroupBy(a => a.Flag)
                     .Select(flagGroup => new {
-                        title = $"{flagGroup.Key}: {flagGroup.Count()}",
+                        title = $"{flagGroup.Key}: \n {flagGroup.Count()}",
+                        description = "ini deskripsi bulan",
                         start = dayGroup.Key,
                         allDay = true,
                         flag = flagGroup.First().Flag,
@@ -64,8 +65,9 @@ namespace RasManagement.Repository
                     .Where(ts => ts.Date >= start
                                 && ts.Date <= end)
                     .Select(ts => new {
-                        title = ts.Account.Fullname +": "+ ts.Activity,
+                        title = ts.Account.Fullname +": \n"+ ts.Activity,
                         start = ts.Date,
+                        description = "ini deskripsi minggu",
                         allDay = true,
                         backgroundColor = GetColorByFlag(ts.Flag),
                         borderColor = GetColorByFlag(ts.Flag),
