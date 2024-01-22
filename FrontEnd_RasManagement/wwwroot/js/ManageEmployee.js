@@ -199,7 +199,7 @@ $(document).ready(function () {
           data: "position",
           render: function (data) {
             if (data == null) {
-              var a = "b";
+              var a = "";
               return a;
             }
 
