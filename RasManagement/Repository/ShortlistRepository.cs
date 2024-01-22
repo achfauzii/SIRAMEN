@@ -73,7 +73,9 @@ namespace RasManagement.Repository
 
         public List<SharedShortListVM> GetSharedShortList()
         {// Possible null reference argument.
-            var employees = _context.Accounts.Include(a => a.FormalEdus).Include(a => a.Placements).Include(a => a.Qualifications).Where(a => a.RoleId == "3")
+            var employees = _context.Accounts
+                    .Include(a => a.FormalEdus).Include(a => a.Placements).Include(a => a.Qualifications)
+                    .Where(a => a.RoleId == "3")
                     .Select(emp => new SharedShortListVM
                     {
                         AccountId = emp.AccountId,
@@ -97,25 +99,26 @@ namespace RasManagement.Repository
 
 
                     }).ToList();
-            var nonras = _context.NonRasCandidates.Select(non => new SharedShortListVM
-            {
-                NonRAS_Id = non.NonRasId,
-                Fullname = non.Fullname,
-                Position = non.Position,
-                Skillset = non.Skillset,
-                Level = non.Level,
-                Education = non.Education,
-                Ipk = non.Ipk,
-                University = non.University,
-                Age = non.Birthdate + " Years Old",
-                ExperienceInYear = non.ExperienceInYear,
-                WorkStatus = non.WorkStatus,
-                NoticePeriode = non.NoticePeriode,
-                FinancialIndustry = non.FinancialIndustry,
-                CvBerca = non.CvBerca
-
-
-            }).ToList();
+            var nonras = _context.NonRasCandidates
+                    .Where(n => n.isDeleted != true)
+                    .Select(non => new SharedShortListVM
+                    {
+                        NonRAS_Id = non.NonRasId,
+                        Fullname = non.Fullname,
+                        Position = non.Position,
+                        Skillset = non.Skillset,
+                        Level = non.Level,
+                        Education = non.Education,
+                        Ipk = non.Ipk,
+                        University = non.University,
+                        Age = non.Birthdate + " Years Old",
+                        ExperienceInYear = non.ExperienceInYear,
+                        WorkStatus = non.WorkStatus,
+                        NoticePeriode = non.NoticePeriode,
+                        FinancialIndustry = non.FinancialIndustry,
+                        CvBerca = non.CvBerca
+                    })
+                    .ToList();
 
             List<SharedShortListVM> sharedShortLists = new List<SharedShortListVM>();
             sharedShortLists.AddRange(employees);

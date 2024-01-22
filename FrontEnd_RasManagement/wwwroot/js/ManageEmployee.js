@@ -63,7 +63,6 @@ $(document).ready(function () {
     handlePlacementStatusChange();
   });
   $("#dataTableEmployee thead tr")
-    .clone(true)
     .addClass("filters")
     .attr("id", "filterRow")
     .appendTo("#dataTableEmployee thead");
