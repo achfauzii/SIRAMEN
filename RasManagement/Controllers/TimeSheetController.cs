@@ -58,70 +58,13 @@ namespace RasManagement.Controllers
         [HttpGet("TimeSheetByMonth")]
         public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end)
         {   
-            if (end.Subtract(start).Days > 41){
-            var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end);
            
-            var groupedByDay = get.GroupBy(a => a.Date);
-            var resultWithTitles = new List<object>();
-            foreach (var dayGroup in groupedByDay)
-            {
-            var countFlag = dayGroup
-                .GroupBy(a => a.Flag)
-                .Select(flagGroup => new
-                {
-                    title = flagGroup.Key + ": " + flagGroup.Count(),
-                    start = dayGroup.Key,
-                    allDay = true,
-                    backgroundColor = GetColorByFlag(flagGroup.Key),
-                    borderColor = GetColorByFlag(flagGroup.Key),
-                })
-                .ToList();
-            resultWithTitles.AddRange(countFlag);
-            }
-           return StatusCode(200, resultWithTitles );
-            } else{
-                var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end);
-                var groupedByDay = get.GroupBy(a => a.Date);
-                var resultWithTitles = new List<object>();
-                foreach (var dayGroup in groupedByDay)
-                {
-                var accountIds  = dayGroup
-                .Select(item => new 
-                {
-                    title = item.AccountId +" "+ item.Activity,
-                    start = dayGroup.Key,
-                    allDay = true,
-                    backgroundColor = GetColorByFlag(item.Flag),
-                    borderColor = GetColorByFlag(item.Flag),
-                })
-                .ToList();;
-
-                 
-                
-            resultWithTitles.AddRange(accountIds);
-            }
-            return StatusCode(200, resultWithTitles );
-            }
+            var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end);
+            return StatusCode(200, get );
+          
 
         }
-        private string GetColorByFlag(string flag)
-        {
-            switch (flag)
-            {
-                case "WFO":
-                    return "#0073b7"; // Blue
-                case "WFH":
-                    return "#f39c12"; // Yellow
-                case "WFC":
-                    return "#00a65a"; // Green
-                case "Sakit":
-                    return "#6c757d"; // Grey
-                case "Cuti":
-                    return "#6c757d"; // Grey
-                default:
-                    return "#f56954"; // Red
-            }
-        }
+        
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
