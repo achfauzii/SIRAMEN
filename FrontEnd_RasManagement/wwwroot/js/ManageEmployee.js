@@ -199,7 +199,7 @@ $(document).ready(function () {
           data: "position",
           render: function (data) {
             if (data == null) {
-              var a = "b";
+              var a = "";
               return a;
             }
 
@@ -228,7 +228,8 @@ $(document).ready(function () {
             return badgeContainer.html();
           },
         },
-        {
+          {
+            data:null,
           render: function (data, type, row) {
             var levelStatus = row.level;
 
@@ -288,7 +289,8 @@ $(document).ready(function () {
             return data;
           },
         },
-        {
+          {
+              data: null,
           render: function (data, type, row) {
             //var accountId = row.accountId;
             var placementStatus = "Idle"; // Default value jika data tidak ditemukan
@@ -319,8 +321,9 @@ $(document).ready(function () {
           },
         },
 
-        {
-          render: function (data, type, row) {
+          {
+            data:null,
+            render: function (data, type, row) {
             var placementStatus = "Idle";
             row.placements.forEach(function (placement) {
               if (placement.placementStatus !== "Idle") {
@@ -340,6 +343,7 @@ $(document).ready(function () {
         },
         { data: "hiredstatus" },
         {
+          data:null,
           render: function (data, type, row) {
             var startc = Date.now();
             var endc = new Date(row.endContract);
@@ -362,17 +366,6 @@ $(document).ready(function () {
             //console.log(daysInMonth)
             var result = "";
 
-            /*if (monthsRemaining > 0) {
-                                    result += monthsRemaining + " months ";
-                                }
-            
-                                if (daysInMonth > 0) {
-                                    if (monthsRemaining > 0) {
-                                        result += daysInMonth + " days";
-                                    } else {
-                                        result = '<span class="badge badge-pill badge-danger">' + daysInMonth + ' days' + '</span > '
-                                    }                     
-                                }*/
 
             if (monthsRemaining > 2) {
               // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
@@ -449,24 +442,7 @@ $(document).ready(function () {
           },
         },
       ],
-      //"order": [], // menonaktifkan order pada semua kolom
-      /*   "fnDrawCallback": function (oSettings) {
-                       // mengatur nomor urut berdasarkan halaman dan pengurutan yang aktif, menetapkan nomor urut menjadi 1
-                       var table = $('#TB_Department').DataTable();
-                       var startIndex = table.context[0]._iDisplayStart;
-                       table.column(0, { order: 'applied' }).nodes().each(function (cell, i) {
-                           cell.innerHTML = startIndex + i + 1;
-                       });
-                   }*/
 
-      /*   "fndrawCallback": function (settings) {
-                     var api = this.api();
-                     var rows = api.rows({ page: 'current' }).nodes();
-                     api.column(1, { page: 'current' }).data().each(function (group, i) {
-         
-                         $(rows).eq(i).find('td:first').html(i + 1);
-                     });s
-                 }*/
       drawCallback: function (settings) {
         var api = this.api();
         var rows = api.rows({ page: "current" }).nodes();

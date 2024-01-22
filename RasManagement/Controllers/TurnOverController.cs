@@ -10,7 +10,7 @@ namespace RasManagement.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class TurnOverController : BaseController<TurnOver, TurnOverRepository, int>
     {
         private readonly TurnOverRepository turnOverRepository;
