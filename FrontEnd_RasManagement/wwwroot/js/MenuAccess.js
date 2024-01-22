@@ -53,6 +53,7 @@ function hideElementBasedOnRoleSales() {
     menuElement.style.display = 'none';
     createAccountMenu.style.display = 'none';
     manageEmployeeMenu.style.display = 'none';
+    manageDepartmentMenu.style.display = 'none';
 
 
 }

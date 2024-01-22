@@ -9,7 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class DepartmentController : BaseController<Department, DepartmentRepository, int>
     {
         private readonly DepartmentRepository departmentRepository;

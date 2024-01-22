@@ -25,8 +25,10 @@ namespace RasManagement.Repository
             
             if (countAccount == null || !countAccount.AccountId.StartsWith("RAS"+currentDate))
             {
-              
-                newNIK = "RAS"+currentDate + "001";
+
+                string lastTwoDigits = countAccount.AccountId.Substring(countAccount.AccountId.Length - 2);
+                int incrementedNumber = int.Parse(lastTwoDigits) + 1;
+                newNIK = "RAS" + incrementedNumber;
             } else{
                  var nikLastData = countAccount.AccountId;
                 string lastThree = nikLastData.Substring(nikLastData.Length - 3);
