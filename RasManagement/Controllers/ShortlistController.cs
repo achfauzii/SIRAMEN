@@ -233,6 +233,7 @@ namespace RasManagement.Controllers
                     e.Level,
                     e.ExperienceInYear,
                     e.WorkStatus,
+                    e.endDate,
                     e.NoticePeriode,
                     e.FinancialIndustry,
                     e.CvBerca,

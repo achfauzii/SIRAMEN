@@ -241,6 +241,59 @@ function SharedShortListCandidate(selectedCategory) {
             },
             {
                 data: "noticePeriode",
+                render: function (data, type, row) {
+                if (data == null){
+                    var startc = Date.now();
+                    var endc = new Date(row.endDate);
+        
+                    var timeDiff = endc.getTime() - startc; // Menghitung selisih dalam milidetik
+                    var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
+        
+                    /*if (daysremain >= 30) {
+                                            // Jika sisa kontrak lebih dari 1 bulan, hitung dalam bulan
+                                            var monthsRemaining = Math.floor(daysremain / 30);
+                                            return monthsRemaining + " months";
+                                        } else {
+                                            // Jika sisa kontrak kurang dari 1 bulan, hitung dalam hari
+                                            return daysremain + " days";
+                                        }*/
+        
+                    var monthsRemaining = Math.floor(daysremain / 30); // Menghitung bulan
+                    var daysInMonth = daysremain % 30; // Menghitung sisa hari
+                    //console.log(monthsRemaining);
+                    //console.log(daysInMonth)
+                    var result = "ASAP";
+        
+                    if (monthsRemaining > 2) {
+                      // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
+                      result =
+                        '<span class="badge badge-success" style="font-size: 13px;">' +
+                        monthsRemaining +
+                        " bulan " +
+                        daysInMonth +
+                        " hari</span>";
+                    } else if (monthsRemaining >= 1) {
+                      // Jika sisa kontrak 1-3 bulan, beri warna kuning
+                      result =
+                        '<span class="badge badge-warning" style="font-size: 13px;">' +
+                        monthsRemaining +
+                        " bulan " +
+                        daysInMonth +
+                        " hari</span>";
+                    } else {
+                      // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
+                      if (daysInMonth > 0) {
+                        result =
+                          '<span class="badge badge-danger" style="font-size: 13px;">' +
+                          daysInMonth +
+                          " hari</span>";
+                      }
+                    }
+                    return result;
+                } else{
+                    return data;
+                }
+                }
             },
             {
                 data: "financialIndustry",
