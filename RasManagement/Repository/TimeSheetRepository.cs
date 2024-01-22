@@ -33,7 +33,8 @@ namespace RasManagement.Repository
         }
         public async Task<List<TimeSheet>> GetTimeSheetsByMonth(DateTime start, DateTime end)
         {
-            var timeSheets = await context.TimeSheets.Include(a => a.Account)
+            var timeSheets = await context.TimeSheets
+                .Include(a => a.Account)
                 .Where(ts => ts.Date.HasValue
                             && ts.Date >= start
                             && ts.Date <= end)
