@@ -62,12 +62,25 @@ $(document).ready(function () {
     // Periksa nilai awal dropdown saat halaman dimuat
     handlePlacementStatusChange();
   });
-  $("#dataTableEmployee thead tr")
-    .addClass("filters")
-    .attr("id", "filterRow")
-    .appendTo("#dataTableEmployee thead");
+
+  // $("#dataTableEmployee thead tr")
+  //   .clone(true)
+  //   .addClass("filters")
+  //   .attr("id", "filterRow")
+  //   .appendTo("#dataTableEmployee thead");
 
   // $('#loader').show();
+
+  // $("#dataTableEmployee tfoot th").each(function (i) {
+  //   var title = $("#dataTableEmployee thead th").eq($(this).index()).text();
+  //   $(this).html(
+  //     '<input type="text" class="form-control form-control-sm pt-0 pb-0" placeholder="Search ' +
+  //       title +
+  //       '" data-index="' +
+  //       i +
+  //       '" />'
+  //   );
+  // });
 
   var table = $("#dataTableEmployee")
     .on("processing.dt", function (e, settings, processing) {
@@ -81,7 +94,7 @@ $(document).ready(function () {
       fixedHeader: true,
       scrollX: true,
       scrollY: true,
-      scrollCollapse: true,
+      // scrollCollapse: true,
       orderCellsTop: true,
 
       ajax: {
@@ -96,67 +109,24 @@ $(document).ready(function () {
       },
 
       initComplete: function () {
-        4;
-        var api = this.api();
-
-        // For each column
-        api
+        this.api()
           .columns()
-          .eq(0)
-          .each(function (colIdx) {
-            // Set the header cell to contain the input element
-            var cell = $(".filters th").eq(
-              $(api.column(colIdx).header()).index()
-            );
-            var title = $(cell).text();
-            // Check if the column is "No", "Gender", or "Placement Status"
-            if (title !== "No" && title !== "Action" && title !== "Assets") {
-              $(cell).html(
-                '<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="' +
-                  title +
-                  '" />'
-              );
-              // On every keypress in this input
-              $(
-                "input",
-                $(".filters th").eq($(api.column(colIdx).header()).index())
-              )
-                .off("keyup change")
-                .on("keyup change", function (e) {
-                  e.stopPropagation();
-                  // Get the search value
-                  $(this).attr("title", $(this).val());
-                  var regexr = "({search})"; //$(this).parents('th').find('select').val();
-                  var cursorPosition = this.selectionStart;
-                  // Search the column for that value
-                  api
-                    .column(colIdx)
-                    .search(
-                      this.value != ""
-                        ? regexr.replace("{search}", "(((" + this.value + ")))")
-                        : "",
-                      this.value != "",
-                      this.value == ""
-                    )
-                    .draw();
-                  $(this)
-                    .focus()[0]
-                    .setSelectionRange(cursorPosition, cursorPosition);
-                });
-            } else {
-              // For columns "No", "Gender", and "Placement Status", leave the header cell empty
-              var cell = $(".filters th").eq(
-                $(api.column(colIdx).header()).index()
-              );
-              $(cell).html("");
-            }
-            if (title === "Placement Status") {
-              // Filter Placement Status column to show only "Idle"
-              var placementStatusColumn = api.column(colIdx);
-              placementStatusColumn
-                .search("^(Idle|Onsite)$", true, false)
-                .draw();
-            }
+          .every(function () {
+            let column = this;
+            let title = column.footer().textContent;
+
+            // Create input element
+            let input = document.createElement("input");
+            input.classList.add("form-control");
+            input.placeholder = title;
+            column.footer().replaceChildren(input);
+
+            // Event listener for user input
+            input.addEventListener("keyup", () => {
+              if (column.search() !== this.value) {
+                column.search(input.value).draw();
+              }
+            });
           });
       },
       columns: [
