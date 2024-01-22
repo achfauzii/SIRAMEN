@@ -153,7 +153,7 @@ function getById(Id) {
 
 function Update() {
   // debugger;
-  var isValid = true;
+  /*var isValid = true;
 
   $("input[required],select[required],textarea[required]").each(function () {
     var input = $(this);
@@ -167,7 +167,7 @@ function Update() {
 
   if (!isValid) {
     return;
-  }
+  }*/
   var TimeSheet = new Object();
   TimeSheet.Id = $("#timeSheetId").val();
   TimeSheet.Date = $("#inputDate").val();
@@ -235,7 +235,7 @@ function save() {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
 
-  var isValid = true;
+ /* var isValid = true;
 
   $("input[required],select[required],textarea[required]").each(function () {
     var input = $(this);
@@ -249,7 +249,7 @@ function save() {
 
   if (!isValid) {
     return;
-  }
+  }*/
 
   var TimeSheet = new Object();
   TimeSheet.Date = $("#inputDate").val();

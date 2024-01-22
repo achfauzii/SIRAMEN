@@ -318,7 +318,6 @@ namespace RasManagement.Controllers
                     e.Education,
                     e.Ipk,
                     e.University,
-                    e.Domisili,
                     e.Birthdate,
                     e.Level,
                     e.ExperienceInYear,
@@ -326,7 +325,7 @@ namespace RasManagement.Controllers
                     e.NoticePeriode,
                     e.FinancialIndustry,
                     e.CvBerca,
-                    e.LevelRekom
+           
 
 
                 })
