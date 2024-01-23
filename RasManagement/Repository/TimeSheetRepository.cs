@@ -31,6 +31,93 @@ namespace RasManagement.Repository
 
             return timeSheets;
         }
+        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end)
+        {
+            if (end.Subtract(start).Days > 41){
+                var timeSheets = context.TimeSheets
+                .Where(ts => ts.Date >= start && ts.Date <= end)
+                .Include(a => a.Account)
+                .GroupBy(ts => new {ts.Date, ts.Flag})
+                .ToList();
+
+                var resultWithTitles = new List<object>();
+                foreach (var dayGroup in timeSheets){
+                    var countFlag = dayGroup
+                    .GroupBy(ts => ts.Flag)
+                    .Select(flagGroup => new
+                    {
+                        Flag = flagGroup.Key,
+                        Count = flagGroup.Count()
+                    })
+                    .ToList();
+
+                    var  titles = countFlag
+                    
+                    //.Select( ts => new
+                    //{
+                    //    ts.Flag,
+                    //    Title = $"{ts.Flag} : {ts.Flag.}", // Include account name in the title
+                    //    Description = $"{ts.Account.Fullname}",
+                    //    //start = dayGroup.Key,
+                    //    Start = ts.Date,
+                    //    AllDay = true,
+                    //    BackgroundColor = GetColorByFlag(ts.Flag),
+                    //    BorderColor = GetColorByFlag(ts.Flag),
+                    //})
+                    //.GroupBy(a => a.Flag)
+                    .Select(flagCount => new
+                    {
+                        title = $"{flagCount.Flag}:{flagCount.Count}",
+                        description = string.Join(", ", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => ts.Account.Fullname)),
+                        start = dayGroup.Key.Date,
+                        allDay = true,
+                        //flag = flagCount.Flag,
+                        backgroundColor = GetColorByFlag(flagCount.Flag),
+                        borderColor = GetColorByFlag(flagCount.Flag),
+                    })
+                .ToList();
+                resultWithTitles.AddRange(titles);
+                }
+                
+                return resultWithTitles.Cast<object>().ToList();
+                
+               
+                } else {
+                    var timeSheets = await context.TimeSheets
+                    .Include(a=> a.Account)
+                    .Where(ts => ts.Date >= start
+                                && ts.Date <= end)
+                    .Select(ts => new {
+                        title = ts.Account.Fullname +": \n"+ ts.Activity,
+                        start = ts.Date,
+                        description = "ini deskripsi minggu",
+                        allDay = true,
+                        backgroundColor = GetColorByFlag(ts.Flag),
+                        borderColor = GetColorByFlag(ts.Flag),
+
+                    })
+                    .ToListAsync();
+                    return timeSheets;
+                }
+        }
+        public static string GetColorByFlag(string flag) {
+        switch (flag)
+            {
+                case "WFO":
+                    return "#0073b7"; // Blue
+                case "WFH":
+                    return "#f39c12"; // Yellow
+                case "WFC":
+                    return "#00a65a"; // Green
+                case "Sakit":
+                    return "#6c757d"; // Grey
+                case "Cuti":
+                    return "#6c757d"; // Grey
+                default:
+                    return "#f56954"; // Red
+            }
+        }
+       
 
         public int AddTimeSheet(TimeSheet timeSheet)
         {
