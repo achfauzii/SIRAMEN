@@ -67,15 +67,17 @@ $(function () {
         eventDidMount: function (info) {
             console.log(info.event),
                 $(info.el).popover({
-                    title: info.event.title,
-                    placement: 'top',
                     content: info.event.extendedProps.description,
+                    placement: 'bottom',
+                    title: info.event.title,
                     trigger: 'hover',
                     container: 'body',
                 });
         },
 
-        events: { url: 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth' },
+        events: {
+            url: 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth'
+        },
         extraParams: function () {
             return {
                 cachebuster: new Date().valueOf()

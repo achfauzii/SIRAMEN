@@ -79,6 +79,7 @@ namespace RasManagement.Repository
                         title = ts.Activity,
                         start = ts.Date,
                         description = ts.Account.Fullname,
+                        url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
                         allDay = true,
                         backgroundColor = GetColorByFlag(ts.Flag),
                         borderColor = GetColorByFlag(ts.Flag),
