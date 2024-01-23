@@ -1,77 +1,86 @@
 var table = null;
 $(document).ready(function () {
-  table = $("#tbDataCleint").DataTable({
-    responsive: true,
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
 
-    ajax: {
-      url: "https://localhost:7177/api/ClientName",
-      type: "GET",
-      datatype: "json",
-      dataSrc: "data",
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-      },
-    },
+    if (objDataToken.RoleId == 7) {
+        $('.btn-add-client').hide();
+    } 
 
-    columns: [
-      {
-        data: null,
-        render: function (data, type, row, meta) {
-          return meta.row + meta.settings._iDisplayStart + 1 + ".";
+    table = $("#tbDataCleint").DataTable({
+        responsive: true,
+
+        ajax: {
+            url: "https://localhost:7177/api/ClientName",
+            type: "GET",
+            datatype: "json",
+            dataSrc: "data",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
         },
-      },
-      { data: "nameOfClient" },
-      {
-        // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
-        data: null,
-        render: function (data, type, row) {
-          var modalId = "modal-edit-" + data.id;
-          var deleteId = "modal-delete-" + data.id;
-          return (
-            '<a class="text-warning" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-            row.id +
-            ')"><i class="fa fa-edit"></i></a>' +
-            "&nbsp;" +
-            '<a class="text-info" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return detailPosition(' +
-            row.id +
-            ')"><i class="fas fa-info-circle"></i></i></a>' +
-            "&nbsp;" +
-            '<a class="text-danger" data-placement="right" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
-            row.id +
-            "', '" +
-            row.nameOfClient +
-            "'" +
-            ')"><i class="fa fa-trash"></i></a>'
-          );
+
+        columns: [
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                },
+            },
+            { data: "nameOfClient" },
+            {
+                // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
+                data: null,
+                render: function (data, type, row) {
+                    var modalId = "modal-edit-" + data.id;
+                    var deleteId = "modal-delete-" + data.id;
+                    return (
+                        '<a class="text-warning" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+                        row.id +
+                        ')"><i class="fa fa-edit"></i></a>' +
+                        "&nbsp;" +
+                        '<a class="text-info" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return detailPosition(' +
+                        row.id +
+                        ')"><i class="fas fa-info-circle"></i></i></a>' +
+                        "&nbsp;" +
+                        '<a class="text-danger" data-placement="right" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
+                        row.id +
+                        "', '" +
+                        row.nameOfClient +
+                        "'" +
+                        ')"><i class="fa fa-trash"></i></a>'
+                    );
+                },
+            },
+        ],
+
+        order: [[1, "desc"]],
+        columnDefs: [
+            {
+                targets: [0, 2],
+                orderable: false,
+                visible: objDataToken.RoleId != 7,
+            },
+        ],
+        drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page;
+            var startNumber = currentPage * api.page.info().length + 1;
+
+            api
+                .column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i;
+                });
         },
-      },
-    ],
-
-    order: [[1, "desc"]],
-    //"responsive": true,
-    //Buat ngilangin order kolom No dan Action
-    columnDefs: [
-      {
-        targets: [0, 2],
-        orderable: false,
-      },
-    ],
-    //Agar nomor tidak berubah
-    drawCallback: function (settings) {
-      var api = this.api();
-      var rows = api.rows({ page: "current" }).nodes();
-      var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-      var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
-
-      api
-        .column(0, { page: "current" })
-        .nodes()
-        .each(function (cell, i) {
-          cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-        });
-    },
-  });
+    });
 });
+
+function hideButtonAndActionForManager() {
+    $('.btn-add-client').hide();
+}
+
 
 function Save() {
   var isValid = true;
