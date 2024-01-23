@@ -24,14 +24,19 @@ namespace FrontEnd_RasManagement.Controllers
             return View();
         }
 
-        public IActionResult GenerateCvEmployee()
+        public async Task<IActionResult> GenerateCvEmployee()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
             }
-          
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee", "Dashboards");
+            }
+
             //End Validate
             return View();
         }

@@ -35,7 +35,9 @@ namespace RasManagement.Repository
 
         public List<SharedShortListVM> GetSharedShortList()
         {// Possible null reference argument.
-            var employees = _context.Accounts.Include(a => a.FormalEdus).Include(a => a.Placements).Include(a => a.Qualifications).Where(a => a.RoleId == "3")
+            var employees = _context.Accounts
+                    .Include(a => a.FormalEdus).Include(a => a.Placements).Include(a => a.Qualifications)
+                    .Where(a => a.RoleId == "3")
                     .Select(emp => new SharedShortListVM
                     {
                         AccountId = emp.AccountId,
