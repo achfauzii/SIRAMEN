@@ -211,14 +211,15 @@ $(document).ready(function () {
             return badgeContainer.html();
           },
         },
-        {
+          {
+            data: "level",
           render: function (data, type, row) {
             var levelStatus = row.level;
 
               // Validasi manager hide action (Only View)
               var objDataToken = parseJwt(sessionStorage.getItem('Token'));
               if (objDataToken.RoleId == 7) {
-                  return data.level;
+                  return data;
               }
 
             if (levelStatus === "Fresh Graduate") {

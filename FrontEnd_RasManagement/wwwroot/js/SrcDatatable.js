@@ -60,13 +60,14 @@ function toggleContent(element, originalData) {
 }
 
 $(document).ready(function () {
+    //validasi manager just view
     var objDataToken = parseJwt(sessionStorage.getItem('Token'));
 
     if (objDataToken.RoleId == 7) {
         $('.btn-add-nonras').hide();
         $('.btn-export-nonras').hide();
 
-    } 
+    }
 
     $("#export_excel").on("click", function () {
         // $("#resource").DataTable().page.len(9999999).draw();
@@ -246,7 +247,7 @@ function Src(selectedCategory) {
                         var objDataToken = parseJwt(sessionStorage.getItem('Token'));
                         if (objDataToken.RoleId == 7) {
                             return data;
-                        } 
+                        }
 
                         $(document).on("mouseover", ".row", function () {
                             $(this).find("i").css("visibility", "visible");
@@ -348,8 +349,8 @@ function Src(selectedCategory) {
             {
                 data: "birthdate",
                 /*render: function (data) {
-                  return data.trim() !== "" ? data + " Years Old" : "";
-                },*/
+                 return data.trim() !== "" ? data + " Years Old" : "";
+               },*/
                 render: function (data, type, row) {
                     if (data === "") {
                         return "";
@@ -540,7 +541,6 @@ function Src(selectedCategory) {
                 },
             },
             {
-                //"data":"negotiable"
                 data: "negotiable",
                 render: function (data, type, row) {
                     if (type === "display" || type === "filter") {
@@ -640,16 +640,37 @@ function Src(selectedCategory) {
                     return " ";
                 },
             },
+            {
+                data: "skillset",
+            },
+            {
+                data: "workStatus",
+            },
+            {
+                data: "financialIndustry",
+            },
+            {
+                data: "rawCv",
+            },
+            {
+                data: "cvBerca",
+            },
+            {
+                data: "negotiable",
+            },
+            {
+                data: "notes",
+            },
         ],
         columnDefs: [
             {
                 targets: [2, 25],
                 className: "customWrap",
             },
-            /*{
-                      targets: [20, 21, 22, 23, 24, 25, 26],
-                      visible: false,
-                  },*/
+            {
+                targets: [27, 28, 29, 30, 31, 32, 33],
+                visible: false,
+            },
         ],
         searching: true,
         dom: "lBfrtip",
@@ -659,8 +680,8 @@ function Src(selectedCategory) {
                 className: "buttonsToHide",
                 exportOptions: {
                     columns: [
-                        0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 17, 18, 20, 21, 22, 23, 24,
-                        25, 26, 27,
+                        0, 1, 27, 3, 4, 5, 6, 7, 8, 9, 10, 28, 12, 29, 30, 31, 16, 17, 18,
+                        32, 20, 21, 22, 23, 24, 33, 26,
                     ],
                     modifier: {
                         page: "current",
@@ -730,15 +751,10 @@ function Src(selectedCategory) {
 
         $("#domicile2").val(data.domisili);
 
-        /*if (data.birthdate) {
+        if (data.birthdate) {
             $("#age").val(data.birthdate);
         } else {
             $("#age").val("");
-        }*/
-        if (data.birthdate) {
-            $("#birthdate2").val(data.birthdate.substring(0, 10));
-        } else {
-            $("#birthdate2").val("");
         }
 
         $("#level2").val(data.level);
@@ -785,8 +801,220 @@ function Src(selectedCategory) {
         } else {
             $("#dateIntwRAS").val("");
         }
+    /* if (data.intwUser !== null) {
+             var elems = document.getElementsByClassName("btn-status");
+             for (var i = 0; i < elems.length; i += 1) {
+                 elems[i].style.display = "block";
+             }
+         }*/
+    // Ambil nilai data #intwByRAS dari database
+    //var intwByRAS = data.intwByRas; // Gantilah dengan data sebenarnya dari database
 
-        $("#levelRekom").val(data.levelRekom);
+    // Cek apakah data #intwByRAS sudah ada
+    /*const selectNameUser = $("#nameUser");
+        selectNameUser.val(data.nameOfUser).trigger("change");
+
+        const selectNameUser2 = $("#nameUser2");
+        */ /*const dataNameUser = data.nameOfUser;*/ /*
+        selectNameUser2.val(null).trigger("change");*/ /*if (dataNameUser == null) {
+                        selectNameUser2.val(null).trigger("change");
+                    }
+                    else if (!dataNameUser.includes('<br/>')) {
+                        const optionNotExists = selectNameUser2.find("option[value='" + dataNameUser + "']").length === 0;
+            
+                        if (optionNotExists) {
+                            const newOption = new Option(dataNameUser, dataNameUser, true, true);
+                            selectNameUser2.append(newOption).trigger('change');
+                        }
+                        selectNameUser2.val(null).trigger("change");
+                    } else {
+                        const nameOfUserArray = dataNameUser.split('<br/>');
+                        nameOfUserArray.forEach(value => {
+                            const optionNotExists = selectNameUser2.find("option[value='" + value + "']").length === 0;
+            
+                            if (optionNotExists) {
+                                const newOption = new Option(value, value, true, true);
+                                console.log(newOption);
+                                selectNameUser2.append(newOption).trigger('change');
+                            }
+                        });
+                        selectNameUser2.val(null).trigger("change");
+            
+                    }*/ /*if (data.intwByRas) {
+            if (
+                data.intwUser == null ||
+                data.nameOfUser == null ||
+                data.intwDateUser == null
+            ) {
+                */ /*$(selectNameUser).select2({
+                                    width: '100%',
+                                    tags: true,
+                                    dropdownParent: $('#offeringSourceList')
+                                });*/ /*
+
+$("#intwUser").val(data.intwUser).prop("disabled", false);
+$("#nameUser").val(data.nameOfUser).prop("disabled", false);
+$("#dateIntwUser").val("").prop("disabled", false);
+
+if (data.intwDateUser) {
+$("#dateIntwUser")
+.val(data.intwDateUser.substring(0, 10))
+.prop("disabled", false);
+} else {
+$("#dateIntwUser").val("").prop("disabled", false);
+}
+} else if (
+!data.intwUser.includes("<br/>") ||
+!data.nameOfUser.includes("<br/>") ||
+!data.intwDateUser.includes("<br/>")
+) {
+*/ /*  var elems = document.getElementsByClassName('btn-status');
+                                  for (var i = 0; i < elems.length; i += 1) {
+                                      elems[i].style.display = 'block';
+                                  }*/ /*
+     */ /*$(selectNameUser).select2({
+                                    width: '100%',
+                                    tags: true,
+                                    dropdownParent: $('#offeringSourceList')
+                                });
+                                const optionNotExists = selectNameUser.find("option[value='" + dataNameUser + "']").length === 0;
+                
+                                if (optionNotExists) {
+                                    const newOption = new Option(dataNameUser, dataNameUser, true, true);
+                                    selectNameUser.append(newOption).trigger('change');
+                
+                                }*/ /*
+selectNameUser.val(dataNameUser).trigger("change");
+$("#intwUser").val(data.intwUser).prop("disabled", false);
+$("#nameUser").val(data.nameOfUser).prop("disabled", false);
+$("#dateIntwUser").val("").prop("disabled", false);
+if (data.intwDateUser) {
+$("#dateIntwUser")
+.val(data.intwDateUser.substring(0, 10))
+.prop("disabled", false);
+} else {
+$("#dateIntwUser").val("").prop("disabled", false);
+}
+} else {
+const intwUserArray = data.intwUser.split("<br/>");
+const nameOfUserArray = data.nameOfUser.split("<br/>");
+const intwDateUserArray = data.intwDateUser.split("<br/>");
+
+const lastIntwUser = intwUserArray[intwUserArray.length - 1];
+const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
+const lastIntwDateUser =
+intwDateUserArray[intwDateUserArray.length - 1];
+
+let beforeLastIntwUser = "";
+let beforeLastDateIntwUser = "";
+let beforeLastNameOfUser = "";
+$("#intwUser").val(lastIntwUser).prop("disabled", false);
+$("#nameUser").prop("disabled", true);
+// Menggunakan loop untuk mengumpulkan semua data sebelum data terakhir
+for (let i = 0; i < intwUserArray.length - 1; i++) {
+beforeLastIntwUser += intwUserArray[i] + "<br/>";
+beforeLastDateIntwUser += intwDateUserArray[i] + "<br/>";
+beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
+}
+
+*/ /*nameOfUserArray.forEach(value => {
+                                    const optionNotExists = selectNameUser.find("option[value='" + value + "']").length === 0;
+                
+                                    if (optionNotExists) {
+                                        const newOption = new Option(value, value, true, true);
+                                        selectNameUser.append(newOption).trigger('change');
+                                    }
+                                });*/ /*
+selectNameUser.val(lastNameOfUser).trigger("change");
+// Menyimpan data sebelum data terakhir ke elemen tersembunyi
+$("#intwuserHiden").val(beforeLastIntwUser);
+//$('#intwUserHiddenLabel').html(beforeLastIntwUser);
+
+$("#dateintwuserHiden").val(beforeLastDateIntwUser);
+//$('#dateIntwUserHiddenLabel').html(beforeLastDateIntwUser);
+
+$("#nameUserhidden").val(beforeLastNameOfUser);
+if (lastIntwDateUser) {
+$("#dateIntwUser")
+.val(lastIntwDateUser.substring(0, 10))
+.prop("disabled", false);
+} else {
+$("#dateIntwUser").val("").prop("disabled", false);
+}
+
+const beforeLastDataMap = new Map();
+
+// Mengumpulkan data sebelum terakhir berdasarkan nama user
+for (let i = 0; i < intwUserArray.length - 1; i++) {
+const userName = nameOfUserArray[i];
+
+// Jika nama user belum ada dalam beforeLastDataMap, tambahkan sebagai kunci baru
+if (!beforeLastDataMap.has(userName)) {
+beforeLastDataMap.set(userName, { intwArray: [], dateArray: [] });
+}
+
+// Menambahkan status dan tanggal ke dalam array yang sesuai
+beforeLastDataMap.get(userName).intwArray.push(intwUserArray[i]);
+beforeLastDataMap.get(userName).dateArray.push(intwDateUserArray[i]);
+}
+
+// Mendapatkan elemen div yang akan menampung label-label per nama user
+
+// Menampilkan data sebelum terakhir untuk setiap nama user
+beforeLastDataMap.forEach((userData, userName) => {
+// Create container div for each user
+const containerElement = document.getElementById("historyUser");
+containerElement.style.display = "block";
+// Create labels for user information
+const judulLabel = document.createElement("label");
+judulLabel.classList.add("col-sm-2", "col-form-label", "align-top");
+judulLabel.innerHTML = `Interview by ${userName}`;
+
+const intwLabel = document.createElement("label");
+intwLabel.classList.add("col-sm-5");
+intwLabel.innerHTML = `Interviews:<br>${userData.intwArray.join(
+"<br>"
+)}`;
+
+const dateLabel = document.createElement("label");
+dateLabel.classList.add("col-sm-5");
+dateLabel.innerHTML = `Dates:<br>${userData.dateArray.join("<br>")}`;
+
+// Append labels to the user container
+containerElement.appendChild(judulLabel);
+containerElement.appendChild(intwLabel);
+containerElement.appendChild(dateLabel);
+});
+}
+// Jika data #intwByRAS ada, atur nilai #intwUser dan tampilkan elemen #intwUser
+//$('#intwByRAS').val(intwByRAS);
+*/ /* $('#intwUser').val(data.intwUser).prop('disabled', false);
+                           if (data.intwDateUser) {
+                               $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
+                           } else {
+                               $('#dateIntwUser').val('').prop('disabled', false);
+                           }
+                           
+                           $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/ /*
+} else if (
+data.intwByRas === "" ||
+data.intwByRas == null ||
+data.intwByRas == " "
+) {
+// Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
+$("#intwUser").prop("disabled", true);
+$("#nameUser").prop("disabled", true);
+$("#dateIntwUser").prop("disabled", true);
+$("#status").prop("disabled", true);
+}*/ /* if (data.intwUser) {
+     */ /*var offer = document.getElementById("formoffer");
+                          offer.show();*/ /*
+$("#offer").show();
+//console.log(data.intwUser);
+} else {
+$("#offer").hide();
+//console.log(data.intwUser);
+}*/ $("#levelRekom").val(data.levelRekom);
         $("#status").val(data.status);
         $("#notes").val(data.notes);
 
@@ -828,8 +1056,8 @@ function Delete(NonRasId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Shortlist/" + NonRasId,
-                type: "DELETE",
+                url: "https://localhost:7177/api/Shortlist/SoftDelete/" + NonRasId,
+                type: "GET",
                 dataType: "json",
                 headers: {
                     Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -837,6 +1065,8 @@ function Delete(NonRasId) {
             }).then((result) => {
                 // debugger;
                 if (result.status == 200) {
+                    const logMesagge = `Has Removed Shortlist Candidate ${NonRasCandidate.fullname}`;
+                    SaveLogUpdate(logMesagge);
                     Swal.fire("Deleted!", "Data has been deleted.", "success");
                     table.ajax.reload();
                 } else {
@@ -1277,7 +1507,7 @@ function Save() {
     NonRasCandidate.ipk = $("#ipk").val();
     NonRasCandidate.university = $("#UniversityName").val();
     NonRasCandidate.domisili = $("#domicile").val();
-    /* NonRasCandidate.birthdate = $("#age1").val();*/
+    /*NonRasCandidate.birthdate = $("#age1").val();*/
     NonRasCandidate.birthdate = $("#birthdate").val();
     NonRasCandidate.level = $("#level").val();
     NonRasCandidate.experienceInYear = experience;
