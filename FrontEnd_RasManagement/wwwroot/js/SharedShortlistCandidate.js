@@ -226,6 +226,9 @@ function SharedShortListCandidate(selectedCategory) {
                     if (data == "Onsite"){
                         return (data =
                             '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Onsite</span>');
+                    }else if (data == "Idle"){
+                    return (data =
+                        '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Idle</span>');
                     }
                     else if (data === "true" || data === "True") {
                         return (data =
@@ -234,8 +237,7 @@ function SharedShortListCandidate(selectedCategory) {
                         return (data =
                             '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
                     } 
-                    return (data =
-                        '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Idle</span>');
+                    return "";
 
                 },
             },
