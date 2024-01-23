@@ -42,6 +42,12 @@ $(document).ajaxComplete(function () {
 });
 
 $(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.edit-contract-emp').hide();
+    } 
+
   $(
     "input[required], input[required_], input[requiredContract], select[required], select[required_]"
   ).each(function () {
