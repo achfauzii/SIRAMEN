@@ -239,11 +239,12 @@ function SharedShortListCandidate(selectedCategory) {
       },
       {
         data: "noticePeriode",
-        render: function (data, type, row) {
+          render: function (data, type, row) {
+
           if (row.workStatus == "Onsite") {
             var startc = Date.now();
             var endc = new Date(row.endDate);
-
+    
             var timeDiff = endc.getTime() - startc; // Menghitung selisih dalam milidetik
             var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
 
@@ -279,12 +280,15 @@ function SharedShortListCandidate(selectedCategory) {
                 " hari</span>";
             } else {
               // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
-              if (daysInMonth > 0) {
-                result =
-                  '<span class="badge badge-danger" style="font-size: 13px;">' +
-                  daysInMonth +
-                  " hari</span>";
-              }
+                if (daysInMonth > 0) {
+
+                    result =
+                        '<span class="badge badge-danger" style="font-size: 13px;">' +
+                        daysInMonth +
+                        " hari</span>";
+                } else {
+                    result = "ASAP";
+                }
             }
             return result;
           } else if (row.workStatus === "true" || data === "True") {
