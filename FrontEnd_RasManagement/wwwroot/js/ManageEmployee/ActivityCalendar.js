@@ -64,7 +64,7 @@ $(function () {
         themeSystem: 'bootstrap',
         lazyFetching: false,
         eventDidMount: function (info) {
-          console.log(info.event),
+        
               $(info.el).popover({
                   title: info.event.title,
                   placement: 'top',
@@ -75,18 +75,7 @@ $(function () {
       },
       // events: { url: 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth',
 
-      events: function (info, successCallback, failureCallback)
-        {
-          $.ajax({
-            url: 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth',
-            headers: { 'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiI4Y2E1MTAxNy0wZmI0LTQ0ZDUtOTU2Yy1kOGI1YTdkZTRlOTkiLCJpYXQiOiIyMy8wMS8yMDI0IDA2OjEzOjI5IiwiRW1haWwiOiJhZG1pblJBU0BiZXJjYS5jby5pZCIsIlBhc3N3b3JkIjoiYWRtaW5yYXMiLCJBY2NvdW50SWQiOiJSQVMwNjEyMjMwMDIiLCJSb2xlSWQiOiIyIiwiTmFtZSI6IkFkbWluIFJBUyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzA2MDA4NDA5LCJpc3MiOiJKV1RBdXRoZW50aWNhdGlvblNlcnZlciIsImF1ZCI6IkpXVFNlcnZpY2VQb3N0bWFuQ2xpZW50In0.GNZtqGHhHL0PdyOpzh9E04IxfhVJL692A8J_41MpEhE' }, success: function (response) {
-              successCallback(response)
-            }
-
-          })
-           
-           
-        }    ,
+      
         events: function (info, successCallback, failureCallback) {
           let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
           let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
@@ -127,7 +116,7 @@ $(function () {
   // $('#calendar').fullCalendar()
 
   /* ADDING EVENTS */
-  var currColor = "#3c8dbc"; //Red by default
+  var currColor = '#3c8dbc' //Red by default
   // Color chooser button
   $('#color-chooser > li > a').click(function (e) {
       e.preventDefault()
