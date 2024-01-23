@@ -68,23 +68,40 @@ $(document).ready(function () {
     // Periksa nilai awal dropdown saat halaman dimuat
     handlePlacementStatusChange();
   });
-  $("#dataTableEmployee thead tr")
-    .clone(true)
-    .addClass("filters")
-    .attr("id", "filterRow")
-    .appendTo("#dataTableEmployee thead");
+
+  // $("#dataTableEmployee thead tr")
+  //   .clone(true)
+  //   .addClass("filters")
+  //   .attr("id", "filterRow")
+  //   .appendTo("#dataTableEmployee thead");
 
   // $('#loader').show();
+
+  // $("#dataTableEmployee tfoot th").each(function (i) {
+  //   var title = $("#dataTableEmployee thead th").eq($(this).index()).text();
+  //   $(this).html(
+  //     '<input type="text" class="form-control form-control-sm pt-0 pb-0" placeholder="Search ' +
+  //       title +
+  //       '" data-index="' +
+  //       i +
+  //       '" />'
+  //   );
+  // });
 
   var table = $("#dataTableEmployee")
     .on("processing.dt", function (e, settings, processing) {
       $("#loader").css("display", processing ? "block" : "none");
     })
     .DataTable({
+      fixedColumns: {
+        leftColumns: window.innerWidth > 1024 ? 3 : null,
+      },
       paging: true,
-      scrollX: true,
-      orderCellsTop: true,
       fixedHeader: true,
+      scrollX: true,
+      scrollY: true,
+      // scrollCollapse: true,
+      orderCellsTop: true,
 
       ajax: {
         url: "https://localhost:7177/api/Employees",
@@ -98,66 +115,27 @@ $(document).ready(function () {
       },
 
       initComplete: function () {
-        4;
-        var api = this.api();
-
-        // For each column
-        api
+        this.api()
           .columns()
-          .eq(0)
-          .each(function (colIdx) {
-            // Set the header cell to contain the input element
-            var cell = $(".filters th").eq(
-              $(api.column(colIdx).header()).index()
-            );
-            var title = $(cell).text();
-            // Check if the column is "No", "Gender", or "Placement Status"
+          .every(function () {
+            let column = this;
+            let title = column.footer().textContent;
+
             if (title !== "No" && title !== "Action" && title !== "Assets") {
-              $(cell).html(
-                '<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="' +
-                  title +
-                  '" />'
-              );
-              // On every keypress in this input
-              $(
-                "input",
-                $(".filters th").eq($(api.column(colIdx).header()).index())
-              )
-                .off("keyup change")
-                .on("keyup change", function (e) {
-                  e.stopPropagation();
-                  // Get the search value
-                  $(this).attr("title", $(this).val());
-                  var regexr = "({search})"; //$(this).parents('th').find('select').val();
-                  var cursorPosition = this.selectionStart;
-                  // Search the column for that value
-                  api
-                    .column(colIdx)
-                    .search(
-                      this.value != ""
-                        ? regexr.replace("{search}", "(((" + this.value + ")))")
-                        : "",
-                      this.value != "",
-                      this.value == ""
-                    )
-                    .draw();
-                  $(this)
-                    .focus()[0]
-                    .setSelectionRange(cursorPosition, cursorPosition);
-                });
+              // Create input element
+              let input = document.createElement("input");
+              input.classList.add("form-control");
+              input.placeholder = title;
+              column.footer().replaceChildren(input);
+
+              // Event listener for user input
+              input.addEventListener("keyup", () => {
+                if (column.search() !== this.value) {
+                  column.search(input.value).draw();
+                }
+              });
             } else {
-              // For columns "No", "Gender", and "Placement Status", leave the header cell empty
-              var cell = $(".filters th").eq(
-                $(api.column(colIdx).header()).index()
-              );
-              $(cell).html("");
-            }
-            if (title === "Placement Status") {
-              // Filter Placement Status column to show only "Idle"
-              var placementStatusColumn = api.column(colIdx);
-              placementStatusColumn
-                .search("^(Idle|Onsite)$", true, false)
-                .draw();
+              column.footer().replaceChildren("");
             }
           });
       },
@@ -165,7 +143,6 @@ $(document).ready(function () {
         //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
         {
-          // orderable: false, // menonaktifkan order hanya pada kolom tertentu
           data: null,
           width: "4%",
           render: function (data, type, row, meta) {
@@ -240,8 +217,7 @@ $(document).ready(function () {
             return badgeContainer.html();
           },
         },
-          {
-            data:null,
+        {
           render: function (data, type, row) {
             var levelStatus = row.level;
 
@@ -307,8 +283,7 @@ $(document).ready(function () {
             return data;
           },
         },
-          {
-              data: null,
+        {
           render: function (data, type, row) {
             //var accountId = row.accountId;
             var placementStatus = "Idle"; // Default value jika data tidak ditemukan
@@ -339,9 +314,8 @@ $(document).ready(function () {
           },
         },
 
-          {
-            data:null,
-            render: function (data, type, row) {
+        {
+          render: function (data, type, row) {
             var placementStatus = "Idle";
             row.placements.forEach(function (placement) {
               if (placement.placementStatus !== "Idle") {
@@ -361,7 +335,6 @@ $(document).ready(function () {
         },
         { data: "hiredstatus" },
         {
-          data:null,
           render: function (data, type, row) {
             var startc = Date.now();
             var endc = new Date(row.endContract);
@@ -384,6 +357,17 @@ $(document).ready(function () {
             //console.log(daysInMonth)
             var result = "";
 
+            /*if (monthsRemaining > 0) {
+                                    result += monthsRemaining + " months ";
+                                }
+            
+                                if (daysInMonth > 0) {
+                                    if (monthsRemaining > 0) {
+                                        result += daysInMonth + " days";
+                                    } else {
+                                        result = '<span class="badge badge-pill badge-danger">' + daysInMonth + ' days' + '</span > '
+                                    }                     
+                                }*/
 
             if (monthsRemaining > 2) {
               // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
@@ -443,9 +427,10 @@ $(document).ready(function () {
         {
           data: null,
           orderable: false, // menonaktifkan order
+          width: "7%",
           render: function (data, type, row) {
             return (
-              '<div class="text-center row">' +
+              '<div class="d-flex flex-row">' +
               '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
@@ -461,7 +446,30 @@ $(document).ready(function () {
             //visible: objDataToken.RoleId != 7,
         },
       ],
+      columnDefs: [
+        {
+          defaultContent: "-",
+          targets: "_all",
+        },
+      ],
+      //"order": [], // menonaktifkan order pada semua kolom
+      /*   "fnDrawCallback": function (oSettings) {
+                       // mengatur nomor urut berdasarkan halaman dan pengurutan yang aktif, menetapkan nomor urut menjadi 1
+                       var table = $('#TB_Department').DataTable();
+                       var startIndex = table.context[0]._iDisplayStart;
+                       table.column(0, { order: 'applied' }).nodes().each(function (cell, i) {
+                           cell.innerHTML = startIndex + i + 1;
+                       });
+                   }*/
 
+      /*   "fndrawCallback": function (settings) {
+                     var api = this.api();
+                     var rows = api.rows({ page: 'current' }).nodes();
+                     api.column(1, { page: 'current' }).data().each(function (group, i) {
+         
+                         $(rows).eq(i).find('td:first').html(i + 1);
+                     });s
+                 }*/
       drawCallback: function (settings) {
         var api = this.api();
         var rows = api.rows({ page: "current" }).nodes();
