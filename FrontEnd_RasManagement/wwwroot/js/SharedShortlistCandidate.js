@@ -226,6 +226,9 @@ function SharedShortListCandidate(selectedCategory) {
           if (data == "Onsite") {
             return (data =
               '<span class="badge badge-pill badge-success" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Onsite</span>');
+          } else if (data == "Idle") {
+            return (data =
+              '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Idle</span>');
           } else if (data === "true" || data === "True") {
             return (data =
               '<span class="badge badge-pill badge-primary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Active</span>');
@@ -233,18 +236,16 @@ function SharedShortListCandidate(selectedCategory) {
             return (data =
               '<span class="badge badge-pill badge-secondary" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Inactive</span>');
           }
-          return (data =
-            '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false">Idle</span>');
+          return "";
         },
       },
       {
         data: "noticePeriode",
-          render: function (data, type, row) {
-
+        render: function (data, type, row) {
           if (row.workStatus == "Onsite") {
             var startc = Date.now();
             var endc = new Date(row.endDate);
-    
+
             var timeDiff = endc.getTime() - startc; // Menghitung selisih dalam milidetik
             var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
 
@@ -280,15 +281,12 @@ function SharedShortListCandidate(selectedCategory) {
                 " hari</span>";
             } else {
               // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
-                if (daysInMonth > 0) {
-
-                    result =
-                        '<span class="badge badge-danger" style="font-size: 13px;">' +
-                        daysInMonth +
-                        " hari</span>";
-                } else {
-                    result = "ASAP";
-                }
+              if (daysInMonth > 0) {
+                result =
+                  '<span class="badge badge-danger" style="font-size: 13px;">' +
+                  daysInMonth +
+                  " hari</span>";
+              }
             }
             return result;
           } else if (row.workStatus === "true" || data === "True") {
