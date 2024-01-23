@@ -47,20 +47,6 @@
     .bullet-text {
         margin-left: 10px;
     }
-
-    /* Make the table header fixed */
-    #dataTableEmployee thead {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background-color: #fff; /* Adjust the background color as needed */
-    }
-
-    /* Style for the cloned header row with filters */
-    #filterRow {
-        /* Add your styling for the filters here */
-    }
-
 </style>
 
 <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
@@ -73,7 +59,7 @@
             <!-- Tombol reset filter -->
             <button id="resetFilters" class="btn btn-secondary btn-sm">Reset Filters</button>
         </div>
-        <table class="table table-striped table-bordered text-nowrap order-column" id="dataTableEmployee" style="width:100%" cellspacing="0">
+        <table class="table table-striped table-bordered text-nowrap w-100" id="dataTableEmployee" style="width:100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>No</th>
@@ -94,6 +80,26 @@
                 </tr>
             </thead>
 
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <th>No</th>
+                    <th>NIK</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Level</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Financial Industry</th>
+                    <th>Placement Status</th>
+                    <th>Placement Location</th>
+                    <th>Hired Status</th>
+                    <th>Remaining Contract</th>
+                    <th>Assets</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
         </table>
         <h6><strong>Notes</strong></h6>
         <div class="row ml-0">
@@ -266,7 +272,7 @@
                     <select id="levelchange" class="selectLevel form-control" name="state" required>
                         <option selected disabled>Choose...</option>
                     </select>
-                    <span class="error-message" style="color: red; display: none;">This field is required!</span>                    
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
                 </div>
             </div>
             <div class="modal-footer">
