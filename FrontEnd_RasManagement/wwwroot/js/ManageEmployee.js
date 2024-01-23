@@ -412,14 +412,14 @@ $(document).ready(function () {
           width: "7%",
           render: function (data, type, row) {
             return (
-              '<div class="text-center row">' +
-              '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
+              '<div class="d-flex flex-row">' +
+              '<a href="#" class="text-danger pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
-              '<a href="#" class="ml-2 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
+              '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
               row.accountId +
               '\')"><i class="far fa-calendar-check"></i></a>' +
-              '<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
+              '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
               row.accountId +
               '\')"><i class="far fa-edit"></i></a>' +
               "</div>"
