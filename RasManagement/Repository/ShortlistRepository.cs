@@ -107,7 +107,7 @@ namespace RasManagement.Repository
                 Education = non.Education,
                 Ipk = non.Ipk,
                 University = non.University,
-                Age = non.Birthdate + " Years Old",
+                Age = non.Birthdate != "" ? non.Birthdate + " Years Old" : "",
                 ExperienceInYear = non.ExperienceInYear,
                 WorkStatus = non.WorkStatus,
                 NoticePeriode = non.NoticePeriode,
