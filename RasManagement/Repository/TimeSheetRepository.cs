@@ -53,18 +53,6 @@ namespace RasManagement.Repository
 
                     var  titles = countFlag
                     
-                    //.Select( ts => new
-                    //{
-                    //    ts.Flag,
-                    //    Title = $"{ts.Flag} : {ts.Flag.}", // Include account name in the title
-                    //    Description = $"{ts.Account.Fullname}",
-                    //    //start = dayGroup.Key,
-                    //    Start = ts.Date,
-                    //    AllDay = true,
-                    //    BackgroundColor = GetColorByFlag(ts.Flag),
-                    //    BorderColor = GetColorByFlag(ts.Flag),
-                    //})
-                    //.GroupBy(a => a.Flag)
                     .Select(flagCount => new
                     {
                         title = $"{flagCount.Flag}:{flagCount.Count}",
@@ -88,9 +76,9 @@ namespace RasManagement.Repository
                     .Where(ts => ts.Date >= start
                                 && ts.Date <= end)
                     .Select(ts => new {
-                        title = ts.Account.Fullname +": \n"+ ts.Activity,
+                        title = ts.Activity,
                         start = ts.Date,
-                        description = "ini deskripsi minggu",
+                        description = ts.Account.Fullname,
                         allDay = true,
                         backgroundColor = GetColorByFlag(ts.Flag),
                         borderColor = GetColorByFlag(ts.Flag),

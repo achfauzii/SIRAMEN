@@ -55,7 +55,16 @@ namespace RasManagement.Controllers
             }
         }
 
-        
+        [HttpGet("TimeSheetByMonth")]
+        public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end)
+        {
+
+            var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end);
+            return StatusCode(200, get);
+
+
+        }
+
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
