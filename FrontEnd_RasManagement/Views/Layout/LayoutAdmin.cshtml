@@ -177,7 +177,7 @@
 </head>
 
 <body id="page-top" class="">
-
+    <script src="~/js/MenuAccess.js"></script>
     <!-- Page Wrapper -->
     <div id="wrapper" class="">
 
@@ -211,7 +211,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item  @(currentUrl == "/accounts/register_employee" ? "active" : "")">
+            <li class="nav-item  @(currentUrl == "/accounts/register_employee" ? "active" : "")" id="createAccountMenu">
                 <a class="nav-link collapsed menu" href="/accounts/register_employee"
                    aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-user-circle"></i>
@@ -231,22 +231,22 @@
             </li>*@
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item @(currentUrl == "/ManageEmployee/Index" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/ManageEmployee/Index" ? "active" : "")" id="manageEmployeeMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-tasks-alt"></i>
                     <span>Manage Resource</span>
                 </a>
             </li>
-            <li class="nav-item @(currentUrl == "/ManageEmployee/ActivityCalendar" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/ManageEmployee/ActivityCalendar" ? "active" : "")" id="activityCalendarMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/ActivityCalendar" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fa-regular fa-calendar"></i>
+                    <i class="fas fa-fw fa-calendar"></i>
                     <span>Activity Calendar</span>
                 </a>
             </li>
 
-            <li class="nav-item @(currentUrl == "/ManageEmployee/TrackingInterview" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/ManageEmployee/TrackingInterview" ? "active" : "")" id="trackingInterviewMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/TrackingInterview" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-tasks"></i>
@@ -269,7 +269,7 @@
                 </a>
             </li>
 
-            <li class="nav-item @(currentUrl == "/ResourceReport/Index" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/ResourceReport/Index" ? "active" : "")" id="shortlistCandidateMenu">
                 <a class="nav-link collapsed menu" href="/ResourceReport/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-list-ul"></i>
@@ -295,7 +295,7 @@
             <div class="sidebar-heading">
                 Department & Client
             </div>
-            <li class="nav-item @(currentUrl == "/ManageEmployee/DepartmentEmployee" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/ManageEmployee/DepartmentEmployee" ? "active" : "")" id="manageDepartmentMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-building"></i>
@@ -304,7 +304,7 @@
             </li>
 
            
-            <li class="nav-item @(currentUrl == "/Client/Index" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/Client/Index" ? "active" : "")" id="manageClientMenu">
                 <a class="nav-link collapsed menu" href="/Client/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fab fa-fw fa-hive"></i>
@@ -522,6 +522,7 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
     <script src="~/js/JwtUtils.js"></script>
+    
 
     <script src="~/js/ChangePassword.js"></script>
     <script src="~/js/HistoryLog.js"></script>
