@@ -231,7 +231,6 @@ namespace RasManagement.Controllers
                     e.Education,
                     e.Ipk,
                     e.University,
-                    e.Domisili,
                     e.Age,
                     e.Level,
                     e.ExperienceInYear,
@@ -239,8 +238,7 @@ namespace RasManagement.Controllers
                     e.endDate,
                     e.NoticePeriode,
                     e.FinancialIndustry,
-                    e.CvBerca,
-                    e.LevelRekom
+                    e.CvBerca
 
                 })
                 .ToList();

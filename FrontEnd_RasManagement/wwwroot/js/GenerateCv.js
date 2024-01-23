@@ -65,7 +65,7 @@ function loadData() {
 
                 success: function (educationResult) {
                     //debugger;
-                    var educationObj = educationResult.data;
+                    var educationObj = educationResult.data; 
 
                     // Mengurutkan data berdasarkan tahun terbaru
                     // a, b merupakan untuk perandingan datanya lalu di sortting
