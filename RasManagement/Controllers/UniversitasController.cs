@@ -8,7 +8,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class UniversitasController : BaseController<DataUniversita, UniversitasRepository, int>
     {
         private readonly UniversitasRepository universitasRepository;

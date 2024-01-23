@@ -176,9 +176,15 @@ $(document).ready(function () {
               var icon =
                 '<div class="row"><div class="col-4 text-left mr-5">' +
                 data +
-                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit btn-edit-status" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
                 row.accountId +
-                "')\"></i>";
+                    "')\"></i>";
+
+                // Validasi manager hide action (Only View)
+                var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+                if (objDataToken.RoleId == 7) {
+                    $('.btn-edit-status, .edit').hide();
+                }
 
               $(document).on("mouseover", ".row", function () {
                 $(this).find("i.edit").css("visibility", "visible");
@@ -232,6 +238,12 @@ $(document).ready(function () {
             data:null,
           render: function (data, type, row) {
             var levelStatus = row.level;
+
+              // Validasi manager hide action (Only View)
+              var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+              if (objDataToken.RoleId == 7) {
+                  return data.level;
+              }
 
             if (levelStatus === "Fresh Graduate") {
               return (
@@ -439,7 +451,8 @@ $(document).ready(function () {
               '\')"><i class="far fa-edit"></i></a>' +
               "</div>"
             );
-          },
+            },
+            //visible: objDataToken.RoleId != 7,
         },
       ],
 

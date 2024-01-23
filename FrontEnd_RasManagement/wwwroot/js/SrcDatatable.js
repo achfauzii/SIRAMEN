@@ -60,6 +60,14 @@ function toggleContent(element, originalData) {
 }
 
 $(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.btn-add-nonras').hide();
+        $('.btn-export-nonras').hide();
+
+    } 
+
     $("#export_excel").on("click", function () {
         // $("#resource").DataTable().page.len(9999999).draw();
 
@@ -232,6 +240,13 @@ function Src(selectedCategory) {
                             '<i class="far fa-trash-alt" onclick="return Delete(\'' +
                             row.nonRasId +
                             '\')" style="color: #ff0000; visibility: hidden;"></i></div></div>';
+
+
+                        //Validasi manager hide action (Only View)
+                        var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+                        if (objDataToken.RoleId == 7) {
+                            return data;
+                        } 
 
                         $(document).on("mouseover", ".row", function () {
                             $(this).find("i").css("visibility", "visible");

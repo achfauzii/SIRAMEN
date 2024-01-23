@@ -1,6 +1,11 @@
 ﻿var table = null;
 
 $(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.btn-add-tracking').hide();
+    } 
   $("#Update").hide();
   $("#btnNewProcess").hide();
   table = $("#trackingIntvw").DataTable({
@@ -32,7 +37,7 @@ $(document).ready(function () {
               var icon =
                 '<div class="row"><div class="col-4 text-left mr-5">' +
                 emp +
-                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetById(\'' +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit-tracking" style="color: #ff0000;  visibility: hidden;" onclick="return GetById(\'' +
                 row.id +
                 "')\"></i>";
             } else {
@@ -44,6 +49,13 @@ $(document).ready(function () {
                 "')\"></i>";
             }
 
+              // Validasi manager hide action (Only View)
+              var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+              if (objDataToken.RoleId == 7) {
+                  $('.edit-tracking, .edit').hide();
+              }
+
+              
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
 
             $(document).on("mouseover", ".row", function () {
