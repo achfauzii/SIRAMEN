@@ -412,7 +412,7 @@ $(document).ready(function () {
           width: "7%",
           render: function (data, type, row) {
             return (
-              '<div class="text-center row">' +
+              '<div class="d-flex flex-row">' +
               '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
