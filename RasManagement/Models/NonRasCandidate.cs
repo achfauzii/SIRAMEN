@@ -62,7 +62,9 @@ public partial class NonRasCandidate
 
     public DateTime? LastModified { get; set; }
 
-   /* public int? Client_Id { get; set; }*/
+    public bool? isDeleted { get; set; }
+
+    /* public int? Client_Id { get; set; }*/
 
     [JsonIgnore]
     public virtual ICollection<TrackingInterview>? TrackingInterviews { get; set; } = new List<TrackingInterview>();

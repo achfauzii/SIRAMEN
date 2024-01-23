@@ -349,6 +349,7 @@ function GetById(trackingId) {
     success: function (result) {
       //debugger;
       var obj = result.data; //data yg dapet dr id
+      console.log(obj);
 
       $("#trackingId").val(obj.id);
       if (obj.accountId != null) {
@@ -589,7 +590,7 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-  let maxVisibleCategories = 6;
+  let maxVisibleCategories = 9;
   categories.unshift({ id: 0, nameOfClient: "All" }); // Menambahkan opsi "All" ke dalam array categories
 
   // Mendeteksi lebar layar saat halaman dimuat
@@ -597,16 +598,16 @@ function createNavigation(categories) {
 
   // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
   if (screenWidth <= 1024) {
-    maxVisibleCategories = 5;
+    maxVisibleCategories = 9;
   }
   if (screenWidth < 850) {
-    maxVisibleCategories = 4;
+    maxVisibleCategories = 7;
   }
   if (screenWidth < 750) {
-    maxVisibleCategories = 3;
+    maxVisibleCategories = 5;
   }
   if (screenWidth <= 500) {
-    maxVisibleCategories = 1;
+    maxVisibleCategories = 3;
   }
   const navList = document.createElement("ul");
   navList.className = "nav nav-tabs";
