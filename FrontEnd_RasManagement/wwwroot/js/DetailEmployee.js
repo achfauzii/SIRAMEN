@@ -1,4 +1,10 @@
 ﻿$(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.add-new-placement').hide();
+    } 
+
   document.getElementById("backButton").addEventListener("click", function () {
     history.back();
   });
