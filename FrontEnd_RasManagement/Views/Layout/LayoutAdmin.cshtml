@@ -169,6 +169,26 @@
             cursor: pointer;
         }
 
+        .alertNotif::-webkit-scrollbar {            
+            width: 7px;
+        }
+
+        /* Track */
+        .alertNotif::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 2px grey; 
+            border-radius: 10px;
+        }
+        
+        /* Handle */
+        .alertNotif::-webkit-scrollbar-thumb {
+            background: #c1c2c2;
+            border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        .alertNotif::-webkit-scrollbar-thumb:hover {
+            background: #c1c2c2;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 
@@ -337,7 +357,7 @@
                                 <span class="badge badge-danger badge-counter" id="notifCount"></span>
                             </a>
                             <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in alertNotif" style="max-height: 360px;  overflow: auto" id="alertNotif" aria-labelledby="alertsDropdown">
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in alertNotif" style="max-height: 480px; overflow: auto" id="alertNotif" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
                                     Notification
                                 </h6>

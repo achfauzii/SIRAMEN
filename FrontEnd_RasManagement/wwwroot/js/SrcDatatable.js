@@ -510,7 +510,6 @@ function Src(selectedCategory) {
         },
       },
       {
-        //"data":"negotiable"
         data: "negotiable",
         render: function (data, type, row) {
           if (type === "display" || type === "filter") {

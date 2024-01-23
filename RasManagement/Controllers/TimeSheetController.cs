@@ -54,17 +54,17 @@ namespace RasManagement.Controllers
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data not found", Data = get });
             }
         }
-        
+
         [HttpGet("TimeSheetByMonth")]
         public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end)
-        {   
-           
+        {
+
             var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end);
-            return StatusCode(200, get );
-          
+            return StatusCode(200, get);
+
 
         }
-       
+
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {

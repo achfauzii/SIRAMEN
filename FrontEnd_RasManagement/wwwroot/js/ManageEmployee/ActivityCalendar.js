@@ -127,7 +127,7 @@ $(function () {
   // $('#calendar').fullCalendar()
 
   /* ADDING EVENTS */
-  var currColor = '#3c8dbc' //Red by default
+  var currColor = "#3c8dbc"; //Red by default
   // Color chooser button
   $('#color-chooser > li > a').click(function (e) {
       e.preventDefault()
