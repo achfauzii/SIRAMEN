@@ -35,31 +35,40 @@ var pastelColors = [
 ];
 function toggleContent(element, originalData) {
     var content = document.getElementById(element).innerHTML;
-    isTruncated = content.includes('... (Read More)');
+    isTruncated = content.includes("... (Read More)");
 
     var decodeData = decodeURIComponent(originalData);
     if (isTruncated) {
         // Currently truncated, expand to show full content
-        document.getElementById(element).innerHTML = decodeData + '<span class="expand-content text-primary" onclick="toggleContent(\'' + element + '\', \'' + originalData + '\')"> (Show Less)</span>';
+        document.getElementById(element).innerHTML =
+            decodeData +
+            '<span class="expand-content text-primary" onclick="toggleContent(\'' +
+            element +
+            "', '" +
+            originalData +
+            "')\"> (Show Less)</span>";
     } else {
         // Currently showing full content, truncate to show less
-        document.getElementById(element).innerHTML = decodeData.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\'' + element + '\', \'' + originalData + '\')">... (Read More)</span>';
+        document.getElementById(element).innerHTML =
+            decodeData.substring(0, 20) +
+            '<span class="expand-content text-primary" onclick="toggleContent(\'' +
+            element +
+            "', '" +
+            originalData +
+            "')\">... (Read More)</span>";
     }
 }
 
-
 $(document).ready(function () {
-    // $("#experience_year").on("keyup", function () {
-    //   var regex = /^[0-9<>\s]+$/;
+    $("#export_excel").on("click", function () {
+        // $("#resource").DataTable().page.len(9999999).draw();
 
-    //   if (!regex.test(this.value)) {
-    //     var value = this.value.replace(/^[^0-9<>]/g, "");
-    //     this.value = value;
-    //     return;
-    //   }
-    // });
+        // if ($("#resource").DataTable().page.info().length > 9999) {
+        $("#excelButton").click();
+        // }
+    });
 
-    getClientList();
+    /*getClientList();*/
 
     getUniversitasList();
     // Panggil fungsi fetchCategories saat halaman dimuat
@@ -172,6 +181,7 @@ function handleInput(event, input) {
 }
 
 function Src(selectedCategory) {
+    // $.fn.dataTable.ext.errMode = "throw";
     if ($.fn.DataTable.isDataTable("#resource")) {
         $("#resource").DataTable().destroy();
     }
@@ -183,7 +193,10 @@ function Src(selectedCategory) {
         scrollX: true,
         processing: true,
         serverSide: true,
-        lengthMenu: [5, 10, 50, 75, 100],
+        lengthMenu: [
+            [10, 50, 100, 99999],
+            [10, 50, 100, "All"],
+        ],
         pageLength: 10,
         order: [[0, "asc"]],
 
@@ -213,9 +226,12 @@ function Src(selectedCategory) {
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
                         var icon =
-                            '<div class="row"><div class="col-4 text-left mr-4">' +
+                            '<div class="row"><div class="col-4 text-left mr-5">' +
                             data +
-                            '</div><div class="col text-right"><i class="far fa-edit" style="color: #0011ff; visibility: hidden;"></i></div></div>';
+                            '</div><div class="col text-right"><i class="far fa-edit edit" style="color: #0011ff; margin-right: 10px; visibility: hidden;"></i>' +
+                            '<i class="far fa-trash-alt" onclick="return Delete(\'' +
+                            row.nonRasId +
+                            '\')" style="color: #ff0000; visibility: hidden;"></i></div></div>';
 
                         $(document).on("mouseover", ".row", function () {
                             $(this).find("i").css("visibility", "visible");
@@ -278,7 +294,9 @@ function Src(selectedCategory) {
                         var word = skillsetArray[i].trim();
                         var badgeColor = getColorForWord(word);
                         var badge = $(
-                            '<span class="badge badge-pill badge-pastel" style="margin: 0.1rem">' + word + "</span>"
+                            '<span class="badge badge-pill badge-pastel" style="margin: 0.1rem">' +
+                            word +
+                            "</span>"
                         );
 
                         // Atur warna latar belakang badge sesuai dengan kata yang sama
@@ -300,8 +318,8 @@ function Src(selectedCategory) {
             {
                 data: "education",
                 /*render: function (data, type, row) {
-                                    return htmlspecialchars(data);
-                                }*/
+                                                    return htmlspecialchars(data);
+                                                }*/
             },
             {
                 data: "ipk",
@@ -314,13 +332,27 @@ function Src(selectedCategory) {
             },
             {
                 data: "birthdate",
-                render: function (data) {
-                    return data.trim() !== "" ? data + " Years Old" : "";
+                /*render: function (data) {
+                  return data.trim() !== "" ? data + " Years Old" : "";
+                },*/
+                render: function (data, type, row) {
+                    if (data === "") {
+                        return "";
+                    }
+                    var datenow = Date.now();
+                    var birth = new Date(data);
+
+                    var milidetik = datenow - birth.getTime();
+                    var daysremain = Math.ceil(milidetik / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
+                    var years = Math.floor(daysremain / 365); // Menghitung bulan
+                    var age = years + " Years Old";
+
+                    //console.log(age);
+                    return age;
                 },
             },
-
             {
-                 data: "experienceInYear",
+                data: "experienceInYear",
                 render: function (data) {
                     if (data == null || data == "") {
                         return "";
@@ -401,13 +433,12 @@ function Src(selectedCategory) {
                 data: "rawCv",
                 render: function (data, type, row) {
                     if (data == "" || data == null || data == " ") {
-
                         return " ";
-
                     }
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' CV </a>';
+                        var checkTrue =
+                            '<a href ="' + data + '"> ' + row.fullname + " CV </a>";
 
                         return checkTrue;
                     }
@@ -421,11 +452,11 @@ function Src(selectedCategory) {
                 render: function (data, type, row) {
                     if (data == "" || data == null || data == " ") {
                         return " ";
-
                     }
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' Berca CV </a>';
+                        var checkTrue =
+                            '<a href ="' + data + '"> ' + row.fullname + " Berca CV </a>";
 
                         return checkTrue;
                     }
@@ -464,7 +495,6 @@ function Src(selectedCategory) {
 
                     return data;
                 },
-
             },
             {
                 data: "expectedSalary",
@@ -521,12 +551,12 @@ function Src(selectedCategory) {
                 data: "techTest",
                 render: function (data, type, row) {
                     if (data == "" || data == null || data == " ") {
-
                         return " ";
                     }
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var checkTrue = '<a href ="' + data + '"> ' + row.fullname + ' Test Result </a>';
+                        var checkTrue =
+                            '<a href ="' + data + '"> ' + row.fullname + " Test Result </a>";
 
                         return checkTrue;
                     }
@@ -555,181 +585,6 @@ function Src(selectedCategory) {
                 },
             },
             {
-                data: "nameOfUser",
-                render: function (data, type, row) {
-                    var nameUser = row.nameOfUser;
-
-                    if (nameUser == null || nameUser == "") {
-                        return "";
-                    } else if (!nameUser.includes("<br/>")) {
-                        return nameUser;
-                    } else {
-                        const nameUserArray = nameUser.split("<br/>");
-
-                        // Membuat objek untuk menyimpan data
-                        const userData = { nameArray: [] };
-
-                        // Mengumpulkan data status
-                        for (let i = 0; i < nameUserArray.length; i++) {
-                            // Menambahkan status ke dalam array yang sesuai
-                            userData.nameArray.push(nameUserArray[i]);
-                        }
-
-                        // Menampilkan data terakhir
-                        const lastName = userData.nameArray[userData.nameArray.length - 1];
-
-                        return lastName;
-
-                        //NAMPILIN PER USER
-                        /*var nameOfUser = row.nameOfUser;
-                                    if (nameOfUser == null) {
-                                        return " ";
-                                    } else if (!nameOfUser.includes('<br/>')) {
-                                        return nameOfUser;
-                                    } else {
-                                        // Extract unique usernames from the nameOfUser column
-                                        const nameOfUserArray = nameOfUser.split('<br/>');
-                                        const uniqueUsernames = Array.from(new Set(nameOfUserArray.filter(name => name.trim() !== 'null')));
-                
-                                        // Return the unique usernames in the rendered cell
-                                        return '<li>' + uniqueUsernames.join('</li><li>') + '</li>';
-                                    }*/
-                    }
-                },
-            },
-            {
-                data: "intwUser",
-                render: function (data, type, row) {
-                    var intwuser = row.intwUser;
-
-                    if (intwuser == null || intwuser == "") {
-                        return "";
-                    } else if (!intwuser.includes("<br/>")) {
-                        return intwuser;
-                    } else {
-                        const intwUserArray = intwuser.split("<br/>");
-
-                        // Membuat objek untuk menyimpan data
-                        const userData = { statusArray: [] };
-
-                        // Mengumpulkan data status
-                        for (let i = 0; i < intwUserArray.length; i++) {
-                            // Menambahkan status ke dalam array yang sesuai
-                            userData.statusArray.push(intwUserArray[i]);
-                        }
-
-                        // Menampilkan data terakhir
-                        const lastStatus =
-                            userData.statusArray[userData.statusArray.length - 1];
-
-                        return lastStatus;
-
-                        //NAMPILIN STATUS INTERVIEW PER USER
-                        /*var intwuser = row.intwUser;
-                                    var nameofuser = row.nameOfUser;
-                
-                                    if (intwuser == null) {
-                                        return "";
-                                    } else if (!intwuser.includes('<br/>')) {
-                                        return intwuser;
-                                    } else {
-                                        const intwUserArray = intwuser.split('<br/>');
-                                        const nameOfUserArray = nameofuser.split('<br/>');
-                
-                                        // Membuat objek untuk menyimpan data berdasarkan nama user
-                                        const userDataMap = new Map();
-                
-                                        // Mengumpulkan data berdasarkan nama user
-                                        for (let i = 0; i < intwUserArray.length; i++) {
-                                            const userName = nameOfUserArray[i];
-                
-                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
-                                            if (!userDataMap.has(userName)) {
-                                                userDataMap.set(userName, { statusArray: [] });
-                                            }
-                
-                                            // Menambahkan status ke dalam array yang sesuai
-                                            userDataMap.get(userName).statusArray.push(intwUserArray[i]);
-                                        }
-                
-                                        // Menampilkan data terakhir untuk setiap nama user
-                                        let lastStatusByUser = "";
-                                        userDataMap.forEach((userData, userName) => {
-                                            const lastStatus = userData.statusArray[userData.statusArray.length - 1];
-                                            lastStatusByUser += `<li>${lastStatus}</li>`;
-                                        });
-                
-                                        return lastStatusByUser;*/
-                    }
-                },
-            },
-
-            {
-                data: "intwDateUser",
-                render: function (data, type, row) {
-                    var dateuser = row.intwDateUser;
-
-                    if (dateuser == null || dateuser == "") {
-                        return "";
-                    } else if (!dateuser.includes("<br/>")) {
-                        return moment(dateuser).format("DD MMMM YYYY");
-                    } else {
-                        const dateUserArray = dateuser.split("<br/>");
-
-                        // Membuat objek untuk menyimpan data
-                        const userDate = { dateArray: [] };
-
-                        // Mengumpulkan data status
-                        for (let i = 0; i < dateUserArray.length; i++) {
-                            // Menambahkan status ke dalam array yang sesuai
-                            userDate.dateArray.push(dateUserArray[i]);
-                        }
-
-                        // Menampilkan data terakhir
-                        const lastDate = userDate.dateArray[userDate.dateArray.length - 1];
-
-                        return moment(lastDate).format("DD MMMM YYYY");
-
-                        //NAMPILIN TANGGAL PER USER
-                        /*var dateuser = row.intwDateUser;
-                                    var nameofuser = row.nameOfUser;
-                
-                                    if (dateuser == null) {
-                                        return "";
-                                    } else if (!dateuser.includes('<br/>')) {
-                                        return dateuser;
-                                    } else {
-                                        const dateuserArray = dateuser.split('<br/>');
-                                        const nameOfUserArray = nameofuser.split('<br/>');
-                
-                                        // Membuat objek untuk menyimpan data berdasarkan nama user
-                                        const userDataMap = new Map();
-                
-                                        // Mengumpulkan data berdasarkan nama user
-                                        for (let i = 0; i < dateuserArray.length; i++) {
-                                            const userName = nameOfUserArray[i];
-                                                
-                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
-                                            if (!userDataMap.has(userName)) {
-                                                userDataMap.set(userName, { dateArray: [] });
-                                            }
-                
-                                            // Menambahkan status ke dalam array yang sesuai
-                                            userDataMap.get(userName).dateArray.push(dateuserArray[i]);
-                                        }
-                
-                                        // Menampilkan data terakhir untuk setiap nama user
-                                        let lastDateByUser = "";
-                                        userDataMap.forEach((userData, userName) => {
-                                            const lastDate = userData.dateArray[userData.dateArray.length - 1];
-                                            lastDateByUser += `<li>${lastDate}</li>`;
-                                        });
-                
-                                        return lastDateByUser;*/
-                    }
-                },
-            },
-            {
                 data: "levelRekom",
             },
             {
@@ -737,16 +592,25 @@ function Src(selectedCategory) {
             },
             {
                 data: "notes",
-                "render": function (data, type, row) {
-                    if (type === 'display' && data.length > 20) {
+                render: function (data, type, row) {
+                    if (type === "display" && data.length > 20) {
                         var encodedData = encodeURIComponent(data);
-                        return '<div id="notes' + row.nonRasId + '">' +
-                            data.substring(0, 20) + '<span class="expand-content text-primary" onclick="toggleContent(\'notes' + row.nonRasId + '\', \'' + encodedData + '\')">... (Read More)</span>' +
-                            '</div>';
+                        return (
+                            '<div id="notes' +
+                            row.nonRasId +
+                            '">' +
+                            data.substring(0, 20) +
+                            '<span class="expand-content text-primary" onclick="toggleContent(\'notes' +
+                            row.nonRasId +
+                            "', '" +
+                            encodedData +
+                            "')\">... (Read More)</span>" +
+                            "</div>"
+                        );
                     } else {
                         return data;
                     }
-                }
+                },
             },
             {
                 data: "lastModified",
@@ -761,16 +625,45 @@ function Src(selectedCategory) {
                     return " ";
                 },
             },
-
         ],
-        "columnDefs": [
+        columnDefs: [
             {
-                "targets": [2, 28],
-                "className": "customWrap"
-            }
+                targets: [2, 25],
+                className: "customWrap",
+            },
+            /*{
+                      targets: [20, 21, 22, 23, 24, 25, 26],
+                      visible: false,
+                  },*/
         ],
         searching: true,
+        dom: "lBfrtip",
+        buttons: [
+            {
+                extend: "excel",
+                className: "buttonsToHide",
+                exportOptions: {
+                    columns: [
+                        0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 17, 18, 20, 21, 22, 23, 24,
+                        25, 26, 27,
+                    ],
+                    modifier: {
+                        page: "current",
+                    },
+                },
+                attr: {
+                    id: "excelButton",
+                },
+            },
+        ],
     });
+
+    table
+        .buttons()
+        .container()
+        .appendTo($(".col-sm-6:eq(0)", table.table().container()));
+
+    table.buttons(".buttonsToHide").nodes().addClass("d-none");
 
     function getLastValue(data, key) {
         const regex = new RegExp(`([^<br/>]+)(?!.*<br\/>)`);
@@ -778,7 +671,7 @@ function Src(selectedCategory) {
         return match ? match[0] : null;
     }
 
-    table.on("click", "tbody tr i", function () {
+    table.on("click", "tbody tr i.edit", function () {
         // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
 
         let row = $(this).closest("tr");
@@ -822,10 +715,15 @@ function Src(selectedCategory) {
 
         $("#domicile2").val(data.domisili);
 
-        if (data.birthdate) {
+        /*if (data.birthdate) {
             $("#age").val(data.birthdate);
         } else {
             $("#age").val("");
+        }*/
+        if (data.birthdate) {
+            $("#birthdate2").val(data.birthdate.substring(0, 10));
+        } else {
+            $("#birthdate2").val("");
         }
 
         $("#level2").val(data.level);
@@ -872,221 +770,6 @@ function Src(selectedCategory) {
         } else {
             $("#dateIntwRAS").val("");
         }
-        if (data.intwUser !== null) {
-            var elems = document.getElementsByClassName("btn-status");
-            for (var i = 0; i < elems.length; i += 1) {
-                elems[i].style.display = "block";
-            }
-        }
-        // Ambil nilai data #intwByRAS dari database
-        //var intwByRAS = data.intwByRas; // Gantilah dengan data sebenarnya dari database
-
-        // Cek apakah data #intwByRAS sudah ada
-        const selectNameUser = $("#nameUser");
-        selectNameUser.val(data.nameOfUser).trigger("change");
-
-        const selectNameUser2 = $("#nameUser2");
-        const dataNameUser = data.nameOfUser;
-        selectNameUser2.val(null).trigger("change");
-        /*if (dataNameUser == null) {
-                    selectNameUser2.val(null).trigger("change");
-                }
-                else if (!dataNameUser.includes('<br/>')) {
-                    const optionNotExists = selectNameUser2.find("option[value='" + dataNameUser + "']").length === 0;
-        
-                    if (optionNotExists) {
-                        const newOption = new Option(dataNameUser, dataNameUser, true, true);
-                        selectNameUser2.append(newOption).trigger('change');
-                    }
-                    selectNameUser2.val(null).trigger("change");
-                } else {
-                    const nameOfUserArray = dataNameUser.split('<br/>');
-                    nameOfUserArray.forEach(value => {
-                        const optionNotExists = selectNameUser2.find("option[value='" + value + "']").length === 0;
-        
-                        if (optionNotExists) {
-                            const newOption = new Option(value, value, true, true);
-                            console.log(newOption);
-                            selectNameUser2.append(newOption).trigger('change');
-                        }
-                    });
-                    selectNameUser2.val(null).trigger("change");
-        
-                }*/
-
-        if (data.intwByRas) {
-            if (
-                data.intwUser == null ||
-                data.nameOfUser == null ||
-                data.intwDateUser == null
-            ) {
-                /*$(selectNameUser).select2({
-                                    width: '100%',
-                                    tags: true,
-                                    dropdownParent: $('#offeringSourceList')
-                                });*/
-
-                $("#intwUser").val(data.intwUser).prop("disabled", false);
-                $("#nameUser").val(data.nameOfUser).prop("disabled", false);
-                $("#dateIntwUser").val("").prop("disabled", false);
-
-                if (data.intwDateUser) {
-                    $("#dateIntwUser")
-                        .val(data.intwDateUser.substring(0, 10))
-                        .prop("disabled", false);
-                } else {
-                    $("#dateIntwUser").val("").prop("disabled", false);
-                }
-            } else if (
-                !data.intwUser.includes("<br/>") ||
-                !data.nameOfUser.includes("<br/>") ||
-                !data.intwDateUser.includes("<br/>")
-            ) {
-                /*  var elems = document.getElementsByClassName('btn-status');
-                                  for (var i = 0; i < elems.length; i += 1) {
-                                      elems[i].style.display = 'block';
-                                  }*/
-                /*$(selectNameUser).select2({
-                                    width: '100%',
-                                    tags: true,
-                                    dropdownParent: $('#offeringSourceList')
-                                });
-                                const optionNotExists = selectNameUser.find("option[value='" + dataNameUser + "']").length === 0;
-                
-                                if (optionNotExists) {
-                                    const newOption = new Option(dataNameUser, dataNameUser, true, true);
-                                    selectNameUser.append(newOption).trigger('change');
-                
-                                }*/
-                selectNameUser.val(dataNameUser).trigger("change");
-                $("#intwUser").val(data.intwUser).prop("disabled", false);
-                $("#nameUser").val(data.nameOfUser).prop("disabled", false);
-                $("#dateIntwUser").val("").prop("disabled", false);
-                if (data.intwDateUser) {
-                    $("#dateIntwUser")
-                        .val(data.intwDateUser.substring(0, 10))
-                        .prop("disabled", false);
-                } else {
-                    $("#dateIntwUser").val("").prop("disabled", false);
-                }
-            } else {
-                const intwUserArray = data.intwUser.split("<br/>");
-                const nameOfUserArray = data.nameOfUser.split("<br/>");
-                const intwDateUserArray = data.intwDateUser.split("<br/>");
-
-                const lastIntwUser = intwUserArray[intwUserArray.length - 1];
-                const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
-                const lastIntwDateUser =
-                    intwDateUserArray[intwDateUserArray.length - 1];
-
-                let beforeLastIntwUser = "";
-                let beforeLastDateIntwUser = "";
-                let beforeLastNameOfUser = "";
-                $("#intwUser").val(lastIntwUser).prop("disabled", false);
-                $("#nameUser").prop("disabled", true);
-                // Menggunakan loop untuk mengumpulkan semua data sebelum data terakhir
-                for (let i = 0; i < intwUserArray.length - 1; i++) {
-                    beforeLastIntwUser += intwUserArray[i] + "<br/>";
-                    beforeLastDateIntwUser += intwDateUserArray[i] + "<br/>";
-                    beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
-                }
-
-                /*nameOfUserArray.forEach(value => {
-                                    const optionNotExists = selectNameUser.find("option[value='" + value + "']").length === 0;
-                
-                                    if (optionNotExists) {
-                                        const newOption = new Option(value, value, true, true);
-                                        selectNameUser.append(newOption).trigger('change');
-                                    }
-                                });*/
-                selectNameUser.val(lastNameOfUser).trigger("change");
-                // Menyimpan data sebelum data terakhir ke elemen tersembunyi
-                $("#intwuserHiden").val(beforeLastIntwUser);
-                //$('#intwUserHiddenLabel').html(beforeLastIntwUser);
-
-                $("#dateintwuserHiden").val(beforeLastDateIntwUser);
-                //$('#dateIntwUserHiddenLabel').html(beforeLastDateIntwUser);
-
-                $("#nameUserhidden").val(beforeLastNameOfUser);
-                if (lastIntwDateUser) {
-                    $("#dateIntwUser")
-                        .val(lastIntwDateUser.substring(0, 10))
-                        .prop("disabled", false);
-                } else {
-                    $("#dateIntwUser").val("").prop("disabled", false);
-                }
-
-                const beforeLastDataMap = new Map();
-
-                // Mengumpulkan data sebelum terakhir berdasarkan nama user
-                for (let i = 0; i < intwUserArray.length - 1; i++) {
-                    const userName = nameOfUserArray[i];
-
-                    // Jika nama user belum ada dalam beforeLastDataMap, tambahkan sebagai kunci baru
-                    if (!beforeLastDataMap.has(userName)) {
-                        beforeLastDataMap.set(userName, { intwArray: [], dateArray: [] });
-                    }
-
-                    // Menambahkan status dan tanggal ke dalam array yang sesuai
-                    beforeLastDataMap.get(userName).intwArray.push(intwUserArray[i]);
-                    beforeLastDataMap.get(userName).dateArray.push(intwDateUserArray[i]);
-                }
-
-                // Mendapatkan elemen div yang akan menampung label-label per nama user
-
-                // Menampilkan data sebelum terakhir untuk setiap nama user
-                beforeLastDataMap.forEach((userData, userName) => {
-                    // Create container div for each user
-                    const containerElement = document.getElementById("historyUser");
-                    containerElement.style.display = "block";
-                    // Create labels for user information
-                    const judulLabel = document.createElement("label");
-                    judulLabel.classList.add("col-sm-2", "col-form-label", "align-top");
-                    judulLabel.innerHTML = `Interview by ${userName}`;
-
-                    const intwLabel = document.createElement("label");
-                    intwLabel.classList.add("col-sm-5");
-                    intwLabel.innerHTML = `Interviews:<br>${userData.intwArray.join(
-                        "<br>"
-                    )}`;
-
-                    const dateLabel = document.createElement("label");
-                    dateLabel.classList.add("col-sm-5");
-                    dateLabel.innerHTML = `Dates:<br>${userData.dateArray.join("<br>")}`;
-
-                    // Append labels to the user container
-                    containerElement.appendChild(judulLabel);
-                    containerElement.appendChild(intwLabel);
-                    containerElement.appendChild(dateLabel);
-                });
-            }
-            // Jika data #intwByRAS ada, atur nilai #intwUser dan tampilkan elemen #intwUser
-            //$('#intwByRAS').val(intwByRAS);
-            /* $('#intwUser').val(data.intwUser).prop('disabled', false);
-                         if (data.intwDateUser) {
-                             $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
-                         } else {
-                             $('#dateIntwUser').val('').prop('disabled', false);
-                         }
-                         
-                         $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
-        } else if (data.intwByRas === "" || data.intwByRas == null || data.intwByRas == " ") {
-            // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
-            $("#intwUser").prop("disabled", true);
-            $("#nameUser").prop("disabled", true);
-            $("#dateIntwUser").prop("disabled", true);
-            $("#status").prop("disabled", true);
-        }
-
-        if (data.intwUser) {
-            /*var offer = document.getElementById("formoffer");
-                        offer.show();*/
-            $("#offer").show();
-            //console.log(data.intwUser);
-        } else {
-            $("#offer").hide();
-            //console.log(data.intwUser);
-        }
 
         $("#levelRekom").val(data.levelRekom);
         $("#status").val(data.status);
@@ -1096,12 +779,12 @@ function Src(selectedCategory) {
     });
 
     /*   $('#filterNavigation .nav-link').click(function () {
-               $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
-               $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
-         
-               // Mereload data DataTables dengan kategori yang baru
-               table.ajax.reload();
-           });*/
+                   $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
+                   $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
+             
+                   // Mereload data DataTables dengan kategori yang baru
+                   table.ajax.reload();
+               });*/
 
     function formatDate2(date) {
         var d = new Date(date),
@@ -1114,6 +797,39 @@ function Src(selectedCategory) {
 
         return [year, month, day].join("/");
     }
+}
+
+function Delete(NonRasId) {
+    // debugger;
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No",
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: "https://localhost:7177/api/Shortlist/" + NonRasId,
+                type: "DELETE",
+                dataType: "json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+            }).then((result) => {
+                // debugger;
+                if (result.status == 200) {
+                    Swal.fire("Deleted!", "Data has been deleted.", "success");
+                    table.ajax.reload();
+                } else {
+                    Swal.fire("Error!", "Data failed to deleted.", "error");
+                }
+            });
+        }
+    });
 }
 
 function ClearScreenSave() {
@@ -1302,7 +1018,7 @@ function getUniversitasList() {
     });
 }
 
-function getClientList() {
+/*function getClientList() {
     const selectClient = document.getElementById("nameUser");
 
     $.ajax({
@@ -1382,7 +1098,7 @@ function getClientList2() {
             console.error("Error making the AJAX request:", textStatus, errorThrown);
         },
     });
-}
+}*/
 
 function formInputLocation() {
     const selectProvinces = document.getElementById("selectProvinces");
@@ -1461,16 +1177,16 @@ function Save() {
         }
         // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
         if (input.attr("id") === "ipk") {
-                var ipk = input.val().trim();
-                var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
-    
-                if (!validIPK.test(ipk)) {
-                    $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
-                    isValid = false;
-                } else {
-                    $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
-                }
+            var ipk = input.val().trim();
+            var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+            if (!validIPK.test(ipk)) {
+                $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+                isValid = false;
+            } else {
+                $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
             }
+        }
     });
 
     if (!$("#experience_year").val()) {
@@ -1533,7 +1249,7 @@ function Save() {
     }
 
     var NonRasCandidate = new Object(); //object baru
-    NonRasCandidate.nonRasId = $("#nonrasid").val();
+    //NonRasCandidate.nonRasId = 0;
     NonRasCandidate.fullname = $("#Name")
         .val()
         .toLowerCase()
@@ -1546,7 +1262,8 @@ function Save() {
     NonRasCandidate.ipk = $("#ipk").val();
     NonRasCandidate.university = $("#UniversityName").val();
     NonRasCandidate.domisili = $("#domicile").val();
-    NonRasCandidate.birthdate = $("#age1").val();
+    /* NonRasCandidate.birthdate = $("#age1").val();*/
+    NonRasCandidate.birthdate = $("#birthdate").val();
     NonRasCandidate.level = $("#level").val();
     NonRasCandidate.experienceInYear = experience;
     NonRasCandidate.filteringBy = $("#filteringby").val();
@@ -1562,9 +1279,9 @@ function Save() {
     NonRasCandidate.techTest = "";
     NonRasCandidate.intwByRas = null;
     NonRasCandidate.intwDateByRas = null;
-    NonRasCandidate.intwUser = null;
-    NonRasCandidate.nameOfUser = null;
-    NonRasCandidate.intwDateUser = null;
+    /* NonRasCandidate.intwUser = null;
+       NonRasCandidate.nameOfUser = null;
+       NonRasCandidate.intwDateUser = null;*/
     NonRasCandidate.levelRekom = "";
     NonRasCandidate.status = "";
     NonRasCandidate.notes = "";
@@ -1690,7 +1407,8 @@ function Update() {
     NonRasCandidate.ipk = $("#ipk2").val();
     NonRasCandidate.university = $("#UniversityName2").val();
     NonRasCandidate.domisili = $("#domicile2").val();
-    NonRasCandidate.birthdate = $("#age").val();
+    /*NonRasCandidate.birthdate = $("#age").val();*/
+    NonRasCandidate.birthdate = $("#birthdate2").val();
     NonRasCandidate.level = $("#level2").val();
     // NonRasCandidate.experienceInYear = $("#experience").val();
     NonRasCandidate.experienceInYear = experience;
@@ -1706,184 +1424,11 @@ function Update() {
     NonRasCandidate.negotiable = $('input[name="nego2"]:checked').val();
     NonRasCandidate.intwByRas = $("#intwByRAS").val();
 
-    //New User
-    var nameUser = $("#nameUser").val();
-    var intwUser = $("#intwUser").val();
-    var dateIntwUser = $("#dateIntwUser").val();
-    var nameUserHidden = $("#nameUserhidden").val();
-    var intwUser2 = $("#intwUser2").val();
-    var dateIntwUser2 = $("#dateIntwUser2").val();
-    var intwUserHidden = $("#intwuserHiden").val();
-    var dateIntwUserHidden = $("#dateintwuserHiden").val();
-
-    var newNameUser = $("#nameUser2").val();
-    if (newNameUser === "" || newNameUser === null) {
-        newNameUser = null;
-    }
-    var newIntwUser = $("#displayUserItw").val();
-    var newDateIntwUser = $("#dateIntwUserr").val();
-
-    if ($("#displayUserItw").is(":visible")) {
-        if ($("#displayUserItw").val() === null) {
-            $(".error-message-update").css("display", "block");
-            return false; // Field tidak valid
-        }
-    }
-
-    if ($("#dateIntwUserr").is(":visible")) {
-        if ($("#dateIntwUserr").val() === "") {
-            $(".error-message-update").css("display", "block");
-            return false; // Field tidak valid
-        }
-    }
-    if ($("#nameUser2").is(":visible")) {
-        if ($("#dateIntwUserr").val() === "") {
-            $(".error-message-update").css("display", "block");
-            return false; // Field tidak valid
-        }
-    }
-    if (!isValid) {
-        return;
-    }
-
-    if (
-        nameUser !== null &&
-        nameUserHidden == "" &&
-        intwUser !== "" &&
-        dateIntwUser !== "" &&
-        intwUser2 == null &&
-        dateIntwUser2 == "" &&
-        intwUserHidden == "" &&
-        dateIntwUserHidden == "" &&
-        newNameUser == null &&
-        newIntwUser == null &&
-        newDateIntwUser == ""
-    ) {
-        var nameUser_ = nameUser;
-        var intwUser_ = intwUser;
-        var dateIntwUser_ = dateIntwUser;
-        console.log("AA");
-    } else if (
-        nameUser !== null &&
-        nameUserHidden == "" &&
-        intwUser !== null &&
-        dateIntwUser !== "" &&
-        intwUser2 !== null &&
-        dateIntwUser2 !== "" &&
-        intwUserHidden == "" &&
-        dateIntwUserHidden == "" &&
-        newNameUser == null &&
-        newIntwUser == null &&
-        newDateIntwUser == ""
-    ) {
-        var nameUser_ = nameUser + "<br/>" + nameUser;
-        var intwUser_ = intwUser + "<br/>" + intwUser2;
-        var dateIntwUser_ = dateIntwUser + "<br/>" + dateIntwUser2;
-        console.log("BB");
-    } else if (
-        nameUser !== null &&
-        nameUserHidden !== "" &&
-        intwUser !== null &&
-        dateIntwUser !== "" &&
-        intwUser2 !== null &&
-        dateIntwUser2 !== "" &&
-        intwUserHidden !== "" &&
-        dateIntwUserHidden !== "" &&
-        newNameUser == null &&
-        newIntwUser == null &&
-        newDateIntwUser == ""
-    ) {
-        var nameUser_ = nameUserHidden + nameUser + "<br/>" + nameUser;
-        var intwUser_ = intwUserHidden + intwUser + "<br/>" + intwUser2;
-        var dateIntwUser_ =
-            dateIntwUserHidden + dateIntwUser + "<br/>" + dateIntwUser2;
-        console.log("CC");
-    } else if (
-        nameUser !== null &&
-        nameUserHidden !== "" &&
-        intwUser !== null &&
-        dateIntwUser !== "" &&
-        intwUser2 == null &&
-        dateIntwUser2 == "" &&
-        intwUserHidden !== "" &&
-        dateIntwUserHidden !== "" &&
-        newNameUser !== null &&
-        newIntwUser !== null &&
-        newDateIntwUser !== ""
-    ) {
-        var nameUser_ = nameUserHidden + nameUser + "<br/>" + newNameUser;
-        var intwUser_ = intwUserHidden + intwUser + "<br/>" + newIntwUser;
-        var dateIntwUser_ =
-            dateIntwUserHidden +
-            dateIntwUser +
-            "<br/>" +
-            dateIntwUser2 +
-            "<br/>" +
-            newDateIntwUser;
-        console.log("DD");
-    } else if (
-        nameUser !== null &&
-        nameUserHidden == "" &&
-        intwUser !== null &&
-        dateIntwUser !== "" &&
-        intwUser2 == null &&
-        dateIntwUser2 == "" &&
-        intwUserHidden == "" &&
-        dateIntwUserHidden == "" &&
-        newNameUser !== null &&
-        newIntwUser !== null &&
-        newDateIntwUser !== ""
-    ) {
-        var nameUser_ = nameUser + "<br/>" + newNameUser;
-        var intwUser_ = intwUser + "<br/>" + newIntwUser;
-        var dateIntwUser_ = dateIntwUser + "<br/>" + newDateIntwUser;
-        console.log("EE");
-    } else if (
-        nameUser !== null &&
-        nameUserHidden !== "" &&
-        intwUser !== null &&
-        dateIntwUser !== "" &&
-        intwUser2 == null &&
-        dateIntwUser2 == "" &&
-        intwUserHidden !== "" &&
-        dateIntwUserHidden !== "" &&
-        newNameUser == null &&
-        newIntwUser == null &&
-        newDateIntwUser == ""
-    ) {
-        var nameUser_ = nameUserHidden + nameUser;
-        var intwUser_ = intwUserHidden + intwUser;
-        var dateIntwUser_ = dateIntwUserHidden + dateIntwUser;
-        console.log("FF");
-    } else if (
-        nameUser == null &&
-        nameUserHidden == "" &&
-        intwUser == null &&
-        dateIntwUser == "" &&
-        intwUser2 == null &&
-        dateIntwUser2 == "" &&
-        intwUserHidden == "" &&
-        dateIntwUserHidden == "" &&
-        newNameUser == null &&
-        newIntwUser == null &&
-        newDateIntwUser == ""
-    ) {
-    } else {
-        Swal.fire({
-            icon: "warning",
-            title: "Data failed to added!",
-            text: "There is a client data that has been deleted, or data input error",
-            showConfirmButtom: true,
-
-        });
-        return;
-    }
-
     NonRasCandidate.techTest = $("#techTest").val();
     NonRasCandidate.intwDateByRas = $("#dateIntwRAS").val();
-    NonRasCandidate.intwUser = intwUser_;
-    NonRasCandidate.nameOfUser = nameUser_;
-    NonRasCandidate.intwDateUser = dateIntwUser_;
+    /*NonRasCandidate.intwUser = intwUser_;
+      NonRasCandidate.nameOfUser = nameUser_;
+      NonRasCandidate.intwDateUser = dateIntwUser_;*/
     NonRasCandidate.levelRekom = $("#levelRekom").val();
     NonRasCandidate.status = $("#statusOffering").val();
     NonRasCandidate.notes = $("#notes").val();
