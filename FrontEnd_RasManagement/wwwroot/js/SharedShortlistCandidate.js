@@ -77,6 +77,7 @@ function SharedShortListCandidate(selectedCategory) {
         } else {
           d.search.category = "";
         }
+        console.log(d);
         return JSON.stringify(d);
       },
     },
@@ -432,7 +433,8 @@ function createNavigation(categories) {
     // Tambahkan event listener untuk setiap link kategori
     link.addEventListener("click", function (e) {
       e.preventDefault();
-      const selectedCategory = this.getAttribute("data-category");\
+      const selectedCategory = this.getAttribute("data-category");
+      console.log("Selected category:", selectedCategory);
 
       navList.querySelectorAll(".nav-link").forEach((link) => {
         link.classList.remove("active");
@@ -498,6 +500,7 @@ function createDropdown(categories) {
     dropdownItem.addEventListener("click", function (e) {
       e.preventDefault();
       const selectedCategory = this.textContent;
+      console.log("Selected category:", selectedCategory);
 
       SharedShortListCandidate(selectedCategory);
     });
