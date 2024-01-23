@@ -153,9 +153,15 @@ $(document).ready(function () {
               var icon =
                 '<div class="row"><div class="col-4 text-left mr-5">' +
                 data +
-                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit btn-edit-status" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
                 row.accountId +
-                "')\"></i>";
+                    "')\"></i>";
+
+                // Validasi manager hide action (Only View)
+                var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+                if (objDataToken.RoleId == 7) {
+                    $('.btn-edit-status, .edit').hide();
+                }
 
               $(document).on("mouseover", ".row", function () {
                 $(this).find("i.edit").css("visibility", "visible");
@@ -205,9 +211,16 @@ $(document).ready(function () {
             return badgeContainer.html();
           },
         },
-        {
+          {
+            data: "level",
           render: function (data, type, row) {
             var levelStatus = row.level;
+
+              // Validasi manager hide action (Only View)
+              var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+              if (objDataToken.RoleId == 7) {
+                  return data;
+              }
 
             if (levelStatus === "Fresh Graduate") {
               return (
@@ -416,15 +429,16 @@ $(document).ready(function () {
               '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
-              '<a href="#" class="ml-2 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
+              '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
               row.accountId +
               '\')"><i class="far fa-calendar-check"></i></a>' +
-              '<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
+              '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
               row.accountId +
               '\')"><i class="far fa-edit"></i></a>' +
               "</div>"
             );
-          },
+            },
+            //visible: objDataToken.RoleId != 7,
         },
       ],
       columnDefs: [
