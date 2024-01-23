@@ -233,88 +233,72 @@ function Update() {
 }
 
 function save() {
-  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const accid = decodedtoken.AccountId;
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
 
- /* var isValid = true;
+    var TimeSheet = new Object();
+    TimeSheet.Date = $("#inputDate").val();
+    TimeSheet.Activity = $("#activity").val();
+    TimeSheet.Flag = $("#flag").val();
+    TimeSheet.Category = $("#category").val();
+    TimeSheet.Status = $("#status").val();
+    TimeSheet.KnownBy = $("#knownBy").val();
+    TimeSheet.AccountId = accid;
+    TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
 
-  $("input[required],select[required],textarea[required]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message").show();
-      isValid = false;
-    } else {
-      input.next(".error-message").hide();
-    }
-  });
-
-  if (!isValid) {
-    return;
-  }*/
-
-  var TimeSheet = new Object();
-  TimeSheet.Date = $("#inputDate").val();
-  TimeSheet.Activity = $("#activity").val();
-  TimeSheet.Flag = $("#flag").val();
-  TimeSheet.Category = $("#category").val();
-  TimeSheet.Status = $("#status").val();
-  TimeSheet.KnownBy = $("#knownBy").val();
-  TimeSheet.AccountId = accid;
-  TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
-
-  $.ajax({
-    type: "POST",
-    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
-    data: JSON.stringify(TimeSheet),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then(
-    (result) => {
-      console.log(result.status);
-      if (result.status == 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Success...",
-          text: "Data has been added!",
-          showConfirmButtom: false,
-          timer: 1500,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-        clearScreen();
-      } else {
-        console.log(result.status);
-        Swal.fire({
-          icon: "warning",
-          title: "Data failed to added!",
-          showConfirmButtom: false,
-          timer: 1500,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-      }
-    },
-    (jqXHR, textStatus, errorThrown) => {
-      if (jqXHR.status === 400) {
-        Swal.fire({
-          icon: "warning",
-          title: "Failed",
-          text: "Time Sheet with the same date already exists!",
-          showConfirmButtom: false,
-          timer: 1500,
-        });
-      } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Data failed to added!",
-          showConfirmButtom: false,
-          timer: 1500,
-        });
-      }
-    }
-  );
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+        data: JSON.stringify(TimeSheet),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then(
+        (result) => {
+            console.log(result.status);
+            if (result.status == 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Data has been added!",
+                    html: TimeSheet.Flag === "Sick" ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>" : "",
+                    showConfirmButton: true,
+                    //timer: 5000,
+                });
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+                clearScreen();
+            } else {
+                console.log(result.status);
+                Swal.fire({
+                    icon: "warning",
+                    title: "Data failed to added!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+            }
+        },
+        (jqXHR, textStatus, errorThrown) => {
+            if (jqXHR.status === 400) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Time Sheet with the same date already exists!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Data failed to added!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        }
+    );
 }
 
 function clearScreen() {
