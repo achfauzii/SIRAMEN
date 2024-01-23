@@ -275,67 +275,11 @@ function checkOverviewEmployee() {
         </div>`;
       });
       var notifLength = dataEmployee.length + dataEmployeeCV.length;
-
-      if (notifLength == 0) {
-        $("#noNotif").show();
-        $("#notifCount").hide();
-      } else if (notifLength > 3) {
-        $("#noNotif").hide();
-        document.getElementById("notifCount").innerHTML = "3+";
-        var notifItem = document.getElementsByClassName("notification-item");
-
-        notification.innerHTML += `<span
-          class="dropdown-item text-center small text-dark-500"
-          id="showAllNotif" onclick="showAllNotification()">
-          Show All Notifications
-        </span>`;
-
-        notification.innerHTML += `<span
-          class="dropdown-item text-center small text-dark-500"
-          id="hideAllNotif" onclick="hideAllNotification()">
-          Hide Notifications
-        </span>`;
-        $("#hideAllNotif").hide();
-
-        $("#showAllNotif").css("cursor", "pointer");
-        $("#hideAllNotif").css("cursor", "pointer");
-        for (let i = notifLength; i > 3; i--) {
-          notifItem[i - 1].classList.remove("d-flex");
-          notifItem[i - 1].style.display = "none";
-        }
-      } else {
-        $("#noNotif").hide();
-        document.getElementById("notifCount").innerHTML = notifLength;
-      }
+      $("#noNotif").hide();
+      document.getElementById("notifCount").innerHTML = notifLength;
+       
     });
 }
 
-function showAllNotification() {
-  var notifLength = dataEmployee.length + dataEmployeeCV.length;
-  var notifItem = document.getElementsByClassName("notification-item");
-  $("#showAllNotif").hide();
-  $("#hideAllNotif").show();
 
-  for (let i = notifLength; i > 3; i--) {
-    notifItem[i - 1].classList.add("d-flex");
-    notifItem[i - 1].style.display = "block";
-  }
 
-  $("#alertNotif").trigger("click");
-  $("#alertNotif").show();
-}
-
-function hideAllNotification() {
-  var notifLength = dataEmployee.length + dataEmployeeCV.length;
-  var notifItem = document.getElementsByClassName("notification-item");
-  $("#hideAllNotif").hide();
-  $("#showAllNotif").show();
-
-  for (let i = notifLength; i > 3; i--) {
-    notifItem[i - 1].classList.remove("d-flex");
-    notifItem[i - 1].style.display = "none";
-  }
-
-  $("#alertNotif").trigger("click");
-  $("#alertNotif").show();
-}
