@@ -579,7 +579,7 @@ function GetByIdPosition(id) {
     },
     success: function (result) {
       var obj = result.data;
-
+      $("#client_Id").val(obj.clientId);
       $("#positionId").val(obj.id);
       $("#positionName").val(obj.positionClient);
       $("#positionQuantity").val(obj.quantity);
@@ -597,6 +597,7 @@ function GetByIdPosition(id) {
 }
 
 function updatePosition() {
+    debugger;
   var form = document.querySelector("#positionModal .needs-validation");
 
   if (form.checkValidity() === false) {
@@ -605,8 +606,7 @@ function updatePosition() {
     form.classList.add("was-validated");
     return;
   }
-
-  const clientId = document.getElementById("client_Id").value;
+    const clientId = document.getElementById("client_Id").value;
   const positionId = document.getElementById("positionId").value;
   const positionName = document.getElementById("positionName").value;
   const positionLevel = document.getElementById("positionLevel").value;
@@ -621,9 +621,9 @@ function updatePosition() {
     quantity: positionQuantity,
     status: positionStatus,
     notes: positionNotes,
-    clientId: clientId,
+    clientId:clientId
   };
-
+    console.log(position);
   fetch("https://localhost:7177/api/Position", {
     method: "PUT",
     headers: {
@@ -642,12 +642,12 @@ function updatePosition() {
       if (data.status == 200) {
         Swal.fire({
           title: "Success!",
-          text: "Data Position has ben Added!",
+          text: "Data Position has ben Updated!",
           icon: "success",
           showConfirmButton: false,
           timer: 1500,
         });
-        const logMessage = `Has added position ${position.positionClient} in Client Id ${position.clientId}`;
+        const logMessage = `Has Upated position ${position.positionClient} in Client Id ${position.clientId}`;
         SaveLogUpdate(logMessage);
 
         $("#positionModal").modal("hide");
