@@ -11,7 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
+    //[Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class EmployeesController : ControllerBase
     {
         private readonly ProjectRasmanagementContext _context;

@@ -725,7 +725,7 @@ function savePosition() {
           showConfirmButton: false,
           timer: 1500,
         });
-        const logMessage = `Has added position ${newPositionData.positionName} in Client Id ${newPositionData.clientId}`;
+          const logMessage = `Has added position ${positionName} in Client Id ${newPositionData.clientId}`;
         SaveLogUpdate(logMessage);
 
         $("#positionModal").modal("hide");
