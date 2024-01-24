@@ -4,6 +4,7 @@ $(document).ready(function () {
 
     if (objDataToken.RoleId == 7) {
         $('.btn-add-client').hide();
+        $('.btn-new-position').hide();
     } 
 
     table = $("#tbDataCleint").DataTable({
@@ -33,21 +34,26 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     var modalId = "modal-edit-" + data.id;
                     var deleteId = "modal-delete-" + data.id;
+
+                    // Menyembunyikan ikon edit dan delete jika roleid adalah 7 (Manager)
+                    var hideIcons = objDataToken.RoleId == 7 ? 'd-none' : '';
+
                     return (
-                        '<a class="text-warning" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+
+                        '<a class="text-warning '+ hideIcons +'" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
                         row.id +
-                        ')"><i class="fa fa-edit"></i></a>' +
+                        ')"><i class="fa fa-edit edit-client"></i></a>' +
                         "&nbsp;" +
                         '<a class="text-info" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return detailPosition(' +
                         row.id +
                         ')"><i class="fas fa-info-circle"></i></i></a>' +
                         "&nbsp;" +
-                        '<a class="text-danger" data-placement="right" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
+                        '<a class="text-danger ' + hideIcons + '" data-placement="right" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
                         row.id +
                         "', '" +
                         row.nameOfClient +
                         "'" +
-                        ')"><i class="fa fa-trash"></i></a>'
+                        ')"><i class="fa fa-trash delete-client"></i></a>'
                     );
                 },
             },
@@ -58,7 +64,7 @@ $(document).ready(function () {
             {
                 targets: [0, 2],
                 orderable: false,
-                visible: objDataToken.RoleId != 7,
+                //visible: objDataToken.RoleId != 7,
             },
         ],
         drawCallback: function (settings) {
@@ -350,9 +356,9 @@ function detailPosition(id) {
                                                                            }</h5>
                                                                 </div>
                                                                 <div class="col text-right">
-                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${
-                                                                       data.id
-                                                                     })" title="Detail Employee"><i class="far fa-edit"></i></a>
+                                                                    ${objDataToken.RoleId != 7 ?
+                  `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id
+                                                                         })" title="Detail Employee"><i class="far fa-edit"></i></a>` : ''}
                                                                 </div>
                                                               
                                                        </div>
@@ -423,9 +429,9 @@ function detailPosition(id) {
                                                                            }</h5>
                                                                 </div>
                                                                 <div class="col text-right">
-                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${
-                                                                       data.id
-                                                                     })" title="Detail Employee"><i class="far fa-edit"></i></a>
+                                                                     ${objDataToken.RoleId != 7 ?
+                        `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id
+                        })" title="Detail Employee"><i class="far fa-edit"></i></a>` : ''}
                                                                 </div>
                                                               
                                                        </div>
@@ -490,9 +496,9 @@ function detailPosition(id) {
                                                                            }</h5>
                                                                 </div>
                                                                 <div class="col text-right">
-                                                                     <a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${
-                                                                       data.id
-                                                                     })" title="Detail Employee"><i class="far fa-edit"></i></a>
+                                                                     ${objDataToken.RoleId != 7 ?
+                      `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id
+                          })" title="Detail Employee"><i class="far fa-edit"></i></a>` : ''}
                                                                 </div>
                                                               
                                                        </div>
