@@ -176,7 +176,7 @@
         $('#join').val('');
         $('#start').val('');
         $('#end').val('');
-        $('#levelAcc').val('Choose...');
+        $('#levelAcc').val('Select level');
         $("#financialAcc").prop("checked", false);
         var financial2 = document.getElementById('financialAcc');
         var statusIndicator2 = document.querySelector('.status-indicator-acc');
@@ -200,7 +200,7 @@
         //// add function automate financial and level
         var financialCheck = document.getElementById('financialAcc');
         //const statusIndicatorAc = document.querySelector(".status-indicator-acc");
-        @* financialCheck.checked = "True"; *@
+        financialCheck.checked = "True";
 
         var statusIndicatorbot = document.querySelector('.status-indicator-acc');
         if (statusIndicatorbot) {

@@ -93,6 +93,10 @@ namespace RasManagement.Repository
             {
                 existingEmployee.Level = updatedData.level;
             }
+            if (!string.IsNullOrEmpty(updatedData.financialIndustry))
+            {
+                existingEmployee.FinancialIndustry = updatedData.financialIndustry;
+            }
 
             _context.Update(existingEmployee);
             await _context.SaveChangesAsync();
