@@ -1,7 +1,4 @@
 $(function () {
-    $('#popover-dismiss').popover({
-        trigger: 'focus'
-      })
     var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
@@ -39,8 +36,7 @@ $(function () {
         });
     },
 
-      editable: true,
-      droppable: true, // this allows things to be dropped onto the calendar !!!
+     
       
   });
   function updatePopoverContent(info) {
