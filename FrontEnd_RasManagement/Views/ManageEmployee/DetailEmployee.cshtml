@@ -94,6 +94,10 @@
                 <div class="col-6" style="color: black">End Contract</div>
                 <div class="col-6" style="color: black">: @employeeData.endContract.ToString("dd/MM/yyyy")</div>
             </div>
+            <div class="row">
+                <div class="col-6" style="color: black">Position</div>
+                <div class="col-6" style="color: black">: @employeeData.position</div>
+            </div>
             <div class="row  mt-3 ">
                 <div class="col-6" style="color: black"></div>
                 @* <div class="col-6 " style="color: black">
@@ -108,7 +112,7 @@
 </div>
 <div id="placement">
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-sm text-light mb-3" data-toggle="modal" data-target="#modalPlacement" style="background-color:#624DE3;  font-size: 12px;" onclick="ClearScreenPlacement();">
+    <button type="button" class="btn btn-sm text-light mb-3 add-new-placement" data-toggle="modal" data-target="#modalPlacement" style="background-color:#624DE3;  font-size: 12px;" onclick="ClearScreenPlacement();">
         + New Placement
     </button>
 
@@ -143,6 +147,12 @@
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">End Contract</label>
                         <input type="date" class="form-control " id="EndContract" name="EndContract" requiredContract>
+                        <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Position</label>
+                        <input type="text" class="form-control " id="Position" name="Position" requiredContract>
                         <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
                     </div>
 

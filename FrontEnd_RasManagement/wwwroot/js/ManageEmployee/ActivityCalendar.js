@@ -1,66 +1,65 @@
 $(function () {
-
-    /* initialize the external events
-     -----------------------------------------------------------------*/
-    function ini_events(ele) {
-        ele.each(function () {
-
-            // create an Event Object (https://fullcalendar.io/docs/event-object)
-            // it doesn't need to have a start or end
-            var eventObject = {
-                title: $.trim($(this).text()) // use the element's text as the event title
+  /* initialize the external events
+  -----------------------------------------------------------------*/
+  function ini_events(ele) {
+    ele.each(function () {
+      
+      // create an Event Object (https://fullcalendar.io/docs/event-object)
+      // it doesn't need to have a start or end
+          var eventObject = {
+              title: $.trim($(this).text()) // use the element's text as the event title
             }
 
-            // store the Event Object in the DOM element so we can get to it later
-            $(this).data('eventObject', eventObject)
+          // store the Event Object in the DOM element so we can get to it later
+          $(this).data('eventObject', eventObject)
 
-            // make the event draggable using jQuery UI
-            $(this).draggable({
-                zIndex: 1070,
-                revert: true, // will cause the event to go back to its
-                revertDuration: 0  //  original position after the drag
-            })
+          // make the event draggable using jQuery UI
+          $(this).draggable({
+              zIndex: 1070,
+              revert: true, // will cause the event to go back to its
+              revertDuration: 0  //  original position after the drag
+          })
 
-        })
-    }
+      })
+  }
 
-    ini_events($('#external-events div.external-event'))
-
-    /* initialize the calendar
-     -----------------------------------------------------------------*/
-    //Date for the calendar events (dummy data)
-    var date = new Date()
-    var d = date.getDate(),
-        m = date.getMonth(),
-        y = date.getFullYear()
-
-    var Calendar = FullCalendar.Calendar;
-    var Draggable = FullCalendar.Draggable;
-
-    var containerEl = document.getElementById('external-events');
-    var checkbox = document.getElementById('drop-remove');
-    var calendarEl = document.getElementById('calendar');
-
-    // initialize the external events
-    // -----------------------------------------------------------------
-
-    new Draggable(containerEl, {
-        itemSelector: '.external-event',
-        eventData: function (eventEl) {
-            return {
-                title: eventEl.innerText,
-                backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
-                borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
-                textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
-            };
+  ini_events($('#external-events div.external-event'))
+  
+  /* initialize the calendar
+  -----------------------------------------------------------------*/
+  //Date for the calendar events (dummy data)
+  var date = new Date()
+  var d = date.getDate(),
+  m = date.getMonth(),
+  y = date.getFullYear()
+  
+  var Calendar = FullCalendar.Calendar;
+  var Draggable = FullCalendar.Draggable;
+  
+  var containerEl = document.getElementById('external-events');
+  var checkbox = document.getElementById('drop-remove');
+  var calendarEl = document.getElementById('calendar');
+  
+  // initialize the external events
+  // -----------------------------------------------------------------
+  
+  new Draggable(containerEl, {
+    itemSelector: '.external-event',
+    eventData: function (eventEl) {
+      return {
+        title: eventEl.innerText,
+              backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+              borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+              textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
+          };
         }
-    });
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+      });
+      
+      var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,dayGridWeek,dayGridDay'
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
         themeSystem: 'bootstrap',
         lazyFetching: false,

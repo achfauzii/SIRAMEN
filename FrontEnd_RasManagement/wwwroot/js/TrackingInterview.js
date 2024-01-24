@@ -1,10 +1,20 @@
 ﻿var table = null;
+var position = null;
 
 $(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.btn-add-tracking').hide();
+    } 
   $("#Update").hide();
   $("#btnNewProcess").hide();
   table = $("#trackingIntvw").DataTable({
-    responsive: true,
+    fixedColumns: {
+      leftColumns: window.innerWidth > 1024 ? 2 : null,
+    },
+    fixedHeader: true,
+    scrollX: true,
     searchable: true,
     ajax: {
       url: "https://localhost:7177/api/Tracking/Interview", // Your API endpoint
@@ -32,7 +42,7 @@ $(document).ready(function () {
               var icon =
                 '<div class="row"><div class="col-4 text-left mr-5">' +
                 emp +
-                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetById(\'' +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit-tracking" style="color: #ff0000;  visibility: hidden;" onclick="return GetById(\'' +
                 row.id +
                 "')\"></i>";
             } else {
@@ -44,6 +54,13 @@ $(document).ready(function () {
                 "')\"></i>";
             }
 
+              // Validasi manager hide action (Only View)
+              var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+              if (objDataToken.RoleId == 7) {
+                  $('.edit-tracking, .edit').hide();
+              }
+
+              
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
 
             $(document).on("mouseover", ".row", function () {
@@ -218,30 +235,57 @@ function getClient() {
 function getPosition(idClient) {
   var selectPosition = document.getElementById("position");
 
-  //   console.log(idClient);
-  $.ajax({
-    type: "GET",
-    url: "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (result != null) {
-      $("#position").empty();
-      $("#position").append(`<option selected disabled>
+  if (position == null) {
+    $.ajax({
+      type: "GET",
+      url:
+        "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
+      contentType: "application/json; charset=utf-8",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    }).then((result) => {
+      if (result != null) {
+        $("#position").empty();
+        $("#position").append(`<option selected disabled>
         Choose Position
       </option>`);
-      result.data.forEach((item) => {
-        var option = new Option(item.positionClient, item.id, true, false);
-        selectPosition.add(option);
-      });
-    }
-  });
+        result.data.forEach((item) => {
+          var option = new Option(item.positionClient, item.id, true, false);
+          selectPosition.add(option);
+        });
+      }
+    });
+  } else {
+    $.ajax({
+      type: "GET",
+      url:
+        "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
+      contentType: "application/json; charset=utf-8",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    }).then((result) => {
+      if (result != null) {
+        $("#position").empty();
+        $("#position").append(`<option selected disabled>
+        Choose Position
+      </option>`);
+        result.data.forEach((item) => {
+          var option = new Option(item.positionClient, item.id, true, false);
+          selectPosition.add(option);
+        });
+        $("#position").val(position).trigger("change");
+      }
+    });
+  }
 }
 
 function clearScreen() {
+  position = null;
   $(".process").remove();
+  $("#position").empty();
+  $("#position").append(`<option selected disabled>Choose Position</option>`);
   clearProcess();
 
   $("#resource").select2("val", $("#resource option:eq(0)").val());
@@ -361,7 +405,8 @@ function GetById(trackingId) {
           .trigger("change");
       }
       $("#client").val(obj.clientId).trigger("change");
-      $("#position").val(obj.positionId).trigger("change");
+      position = obj.positionId;
+      getPosition(obj.clientId);
 
       const intDateArray = obj.intvwDate.split("<br>");
       const intStatusArray = obj.intvwStatus.split("<br>");
@@ -589,7 +634,7 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-  let maxVisibleCategories = 6;
+  let maxVisibleCategories = 9;
   categories.unshift({ id: 0, nameOfClient: "All" }); // Menambahkan opsi "All" ke dalam array categories
 
   // Mendeteksi lebar layar saat halaman dimuat
@@ -597,16 +642,16 @@ function createNavigation(categories) {
 
   // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
   if (screenWidth <= 1024) {
-    maxVisibleCategories = 5;
+    maxVisibleCategories = 9;
   }
   if (screenWidth < 850) {
-    maxVisibleCategories = 4;
+    maxVisibleCategories = 7;
   }
   if (screenWidth < 750) {
-    maxVisibleCategories = 3;
+    maxVisibleCategories = 5;
   }
   if (screenWidth <= 500) {
-    maxVisibleCategories = 1;
+    maxVisibleCategories = 3;
   }
   const navList = document.createElement("ul");
   navList.className = "nav nav-tabs";
@@ -640,7 +685,6 @@ function createNavigation(categories) {
       const selectedCategory = this.getAttribute("data-category");
 
       if (selectedCategory == "all") {
-        console.log(selectedCategory);
         table.columns().search("").draw();
       } else {
         table.column(3).search(selectedCategory).draw();
@@ -708,7 +752,6 @@ function createDropdown(categories) {
       e.preventDefault();
       const selectedCategory = this.textContent;
       if (selectedCategory == "all") {
-        console.log("selected: " + selectedCategory);
         table.search("").draw();
       } else {
         table.column(3).search(selectedCategory).draw();
