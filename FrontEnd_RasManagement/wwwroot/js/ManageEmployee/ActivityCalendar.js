@@ -40,10 +40,10 @@ $(function () {
       
   });
   function updatePopoverContent(info) {
-    var isWeekView = calendar.view.type === 'timeGridWeek' || calendar.view.type === 'dayGridWeek';
+    var isMonthView = calendar.view.type === 'timeGridMonth' || calendar.view.type === 'dayGridMonth';
 
-    var title = isWeekView ?  info.event.extendedProps.description : info.event.title;
-    var content = isWeekView ? info.event.title :  info.event.extendedProps.description;
+    var title = isMonthView ? info.event.title :  info.event.extendedProps.description;
+    var content = isMonthView ? info.event.extendedProps.description  :  info.event.title;
 
     $(info.el).popover({
         title: title,
