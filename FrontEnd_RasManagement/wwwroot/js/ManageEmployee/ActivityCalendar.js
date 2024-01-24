@@ -64,92 +64,80 @@ $(function () {
         themeSystem: 'bootstrap',
         lazyFetching: false,
         eventDidMount: function (info) {
-        
-              $(info.el).popover({
-                  title: info.event.title,
-                  placement: 'top',
-                  content: info.event.extendedProps.description,
-                  trigger: 'hover',
-                  container: 'body',
-              });
-      },
-      // events: { url: 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth',
+            console.log(info.event),
+                $(info.el).popover({
+                    content: info.event.extendedProps.description,
+                    placement: 'bottom',
+                    title: info.event.title,
+                    trigger: 'hover',
+                    container: 'body',
+                });
+        },
 
-      
-        events: function (info, successCallback, failureCallback) {
-          let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
-          let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
-          $.ajax({
-              url: "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +  '?start='+ start + "&end=" + end,
-              type: 'GET',
-              headers: {
-                  Authorization: "Bearer " + sessionStorage.getItem("Token")
-              }, success: function (response) {
-                      successCallback(response);
-              }
-          });
-      },
-      extraParams: function () {
-          return {
-              cachebuster: new Date().valueOf()
-          }
-      },
-      viewRender: function (view, element) {
-          // Fetch data from your API based on the current view
-          var startDate = view.start;
-          var endDate = view.end;
-          fetchDataAndUpdateEvents(startDate, endDate);
-      },
+        events: {
+            url: 'https://localhost:7177/api/TimeSheet/TimeSheetByMonth'
+        },
+        extraParams: function () {
+            return {
+                cachebuster: new Date().valueOf()
+            }
+        },
+        viewRender: function (view, element) {
+            // Fetch data from your API based on the current view
+            var startDate = view.start;
+            var endDate = view.end;
+            fetchDataAndUpdateEvents(startDate, endDate);
+        },
 
-      editable: false,
-      droppable: true, // this allows things to be dropped onto the calendar !!!
-      drop: function (info) {
-          // is the "remove after drop" checkbox checked?
-          if (checkbox.checked) {
-              // if so, remove the element from the "Draggable Events" list
-              info.draggedEl.parentNode.removeChild(info.draggedEl);
-          }
-      }
-  });
+        editable: false,
+        droppable: true, // this allows things to be dropped onto the calendar !!!
+        drop: function (info) {
+            // is the "remove after drop" checkbox checked?
+            if (checkbox.checked) {
+                // if so, remove the element from the "Draggable Events" list
+                info.draggedEl.parentNode.removeChild(info.draggedEl);
+            }
+        }
+    });
 
-  calendar.render();
-  // $('#calendar').fullCalendar()
+    calendar.render();
+    // $('#calendar').fullCalendar()
 
-  /* ADDING EVENTS */
-  var currColor = '#3c8dbc' //Red by default
-  // Color chooser button
-  $('#color-chooser > li > a').click(function (e) {
-      e.preventDefault()
-      // Save color
-      currColor = $(this).css('color')
-      // Add color effect to button
-      $('#add-new-event').css({
-          'background-color': currColor,
-          'border-color': currColor
-      })
-  })
-  $('#add-new-event').click(function (e) {
-      e.preventDefault()
-      // Get value and make sure it is not null
-      var val = $('#new-event').val()
-      if (val.length == 0) {
-          return
-      }
+    /* ADDING EVENTS */
+    var currColor = '#3c8dbc' //Red by default
+    // Color chooser button
+    $('#color-chooser > li > a').click(function (e) {
+        e.preventDefault()
+        // Save color
+        currColor = $(this).css('color')
+        // Add color effect to button
+        $('#add-new-event').css({
+            'background-color': currColor,
+            'border-color': currColor
+        })
+    })
+    $('#add-new-event').click(function (e) {
+        e.preventDefault()
+        // Get value and make sure it is not null
+        var val = $('#new-event').val()
+        if (val.length == 0) {
+            return
+        }
 
-      // Create events
-      var event = $('<div />')
-      event.css({
-          'background-color': currColor,
-          'border-color': currColor,
-          'color': '#fff'
-      }).addClass('external-event')
-      event.text(val)
-      $('#external-events').prepend(event)
+        // Create events
+        var event = $('<div />')
+        event.css({
+            'background-color': currColor,
+            'border-color': currColor,
+            'color': '#fff'
+        }).addClass('external-event')
+        event.text(val)
+        $('#external-events').prepend(event)
 
-      // Add draggable funtionality
-      ini_events(event)
+        // Add draggable funtionality
+        ini_events(event)
 
-      // Remove event from text input
-      $('#new-event').val('')
-  })
+        // Remove event from text input
+        $('#new-event').val('')
+    })
 })
