@@ -70,24 +70,20 @@ namespace RasManagement.Repository
                 }
 
                 return resultWithTitles.Cast<object>().ToList();
-
-
-            }
-            else
-            {
-                var timeSheets = await context.TimeSheets
-                .Include(a => a.Account)
-                .Where(ts => ts.Date >= start
-                            && ts.Date <= end)
-                .Select(ts => new
-                {
-                    title = ts.Activity,
-                    start = ts.Date,
-                    description = ts.Account.Fullname,
-                    allDay = true,
-                    backgroundColor = GetColorByFlag(ts.Flag),
-                    borderColor = GetColorByFlag(ts.Flag),
-
+               
+                } else {
+                    var timeSheets = await context.TimeSheets
+                    .Include(a=> a.Account)
+                    .Where(ts => ts.Date >= start
+                                && ts.Date <= end)
+                    .Select(ts => new {
+                        title = ts.Activity,
+                        start = ts.Date,
+                        description = ts.Account.Fullname,
+                        url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
+                        allDay = true,
+                        backgroundColor = GetColorByFlag(ts.Flag),
+                        borderColor = GetColorByFlag(ts.Flag),
                 })
                 .ToListAsync();
                 return timeSheets;

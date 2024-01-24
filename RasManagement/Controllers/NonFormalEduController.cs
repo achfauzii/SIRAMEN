@@ -14,7 +14,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class NonFormalEduController : BaseController<NonFormalEdu, NonFormalEduRepository, int>
     {
         private readonly NonFormalEduRepository nonFormalEduRepository;

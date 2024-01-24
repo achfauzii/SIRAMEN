@@ -1,5 +1,11 @@
 var table = null;
 $(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.btn-add-department').hide();
+    } 
+
   table = $("#TB_Department").DataTable({
     responsive: true,
 
@@ -49,7 +55,8 @@ $(document).ready(function () {
     columnDefs: [
       {
         targets: [0, 2],
-        orderable: false,
+            orderable: false,
+            visible: objDataToken.RoleId != 7,
       },
     ],
     //Agar nomor tidak berubah
