@@ -426,9 +426,7 @@ $(document).ready(function () {
           render: function (data, type, row) {
             return (
               '<div class="d-flex flex-row">' +
-
-              '<a href="#" class="text-danger pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
-
+              '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
               '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +

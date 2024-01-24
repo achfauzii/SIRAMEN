@@ -51,7 +51,8 @@ $(document).ready(function () {
   //GET datatable
   table = $("#timeSheetTable").DataTable({
     scrollX: true,
-    /*        responsive: true,*/
+    // autoWidth: true,
+    // responsive: true,
     ajax: {
       url: "https://localhost:7177/api/TimeSheet/accountId?accountId=" + accid, // Your API endpoint
       type: "GET",
@@ -61,9 +62,9 @@ $(document).ready(function () {
       },
     },
     columns: [
-        {
-          data:null,
-            render: function (data, type, row, meta) {
+      {
+        data: null,
+        render: function (data, type, row, meta) {
           return meta.row + meta.settings._iDisplayStart + 1 + ".";
         },
       },
@@ -72,7 +73,7 @@ $(document).ready(function () {
         render: function (data, type, row) {
           if (type === "display" || type === "filter") {
             // Format tanggal dalam format yang diinginkan
-            return moment(data).format("DD MMMM YYYY");
+            return moment(data).format("DD MMM YYYY");
           }
           // Untuk tipe data lain, kembalikan data aslinya
 
@@ -229,76 +230,88 @@ function Update() {
       Swal.fire("Error!", "Your failed to update", "error");
       table.ajax.reload();
     }
+    table.columns.adjust().draw();
   });
 }
 
 function save() {
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
 
-    var TimeSheet = new Object();
-    TimeSheet.Date = $("#inputDate").val();
+  var TimeSheet = new Object();
+  TimeSheet.Date = $("#inputDate").val();
+  TimeSheet.Flag = $("#flag").val();
+  TimeSheet.AccountId = accid;
+  TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
+  TimeSheet.KnownBy = $("#knownBy").val();
+
+  if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
+    TimeSheet.Activity = "";
+    TimeSheet.Category = "";
+    TimeSheet.Status = "";
+  } else {
     TimeSheet.Activity = $("#activity").val();
-    TimeSheet.Flag = $("#flag").val();
     TimeSheet.Category = $("#category").val();
     TimeSheet.Status = $("#status").val();
-    TimeSheet.KnownBy = $("#knownBy").val();
-    TimeSheet.AccountId = accid;
-    TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
+  }
 
-    $.ajax({
-        type: "POST",
-        url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
-        data: JSON.stringify(TimeSheet),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-    }).then(
-        (result) => {
-            console.log(result.status);
-            if (result.status == 200) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Data has been added!",
-                    html: TimeSheet.Flag === "Sick" ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>" : "",
-                    showConfirmButton: true,
-                    //timer: 5000,
-                });
-                $("#timeSheetModal").modal("hide");
-                table.ajax.reload();
-                clearScreen();
-            } else {
-                console.log(result.status);
-                Swal.fire({
-                    icon: "warning",
-                    title: "Data failed to added!",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-                $("#timeSheetModal").modal("hide");
-                table.ajax.reload();
-            }
-        },
-        (jqXHR, textStatus, errorThrown) => {
-            if (jqXHR.status === 400) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Failed",
-                    text: "Time Sheet with the same date already exists!",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            } else {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Data failed to added!",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            }
-        }
-    );
+  $.ajax({
+    type: "POST",
+    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+    data: JSON.stringify(TimeSheet),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then(
+    (result) => {
+      console.log(result.status);
+      if (result.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Data has been added!",
+          html:
+            TimeSheet.Flag === "Sick"
+              ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
+              : "",
+          showConfirmButton: true,
+          //timer: 5000,
+        });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+        clearScreen();
+      } else {
+        console.log(result.status);
+        Swal.fire({
+          icon: "warning",
+          title: "Data failed to added!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+      }
+      table.columns.adjust().draw();
+    },
+    (jqXHR, textStatus, errorThrown) => {
+      if (jqXHR.status === 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "Failed",
+          text: "Time Sheet with the same date already exists!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "Data failed to added!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    }
+  );
 }
 
 function clearScreen() {

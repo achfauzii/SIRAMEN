@@ -91,7 +91,7 @@ namespace RasManagement.Repository
                         Ipk = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Ipk : "",
                         University = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].UniversityName : "",
                         Age = emp.Birthdate != null ? DateTime.Now.Year - emp.Birthdate.Value.Year + " Years Old" : "",
-                        WorkStatus = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].PlacementStatus : "",
+                        WorkStatus = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].PlacementStatus : "Idle",
                         endDate = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].EndDate : null,
                         NoticePeriode = null,
                         FinancialIndustry = emp.FinancialIndustry,
@@ -99,26 +99,25 @@ namespace RasManagement.Repository
 
 
                     }).ToList();
-            var nonras = _context.NonRasCandidates
-                    .Where(n => n.isDeleted != true)
-                    .Select(non => new SharedShortListVM
-                    {
-                        NonRAS_Id = non.NonRasId,
-                        Fullname = non.Fullname,
-                        Position = non.Position,
-                        Skillset = non.Skillset,
-                        Level = non.Level,
-                        Education = non.Education,
-                        Ipk = non.Ipk,
-                        University = non.University,
-                        Age = non.Birthdate + " Years Old",
-                        ExperienceInYear = non.ExperienceInYear,
-                        WorkStatus = non.WorkStatus,
-                        NoticePeriode = non.NoticePeriode,
-                        FinancialIndustry = non.FinancialIndustry,
-                        CvBerca = non.CvBerca
-                    })
-                    .ToList();
+            var nonras = _context.NonRasCandidates.Select(non => new SharedShortListVM
+            {
+                NonRAS_Id = non.NonRasId,
+                Fullname = non.Fullname,
+                Position = non.Position,
+                Skillset = non.Skillset,
+                Level = non.Level,
+                Education = non.Education,
+                Ipk = non.Ipk,
+                University = non.University,
+                Age = non.Birthdate != "" ? non.Birthdate + " Years Old" : "",
+                ExperienceInYear = non.ExperienceInYear,
+                WorkStatus = non.WorkStatus,
+                NoticePeriode = non.NoticePeriode,
+                FinancialIndustry = non.FinancialIndustry,
+                CvBerca = non.CvBerca
+
+
+            }).ToList();
 
             List<SharedShortListVM> sharedShortLists = new List<SharedShortListVM>();
             sharedShortLists.AddRange(employees);
