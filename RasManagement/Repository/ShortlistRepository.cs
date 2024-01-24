@@ -122,7 +122,7 @@ namespace RasManagement.Repository
             List<SharedShortListVM> sharedShortLists = new List<SharedShortListVM>();
             sharedShortLists.AddRange(employees);
             sharedShortLists.AddRange(nonras);
-
+            
             return sharedShortLists;
 
         }
