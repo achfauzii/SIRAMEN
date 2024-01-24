@@ -62,23 +62,40 @@ $(document).ready(function () {
     // Periksa nilai awal dropdown saat halaman dimuat
     handlePlacementStatusChange();
   });
-  $("#dataTableEmployee thead tr")
-    .clone(true)
-    .addClass("filters")
-    .attr("id", "filterRow")
-    .appendTo("#dataTableEmployee thead");
+
+  // $("#dataTableEmployee thead tr")
+  //   .clone(true)
+  //   .addClass("filters")
+  //   .attr("id", "filterRow")
+  //   .appendTo("#dataTableEmployee thead");
 
   // $('#loader').show();
+
+  // $("#dataTableEmployee tfoot th").each(function (i) {
+  //   var title = $("#dataTableEmployee thead th").eq($(this).index()).text();
+  //   $(this).html(
+  //     '<input type="text" class="form-control form-control-sm pt-0 pb-0" placeholder="Search ' +
+  //       title +
+  //       '" data-index="' +
+  //       i +
+  //       '" />'
+  //   );
+  // });
 
   var table = $("#dataTableEmployee")
     .on("processing.dt", function (e, settings, processing) {
       $("#loader").css("display", processing ? "block" : "none");
     })
     .DataTable({
+      fixedColumns: {
+        leftColumns: window.innerWidth > 1024 ? 3 : null,
+      },
       paging: true,
-      scrollX: true,
-      orderCellsTop: true,
       fixedHeader: true,
+      scrollX: true,
+      scrollY: true,
+      // scrollCollapse: true,
+      orderCellsTop: true,
 
       ajax: {
         url: "https://localhost:7177/api/Employees",
@@ -92,66 +109,27 @@ $(document).ready(function () {
       },
 
       initComplete: function () {
-        4;
-        var api = this.api();
-
-        // For each column
-        api
+        this.api()
           .columns()
-          .eq(0)
-          .each(function (colIdx) {
-            // Set the header cell to contain the input element
-            var cell = $(".filters th").eq(
-              $(api.column(colIdx).header()).index()
-            );
-            var title = $(cell).text();
-            // Check if the column is "No", "Gender", or "Placement Status"
+          .every(function () {
+            let column = this;
+            let title = column.footer().textContent;
+
             if (title !== "No" && title !== "Action" && title !== "Assets") {
-              $(cell).html(
-                '<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="' +
-                  title +
-                  '" />'
-              );
-              // On every keypress in this input
-              $(
-                "input",
-                $(".filters th").eq($(api.column(colIdx).header()).index())
-              )
-                .off("keyup change")
-                .on("keyup change", function (e) {
-                  e.stopPropagation();
-                  // Get the search value
-                  $(this).attr("title", $(this).val());
-                  var regexr = "({search})"; //$(this).parents('th').find('select').val();
-                  var cursorPosition = this.selectionStart;
-                  // Search the column for that value
-                  api
-                    .column(colIdx)
-                    .search(
-                      this.value != ""
-                        ? regexr.replace("{search}", "(((" + this.value + ")))")
-                        : "",
-                      this.value != "",
-                      this.value == ""
-                    )
-                    .draw();
-                  $(this)
-                    .focus()[0]
-                    .setSelectionRange(cursorPosition, cursorPosition);
-                });
+              // Create input element
+              let input = document.createElement("input");
+              input.classList.add("form-control");
+              input.placeholder = title;
+              column.footer().replaceChildren(input);
+
+              // Event listener for user input
+              input.addEventListener("keyup", () => {
+                if (column.search() !== this.value) {
+                  column.search(input.value).draw();
+                }
+              });
             } else {
-              // For columns "No", "Gender", and "Placement Status", leave the header cell empty
-              var cell = $(".filters th").eq(
-                $(api.column(colIdx).header()).index()
-              );
-              $(cell).html("");
-            }
-            if (title === "Placement Status") {
-              // Filter Placement Status column to show only "Idle"
-              var placementStatusColumn = api.column(colIdx);
-              placementStatusColumn
-                .search("^(Idle|Onsite)$", true, false)
-                .draw();
+              column.footer().replaceChildren("");
             }
           });
       },
@@ -159,7 +137,6 @@ $(document).ready(function () {
         //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
         {
-          // orderable: false, // menonaktifkan order hanya pada kolom tertentu
           data: null,
           width: "4%",
           render: function (data, type, row, meta) {
@@ -176,9 +153,15 @@ $(document).ready(function () {
               var icon =
                 '<div class="row"><div class="col-4 text-left mr-5">' +
                 data +
-                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit btn-edit-status" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
                 row.accountId +
-                "')\"></i>";
+                    "')\"></i>";
+
+                // Validasi manager hide action (Only View)
+                var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+                if (objDataToken.RoleId == 7) {
+                    $('.btn-edit-status, .edit').hide();
+                }
 
               $(document).on("mouseover", ".row", function () {
                 $(this).find("i.edit").css("visibility", "visible");
@@ -199,7 +182,7 @@ $(document).ready(function () {
           data: "position",
           render: function (data) {
             if (data == null) {
-              var a = " ";
+              var a = "";
               return a;
             }
 
@@ -228,9 +211,16 @@ $(document).ready(function () {
             return badgeContainer.html();
           },
         },
-        {
+          {
+            data: "level",
           render: function (data, type, row) {
             var levelStatus = row.level;
+
+              // Validasi manager hide action (Only View)
+              var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+              if (objDataToken.RoleId == 7) {
+                  return data;
+              }
 
             if (levelStatus === "Fresh Graduate") {
               return (
@@ -432,21 +422,29 @@ $(document).ready(function () {
         {
           data: null,
           orderable: false, // menonaktifkan order
+          width: "7%",
           render: function (data, type, row) {
             return (
-              '<div class="text-center row">' +
+              '<div class="d-flex flex-row">' +
               '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
-              '<a href="#" class="ml-2 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
+              '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
               row.accountId +
               '\')"><i class="far fa-calendar-check"></i></a>' +
-              '<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
+              '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
               row.accountId +
               '\')"><i class="far fa-edit"></i></a>' +
               "</div>"
             );
-          },
+            },
+            //visible: objDataToken.RoleId != 7,
+        },
+      ],
+      columnDefs: [
+        {
+          defaultContent: "-",
+          targets: "_all",
         },
       ],
       //"order": [], // menonaktifkan order pada semua kolom

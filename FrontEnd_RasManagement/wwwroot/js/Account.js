@@ -41,7 +41,7 @@
 
           const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
           var Role = getValueByIndex(decodedToken, 8);
-          if (Role === "Admin") {
+          if (Role === "Admin" || Role=="Trainer" || Role=="Manager" || Role=="Sales") {
             SaveLog(decodedToken);
             Toast.fire({
               icon: "success",

@@ -15,7 +15,6 @@ public partial class TrackingInterview
     public int? ClientId { get; set; }
 
     public int? PositionId { get; set; }
-    public string? PositionName { get; set; }
 
     public string? IntvwDate { get; set; }
 

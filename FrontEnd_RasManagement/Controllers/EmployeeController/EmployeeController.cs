@@ -91,11 +91,7 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             {
                 return RedirectToAction("Login", "Accounts");
             }
-            bool check = await CheckProfile.CheckingProfile(HttpContext);
-            if (!check)
-            {
-                return RedirectToAction("Employee", "Dashboards");
-            }
+      
             //End Validate
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
             ViewData["UserRole"] = role;
@@ -145,11 +141,7 @@ namespace FrontEnd_RasManagement.Controllers.EmployeeController
             {
                 return RedirectToAction("Login", "Accounts");
             }
-            bool check = await CheckProfile.CheckingProfile(HttpContext);
-            if (!check)
-            {
-                return RedirectToAction("Employee", "Dashboards");
-            }
+        
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
             ViewData["UserRole"] = role;
             //End Validate

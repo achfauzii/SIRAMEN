@@ -33,43 +33,39 @@ namespace RasManagement.Repository
             return $"{ras}{countNonRas + 1:D3}";
         }
 
-        public string EmployeeAge(string birthDateString)
-        {
-            if (DateTime.TryParse(birthDateString, out DateTime birthDate))
-            {
-                // Extract the year from the birthdate
-                int birthYear = birthDate.Year;
+        // public string EmployeeNoticePeriode(DateTime? endDate)
+        // {
 
-                // Calculate the current year
-                int currentYear = DateTime.Now.Year;
+        //     string DateNow = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
+        //     TimeSpan? timeDiff = endDate - startDate;
+        //     int? daysRemaining = (int)Math.Ceiling(timeDiff.Value.TotalDays);
 
-                // Calculate the age
-                int age = currentYear - birthYear;
+        //     int? monthsRemaining = daysRemaining / 30;
+        //     int? daysInMonth = daysRemaining % 30;
 
-                return age + " Years Old";
-            }
-            else
-            {
-                return "Invalid Date"; // Handle invalid date format
-            }
-        }
+        //     string result = "";
 
-        public string EmployeeNoticePeriode(DateTime startDate, DateTime endDate)
-        {
-            // Calculate the difference between end date and start date
-            TimeSpan difference = endDate - startDate;
+        //     if (monthsRemaining > 2)
+        //     {
+        //         // If more than 2 months remaining, display in green
+        //         result = $"{monthsRemaining} bulan {daysInMonth}";
+        //     }
+        //     else if (monthsRemaining >= 1)
+        //     {
+        //         // If 1-3 months remaining, display in yellow
+        //         result = $"{monthsRemaining} bulan {daysInMonth} hari";
+        //     }
+        //     else
+        //     {
+        //         // If less than 1 month remaining, display in red
+        //         if (daysInMonth > 0)
+        //         {
+        //             result = $"{daysInMonth} hari";
+        //         }
+        //     }
 
-            // Extract the components of the difference
-            int days = difference.Days;
-            int hours = difference.Hours;
-            int minutes = difference.Minutes;
-            int seconds = difference.Seconds;
-
-            // Create a formatted string
-            string result = $"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds";
-
-            return result;
-        }
+        //     return result;
+        // }
 
 
         // Convert age to string
@@ -77,7 +73,9 @@ namespace RasManagement.Repository
 
         public List<SharedShortListVM> GetSharedShortList()
         {// Possible null reference argument.
-            var employees = _context.Accounts.Include(a => a.FormalEdus).Include(a => a.Placements).Include(a => a.Qualifications).Where(a => a.RoleId == "3")
+            var employees = _context.Accounts
+                    .Include(a => a.FormalEdus).Include(a => a.Placements).Include(a => a.Qualifications)
+                    .Where(a => a.RoleId == "3")
                     .Select(emp => new SharedShortListVM
                     {
                         AccountId = emp.AccountId,
@@ -93,9 +91,9 @@ namespace RasManagement.Repository
                         Ipk = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Ipk : "",
                         University = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].UniversityName : "",
                         Age = emp.Birthdate != null ? DateTime.Now.Year - emp.Birthdate.Value.Year + " Years Old" : "",
-                        WorkStatus = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].PlacementStatus : "",
-                        // NoticePeriode = EmployeeNoticePeriode(emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].StartDate: "",
-                        //                                     emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].StartDate: ""),
+                        WorkStatus = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].PlacementStatus : "Idle",
+                        endDate = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].EndDate : null,
+                        NoticePeriode = null,
                         FinancialIndustry = emp.FinancialIndustry,
                         CvBerca = "https://localhost:7109/GenerateCv/Index?accountId=" + emp.AccountId,
 
@@ -111,7 +109,7 @@ namespace RasManagement.Repository
                 Education = non.Education,
                 Ipk = non.Ipk,
                 University = non.University,
-                Age = non.Birthdate,
+                Age = non.Birthdate != "" ? non.Birthdate + " Years Old" : "",
                 ExperienceInYear = non.ExperienceInYear,
                 WorkStatus = non.WorkStatus,
                 NoticePeriode = non.NoticePeriode,
@@ -139,34 +137,14 @@ namespace RasManagement.Repository
             return save;
         }
 
-        /*    public async Task<int> UpdateNonRAS(NonRasCandidate nonRasCandidate)
-            {
-                var nonRas = await _context.NonRasCandidates.FindAsync(nonRasCandidate.NonRasId);
+        public int Delete(int key)
+        {
+            var nonras = _context.NonRasCandidates.Find(key);
 
-                if (nonRas != null)
-                {
+            nonras.isDeleted = true;
+            _context.NonRasCandidates.Update(nonras);
+            return _context.SaveChanges();
 
-                    _context.NonRasCandidates.Update(nonRasCandidate);
-
-                    // Simpan perubahan ke database
-                    try
-                    {
-                        return await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        // Tangani kesalahan jika diperlukan
-                        Console.WriteLine($"Error updating data: {ex.Message}");
-                        return 0; // Atau return -1 atau kode yang sesuai untuk menandakan kesalahan
-                    }
-                }
-                else
-                {
-                    // Tidak ditemukan akun dengan AccountId yang sesuai
-                    return 0; // Atau kode lain yang sesuai
-                }
-
-            }*/
-
+        }
     }
 }

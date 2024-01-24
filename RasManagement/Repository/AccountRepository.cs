@@ -25,13 +25,12 @@ namespace RasManagement.Repository
             
             if (countAccount == null || !countAccount.AccountId.StartsWith("RAS"+currentDate))
             {
-              
-                newNIK = "RAS"+currentDate + "001";
+
+                newNIK = "RAS" + currentDate + "001";
             } else{
-                 var nikLastData = countAccount.AccountId;
-                string lastThree = nikLastData.Substring(nikLastData.Length - 3);
-                int nextSequence = int.Parse(lastThree) + 1;
-                newNIK = "RAS"+currentDate + nextSequence.ToString("000");
+                string lastTwoDigits = countAccount.AccountId.Substring(countAccount.AccountId.Length - 2);
+                int incrementedNumber = int.Parse(lastTwoDigits) + 1;
+                newNIK = "RAS" + incrementedNumber;
             }
 
 
@@ -370,13 +369,15 @@ namespace RasManagement.Repository
             string sql = "UPDATE Account " +
                          "SET Start_contract = @StartContract, " +
                          "    End_contract = @EndContract " +
+                         "    Position = @Position " +
                          "WHERE Account_Id = @AccountId";
 
             // Parameter untuk kueri SQL
             object[] parameters = {
                 new SqlParameter("@StartContract", contractVM.StartContract),
                 new SqlParameter("@EndContract", contractVM.EndContract),
-                new SqlParameter("@AccountId", contractVM.AccountId)
+                new SqlParameter("@AccountId", contractVM.AccountId),
+                new SqlParameter("@Position", contractVM.Position)
             };
 
             // Jalankan kueri SQL secara async
