@@ -269,7 +269,7 @@ function checkOverviewEmployee() {
             </div>
           </div>
           <div>
-          <div class="small text-gray-500">CV Employee - ${new Date().toLocaleDateString()}</div>
+          <div class="small text-gray-500">CV Employee</div>
             ${notif}
           </div>
         </div>`;
@@ -279,31 +279,33 @@ function checkOverviewEmployee() {
       if (notifLength == 0) {
         $("#noNotif").show();
         $("#notifCount").hide();
-      } else if (notifLength > 3) {
-        $("#noNotif").hide();
-        document.getElementById("notifCount").innerHTML = "3+";
-        var notifItem = document.getElementsByClassName("notification-item");
+      }
+      // else if (notifLength > 3) {
+      //   $("#noNotif").hide();
+      //   document.getElementById("notifCount").innerHTML = "3+";
+      //   var notifItem = document.getElementsByClassName("notification-item");
 
-        notification.innerHTML += `<span
-          class="dropdown-item text-center small text-dark-500"
-          id="showAllNotif" onclick="showAllNotification()">
-          Show All Notifications
-        </span>`;
+      //   notification.innerHTML += `<span
+      //     class="dropdown-item text-center small text-dark-500"
+      //     id="showAllNotif" onclick="showAllNotification()">
+      //     Show All Notifications
+      //   </span>`;
 
-        notification.innerHTML += `<span
-          class="dropdown-item text-center small text-dark-500"
-          id="hideAllNotif" onclick="hideAllNotification()">
-          Hide Notifications
-        </span>`;
-        $("#hideAllNotif").hide();
+      //   notification.innerHTML += `<span
+      //     class="dropdown-item text-center small text-dark-500"
+      //     id="hideAllNotif" onclick="hideAllNotification()">
+      //     Hide Notifications
+      //   </span>`;
+      //   $("#hideAllNotif").hide();
 
-        $("#showAllNotif").css("cursor", "pointer");
-        $("#hideAllNotif").css("cursor", "pointer");
-        for (let i = notifLength; i > 3; i--) {
-          notifItem[i - 1].classList.remove("d-flex");
-          notifItem[i - 1].style.display = "none";
-        }
-      } else {
+      //   $("#showAllNotif").css("cursor", "pointer");
+      //   $("#hideAllNotif").css("cursor", "pointer");
+      //   for (let i = notifLength; i > 3; i--) {
+      //     notifItem[i - 1].classList.add("d-none");
+      //     notifItem[i - 1].classList.remove("d-flex");
+      //   }
+      // }
+      else {
         $("#noNotif").hide();
         document.getElementById("notifCount").innerHTML = notifLength;
       }
@@ -318,11 +320,12 @@ function showAllNotification() {
 
   for (let i = notifLength; i > 3; i--) {
     notifItem[i - 1].classList.add("d-flex");
-    notifItem[i - 1].style.display = "block";
+    // notifItem[i - 1].style.display = "block";
   }
 
-  $("#alertNotif").trigger("click");
-  $("#alertNotif").show();
+  $("#btnBell").trigger("click");
+  $("#btnBell").classList.add("show");
+  $("#alertNotif").classList.add("show");
 }
 
 function hideAllNotification() {
@@ -333,9 +336,10 @@ function hideAllNotification() {
 
   for (let i = notifLength; i > 3; i--) {
     notifItem[i - 1].classList.remove("d-flex");
-    notifItem[i - 1].style.display = "none";
+    notifItem[i - 1].classList.add("d-none");
   }
 
-  $("#alertNotif").trigger("click");
-  $("#alertNotif").show();
+  $("#btnBell").trigger("click");
+  $("#btnBell").classList.add("show");
+  $("#alertNotif").classList.add("show");
 }

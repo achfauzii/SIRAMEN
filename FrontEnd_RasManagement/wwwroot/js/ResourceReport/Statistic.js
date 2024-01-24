@@ -43,8 +43,15 @@ $(document).ready(function () {
                     data: countChart,
                     backgroundColor: [
                         '#FF6384',
-                        '#36A2EB',
+                        '#1261ff',
                         '#FFCE56',
+                        '#4BC0C7',
+                        '#9966FF',
+                        '#FF9933',
+                        '#669966',
+                        '#FF6666',
+                        '#3366CC',
+                        '#FFCC66'
                     ],
                     hoverOffset: 10,
                     weight: 50,
