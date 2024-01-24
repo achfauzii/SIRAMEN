@@ -107,7 +107,7 @@ $(document).ready(function () {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       },
-
+      
       initComplete: function () {
         this.api()
           .columns()

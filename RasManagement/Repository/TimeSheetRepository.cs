@@ -58,7 +58,7 @@ namespace RasManagement.Repository
                     .Select(flagCount => new
                     {
                         title = $"{flagCount.Flag}:{flagCount.Count}",
-                        description = string.Join(", ", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => ts.Account.Fullname)),
+                        description = $"<ol>{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"<li>{ts.Account.Fullname}</li>"))}</ol>",
                         start = dayGroup.Key.Date,
                         allDay = true,
                         //flag = flagCount.Flag,
@@ -80,7 +80,7 @@ namespace RasManagement.Repository
                         title = ts.Activity,
                         start = ts.Date,
                         description = ts.Account.Fullname,
-                        url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
+                        //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
                         allDay = true,
                         backgroundColor = GetColorByFlag(ts.Flag),
                         borderColor = GetColorByFlag(ts.Flag),
@@ -99,9 +99,9 @@ namespace RasManagement.Repository
                     return "#f39c12"; // Yellow
                 case "WFC":
                     return "#00a65a"; // Green
-                case "Sakit":
+                case "Sick":
                     return "#6c757d"; // Grey
-                case "Cuti":
+                case "Leave":
                     return "#6c757d"; // Grey
                 default:
                     return "#f56954"; // Red
