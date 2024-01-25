@@ -329,10 +329,14 @@ function SharedShortListCandidate(selectedCategory) {
           if (data == "" || data == null || data == " ") {
             return " ";
           }
-          if (data == "cvberca"){
+          if (data == "cvberca") {
             var cvberca =
-            // onclick ="loadData(\'' + accountId + '\')
-              '<a href ="#" onclick ="GetSetData(\'' +row.accountId+'\')"> ' + row.fullname + " Berca CV </a>";
+              // onclick ="loadData(\'' + accountId + '\')
+              '<a href ="#" onclick ="GetSetData(\'' +
+              row.accountId +
+              "')\"> " +
+              row.fullname +
+              " Berca CV </a>";
 
             return cvberca;
           }
@@ -358,17 +362,12 @@ function SharedShortListCandidate(selectedCategory) {
     searching: true,
   });
   table.columns.adjust().draw();
-
-
 }
 
-function GetSetData(accountId){
-
-  window.location.href = "/Share/GenerateCvShared";
-  sessionStorage.setItem('data', accountId);
- 
+function GetSetData(accountId) {
+  sessionStorage.setItem("data", accountId);
+  window.open("/Share/GenerateCvShared", "_blank");
 }
-
 
 function fetchCategories() {
   fetch("https://localhost:7177/api/Shortlist/Position", {
