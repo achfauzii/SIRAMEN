@@ -1,4 +1,5 @@
 ﻿using FrontEnd_RasManagement.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SelectPdf;
 
@@ -36,10 +37,10 @@ namespace FrontEnd_RasManagement.Controllers
             {
                 return RedirectToAction("Employee", "Dashboards");
             }
-
             //End Validate
             return View();
         }
+
     }
 
 

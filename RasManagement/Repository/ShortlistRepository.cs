@@ -57,7 +57,7 @@ namespace RasManagement.Repository
                         endDate = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].EndDate : null,
                         NoticePeriode = null,
                         FinancialIndustry = emp.FinancialIndustry,
-                        CvBerca = "https://localhost:7109/GenerateCv/Index?accountId=" + emp.AccountId,
+                        CvBerca = "cvberca",
 
 
                     }).ToList();

@@ -18,6 +18,7 @@ namespace RasManagement.Controllers
             this.projectHistoryRepository = projectHistoryRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetProjectByAccountId(string accountId)
         {

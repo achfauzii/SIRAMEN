@@ -20,6 +20,8 @@ namespace RasManagement.Controllers
             this.certificateRepository = certificateRepository;
         }
 
+        
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetCertificateByAccountId(string accountId)
         {
