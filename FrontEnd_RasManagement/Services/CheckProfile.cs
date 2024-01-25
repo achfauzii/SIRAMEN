@@ -36,7 +36,7 @@ namespace FrontEnd_RasManagement.Services
                         data.data.result.birthdate != null && data.data.result.birthdate != "" &&
                         data.data.result.religion != null && data.data.result.religion != "" &&
                         data.data.result.birthplace != null && data.data.result.birthplace != "" &&
-                        data.data.result.martialstatus != null && data.data.result.martialstatus != "" &&
+                        data.data.result.maritalstatus != null && data.data.result.maritalstatus != "" &&
                         data.data.result.nationality != null && data.data.result.nationality != "" &&
                         data.data.result.address != null && data.data.result.address != "")
                     {
