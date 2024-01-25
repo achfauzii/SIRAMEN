@@ -16,7 +16,7 @@ namespace FrontEnd_RasManagement.Controllers
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
 
-            if (role != "Admin" && role != "Super_Admin")
+            if (role != "Admin" && role != "Super_Admin" && role != "Manager" && role != "Trainer" && role != "Sales")
             {
                 return RedirectToAction("Login", "Accounts");
             }

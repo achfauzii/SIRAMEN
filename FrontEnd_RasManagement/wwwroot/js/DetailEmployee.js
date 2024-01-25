@@ -1,4 +1,11 @@
 ﻿$(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.add-new-placement').hide();
+        $('.editemp-placement').hide();
+    } 
+
   document.getElementById("backButton").addEventListener("click", function () {
     history.back();
   });
@@ -30,88 +37,87 @@
 });
 
 function placement() {
-  var urlParams = new URLSearchParams(window.location.search);
-  var accountId = urlParams.get("accountId");
-  $.ajax({
-    url:
-      "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
-      accountId,
-    type: "GET",
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-    success: function (result) {
-      var placements = result.data; //data yg didapat dari api
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
 
-      const options = { day: "numeric", month: "long", year: "numeric" };
+    var hideEditIcon = objDataToken.RoleId == 7; // true if RoleId is 7 (Manager)
 
-      for (var i = 0; i < placements.length; i++) {
-        var placement = placements[i];
-        var startDate_ = new Date(placement.startDate);
-        var endDate = "";
-        if (placement.endDate != null) {
-          var endDate_ = new Date(placement.endDate);
-          endDate = endDate_.toLocaleDateString("id-ID", options);
-        }
+    var urlParams = new URLSearchParams(window.location.search);
+    var accountId = urlParams.get("accountId");
+    $.ajax({
+        url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            var placements = result.data;
 
-        const startDate = startDate_.toLocaleDateString("id-ID", options);
+            const options = { day: "numeric", month: "long", year: "numeric" };
 
-        // Buat elemen baru untuk setiap data placement
-        var placementElement = document.createElement("div");
-        placementElement.innerHTML = `
-                 <div class="card-header py-2 d-flex">
-                    <span class="text-primary h-6 ">Placement Status : ${placement.placementStatus}<span id="fullName" class="text-dark"></span> </span>
-                    <span class="ml-auto">
-                        <!-- Button trigger modal -->
-                       
-                            <button class="btn btn-sm  pl-1 pr-1 pt-0 pb-0" style="background-color:#624DE3;" data-toggle="modal" data-target="#modalPlacement" onclick="GetById('${placement.accountId}','${placement.placementStatusId}')">
-                                <i class="fas fa-edit text-light"></i>
-                        </button>
+            for (var i = 0; i < placements.length; i++) {
+                var placement = placements[i];
+                var startDate_ = new Date(placement.startDate);
+                var endDate = "";
+                if (placement.endDate != null) {
+                    var endDate_ = new Date(placement.endDate);
+                    endDate = endDate_.toLocaleDateString("id-ID", options);
+                }
+
+                const startDate = startDate_.toLocaleDateString("id-ID", options);
+
+                // Buat elemen baru untuk setiap data placement
+                var placementElement = document.createElement("div");
+                placementElement.innerHTML = `
+                     <div class="card-header py-2 d-flex">
+                        <span class="text-primary h-6 ">Placement Status : ${placement.placementStatus}<span id="fullName" class="text-dark"></span> </span>
+                        <span class="ml-auto">
+                            <!-- Button trigger modal -->
+                           
+                                <button class="btn btn-sm  pl-1 pr-1 pt-0 pb-0 ${hideEditIcon ? 'd-none' : ''}" style="background-color:#624DE3;" data-toggle="modal" data-target="#modalPlacement" onclick="GetById('${placement.accountId}','${placement.placementStatusId}')">
+                                    <i class="fas fa-edit text-light editemp-placement"></i>
+                                </button>
+                        
                     
-                
-                </span>
-            </div>
-            <div class="card-body m-0 pt-2" id="placementData">
-                <div class="row">
-                    <div class="col" style="color: black">Company Name </div>
-                    <div class="col-10" id="companyName">: ${placement.companyName}</div>
+                    </span>
                 </div>
-                <div class="row">
-                    <div class="col" style="color: black">Job Role </div>
-                    <div class="col-10">: ${placement.jobRole} </div>
-                </div>
-                <div class="row">
-                    <div class="col" style="color: black">Start Date </div>
-                    <div class="col-10">: ${startDate}</div>
-                </div>  
-                <div class="row">
-                    <div class="col" style="color: black">End Date </div>
-                    <div class="col-10">: ${endDate} </div>
-                </div>
-                <div class="row">
-                    <div class="col  " style="color: black">Description </div>
-                    <div class="col-10">: ${placement.description} </div>
-                </div>
-                <div class="row">
-                    <div class="col  " style="color: black">PIC Name</div>
-                    <div class="col-10">: ${placement.picName} </div>
-                </div>
-                `;
-        // Tambahkan elemen placement ke div dengan id "placementData"
-        document.getElementById("placementData").appendChild(placementElement);
-        // Assuming you have an element with the id "companyName" for each placement
-        //document.getElementById('companyName' + i).textContent = placement.companyName;
-        // Similarly, you can update other elements for other placement properties
-      }
-    },
-
-    error: function (errormessage) {
-      alert(errormessage.responseText);
-    },
-  });
+                <div class="card-body m-0 pt-2" id="placementData">
+                    <div class="row">
+                        <div class="col" style="color: black">Company Name </div>
+                        <div class="col-10" id="companyName">: ${placement.companyName}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col" style="color: black">Job Role </div>
+                        <div class="col-10">: ${placement.jobRole} </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" style="color: black">Start Date </div>
+                        <div class="col-10">: ${startDate}</div>
+                    </div>  
+                    <div class="row">
+                        <div class="col" style="color: black">End Date </div>
+                        <div class="col-10">: ${endDate} </div>
+                    </div>
+                    <div class="row">
+                        <div class="col  " style="color: black">Description </div>
+                        <div class="col-10">: ${placement.description} </div>
+                    </div>
+                    <div class="row">
+                        <div class="col  " style="color: black">PIC Name</div>
+                        <div class="col-10">: ${placement.picName} </div>
+                    </div>
+                    `;
+                // Tambahkan elemen placement ke div dengan id "placementData"
+                document.getElementById("placementData").appendChild(placementElement);
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
+    });
 }
+
 
 function GetById(accountId, placementStatusId) {
   const startDate = document.getElementById("showStartDate");

@@ -6,7 +6,10 @@ var tablePDF;
 $(document).ready(function () {
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
-
+    var currentDate = new Date();
+    var month = currentDate.toISOString().slice(0, 7);
+    $('#month').val(month)
+    submitMonth(month);
     $("#timeSheetPdf").hide();
 
     //Employee Info
@@ -33,10 +36,11 @@ $(document).ready(function () {
     });
 });
 
-function submitMonth() {
+function submitMonth(month) {
+    
+    // $("#month").val()
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
-    month = $("#month").val();
     $("#timeSheetMonth").text(moment(month).format("MMMM YYYY"));
 
     if (month !== "") {
@@ -115,7 +119,12 @@ function submitMonth() {
             "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
             accountId +
             "&month=" +
-            month
+            month,
+           {
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+           } 
         )
             .then((response) => response.json())
             .then((result) => {
@@ -146,7 +155,11 @@ function submitMonth() {
 
                 fetch(
                     "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
-                    placementId
+                    placementId, {
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                        },
+                    }
                 )
                     .then((r) => r.json())
                     .then((res) => {

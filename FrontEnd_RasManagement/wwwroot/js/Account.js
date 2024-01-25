@@ -204,7 +204,22 @@ function kirimPengaduan() {
     timerProgressBar: true,
   });
 
+  var valid = true;
+    $("input[required-report],textarea[required-report]").each(function () {
+    var input = $(this);
 
+    if (!input.val()) {
+      input.addClass("is-invalid");
+      valid = false;
+    } else {
+      input.removeClass("is-invalid");
+    }
+  });
+
+  if (!valid) {
+    return;
+  }
+  
   const userInfo = getUserNameEmail()
 
   const data = {

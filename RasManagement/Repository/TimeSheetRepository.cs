@@ -58,9 +58,10 @@ namespace RasManagement.Repository
                     .Select(flagCount => new
                     {
                         title = $"{flagCount.Flag}:{flagCount.Count}",
-                        description = string.Join(", ", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => ts.Account.Fullname)),
+                        description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}</br>"))}",
                         start = dayGroup.Key.Date,
                         allDay = true,
+                        
                         //flag = flagCount.Flag,
                         backgroundColor = GetColorByFlag(flagCount.Flag),
                         borderColor = GetColorByFlag(flagCount.Flag),
@@ -70,24 +71,20 @@ namespace RasManagement.Repository
                 }
 
                 return resultWithTitles.Cast<object>().ToList();
-
-
-            }
-            else
-            {
-                var timeSheets = await context.TimeSheets
-                .Include(a => a.Account)
-                .Where(ts => ts.Date >= start
-                            && ts.Date <= end)
-                .Select(ts => new
-                {
-                    title = ts.Activity,
-                    start = ts.Date,
-                    description = ts.Account.Fullname,
-                    allDay = true,
-                    backgroundColor = GetColorByFlag(ts.Flag),
-                    borderColor = GetColorByFlag(ts.Flag),
-
+               
+                } else {
+                    var timeSheets = await context.TimeSheets
+                    .Include(a=> a.Account)
+                    .Where(ts => ts.Date >= start
+                                && ts.Date <= end)
+                    .Select(ts => new {
+                        title = ts.Activity,
+                        start = ts.Date,
+                        description = ts.Account.Fullname,
+                        //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
+                        allDay = true,
+                        backgroundColor = GetColorByFlag(ts.Flag),
+                        borderColor = GetColorByFlag(ts.Flag),
                 })
                 .ToListAsync();
                 return timeSheets;
@@ -103,9 +100,9 @@ namespace RasManagement.Repository
                     return "#f39c12"; // Yellow
                 case "WFC":
                     return "#00a65a"; // Green
-                case "Sakit":
+                case "Sick":
                     return "#6c757d"; // Grey
-                case "Cuti":
+                case "Leave":
                     return "#6c757d"; // Grey
                 default:
                     return "#f56954"; // Red

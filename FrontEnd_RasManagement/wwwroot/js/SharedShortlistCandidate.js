@@ -44,7 +44,7 @@ function SharedShortListCandidate(selectedCategory) {
   if ($.fn.DataTable.isDataTable("#resource")) {
     $("#resource").DataTable().destroy();
   }
-  var table = $("#resource").DataTable({
+  table = $("#resource").DataTable({
     fixedHeader: true,
     scrollX: true,
     processing: true,
@@ -77,7 +77,7 @@ function SharedShortListCandidate(selectedCategory) {
         } else {
           d.search.category = "";
         }
-        console.log(d);
+
         return JSON.stringify(d);
       },
     },
@@ -343,12 +343,13 @@ function SharedShortListCandidate(selectedCategory) {
     ],
     columnDefs: [
       {
-        targets: [2],
+        targets: 2,
         className: "customWrap",
       },
     ],
     searching: true,
   });
+  table.columns.adjust().draw();
 
   /*    $('#filterNavigation .nav-link').click(function () {
               $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
@@ -436,7 +437,7 @@ function createNavigation(categories) {
     link.addEventListener("click", function (e) {
       e.preventDefault();
       const selectedCategory = this.getAttribute("data-category");
-      console.log("Selected category:", selectedCategory);
+      // console.log("Selected category:", selectedCategory);
 
       navList.querySelectorAll(".nav-link").forEach((link) => {
         link.classList.remove("active");
@@ -502,7 +503,7 @@ function createDropdown(categories) {
     dropdownItem.addEventListener("click", function (e) {
       e.preventDefault();
       const selectedCategory = this.textContent;
-      console.log("Selected category:", selectedCategory);
+      // console.log("Selected category:", selectedCategory);
 
       SharedShortListCandidate(selectedCategory);
     });

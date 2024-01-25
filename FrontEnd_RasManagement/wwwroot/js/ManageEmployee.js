@@ -42,6 +42,12 @@ $(document).ajaxComplete(function () {
 });
 
 $(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.edit-contract-emp').hide();
+    } 
+
   $(
     "input[required], input[required_], input[requiredContract], select[required], select[required_]"
   ).each(function () {
@@ -107,7 +113,7 @@ $(document).ready(function () {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       },
-
+      
       initComplete: function () {
         this.api()
           .columns()
@@ -153,9 +159,15 @@ $(document).ready(function () {
               var icon =
                 '<div class="row"><div class="col-4 text-left mr-5">' +
                 data +
-                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit btn-edit-status" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
                 row.accountId +
-                "')\"></i>";
+                    "')\"></i>";
+
+                // Validasi manager hide action (Only View)
+                var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+                if (objDataToken.RoleId == 7) {
+                    $('.btn-edit-status, .edit').hide();
+                }
 
               $(document).on("mouseover", ".row", function () {
                 $(this).find("i.edit").css("visibility", "visible");
@@ -205,9 +217,16 @@ $(document).ready(function () {
             return badgeContainer.html();
           },
         },
-        {
+          {
+            data: "level",
           render: function (data, type, row) {
             var levelStatus = row.level;
+
+              // Validasi manager hide action (Only View)
+              var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+              if (objDataToken.RoleId == 7) {
+                  return data;
+              }
 
             if (levelStatus === "Fresh Graduate") {
               return (
@@ -246,24 +265,14 @@ $(document).ready(function () {
         {
           data: "financialIndustry",
           render: function (data, type, row) {
-            if (type === "display" || type === "filter") {
-              // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-              var checkTrue =
-                '<i class="fas fa-check-circle" style="color: #0ba80b;"></i>';
-              var checkFalse =
-                '<i class="fas fa-times-circle" style="color: #ee463a;"></i>';
-
-              if (data === "true" || data === "True") {
-                return '<div class="text-center">' + checkTrue + "</div>";
-              } else if (data === "false" || data === "False") {
-                return '<div class="text-center">' + checkFalse + "</div>";
-              }
-              return " ";
-            }
-
-            // Untuk tipe data lain, kembalikan data aslinya
-            return data;
-          },
+                if (type === 'display') {
+                    // Jika data bernilai true, tambahkan atribut checked
+                    var isChecked = data === "true" ? 'checked' : '';
+                    return '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' + isChecked + '>';
+                }
+                return data;
+            },
+            className: "text-center",
         },
         {
           render: function (data, type, row) {
@@ -416,15 +425,16 @@ $(document).ready(function () {
               '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
-              '<a href="#" class="ml-2 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
+              '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
               row.accountId +
               '\')"><i class="far fa-calendar-check"></i></a>' +
-              '<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
+              '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
               row.accountId +
               '\')"><i class="far fa-edit"></i></a>' +
               "</div>"
             );
-          },
+            },
+            //visible: objDataToken.RoleId != 7,
         },
       ],
       columnDefs: [
@@ -465,6 +475,38 @@ $(document).ready(function () {
           });
       },
     });
+
+
+//Check Box Financial Industry
+    $('#dataTableEmployee').on('change', '#financialIndustryCheck', function () {
+        var rowIndex = $(this).closest('tr').index(); 
+        var isChecked = $(this).prop('checked'); 
+   
+
+        var rowData = table.row(rowIndex).data();
+        var financialIndustryValue = { financialIndustry: isChecked.toString() };
+
+        console.log(financialIndustryValue);
+        $.ajax({
+            url: "https://localhost:7177/api/Employees/" + rowData.accountId,
+            type: "PUT",
+            data: JSON.stringify(financialIndustryValue),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                if (result.status = 200) {
+                    const logMessage = `Has change financial Industry ${rowData.accountId}, to FinancialIndustry : ${isChecked.toString()}`;
+                    SaveLogUpdate(logMessage);
+                }
+            
+               
+            },
+        });
+    });
+
+
 
   $("#resetFilters").on("click", function () {
     // Reset input pencarian dan filter DataTable
@@ -616,11 +658,8 @@ function SaveTurnOver() {
               Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
           }).then((updateResult) => {
-            if (updateResult.status === 200) {
-              // Handle the success of roleId update if needed
-            } else {
-              // Handle any errors that occur during roleId update
-            }
+              const logMessage = `Has turn over employee Id ${TurnOver.accountId}, status ${TurnOver.status}, date : ${TurnOver.exitDate} `;
+              SaveLogUpdate(logMessage);
           });
         }
 
@@ -1189,7 +1228,7 @@ function UpdateLevel() {
   accountId = $("#accountLevel").val();
   level = $("#levelchange").val();
   levelData = { level: level };
-
+    
   $.ajax({
     url: "https://localhost:7177/api/Employees/" + accountId,
     type: "PUT",
@@ -1198,7 +1237,8 @@ function UpdateLevel() {
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-    success: function (result) {
+      success: function (result) {
+          console.log(result);
       // Handle success, for example, close the modal
       $("#modalLevel").modal("hide");
       if (result.status == 200) {

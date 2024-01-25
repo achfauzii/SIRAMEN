@@ -7,6 +7,9 @@
     else if (objDataToken.RoleId == 6) {
         hideElementBasedOnRoleSales(objDataToken.RoleId);
     }
+    else if (objDataToken.RoleId == 7) {
+        hideElementBasedOnRoleManager(objDataToken.RoleId);
+    }
     else {
         return;
     }
@@ -56,6 +59,11 @@ function hideElementBasedOnRoleSales() {
     manageDepartmentMenu.style.display = 'none';
 
 
+}
+
+function hideElementBasedOnRoleManager() {
+    const createAccountMenu = document.getElementById('createAccountMenu');
+    createAccountMenu.style.display = 'none';
 }
 
 

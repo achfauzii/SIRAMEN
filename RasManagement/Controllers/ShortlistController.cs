@@ -26,6 +26,7 @@ namespace RasManagement.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet("Position")]
         public async Task<IActionResult> Position()
         {
