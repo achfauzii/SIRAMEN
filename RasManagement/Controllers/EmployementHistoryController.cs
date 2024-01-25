@@ -19,6 +19,7 @@ namespace RasManagement.Controllers
             this.employmentHistoryRepository = employmentHistoryRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetEmploymentByAccountId(string accountId)
         {

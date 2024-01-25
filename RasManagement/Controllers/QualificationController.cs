@@ -18,6 +18,7 @@ namespace RasManagement.Controllers
             this.qualificationRepository = qualificationRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetQualificationByAccountId(string accountId)
         {

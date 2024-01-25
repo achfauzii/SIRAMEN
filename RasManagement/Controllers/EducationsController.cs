@@ -19,6 +19,7 @@ namespace RasManagement.Controllers
             this.educationRepository = educationRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetEducationByAccountId(string accountId)
         {
