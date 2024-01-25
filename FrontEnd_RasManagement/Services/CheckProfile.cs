@@ -33,7 +33,7 @@ namespace FrontEnd_RasManagement.Services
 
 
                     if (data.data.result.nickname != null && data.data.result.nickname != "" &&
-                        data.data.result.birthdate != null && data.data.result.birthdate != "" &&
+                        data.data.result.birthdate != null &&
                         data.data.result.religion != null && data.data.result.religion != "" &&
                         data.data.result.birthplace != null && data.data.result.birthplace != "" &&
                         data.data.result.maritalstatus != null && data.data.result.maritalstatus != "" &&
