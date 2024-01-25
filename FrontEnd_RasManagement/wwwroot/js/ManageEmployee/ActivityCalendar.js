@@ -11,7 +11,20 @@ $(function () {
         eventDidMount:  function (info) {
             updatePopoverContent(info);
         },
-      
+        // events: [
+        //   {
+        //     title: 'All Day Event',
+        //     start: '2024-01-21',
+        //     description: 'description1</br>767676767676',
+        //     allDay: true,
+        //   },
+        //   {
+        //     title: 'Long Event',
+        //     description: '<ul><li>ina</li><li>fauuad</li></ul>',
+        //     start: '2024-01-20',
+        //     allDay: true,
+        //   },
+        // ],
         events: function (info, successCallback, failureCallback) {
           let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
           let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
@@ -35,8 +48,6 @@ $(function () {
             }
         });
     },
-
-     
       
   });
   function updatePopoverContent(info) {
@@ -47,13 +58,14 @@ $(function () {
 
     $(info.el).popover({
         title: title,
+        html: true,
         placement: 'bottom',
         content: content,
         trigger: 'hover',
         container: 'body',
     });
-}
+  }
+
   calendar.render();
-  // $('#calendar').fullCalendar()
 
 });

@@ -57,8 +57,8 @@ namespace RasManagement.Repository
 
                     .Select(flagCount => new
                     {
-                        title = $"{flagCount.Flag}:{flagCount.Count}",
-                        description = $"<ol>{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"<li>{ts.Account.Fullname}</li>"))}</ol>",
+                        title = $"{flagCount.Flag} : {flagCount.Count}",
+                        description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}<br>"))}",
                         start = dayGroup.Key.Date,
                         allDay = true,
                         //flag = flagCount.Flag,
@@ -71,7 +71,8 @@ namespace RasManagement.Repository
 
                 return resultWithTitles.Cast<object>().ToList();
                
-                } else {
+                } 
+                else {
                     var timeSheets = await context.TimeSheets
                     .Include(a=> a.Account)
                     .Where(ts => ts.Date >= start
