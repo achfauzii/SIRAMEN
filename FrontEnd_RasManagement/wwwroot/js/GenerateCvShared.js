@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     // Mendapatkan nilai parameter accountId dari URL
     $("#backButton").on("click", function () {
         history.back(); // Go back to the previous page
@@ -8,17 +8,16 @@
 
 function loadData() {
     $("#loader").show();
-
-    var userRole = getUserRole();
     var accountId;
 
-    if (userRole === 3) {
-        accountId = getAccountIdFromToken();
-    } else {
-        var urlParams = new URLSearchParams(window.location.search);
-        accountId = urlParams.get("accountId");
-    }
   
+    accountId = sessionStorage.getItem("data")
+    var sideBarHide = document.getElementById('accordionSidebar');
+    var navBarHide = document.querySelector('nav');
+    // console.log(accountId)
+    sideBarHide.style.display = 'none';
+    navBarHide.style.display = 'none';
+    
     $.ajax({
         url:
             "https://localhost:7177/api/Employees/accountId?accountId=" +
@@ -389,28 +388,4 @@ function loadData() {
         },
     });
     $("#loader").hide();
-}
-function getAccountIdFromToken() {
-    var token = sessionStorage.getItem("Token");
-    if (token) {
-        var base64Url = token.split(".")[1];
-        var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        var payload = JSON.parse(atob(base64));
-
-        return payload.AccountId;
-    }
-
-    return null;
-}
-function getUserRole() {
-    var token = sessionStorage.getItem("Token");
-    if (token) {
-        var base64Url = token.split(".")[1];
-        var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        var payload = JSON.parse(atob(base64));
-
-        return parseInt(payload.RoleId, 10);
-    }
-
-    return null;
 }
