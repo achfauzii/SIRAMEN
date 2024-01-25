@@ -77,7 +77,7 @@ function SharedShortListCandidate(selectedCategory) {
         } else {
           d.search.category = "";
         }
-        // console.log(d);
+        console.log(d);
         return JSON.stringify(d);
       },
     },

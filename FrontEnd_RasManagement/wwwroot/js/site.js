@@ -211,6 +211,12 @@ function SendAnnouncement() {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
           },
+          beforeSend: function () {
+            $("#loader").show();
+          },
+          complete: function () {
+            $("#loader").hide();
+          },
           success: function (d) {
             Toast.fire({
               icon: "success",
@@ -311,6 +317,12 @@ function SendAnnouncement() {
 
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
+          },
+          beforeSend: function () {
+            $("#loader").show();
+          },
+          complete: function () {
+            $("#loader").hide();
           },
         }).then((result) => {
           Toast.fire({

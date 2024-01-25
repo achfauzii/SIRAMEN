@@ -1,92 +1,94 @@
 var table = null;
 $(document).ready(function () {
-    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+  var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
-    if (objDataToken.RoleId == 7) {
-        $('.btn-add-client').hide();
-        $('.btn-new-position').hide();
-    } 
+  if (objDataToken.RoleId == 7) {
+    $(".btn-add-client").hide();
+    $(".btn-new-position").hide();
+  }
 
-    table = $("#tbDataCleint").DataTable({
-        responsive: true,
+  table = $("#tbDataCleint").DataTable({
+    responsive: true,
 
-        ajax: {
-            url: "https://localhost:7177/api/ClientName",
-            type: "GET",
-            datatype: "json",
-            dataSrc: "data",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
+    ajax: {
+      url: "https://localhost:7177/api/ClientName",
+      type: "GET",
+      datatype: "json",
+      dataSrc: "data",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    },
+
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + meta.settings._iDisplayStart + 1 + ".";
         },
+      },
+      { data: "nameOfClient" },
+      {
+        // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
+        data: null,
+        render: function (data, type, row) {
+          var modalId = "modal-edit-" + data.id;
+          var deleteId = "modal-delete-" + data.id;
 
-        columns: [
-            {
-                data: null,
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
-                },
-            },
-            { data: "nameOfClient" },
-            {
-                // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
-                data: null,
-                render: function (data, type, row) {
-                    var modalId = "modal-edit-" + data.id;
-                    var deleteId = "modal-delete-" + data.id;
+          // Menyembunyikan ikon edit dan delete jika roleid adalah 7 (Manager)
+          var hideIcons = objDataToken.RoleId == 7 ? "d-none" : "";
 
-                    // Menyembunyikan ikon edit dan delete jika roleid adalah 7 (Manager)
-                    var hideIcons = objDataToken.RoleId == 7 ? 'd-none' : '';
-
-                    return (
-
-                        '<a class="text-warning '+ hideIcons +'" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-                        row.id +
-                        ')"><i class="fa fa-edit edit-client"></i></a>' +
-                        "&nbsp;" +
-                        '<a class="text-info" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return detailPosition(' +
-                        row.id +
-                        ')"><i class="fas fa-info-circle"></i></i></a>' +
-                        "&nbsp;" +
-                        '<a class="text-danger ' + hideIcons + '" data-placement="right" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
-                        row.id +
-                        "', '" +
-                        row.nameOfClient +
-                        "'" +
-                        ')"><i class="fa fa-trash delete-client"></i></a>'
-                    );
-                },
-            },
-        ],
-
-        order: [[1, "desc"]],
-        columnDefs: [
-            {
-                targets: [0, 2],
-                orderable: false,
-                //visible: objDataToken.RoleId != 7,
-            },
-        ],
-        drawCallback: function (settings) {
-            var api = this.api();
-            var rows = api.rows({ page: "current" }).nodes();
-            var currentPage = api.page.info().page;
-            var startNumber = currentPage * api.page.info().length + 1;
-
-            api
-                .column(0, { page: "current" })
-                .nodes()
-                .each(function (cell, i) {
-                    cell.innerHTML = startNumber + i;
-                });
+          return (
+            '<a class="text-warning ' +
+            hideIcons +
+            '" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+            row.id +
+            ')"><i class="fa fa-edit edit-client"></i></a>' +
+            "&nbsp;" +
+            '<a class="text-info" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return detailPosition(' +
+            row.id +
+            ')"><i class="fas fa-info-circle"></i></i></a>' +
+            "&nbsp;" +
+            '<a class="text-danger ' +
+            hideIcons +
+            '" data-placement="right" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
+            row.id +
+            "', '" +
+            row.nameOfClient +
+            "'" +
+            ')"><i class="fa fa-trash delete-client"></i></a>'
+          );
         },
-    });
+      },
+    ],
+
+    order: [[1, "desc"]],
+    columnDefs: [
+      {
+        targets: [0, 2],
+        orderable: false,
+        //visible: objDataToken.RoleId != 7,
+      },
+    ],
+    drawCallback: function (settings) {
+      var api = this.api();
+      var rows = api.rows({ page: "current" }).nodes();
+      var currentPage = api.page.info().page;
+      var startNumber = currentPage * api.page.info().length + 1;
+
+      api
+        .column(0, { page: "current" })
+        .nodes()
+        .each(function (cell, i) {
+          cell.innerHTML = startNumber + i;
+        });
+    },
+  });
 });
 
 function hideButtonAndActionForManager() {
-    $('.btn-add-client').hide();
+  $(".btn-add-client").hide();
 }
-
 
 function Save() {
   var isValid = true;
@@ -207,7 +209,6 @@ function Update() {
       isValid = false;
     } else {
       element.next(".error-message").hide();
-
     }
   });
 
@@ -283,7 +284,6 @@ function Delete(id, nameOfClient) {
           SaveLogUpdate(logMessage);
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           $("#tbDataCleint").DataTable().ajax.reload();
-
         },
         error: function (errormessage) {
           Swal.fire("Error!", "Cant Delete, client Is Not Empty", "error");
@@ -356,9 +356,12 @@ function detailPosition(id) {
                                                                            }</h5>
                                                                 </div>
                                                                 <div class="col text-right">
-                                                                    ${objDataToken.RoleId != 7 ?
-                  `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id
-                                                                         })" title="Detail Employee"><i class="far fa-edit"></i></a>` : ''}
+                                                                    ${
+                                                                      objDataToken.RoleId !=
+                                                                      7
+                                                                        ? `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>`
+                                                                        : ""
+                                                                    }
                                                                 </div>
                                                               
                                                        </div>
@@ -429,9 +432,12 @@ function detailPosition(id) {
                                                                            }</h5>
                                                                 </div>
                                                                 <div class="col text-right">
-                                                                     ${objDataToken.RoleId != 7 ?
-                        `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id
-                        })" title="Detail Employee"><i class="far fa-edit"></i></a>` : ''}
+                                                                     ${
+                                                                       objDataToken.RoleId !=
+                                                                       7
+                                                                         ? `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>`
+                                                                         : ""
+                                                                     }
                                                                 </div>
                                                               
                                                        </div>
@@ -496,9 +502,12 @@ function detailPosition(id) {
                                                                            }</h5>
                                                                 </div>
                                                                 <div class="col text-right">
-                                                                     ${objDataToken.RoleId != 7 ?
-                      `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id
-                          })" title="Detail Employee"><i class="far fa-edit"></i></a>` : ''}
+                                                                     ${
+                                                                       objDataToken.RoleId !=
+                                                                       7
+                                                                         ? `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>`
+                                                                         : ""
+                                                                     }
                                                                 </div>
                                                               
                                                        </div>
@@ -597,7 +606,7 @@ function GetByIdPosition(id) {
 }
 
 function updatePosition() {
-    debugger;
+  debugger;
   var form = document.querySelector("#positionModal .needs-validation");
 
   if (form.checkValidity() === false) {
@@ -606,7 +615,7 @@ function updatePosition() {
     form.classList.add("was-validated");
     return;
   }
-    const clientId = document.getElementById("client_Id").value;
+  const clientId = document.getElementById("client_Id").value;
   const positionId = document.getElementById("positionId").value;
   const positionName = document.getElementById("positionName").value;
   const positionLevel = document.getElementById("positionLevel").value;
@@ -621,9 +630,9 @@ function updatePosition() {
     quantity: positionQuantity,
     status: positionStatus,
     notes: positionNotes,
-    clientId:clientId
+    clientId: clientId,
   };
-    console.log(position);
+  console.log(position);
   fetch("https://localhost:7177/api/Position", {
     method: "PUT",
     headers: {
@@ -702,7 +711,7 @@ function savePosition() {
     clientId: clientId,
   };
 
-  fetch("https://localhost:7177/api/Position", {
+  fetch("https://localhost:7177/api/Position/Insert", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -711,7 +720,15 @@ function savePosition() {
     body: JSON.stringify(newPositionData),
   })
     .then((response) => {
-      if (!response.ok) {
+      if (response.status === 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          html: "Position in this Client Already Exists.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.json();
@@ -725,7 +742,7 @@ function savePosition() {
           showConfirmButton: false,
           timer: 1500,
         });
-          const logMessage = `Has added position ${positionName} in Client Id ${newPositionData.clientId}`;
+        const logMessage = `Has added position ${positionName} in Client Id ${newPositionData.clientId}`;
         SaveLogUpdate(logMessage);
 
         $("#positionModal").modal("hide");
