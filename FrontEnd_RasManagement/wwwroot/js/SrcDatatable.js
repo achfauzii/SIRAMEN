@@ -235,7 +235,7 @@ function Src(selectedCategory) {
                     if (type === "display" || type === "filter") {
                         // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
                         var icon =
-                            '<div class="row"><div class="col-4 text-left mr-5">' +
+                            '<div class="row"><div class="col-4 text-left mr-4">' +
                             data +
                             '</div><div class="col text-right"><i class="far fa-edit edit" style="color: #0011ff; margin-right: 10px; visibility: hidden;"></i>' +
                             '<i class="far fa-trash-alt" onclick="return Delete(\'' +
