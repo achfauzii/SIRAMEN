@@ -22,7 +22,8 @@ namespace RasManagement.Controllers
         {
             this.nonFormalEduRepository = nonFormalEduRepository;
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetByAccountId(string accountId)
         {
