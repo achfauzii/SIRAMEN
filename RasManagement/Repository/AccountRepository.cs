@@ -30,7 +30,7 @@ namespace RasManagement.Repository
             } else{
                 string lastTwoDigits = lastAccount.AccountId.Substring(lastAccount.AccountId.Length - 2);
                 int incrementedNumber = int.Parse(lastTwoDigits) + 1;
-                newNIK = "RAS" + incrementedNumber;
+                newNIK = "RAS" + currentDate + incrementedNumber;
             }
 
 
