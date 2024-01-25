@@ -14,5 +14,6 @@
         public string? Address { get; set; }
         public string? Image { get; set; }
         public string? level { get; set; }
+        public string? financialIndustry { get; set; }
     }
 }
