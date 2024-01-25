@@ -14,27 +14,11 @@ function loadData() {
 
     if (userRole === 3) {
         accountId = getAccountIdFromToken();
-    } else if(userRole === 2){
+    } else {
         var urlParams = new URLSearchParams(window.location.search);
         accountId = urlParams.get("accountId");
-        // var sideBarHide = document.getElementById('accordionSidebar');
-        // var navBarHide = document.querySelector('nav');
-        // sideBarHide.style.display = 'none';
-        // navBarHide.style.display = 'none';
     }
-    else {
-        // var dataAccountId = { data : "accountId" }
-        // // var urlParams = new URLSearchParams(window.location.search);
-        // accountId = dataAccountId.data;
-        // var urlParams = new URLSearchParams(window.location.search);
-        // accountId = urlParams.get("accountId");
-        accountId = sessionStorage.getItem("data")
-        var sideBarHide = document.getElementById('accordionSidebar');
-        var navBarHide = document.querySelector('nav');
-        // console.log(accountId)
-        sideBarHide.style.display = 'none';
-        navBarHide.style.display = 'none';
-    }
+  
     $.ajax({
         url:
             "https://localhost:7177/api/Employees/accountId?accountId=" +
