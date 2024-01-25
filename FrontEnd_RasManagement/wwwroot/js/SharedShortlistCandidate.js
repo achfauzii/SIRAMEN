@@ -37,6 +37,7 @@ $(document).ready(function () {
   // SharedShortListRAS("all");
   SharedShortListCandidate("all");
   fetchCategories();
+  // loadData(accountId);
 });
 
 function SharedShortListCandidate(selectedCategory) {
@@ -77,8 +78,6 @@ function SharedShortListCandidate(selectedCategory) {
         } else {
           d.search.category = "";
         }
-
-      
         return JSON.stringify(d);
       },
     },
@@ -329,6 +328,17 @@ function SharedShortListCandidate(selectedCategory) {
           if (data == "" || data == null || data == " ") {
             return " ";
           }
+          if (data == "cvberca") {
+            var cvberca =
+              // onclick ="loadData(\'' + accountId + '\')
+              '<a href ="#" onclick ="GetSetData(\'' +
+              row.accountId +
+              "')\"> " +
+              row.fullname +
+              " Berca CV </a>";
+
+            return cvberca;
+          }
           if (type === "display" || type === "filter") {
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
             var checkTrue =
@@ -351,17 +361,12 @@ function SharedShortListCandidate(selectedCategory) {
     searching: true,
   });
   table.columns.adjust().draw();
-
-  /*    $('#filterNavigation .nav-link').click(function () {
-              $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
-              $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
-      
-              // Mereload data DataTables dengan kategori yang baru
-              table.ajax.reload();
-          });*/
 }
 
-// Fungsi untuk mengambil data kategori dari API
+function GetSetData(accountId) {
+  sessionStorage.setItem("data", accountId);
+  window.open("/Share/GenerateCvShared", "_blank");
+}
 
 function fetchCategories() {
   fetch("https://localhost:7177/api/Shortlist/Position", {
