@@ -54,7 +54,6 @@ namespace RasManagement.Controllers
             }
         }
 
-
         [HttpGet("TurnOff")]
         public async Task<IActionResult> TurnOff()
         {
@@ -70,6 +69,7 @@ namespace RasManagement.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public IActionResult Employees(string accountId)
         {

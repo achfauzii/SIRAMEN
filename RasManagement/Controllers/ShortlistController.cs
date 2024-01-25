@@ -226,6 +226,7 @@ namespace RasManagement.Controllers
                 .Take(request.Length)
                 .Select(e => new
                 {
+                    e.AccountId,
                     e.Fullname,
                     e.Position,
                     e.Skillset,
@@ -425,6 +426,8 @@ namespace RasManagement.Controllers
                 return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = delete });
             }
         }
+
+        
 
     }
 
