@@ -77,7 +77,7 @@ function SharedShortListCandidate(selectedCategory) {
         } else {
           d.search.category = "";
         }
-        console.log(d);
+
       
         return JSON.stringify(d);
       },
@@ -344,7 +344,7 @@ function SharedShortListCandidate(selectedCategory) {
     ],
     columnDefs: [
       {
-        targets: [2],
+        targets: 2,
         className: "customWrap",
       },
     ],
