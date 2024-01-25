@@ -80,7 +80,7 @@ namespace RasManagement.Repository
                     {
                         AccountId = emp.AccountId,
                         Fullname = emp.Fullname,
-                        Position = emp.Position,
+                        Position = emp.Position ?? "",
                         Skillset = emp.Qualifications.Count != 0 ? emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Framework
                                 + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].ProgrammingLanguage
                                 + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Database
