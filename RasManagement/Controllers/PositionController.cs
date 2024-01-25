@@ -30,5 +30,25 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
             }
         }
+
+        [HttpPost("Insert")]
+        public async Task<ActionResult> ClientName([FromBody] Position position)
+        {
+            if (position == null || string.IsNullOrWhiteSpace(position.PositionClient))
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Data Kosong atau hanya mengandung spasi", Data = position });
+            }
+
+            bool clientExists = await positionRepository.PositionNameIsExist(position.PositionClient, position.ClientId);
+
+            if (clientExists)
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Position in this Client Already Exists." });
+            }
+
+            var result = positionRepository.Insert(position);
+
+            return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = result });
+        }
     }
 }

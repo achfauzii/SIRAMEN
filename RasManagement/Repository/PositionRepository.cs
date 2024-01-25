@@ -17,5 +17,20 @@
 
             return positionClient;
         }
+
+        public async Task<bool> PositionNameIsExist(string name, int? clientId = null)
+        {
+            // Use AnyAsync to check if any department with the given name exists
+            var positionExists = await context.Positions.AnyAsync(a => a.PositionClient.ToLower() == name.ToLower() && a.ClientId == clientId);
+
+            return positionExists;
+        }
+        public int InsertPosition(Position position)
+        {
+            context.Positions.Add(position);
+            var insert = context.SaveChanges();
+            return insert;
+        }
+
     }
 }
