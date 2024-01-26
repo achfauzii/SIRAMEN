@@ -245,9 +245,10 @@ function checkOverviewEmployee() {
           emp.formalEdus.length == 0 ||
           emp.nonFormalEdus.length == 0 ||
           //Check Qualifications
-          emp.qualifications.framework == null ||
-          emp.qualifications.programmingLanguage == null ||
-          emp.qualifications.database == null ||
+          emp.qualifications.length == 0 ||
+          emp.qualifications.framework == "" ||
+          emp.qualifications.programmingLanguage == "" ||
+          emp.qualifications.database == "" ||
           //Check Certificate
           emp.certificates.length == 0 ||
           //Check Employeement History
