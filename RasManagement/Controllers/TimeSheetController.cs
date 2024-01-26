@@ -68,18 +68,28 @@ namespace RasManagement.Controllers
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
-            if (timeSheetRepository.IsDateUnique(timeSheet.AccountId, timeSheet.Date))
-            {
-                int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
+            try {
+                if (timeSheetRepository.IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+                {
+                    /* if( timeSheet.PlacementStatusId==0 || timeSheet.PlacementStatus == null)
+                     {
+                         return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Tanggal sudah digunakan untuk TimeSheet lain." });
+                     }*/
+                    int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
 
-                // If the operation is successful, return a 200 OK response
-                return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Ditambahkan", Data = addTimeSheetResult });
-            }
-            else
+                    // If the operation is successful, return a 200 OK response
+                    return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Ditambahkan", Data = addTimeSheetResult });
+                }
+                else
+                {
+                    // Handle the case where the date is not unique
+                    return Ok(new { status = HttpStatusCode.BadRequest, message = "Time Sheet with the same date already exists!" });
+                }
+            }catch(Exception ex)
             {
-                // Handle the case where the date is not unique
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Tanggal sudah digunakan untuk TimeSheet lain." });
+                return Ok(new { status = HttpStatusCode.NotFound, message = "Cannot add a timesheet, the placement field is null." });
             }
+           
         }
 
         /*[HttpGet("ByCurrentMonth")]
