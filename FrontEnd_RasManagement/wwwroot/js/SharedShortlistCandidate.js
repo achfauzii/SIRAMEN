@@ -78,7 +78,6 @@ function SharedShortListCandidate(selectedCategory) {
         } else {
           d.search.category = "";
         }
-
         return JSON.stringify(d);
       },
     },

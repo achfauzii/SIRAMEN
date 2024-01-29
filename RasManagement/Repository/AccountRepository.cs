@@ -19,18 +19,18 @@ namespace RasManagement.Repository
         {
            string currentDate = DateTime.Now.ToString("ddMMyy");
             string newNIK = "";
-            var countAccount = _context.Accounts.OrderByDescending(account => account.AccountId).FirstOrDefault();
-            
-            
-            
-            if (countAccount == null || !countAccount.AccountId.StartsWith("RAS"+currentDate))
+            var countAccount = _context.Accounts.Count();
+            var lastAccount = _context.Accounts.OrderByDescending(account => account.AccountId).FirstOrDefault();
+
+
+            if (countAccount == null || countAccount==0)
             {
 
                 newNIK = "RAS" + currentDate + "001";
             } else{
-                string lastTwoDigits = countAccount.AccountId.Substring(countAccount.AccountId.Length - 2);
+                string lastTwoDigits = lastAccount.AccountId.Substring(lastAccount.AccountId.Length - 2);
                 int incrementedNumber = int.Parse(lastTwoDigits) + 1;
-                newNIK = "RAS" + incrementedNumber;
+                newNIK = "RAS" + currentDate + incrementedNumber;
             }
 
 

@@ -235,84 +235,84 @@ function Update() {
 }
 
 function save() {
-  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const accid = decodedtoken.AccountId;
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
 
-  var TimeSheet = new Object();
-  TimeSheet.Date = $("#inputDate").val();
-  TimeSheet.Flag = $("#flag").val();
-  TimeSheet.AccountId = accid;
-  TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
-  TimeSheet.KnownBy = $("#knownBy").val();
-
-  if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
-    TimeSheet.Activity = "";
-    TimeSheet.Category = "";
-    TimeSheet.Status = "";
-  } else {
-    TimeSheet.Activity = $("#activity").val();
-    TimeSheet.Category = $("#category").val();
-    TimeSheet.Status = $("#status").val();
-  }
-
-  $.ajax({
-    type: "POST",
-    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
-    data: JSON.stringify(TimeSheet),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then(
-    (result) => {
-      console.log(result.status);
-      if (result.status == 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Data has been added!",
-          html:
-            TimeSheet.Flag === "Sick"
-              ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
-              : "",
-          showConfirmButton: true,
-          //timer: 5000,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-        clearScreen();
-      } else {
-        console.log(result.status);
-        Swal.fire({
-          icon: "warning",
-          title: "Data failed to added!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-      }
-      table.columns.adjust().draw();
-    },
-    (jqXHR, textStatus, errorThrown) => {
-      if (jqXHR.status === 400) {
-        Swal.fire({
-          icon: "warning",
-          title: "Failed",
-          text: "Time Sheet with the same date already exists!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Data failed to added!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
+    var TimeSheet = new Object();
+    TimeSheet.Date = $("#inputDate").val();
+    TimeSheet.Flag = $("#flag").val();
+    TimeSheet.AccountId = accid;
+    TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
+    TimeSheet.KnownBy = $("#knownBy").val();
+    
+    if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
+        TimeSheet.Activity = "";
+        TimeSheet.Category = "";
+        TimeSheet.Status = "";
+    } else {
+        TimeSheet.Activity = $("#activity").val();
+        TimeSheet.Category = $("#category").val();
+        TimeSheet.Status = $("#status").val();
     }
-  );
+
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+        data: JSON.stringify(TimeSheet),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (response) {
+            if (response.status === 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Data has been added!",
+                    html:
+                        TimeSheet.Flag === "Sick"
+                            ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
+                            : "",
+                    showConfirmButton: true,
+                })
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+            } else if (response.status === 400) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Time Sheet with the same date already exists!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+            } else if (response.status === 404) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Cannot add a timesheet, the placement field is null.",
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+            }
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: "warning",
+                title: "Failed",
+                text: "Cannot add a timesheet, the placement field is null.",
+                showConfirmButton: true,
+               
+            })
+            $("#timeSheetModal").modal("hide");
+            table.ajax.reload();
+        }
+    })
 }
+   
+
 
 function clearScreen() {
   $("#activity").val("");
