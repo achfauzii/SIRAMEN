@@ -1083,7 +1083,7 @@ function Save(accountId) {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        location.ajax.reload();
+          location.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to added", "error");
