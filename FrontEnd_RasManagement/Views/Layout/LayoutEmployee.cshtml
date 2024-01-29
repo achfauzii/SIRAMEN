@@ -305,6 +305,24 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
+                        <!-- Notification Icon Menu -->
+                        <li class="nav-item dropdown no-arrow mx-1 btnBell" id="btnBell">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter" id="notifCount"></span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in alertNotif" style="max-height: 480px; overflow: auto" id="alertNotif" aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Notification
+                                </h6>
+                                            
+                                <div class="m-0" id="notification">
+                                    <span class="dropdown-item text-center small text-dark-500" id="noNotif">No Notification</span>                                    
+                                </div>
+                            </div>
+                        </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -404,7 +422,7 @@
 
                     <form class="user" id="resetPassword">
                         <div class="form-label-group password-container">
-                            <input type="password" class="form-control form-control-user" id="currentPassword" placeholder="" req>
+                            <input type="password" class="form-control form-control-user" id="currentPassword" placeholder="" autocomplete="false" req>
                             <label for="currentPassword">Current Password</label>
                             <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('currentPassword')">
                                 <i class="far fa-eye"></i>
@@ -412,7 +430,7 @@
                             <span class="error-message pl-3 text-small`" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="form-label-group">
-                            <input type="password" class="form-control form-control-user" id="newPassword" name="newPassword" placeholder="" req>
+                            <input type="password" class="form-control form-control-user" id="newPassword" name="newPassword" placeholder="" autocomplete="false" req>
                             <label for="newPassword">New Password</label>
                             <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('newPassword')">
                                 <i class="far fa-eye"></i>
@@ -421,7 +439,7 @@
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="" req>
+                            <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="" autocomplete="false" req>
                             <label for="repeatPassword">Repeat Password</label>
                             <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('repeatPassword')">
                                 <i class="far fa-eye"></i>
