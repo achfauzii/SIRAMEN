@@ -121,6 +121,7 @@ $(document).ready(function () {
 });
 
 function getById(Id) {
+  clearScreen();
   $.ajax({
     url: "https://localhost:7177/api/TimeSheet/" + Id,
     type: "GET",
@@ -142,7 +143,6 @@ function getById(Id) {
 
       $("#timeSheetId").val(obj.id); //ngambil data dr api
       $("#lastPlacementId").val(obj.placementStatusId);
-      $("#activity").val(obj.activity);
       const date = formatDate(obj.date);
       $("#inputDate").val(date);
 
@@ -177,10 +177,17 @@ function Update() {
   if (!isValid) {
     return;
   }*/
+
+  var intActivityArray = document.getElementsByClassName("class-activity");
+    var intActivity = "";
+    for (var i = 0; i < intActivityArray.length; i += 1) {
+      intActivity += intActivityArray[i].value + "<br>";
+    }
+
   var TimeSheet = new Object();
   TimeSheet.Id = $("#timeSheetId").val();
   TimeSheet.Date = $("#inputDate").val();
-  TimeSheet.Activity = $("#activity").val();
+  TimeSheet.Activity = intActivity.substr(0, intActivity.length - 4);
   TimeSheet.Flag = $("#flag").val();
   TimeSheet.Category = $("#category").val();
   TimeSheet.Status = $("#status").val();
@@ -263,11 +270,11 @@ function save() {
         TimeSheet.Category = "";
         TimeSheet.Status = "";
     } else {
-        TimeSheet.Activity = intActivity;
+        TimeSheet.Activity = intActivity.substr(0, intActivity.length - 4);
         TimeSheet.Category = $("#category").val();
         TimeSheet.Status = $("#status").val();
     }
-
+    console.log(TimeSheet)
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
@@ -329,6 +336,7 @@ function save() {
 
 function clearScreen() {
   $(".div-activity").remove();
+  $(".remove-div").remove();
   clearProcess();
   $("#activity").val("");
   document.getElementById("flag").selectedIndex = 0;
@@ -373,21 +381,116 @@ function formatDate(date) {
 }
 
 function newActivity() {
-  $("#div-activ").append(`<textarea class="form-control mb-2 class-activity div-activity"  required style="height:40px; max-height: 100px"></textarea>`);
+  $("#div-activ").append(`  <div class="form-group div-activity " id="">
+  <label for="message-text" class="col-form-label">Activity</label>
+  
+  <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
+</div>
+<div class="row mb-2 remove-div">
+  <div class="col">
+      <select class="form-control form-control-sm" id="category" required>
+          <option select disabled>Choose category</option>
+          <option value="Meeting/Discussion">Meeting/Discussion</option>
+          <option value="Coding">Coding</option>
+          <option value="Testing">Testing</option>
+          <option value="UAT/SIT">UAT/SIT</option>
+          <option value="Ticketing">Ticketing</option>
+          <option value="Docummentation">Docummentation</option>
+          <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+          <option value="Support">Support</option>
+          <option value="Review">Review</option>
+          <option value="GoLive/Deploy">GoLive/Deploy</option>
+          <option value="Others">Others</option>
+      </select>
+  </div>
+  <div class="col">
+      <select class="form-control form-control-sm" id="status" required>
+          <option selected disabled>Choose status</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Pending">Pending</option>
+          <option value="Done">Done</option>
+          <option value="Need Approval">Need Approval</option>
+      </select>
+  </div>
+</div>
+<div class="form-group remove-div">
+  <input class="form-control form-control-sm" type="text" id="knownBy" placeholder="Known By" required>
+</div>`);
 }
 function setProcess(length) {
   for (let i = 0; i < length; i++) {
-    $("#div-activ").append(`<textarea class="form-control mb-2 class-activity div-activity"  required style="height:40px; max-height: 100px"></textarea>`);
+    $("#div-activ").append(`  <div class="form-group div-activity " id="">
+    <label for="message-text" class="col-form-label">Activity</label>
+    
+    <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
+</div>
+<div class="row mb-2 remove-div">
+    <div class="col">
+        <select class="form-control form-control-sm" id="category" required>
+            <option select disabled>Choose category</option>
+            <option value="Meeting/Discussion">Meeting/Discussion</option>
+            <option value="Coding">Coding</option>
+            <option value="Testing">Testing</option>
+            <option value="UAT/SIT">UAT/SIT</option>
+            <option value="Ticketing">Ticketing</option>
+            <option value="Docummentation">Docummentation</option>
+            <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+            <option value="Support">Support</option>
+            <option value="Review">Review</option>
+            <option value="GoLive/Deploy">GoLive/Deploy</option>
+            <option value="Others">Others</option>
+        </select>
+    </div>
+    <div class="col">
+        <select class="form-control form-control-sm" id="status" required>
+            <option selected disabled>Choose status</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Pending">Pending</option>
+            <option value="Done">Done</option>
+            <option value="Need Approval">Need Approval</option>
+        </select>
+    </div>
+</div>
+<div class="form-group remove-div">
+    <input class="form-control form-control-sm" type="text" id="knownBy" placeholder="Known By" required>
+</div>`);
   }
 }
 function clearProcess() {
-  $("#div-activ").append(`<div class="form-group div-activity" id="">
+  $("#div-activ").append(`  <div class="form-group div-activity " id="">
   <label for="message-text" class="col-form-label">Activity</label>
-  <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newActivity();">+ New </button>
+  <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" placeholder="text" onclick="newActivity();">+ New </button>
   <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
-
-  <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
-  <input class="form-control form-control-sm" type="text" id="lastPlacementId" hidden>
+</div>
+<div class="row mb-2 remove-div">
+  <div class="col">
+      <select class="form-control form-control-sm" id="category" required>
+          <option select disabled>Choose category</option>
+          <option value="Meeting/Discussion">Meeting/Discussion</option>
+          <option value="Coding">Coding</option>
+          <option value="Testing">Testing</option>
+          <option value="UAT/SIT">UAT/SIT</option>
+          <option value="Ticketing">Ticketing</option>
+          <option value="Docummentation">Docummentation</option>
+          <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+          <option value="Support">Support</option>
+          <option value="Review">Review</option>
+          <option value="GoLive/Deploy">GoLive/Deploy</option>
+          <option value="Others">Others</option>
+      </select>
+  </div>
+  <div class="col">
+      <select class="form-control form-control-sm" id="status" required>
+          <option selected disabled>Choose status</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Pending">Pending</option>
+          <option value="Done">Done</option>
+          <option value="Need Approval">Need Approval</option>
+      </select>
+  </div>
+</div>
+<div class="form-group remove-div">
+  <input class="form-control form-control-sm" type="text" id="knownBy" placeholder="Known By" required>
 </div>`)
 }
 
