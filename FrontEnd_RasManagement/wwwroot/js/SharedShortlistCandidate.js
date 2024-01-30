@@ -37,6 +37,7 @@ $(document).ready(function () {
   // SharedShortListRAS("all");
   SharedShortListCandidate("all");
   fetchCategories();
+  // loadData(accountId);
 });
 
 function SharedShortListCandidate(selectedCategory) {
@@ -77,7 +78,6 @@ function SharedShortListCandidate(selectedCategory) {
         } else {
           d.search.category = "";
         }
-        // console.log(d);
         return JSON.stringify(d);
       },
     },
@@ -279,16 +279,19 @@ function SharedShortListCandidate(selectedCategory) {
                 " bulan " +
                 daysInMonth +
                 " hari</span>";
-            } else {
+              } else if (daysInMonth > 0){  
               // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
-              if (daysInMonth > 0) {
                 result =
                   '<span class="badge badge-danger" style="font-size: 13px;">' +
                   daysInMonth +
                   " hari</span>";
+            } else {
+              if (daysInMonth <= 0){
+                result = "ASAP"
               }
             }
             return result;
+            
           } else if (row.workStatus === "true" || data === "True") {
             return data;
           } else if (data === "false" || data === "False") {
@@ -328,6 +331,17 @@ function SharedShortListCandidate(selectedCategory) {
           if (data == "" || data == null || data == " ") {
             return " ";
           }
+          if (data == "cvberca") {
+            var cvberca =
+              // onclick ="loadData(\'' + accountId + '\')
+              '<a href ="#" onclick ="GetSetData(\'' +
+              row.accountId +
+              "')\"> " +
+              row.fullname +
+              " Berca CV </a>";
+
+            return cvberca;
+          }
           if (type === "display" || type === "filter") {
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
             var checkTrue =
@@ -343,24 +357,19 @@ function SharedShortListCandidate(selectedCategory) {
     ],
     columnDefs: [
       {
-        targets: [2],
+        targets: 2,
         className: "customWrap",
       },
     ],
     searching: true,
   });
   table.columns.adjust().draw();
-
-  /*    $('#filterNavigation .nav-link').click(function () {
-              $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
-              $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
-      
-              // Mereload data DataTables dengan kategori yang baru
-              table.ajax.reload();
-          });*/
 }
 
-// Fungsi untuk mengambil data kategori dari API
+function GetSetData(accountId) {
+  sessionStorage.setItem("data", accountId);
+  window.open("/Share/GenerateCvShared", "_blank");
+}
 
 function fetchCategories() {
   fetch("https://localhost:7177/api/Shortlist/Position", {

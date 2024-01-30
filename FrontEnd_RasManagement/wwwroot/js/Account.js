@@ -204,7 +204,27 @@ function kirimPengaduan() {
     timerProgressBar: true,
   });
 
+  var valid = true;
+    $("input[required-report],textarea[required-report]").each(function () {
+    var input = $(this);
 
+    
+    if (input.attr("type") === "email" && !isValidEmail(input.val())) {
+      input.addClass("is-invalid");
+      valid = false;
+    }else {
+      input.removeClass("is-invalid");
+    }
+    if (!input.val()) {
+      input.addClass("is-invalid");
+      valid = false;
+    }
+  });
+
+  if (!valid) {
+    return;
+  }
+  
   const userInfo = getUserNameEmail()
 
   const data = {
@@ -242,6 +262,11 @@ function kirimPengaduan() {
       console.log("Error : " + er.message);
     },
   });
+}
+function isValidEmail(email) {
+  // Use a regular expression for basic email validation
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.endsWith("@berca.co.id");
 }
 function getUserNameEmail() {
   var token = sessionStorage.getItem("Token");

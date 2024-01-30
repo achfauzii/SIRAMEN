@@ -226,13 +226,13 @@ namespace RasManagement.Controllers
                 .Take(request.Length)
                 .Select(e => new
                 {
+                    e.AccountId,
                     e.Fullname,
                     e.Position,
                     e.Skillset,
                     e.Education,
                     e.Ipk,
                     e.University,
-                    e.Domisili,
                     e.Age,
                     e.Level,
                     e.ExperienceInYear,
@@ -240,8 +240,7 @@ namespace RasManagement.Controllers
                     e.endDate,
                     e.NoticePeriode,
                     e.FinancialIndustry,
-                    e.CvBerca,
-                    e.LevelRekom
+                    e.CvBerca
 
                 })
                 .ToList();
@@ -427,6 +426,8 @@ namespace RasManagement.Controllers
                 return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = delete });
             }
         }
+
+        
 
     }
 

@@ -18,6 +18,7 @@ function loadData() {
         var urlParams = new URLSearchParams(window.location.search);
         accountId = urlParams.get("accountId");
     }
+  
     $.ajax({
         url:
             "https://localhost:7177/api/Employees/accountId?accountId=" +
@@ -65,7 +66,7 @@ function loadData() {
 
                 success: function (educationResult) {
                     //debugger;
-                    var educationObj = educationResult.data;
+                    var educationObj = educationResult.data; 
 
                     // Mengurutkan data berdasarkan tahun terbaru
                     // a, b merupakan untuk perandingan datanya lalu di sortting
@@ -173,11 +174,13 @@ function loadData() {
                 },
                 async: true,
                 success: function (data) {
+                    console.log(data);
                     //var qualification = qualificationData.data;
                     var qualification = data.data[0];
                     $("#framework").text(qualification.framework);
                     $("#programmingLanguage").text(qualification.programmingLanguage);
                     $("#database").text(qualification.database);
+                    $("#datatools").text(qualification.tools);
 
                     if (qualification.others == "") {
                         var others = document.getElementById("othersShow_");

@@ -92,7 +92,7 @@ namespace RasManagement.Controllers
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("Email", viewLogin.Email),
-                        new Claim("Password", viewLogin.Password),
+                        new Claim("Password", ""),
                         new Claim("AccountId", roleId.AccountId),
                         new Claim("RoleId", roleId.RoleId),
                         new Claim("Name", roleId.Fullname),

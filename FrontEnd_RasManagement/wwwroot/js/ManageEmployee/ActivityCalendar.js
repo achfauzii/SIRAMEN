@@ -11,20 +11,7 @@ $(function () {
         eventDidMount:  function (info) {
             updatePopoverContent(info);
         },
-        // events: [
-        //   {
-        //     title: 'All Day Event',
-        //     start: '2024-01-21',
-        //     description: 'description1</br>767676767676',
-        //     allDay: true,
-        //   },
-        //   {
-        //     title: 'Long Event',
-        //     description: '<ul><li>ina</li><li>fauuad</li></ul>',
-        //     start: '2024-01-20',
-        //     allDay: true,
-        //   },
-        // ],
+      
         events: function (info, successCallback, failureCallback) {
           let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
           let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
@@ -38,19 +25,27 @@ $(function () {
               }
           });
       },
+      eventContent: function(arg) {
+        var view = calendar.view;
+        var title = '';
+        console.log(arg.event._def.extendedProps.description)
+        if (view.type === 'dayGridDay') {
+          title = arg.event._def.extendedProps.description +": "+ arg.event.title;
+        } else {
+          // Handle other views as needed
+          title = arg.event.title;
+        }
+  
+        return {
+          html: '<div class="custom-event">' + title + '</div>'
+        };
+      }
       
-      viewRender: function (view) {
-        // Update popover content when the view changes
-        calendar.getEvents().forEach(function (event) {
-            var eventEl = calendar.getEventEl(event.id);
-            if (eventEl) {
-                updatePopoverContent({ el: eventEl, event: event });
-            }
-        });
-    },
       
-  });
-  function updatePopoverContent(info) {
+      
+      
+    });
+    function updatePopoverContent(info) {
     var isMonthView = calendar.view.type === 'timeGridMonth' || calendar.view.type === 'dayGridMonth';
 
     var title = isMonthView ? info.event.title :  info.event.extendedProps.description;
@@ -60,6 +55,7 @@ $(function () {
         title: title,
         html: true,
         placement: 'bottom',
+        html: true,
         content: content,
         trigger: 'hover',
         container: 'body',

@@ -133,6 +133,13 @@ function getById(Id) {
       //debugger;
       var obj = result.data; //data yg dapet dr id
 
+      const intActivity = obj.activity.split("<br>");
+      setProcess(intActivity.length - 1);
+      var elementActivity = document.getElementsByClassName("class-activity");
+      for (let i = 0; i < intActivity.length; i++) {
+        elementActivity[i].value = intActivity[i];
+      }
+
       $("#timeSheetId").val(obj.id); //ngambil data dr api
       $("#lastPlacementId").val(obj.placementStatusId);
       $("#activity").val(obj.activity);
@@ -235,86 +242,94 @@ function Update() {
 }
 
 function save() {
-  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const accid = decodedtoken.AccountId;
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
 
-  var TimeSheet = new Object();
-  TimeSheet.Date = $("#inputDate").val();
-  TimeSheet.Flag = $("#flag").val();
-  TimeSheet.AccountId = accid;
-  TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
-  TimeSheet.KnownBy = $("#knownBy").val();
-
-  if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
-    TimeSheet.Activity = "";
-    TimeSheet.Category = "";
-    TimeSheet.Status = "";
-  } else {
-    TimeSheet.Activity = $("#activity").val();
-    TimeSheet.Category = $("#category").val();
-    TimeSheet.Status = $("#status").val();
-  }
-
-  $.ajax({
-    type: "POST",
-    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
-    data: JSON.stringify(TimeSheet),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then(
-    (result) => {
-      console.log(result.status);
-      if (result.status == 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Data has been added!",
-          html:
-            TimeSheet.Flag === "Sick"
-              ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
-              : "",
-          showConfirmButton: true,
-          //timer: 5000,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-        clearScreen();
-      } else {
-        console.log(result.status);
-        Swal.fire({
-          icon: "warning",
-          title: "Data failed to added!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-      }
-      table.columns.adjust().draw();
-    },
-    (jqXHR, textStatus, errorThrown) => {
-      if (jqXHR.status === 400) {
-        Swal.fire({
-          icon: "warning",
-          title: "Failed",
-          text: "Time Sheet with the same date already exists!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Data failed to added!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
+    var intActivityArray = document.getElementsByClassName("class-activity");
+    var intActivity = "";
+    for (var i = 0; i < intActivityArray.length; i += 1) {
+      intActivity += intActivityArray[i].value + "<br>";
     }
-  );
+
+    var TimeSheet = new Object();
+    TimeSheet.Date = $("#inputDate").val();
+    TimeSheet.Flag = $("#flag").val();
+    TimeSheet.AccountId = accid;
+    TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
+    TimeSheet.KnownBy = $("#knownBy").val();
+    
+    if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
+        TimeSheet.Activity = "";
+        TimeSheet.Category = "";
+        TimeSheet.Status = "";
+    } else {
+        TimeSheet.Activity = intActivity;
+        TimeSheet.Category = $("#category").val();
+        TimeSheet.Status = $("#status").val();
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+        data: JSON.stringify(TimeSheet),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (response) {
+            if (response.status === 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Data has been added!",
+                    html:
+                        TimeSheet.Flag === "Sick"
+                            ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
+                            : "",
+                    showConfirmButton: true,
+                })
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+            } else if (response.status === 400) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Time Sheet with the same date already exists!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+            } else if (response.status === 404) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Cannot add a timesheet, the placement field is null.",
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+            }
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: "warning",
+                title: "Failed",
+                text: "Cannot add a timesheet, the placement field is null.",
+                showConfirmButton: true,
+               
+            })
+            $("#timeSheetModal").modal("hide");
+            table.ajax.reload();
+        }
+    })
 }
+   
+
 
 function clearScreen() {
+  $(".div-activity").remove();
+  clearProcess();
   $("#activity").val("");
   document.getElementById("flag").selectedIndex = 0;
   document.getElementById("category").selectedIndex = 0;
@@ -357,32 +372,23 @@ function formatDate(date) {
   return [year, month, day].join("-");
 }
 
-/*function getPlacement(accountId) {
-    return new Promise(function (resolve, reject) {
-        //Get CompanyName (Placement)
-        $.ajax({
-            url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            success: function (result) {
-                var obj = result.data;
-                var obj = result.data;
-                if (obj && obj.length > 0) {
-                    var lastData = obj[0];
+function newActivity() {
+  $("#div-activ").append(`<textarea class="form-control mb-2 class-activity div-activity"  required style="height:40px; max-height: 100px"></textarea>`);
+}
+function setProcess(length) {
+  for (let i = 0; i < length; i++) {
+    $("#div-activ").append(`<textarea class="form-control mb-2 class-activity div-activity"  required style="height:40px; max-height: 100px"></textarea>`);
+  }
+}
+function clearProcess() {
+  $("#div-activ").append(`<div class="form-group div-activity" id="">
+  <label for="message-text" class="col-form-label">Activity</label>
+  <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newActivity();">+ New </button>
+  <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
 
-                    resolve(lastData);
-                } else {
-                    console.log('Tidak ada data');
-                }
+  <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
+  <input class="form-control form-control-sm" type="text" id="lastPlacementId" hidden>
+</div>`)
+}
 
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            },
-        });
-    })
-}*/
+

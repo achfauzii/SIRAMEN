@@ -33,44 +33,6 @@ namespace RasManagement.Repository
             return $"{ras}{countNonRas + 1:D3}";
         }
 
-        // public string EmployeeNoticePeriode(DateTime? endDate)
-        // {
-
-        //     string DateNow = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
-        //     TimeSpan? timeDiff = endDate - startDate;
-        //     int? daysRemaining = (int)Math.Ceiling(timeDiff.Value.TotalDays);
-
-        //     int? monthsRemaining = daysRemaining / 30;
-        //     int? daysInMonth = daysRemaining % 30;
-
-        //     string result = "";
-
-        //     if (monthsRemaining > 2)
-        //     {
-        //         // If more than 2 months remaining, display in green
-        //         result = $"{monthsRemaining} bulan {daysInMonth}";
-        //     }
-        //     else if (monthsRemaining >= 1)
-        //     {
-        //         // If 1-3 months remaining, display in yellow
-        //         result = $"{monthsRemaining} bulan {daysInMonth} hari";
-        //     }
-        //     else
-        //     {
-        //         // If less than 1 month remaining, display in red
-        //         if (daysInMonth > 0)
-        //         {
-        //             result = $"{daysInMonth} hari";
-        //         }
-        //     }
-
-        //     return result;
-        // }
-
-
-        // Convert age to string
-
-
         public List<SharedShortListVM> GetSharedShortList()
         {// Possible null reference argument.
             var employees = _context.Accounts
@@ -80,7 +42,7 @@ namespace RasManagement.Repository
                     {
                         AccountId = emp.AccountId,
                         Fullname = emp.Fullname,
-                        Position = emp.Position,
+                        Position = emp.Position ?? "",
                         Skillset = emp.Qualifications.Count != 0 ? emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Framework
                                 + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].ProgrammingLanguage
                                 + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Database
@@ -95,7 +57,7 @@ namespace RasManagement.Repository
                         endDate = emp.Placements.Count != 0 ? emp.Placements.ToList()[emp.Placements.Count - 1].EndDate : null,
                         NoticePeriode = null,
                         FinancialIndustry = emp.FinancialIndustry,
-                        CvBerca = "https://localhost:7109/GenerateCv/Index?accountId=" + emp.AccountId,
+                        CvBerca = "cvberca",
 
 
                     }).ToList();

@@ -57,10 +57,11 @@ namespace RasManagement.Repository
 
                     .Select(flagCount => new
                     {
-                        title = $"{flagCount.Flag} : {flagCount.Count}",
-                        description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}<br>"))}",
+                        title = $"{flagCount.Flag}:{flagCount.Count}",
+                        description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}</br>"))}",
                         start = dayGroup.Key.Date,
                         allDay = true,
+                        
                         //flag = flagCount.Flag,
                         backgroundColor = GetColorByFlag(flagCount.Flag),
                         borderColor = GetColorByFlag(flagCount.Flag),
