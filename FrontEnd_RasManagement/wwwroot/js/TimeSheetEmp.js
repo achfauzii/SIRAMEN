@@ -50,9 +50,7 @@ $(document).ready(function () {
 
   //GET datatable
   table = $("#timeSheetTable").DataTable({
-    // scrollX: true,
-    // autoWidth: true,
-    // responsive: true,
+    scrollX: true,
     ajax: {
       url: "https://localhost:7177/api/TimeSheet/accountId?accountId=" + accid, // Your API endpoint
       type: "GET",
@@ -110,6 +108,7 @@ $(document).ready(function () {
         targets: [0, 2, 3, 4, 5, 6, 7],
         orderable: false,
       },
+      
     ],
     //Agar nomor tidak berubah
     drawCallback: function (settings) {
@@ -219,11 +218,12 @@ function Update() {
     status += elementStatus[i].value + "<br>";
     knownBy += elementKnown[i].value + "<br>";
   }
-
+  
   var TimeSheet = new Object();
   TimeSheet.Id = $("#timeSheetId").val();
   TimeSheet.Date = $("#inputDate").val();
-  TimeSheet.Activity = activity.substring(0, activity.length - 4);
+  
+  TimeSheet.Activity = activity.substring(0, activity.length - 4);  
   TimeSheet.Flag = $("#flag").val();
   TimeSheet.Category = category.substring(0, category.length - 4);
   TimeSheet.Status = status.substring(0, status.length - 4);
@@ -316,7 +316,7 @@ function save() {
   for (var i = 0; i < intKnownArray.length; i += 1) {
     intKnown += intKnownArray[i].value + "<br>";
   }
-
+  
   var TimeSheet = new Object();
   TimeSheet.Date = $("#inputDate").val();
   TimeSheet.Flag = $("#flag").val();
@@ -553,5 +553,6 @@ function clearProcess() {
 
                         <div class="form-group">
                             <input class="form-control form-control-sm knownBy" id="knownBy" type="text" placeholder="Konwn By" required>                            
-                        </div></div>`);
+                        </div>
+                     </div>`);
 }
