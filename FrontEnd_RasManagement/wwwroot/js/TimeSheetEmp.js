@@ -108,7 +108,6 @@ $(document).ready(function () {
         targets: [0, 2, 3, 4, 5, 6, 7],
         orderable: false,
       },
-      
     ],
     //Agar nomor tidak berubah
     drawCallback: function (settings) {
@@ -141,32 +140,39 @@ function getById(Id) {
       //debugger;
       var obj = result.data; //data yg dapet dr id
 
-      const intActivity = obj.activity.split("<br>");
-      const intCategory = obj.category.split("<br>");
-      const intStatus = obj.status.split("<br>");
-      const intKnown = obj.knownBy.split("<br>");
+      if (
+        obj.activity != null ||
+        obj.category != null ||
+        obj.status != null ||
+        obj.knownBy != null
+      ) {
+        const intActivity = obj.activity.split("<br>");
+        const intCategory = obj.category.split("<br>");
+        const intStatus = obj.status.split("<br>");
+        const intKnown = obj.knownBy.split("<br>");
 
-      setProcess(intActivity.length - 1);
-      console.log(intActivity.length);
-      var elementActivity = document.getElementsByClassName("activity");
-      console.log(elementActivity.length);
-      for (let i = 0; i < intActivity.length; i++) {
-        elementActivity[i].value = intActivity[i];
-      }
+        setProcess(intActivity.length - 1);
 
-      var elementCategory = document.getElementsByClassName("category");
-      for (let i = 0; i < intCategory.length; i++) {
-        elementCategory[i].value = intCategory[i];
-      }
+        var elementActivity = document.getElementsByClassName("activity");
+        console.log(elementActivity.length);
+        for (let i = 0; i < intActivity.length; i++) {
+          elementActivity[i].value = intActivity[i];
+        }
 
-      var elementStatus = document.getElementsByClassName("status");
-      for (let i = 0; i < intStatus.length; i++) {
-        elementStatus[i].value = intStatus[i];
-      }
+        var elementCategory = document.getElementsByClassName("category");
+        for (let i = 0; i < intCategory.length; i++) {
+          elementCategory[i].value = intCategory[i];
+        }
 
-      var elementKnown = document.getElementsByClassName("knownBy");
-      for (let i = 0; i < intKnown.length; i++) {
-        elementKnown[i].value = intKnown[i];
+        var elementStatus = document.getElementsByClassName("status");
+        for (let i = 0; i < intStatus.length; i++) {
+          elementStatus[i].value = intStatus[i];
+        }
+
+        var elementKnown = document.getElementsByClassName("knownBy");
+        for (let i = 0; i < intKnown.length; i++) {
+          elementKnown[i].value = intKnown[i];
+        }
       }
 
       $("#timeSheetId").val(obj.id); //ngambil data dr api
@@ -218,12 +224,12 @@ function Update() {
     status += elementStatus[i].value + "<br>";
     knownBy += elementKnown[i].value + "<br>";
   }
-  
+
   var TimeSheet = new Object();
   TimeSheet.Id = $("#timeSheetId").val();
   TimeSheet.Date = $("#inputDate").val();
-  
-  TimeSheet.Activity = activity.substring(0, activity.length - 4);  
+
+  TimeSheet.Activity = activity.substring(0, activity.length - 4);
   TimeSheet.Flag = $("#flag").val();
   TimeSheet.Category = category.substring(0, category.length - 4);
   TimeSheet.Status = status.substring(0, status.length - 4);
@@ -316,7 +322,7 @@ function save() {
   for (var i = 0; i < intKnownArray.length; i += 1) {
     intKnown += intKnownArray[i].value + "<br>";
   }
-  
+
   var TimeSheet = new Object();
   TimeSheet.Date = $("#inputDate").val();
   TimeSheet.Flag = $("#flag").val();
