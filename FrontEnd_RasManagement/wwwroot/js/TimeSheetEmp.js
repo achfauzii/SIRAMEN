@@ -50,9 +50,9 @@ $(document).ready(function () {
 
   //GET datatable
   table = $("#timeSheetTable").DataTable({
-    scrollX: true,
-    // autoWidth: true,
-    // responsive: true,
+    
+    autoWidth: true,
+    responsive: true,
     ajax: {
       url: "https://localhost:7177/api/TimeSheet/accountId?accountId=" + accid, // Your API endpoint
       type: "GET",
@@ -102,6 +102,7 @@ $(document).ready(function () {
         targets: [0, 2, 3, 4, 5, 6, 7],
         orderable: false,
       },
+      
     ],
     //Agar nomor tidak berubah
     drawCallback: function (settings) {
