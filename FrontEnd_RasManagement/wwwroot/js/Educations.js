@@ -3,7 +3,7 @@ $(document).ready(function () {
   Educations();
   formInputLocation();
   getUniversitasList();
-  
+
   const selectMajor = $("#Major");
   //Ini untuk tanpa display none jadi langsung di tampilkan ()
   $(selectMajor).select2({
@@ -64,6 +64,7 @@ function Educations() {
       {
         // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
         data: null,
+        width: "10%",
         render: function (data, type, row) {
           var modalId = "modal-edit-" + data.formalEduId;
           var deleteId = "modal-delete-" + data.formalEduId;
@@ -81,6 +82,7 @@ function Educations() {
     ],
 
     order: [[6, "desc"]],
+    lengthMenu: [3, 10, 25, 50],
     //"responsive": true,
     //Buat ngilangin order kolom No dan Action
     columnDefs: [
@@ -90,18 +92,19 @@ function Educations() {
       },
     ],
     //Agar nomor tidak berubah
-      drawCallback: function (settings) {
-          var api = this.api();
-          var rows = api.rows({ page: "current" }).nodes();
-          var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-          var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+    drawCallback: function (settings) {
+      var api = this.api();
+      var rows = api.rows({ page: "current" }).nodes();
+      var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+      var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
 
-          api.column(0, { page: "current" })
-              .nodes()
-              .each(function (cell, i) {
-                  cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-              });
-      },
+      api
+        .column(0, { page: "current" })
+        .nodes()
+        .each(function (cell, i) {
+          cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+        });
+    },
   });
 }
 function matchCustom(params, data) {
@@ -228,8 +231,8 @@ function parseJwt(token) {
 }
 
 function numeric(input) {
-    var numericValue = input.value.replace(/[^\d.,]/g, "");
-    input.value = numericValue;
+  var numericValue = input.value.replace(/[^\d.,]/g, "");
+  input.value = numericValue;
 }
 
 function SaveFormal() {
@@ -244,18 +247,18 @@ function SaveFormal() {
       input.next(".error-message-formal").hide();
     }
 
-      // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-      if (input.attr("id") === "Ipk") {
-          var ipk = input.val().trim();
-          var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+    // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+    if (input.attr("id") === "Ipk") {
+      var ipk = input.val().trim();
+      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
-          if (!validIPK.test(ipk)) {
-              $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
-              isValid = false;
-          } else {
-              $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
-          }
+      if (!validIPK.test(ipk)) {
+        $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+        isValid = false;
+      } else {
+        $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
       }
+    }
   });
 
   // Validasi select options
@@ -358,7 +361,7 @@ function ClearScreenFormal() {
     var input = $(this);
     input.next(".error-message-formal").hide();
 
-      $(".error-format-ipk").hide();
+    $(".error-format-ipk").hide();
   });
   $(".selectRegencies").closest(".form-group").find(".error-message").hide();
   $(".selectUniversity")
@@ -452,18 +455,18 @@ function UpdateFormal() {
       input.next(".error-message-formal").hide();
     }
 
-      // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-      if (input.attr("id") === "Ipk") {
-          var ipk = input.val().trim();
-          var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+    // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+    if (input.attr("id") === "Ipk") {
+      var ipk = input.val().trim();
+      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
-          if (!validIPK.test(ipk)) {
-              $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
-              isValid = false;
-          } else {
-              $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
-          }
+      if (!validIPK.test(ipk)) {
+        $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+        isValid = false;
+      } else {
+        $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
       }
+    }
   });
 
   if (!isValid) {
