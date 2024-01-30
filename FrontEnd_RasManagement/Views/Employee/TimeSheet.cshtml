@@ -93,14 +93,15 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Activity</label>
-                        <textarea class="form-control" id="activity" required></textarea>
-                        @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
+                    <div id="div-activ">
+                        <div class="form-group div-activity" id="">
+                            <label for="message-text" class="col-form-label">Activity</label>
+                            <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newActivity();">+ New </button>
+                            <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
 
-                        <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
-                        <input class="form-control form-control-sm" type="text" id="lastPlacementId" hidden>
-
+                            <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
+                            <input class="form-control form-control-sm" type="text" id="lastPlacementId" hidden>
+                        </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
@@ -128,7 +129,7 @@
                                 <option value="Meeting/Discussion">Meeting/Discussion</option>
                                 <option value="Coding">Coding</option>
                                 <option value="Testing">Testing</option>
-                                <option value="UAS/SIT">UAS/SIT</option>
+                                <option value="UAT/SIT">UAT/SIT</option>
                                 <option value="Ticketing">Ticketing</option>
                                 <option value="Docummentation">Docummentation</option>
                                 <option value="Bug/Issue Fix">Bug/Issue Fix</option>

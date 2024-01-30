@@ -176,7 +176,8 @@ function loadData() {
           var qualification = data.data[0];
           $("#framework").text(qualification.framework);
           $("#programmingLanguage").text(qualification.programmingLanguage);
-          $("#database").text(qualification.database);
+            $("#database").text(qualification.database);
+            $("#datatools").text(qualification.tools);
 
           if (qualification.others == "") {
             var others = document.getElementById("othersShow_");

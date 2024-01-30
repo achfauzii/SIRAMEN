@@ -1,12 +1,19 @@
 ﻿var dataEmployee = [];
 var dataEmployeeCV = [];
 
+var roleId = getUserRole();
 var notification = document.getElementById("notification");
 var element = document.getElementById("btnBell");
 var elementAlert = document.getElementById("alertNotif");
+
+if (roleId == 1 || roleId == 3) {
+  $("#btnBell").hide();
+}
+
 $(document).ready(function () {
   fetchContractPlacement();
 });
+
 function clearScreen() {
   $("#accountId").val("");
   $("#currentPassword").val("");
@@ -245,9 +252,10 @@ function checkOverviewEmployee() {
           emp.formalEdus.length == 0 ||
           emp.nonFormalEdus.length == 0 ||
           //Check Qualifications
-          emp.qualifications.framework == null ||
-          emp.qualifications.programmingLanguage == null ||
-          emp.qualifications.database == null ||
+          emp.qualifications.length == 0 ||
+          emp.qualifications.framework == "" ||
+          emp.qualifications.programmingLanguage == "" ||
+          emp.qualifications.database == "" ||
           //Check Certificate
           emp.certificates.length == 0 ||
           //Check Employeement History
@@ -342,4 +350,16 @@ function hideAllNotification() {
   $("#btnBell").trigger("click");
   $("#btnBell").classList.add("show");
   $("#alertNotif").classList.add("show");
+}
+function getUserRole() {
+  var token = sessionStorage.getItem("Token");
+  if (token) {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var payload = JSON.parse(atob(base64));
+
+    return parseInt(payload.RoleId, 10);
+  }
+
+  return null;
 }
