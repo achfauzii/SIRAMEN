@@ -50,9 +50,7 @@ $(document).ready(function () {
 
   //GET datatable
   table = $("#timeSheetTable").DataTable({
-    
-    autoWidth: true,
-    responsive: true,
+    scrollX: true,
     ajax: {
       url: "https://localhost:7177/api/TimeSheet/accountId?accountId=" + accid, // Your API endpoint
       type: "GET",
@@ -80,11 +78,19 @@ $(document).ready(function () {
           return data;
         },
       },
-      { data: "activity" },
+      {
+        data: "activity",
+      },
       { data: "flag" },
-      { data: "category" },
-      { data: "status" },
-      { data: "knownBy" },
+      {
+        data: "category",
+      },
+      {
+        data: "status",
+      },
+      {
+        data: "knownBy",
+      },
       {
         data: null,
         render: function (data, type, row) {
@@ -136,21 +142,38 @@ function getById(Id) {
       var obj = result.data; //data yg dapet dr id
 
       const intActivity = obj.activity.split("<br>");
+      const intCategory = obj.category.split("<br>");
+      const intStatus = obj.status.split("<br>");
+      const intKnown = obj.knownBy.split("<br>");
+
       setProcess(intActivity.length - 1);
-      var elementActivity = document.getElementsByClassName("class-activity");
+      console.log(intActivity.length);
+      var elementActivity = document.getElementsByClassName("activity");
+      console.log(elementActivity.length);
       for (let i = 0; i < intActivity.length; i++) {
         elementActivity[i].value = intActivity[i];
+      }
+
+      var elementCategory = document.getElementsByClassName("category");
+      for (let i = 0; i < intCategory.length; i++) {
+        elementCategory[i].value = intCategory[i];
+      }
+
+      var elementStatus = document.getElementsByClassName("status");
+      for (let i = 0; i < intStatus.length; i++) {
+        elementStatus[i].value = intStatus[i];
+      }
+
+      var elementKnown = document.getElementsByClassName("knownBy");
+      for (let i = 0; i < intKnown.length; i++) {
+        elementKnown[i].value = intKnown[i];
       }
 
       $("#timeSheetId").val(obj.id); //ngambil data dr api
       $("#lastPlacementId").val(obj.placementStatusId);
       const date = formatDate(obj.date);
       $("#inputDate").val(date);
-
       $("#flag").val(obj.flag);
-      $("#category").val(obj.category);
-      $("#status").val(obj.status);
-      $("#knownBy").val(obj.knownBy);
       $("#timeSheetModal").modal("show");
       $("#Save").hide();
       $("#Update").show();
@@ -163,7 +186,7 @@ function getById(Id) {
 
 function Update() {
   // debugger;
-  /*var isValid = true;
+  var isValid = true;
 
   $("input[required],select[required],textarea[required]").each(function () {
     var input = $(this);
@@ -177,22 +200,35 @@ function Update() {
 
   if (!isValid) {
     return;
-  }*/
+  }
 
-  var intActivityArray = document.getElementsByClassName("class-activity");
-    var intActivity = "";
-    for (var i = 0; i < intActivityArray.length; i += 1) {
-      intActivity += intActivityArray[i].value + "<br>";
-    }
+  var activity = "";
+  var category = "";
+  var status = "";
+  var knownBy = "";
 
+  var elementActivity = document.getElementsByClassName("activity");
+  var elementCategory = document.getElementsByClassName("category");
+  var elementStatus = document.getElementsByClassName("status");
+  var elementKnown = document.getElementsByClassName("knownBy");
+
+  for (let i = 0; i < elementActivity.length; i++) {
+    activity += elementActivity[i].value + "<br>";
+    category += elementCategory[i].value + "<br>";
+    status += elementStatus[i].value + "<br>";
+    knownBy += elementKnown[i].value + "<br>";
+  }
+  
   var TimeSheet = new Object();
   TimeSheet.Id = $("#timeSheetId").val();
   TimeSheet.Date = $("#inputDate").val();
-  TimeSheet.Activity = intActivity.substr(0, intActivity.length - 4);
+  
+  TimeSheet.Activity = activity.substring(0, activity.length - 4);  
   TimeSheet.Flag = $("#flag").val();
-  TimeSheet.Category = $("#category").val();
-  TimeSheet.Status = $("#status").val();
-  TimeSheet.KnownBy = $("#knownBy").val();
+  TimeSheet.Category = category.substring(0, category.length - 4);
+  TimeSheet.Status = status.substring(0, status.length - 4);
+  TimeSheet.KnownBy = knownBy.substring(0, knownBy.length - 4);
+
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   TimeSheet.accountId = accid;
@@ -250,99 +286,119 @@ function Update() {
 }
 
 function save() {
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
 
-    var intActivityArray = document.getElementsByClassName("class-activity");
-    var intActivity = "";
-    for (var i = 0; i < intActivityArray.length; i += 1) {
-      intActivity += intActivityArray[i].value + "<br>";
-    }
+  //Activity Input
+  var intActivityArray = document.getElementsByClassName("activity");
+  var intActivity = "";
+  for (var i = 0; i < intActivityArray.length; i += 1) {
+    intActivity += intActivityArray[i].value + "<br>";
+  }
 
-    var TimeSheet = new Object();
-    TimeSheet.Date = $("#inputDate").val();
-    TimeSheet.Flag = $("#flag").val();
-    TimeSheet.AccountId = accid;
-    TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
-    TimeSheet.KnownBy = $("#knownBy").val();
-    
-    if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
-        TimeSheet.Activity = "";
-        TimeSheet.Category = "";
-        TimeSheet.Status = "";
-    } else {
-        TimeSheet.Activity = intActivity.substr(0, intActivity.length - 4);
-        TimeSheet.Category = $("#category").val();
-        TimeSheet.Status = $("#status").val();
-    }
-    console.log(TimeSheet)
-    $.ajax({
-        type: "POST",
-        url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
-        data: JSON.stringify(TimeSheet),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (response) {
-            if (response.status === 200) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Data has been added!",
-                    html:
-                        TimeSheet.Flag === "Sick"
-                            ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
-                            : "",
-                    showConfirmButton: true,
-                })
-                $("#timeSheetModal").modal("hide");
-                table.ajax.reload();
-            } else if (response.status === 400) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Failed",
-                    text: "Time Sheet with the same date already exists!",
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
-                $("#timeSheetModal").modal("hide");
-                table.ajax.reload();
-            } else if (response.status === 404) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Failed",
-                    text: "Cannot add a timesheet, the placement field is null.",
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
-                $("#timeSheetModal").modal("hide");
-                table.ajax.reload();
-            }
-        },
-        error: function (error) {
-            Swal.fire({
-                icon: "warning",
-                title: "Failed",
-                text: "Cannot add a timesheet, the placement field is null.",
-                showConfirmButton: true,
-               
-            })
-            $("#timeSheetModal").modal("hide");
-            table.ajax.reload();
-        }
-    })
+  //Category Input
+  var intCategoryArray = document.getElementsByClassName("category");
+  var intCategory = "";
+  for (var i = 0; i < intCategoryArray.length; i += 1) {
+    intCategory += intCategoryArray[i].value + "<br>";
+  }
+
+  //Status Input
+  var intStatusArray = document.getElementsByClassName("status");
+  var intStatus = "";
+  for (var i = 0; i < intStatusArray.length; i += 1) {
+    intStatus += intStatusArray[i].value + "<br>";
+  }
+
+  //KnownBy Input
+  var intKnownArray = document.getElementsByClassName("knownBy");
+  var intKnown = "";
+  for (var i = 0; i < intKnownArray.length; i += 1) {
+    intKnown += intKnownArray[i].value + "<br>";
+  }
+  
+  var TimeSheet = new Object();
+  TimeSheet.Date = $("#inputDate").val();
+  TimeSheet.Flag = $("#flag").val();
+  TimeSheet.AccountId = accid;
+  TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
+  TimeSheet.KnownBy = intKnown.substr(0, intKnown.length - 4);
+
+  if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
+    TimeSheet.Activity = "";
+    TimeSheet.Category = "";
+    TimeSheet.Status = "";
+  } else {
+    TimeSheet.Activity = intActivity.substr(0, intActivity.length - 4);
+    TimeSheet.Category = intCategory.substr(0, intCategory.length - 4);
+    TimeSheet.Status = intStatus.substr(0, intStatus.length - 4);
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+    data: JSON.stringify(TimeSheet),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (response) {
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Data has been added!",
+          html:
+            TimeSheet.Flag === "Sick"
+              ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
+              : "",
+          showConfirmButton: true,
+        });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+      } else if (response.status === 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "Failed",
+          text: "Time Sheet with the same date already exists!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+      } else if (response.status === 404) {
+        Swal.fire({
+          icon: "warning",
+          title: "Failed",
+          text: "Cannot add a timesheet, the placement field is null.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+      }
+      table.columns.adjust().draw();
+    },
+    error: function (error) {
+      Swal.fire({
+        icon: "warning",
+        title: "Failed",
+        text: "Cannot add a timesheet, the placement field is null.",
+        showConfirmButton: true,
+      });
+      $("#timeSheetModal").modal("hide");
+      table.ajax.reload();
+      table.columns.adjust().draw();
+    },
+  });
 }
-   
-
 
 function clearScreen() {
-  $(".div-activity").remove();
-  $(".remove-div").remove();
+  $(".timesheet").remove();
   clearProcess();
   $("#activity").val("");
-  document.getElementById("flag").selectedIndex = 0;
-  document.getElementById("category").selectedIndex = 0;
-  document.getElementById("status").selectedIndex = 0;
+  document.getElementById("flag").selectedIndex = "0";
+  document.getElementById("category").selectedIndex = "0";
+  document.getElementById("status").selectedIndex = "0";
   document.getElementById("inputDate").value = new Date()
     .toISOString()
     .split("T")[0];
@@ -382,117 +438,121 @@ function formatDate(date) {
 }
 
 function newActivity() {
-  $("#div-activ").append(`  <div class="form-group div-activity " id="">
-  <label for="message-text" class="col-form-label">Activity</label>
-  
-  <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
-</div>
-<div class="row mb-2 remove-div">
-  <div class="col">
-      <select class="form-control form-control-sm" id="category" required>
-          <option select disabled>Choose category</option>
-          <option value="Meeting/Discussion">Meeting/Discussion</option>
-          <option value="Coding">Coding</option>
-          <option value="Testing">Testing</option>
-          <option value="UAT/SIT">UAT/SIT</option>
-          <option value="Ticketing">Ticketing</option>
-          <option value="Docummentation">Docummentation</option>
-          <option value="Bug/Issue Fix">Bug/Issue Fix</option>
-          <option value="Support">Support</option>
-          <option value="Review">Review</option>
-          <option value="GoLive/Deploy">GoLive/Deploy</option>
-          <option value="Others">Others</option>
-      </select>
-  </div>
-  <div class="col">
-      <select class="form-control form-control-sm" id="status" required>
-          <option selected disabled>Choose status</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Pending">Pending</option>
-          <option value="Done">Done</option>
-          <option value="Need Approval">Need Approval</option>
-      </select>
-  </div>
-</div>
-<div class="form-group remove-div">
-  <input class="form-control form-control-sm" type="text" id="knownBy" placeholder="Known By" required>
-</div>`);
+  $("#div-activ").append(
+    `<div class="border border-info rounded px-2 mb-2 timesheet">
+                          <label for="message-text" class="col-form-label">Activity</label>
+                          <textarea class="form-control mb-2 activity" placeholder="Write your activity here..." required style="height:40px; max-height: 100px"></textarea>
+                          <div class="row mb-2 ">
+                            <div class="col">
+                                <select class="form-control form-control-sm category" required>
+                                    <option selected disabled>Choose category</option>
+                                    <option value="Meeting/Discussion">Meeting/Discussion</option>
+                                    <option value="Coding">Coding</option>
+                                    <option value="Testing">Testing</option>
+                                    <option value="UAT/SIT">UAT/SIT</option>
+                                    <option value="Ticketing">Ticketing</option>
+                                    <option value="Docummentation">Docummentation</option>
+                                    <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+                                    <option value="Support">Support</option>
+                                    <option value="Review">Review</option>
+                                    <option value="GoLive/Deploy">GoLive/Deploy</option>
+                                    <option value="Others">Others</option>
+                                </select>                                
+                            </div>
+                            <div class="col">
+                                <select class="form-control form-control-sm status" required>
+                                    <option selected disabled>Choose status</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Done">Done</option>
+                                    <option value="Need Approval">Need Approval</option>
+                                </select>                                
+                            </div>
+                        </div>                    
+
+                        <div class="form-group">
+                            <input class="form-control form-control-sm knownBy" type="text" placeholder="Konwn By" required>                            
+                        </div></div>`
+  );
 }
 function setProcess(length) {
   for (let i = 0; i < length; i++) {
-    $("#div-activ").append(`  <div class="form-group div-activity " id="">
-    <label for="message-text" class="col-form-label">Activity</label>
-    
-    <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
-</div>
-<div class="row mb-2 remove-div">
-    <div class="col">
-        <select class="form-control form-control-sm" id="category" required>
-            <option select disabled>Choose category</option>
-            <option value="Meeting/Discussion">Meeting/Discussion</option>
-            <option value="Coding">Coding</option>
-            <option value="Testing">Testing</option>
-            <option value="UAT/SIT">UAT/SIT</option>
-            <option value="Ticketing">Ticketing</option>
-            <option value="Docummentation">Docummentation</option>
-            <option value="Bug/Issue Fix">Bug/Issue Fix</option>
-            <option value="Support">Support</option>
-            <option value="Review">Review</option>
-            <option value="GoLive/Deploy">GoLive/Deploy</option>
-            <option value="Others">Others</option>
-        </select>
-    </div>
-    <div class="col">
-        <select class="form-control form-control-sm" id="status" required>
-            <option selected disabled>Choose status</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Pending">Pending</option>
-            <option value="Done">Done</option>
-            <option value="Need Approval">Need Approval</option>
-        </select>
-    </div>
-</div>
-<div class="form-group remove-div">
-    <input class="form-control form-control-sm" type="text" id="knownBy" placeholder="Known By" required>
-</div>`);
+    $("#div-activ").append(
+      `<div class="border border-info rounded px-2 mb-2 timesheet">
+                          <label for="message-text" class="col-form-label">Activity</label>
+                          <textarea class="form-control mb-2 activity" placeholder="Write your activity here..." required style="height:40px; max-height: 100px"></textarea>
+                          <div class="row mb-2 ">
+                            <div class="col">
+                                <select class="form-control form-control-sm category" required>
+                                    <option selected disabled>Choose category</option>
+                                    <option value="Meeting/Discussion">Meeting/Discussion</option>
+                                    <option value="Coding">Coding</option>
+                                    <option value="Testing">Testing</option>
+                                    <option value="UAT/SIT">UAT/SIT</option>
+                                    <option value="Ticketing">Ticketing</option>
+                                    <option value="Docummentation">Docummentation</option>
+                                    <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+                                    <option value="Support">Support</option>
+                                    <option value="Review">Review</option>
+                                    <option value="GoLive/Deploy">GoLive/Deploy</option>
+                                    <option value="Others">Others</option>
+                                </select>                                
+                            </div>
+                            <div class="col">
+                                <select class="form-control form-control-sm status" required>
+                                    <option selected disabled>Choose status</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Done">Done</option>
+                                    <option value="Need Approval">Need Approval</option>
+                                </select>                                
+                            </div>
+                        </div>                    
+
+                        <div class="form-group">
+                            <input class="form-control form-control-sm knownBy" type="text" placeholder="Konwn By" required>                            
+                        </div>
+                      </div>`
+    );
   }
 }
 function clearProcess() {
-  $("#div-activ").append(`  <div class="form-group div-activity " id="">
-  <label for="message-text" class="col-form-label">Activity</label>
-  <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" placeholder="text" onclick="newActivity();">+ New </button>
-  <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
-</div>
-<div class="row mb-2 remove-div">
-  <div class="col">
-      <select class="form-control form-control-sm" id="category" required>
-          <option select disabled>Choose category</option>
-          <option value="Meeting/Discussion">Meeting/Discussion</option>
-          <option value="Coding">Coding</option>
-          <option value="Testing">Testing</option>
-          <option value="UAT/SIT">UAT/SIT</option>
-          <option value="Ticketing">Ticketing</option>
-          <option value="Docummentation">Docummentation</option>
-          <option value="Bug/Issue Fix">Bug/Issue Fix</option>
-          <option value="Support">Support</option>
-          <option value="Review">Review</option>
-          <option value="GoLive/Deploy">GoLive/Deploy</option>
-          <option value="Others">Others</option>
-      </select>
-  </div>
-  <div class="col">
-      <select class="form-control form-control-sm" id="status" required>
-          <option selected disabled>Choose status</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Pending">Pending</option>
-          <option value="Done">Done</option>
-          <option value="Need Approval">Need Approval</option>
-      </select>
-  </div>
-</div>
-<div class="form-group remove-div">
-  <input class="form-control form-control-sm" type="text" id="knownBy" placeholder="Known By" required>
-</div>`)
+  $("#div-activ")
+    .append(`<div class="border border-info rounded px-2 pt-2 mb-2 timesheet"> <div class="form-group div-activity">
+                              <label for="message-text" class="col-form-label">Activity </label>
+                              <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info mb-2 float-right" style="height: 45%;" onclick="newActivity();">+ New </button>
+                              <textarea class="form-control mb-2 activity" id="activity" required style="height:40px; max-height: 100px" placeholder="Write your activity here..."></textarea>
+                          </div>
+                          <div class="row mb-2 ">
+                            <div class="col">
+                                <select class="form-control form-control-sm category" id="category" required>
+                                    <option selected disabled>Choose category</option>
+                                    <option value="Meeting/Discussion">Meeting/Discussion</option>
+                                    <option value="Coding">Coding</option>
+                                    <option value="Testing">Testing</option>
+                                    <option value="UAT/SIT">UAT/SIT</option>
+                                    <option value="Ticketing">Ticketing</option>
+                                    <option value="Docummentation">Docummentation</option>
+                                    <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+                                    <option value="Support">Support</option>
+                                    <option value="Review">Review</option>
+                                    <option value="GoLive/Deploy">GoLive/Deploy</option>
+                                    <option value="Others">Others</option>
+                                </select>                                
+                            </div>
+                            <div class="col">
+                                <select class="form-control form-control-sm status" id="status" required>
+                                    <option selected disabled>Choose status</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Done">Done</option>
+                                    <option value="Need Approval">Need Approval</option>
+                                </select>                                
+                            </div>
+                        </div>                    
+
+                        <div class="form-group">
+                            <input class="form-control form-control-sm knownBy" id="knownBy" type="text" placeholder="Konwn By" required>                            
+                        </div>
+                     </div>`);
 }
-
-
