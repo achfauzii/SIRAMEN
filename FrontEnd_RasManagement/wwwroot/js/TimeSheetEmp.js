@@ -63,7 +63,18 @@ $(document).ready(function () {
       {
         data: null,
         render: function (data, type, row, meta) {
-          return meta.row + meta.settings._iDisplayStart + 1 + ".";
+            if (type === "display" || type === "filter") {
+                // Increment the row number only when the date changes
+                if (
+                    meta.row > 0 &&
+                    row.date === meta.settings.aoData[meta.row - 1]._aData.date
+                ) {
+                    return "";
+                }
+                return meta.row + meta.settings._iDisplayStart + 1 + ".";
+            }
+            // For other types, return an empty string
+            return "";
         },
       },
       {
@@ -79,7 +90,18 @@ $(document).ready(function () {
         },
       },
       {
-        data: "activity",
+          data: "activity",
+          render: function (data, type, row) {
+              if (type === "display" || type === "filter") {
+                  // Replace <br> tags with bullet points
+                  const lines = data.split('<br>');
+                  const bulletedLines = lines.map(line => '<li>' + line + '</li>').join('');
+                  return '<ul>'+ bulletedLines + '</ul>';
+              }
+              // For other types, return the original data
+              return data;
+          },
+
       },
       { data: "flag" },
       {
@@ -111,18 +133,43 @@ $(document).ready(function () {
       
     ],
     //Agar nomor tidak berubah
-    drawCallback: function (settings) {
-      var api = this.api();
-      var rows = api.rows({ page: "current" }).nodes();
-      var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-      var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+      drawCallback: function (settings) {
+          var api = this.api();
+          var rows = api.rows({ page: "current" }).nodes();
+          var currentPage = api.page.info().page;
+          var startNumber = currentPage * api.page.info().length + 1;
+          var previousDate = null;
 
-      api
-        .column(0, { page: "current" })
-        .nodes()
-        .each(function (cell, i) {
-          cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-        });
+          api
+              .column(0, { page: "current" })
+              .nodes()
+              .each(function (cell, i) {
+                  var currentDate = rows[i].cells[1].textContent; // Assuming date is in the second column
+                  if (currentDate === previousDate) {
+                      cell.innerHTML = "";
+                  } else {
+                      cell.innerHTML = startNumber++;
+                  }
+                  previousDate = currentDate;
+              });
+          // Add rowspan to No and Date columns
+          var currentRowspan = 1;
+          var previousDate = null;
+
+          api.column(1, { page: "current" })
+              .data()
+              .each(function (date, index) {
+                  if (date === previousDate) {
+                      currentRowspan++;
+                      $(rows[index - 1])
+                          .find("td:eq(0), td:eq(1)")
+                          .attr("rowspan", currentRowspan);
+                      $(rows[index]).find("td:eq(0), td:eq(1)").remove();
+                  } else {
+                      currentRowspan = 1;
+                  }
+                  previousDate = date;
+              });
     },
   });
 });
