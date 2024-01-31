@@ -62,7 +62,6 @@ $(document).ready(function () {
             },
         },
         columns: [
-
             {
                 name: "first",
                 data: "date",
@@ -85,14 +84,14 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     return (
-                        '<button class="btn btn-sm btn-warning mr-2 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return getById(' +
+                        '<a class="text-warning text-end" data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return getById(' +
                         row.id +
-                        ')"><i class="fa fa-edit"></i></button >'
+                        ')"><i class="fa fa-edit"></i></a>'
                     );
                 },
             },
         ],
-        rowsGroup: ["first:name", "second:name"],
+        rowsGroup: ["first:name","second:name"],
         order: [[0, "desc"]],
         columnDefs: [
             {
@@ -101,19 +100,19 @@ $(document).ready(function () {
             },
         ],
         //Agar nomor tidak berubah
-        /* drawCallback: function (settings) {
-             var api = this.api();
-             var rows = api.rows({ page: "current" }).nodes();
-             var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-             var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
- 
-             api
-                 .column(0, { page: "current" })
-                 .nodes()
-                 .each(function (cell, i) {
-                     cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-                 });
-         },*/
+       /* drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+            api
+                .column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },*/
     });
 });
 
@@ -135,9 +134,9 @@ function getById(Id) {
             $("#activity").val(obj.activity);
             const date = formatDate(obj.date);
             $("#inputDate").val(date);
-            $("#inputDate").prop("disabled", true);
+            $("#inputDate").prop("disabled", false);
             $("#flag").val(obj.flag);
-            $("#flag").prop("disabled", true);
+            $("#flag").prop("disabled", false);
             $("#category").val(obj.category);
             $("#status").val(obj.status);
             $("#knownBy").val(obj.knownBy);
@@ -294,7 +293,6 @@ function save() {
                 })
                 $("#timeSheetModal").modal("hide");
                 table.ajax.reload();
-
             }
             table.columns.adjust().draw();
         },
