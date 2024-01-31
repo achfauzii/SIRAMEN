@@ -62,7 +62,6 @@ $(document).ready(function () {
             },
         },
         columns: [
-      
             {
                 name: "first",
                 data: "date",
