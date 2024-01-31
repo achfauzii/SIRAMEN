@@ -61,13 +61,8 @@ $(document).ready(function () {
     },
     columns: [
       {
-        data: null,
-        render: function (data, type, row, meta) {
-          return meta.row + meta.settings._iDisplayStart + 1 + ".";
-        },
-      },
-      {
         data: "date",
+        name: "second",
         render: function (data, type, row) {
           if (type === "display" || type === "filter") {
             // Format tanggal dalam format yang diinginkan
@@ -102,27 +97,28 @@ $(document).ready(function () {
         },
       },
     ],
-    order: [[1, "desc"]],
+    rowsGroup: ["second:name", 0],
+    order: [[0, "desc"]],
     columnDefs: [
       {
-        targets: [0, 2, 3, 4, 5, 6, 7],
+        targets: [0, 2, 3, 4, 5, 6],
         orderable: false,
       },
     ],
     //Agar nomor tidak berubah
-    drawCallback: function (settings) {
-      var api = this.api();
-      var rows = api.rows({ page: "current" }).nodes();
-      var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-      var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+    // drawCallback: function (settings) {
+    //   var api = this.api();
+    //   var rows = api.rows({ page: "current" }).nodes();
+    //   var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+    //   var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
 
-      api
-        .column(0, { page: "current" })
-        .nodes()
-        .each(function (cell, i) {
-          cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-        });
-    },
+    //   api
+    //     .column(0, { page: "current" })
+    //     .nodes()
+    //     .each(function (cell, i) {
+    //       cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+    //     });
+    // },
   });
 });
 
@@ -297,105 +293,85 @@ function save() {
 
   //Activity Input
   var intActivityArray = document.getElementsByClassName("activity");
-  var intActivity = "";
-  for (var i = 0; i < intActivityArray.length; i += 1) {
-    intActivity += intActivityArray[i].value + "<br>";
-  }
-
-  //Category Input
   var intCategoryArray = document.getElementsByClassName("category");
-  var intCategory = "";
-  for (var i = 0; i < intCategoryArray.length; i += 1) {
-    intCategory += intCategoryArray[i].value + "<br>";
-  }
-
-  //Status Input
   var intStatusArray = document.getElementsByClassName("status");
-  var intStatus = "";
-  for (var i = 0; i < intStatusArray.length; i += 1) {
-    intStatus += intStatusArray[i].value + "<br>";
-  }
-
-  //KnownBy Input
   var intKnownArray = document.getElementsByClassName("knownBy");
-  var intKnown = "";
-  for (var i = 0; i < intKnownArray.length; i += 1) {
-    intKnown += intKnownArray[i].value + "<br>";
-  }
 
-  var TimeSheet = new Object();
-  TimeSheet.Date = $("#inputDate").val();
-  TimeSheet.Flag = $("#flag").val();
-  TimeSheet.AccountId = accid;
-  TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
-  TimeSheet.KnownBy = intKnown.substr(0, intKnown.length - 4);
+  for (var i = 0; i < intActivityArray.length; i += 1) {
+    var TimeSheet = new Object();
+    TimeSheet.Date = $("#inputDate").val();
+    TimeSheet.Flag = $("#flag").val();
+    TimeSheet.AccountId = accid;
+    TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
+    TimeSheet.KnownBy = intKnownArray[i].value;
 
-  if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
-    TimeSheet.Activity = "";
-    TimeSheet.Category = "";
-    TimeSheet.Status = "";
-  } else {
-    TimeSheet.Activity = intActivity.substr(0, intActivity.length - 4);
-    TimeSheet.Category = intCategory.substr(0, intCategory.length - 4);
-    TimeSheet.Status = intStatus.substr(0, intStatus.length - 4);
-  }
+    if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
+      TimeSheet.Activity = "";
+      TimeSheet.Category = "";
+      TimeSheet.Status = "";
+    } else {
+      TimeSheet.Activity = intActivityArray[i].value;
+      TimeSheet.Category = intCategoryArray[i].value;
+      TimeSheet.Status = intStatusArray[i].value;
+    }
 
-  $.ajax({
-    type: "POST",
-    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
-    data: JSON.stringify(TimeSheet),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-    success: function (response) {
-      if (response.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Data has been added!",
-          html:
-            TimeSheet.Flag === "Sick"
-              ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
-              : "",
-          showConfirmButton: true,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-      } else if (response.status === 400) {
-        Swal.fire({
-          icon: "warning",
-          title: "Failed",
-          text: "Time Sheet with the same date already exists!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-      } else if (response.status === 404) {
+    $.ajax({
+      type: "POST",
+      url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+      data: JSON.stringify(TimeSheet),
+      contentType: "application/json; charset=utf-8",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+      success: function (response) {
+        if (response.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Data has been added!",
+            html:
+              TimeSheet.Flag === "Sick"
+                ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
+                : "",
+            showConfirmButton: true,
+          });
+          $("#timeSheetModal").modal("hide");
+          table.ajax.reload();
+        } else if (response.status === 400) {
+          Swal.fire({
+            icon: "warning",
+            title: "Failed",
+            text: "Time Sheet with the same date already exists!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#timeSheetModal").modal("hide");
+          table.ajax.reload();
+        } else if (response.status === 404) {
+          Swal.fire({
+            icon: "warning",
+            title: "Failed",
+            text: "Cannot add a timesheet, the placement field is null.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#timeSheetModal").modal("hide");
+          table.ajax.reload();
+        }
+        table.columns.adjust().draw();
+      },
+      error: function (error) {
         Swal.fire({
           icon: "warning",
           title: "Failed",
           text: "Cannot add a timesheet, the placement field is null.",
-          showConfirmButton: false,
-          timer: 1500,
+          showConfirmButton: true,
         });
         $("#timeSheetModal").modal("hide");
         table.ajax.reload();
-      }
-      table.columns.adjust().draw();
-    },
-    error: function (error) {
-      Swal.fire({
-        icon: "warning",
-        title: "Failed",
-        text: "Cannot add a timesheet, the placement field is null.",
-        showConfirmButton: true,
-      });
-      $("#timeSheetModal").modal("hide");
-      table.ajax.reload();
-      table.columns.adjust().draw();
-    },
-  });
+        table.columns.adjust().draw();
+      },
+    });
+  }
 }
 
 function clearScreen() {

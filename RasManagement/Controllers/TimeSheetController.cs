@@ -34,6 +34,21 @@ namespace RasManagement.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("activity")]
+        public async Task<IActionResult> GetTimeSheetActivity(string accountId, DateTime date)
+        {
+            var get = await timeSheetRepository.GetTimeSheetsActivity(accountId, date);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
         [HttpGet("TimeSheetByAccountIdAndMonth")]
         public async Task<IActionResult> GetTimeSheetByAccountIdAndMonth([FromQuery] string accountId, [FromQuery] string month)
         {
@@ -68,7 +83,8 @@ namespace RasManagement.Controllers
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
-            try {
+            try
+            {
                 if (timeSheetRepository.IsDateUnique(timeSheet.AccountId, timeSheet.Date))
                 {
                     /* if( timeSheet.PlacementStatusId==0 || timeSheet.PlacementStatus == null)
@@ -85,11 +101,12 @@ namespace RasManagement.Controllers
                     // Handle the case where the date is not unique
                     return Ok(new { status = HttpStatusCode.BadRequest, message = "Time Sheet with the same date already exists!" });
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return Ok(new { status = HttpStatusCode.NotFound, message = "Cannot add a timesheet, the placement field is null." });
             }
-           
+
         }
 
         /*[HttpGet("ByCurrentMonth")]
