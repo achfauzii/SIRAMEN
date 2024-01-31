@@ -121,11 +121,11 @@ function Save() {
     $(".frameworkOptions").closest(".form-group").find(".error-message").hide();
   }
 
-  /*
+  
         if (!isValid) {
     
             return;
-        }*/
+        }
   var qualifications = new Object(); //bikin objek baru
 
   qualifications.framework = $("#framework_").val().join(", ");

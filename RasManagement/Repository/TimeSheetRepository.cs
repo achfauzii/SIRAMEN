@@ -20,6 +20,15 @@ namespace RasManagement.Repository
             return timeSheetAccount;
         }
 
+        public async Task<List<TimeSheet>> GetTimeSheetsActivity(string accountId, DateTime date)
+        {
+            var timeSheetAccount = await context.TimeSheets
+                .Where(e => e.AccountId == accountId && e.Date == date)
+                .ToListAsync();
+
+            return timeSheetAccount;
+        }
+
         public async Task<List<TimeSheet>> GetTimeSheetsByAccountIdAndMonth(string accountId, DateTime targetDate)
         {
             var timeSheets = await context.TimeSheets
@@ -61,7 +70,7 @@ namespace RasManagement.Repository
                         description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}</br>"))}",
                         start = dayGroup.Key.Date,
                         allDay = true,
-                        
+
                         //flag = flagCount.Flag,
                         backgroundColor = GetColorByFlag(flagCount.Flag),
                         borderColor = GetColorByFlag(flagCount.Flag),
@@ -71,23 +80,25 @@ namespace RasManagement.Repository
                 }
 
                 return resultWithTitles.Cast<object>().ToList();
-               
-                } 
-                else {
-                    var timeSheets = await context.TimeSheets
-                    .Include(a=> a.Account)
-                    .Where(ts => ts.Date >= start
-                                && ts.Date <= end)
-                    .Select(ts => new {
-                        title = ts.Activity,
-                        start = ts.Date,
-                        description = ts.Account.Fullname,
-                        //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
-                        allDay = true,
-                        backgroundColor = GetColorByFlag(ts.Flag),
-                        borderColor = GetColorByFlag(ts.Flag),
+
+            }
+            else
+            {
+                var timeSheets = await context.TimeSheets
+                .Include(a => a.Account)
+                .Where(ts => ts.Date >= start
+                            && ts.Date <= end)
+                .Select(ts => new
+                {
+                    title = ts.Activity,
+                    start = ts.Date,
+                    description = ts.Account.Fullname,
+                    //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
+                    allDay = true,
+                    backgroundColor = GetColorByFlag(ts.Flag),
+                    borderColor = GetColorByFlag(ts.Flag),
                 })
-                .ToListAsync();
+            .ToListAsync();
                 return timeSheets;
             }
         }

@@ -63,12 +63,7 @@ $(document).ready(function () {
     },
     columns: [
       {
-        data: null,
-        render: function (data, type, row, meta) {
-          return meta.row + meta.settings._iDisplayStart + 1 + ".";
-        },
-      },
-      {
+        name: "first",
         data: "date",
         render: function (data, type, row) {
           if (type === "display" || type === "filter") {
@@ -81,7 +76,7 @@ $(document).ready(function () {
         },
       },
       { data: "activity" },
-      { data: "flag" },
+      { name: "second", data: "flag" },
       { data: "category" },
       { data: "status" },
       { data: "knownBy" },
@@ -89,34 +84,35 @@ $(document).ready(function () {
         data: null,
         render: function (data, type, row) {
           return (
-            '<button class="btn btn-sm btn-warning mr-2 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return getById(' +
+            '<a class="text-warning text-end" data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return getById(' +
             row.id +
-            ')"><i class="fa fa-edit"></i></button >'
+            ')"><i class="fa fa-edit"></i></a>'
           );
         },
       },
     ],
-    order: [[1, "desc"]],
+    rowsGroup: ["first:name", "second:name"],
+    order: [[0, "desc"]],
     columnDefs: [
       {
-        targets: [0, 2, 3, 4, 5, 6, 7],
+        targets: [2, 3, 4, 5, 6],
         orderable: false,
       },
     ],
     //Agar nomor tidak berubah
-    drawCallback: function (settings) {
-      var api = this.api();
-      var rows = api.rows({ page: "current" }).nodes();
-      var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-      var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+    /* drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
 
-      api
-        .column(0, { page: "current" })
-        .nodes()
-        .each(function (cell, i) {
-          cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-        });
-    },
+            api
+                .column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },*/
   });
 });
 
@@ -133,20 +129,14 @@ function getById(Id) {
       //debugger;
       var obj = result.data; //data yg dapet dr id
 
-      const intActivity = obj.activity.split("<br>");
-      setProcess(intActivity.length - 1);
-      var elementActivity = document.getElementsByClassName("class-activity");
-      for (let i = 0; i < intActivity.length; i++) {
-        elementActivity[i].value = intActivity[i];
-      }
-
       $("#timeSheetId").val(obj.id); //ngambil data dr api
       $("#lastPlacementId").val(obj.placementStatusId);
       $("#activity").val(obj.activity);
       const date = formatDate(obj.date);
       $("#inputDate").val(date);
-
+      $("#inputDate").prop("disabled", false);
       $("#flag").val(obj.flag);
+      $("#flag").prop("disabled", false);
       $("#category").val(obj.category);
       $("#status").val(obj.status);
       $("#knownBy").val(obj.knownBy);
@@ -163,20 +153,20 @@ function getById(Id) {
 function Update() {
   // debugger;
   /*var isValid = true;
-
-  $("input[required],select[required],textarea[required]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message").show();
-      isValid = false;
-    } else {
-      input.next(".error-message").hide();
-    }
-  });
-
-  if (!isValid) {
-    return;
-  }*/
+  
+    $("input[required],select[required],textarea[required]").each(function () {
+      var input = $(this);
+      if (!input.val()) {
+        input.next(".error-message").show();
+        isValid = false;
+      } else {
+        input.next(".error-message").hide();
+      }
+    });
+  
+    if (!isValid) {
+      return;
+    }*/
   var TimeSheet = new Object();
   TimeSheet.Id = $("#timeSheetId").val();
   TimeSheet.Date = $("#inputDate").val();
@@ -242,95 +232,87 @@ function Update() {
 }
 
 function save() {
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
+  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+  const accid = decodedtoken.AccountId;
 
-    var intActivityArray = document.getElementsByClassName("class-activity");
-    var intActivity = "";
-    for (var i = 0; i < intActivityArray.length; i += 1) {
-      intActivity += intActivityArray[i].value + "<br>";
-    }
+  var TimeSheet = new Object();
+  TimeSheet.Date = $("#inputDate").val();
+  TimeSheet.Flag = $("#flag").val();
+  TimeSheet.AccountId = accid;
+  TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
+  TimeSheet.KnownBy = $("#knownBy").val();
 
-    var TimeSheet = new Object();
-    TimeSheet.Date = $("#inputDate").val();
-    TimeSheet.Flag = $("#flag").val();
-    TimeSheet.AccountId = accid;
-    TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
-    TimeSheet.KnownBy = $("#knownBy").val();
-    
-    if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
-        TimeSheet.Activity = "";
-        TimeSheet.Category = "";
-        TimeSheet.Status = "";
-    } else {
-        TimeSheet.Activity = intActivity;
-        TimeSheet.Category = $("#category").val();
-        TimeSheet.Status = $("#status").val();
-    }
+  if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
+    TimeSheet.Activity = "";
+    TimeSheet.Category = "";
+    TimeSheet.Status = "";
+  } else {
+    TimeSheet.Activity = $("#activity").val();
+    TimeSheet.Category = $("#category").val();
+    TimeSheet.Status = $("#status").val();
+  }
 
-    $.ajax({
-        type: "POST",
-        url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
-        data: JSON.stringify(TimeSheet),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (response) {
-            if (response.status === 200) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Data has been added!",
-                    html:
-                        TimeSheet.Flag === "Sick"
-                            ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
-                            : "",
-                    showConfirmButton: true,
-                })
-                $("#timeSheetModal").modal("hide");
-                table.ajax.reload();
-            } else if (response.status === 400) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Failed",
-                    text: "Time Sheet with the same date already exists!",
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
-                $("#timeSheetModal").modal("hide");
-                table.ajax.reload();
-            } else if (response.status === 404) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Failed",
-                    text: "Cannot add a timesheet, the placement field is null.",
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
-                $("#timeSheetModal").modal("hide");
-                table.ajax.reload();
-            }
-        },
-        error: function (error) {
-            Swal.fire({
-                icon: "warning",
-                title: "Failed",
-                text: "Cannot add a timesheet, the placement field is null.",
-                showConfirmButton: true,
-               
-            })
-            $("#timeSheetModal").modal("hide");
-            table.ajax.reload();
-        }
-    })
+  $.ajax({
+    type: "POST",
+    url: "https://localhost:7177/api/TimeSheet",
+    data: JSON.stringify(TimeSheet),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (response) {
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Data has been added!",
+          html:
+            TimeSheet.Flag === "Sick"
+              ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
+              : "",
+          showConfirmButton: true,
+        });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+      } else if (response.status === 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "Failed",
+          text: "Time Sheet with the same date already exists!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+      } else if (response.status === 404) {
+        Swal.fire({
+          icon: "warning",
+          title: "Failed",
+          text: "Cannot add a timesheet, the placement field is null.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+      }
+      table.columns.adjust().draw();
+    },
+    error: function (error) {
+      Swal.fire({
+        icon: "warning",
+        title: "Failed",
+        text: "Cannot add a timesheet, the placement field is null.",
+        showConfirmButton: true,
+      });
+      $("#timeSheetModal").modal("hide");
+      table.ajax.reload();
+    },
+  });
 }
-   
-
 
 function clearScreen() {
-  $(".div-activity").remove();
-  clearProcess();
   $("#activity").val("");
+  $("#inputDate").prop("disabled", false);
+  $("#flag").prop("disabled", false);
   document.getElementById("flag").selectedIndex = 0;
   document.getElementById("category").selectedIndex = 0;
   document.getElementById("status").selectedIndex = 0;
@@ -372,23 +354,32 @@ function formatDate(date) {
   return [year, month, day].join("-");
 }
 
-function newActivity() {
-  $("#div-activ").append(`<textarea class="form-control mb-2 class-activity div-activity"  required style="height:40px; max-height: 100px"></textarea>`);
-}
-function setProcess(length) {
-  for (let i = 0; i < length; i++) {
-    $("#div-activ").append(`<textarea class="form-control mb-2 class-activity div-activity"  required style="height:40px; max-height: 100px"></textarea>`);
-  }
-}
-function clearProcess() {
-  $("#div-activ").append(`<div class="form-group div-activity" id="">
-  <label for="message-text" class="col-form-label">Activity</label>
-  <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newActivity();">+ New </button>
-  <textarea class="form-control mb-2 class-activity" id="activity" required style="height:40px; max-height: 100px"></textarea>
+/*function getPlacement(accountId) {
+    return new Promise(function (resolve, reject) {
+        //Get CompanyName (Placement)
+        $.ajax({
+            url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                var obj = result.data;
+                var obj = result.data;
+                if (obj && obj.length > 0) {
+                    var lastData = obj[0];
 
-  <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
-  <input class="form-control form-control-sm" type="text" id="lastPlacementId" hidden>
-</div>`)
-}
+                    resolve(lastData);
+                } else {
+                    console.log('Tidak ada data');
+                }
 
-
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            },
+        });
+    })
+}*/
