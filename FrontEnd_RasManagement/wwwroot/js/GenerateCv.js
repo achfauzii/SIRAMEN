@@ -348,16 +348,17 @@ function loadData() {
                         var row = tableBody.insertRow(i);
 
                         // Menghilangkan bullet dari data jobSpec
-                        var jobSpecWithoutBullet = project.jobSpec.replace(/•/g, "");
+                        // var jobSpecWithoutBullet = project.jobSpec.replace(/•/g, "");
 
                         // Memisahkan data jobSpec dengan baris baru (enter)
-                        var jobSpecItems = jobSpecWithoutBullet.split("\n");
+                        var jobSpecItems = project.jobSpec.split("\n");
 
                         // Membuat elemen ul untuk menampilkan jobSpec
                         var ul = document.createElement("ul");
+                        ul.className = "list-unstyled custom-ul";
                         console.log(jobSpecItems);
                         ul.classList.add("pl-3");
-                        if (jobSpecItems != " ") {
+                        if (jobSpecItems != "") {
                             // Mengisi elemen ul dengan item-item jobSpec
                             jobSpecItems.forEach(function (item) {
                                 var li = document.createElement("li");
