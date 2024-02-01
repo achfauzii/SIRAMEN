@@ -30,10 +30,10 @@
         public async Task<ClientName> ChangeName(string clientname, int id)
         {
             // Assuming you have a Department model and DbSet<Department> in your context
-            var newClient = new ClientName { NameOfClient = clientname,
-            
-            Id= id
-
+            var newClient = new ClientName
+            {
+                NameOfClient = clientname,
+                Id = id
             };
 
             // Add the new department to the context and save changes

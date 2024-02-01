@@ -1,6 +1,13 @@
 var table = null;
+var validateName = true;
 
 $(document).ready(function () {
+  $("input[required],select[required],textarea[required]").each(function () {
+    $(this)
+      .prev("label")
+      .append('<span class="required" style="color: red;">*</span>');
+  });
+
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   $.ajax({
@@ -19,6 +26,74 @@ $(document).ready(function () {
     error: function (errormessage) {
       alert(errormessage.responseText);
     },
+  });
+
+  // Condition untuk Flag Sick or Leave
+  $("#flag").on("change", function () {
+    var value = this.value;
+    if (value == "Sick" || value == "Leave") {
+      $("#activity").attr("disabled", "true");
+      $("#category").attr("disabled", "true");
+      $("#status").attr("disabled", "true");
+      $("#knownBy").attr("disabled", "true");
+
+      $("#activity").removeAttr("required");
+      $("#category").removeAttr("required");
+      $("#status").removeAttr("required");
+      $("#knownBy").removeAttr("required");
+
+      $(".required").remove();
+      $("input[required],select[required],textarea[required]").each(
+        function () {
+          $(this)
+            .prev("label")
+            .append('<span class="required" style="color: red;">*</span>');
+        }
+      );
+    } else {
+      $("#activity").removeAttr("disabled");
+      $("#category").removeAttr("disabled");
+      $("#status").removeAttr("disabled");
+      $("#knownBy").removeAttr("disabled");
+      $(".required").remove();
+
+      $("#activity").attr("required", "true");
+      $("#category").attr("required", "true");
+      $("#status").attr("required", "true");
+      $("#knownBy").attr("required", "true");
+
+      $("input[required],select[required],textarea[required]").each(
+        function () {
+          $(this)
+            .prev("label")
+            .append('<span class="required" style="color: red;">*</span>');
+        }
+      );
+    }
+  });
+
+  // Validasi Known By
+  $("#knownBy").on("keyup", function () {
+    var value = $(this).val();
+    var errorMessage = "";
+    var isValidCharacter = true;
+
+    var regex = /^[a-zA-Z'-\s]+$/;
+
+    if (regex.test(value) || value === "") {
+      isValidCharacter = true;
+      validateName = true;
+    } else {
+      isValidCharacter = false;
+      validateName = false;
+      errorMessage = "The field can only use letters.";
+    }
+
+    if (!isValidCharacter) {
+      $(this).next(".error-message").text(errorMessage).show();
+    } else if (isValidCharacter) {
+      $(this).next(".error-message").hide();
+    }
   });
 
   //Get CompanyName (Placement)
@@ -140,6 +215,47 @@ function getById(Id) {
       $("#category").val(obj.category);
       $("#status").val(obj.status);
       $("#knownBy").val(obj.knownBy);
+
+      $(".required").remove();
+      var value = obj.flag;
+      if (value == "Sick" || value == "Leave") {
+        $("#activity").attr("disabled", "true");
+        $("#category").attr("disabled", "true");
+        $("#status").attr("disabled", "true");
+        $("#knownBy").attr("disabled", "true");
+
+        $("#activity").removeAttr("required");
+        $("#category").removeAttr("required");
+        $("#status").removeAttr("required");
+        $("#knownBy").removeAttr("required");
+
+        $("input[required],select[required],textarea[required]").each(
+          function () {
+            $(this)
+              .prev("label")
+              .append('<span class="required" style="color: red;">*</span>');
+          }
+        );
+      } else {
+        $("#activity").removeAttr("disabled");
+        $("#category").removeAttr("disabled");
+        $("#status").removeAttr("disabled");
+        $("#knownBy").removeAttr("disabled");
+
+        $("#activity").attr("required", "true");
+        $("#category").attr("required", "true");
+        $("#status").attr("required", "true");
+        $("#knownBy").attr("required", "true");
+
+        $("input[required],select[required],textarea[required]").each(
+          function () {
+            $(this)
+              .prev("label")
+              .append('<span class="required" style="color: red;">*</span>');
+          }
+        );
+      }
+
       $("#timeSheetModal").modal("show");
       $("#Save").hide();
       $("#Update").show();
@@ -152,21 +268,28 @@ function getById(Id) {
 
 function Update() {
   // debugger;
-  /*var isValid = true;
-  
-    $("input[required],select[required],textarea[required]").each(function () {
-      var input = $(this);
-      if (!input.val()) {
-        input.next(".error-message").show();
-        isValid = false;
-      } else {
-        input.next(".error-message").hide();
-      }
-    });
-  
-    if (!isValid) {
-      return;
-    }*/
+  var isValid = true;
+
+  $("input[required],select[required],textarea[required]").each(function () {
+    var input = $(this);
+    if (!input.val()) {
+      input.next(".error-message").show();
+      isValid = false;
+    } else {
+      input.next(".error-message").hide();
+    }
+  });
+
+  if (!isValid) {
+    return;
+  }
+
+  if (!validateName) {
+    $("#knownBy").focus();
+    $("#knownBy").next(".error-message").show();
+    return;
+  }
+
   var TimeSheet = new Object();
   TimeSheet.Id = $("#timeSheetId").val();
   TimeSheet.Date = $("#inputDate").val();
@@ -179,6 +302,8 @@ function Update() {
   const accid = decodedtoken.AccountId;
   TimeSheet.accountId = accid;
 
+  console.log(TimeSheet);
+  // debugger;
   $.ajax({
     url:
       "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
@@ -204,7 +329,7 @@ function Update() {
   });
 
   $.ajax({
-    url: "https://localhost:7177/api/TimeSheet",
+    url: "https://localhost:7177/api/TimeSheet/Update",
     type: "PUT",
     data: JSON.stringify(TimeSheet),
     contentType: "application/json; charset=utf-8",
@@ -223,6 +348,13 @@ function Update() {
       });
       $("#timeSheetModal").modal("hide");
       table.ajax.reload();
+    } else if (result.status == 400) {
+      Swal.fire({
+        icon: "warning",
+        title: "Failed",
+        text: "Flag with the same date can't be the same!",
+        showConfirmButton: true,
+      });
     } else {
       Swal.fire("Error!", "Your failed to update", "error");
       table.ajax.reload();
@@ -234,6 +366,28 @@ function Update() {
 function save() {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
+
+  var isValid = true;
+
+  if (!validateName) {
+    $("#knownBy").focus();
+    $("#knownBy").next(".error-message").show();
+    return;
+  }
+
+  $("input[required], textarea[required], select[required]").each(function () {
+    var element = $(this);
+    if (!element.val()) {
+      element.next(".error-message").text("This field is required!").show();
+      isValid = false;
+    } else {
+      element.next(".error-message").hide();
+    }
+  });
+
+  if (!isValid) {
+    return;
+  }
 
   var TimeSheet = new Object();
   TimeSheet.Date = $("#inputDate").val();
@@ -254,7 +408,7 @@ function save() {
 
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/TimeSheet",
+    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
     data: JSON.stringify(TimeSheet),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -277,19 +431,26 @@ function save() {
         Swal.fire({
           icon: "warning",
           title: "Failed",
-          text: "Time Sheet with the same date already exists!",
-          showConfirmButton: false,
-          timer: 1500,
+          text: "Flag with the same date can't be the same!",
+          showConfirmButton: true,
         });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
+        // $("#timeSheetModal").modal("hide");
+        // table.ajax.reload();
+      } else if (response.status === 406) {
+        Swal.fire({
+          icon: "warning",
+          title: "Failed",
+          text: "Can't add activities to Sick or Leave flags!",
+          showConfirmButton: true,
+        });
+        // $("#timeSheetModal").modal("hide");
+        // table.ajax.reload();
       } else if (response.status === 404) {
         Swal.fire({
           icon: "warning",
           title: "Failed",
           text: "Cannot add a timesheet, the placement field is null.",
-          showConfirmButton: false,
-          timer: 1500,
+          showConfirmButton: true,
         });
         $("#timeSheetModal").modal("hide");
         table.ajax.reload();
@@ -311,6 +472,7 @@ function save() {
 
 function clearScreen() {
   $("#activity").val("");
+  $(".error-message").hide();
   $("#inputDate").prop("disabled", false);
   $("#flag").prop("disabled", false);
   document.getElementById("flag").selectedIndex = 0;
@@ -353,33 +515,3 @@ function formatDate(date) {
 
   return [year, month, day].join("-");
 }
-
-/*function getPlacement(accountId) {
-    return new Promise(function (resolve, reject) {
-        //Get CompanyName (Placement)
-        $.ajax({
-            url: "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            success: function (result) {
-                var obj = result.data;
-                var obj = result.data;
-                if (obj && obj.length > 0) {
-                    var lastData = obj[0];
-
-                    resolve(lastData);
-                } else {
-                    console.log('Tidak ada data');
-                }
-
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            },
-        });
-    })
-}*/

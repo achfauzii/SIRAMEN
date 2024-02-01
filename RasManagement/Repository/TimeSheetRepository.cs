@@ -124,13 +124,81 @@ namespace RasManagement.Repository
 
         public int AddTimeSheet(TimeSheet timeSheet)
         {
-            // Validasi untuk memastikan tanggal unik
-            if (IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+            // Validasi Flag harus sama
+            var data = context.TimeSheets.FirstOrDefault(t => t.AccountId == timeSheet.AccountId && t.Date == timeSheet.Date);
+
+            if (data != null)
+            {
+                if (data.Flag == "Sick" || data.Flag == "Leave")
+                {
+                    return 406;
+                }
+                else if (data.Flag == timeSheet.Flag)
+                {
+                    context.TimeSheets.Add(timeSheet);
+                    return context.SaveChanges();
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            else
             {
                 context.TimeSheets.Add(timeSheet);
                 return context.SaveChanges();
             }
-            return 400;
+
+            // Validasi untuk memastikan tanggal unik
+            // if (IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+            // {
+            //     context.TimeSheets.Add(timeSheet);
+            //     return context.SaveChanges();
+            // }
+            // return 400;
+        }
+
+        public int UpdateTimeSheet(TimeSheet data)
+        {
+            // Validasi Flag harus sama
+            var result = context.TimeSheets.FirstOrDefault(t => t.AccountId == data.AccountId && t.Date == data.Date);
+
+            if (result != null)
+            {
+                if (result.Flag == data.Flag)
+                {
+                    var timesheet = context.TimeSheets.Find(data.Id);
+                    timesheet.Activity = data.Activity;
+                    timesheet.Flag = data.Flag;
+                    timesheet.Date = data.Date;
+                    timesheet.Category = data.Category;
+                    timesheet.Status = data.Status;
+                    timesheet.KnownBy = data.KnownBy;
+                    timesheet.AccountId = data.AccountId;
+                    timesheet.PlacementStatusId = data.PlacementStatusId;
+                    Console.WriteLine("same");
+                    return context.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("not same");
+                    return 304;
+                }
+            }
+            else
+            {
+                var timesheet = context.TimeSheets.Find(data.Id);
+                timesheet.Activity = data.Activity;
+                timesheet.Flag = data.Flag;
+                timesheet.Date = data.Date;
+                timesheet.Category = data.Category;
+                timesheet.Status = data.Status;
+                timesheet.KnownBy = data.KnownBy;
+                timesheet.AccountId = data.AccountId;
+                timesheet.PlacementStatusId = data.PlacementStatusId;
+                Console.WriteLine("null");
+                return context.SaveChanges();
+            }
         }
 
         public bool IsDateUnique(string accountId, DateTime? targetDate)
