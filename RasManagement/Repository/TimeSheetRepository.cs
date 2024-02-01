@@ -42,65 +42,41 @@ namespace RasManagement.Repository
         }
         public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end)
         {
-            if (end.Subtract(start).Days > 41)
+          if (end.Subtract(start).Days > 41)
             {
-                var timeSheets = context.TimeSheets
-                .Where(ts => ts.Date >= start && ts.Date <= end)
-                .Include(a => a.Account)
-                .GroupBy(ts => new { ts.Date, ts.Flag })
-                .ToList();
-
-                var resultWithTitles = new List<object>();
-                foreach (var dayGroup in timeSheets)
-                {
-                    var countFlag = dayGroup
-                    .GroupBy(ts => ts.Flag)
-                    .Select(flagGroup => new
-                    {
-                        Flag = flagGroup.Key,
-                        Count = flagGroup.Count()
-                    })
-                    .ToList();
-
-                    var titles = countFlag
-
-                    .Select(flagCount => new
-                    {
-                        title = $"{flagCount.Flag}:{flagCount.Count}",
-                        description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}</br>"))}",
-                        start = dayGroup.Key.Date,
-                        allDay = true,
-
-                        //flag = flagCount.Flag,
-                        backgroundColor = GetColorByFlag(flagCount.Flag),
-                        borderColor = GetColorByFlag(flagCount.Flag),
-                    })
-                .ToList();
-                    resultWithTitles.AddRange(titles);
-                }
-
-                return resultWithTitles.Cast<object>().ToList();
-
-            }
-            else
-            {
-                var timeSheets = await context.TimeSheets
-                .Include(a => a.Account)
-                .Where(ts => ts.Date >= start
-                            && ts.Date <= end)
-                .Select(ts => new
-                {
-                    title = ts.Activity,
-                    start = ts.Date,
-                    description = ts.Account.Fullname,
-                    //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
-                    allDay = true,
-                    backgroundColor = GetColorByFlag(ts.Flag),
-                    borderColor = GetColorByFlag(ts.Flag),
+            var timeSheets = context.TimeSheets
+              .Include(a => a.Account)
+              .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
+              .AsEnumerable()
+              .Select(group => new
+              {
+                  start = group.Key.Date,
+                  allDay= true,
+                  title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
+                  AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
+                  description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                  AccountInfo = group.Select(ts => new
+                  {
+                      AccountId = ts.AccountId,
+                      AccountName = ts.Account.Fullname 
+                  }).Distinct(),
                 })
+              .ToList();
+              return timeSheets;
+          } else {
+            var timeSheets = await context.TimeSheets
+            .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
+            .Select(group => new
+            {
+                start = group.Key.Date,
+                title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                
+                description = string.Join("<br> ", group.Select(ts => ts.Activity)),
+                allDay = true
+            })
             .ToListAsync();
-                return timeSheets;
-            }
+            return timeSheets;
+          }
         }
         public static string GetColorByFlag(string flag)
         {
