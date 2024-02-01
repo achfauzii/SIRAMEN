@@ -40,31 +40,50 @@ namespace RasManagement.Repository
 
             return timeSheets;
         }
-        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end)
-        {
+        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, String flag, String Search)
+        {   
+          if(!string.IsNullOrEmpty(flag)){
+             var timeSheets = context.TimeSheets
+              .Include(a => a.Account)
+              .Where(ts => ts.Flag == flag)
+              .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
+              .AsEnumerable()
+              .Select(group => new
+              {
+                  start = group.Key.Date,
+                  flag= flag,
+                  search = Search,
+                  allDay= true,
+                  title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
+                  AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
+                  description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                 
+                })
+              .ToList();
+              return timeSheets;
+          }
+
           if (end.Subtract(start).Days > 41)
             {
-            var timeSheets = context.TimeSheets
+              var timeSheets = context.TimeSheets
               .Include(a => a.Account)
               .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
               .AsEnumerable()
               .Select(group => new
               {
                   start = group.Key.Date,
+                  flag= flag,
+                  search = Search,
                   allDay= true,
                   title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
                   AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
                   description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                  AccountInfo = group.Select(ts => new
-                  {
-                      AccountId = ts.AccountId,
-                      AccountName = ts.Account.Fullname 
-                  }).Distinct(),
+                 
                 })
               .ToList();
               return timeSheets;
           } else {
-            var timeSheets = await context.TimeSheets
+            var timeSheets = context.TimeSheets
             .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
             .Select(group => new
             {
@@ -74,7 +93,7 @@ namespace RasManagement.Repository
                 description = string.Join("<br> ", group.Select(ts => ts.Activity)),
                 allDay = true
             })
-            .ToListAsync();
+            .ToList();
             return timeSheets;
           }
         }

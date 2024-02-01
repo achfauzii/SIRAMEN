@@ -14,55 +14,33 @@
 
 <section class="content">
     <div class="container-fluid">
-        <h4 style="font-family:comfortaa; color: black; padding: 5px 6px" class="font-weight-bold">Activity Calender</h4>
-    <div class="row">
-        <div class="col-md-0">
-            <div class="sticky-top mb-3">
-        </div>   
-        </div>
-        <!-- /.col -->
-        <div class="col-md">
-        <div class="card card-primary">
-            <div class="card-body p-0">
-            <!-- THE CALENDAR -->
-            <div id="calendar"></div>
+        <h4 style="font-family: comfortaa; color: black; padding: 5px 6px" class="font-weight-bold">Activity Calendar</h4>
+        <div class="row">
+            <div class="col-md">
+                <div class="card card-primary">
+                    <div class="card-body p-0">
+                    
+                            <div class=" text-right mr-3 mt-2 ">
+                                <div class="btn-group" role="group" aria-label="Button Filter">
+                                    <button type="button" id="btn-wfo" class="btn btn-primary" >wfo</button>
+                                    <button type="button" id="btn-wfc" class="btn btn-success" >wfc</button>
+                                    <button type="button" id="btn-wfh" class="btn btn-warning" >wfh</button>
+                                </div>
+                            </div>
+                        
+                        <!-- THE CALENDAR -->
+                        <div id="calendar"></div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
             </div>
-            <!-- /.card-body -->
+            <!-- /.col -->
         </div>
-        <div class="card mb -3">
-            <div class="card-body">
-            <!-- <div id="informationsection"> -->
-            <h5 class="card-title">Flag</h5>
-            <p class="card-text">
-            <small>
-                <ul>
-                    <li class="list-item">
-                        <span class="badge badge-primary" style="font-size: 12px;">Blue</span>
-                        <span class="bullet-text">: WFO</span>
-                    </li>
-                    <li class="list-item">
-                        <span class="badge badge-warning" style="font-size: 12px;">Yellow</span>
-                        <span class="bullet-text">: WFH</span>
-                    </li>
-                    <li class="list-item">
-                        <span class="badge badge-success" style="font-size: 12px;">Green</span>
-                        <span class="bullet-text">: WFC</span>
-                    </li>
-                    <li class="list-item">
-                        <span class="badge badge-secondary" style="font-size: 12px;">Grey</span>
-                        <span class="bullet-text">: Leave, Sick</span>
-                    </li>
-                    <li class="list-item">
-                        <span class="badge badge-danger" style="font-size: 12px;">Red</span>
-                        <span class="bullet-text">: Other</span>
-                    </li>
-                </ul>
-            </small> 
-        </div>
-    </div>
-    <!-- /.row -->
+        <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
+
 <!-- /.content -->
 
 <script src="~/js/ManageEmployee/ActivityCalendar.js"></script>
