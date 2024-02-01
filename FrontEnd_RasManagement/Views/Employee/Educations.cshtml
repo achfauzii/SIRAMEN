@@ -81,6 +81,7 @@
 
                     <div class="form-group">
                         <label for="UniversityName">University Name</label>
+                        <span style="color: red;">*</span>
                         <p>
                             <select id="UniversityName" class="selectUniversity form-control" required>
                                 <option></option>
@@ -97,6 +98,7 @@
                     </div>*@
                     <div class="form-group">
                         <label for="Location">Location</label>
+                        <span style="color: red;">*</span>
                         <p>
                             <select class="selectProvinces form-control" style="width:100%" id="selectProvinces" placeholder="Select Provinces" name="state">
                                 <option></option>
@@ -113,6 +115,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Major">Major</label>
+                        <span style="color: red;">*</span>
                         <p>
                             <select id="Major" class="selectMajor form-control" placeholder="Select your major" name="state" required>
                                 <option></option>
@@ -143,6 +146,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Ipk">IPK</label>
+                        <span style="color: red;">*</span>
                         <input type="text" class="form-control" id="Ipk" oninput="numeric(this);"  onpaste="numeric(this);" placeholder="Enter Your IPK/GPA" required>
                         <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
                         <span class="error-format-ipk" style="color: red; display: none;">Enter the correct GPA!</span>
@@ -215,6 +219,20 @@
 </div>
 
 <script>
+ $(document).ready(function () {
+    $('select[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+    $('input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+    $('input[required-nonformal]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+    $('select[required-nonformal]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+ });
     // Get the select element
     const yearSelect = document.getElementById("Years");
     const graduationYears = document.getElementById("GraduationYears");

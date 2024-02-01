@@ -213,6 +213,10 @@ function ClearScreen() {
         var input = $(this);
         input.next(".error-message").hide();
     });
+    $("textarea[required]").each(function () {
+        var textarea = $(this);
+        textarea.next(".error-message").hide();
+    })
 }
 function GetById(accountId) {
     $.ajax({
@@ -262,6 +266,7 @@ function GetById(accountId) {
 function clear() {
     $(".error-message").hide();
 }
+
 function updateData() {
     var accountId = $("#accountId").val();
     var isValid = true;
@@ -272,6 +277,15 @@ function updateData() {
             isValid = false;
         } else {
             input.next(".error-message").hide();
+        }
+    });
+    $("texarea[required]").each(function () {
+        var textarea = $(this);
+        if (!textarea.val()) {
+            textarea.next(".error-message").text("This field is required!").show();
+            isValid = false;
+        } else {
+            textarea.next(".error-message").hide();
         }
     });
     console.log(validName + " " + validNickName + " " + validBirthPlace);

@@ -94,7 +94,7 @@
                         <div class="col">
                             <label for="ssd">SSD</label>
                             <div class="input-group">
-                                <input type="text" class="form-control italic-placeholder" id="ssd" placeholder="256 / 512 / 1024">
+                                <input type="text" class="form-control italic-placeholder" id="ssd" placeholder="256 / 512 / 1024"required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">GB</span>
                                 </div>
@@ -104,7 +104,7 @@
                         <div class="col">
                             <label for="hdd">HDD</label>
                             <div class="input-group">
-                                <input type="text" class="form-control italic-placeholder" id="hdd" placeholder="256 / 512 / 1024">
+                                <input type="text" class="form-control italic-placeholder" id="hdd" placeholder="256 / 512 / 1024" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">GB</span>
                                 </div>
@@ -142,7 +142,19 @@
         </div>
     </div>
 </div>
-
+<script>
+    $(document).ready(function () {
+        $('select[required]').each(function () {
+            $(this).prev('label').append('<span style="color: red;">*</span>');
+        });
+        $('input[required]').each(function () {
+            $(this).prev('label').append('<span style="color: red;">*</span>');
+        });
+        $('input[required]').each(function () {
+            $(this).closest('.input-group').prev('label').append('<span style="color: red;">*</span>');
+        });
+    });
+</script>
 @section script
     {
     <script src="~/js/AssetsManagement.js"></script>
