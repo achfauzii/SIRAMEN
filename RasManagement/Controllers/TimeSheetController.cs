@@ -69,7 +69,7 @@ namespace RasManagement.Controllers
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data not found", Data = get });
             }
         }
-
+        [AllowAnonymous]
         [HttpGet("TimeSheetByMonth")]
         public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end)
         {

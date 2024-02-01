@@ -6,10 +6,21 @@ $(function () {
           center: 'title',
           right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
+        footerToolbar: {
+          center: 'title',
+        },
         themeSystem: 'bootstrap',
         lazyFetching: false,
-        eventDidMount:  function (info) {
-            updatePopoverContent(info);
+        eventDidMount: function (info) {
+
+          $(info.el).popover({
+              title: info.event.title,
+              placement: 'bottom',
+              html:true,
+              content: info.event.extendedProps.description,
+              trigger: 'hover',
+              container: 'body',
+          });
         },
       
         events: function (info, successCallback, failureCallback) {
@@ -25,43 +36,13 @@ $(function () {
               }
           });
       },
-      eventContent: function(arg) {
-        var view = calendar.view;
-        var title = '';
-        console.log(arg.event._def.extendedProps.description)
-        if (view.type === 'dayGridDay') {
-          title = arg.event._def.extendedProps.description +": "+ arg.event.title;
-        } else {
-          // Handle other views as needed
-          title = arg.event.title;
-        }
-  
-        return {
-          html: '<div class="custom-event">' + title + '</div>'
-        };
-      }
+      
       
       
       
       
     });
-    function updatePopoverContent(info) {
-    var isMonthView = calendar.view.type === 'timeGridMonth' || calendar.view.type === 'dayGridMonth';
-
-    var title = isMonthView ? info.event.title :  info.event.extendedProps.description;
-    var content = isMonthView ? info.event.extendedProps.description  :  info.event.title;
-
-    $(info.el).popover({
-        title: title,
-        html: true,
-        placement: 'bottom',
-        html: true,
-        content: content,
-        trigger: 'hover',
-        container: 'body',
-    });
-  }
-
+    
   calendar.render();
 
 });
