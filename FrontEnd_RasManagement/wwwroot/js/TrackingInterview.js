@@ -606,7 +606,7 @@ function clearProcess() {
 }
 
 function fetchCategories() {
-  fetch("https://localhost:7177/api/ClientName", {
+  fetch("https://localhost:7177/api/ClientName/Requirement", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -633,7 +633,7 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-  let maxVisibleCategories = 9;
+  let maxVisibleCategories = 4;
   categories.unshift({ id: 0, nameOfClient: "All" }); // Menambahkan opsi "All" ke dalam array categories
 
   // Mendeteksi lebar layar saat halaman dimuat

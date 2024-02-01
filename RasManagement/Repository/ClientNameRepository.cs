@@ -1,4 +1,6 @@
-﻿namespace RasManagement.Repository
+﻿using Org.BouncyCastle.Utilities;
+
+namespace RasManagement.Repository
 {
     public class ClientNameRepository : GeneralRepository<ProjectRasmanagementContext, ClientName, int>
     {
@@ -41,6 +43,25 @@
             await context.SaveChangesAsync();
 
             return newClient;
+        }
+
+        public async Task<object> GetClientRequirement()
+        {
+            var data = context.Positions.Include(c => c.Client)
+                            .ToList() // Fetch the data from the database
+                            .GroupBy(p => new { clientName = p.Client.NameOfClient })
+                            .Select(group => new
+                            {
+                                nameOfClient = group.Key.clientName,
+                                quantity = group.Sum(p =>
+                                {
+                                    int parsedQuantity;
+                                    return int.TryParse(p.Quantity, out parsedQuantity) ? parsedQuantity : 0;
+                                }),
+                            })
+                            .OrderByDescending(item => item.quantity)
+                            .ToList();
+            return data;
         }
 
     }
