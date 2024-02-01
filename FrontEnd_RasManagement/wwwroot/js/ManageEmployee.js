@@ -479,31 +479,59 @@ $(document).ready(function () {
 
 //Check Box Financial Industry
     $('#dataTableEmployee').on('change', '#financialIndustryCheck', function () {
+     
         var rowIndex = $(this).closest('tr').index(); 
         var isChecked = $(this).prop('checked'); 
    
 
         var rowData = table.row(rowIndex).data();
         var financialIndustryValue = { financialIndustry: isChecked.toString() };
+        if (isChecked == true) {
+            var status = "Yes";
+        } else {
+            var status = "No";
+        }
 
-        console.log(financialIndustryValue);
-        $.ajax({
-            url: "https://localhost:7177/api/Employees/" + rowData.accountId,
-            type: "PUT",
-            data: JSON.stringify(financialIndustryValue),
-            contentType: "application/json; charset=utf-8",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            success: function (result) {
-                if (result.status = 200) {
-                    const logMessage = `Has change financial Industry ${rowData.accountId}, to FinancialIndustry : ${isChecked.toString()}`;
-                    SaveLogUpdate(logMessage);
-                }
-            
-               
-            },
+        Swal.fire({
+            title: "Do you want to change?",
+            text: `You changes ${rowData.fullname}'s financial industry to ${status}`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "https://localhost:7177/api/Employees/" + rowData.accountId,
+                    type: "PUT",
+                    data: JSON.stringify(financialIndustryValue),
+                    contentType: "application/json; charset=utf-8",
+                    headers: {
+                        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                    },
+                    success: function (result) {
+                        if (result.status = 200) {
+                            Swal.fire({
+                                title: "Data has been change!",
+                                icon: "success"
+                            });
+                            const logMessage = `Has change financial Industry ${rowData.accountId}, to FinancialIndustry : ${isChecked.toString()}`;
+                            SaveLogUpdate(logMessage);
+                        }
+
+
+                    },
+                });
+            } else {
+                // Jika pengguna memilih "No", Anda dapat melakukan sesuatu di sini
+                console.log("User chose No");
+                // Contoh: Mengubah kembali status checkbox sesuai dengan nilai sebelumnya
+                $(this).prop('checked', !isChecked);
+            }
+      
         });
+
     });
 
 
