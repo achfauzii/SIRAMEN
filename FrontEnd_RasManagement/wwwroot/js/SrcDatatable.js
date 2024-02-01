@@ -1429,6 +1429,18 @@ function Save() {
                 $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
                 isValid = false;
             } else {
+                // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+                if (ipk === "4") {
+                    ipk = "4.00";
+                } else {
+                    var ipkParts = ipk.split(".");
+                    if (ipkParts.length === 1) {
+                        ipk += ".00";
+                    } else if (ipkParts[1].length === 1) {
+                        ipk += "0";
+                    }
+                }
+                input.val(ipk);
                 $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
             }
         }
@@ -1611,7 +1623,19 @@ function Update() {
                 $(".error-format-ipk-update").show(); // Menampilkan pesan error format IPK
                 isValid = false;
             } else {
-                $(".error-format-ipk-update").hide(); // Menyembunyikan pesan error format IPK
+                // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+                if (ipk === "4") {
+                    ipk = "4.00";
+                } else {
+                    var ipkParts = ipk.split(".");
+                    if (ipkParts.length === 1) {
+                        ipk += ".00";
+                    } else if (ipkParts[1].length === 1) {
+                        ipk += "0";
+                    }
+                }
+                input.val(ipk);
+                $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
             }
         }
     });
