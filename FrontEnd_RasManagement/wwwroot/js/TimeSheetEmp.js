@@ -473,6 +473,12 @@ function save() {
 function clearScreen() {
   $("#activity").val("");
   $(".error-message").hide();
+
+  $("#activity").removeAttr("disabled");
+  $("#category").removeAttr("disabled");
+  $("#status").removeAttr("disabled");
+  $("#knownBy").removeAttr("disabled");
+
   $("#inputDate").prop("disabled", false);
   $("#flag").prop("disabled", false);
   document.getElementById("flag").selectedIndex = 0;
