@@ -1635,7 +1635,7 @@ function Update() {
                     }
                 }
                 input.val(ipk);
-                $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+                $(".error-format-ipk-update").hide(); // Menyembunyikan pesan error format IPK
             }
         }
     });
