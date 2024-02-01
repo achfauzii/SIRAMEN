@@ -174,17 +174,45 @@ function loadData() {
         success: function (data) {
           //var qualification = qualificationData.data;
           var qualification = data.data[0];
-          $("#framework").text(qualification.framework);
-          $("#programmingLanguage").text(qualification.programmingLanguage);
-            $("#database").text(qualification.database);
-            $("#datatools").text(qualification.tools);
+          if (qualification == null){
+            var qualificationShow = document.getElementById("listQualification");
+            qualificationShow.style.display = "none";
+          } else {
+            if (qualification.framework == ""){
+                var frameworkShow = document.getElementById("frameworkShow");
+                frameworkShow.style.display = "none";
+            } else {
+                $("#framework").text(qualification.framework);
+            }
 
-          if (qualification.others == "") {
-            var others = document.getElementById("othersShow_");
+            if (qualification.programmingLanguage == ""){
+                var programmingLanguageShow = document.getElementById("programmingLanguageShow");
+                programmingLanguageShow.style.display = "none";
+            } else {
+                $("#programmingLanguage").text(qualification.programmingLanguage);
+            }
 
-            others.style.display = "none";
-          }
-          $("#others").text(qualification.others);
+            if (qualification.database == ""){
+                var databaseShow = document.getElementById("databaseShow");
+                databaseShow.style.display = "none";
+            } else {
+                $("#database").text(qualification.database);
+            }
+
+            if (qualification.tools == ""){
+                var datatoolsShow = document.getElementById("datatoolsShow");
+                datatoolsShow.style.display = "none";
+            } else {
+                $("#datatools").text(qualification.tools);
+            }
+
+            if (qualification.others == "") {
+                var others = document.getElementById("othersShow_");
+                others.style.display = "none";
+            } else{
+                $("#others").text(qualification.others);
+            }
+         }
         },
         error: function (educationError) {
           alert(educationError.responseText);
