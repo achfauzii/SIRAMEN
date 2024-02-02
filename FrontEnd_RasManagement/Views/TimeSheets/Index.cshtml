@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
@@ -92,7 +92,7 @@
                                     <span style="font-size: 16px;" class="col text-dark text-sm month">
 
                                         <input type="month" class="text-dark p-0 m-0" id="month" style="font-size: 16px; outline: none; border:none" onchange="submitMonth(this.value);">
-                                        
+
                                     </span>
                                 </div>
                             </div>
@@ -119,9 +119,11 @@
     <div class="card-header">
         <div class="row">
             <div class="col"><h5 class="mb-2">Time Sheet</h5></div>
-            <div class="col"><button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 float-right" id="exportPDF" onclick="exportPDF()">
-                Export PDF
-            </button></div>
+            <div class="col">
+                <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 float-right" id="exportPDF" onclick="exportPDF()">
+                    Export PDF
+                </button>
+            </div>
         </div>
     </div>
     <div class="card-body">
@@ -419,7 +421,7 @@
         </table>
         @* </div> *@
 
-        <br/><br/>
+        <br /><br />
         <div class="row mt-4">
             <div class="col-3"></div>
             <div class="col-3">TTD PEGAWAI</div>
