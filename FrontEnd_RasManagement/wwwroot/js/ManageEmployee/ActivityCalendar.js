@@ -50,9 +50,10 @@ $(function () {
         events: function (info, successCallback, failureCallback) {
           let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
           let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
-          
+          let flag = info.flag;
+
           $.ajax({
-              url: "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +  '?start='+ start + "&end=" + end + "&flag=",
+              url: "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +  '?start='+ start + "&end=" + end + "&flag=" + flag,
               type: 'GET',
               headers: {
                   Authorization: "Bearer " + sessionStorage.getItem("Token")
