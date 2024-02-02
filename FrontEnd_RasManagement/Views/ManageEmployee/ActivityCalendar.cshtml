@@ -2,6 +2,64 @@
     ViewData["Title"] = "DepartmentEmployee";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
+
+<style>
+    /* Gaya untuk teks dengan latar belakang warna */
+    /* .bg-info {
+        border-right: 1px solid #10161c;
+        border-top: 1px solid #10161c;
+        border-bottom: 1px solid #10161c;
+        /* padding: 15px;  */
+
+    .color-bg {
+        padding: 5px 6px;
+        border-radius: 5px;
+        border-color: Blue;
+    }
+
+    .green-bg {
+        background-color: #1cc88a; /* Warna hijau */
+        color: white;
+    }
+
+    .yellow-bg {
+        background-color: #f6c23e; /* Warna kuning */
+        color: white;
+    }
+
+    .red-bg {
+        background-color: #e74c3c; /* Warna merah */
+        color: white;
+    }
+
+    .grey-bg {
+        background-color: #858796; /* Warna abu-abu */
+        color: white;
+    }
+
+    /* Gaya untuk bullet */
+    .bullet {
+        list-style-type: none; /* Menghilangkan default bullet */
+        padding-left: 0; /* Menghilangkan padding default */
+        margin-bottom: 6px; /* Menambahkan jarak antara bagian */
+    }
+
+    /* Gaya untuk setiap item daftar */
+    .list-item {
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .bullet-text {
+        flex-grow: 1;
+        margin-left: 10px; /* Sesuaikan jarak sesuai kebutuhan */
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+</style>
+
 <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- fullCalendar -->
@@ -19,7 +77,6 @@
             <div class="col-md">
                 <div class="card card-primary">
                     <div class="card-body p-0">
-                    
                             <div class=" text-right mr-3 mt-2 ">
                                 <div class="btn-group" role="group" aria-label="Button Filter">
                                     <button type="button" id="btn-wfo" class="btn btn-primary" >wfo</button>
@@ -31,12 +88,47 @@
                         <!-- THE CALENDAR -->
                         <div id="calendar"></div>
                     </div>
+                    <div class="card color-bg">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: #858796; font-weight: bold;">Information!</h5>
+                            <p class="card-text text-body-secondary" style="font-size: 14px;">Keterangan Label Flag:</p>
+                            <small>
+                            <ul>
+                                <li class="list-item">
+                                    <span class="badge badge-primary" style="font-size: 12px;">Blue</span>
+                                    <span class="bullet-text">: WFO</span>
+                                </li>
+                                <li class="list-item">
+                                    <span class="badge badge-warning" style="font-size: 12px; color: white;">Yellow</span>
+                                    <span class="bullet-text">: WFH</span>
+                                </li>
+                                <li class="list-item">
+                                    <span class="badge badge-success" style="font-size: 12px;">Green</span>
+                                    <span class="bullet-text">: WFC</span>
+                                </li>
+                                <li class="list-item">
+                                    <span class="badge badge-secondary" style="font-size: 12px;">Grey</span>
+                                    <span class="bullet-text">: Leave, Sick</span>
+                                </li>
+                                <li class="list-item">
+                                    <span class="badge badge-danger" style="font-size: 12px;">Red</span>
+                                    <span class="bullet-text">: Other</span>
+                                </li>
+                            </ul>
+                        </small> 
+                        </div> 
+                    </div>
+                    <!-- <div class="card-footer">
+                    <h5 class="card-title">Flag</h5>
+                    <p class="card-text">
+                    
+                    </div> -->
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
             </div>
-            <!-- /.col -->
         </div>
+            <!-- /.col -->
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>

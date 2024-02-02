@@ -1,6 +1,11 @@
 ﻿var table = null;
 $(document).ready(function () {
     //debugger;
+
+    $('input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+    
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $("#TB_Certificate").DataTable({

@@ -1,5 +1,12 @@
 var table = null;
 $(document).ready(function () {
+    $('select[required], input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+
+    $('input[required]').each(function () {
+        $(this).closest('.input-group').prev('label').append('<span style="color: red;">*</span>');
+    });
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $("#TB_Assets").DataTable({

@@ -1,5 +1,15 @@
 ﻿var table = null;
 $(document).ready(function () {
+    $('select[required],input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+    $('input[required]').each(function () {
+        $(this).closest('.col pr-0 form-group').prev('label').append('<span style="color: red;">*</span>');
+    });
+    $('input[required]').each(function () {
+        $(this).closest('.col pl-0 form-group').prev('label').append('<span style="color: red;">*</span>');
+    });
+
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $("#TB_EmploymentHistory").DataTable({

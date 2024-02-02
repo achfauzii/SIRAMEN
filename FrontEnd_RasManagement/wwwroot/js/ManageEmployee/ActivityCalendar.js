@@ -32,34 +32,6 @@ $(function () {
         //     }
         //   }
         // },
-        footerToolbar: {
-          left: 'customButton1', // Customize buttons on the left
-          center: '',
-      },
-      customButtons: {
-          customButton1: {
-              text: 'Flag',
-          },
-        },
-      //     customButton2: {
-      //         text: 'Custom 2',
-      //         click: function() {
-      //             alert('Custom Button 2 clicked!');
-      //         }
-      //     },
-      //     customButton3: {
-      //         text: 'Custom 3',
-      //         click: function() {
-      //             alert('Custom Button 3 clicked!');
-      //         }
-      //     },
-      //     customButton4: {
-      //         text: 'Custom 4',
-      //         click: function() {
-      //             alert('Custom Button 4 clicked!');
-      //         }
-      //     }
-      //   },
   
         themeSystem: 'bootstrap',
         lazyFetching: false,

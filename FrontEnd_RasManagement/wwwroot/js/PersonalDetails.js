@@ -4,6 +4,11 @@ let validBirthPlace = true;
 $("#employeeAnnouncement").hide();
 
 $(document).ready(function () {
+    $('select[required],input[required], textarea[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+
+
     $('[data-toggle="tooltip"]').tooltip();
     //GetBirthday
     $.ajax({
