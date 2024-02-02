@@ -1,10 +1,21 @@
 ﻿var table = null;
+var position = null;
 
 $(document).ready(function () {
+  var objDataToken = parseJwt(sessionStorage.getItem("Token"));
+
+  if (objDataToken.RoleId == 7) {
+    $(".btn-add-tracking").hide();
+  }
   $("#Update").hide();
   $("#btnNewProcess").hide();
   table = $("#trackingIntvw").DataTable({
-    responsive: true,
+    fixedColumns: {
+      leftColumns: window.innerWidth > 1024 ? 2 : null,
+    },
+    fixedHeader: true,
+    scrollX: true,
+    searchable: true,
     ajax: {
       url: "https://localhost:7177/api/Tracking/Interview", // Your API endpoint
       type: "GET",
@@ -43,6 +54,12 @@ $(document).ready(function () {
                 "')\"></i>";
             }
 
+            // Validasi manager hide action (Only View)
+            var objDataToken = parseJwt(sessionStorage.getItem("Token"));
+            if (objDataToken.RoleId == 7) {
+              $(".edit-tracking, .edit").hide();
+            }
+
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
 
             $(document).on("mouseover", ".row", function () {
@@ -62,8 +79,47 @@ $(document).ready(function () {
       },
       { data: "position" },
       { data: "client" },
-      { data: "intStatus" },
-      { data: "intDate" },
+      {
+        data: "intStatus",
+        render: function (data, type, row) {
+          const intStatusArray = row.intStatus.split("<br>");
+
+          // Membuat objek untuk menyimpan data
+          const userData = { statusArray: [] };
+
+          // Mengumpulkan data status
+          for (let i = 0; i < intStatusArray.length; i++) {
+            // Menambahkan status ke dalam array yang sesuai
+            userData.statusArray.push(intStatusArray[i]);
+          }
+
+          // Menampilkan data terakhir
+          const lastStatus =
+            userData.statusArray[userData.statusArray.length - 1];
+
+          return lastStatus;
+        },
+      },
+      {
+        data: "intDate",
+        render: function (data, type, row) {
+          const intDateArray = row.intDate.split("<br>");
+
+          // Membuat objek untuk menyimpan data
+          const userData = { DateArray: [] };
+
+          // Mengumpulkan data Date
+          for (let i = 0; i < intDateArray.length; i++) {
+            // Menambahkan Date ke dalam array yang sesuai
+            userData.DateArray.push(intDateArray[i]);
+          }
+
+          // Menampilkan data terakhir
+          const lastDate = userData.DateArray[userData.DateArray.length - 1];
+
+          return lastDate;
+        },
+      },
       {
         data: "notes",
       },
@@ -86,6 +142,7 @@ $(document).ready(function () {
 
   getResource();
   getClient();
+  fetchCategories();
 
   $("#client").on("change", function () {
     $("#position").removeAttr("disabled");
@@ -177,26 +234,57 @@ function getClient() {
 function getPosition(idClient) {
   var selectPosition = document.getElementById("position");
 
-  //   console.log(idClient);
-  $.ajax({
-    type: "GET",
-    url: "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (result != null) {
-      result.data.forEach((item) => {
-        var option = new Option(item.positionClient, item.id, true, false);
-        selectPosition.add(option);
-      });
-    }
-  });
+  if (position == null) {
+    $.ajax({
+      type: "GET",
+      url:
+        "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
+      contentType: "application/json; charset=utf-8",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    }).then((result) => {
+      if (result != null) {
+        $("#position").empty();
+        $("#position").append(`<option selected disabled>
+        Choose Position
+      </option>`);
+        result.data.forEach((item) => {
+          var option = new Option(item.positionClient, item.id, true, false);
+          selectPosition.add(option);
+        });
+      }
+    });
+  } else {
+    $.ajax({
+      type: "GET",
+      url:
+        "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
+      contentType: "application/json; charset=utf-8",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+    }).then((result) => {
+      if (result != null) {
+        $("#position").empty();
+        $("#position").append(`<option selected disabled>
+        Choose Position
+      </option>`);
+        result.data.forEach((item) => {
+          var option = new Option(item.positionClient, item.id, true, false);
+          selectPosition.add(option);
+        });
+        $("#position").val(position).trigger("change");
+      }
+    });
+  }
 }
 
 function clearScreen() {
+  position = null;
   $(".process").remove();
+  $("#position").empty();
+  $("#position").append(`<option selected disabled>Choose Position</option>`);
   clearProcess();
 
   $("#resource").select2("val", $("#resource option:eq(0)").val());
@@ -247,9 +335,12 @@ function Save() {
   TrackingInterview.intvwStatus = $("#intStatus").val();
   TrackingInterview.notes = $("#notes").val();
 
-  // console.log(TrackingInterview);
-  // return;
-  // debugger;
+  var candidateName = $("#resource option:selected").text();
+  if (candidateName.substr(0, 3) == "RAS") {
+    candidateName = candidateName.substr(6);
+  } else {
+    candidateName = candidateName.substr(10);
+  }
 
   $.ajax({
     type: "POST",
@@ -261,6 +352,9 @@ function Save() {
     },
   }).then((result) => {
     if (result.status == 200) {
+      const logMessage = `Has added tracking interview for ${candidateName}`;
+      SaveLogUpdate(logMessage);
+
       Swal.fire({
         icon: "success",
         title: "Success...",
@@ -310,7 +404,8 @@ function GetById(trackingId) {
           .trigger("change");
       }
       $("#client").val(obj.clientId).trigger("change");
-      $("#position").val(obj.positionId).trigger("change");
+      position = obj.positionId;
+      getPosition(obj.clientId);
 
       const intDateArray = obj.intvwDate.split("<br>");
       const intStatusArray = obj.intvwStatus.split("<br>");
@@ -374,7 +469,6 @@ function Update() {
   }
 
   for (var i = 0; i < intStatusArray.length; i += 1) {
-    console.log(intStatusArray[i].value);
     intStatus += intStatusArray[i].value + "<br>";
   }
 
@@ -394,7 +488,12 @@ function Update() {
   TrackingInterview.intvwStatus = intStatus.substr(0, intStatus.length - 4);
   TrackingInterview.notes = $("#notes").val();
 
-  // console.log(TrackingInterview);
+  var candidateName = $("#resource option:selected").text();
+  if (candidateName.substr(0, 3) == "RAS") {
+    candidateName = candidateName.substr(6);
+  } else {
+    candidateName = candidateName.substr(10);
+  }
 
   $.ajax({
     type: "PUT",
@@ -405,8 +504,10 @@ function Update() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
-    console.log(result.status);
     if (result.status == 200) {
+      const logMessage = `Has added tracking interview for ${candidateName}`;
+      SaveLogUpdate(logMessage);
+
       Swal.fire({
         icon: "success",
         title: "Success...",
@@ -418,7 +519,6 @@ function Update() {
       table.ajax.reload();
       clearScreen();
     } else {
-      console.log(result.status);
       Swal.fire({
         icon: "warning",
         title: "Data failed to added!",
@@ -503,4 +603,165 @@ function clearProcess() {
   if (btnSave == "block") {
     $("#btnNewProcess").hide();
   }
+}
+
+function fetchCategories() {
+  fetch("https://localhost:7177/api/ClientName", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((result) => {
+      // Memanggil fungsi untuk membuat navigasi berdasarkan data yang diterima
+
+      createNavigation(result.data);
+    })
+    .catch((error) => {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
+    });
+}
+
+function createNavigation(categories) {
+  let maxVisibleCategories = 9;
+  categories.unshift({ id: 0, nameOfClient: "All" }); // Menambahkan opsi "All" ke dalam array categories
+
+  // Mendeteksi lebar layar saat halaman dimuat
+  const screenWidth = window.innerWidth || document.documentElement.clientWidth;
+
+  // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
+  if (screenWidth <= 1024) {
+    maxVisibleCategories = 9;
+  }
+  if (screenWidth < 850) {
+    maxVisibleCategories = 7;
+  }
+  if (screenWidth < 750) {
+    maxVisibleCategories = 5;
+  }
+  if (screenWidth <= 500) {
+    maxVisibleCategories = 3;
+  }
+  const navList = document.createElement("ul");
+  navList.className = "nav nav-tabs";
+
+  // Loop untuk menambahkan item navigasi sampai index 6 (item ke-7)
+  for (let i = 0; i < Math.min(categories.length, maxVisibleCategories); i++) {
+    const listItem = document.createElement("li");
+    listItem.className = "nav-item";
+
+    const link = document.createElement("a");
+    link.className = "nav-link text-sm";
+    link.href = "#";
+    link.setAttribute(
+      "data-category",
+      categories[i].nameOfClient.toLowerCase()
+    );
+    link.textContent = categories[i].nameOfClient;
+
+    if (i === 0) {
+      // Tandai 'All' sebagai aktif secara default
+      link.classList.add("active");
+    }
+
+    listItem.appendChild(link);
+
+    navList.appendChild(listItem);
+
+    // Tambahkan event listener untuk setiap link kategori
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      const selectedCategory = this.getAttribute("data-category");
+
+      if (selectedCategory == "all") {
+        table.columns().search("").draw();
+      } else {
+        table.column(3).search(selectedCategory).draw();
+      }
+
+      navList.querySelectorAll(".nav-link").forEach((link) => {
+        link.classList.remove("active");
+      });
+
+      this.classList.add("active");
+    });
+  }
+
+  const filterNavigation = document.getElementById("filterNavigation");
+
+  // Dropdown untuk menyimpan sisa kategori setelah ke-7
+
+  if (categories.length > maxVisibleCategories) {
+    const dropdownContainer = createDropdown(
+      categories.slice(maxVisibleCategories)
+    );
+    navList.appendChild(dropdownContainer);
+
+    dropdownToggle = dropdownContainer.querySelector(".dropdown-toggle");
+
+    dropdownToggle.addEventListener("click", function () {
+      const navLinks = navList.querySelectorAll(".nav-link");
+      navLinks.forEach((link) => {
+        link.classList.remove("active");
+      });
+      dropdownToggle.classList.add("active");
+    });
+  }
+
+  // Tambahkan elemen dropdown ke akhir dari list navigasi
+  filterNavigation.appendChild(navList);
+}
+
+// Fungsi untuk membuat dropdown
+function createDropdown(categories) {
+  const dropdownContainer = document.createElement("li");
+  dropdownContainer.className = "nav-item dropdown ml-auto"; // Untuk mengatur ke kanan (ml-auto)
+
+  const dropdownToggle = document.createElement("a");
+  dropdownToggle.className = "nav-link dropdown-toggle";
+  dropdownToggle.href = "#";
+  dropdownToggle.setAttribute("id", "navbarDropdown");
+  dropdownToggle.setAttribute("role", "button");
+  dropdownToggle.setAttribute("data-toggle", "dropdown");
+  dropdownToggle.setAttribute("aria-haspopup", "true");
+  dropdownToggle.setAttribute("aria-expanded", "false");
+  dropdownToggle.textContent = "More";
+
+  const dropdownMenu = document.createElement("div");
+  dropdownMenu.className = "dropdown-menu";
+  dropdownMenu.setAttribute("aria-labelledby", "navbarDropdown");
+
+  for (let i = 0; i < categories.length; i++) {
+    const dropdownItem = document.createElement("a");
+    dropdownItem.className = "dropdown-item";
+    dropdownItem.href = "#";
+    dropdownItem.textContent = categories[i].nameOfClient;
+
+    dropdownItem.addEventListener("click", function (e) {
+      e.preventDefault();
+      const selectedCategory = this.textContent;
+      if (selectedCategory == "all") {
+        table.search("").draw();
+      } else {
+        table.column(3).search(selectedCategory).draw();
+      }
+    });
+
+    dropdownMenu.appendChild(dropdownItem);
+  }
+
+  dropdownContainer.appendChild(dropdownToggle);
+  dropdownContainer.appendChild(dropdownMenu);
+
+  return dropdownContainer;
 }

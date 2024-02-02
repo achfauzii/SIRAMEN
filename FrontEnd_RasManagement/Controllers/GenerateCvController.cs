@@ -1,4 +1,5 @@
 ﻿using FrontEnd_RasManagement.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SelectPdf;
 
@@ -16,7 +17,7 @@ namespace FrontEnd_RasManagement.Controllers
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
 
-            if (role != "Admin" && role != "Super_Admin")
+            if (role != "Admin" && role != "Super_Admin" && role != "Manager" && role != "Trainer" && role != "Sales")
             {
                 return RedirectToAction("Login", "Accounts");
             }
@@ -24,17 +25,22 @@ namespace FrontEnd_RasManagement.Controllers
             return View();
         }
 
-        public IActionResult GenerateCvEmployee()
+        public async Task<IActionResult> GenerateCvEmployee()
         {
             //Validate Role
             if (!JwtHelper.IsAuthenticated(HttpContext))
             {
                 return RedirectToAction("Login", "Accounts");
             }
-          
+            bool check = await CheckProfile.CheckingProfile(HttpContext);
+            if (!check)
+            {
+                return RedirectToAction("Employee", "Dashboards");
+            }
             //End Validate
             return View();
         }
+
     }
 
 

@@ -51,7 +51,8 @@ $(document).ready(function () {
   //GET datatable
   table = $("#timeSheetTable").DataTable({
     scrollX: true,
-    /*        responsive: true,*/
+    // autoWidth: true,
+    // responsive: true,
     ajax: {
       url: "https://localhost:7177/api/TimeSheet/accountId?accountId=" + accid, // Your API endpoint
       type: "GET",
@@ -62,16 +63,12 @@ $(document).ready(function () {
     },
     columns: [
       {
-        render: function (data, type, row, meta) {
-          return meta.row + meta.settings._iDisplayStart + 1 + ".";
-        },
-      },
-      {
+        name: "first",
         data: "date",
         render: function (data, type, row) {
           if (type === "display" || type === "filter") {
             // Format tanggal dalam format yang diinginkan
-            return moment(data).format("DD MMMM YYYY");
+            return moment(data).format("DD MMM YYYY");
           }
           // Untuk tipe data lain, kembalikan data aslinya
 
@@ -79,7 +76,7 @@ $(document).ready(function () {
         },
       },
       { data: "activity" },
-      { data: "flag" },
+      { name: "second", data: "flag" },
       { data: "category" },
       { data: "status" },
       { data: "knownBy" },
@@ -87,34 +84,35 @@ $(document).ready(function () {
         data: null,
         render: function (data, type, row) {
           return (
-            '<button class="btn btn-sm btn-warning mr-2 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return getById(' +
+            '<a class="text-warning text-end" data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return getById(' +
             row.id +
-            ')"><i class="fa fa-edit"></i></button >'
+            ')"><i class="fa fa-edit"></i></a>'
           );
         },
       },
     ],
-    order: [[1, "desc"]],
+    rowsGroup: ["first:name", "second:name"],
+    order: [[0, "desc"]],
     columnDefs: [
       {
-        targets: [0, 2, 3, 4, 5, 6, 7],
+        targets: [2, 3, 4, 5, 6],
         orderable: false,
       },
     ],
     //Agar nomor tidak berubah
-    drawCallback: function (settings) {
-      var api = this.api();
-      var rows = api.rows({ page: "current" }).nodes();
-      var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-      var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+    /* drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
 
-      api
-        .column(0, { page: "current" })
-        .nodes()
-        .each(function (cell, i) {
-          cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-        });
-    },
+            api
+                .column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },*/
   });
 });
 
@@ -136,8 +134,9 @@ function getById(Id) {
       $("#activity").val(obj.activity);
       const date = formatDate(obj.date);
       $("#inputDate").val(date);
-
+      $("#inputDate").prop("disabled", false);
       $("#flag").val(obj.flag);
+      $("#flag").prop("disabled", false);
       $("#category").val(obj.category);
       $("#status").val(obj.status);
       $("#knownBy").val(obj.knownBy);
@@ -153,21 +152,21 @@ function getById(Id) {
 
 function Update() {
   // debugger;
-  var isValid = true;
-
-  $("input[required],select[required],textarea[required]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message").show();
-      isValid = false;
-    } else {
-      input.next(".error-message").hide();
-    }
-  });
-
-  if (!isValid) {
-    return;
-  }
+  /*var isValid = true;
+  
+    $("input[required],select[required],textarea[required]").each(function () {
+      var input = $(this);
+      if (!input.val()) {
+        input.next(".error-message").show();
+        isValid = false;
+      } else {
+        input.next(".error-message").hide();
+      }
+    });
+  
+    if (!isValid) {
+      return;
+    }*/
   var TimeSheet = new Object();
   TimeSheet.Id = $("#timeSheetId").val();
   TimeSheet.Date = $("#inputDate").val();
@@ -228,6 +227,7 @@ function Update() {
       Swal.fire("Error!", "Your failed to update", "error");
       table.ajax.reload();
     }
+    table.columns.adjust().draw();
   });
 }
 
@@ -235,89 +235,84 @@ function save() {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
 
-  var isValid = true;
-
-  $("input[required],select[required],textarea[required]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message").show();
-      isValid = false;
-    } else {
-      input.next(".error-message").hide();
-    }
-  });
-
-  if (!isValid) {
-    return;
-  }
-
   var TimeSheet = new Object();
   TimeSheet.Date = $("#inputDate").val();
-  TimeSheet.Activity = $("#activity").val();
   TimeSheet.Flag = $("#flag").val();
-  TimeSheet.Category = $("#category").val();
-  TimeSheet.Status = $("#status").val();
-  TimeSheet.KnownBy = $("#knownBy").val();
   TimeSheet.AccountId = accid;
   TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
+  TimeSheet.KnownBy = $("#knownBy").val();
+
+  if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
+    TimeSheet.Activity = "";
+    TimeSheet.Category = "";
+    TimeSheet.Status = "";
+  } else {
+    TimeSheet.Activity = $("#activity").val();
+    TimeSheet.Category = $("#category").val();
+    TimeSheet.Status = $("#status").val();
+  }
 
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+    url: "https://localhost:7177/api/TimeSheet",
     data: JSON.stringify(TimeSheet),
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-  }).then(
-    (result) => {
-      console.log(result.status);
-      if (result.status == 200) {
+    success: function (response) {
+      if (response.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Success...",
-          text: "Data has been added!",
-          showConfirmButtom: false,
-          timer: 1500,
+          title: "Data has been added!",
+          html:
+            TimeSheet.Flag === "Sick"
+              ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
+              : "",
+          showConfirmButton: true,
         });
         $("#timeSheetModal").modal("hide");
         table.ajax.reload();
-        clearScreen();
-      } else {
-        console.log(result.status);
-        Swal.fire({
-          icon: "warning",
-          title: "Data failed to added!",
-          showConfirmButtom: false,
-          timer: 1500,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-      }
-    },
-    (jqXHR, textStatus, errorThrown) => {
-      if (jqXHR.status === 400) {
+      } else if (response.status === 400) {
         Swal.fire({
           icon: "warning",
           title: "Failed",
           text: "Time Sheet with the same date already exists!",
-          showConfirmButtom: false,
+          showConfirmButton: false,
           timer: 1500,
         });
-      } else {
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
+      } else if (response.status === 404) {
         Swal.fire({
           icon: "warning",
-          title: "Data failed to added!",
-          showConfirmButtom: false,
+          title: "Failed",
+          text: "Cannot add a timesheet, the placement field is null.",
+          showConfirmButton: false,
           timer: 1500,
         });
+        $("#timeSheetModal").modal("hide");
+        table.ajax.reload();
       }
-    }
-  );
+      table.columns.adjust().draw();
+    },
+    error: function (error) {
+      Swal.fire({
+        icon: "warning",
+        title: "Failed",
+        text: "Cannot add a timesheet, the placement field is null.",
+        showConfirmButton: true,
+      });
+      $("#timeSheetModal").modal("hide");
+      table.ajax.reload();
+    },
+  });
 }
 
 function clearScreen() {
   $("#activity").val("");
+  $("#inputDate").prop("disabled", false);
+  $("#flag").prop("disabled", false);
   document.getElementById("flag").selectedIndex = 0;
   document.getElementById("category").selectedIndex = 0;
   document.getElementById("status").selectedIndex = 0;

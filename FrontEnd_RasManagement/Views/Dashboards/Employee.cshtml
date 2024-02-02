@@ -98,6 +98,14 @@
 
 
 </style>
+
+@if (ViewData["AlertMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewData["AlertMessage"]
+    </div>
+}
+
 <div class="coverh">
     <button class="act-btn border-0" data-tooltip="tooltip" data-placement="left" title="Report Feedback">
         <i class="fa-regular fa-flag" id="icon-button" style="font-size: 0.55em; display: flex; justify-content: center; align-items: center;"></i>
@@ -222,7 +230,7 @@
 
                     <div class="row">
                         <div class="col-4 text-dark">
-                            <p>Martial Status</p>
+                            <p>Marital Status</p>
                         </div>
                         <div class="col">
                             <span>:</span>

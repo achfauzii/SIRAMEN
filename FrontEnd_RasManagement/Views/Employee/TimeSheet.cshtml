@@ -18,6 +18,11 @@
     .modal-notify .modal-content {
         border-radius: 3px;
     }
+
+    #timeSheetTable tbody tr {
+    height: 18px; /* Adjust the height as needed */
+    line-height: 18px; /* Adjust the line height as needed */
+}
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
@@ -63,10 +68,9 @@
         <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" id="newActivity" data-toggle="modal" data-target="#timeSheetModal" onclick="clearScreen();">
             + Add Activity
         </button>
-        <table id="timeSheetTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
+        <table id="timeSheetTable" class="table table-striped table-bordered w-100" style="font-size:13px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
-                    <th scope="col">No</th>
                     <th scope="col">Date</th>
                     <th scope="col">Activity Detail</th>
                     <th scope="col">Flag</th>
@@ -76,6 +80,7 @@
                     <th scope="col">Action</th>
                 </tr>
             </thead>
+            <tbody></tbody>
         </table>
     </div>
 </div>
@@ -95,7 +100,7 @@
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Activity</label>
                         <textarea class="form-control" id="activity" required></textarea>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
 
                         <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
                         <input class="form-control form-control-sm" type="text" id="lastPlacementId" hidden>
@@ -107,13 +112,15 @@
                             <select class="form-control form-control-sm" id="flag" required>
                                 <option value="WFO">WFO</option>
                                 <option value="WFH">WFH</option>
+                                <option value="Sick">Sick</option>
+                                <option value="Leave">Leave</option>
                             </select>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Date</label>
                             <input type="date" class="form-control form-control-sm" id="inputDate" required> </input>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
                         </div>
 
                     </div>
@@ -121,10 +128,11 @@
                         <div class="col">
                             <label for="message-text" class="col-form-label">Category</label>
                             <select class="form-control form-control-sm" id="category" required>
+                                <option select disabled>Choose category</option>
                                 <option value="Meeting/Discussion">Meeting/Discussion</option>
                                 <option value="Coding">Coding</option>
                                 <option value="Testing">Testing</option>
-                                <option value="UAS/SIT">UAS/SIT</option>
+                                <option value="UAT/SIT">UAT/SIT</option>
                                 <option value="Ticketing">Ticketing</option>
                                 <option value="Docummentation">Docummentation</option>
                                 <option value="Bug/Issue Fix">Bug/Issue Fix</option>
@@ -133,26 +141,26 @@
                                 <option value="GoLive/Deploy">GoLive/Deploy</option>
                                 <option value="Others">Others</option>
                             </select>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Status</label>
                             <select class="form-control form-control-sm" id="status" required>
+                                <option selected disabled>Choose status</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Done">Done</option>
                                 <option value="Need Approval">Need Approval</option>
                             </select>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Known By</label>
                         <input class="form-control form-control-sm" type="text" id="knownBy" required>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -164,11 +172,9 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-
 @section script
     {
     <script src="~/js/TimeSheetEmp.js"></script>
-  
-  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>  
 }

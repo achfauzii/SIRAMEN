@@ -48,6 +48,8 @@ public partial class Account
     public bool? IsChangePassword { get; set; }
 
     public string? RoleId { get; set; }
+    public string? Level { get; set; }
+    public string? FinancialIndustry { get; set; }
 
     public virtual ICollection<AssetsManagement> AssetsManagements { get; set; } = new List<AssetsManagement>();
 

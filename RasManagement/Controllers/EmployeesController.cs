@@ -11,7 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class EmployeesController : ControllerBase
     {
         private readonly ProjectRasmanagementContext _context;
@@ -37,12 +37,12 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = get.Count() + " Data Ditemukan", Data = get });
             }
         }
-        
+
         [HttpGet("EmployeeAdmin")]
         public async Task<IActionResult> GetAccountsEmployeeAdmin()
         {
             var get = await employeeRepository.GetAccountData();
-         
+
 
             if (get.Count() != 0)
             {
@@ -52,8 +52,7 @@ namespace RasManagement.Controllers
             {
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = get.Count() + " Data Ditemukan", Data = get });
             }
-          }
-
+        }
 
         [HttpGet("TurnOff")]
         public async Task<IActionResult> TurnOff()
@@ -70,6 +69,7 @@ namespace RasManagement.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public IActionResult Employees(string accountId)
         {
@@ -85,7 +85,7 @@ namespace RasManagement.Controllers
         }
 
         [HttpPut("{accountId}")]
-        public async Task<IActionResult> UpdateEmployee(string accountId,UpdateEmployeeVM updatedData)
+        public async Task<IActionResult> UpdateEmployee(string accountId, UpdateEmployeeVM updatedData)
         {
             var result = await employeeRepository.Update(accountId, updatedData);
 
@@ -113,19 +113,17 @@ namespace RasManagement.Controllers
                     e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin Anda cari
                     e.Email.ToLower().Contains(searchTerm) ||
                     e.AccountId.Contains(searchTerm)
-                   
-                    
+
+
                 );
             }
-       
 
-           
             // Filter, sort, dan paging data berdasarkan permintaan dari DataTables
             // Anda perlu mengimplementasikan logika ini sesuai dengan permintaan DataTables
             // Contoh: products = products.Where(...).OrderBy(...).Skip(...).Take(...);
             var employees = await query.ToListAsync();
             // Menambahkan nomor urut pada setiap baris
-          
+
             var response = new DataTablesResponse
             {
                 Draw = request.Draw,
@@ -137,6 +135,35 @@ namespace RasManagement.Controllers
             return Ok(response);
         }
 
-        
+        /* [HttpGet("checkingProfile")]
+         public IActionResult CheckingProfile(string accountId)
+         {
+             var checkingProfile = employeeRepository.CheckProfile(accountId);
+             if (get != null)
+             {
+                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+             }
+             else
+             {
+                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+             }
+         }*/
+
+        [AllowAnonymous]
+        [HttpGet("CheckOverviewEmployee")]
+        public async Task<IActionResult> CheckOverviewEmployee()
+        {
+            var get = await employeeRepository.CheckOverviewEmployee();
+
+
+            if (get.Count() != 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = get.Count() + " Data Ditemukan", TotalData = get.Count(), Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = get.Count() + " Data Ditemukan", Data = get });
+            }
+        }
     }
 }

@@ -21,6 +21,15 @@ namespace RasManagement.Repository
             return timeSheetAccount;
         }
 
+        public async Task<List<TimeSheet>> GetTimeSheetsActivity(string accountId, DateTime date)
+        {
+            var timeSheetAccount = await context.TimeSheets
+                .Where(e => e.AccountId == accountId && e.Date == date)
+                .ToListAsync();
+
+            return timeSheetAccount;
+        }
+
         public async Task<List<TimeSheet>> GetTimeSheetsByAccountIdAndMonth(string accountId, DateTime targetDate)
         {
             var timeSheets = await context.TimeSheets
@@ -32,53 +41,66 @@ namespace RasManagement.Repository
 
             return timeSheets;
         }
-        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end)
-        {
-            if (end.Subtract(start).Days > 41){
-                var timeSheets =  context.TimeSheets
-                .Where(ts => ts.Date >= start && ts.Date <= end)
-                .Include(a => a.Account)
-                .GroupBy(ts => ts.Date);
-                var resultWithTitles = new List<object>();
-                foreach (var dayGroup in timeSheets){
-                    var countFlag = dayGroup
-                    .GroupBy(a => a.Flag)
-                    .Select(flagGroup => new {
-                        title = $"{flagGroup.Key}: \n {flagGroup.Count()}",
-                        description = "ini deskripsi bulan",
-                        start = dayGroup.Key,
-                        allDay = true,
-                        flag = flagGroup.First().Flag,
-                        backgroundColor = GetColorByFlag(flagGroup.First().Flag),
-                        borderColor = GetColorByFlag(flagGroup.First().Flag),
-                    })
-                .ToList();
-                resultWithTitles.AddRange(countFlag);
-                }
-                
-                return resultWithTitles.Cast<object>().ToList();;
-                
-               
-                } else {
-                    var timeSheets = await context.TimeSheets
-                    .Include(a=> a.Account)
-                    .Where(ts => ts.Date >= start
-                                && ts.Date <= end)
-                    .Select(ts => new {
-                        title = ts.Account.Fullname +": \n"+ ts.Activity,
-                        start = ts.Date,
-                        description = "ini deskripsi minggu",
-                        allDay = true,
-                        backgroundColor = GetColorByFlag(ts.Flag),
-                        borderColor = GetColorByFlag(ts.Flag),
+        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, String flag, String Search)
+        {   
+          if(!string.IsNullOrEmpty(flag)){
+             var timeSheets = context.TimeSheets
+              .Include(a => a.Account)
+              .Where(ts => ts.Flag == flag)
+              .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
+              .AsEnumerable()
+              .Select(group => new
+              {
+                  start = group.Key.Date,
+                  flag= flag,
+                  search = Search,
+                  allDay= true,
+                  title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
+                  AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
+                  description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                 
+                })
+              .ToList();
+              return timeSheets;
+          }
 
-                    })
-                    .ToListAsync();
-                    return timeSheets;
-                }
+          if (end.Subtract(start).Days > 41)
+            {
+              var timeSheets = context.TimeSheets
+              .Include(a => a.Account)
+              .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
+              .AsEnumerable()
+              .Select(group => new
+              {
+                  start = group.Key.Date,
+                  flag= flag,
+                  search = Search,
+                  allDay= true,
+                  title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
+                  AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
+                  description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                 
+                })
+              .ToList();
+              return timeSheets;
+          } else {
+            var timeSheets = context.TimeSheets
+            .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
+            .Select(group => new
+            {
+                start = group.Key.Date,
+                title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                
+                description = string.Join("<br> ", group.Select(ts => ts.Activity)),
+                allDay = true
+            })
+            .ToList();
+            return timeSheets;
+          }
         }
-        public static string GetColorByFlag(string flag) {
-        switch (flag)
+        public static string GetColorByFlag(string flag)
+        {
+            switch (flag)
             {
                 case "WFO":
                     return "#0073b7"; // Blue
@@ -86,15 +108,15 @@ namespace RasManagement.Repository
                     return "#f39c12"; // Yellow
                 case "WFC":
                     return "#00a65a"; // Green
-                case "Sakit":
+                case "Sick":
                     return "#6c757d"; // Grey
-                case "Cuti":
+                case "Leave":
                     return "#6c757d"; // Grey
                 default:
                     return "#f56954"; // Red
             }
         }
-       
+
 
         public int AddTimeSheet(TimeSheet timeSheet)
         {

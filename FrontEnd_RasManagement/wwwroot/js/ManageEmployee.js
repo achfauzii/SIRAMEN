@@ -1,10 +1,53 @@
-﻿$(document).ajaxComplete(function () {
+﻿// Simpan warna berdasarkan kata yang sama di objek
+var colorsByWord = {};
+var colorByPosition = {};
+var softlColors = [
+  "#B7E4C7", // Mint Green
+  "#FFD8B1", // Soft Peach
+  "#C9C8E8", // Lavender Grey
+  "#BCCEF8",
+  "#AED9E0", // Sky Blue
+  "#F9E4AD", // Pale Yellow
+  "#FFA69E", // Coral Pink
+  "#D0AEEF", // Pastel Lilac
+  "#B5DFE6", // Icy Blue
+  "#F6E4C8", // Buttercreamy
+  "#c9a7eb",
+  "#a4b0f5",
+  "#D2E0FB",
+  "#F7F5EB",
+];
+
+var pastelColors = [
+  "#B7E4C7", // Mint Green
+  "#FFD8B1", // Soft Peach
+  "#C9C8E8", // Lavender Grey
+  "#BCCEF8",
+  "#AED9E0", // Sky Blue
+  "#F9E4AD", // Pale Yellow
+  "#FFA69E", // Coral Pink
+  "#D0AEEF", // Pastel Lilac
+  "#B5DFE6", // Icy Blue
+  "#F6E4C8", // Buttercream
+  "#c9a7eb",
+  "#a4b0f5",
+  "#D2E0FB",
+  "#F7F5EB",
+];
+
+$(document).ajaxComplete(function () {
   $('[data-tooltip="tooltip"]').tooltip({
     trigger: "hover",
   });
 });
 
 $(document).ready(function () {
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.edit-contract-emp').hide();
+    } 
+
   $(
     "input[required], input[required_], input[requiredContract], select[required], select[required_]"
   ).each(function () {
@@ -25,23 +68,40 @@ $(document).ready(function () {
     // Periksa nilai awal dropdown saat halaman dimuat
     handlePlacementStatusChange();
   });
-  $("#dataTableEmployee thead tr")
-    .clone(true)
-    .addClass("filters")
-    .attr("id", "filterRow")
-    .appendTo("#dataTableEmployee thead");
+
+  // $("#dataTableEmployee thead tr")
+  //   .clone(true)
+  //   .addClass("filters")
+  //   .attr("id", "filterRow")
+  //   .appendTo("#dataTableEmployee thead");
 
   // $('#loader').show();
+
+  // $("#dataTableEmployee tfoot th").each(function (i) {
+  //   var title = $("#dataTableEmployee thead th").eq($(this).index()).text();
+  //   $(this).html(
+  //     '<input type="text" class="form-control form-control-sm pt-0 pb-0" placeholder="Search ' +
+  //       title +
+  //       '" data-index="' +
+  //       i +
+  //       '" />'
+  //   );
+  // });
 
   var table = $("#dataTableEmployee")
     .on("processing.dt", function (e, settings, processing) {
       $("#loader").css("display", processing ? "block" : "none");
     })
     .DataTable({
+      fixedColumns: {
+        leftColumns: window.innerWidth > 1024 ? 3 : null,
+      },
       paging: true,
-      scrollX: true,
-      orderCellsTop: true,
       fixedHeader: true,
+      scrollX: true,
+      scrollY: true,
+      // scrollCollapse: true,
+      orderCellsTop: true,
 
       ajax: {
         url: "https://localhost:7177/api/Employees",
@@ -53,68 +113,29 @@ $(document).ready(function () {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       },
-
+      
       initComplete: function () {
-        4;
-        var api = this.api();
-
-        // For each column
-        api
+        this.api()
           .columns()
-          .eq(0)
-          .each(function (colIdx) {
-            // Set the header cell to contain the input element
-            var cell = $(".filters th").eq(
-              $(api.column(colIdx).header()).index()
-            );
-            var title = $(cell).text();
-            // Check if the column is "No", "Gender", or "Placement Status"
+          .every(function () {
+            let column = this;
+            let title = column.footer().textContent;
+
             if (title !== "No" && title !== "Action" && title !== "Assets") {
-              $(cell).html(
-                '<input type="text" class = "form-control form-control-sm pt-0 pb-0" placeholder="' +
-                  title +
-                  '" />'
-              );
-              // On every keypress in this input
-              $(
-                "input",
-                $(".filters th").eq($(api.column(colIdx).header()).index())
-              )
-                .off("keyup change")
-                .on("keyup change", function (e) {
-                  e.stopPropagation();
-                  // Get the search value
-                  $(this).attr("title", $(this).val());
-                  var regexr = "({search})"; //$(this).parents('th').find('select').val();
-                  var cursorPosition = this.selectionStart;
-                  // Search the column for that value
-                  api
-                    .column(colIdx)
-                    .search(
-                      this.value != ""
-                        ? regexr.replace("{search}", "(((" + this.value + ")))")
-                        : "",
-                      this.value != "",
-                      this.value == ""
-                    )
-                    .draw();
-                  $(this)
-                    .focus()[0]
-                    .setSelectionRange(cursorPosition, cursorPosition);
-                });
+              // Create input element
+              let input = document.createElement("input");
+              input.classList.add("form-control");
+              input.placeholder = title;
+              column.footer().replaceChildren(input);
+
+              // Event listener for user input
+              input.addEventListener("keyup", () => {
+                if (column.search() !== this.value) {
+                  column.search(input.value).draw();
+                }
+              });
             } else {
-              // For columns "No", "Gender", and "Placement Status", leave the header cell empty
-              var cell = $(".filters th").eq(
-                $(api.column(colIdx).header()).index()
-              );
-              $(cell).html("");
-            }
-            if (title === "Placement Status") {
-              // Filter Placement Status column to show only "Idle"
-              var placementStatusColumn = api.column(colIdx);
-              placementStatusColumn
-                .search("^(Idle|Onsite)$", true, false)
-                .draw();
+              column.footer().replaceChildren("");
             }
           });
       },
@@ -122,7 +143,6 @@ $(document).ready(function () {
         //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
         {
-          // orderable: false, // menonaktifkan order hanya pada kolom tertentu
           data: null,
           width: "4%",
           render: function (data, type, row, meta) {
@@ -139,9 +159,15 @@ $(document).ready(function () {
               var icon =
                 '<div class="row"><div class="col-4 text-left mr-5">' +
                 data +
-                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit btn-edit-status" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
                 row.accountId +
-                "')\"></i>";
+                    "')\"></i>";
+
+                // Validasi manager hide action (Only View)
+                var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+                if (objDataToken.RoleId == 7) {
+                    $('.btn-edit-status, .edit').hide();
+                }
 
               $(document).on("mouseover", ".row", function () {
                 $(this).find("i.edit").css("visibility", "visible");
@@ -158,10 +184,96 @@ $(document).ready(function () {
             return data;
           },
         },
-        { data: "position" },
+        {
+          data: "position",
+          render: function (data) {
+            if (data == null) {
+              var a = "";
+              return a;
+            }
+
+            var posisitionSplit = data.split(",");
+
+            var badgeContainer = $('<div class="badge-container"></div>');
+
+            for (var i = 0; i < posisitionSplit.length; i++) {
+              var word = posisitionSplit[i].trim();
+              var badgeColor = getColorForPosition(word);
+              var badge = $(
+                '<span class="badge badge-pill badge-pastel">' +
+                  word +
+                  "</span>"
+              );
+
+              // Atur warna latar belakang badge sesuai dengan kata yang sama
+              badge.css("background-color", badgeColor);
+
+              badgeContainer.append(badge);
+              if (i < posisitionSplit.length - 1) {
+                badgeContainer.append(" ");
+              }
+            }
+            // Kembalikan HTML dari container badge
+            return badgeContainer.html();
+          },
+        },
+          {
+            data: "level",
+          render: function (data, type, row) {
+            var levelStatus = row.level;
+
+              // Validasi manager hide action (Only View)
+              var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+              if (objDataToken.RoleId == 7) {
+                  return data;
+              }
+
+            if (levelStatus === "Fresh Graduate") {
+              return (
+                '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#modalLevel" onclick="GetbyLevel(\'' +
+                row.accountId +
+                "')\">" +
+                row.level +
+                "</span>"
+              );
+            } else if (
+              levelStatus === "Junior" ||
+              levelStatus === "Junior to Middle" ||
+              levelStatus === "Middle to Senior"
+            ) {
+              return (
+                '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-target="#modalLevel" onclick = "GetbyLevel(\'' +
+                row.accountId +
+                "')\">" +
+                row.level +
+                "</span>"
+              );
+            } else {
+              return (
+                '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-target="#modalLevel" onclick="GetbyLevel(\'' +
+                row.accountId +
+                "')\">" +
+                row.level +
+                "</span>"
+              );
+            }
+          },
+        },
         { data: "email" },
         { data: "gender" },
         { data: "address" },
+        {
+          data: "financialIndustry",
+          render: function (data, type, row) {
+                if (type === 'display') {
+                    // Jika data bernilai true, tambahkan atribut checked
+                    var isChecked = data === "true" ? 'checked' : '';
+                    return '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' + isChecked + '>';
+                }
+                return data;
+            },
+            className: "text-center",
+        },
         {
           render: function (data, type, row) {
             //var accountId = row.accountId;
@@ -306,21 +418,29 @@ $(document).ready(function () {
         {
           data: null,
           orderable: false, // menonaktifkan order
+          width: "7%",
           render: function (data, type, row) {
             return (
-              '<div class="text-center row">' +
+              '<div class="d-flex flex-row">' +
               '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
-              '<a href="#" class="ml-2 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
+              '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
               row.accountId +
               '\')"><i class="far fa-calendar-check"></i></a>' +
-              '<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
+              '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
               row.accountId +
               '\')"><i class="far fa-edit"></i></a>' +
               "</div>"
             );
-          },
+            },
+            //visible: objDataToken.RoleId != 7,
+        },
+      ],
+      columnDefs: [
+        {
+          defaultContent: "-",
+          targets: "_all",
         },
       ],
       //"order": [], // menonaktifkan order pada semua kolom
@@ -355,6 +475,38 @@ $(document).ready(function () {
           });
       },
     });
+
+
+//Check Box Financial Industry
+    $('#dataTableEmployee').on('change', '#financialIndustryCheck', function () {
+        var rowIndex = $(this).closest('tr').index(); 
+        var isChecked = $(this).prop('checked'); 
+   
+
+        var rowData = table.row(rowIndex).data();
+        var financialIndustryValue = { financialIndustry: isChecked.toString() };
+
+        console.log(financialIndustryValue);
+        $.ajax({
+            url: "https://localhost:7177/api/Employees/" + rowData.accountId,
+            type: "PUT",
+            data: JSON.stringify(financialIndustryValue),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                if (result.status = 200) {
+                    const logMessage = `Has change financial Industry ${rowData.accountId}, to FinancialIndustry : ${isChecked.toString()}`;
+                    SaveLogUpdate(logMessage);
+                }
+            
+               
+            },
+        });
+    });
+
+
 
   $("#resetFilters").on("click", function () {
     // Reset input pencarian dan filter DataTable
@@ -506,11 +658,8 @@ function SaveTurnOver() {
               Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
           }).then((updateResult) => {
-            if (updateResult.status === 200) {
-              // Handle the success of roleId update if needed
-            } else {
-              // Handle any errors that occur during roleId update
-            }
+              const logMessage = `Has turn over employee Id ${TurnOver.accountId}, status ${TurnOver.status}, date : ${TurnOver.exitDate} `;
+              SaveLogUpdate(logMessage);
           });
         }
 
@@ -934,7 +1083,7 @@ function Save(accountId) {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        location.ajax.reload();
+          location.reload();
       });
     } else {
       Swal.fire("Error!", "Data failed to added", "error");
@@ -1030,4 +1179,101 @@ function GetByIdAsset(assetsManagementId) {
       alert(errormessage.responseText);
     },
   });
+}
+
+function GetbyLevel(accountId) {
+  $.ajax({
+    url:
+      "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
+    type: "GET",
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (result) {
+      console.log(result);
+
+      var obj = result.data.result;
+      $("#accountLevel").val(obj.accountId); //ngambil data dr api
+      $("#levelchange").val(obj.level);
+      $("#modalLevel").modal("show");
+      // Clear existing options
+      $("#levelchange").empty();
+
+      // Create and append new options based on the selected level
+      var levels = [
+        "Fresh Graduate",
+        "Junior",
+        "Junior to Middle",
+        "Middle",
+        "Middle to Senior",
+        "Senior",
+      ];
+      for (var i = 0; i < levels.length; i++) {
+        var option = $("<option>", {
+          value: levels[i],
+          text: levels[i],
+          selected: levels[i] === obj.level,
+        });
+        $("#levelchange").append(option);
+      }
+    },
+    error: function (errormessage) {
+      alert(errormessage.responseText);
+    },
+  });
+}
+function UpdateLevel() {
+  accountId = $("#accountLevel").val();
+  level = $("#levelchange").val();
+  levelData = { level: level };
+    
+  $.ajax({
+    url: "https://localhost:7177/api/Employees/" + accountId,
+    type: "PUT",
+    data: JSON.stringify(levelData),
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+      success: function (result) {
+          console.log(result);
+      // Handle success, for example, close the modal
+      $("#modalLevel").modal("hide");
+      if (result.status == 200) {
+        const logMessage = `Has Changed Level of Account ID ${accountId}, Level ${level}`;
+        SaveLogUpdate(logMessage);
+        Swal.fire({
+          title: "Success!",
+          text: "Data has been Update!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          location.reload();
+        });
+      } else {
+        Swal.fire("Error!", "Data failed to update", "error");
+        location.reload();
+      }
+    },
+  });
+}
+function getColorForWord(word) {
+  if (!colorsByWord.hasOwnProperty(word)) {
+    // Jika kata belum memiliki warna yang terkait, atur warna pastel secara urut
+    colorsByWord[word] =
+      pastelColors[Object.keys(colorsByWord).length % pastelColors.length];
+  }
+  return colorsByWord[word];
+}
+
+function getColorForPosition(word) {
+  if (!colorsByWord.hasOwnProperty(word)) {
+    // Jika kata belum memiliki warna yang terkait, atur warna pastel secara urut
+    colorsByWord[word] =
+      softlColors[Object.keys(colorsByWord).length % softlColors.length];
+  }
+  return colorsByWord[word];
 }

@@ -18,7 +18,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Trainer,Sales,Manager")]
     public class AccountsController : ControllerBase
     {
         private readonly IUnitWork _unitWork;
@@ -92,7 +92,7 @@ namespace RasManagement.Controllers
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("Email", viewLogin.Email),
-                        new Claim("Password", viewLogin.Password),
+                        new Claim("Password", ""),
                         new Claim("AccountId", roleId.AccountId),
                         new Claim("RoleId", roleId.RoleId),
                         new Claim("Name", roleId.Fullname),

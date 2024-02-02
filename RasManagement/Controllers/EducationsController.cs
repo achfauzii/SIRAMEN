@@ -10,7 +10,7 @@ namespace RasManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[EnableCors("AllowOrigin")]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class EducationsController : BaseController<FormalEdu, EducationRepository, int> 
     {
         private readonly EducationRepository educationRepository;
@@ -19,6 +19,7 @@ namespace RasManagement.Controllers
             this.educationRepository = educationRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetEducationByAccountId(string accountId)
         {

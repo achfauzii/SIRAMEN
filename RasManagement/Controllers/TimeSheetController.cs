@@ -11,7 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
- /*   [Authorize(Roles = "Employee,Admin")]*/
+    [Authorize(Roles = "Employee,Admin,Manager, Trainer")]
     public class TimeSheetController : BaseController<TimeSheet, TimeSheetRepository, int>
     {
         private readonly TimeSheetRepository timeSheetRepository;
@@ -24,6 +24,21 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> GetTimeSheetByAccountId(string accountId)
         {
             var get = await timeSheetRepository.GetTimeSheetsByAccount(accountId);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("activity")]
+        public async Task<IActionResult> GetTimeSheetActivity(string accountId, DateTime date)
+        {
+            var get = await timeSheetRepository.GetTimeSheetsActivity(accountId, date);
             if (get != null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
@@ -54,32 +69,44 @@ namespace RasManagement.Controllers
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data not found", Data = get });
             }
         }
-        
+        [AllowAnonymous]
         [HttpGet("TimeSheetByMonth")]
-        public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end)
-        {   
-           
-            var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end);
-            return StatusCode(200, get );
-          
+        public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] String? flag, [FromQuery] String? search)
+        {
+
+            var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end, flag, search);
+            return StatusCode(200, get);
+
 
         }
-        
+
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
-            if (timeSheetRepository.IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+            try
             {
-                int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
+                if (timeSheetRepository.IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+                {
+                    /* if( timeSheet.PlacementStatusId==0 || timeSheet.PlacementStatus == null)
+                     {
+                         return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Tanggal sudah digunakan untuk TimeSheet lain." });
+                     }*/
+                    int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
 
-                // If the operation is successful, return a 200 OK response
-                return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Ditambahkan", Data = addTimeSheetResult });
+                    // If the operation is successful, return a 200 OK response
+                    return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Ditambahkan", Data = addTimeSheetResult });
+                }
+                else
+                {
+                    // Handle the case where the date is not unique
+                    return Ok(new { status = HttpStatusCode.BadRequest, message = "Time Sheet with the same date already exists!" });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Handle the case where the date is not unique
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Tanggal sudah digunakan untuk TimeSheet lain." });
+                return Ok(new { status = HttpStatusCode.NotFound, message = "Cannot add a timesheet, the placement field is null." });
             }
+
         }
 
         /*[HttpGet("ByCurrentMonth")]

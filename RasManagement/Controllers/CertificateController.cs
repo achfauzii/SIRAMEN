@@ -10,7 +10,7 @@ namespace RasManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[EnableCors("AllowOrigin")]
-    [Authorize(Roles="Employee,Admin,Super_Admin")]
+    [Authorize(Roles= "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
 
     public class CertificateController : BaseController<Certificate, CertificateRepository, int>
     {
@@ -20,6 +20,8 @@ namespace RasManagement.Controllers
             this.certificateRepository = certificateRepository;
         }
 
+        
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetCertificateByAccountId(string accountId)
         {

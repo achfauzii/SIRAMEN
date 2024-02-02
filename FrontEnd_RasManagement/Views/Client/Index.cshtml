@@ -13,11 +13,11 @@
         background-color: #FFFFFF; /* Warna latar belakang untuk baris genap */
     }
 
-    .modal:nth-of-type(odd) {
+    .modal.positionModal:nth-of-type(odd) {
         z-index: 1052 !important;
     }
 
-    .modal-backdrop.show:nth-of-type(even) {
+    .modal-backdrop.positionModal.show:nth-of-type(even) {
         z-index: 1051 !important;
     }
 
@@ -31,7 +31,7 @@
                 <h5 class="m-1 font-weight-bold text-primary">Client Table</h5>
             </div>
             <div class="col">
-                <button style="background-color:#624DE3; float: right; font-size: 12px;" type="button" class="btn text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
+                <button style="background-color:#624DE3; float: right; font-size: 12px;" type="button" class="btn text-light mb-2 btn-add-client" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
                     + Add Client
                 </button>
             </div>
@@ -49,7 +49,7 @@
             </thead>
         </table>
 
-        @*Modal*@
+        @*Modal Client*@
         <div class="modal fade " id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="ClientName">Client Name</label>
-                                <input type="text" class="form-control" id="clientName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Client Name" required>
+                                <input type="text" class="form-control" id="clientName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Client Name" required_>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </form>
@@ -94,9 +94,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#positionModal" onclick="clearScreenPosition();">
-                    + New Position
-                </button>
+           
+                <div class="row justify-content-between">
+                    <span class="col-4 text-left">
+                        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 btn-new-position" data-toggle="modal" data-target="#positionModal" onclick="clearScreenPosition();">
+                            + New Position
+                        </button>
+                    </span>
+                    <span class="col-4 text-right">
+                        <input type="checkbox" class="form-check-input" id="showArchive" name="showArchive" value="False">
+                        <span class="status-indicator_" style="font-size: smaller">Show Archive Position</span>
+                    </span>
+                 
+                </div>
                 <div class="row" id="dataPositionContainer">
 
                 
@@ -116,7 +126,7 @@
 
 @*CRUD Position*@
 <!-- Modal -->
-<div class="modal" id="positionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal positionModal" id="positionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -127,13 +137,14 @@
             </div>
             <div class="modal-body">
                 <form class="needs-validation">
-
-                    <input type="text" class="form-control" id="clientId" hidden>
+                        
+                    <input type="text" class="form-control" id="client_Id" hidden>
+                    <input type="text" class="form-control" id="positionId" hidden>
 
                     <div class="row">
                         <div class="col">
                             <label for="ClientName">Position Name</label>
-                            <input type="text" class="form-control form-control-sm" id="positionName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Position Name" required>
+                            <input type="text" class="form-control form-control-sm" id="positionName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Position Name" required-pos>
                             <div class="invalid-feedback">
                                 This field is required.
                             </div>
@@ -143,11 +154,11 @@
                     <div class="row">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Level</label>
-                            <select class="custom-select custom-select-sm" id="positionLevel" required>
+                            <select class="custom-select custom-select-sm" id="positionLevel" required-pos>
                                 <option selected disabled value="">Choose...</option>
                                 <option value="Fresh Graduate">Fresh Graduate</option>
                                 <option value="Junior">Junior</option>
-                                <option value="Midle">Midle</option>
+                                <option value="Middle">Middle</option>
                                 <option value="Senior">Senior</option>
                             </select>
                             <div class="invalid-feedback">
@@ -159,19 +170,22 @@
                     <div class="row">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Quantity</label>
-                            <input type="number" class="form-control form-control-sm" id="positionQuantity" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Number of positions required" required>
+
+                            <input type="number" class="form-control form-control-sm" id="positionQuantity" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Number of positions required" required-pos>
+
                             <div class="invalid-feedback">
                                 This field is required.
                             </div>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Status</label>
-                            <select class="custom-select custom-select-sm" id="positionStatus" required>
+                            <select class="custom-select custom-select-sm" id="positionStatus" required-pos>
                                 <option selected disabled value="">Choose...</option>
                                 <option value="Open">Open</option>
                                 <option value="Hold">Hold</option>
                                 <option value="Closed">Closed</option>
                                 <option value="Fullfill">Fullfill</option>
+                                <option value="Archive">Archive</option>
                             </select>
                             <div class="invalid-feedback">
                                 This field is required.

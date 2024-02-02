@@ -22,7 +22,6 @@
             </div>
 
             <div class="form-group row">
-
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <label class="text-dark" for="exampleInputEmail1">Email</label>
                     <input type="email" class="form-control " id="email" name="email" required>
@@ -40,13 +39,6 @@
                         <label class="form-check-label" for="radio2"></label>
                     </div>
                 </div>
-            </div>
-            <div class="form-group row">
-
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                    <label class="text-dark" for="exampleInputEmail1">Position</label>
-                    <input type="text" class="form-control " id="position" name="position" required>
-                </div>
                 <div class="col-sm">
                     <label class="text-dark" for="exampleInputEmail1">Status Hiring</label>
                     <div class="form-check">
@@ -56,6 +48,70 @@
                     <div class="form-check" id="batch">
                         <input type="radio" class="form-check-input" id="bootcamp" name="hiredStatus" value="Bootcamp" required>Bootcamp
                         <label class="form-check-label" for="radio2"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label class="text-dark" for="exampleInputEmail1">Position</label>
+                    @* <input type="text" class="form-control " id="position" name="position" required>*@
+                    @*<div class="form-check">*@
+                    <select id="positionAcc" class="positionAcc form-control" multiple="multiple" name="state" required>
+                        @* <option selected disabled>Choose...</option>*@
+                        <option value="Back End Developer">Back End Developer</option>
+                        <option value="Business Analyst">Business Analyst</option>
+                        <option value="Business Intelligent Engineer">Business Intelligent Engineer</option>
+                        <option value="Data Analyst">Data Analyst</option>
+                        <option value="Data Engineer">Data Engineer</option>
+                        <option value="Database Administrator">Database Administrator</option>
+                        <option value="Database Analyst">Database Analyst</option>
+                        <option value="Database Engineer">Database Engineer</option>
+                        <option value="Devops Engineer">Devops Engineer</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Front End Developer">Front End Developer</option>
+                        <option value="Head of IT">Head of IT</option>
+                        <option value="IT Admin">IT Admin</option>
+                        <option value="IT Applications Support">IT Applications Support</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Mobile Developer">Mobile Developer</option>
+                        <option value="Outsystems Developer">Outsystems Developer</option>
+                        <option value="Project Manager">Project Manager</option>
+                        <option value="Quality Assurance">Quality Assurance</option>
+                        <option value="Sage 300 Consultant">Sage 300 Consultant</option>
+                        <option value="SAP ABAP Developer">SAP ABAP Developer</option>
+                        <option value="Scrum Master">Scrum Master</option>
+                        <option value="Software Engineer">Software Engineer</option>
+                        <option value="System Analyst">System Analyst</option>
+                        <option value="UiPath Engineer">UiPath Engineer</option>
+                        <option value=".Net Developer">.Net Developer</option>
+                    </select>
+                    <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
+                    @*</p>*@
+                    @*</div>*@
+                </div>
+
+                <div class="col-sm-3">
+                    <label class="text-dark" for="exampleInputEmail1">Level</label>
+                    @*<div class="form-check">*@
+                        <select id="levelAcc" class="selectLevel form-control" name="state" required>
+                            <option selected disabled>Select level</option>
+                            <option value="Fresh Graduate">Fresh Graduate</option>
+                            <option value="Junior">Junior</option>
+                            <option value="Junior to Middle">Junior to Middle</option>
+                            <option value="Middle">Middle</option>
+                            <option value="Middle to Senior">Middle to Senior</option>
+                            <option value="Senior">Senior</option>
+                        </select>
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    @*</div>*@
+                </div>
+            
+                <div class="col-sm-3">
+                <label class="text-dark" for="exampleInputEmail1">Financial Industry</label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="financialAcc" name="financialAcc" value="True">
+                        <span class="status-indicator-acc" style="font-size: smaller">No</span>
                     </div>
                 </div>
             </div>
@@ -109,7 +165,9 @@
             $(this).prev('label').append('<span style="color: red;">*</span>');
             $(this).closest('.form-check').prev('label').append('<span style="color: red;">*</span>');
             $(this).closest('.input-group').prev('label').append('<span style="color: red;">*</span>');
-
+        });
+        $('select[required]').each(function () {
+            $(this).prev('label').append('<span style="color: red;">*</span>');
         });
     })
 
@@ -118,6 +176,13 @@
         $('#join').val('');
         $('#start').val('');
         $('#end').val('');
+        $('#levelAcc').val('Select level');
+        $("#financialAcc").prop("checked", false);
+        var financial2 = document.getElementById('financialAcc');
+        var statusIndicator2 = document.querySelector('.status-indicator-acc');
+        if (statusIndicator2) {
+            statusIndicator2.textContent = financial2 ? "No" : "Yes";
+        }
     });
 
     document.getElementById('bootcamp').addEventListener('click', function () {
@@ -131,6 +196,19 @@
         let mm = endContract.getMonth() + 1;
         if (mm < 10) mm = '0' + mm;
         let lastDay = new Date(yyyy, mm, 0);
+        
+        //// add function automate financial and level
+        var financialCheck = document.getElementById('financialAcc');
+        //const statusIndicatorAc = document.querySelector(".status-indicator-acc");
+        financialCheck.checked = "True";
+
+        var statusIndicatorbot = document.querySelector('.status-indicator-acc');
+        if (statusIndicatorbot) {
+            statusIndicatorbot.textContent = financialCheck ? "Yes" : "No";
+        }
+
+        var StatusDropdown = document.getElementById("levelAcc");
+        StatusDropdown.value = "Junior"; 
 
         const endContractForm = yyyy + '-' + mm + '-' + lastDay.getDate();
         document.getElementById('duration').removeAttribute('disabled');
@@ -138,6 +216,9 @@
         $('#join').val(startContract.toISOString().slice(0, 10));
         $('#start').val(startContract.toISOString().slice(0, 10));
         $('#end').val(endContractForm);
+
+        $('#financialAcc').val(financialCheck);
+        $('#financialAcc').val(StatusDropdown);
     });
 
     document.getElementById('start').addEventListener('change', function () {
@@ -175,6 +256,33 @@
         $('#end').val(endContractForm);
     };
 
+    // function financial industry
+    document.getElementById('financialAcc').addEventListener('change', function () {
+        // Get the value of the checkbox
+        var financialIndustryValue = this.checked;
+
+        var statusIndicatorAcc = document.querySelector('.status-indicator-acc');
+        if (statusIndicatorAcc) {
+            statusIndicatorAcc.textContent = financialIndustryValue ? "Yes" : "No";
+        }
+        
+    });
+
+    
+    var financial = $("#financialAcc").is(":checked");
+    if (!financial) {
+        financial = "False";
+    } else {
+        financial = "True";
+    }
+    //financial = financial.tostring();
+
+    //function position
+    $(".positionAcc").select2({
+        placeholder: "Select position",
+        tags: true,
+    });
+
 
     document.getElementById('createAccountForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Mencegah pengiriman formulir secara default
@@ -188,8 +296,21 @@
         var endContract = document.getElementById('end').value;
         var joinDate = document.getElementById('join').value;
         var gender = document.querySelector('input[name="gender"]:checked').value;
+        
+        // Validate selected positions
+        var selectedPositions = $("#positionAcc").val().join(", ");
+        //if (selectedPositions.length === 0) {
+        //    $('#positionError').show();
+        //    return;
+        //} else {
+        //    $('#positionError').hide();
+        //}
+        console.log(selectedPositions);
+
         var roleId = document.getElementById('roleId').value;
         var hiredStatus = document.querySelector('input[name="hiredStatus"]:checked').value;
+        var level = document.getElementById('levelAcc').value;
+        var financialIndustryAcc = financial;
         // ...
         // Melakukan validasi repeat password
         //if (password !== repeatPassword) {
@@ -228,12 +349,14 @@
             //birthdate: '2023-06-23T07:21:40.243Z',
             //religion: 'string',
             gender: gender,
+            position: selectedPositions,
             startContract: startContract,
             endContract: endContract,
             joinDate: joinDate,
             roleId: roleId,
             hiredstatus: hiredStatus,
-
+            level: level,
+            financialIndustry: financialIndustryAcc
         };
 
 
@@ -322,7 +445,7 @@
                     Swal.fire('Success', 'Registration Employee successful', 'success');
                     var form = document.getElementById('createAccountForm');
                     form.reset(); // Reset form setelah pengiriman berhasil
-
+                    $("#positionAcc").val().
 
                     $.post("/Accounts/NewAccount", { email, password })
                         .done(function () {
@@ -337,7 +460,6 @@
                                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                                 }
                             })
-
 
 
                             Toast.fire({

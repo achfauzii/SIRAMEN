@@ -9,7 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class QualificationController : BaseController<Qualification,QualificationRepository,int>
     {
         private readonly QualificationRepository qualificationRepository;
@@ -18,6 +18,7 @@ namespace RasManagement.Controllers
             this.qualificationRepository = qualificationRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetQualificationByAccountId(string accountId)
         {

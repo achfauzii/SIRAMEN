@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using RasManagement.BaseController;
 using RasManagement.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Trainer,Sales,Manager")]
     public class TrackingController : BaseController<TrackingInterview, TrackingRepository, int>
     {
         private readonly TrackingRepository trackingRepository;
