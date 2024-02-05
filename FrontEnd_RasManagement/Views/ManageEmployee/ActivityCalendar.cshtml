@@ -61,11 +61,10 @@
 </style>
 
 <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- fullCalendar -->
 <link rel="stylesheet" href="~/css/ManageEmployee/calendar.css">
  <!-- Theme style -->
-
 <link rel="stylesheet" href="~/css/ManageEmployee/adminlte.css">
 
 <!-- Main content -->
@@ -77,14 +76,53 @@
             <div class="col-md">
                 <div class="card card-primary">
                     <div class="card-body p-0">
-                            <div class=" text-right mr-3 mt-2 ">
+                            <!-- <div class=" text-right mr-3 mt-2 ">
                                 <div class="btn-group" role="group" aria-label="Button Filter">
                                     <button type="button" id="btn-wfo" class="btn btn-primary" >wfo</button>
                                     <button type="button" id="btn-wfc" class="btn btn-success" >wfc</button>
                                     <button type="button" id="btn-wfh" class="btn btn-warning" >wfh</button>
                                 </div>
+                            </div> -->
+                        <div class="row align-items-center">
+                            <div class="col-sm-3">
+                            @* <div class=" text-right mr-3 mt-2 "> *@
+                                <select id="selectflag" class="form-control">
+                                  <option selected disabled>Filter data by Flag</option>
+                                    <option value="wfo">Wfo</option>
+                                    <option value="wfc">Wfc</option>
+                                    <option value="wfh">Wfh</option>
+                                    <option value="sick">Sick</option>
+                                    <option value="leave">Leave</option>
+                                </select>
                             </div>
-                        
+
+                            <div class="col-sm-3">
+                            <select class="form-control" id="selectCategory">
+                                <option selected disabled>Filter data by category</option>
+                                <option value="Meeting/Discussion">Meeting/Discussion</option>
+                                <option value="Coding">Coding</option>
+                                <option value="Testing">Testing</option>
+                                <option value="UAT/SIT">UAT/SIT</option>
+                                <option value="Ticketing">Ticketing</option>
+                                <option value="Docummentation">Docummentation</option>
+                                <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+                                <option value="Support">Support</option>
+                                <option value="Review">Review</option>
+                                <option value="GoLive/Deploy">GoLive/Deploy</option>
+                                <option value="Others">Others</option>
+                            </select>
+                            </div>
+                            
+                            <div class="col-sm-3">
+                            <select class="form-control" id="selectStatus">
+                                <option selected disabled>Filter data by status</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Done">Done</option>
+                                <option value="Need Approval">Need Approval</option>
+                            </select>
+                            </div>
+                        </div>
                         <!-- THE CALENDAR -->
                         <div id="calendar"></div>
                     </div>
@@ -146,10 +184,18 @@
 </section>
 
 <!-- /.content -->
+<!-- <script>
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+    });
+</script> -->
+
 
 <script src="~/js/ManageEmployee/ActivityCalendar.js"></script>
+
 <!-- jQuery UI -->
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
+
 <!-- fullCalendar 2.2.5 -->
 <script src="~/js/ManageEmployee/moment.min.js"></script>
 <script src="~/js/ManageEmployee/Calendar.js"></script>
