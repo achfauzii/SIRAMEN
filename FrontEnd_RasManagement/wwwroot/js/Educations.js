@@ -1,4 +1,5 @@
 var table = null;
+var initialFormalEdu = {};
 $(document).ready(function () {
   Educations();
   formInputLocation();
@@ -448,6 +449,16 @@ function GetById(formalEduId) {
       $("#ModalFormal").modal("show");
       $("#Update").show();
       $("#Save").hide();
+
+        initialFormalEdu = {
+            UniversityName: obj.universityName,
+            Regencies: obj.location,
+            Major: obj.major,
+            Degree: obj.degree,
+            Ipk: obj.ipk,
+            Years: obj.years
+            // Add more fields if needed
+        };
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
@@ -456,8 +467,9 @@ function GetById(formalEduId) {
 }
 
 function UpdateFormal() {
-  var isValid = true;
-
+    var isValid = true;
+  
+   
   $("input[required],select[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
@@ -510,6 +522,20 @@ function UpdateFormal() {
   const accid = decodedtoken.AccountId;
   FormalEdu.AccountId = accid;
 
+    if (FormalEdu.UniversityName == initialFormalEdu.UniversityName &&
+        FormalEdu.Location == initialFormalEdu.Regencies &&
+        FormalEdu.Major == initialFormalEdu.Major &&
+        FormalEdu.Degree == initialFormalEdu.Degree &&
+        FormalEdu.Years == initialFormalEdu.Years &&
+        FormalEdu.ipk == initialFormalEdu.Ipk
+        ) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+        });
+        return;
+    }
   $.ajax({
     type: "PUT",
     url: "https://localhost:7177/api/Educations",
