@@ -131,15 +131,15 @@ function getById(Id) {
 
             $("#timeSheetId").val(obj.id); //ngambil data dr api
             $("#lastPlacementId").val(obj.placementStatusId);
-            $("#activity").val(obj.activity);
+            $("#activity").val(obj.activity).attr("data-initial", obj.activity);
             const date = formatDate(obj.date);
-            $("#inputDate").val(date);
+            $("#inputDate").val(date).attr("data-initial", obj.date);
             $("#inputDate").prop("disabled", false);
-            $("#flag").val(obj.flag);
+            $("#flag").val(obj.flag).attr("data-initial", obj.flag);
             $("#flag").prop("disabled", false);
-            $("#category").val(obj.category);
-            $("#status").val(obj.status);
-            $("#knownBy").val(obj.knownBy);
+            $("#category").val(obj.category).attr("data-initial", obj.category);
+            $("#status").val(obj.status).attr("data-initial", obj.status);
+            $("#knownBy").val(obj.knownBy).attr("data-initial", obj.knownBy);
             $("#timeSheetModal").modal("show");
             $("#Save").hide();
             $("#Update").show();
@@ -151,6 +151,44 @@ function getById(Id) {
 }
 
 function Update() {
+
+    var existingData = {
+        Date: $("#inputDate").val(),
+        Activity: $("#activity").val(),
+        Flag: $("#flag").val(),
+        Category: $("#category").val(),
+        Status: $("#status").val(),
+        KnownBy: $("#knownBy").val(),
+    };
+
+    var initialData = {
+        Date: $("#inputDate").attr("data-initial"),
+        Activity: $("#activity").attr("data-initial"),
+        Flag: $("#flag").attr("data-initial"),
+        Category: $("#category").attr("data-initial"),
+        Status: $("#status").attr("data-initial"),
+        KnownBy: $("#knownBy").attr("data-initial"),
+    };
+
+    initialData.Date = initialData.Date.replace('T00:00:00', '');
+
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+
+    console.log("Has data changed:", hasChanged);
+    console.log("existingData:", existingData);
+    console.log("initialData:", initialData);
+
+    if (!hasChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "No Data Has Been Changed",
+            showConfirmButton: false,
+            timer: 2000,
+        }).then(() => {
+            $("#timeSheetModal").modal("hide");
+        });
+        return;
+    }
     // debugger;
     /*var isValid = true;
   
