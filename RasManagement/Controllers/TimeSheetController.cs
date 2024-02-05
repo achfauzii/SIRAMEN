@@ -71,10 +71,10 @@ namespace RasManagement.Controllers
         }
         [AllowAnonymous]
         [HttpGet("TimeSheetByMonth")]
-        public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end)
+        public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] String? flag, [FromQuery] String? search)
         {
 
-            var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end);
+            var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end, flag, search);
             return StatusCode(200, get);
 
 

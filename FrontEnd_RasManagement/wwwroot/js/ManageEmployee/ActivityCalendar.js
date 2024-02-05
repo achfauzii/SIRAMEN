@@ -6,9 +6,33 @@ $(function () {
           center: 'title',
           right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
-        footerToolbar: {
-          center: 'title',
-        },
+        // customButtons: {
+        //   wfoButton: {
+        //     text: 'WFO',
+        //     click: function() {
+        //       var wfoEvents = calendar.getEvents().filter(function(event) {
+        //         return event.title.includes('WFO');
+        //       });
+    
+        //       calendar.removeAllEvents();
+        //       calendar.addEventSource(wfoEvents);
+    
+        //     }
+        //   },
+        //   wfhButton: {
+        //     text: 'WFH',
+        //     click: function() {
+        //       var wfoEvents = calendar.getEvents().filter(function(event) {
+        //         return event.title.includes('WFH');
+        //       });
+    
+        //       calendar.removeAllEvents();
+        //       calendar.addEventSource(wfoEvents);
+    
+        //     }
+        //   }
+        // },
+  
         themeSystem: 'bootstrap',
         lazyFetching: false,
         eventDidMount: function (info) {
@@ -26,8 +50,10 @@ $(function () {
         events: function (info, successCallback, failureCallback) {
           let start = moment(info.start.valueOf()).format('YYYY-MM-DD');
           let end = moment(info.end.valueOf()).format('YYYY-MM-DD');
+          let flag = info.flag;
+
           $.ajax({
-              url: "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +  '?start='+ start + "&end=" + end,
+              url: "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +  '?start='+ start + "&end=" + end + "&flag=" + flag,
               type: 'GET',
               headers: {
                   Authorization: "Bearer " + sessionStorage.getItem("Token")
@@ -36,10 +62,6 @@ $(function () {
               }
           });
       },
-      
-      
-      
-      
       
     });
     

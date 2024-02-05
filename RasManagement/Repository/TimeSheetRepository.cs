@@ -41,82 +41,53 @@ namespace RasManagement.Repository
 
             return timeSheets;
         }
-        public async Task<object> GetTimeSheetByCompanyNameAndMonth(string companyName, DateTime targetDate)
+        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, String flag, String Search)
         {
-            try
+            if (!string.IsNullOrEmpty(flag))
             {
-                // Step 1: Get PlacementStatusId from Placement table
-                var placementStatusIds = await context.Placements
-                    .Where(p => p.CompanyName == companyName)
-                    .Select(p => p.PlacementStatusId)
-                    .ToListAsync();
+                var timeSheets = context.TimeSheets
+                 .Include(a => a.Account)
+                 .Where(ts => ts.Flag == flag)
+                 .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
+                 .AsEnumerable()
+                 .Select(group => new
+                 {
+                     start = group.Key.Date,
+                     flag = flag,
+                     search = Search,
+                     allDay = true,
+                     title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
+                     AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
+                     description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
 
-                if (placementStatusIds == null || !placementStatusIds.Any())
-                {
-                    return new List<TimeSheet>();
-                }
-
-                // Step 2: Get TimeSheet data based on PlacementStatusIds and month
-                var result = await context.TimeSheets
-                    .Where(ts => placementStatusIds.Contains((int)ts.PlacementStatusId)
-                        && ts.Date.HasValue
-                        && ts.Date.Value.Month == targetDate.Month
-                        && ts.Date.Value.Year == targetDate.Year)
-                    .GroupBy(ts => ts.AccountId)  // Group by AccountId
-                    .Select(group => new
-                    {
-                        AccountId = group.Key,
-                        AccountName = group.First().Account.Fullname,
-                        WFHCount = group.Count(ts => ts.Flag == "WFH"),
-                        WFOCount = group.Count(ts => ts.Flag == "WFO"),
-                        TimeSheets = group.Select(ts => new
-                        {
-                            TimeSheetId = ts.Id,
-
-                        }),
-
-                    })
-                    .ToListAsync();
-
-                return result;
-
+                 })
+                 .ToList();
+                return timeSheets;
             }
-            catch (Exception ex)
-            {
-                // Handle exceptions or log errors
-                throw ex;
-            }
-        }
 
-
-
-        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end)
-        {
             if (end.Subtract(start).Days > 41)
             {
                 var timeSheets = context.TimeSheets
-                  .Include(a => a.Account)
-                  .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
-                  .AsEnumerable()
-                  .Select(group => new
-                  {
-                      start = group.Key.Date,
-                      allDay = true,
-                      title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
-                      AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
-                      description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                      AccountInfo = group.Select(ts => new
-                      {
-                          AccountId = ts.AccountId,
-                          AccountName = ts.Account.Fullname
-                      }).Distinct(),
-                  })
-                  .ToList();
+                .Include(a => a.Account)
+                .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
+                .AsEnumerable()
+                .Select(group => new
+                {
+                    start = group.Key.Date,
+                    flag = flag,
+                    search = Search,
+                    allDay = true,
+                    title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
+                    AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
+                    description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
+
+                })
+                .ToList();
                 return timeSheets;
             }
             else
             {
-                var timeSheets = await context.TimeSheets
+                var timeSheets = context.TimeSheets
                 .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
                 .Select(group => new
                 {
@@ -126,7 +97,7 @@ namespace RasManagement.Repository
                     description = string.Join("<br> ", group.Select(ts => ts.Activity)),
                     allDay = true
                 })
-                .ToListAsync();
+                .ToList();
                 return timeSheets;
             }
         }

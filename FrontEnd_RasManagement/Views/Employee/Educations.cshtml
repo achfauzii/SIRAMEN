@@ -220,18 +220,14 @@
 
 <script>
  $(document).ready(function () {
-    $('select[required]').each(function () {
+    $('select[required], input[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
-    $('input[required]').each(function () {
+
+    $('input[required-nonformal], select[required-nonformal]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
-    $('input[required-nonformal]').each(function () {
-        $(this).prev('label').append('<span style="color: red;">*</span>');
-    });
-    $('select[required-nonformal]').each(function () {
-        $(this).prev('label').append('<span style="color: red;">*</span>');
-    });
+
  });
     // Get the select element
     const yearSelect = document.getElementById("Years");
