@@ -341,7 +341,7 @@ function Delete(assetsManagementId) {
 }
 
 function UpdateAsset() {
-    debugger;
+    //debugger;
     var isValid = true;
 
     // Memeriksa apakah ada perubahan data
@@ -380,8 +380,8 @@ function UpdateAsset() {
     var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
 
     console.log("Has data changed:", hasChanged);
-    console.log("existingData:", existingData);
-    console.log("initialData:", initialData);
+    //console.log("existingData:", existingData);
+    //console.log("initialData:", initialData);
 
     if (!hasChanged) {
         Swal.fire({
