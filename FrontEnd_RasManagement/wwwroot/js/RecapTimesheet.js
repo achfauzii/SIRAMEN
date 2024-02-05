@@ -1,4 +1,5 @@
 ﻿// A $( document ).ready() block.
+var table;
 $(document).ready(function () {
     $.ajax({
         url: "https://localhost:7177/api/EmployeePlacements", // Replace with your API endpoint
@@ -41,6 +42,7 @@ $(document).ready(function () {
 
 
 function submitReportTimesheet() {
+    table.destroy();
     var companyName = $('#companySelect').val();
     var month = $('#month').val();
   
@@ -57,7 +59,7 @@ function submitReportTimesheet() {
         return;
     }
 
-    var table = new $('#reportTimesheetTable').DataTable({
+   table = new $('#reportTimesheetTable').DataTable({
         ajax: {
             url: 'https://localhost:7177/api/TimeSheet/GetTimeSheetByCompanyNameAndMonth?companyName=' + companyName + '&month=' + month,
             type: "GET",
