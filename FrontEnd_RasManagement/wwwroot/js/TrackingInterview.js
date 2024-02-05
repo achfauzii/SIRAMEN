@@ -749,7 +749,7 @@ function createDropdown(categories) {
       link.className = "nav-link text-sm";
       link.href = "#";
       link.setAttribute("data-category", this.textContent.toLowerCase());
-      link.innerHTML = `<i class="fa fa-circle-xmark fa-sm" id="close${this.textContent}" onclick="addDropdown('${this.textContent}')"></i>&nbsp; ${this.textContent}`;
+      link.innerHTML = `<i class="fa fa-circle-xmark closeBtn" id="close${this.textContent}" onclick="addDropdown('${this.textContent}')"></i>&nbsp; ${this.textContent}`;
 
       link.classList.add("active");
 
@@ -824,7 +824,7 @@ function addDropdown(nameOfClient) {
     link.className = "nav-link text-sm";
     link.href = "#";
     link.setAttribute("data-category", this.textContent.toLowerCase());
-    link.innerHTML = `<i class="fa fa-circle-xmark fa-sm" id="close${this.textContent}" onclick="addDropdown('${this.textContent}')"></i>&nbsp; ${this.textContent}`;
+    link.innerHTML = `<i class="fa fa-circle-xmark closeBtn" id="close${this.textContent}" onclick="addDropdown('${this.textContent}')"></i>&nbsp; ${this.textContent}`;
 
     link.classList.add("active");
 

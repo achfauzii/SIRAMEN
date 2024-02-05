@@ -42,41 +42,43 @@ namespace RasManagement.Repository
         }
         public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end)
         {
-          if (end.Subtract(start).Days > 41)
+            if (end.Subtract(start).Days > 41)
             {
-            var timeSheets = context.TimeSheets
-              .Include(a => a.Account)
-              .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
-              .AsEnumerable()
-              .Select(group => new
-              {
-                  start = group.Key.Date,
-                  allDay= true,
-                  title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
-                  AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
-                  description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                  AccountInfo = group.Select(ts => new
+                var timeSheets = context.TimeSheets
+                  .Include(a => a.Account)
+                  .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
+                  .AsEnumerable()
+                  .Select(group => new
                   {
-                      AccountId = ts.AccountId,
-                      AccountName = ts.Account.Fullname 
-                  }).Distinct(),
-                })
-              .ToList();
-              return timeSheets;
-          } else {
-            var timeSheets = await context.TimeSheets
-            .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
-            .Select(group => new
+                      start = group.Key.Date,
+                      allDay = true,
+                      title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
+                      AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
+                      description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                      AccountInfo = group.Select(ts => new
+                      {
+                          AccountId = ts.AccountId,
+                          AccountName = ts.Account.Fullname
+                      }).Distinct(),
+                  })
+                  .ToList();
+                return timeSheets;
+            }
+            else
             {
-                start = group.Key.Date,
-                title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                
-                description = string.Join("<br> ", group.Select(ts => ts.Activity)),
-                allDay = true
-            })
-            .ToListAsync();
-            return timeSheets;
-          }
+                var timeSheets = await context.TimeSheets
+                .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
+                .Select(group => new
+                {
+                    start = group.Key.Date,
+                    title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
+
+                    description = string.Join("<br> ", group.Select(ts => ts.Activity)),
+                    allDay = true
+                })
+                .ToListAsync();
+                return timeSheets;
+            }
         }
         public static string GetColorByFlag(string flag)
         {
