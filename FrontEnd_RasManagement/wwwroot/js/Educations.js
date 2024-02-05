@@ -534,6 +534,7 @@ function UpdateFormal() {
             title: "No Changes Detected",
             text: "No data has been modified.",
         });
+        $("#ModalFormal").modal("hide");
         return;
     }
   $.ajax({
