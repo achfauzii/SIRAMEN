@@ -1,4 +1,5 @@
 var table = null;
+var initialAssetData = {};
 $(document).ready(function () {
     $("input[required], select[required]").each(function () {
         $(this).prev("label").append('<span style="color: red;">*</span>');
@@ -287,6 +288,21 @@ function GetById(assetsManagementId) {
         success: function (result) {
             // debugger;
             var obj = result.data; //data yg dapet dr id
+            initialAssetData = {
+                AssetsManagementId: obj.assetsManagementId,
+                Brand: obj.nama,
+                RFID: obj.rfid,
+                Processor: obj.processor,
+                Display: obj.display,
+                DateObtained: formatDate(obj.dateObtained),
+                OperatingSystem: obj.operatingSystem,
+                RAM: obj.ram ,
+                SSD: obj.ssd ,
+                HDD: obj.hdd,
+                GraphicCard: obj.graphicCard,
+                Charger: obj.charger,
+            };
+
             $("#assetsManagementId").val(obj.assetsManagementId); //ngambil data dr api
             $("#brand").val(obj.nama);
             $("#RFID").val(obj.rfid);
@@ -350,48 +366,9 @@ function Delete(assetsManagementId) {
 function UpdateAsset() {
     var isValid = true;
 
-    // Memeriksa apakah ada perubahan data
-    var existingData = {
-        Brand: $("#brand").val(),
-        RFID: $("#RFID").val(),
-        Processor: $("#Processor").val(),
-        Display: $("#Display").val(),
-        OS: $("#os").val(),
-        RAM: $("#ram").val(),
-        SSD: $("#ssd").val(),
-        HDD: $("#hdd").val(),
-        GraphicCard: $("#GraphicCard").val(),
-        Charger: $("#charger").val(),
-    };
+   
 
-    var initialData = {
-        Brand: $("#brand").attr("data-initial"),
-        RFID: $("#RFID").attr("data-initial"),
-        Processor: $("#Processor").attr("data-initial"),
-        Display: $("#Display").attr("data-initial"),
-        OS: $("#os").attr("data-initial"),
-        RAM: $("#ram").attr("data-initial"),
-        SSD: $("#ssd").attr("data-initial"),
-        HDD: $("#hdd").attr("data-initial"),
-        GraphicCard: $("#GraphicCard").attr("data-initial"),
-        Charger: $("#charger").attr("data-initial"),
-    };
-
-    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
-
-    console.log("Has data changed:", hasChanged);
-    console.log("existingData:", existingData);
-    console.log("initialData:", initialData);
-
-    if (!hasChanged) {
-        Swal.fire({
-            icon: "info",
-            title: "No Data Has Been Changed",
-            showConfirmButton: false,
-            timer: 2000,
-        });
-        return;
-    }
+   
 
     $("input[required]").each(function () {
         var input = $(this);
@@ -455,6 +432,28 @@ function UpdateAsset() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     Assets.accountId = accid;
+
+    if (Assets.nama == initialAssetData.Brand &&
+        Assets.rfid == initialAssetData.RFID &&
+        Assets.dateObtained == initialAssetData.DateObtained &&
+        Assets.processor == initialAssetData.Processor &&
+        Assets.charger == initialAssetData.Charger &&
+        Assets.operatingSystem == initialAssetData.OperatingSystem &&
+        Assets.ram == initialAssetData.RAM &&
+        Assets.ssd == initialAssetData.SSD &&
+        Assets.hdd == initialAssetData.HDD &&
+        Assets.display == initialAssetData.Display
+
+    ) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+        });
+        
+        return;
+    }
+    console.log(initialAssetData);
     console.log(Assets);
     $.ajax({
         url: "https://localhost:7177/api/Assets",
