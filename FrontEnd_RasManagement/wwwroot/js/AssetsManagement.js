@@ -332,7 +332,30 @@ function Delete(assetsManagementId) {
         type: "DELETE",
         dataType: "json",
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+
+            // debugger;
+            var obj = result.data; //data yg dapet dr id
+            $("#assetsManagementId").val(obj.assetsManagementId); //ngambil data dr api
+            $("#brand").val(obj.nama).attr("data-initial", obj.nama);
+            $("#RFID").val(obj.rfid).attr("data-initial", obj.rfid);
+            $("#Processor").val(obj.processor).attr("data-initial", obj.processor);
+            $("#Display").val(obj.display ? obj.display.replace(/\D/g, "") : "-").attr("data-initial", obj.display);
+            const date = formatDate(obj.dateObtained);
+            $("#dateObtained").val(date);
+            $("#os").val(obj.operatingSystem).attr("data-initial", obj.operatingSystem);
+            $("#ram").val(obj.ram ? obj.ram.replace(/\D/g, "") : "-").attr("data-initial", obj.ram);
+            $("#ssd").val(obj.ssd ? obj.ssd.replace(/\D/g, "") : "-").attr("data-initial", obj.ssd);
+            $("#hdd").val(obj.hdd ? obj.hdd.replace(/\D/g, "") : "-").attr("data-initial", obj.hdd);
+            $("#GraphicCard").val(obj.graphicCard).attr("data-initial", obj.graphicCard);
+
+            var chargerElement = $("#charger");
+            chargerElement.val(obj.charger ? "Yes" : "No").attr("data-initial", obj.charger); // Set data-initial attribute
+            $("#ModalAssets").modal("show");
+            $("#Save").hide();
+            $("#Update").show();
         },
       }).then((result) => {
         // debugger;
@@ -348,137 +371,142 @@ function Delete(assetsManagementId) {
 }
 
 function UpdateAsset() {
-  var isValid = true;
+    //debugger;
+    var isValid = true;
 
-  // Memeriksa apakah ada perubahan data
-  var existingData = {
-    Brand: $("#brand").val(),
-    RFID: $("#RFID").val(),
-    Processor: $("#Processor").val(),
-    Display: $("#Display").val(),
-    OS: $("#os").val(),
-    RAM: $("#ram").val(),
-    SSD: $("#ssd").val(),
-    HDD: $("#hdd").val(),
-    GraphicCard: $("#GraphicCard").val(),
-    Charger: $("#charger").val(),
-  };
+    // Memeriksa apakah ada perubahan data
+    var existingData = {
+        Brand: $("#brand").val(),
+        RFID: $("#RFID").val(),
+        Processor: $("#Processor").val(),
+        Display: $("#Display").val(),
+        OS: $("#os").val(),
+        RAM: $("#ram").val(),
+        SSD: $("#ssd").val(),
+        HDD: $("#hdd").val(),
+        GraphicCard: $("#GraphicCard").val(),
+        Charger: $("#charger").val(),
+    };
 
-  var initialData = {
-    Brand: $("#brand").attr("data-initial"),
-    RFID: $("#RFID").attr("data-initial"),
-    Processor: $("#Processor").attr("data-initial"),
-    Display: $("#Display").attr("data-initial"),
-    OS: $("#os").attr("data-initial"),
-    RAM: $("#ram").attr("data-initial"),
-    SSD: $("#ssd").attr("data-initial"),
-    HDD: $("#hdd").attr("data-initial"),
-    GraphicCard: $("#GraphicCard").attr("data-initial"),
-    Charger: $("#charger").attr("data-initial"),
-  };
+    var initialData = {
+        Brand: $("#brand").attr("data-initial"),
+        RFID: $("#RFID").attr("data-initial"),
+        Processor: $("#Processor").attr("data-initial"),
+        Display: $("#Display").attr("data-initial"),
+        OS: $("#os").attr("data-initial"),
+        RAM: $("#ram").attr("data-initial"),
+        SSD: $("#ssd").attr("data-initial"),
+        HDD: $("#hdd").attr("data-initial"),
+        GraphicCard: $("#GraphicCard").attr("data-initial"),
+        Charger: $("#charger").attr("data-initial"),
+    };
 
-  var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+    initialData.HDD = initialData.HDD.replace(/-/g, '');
+    initialData.Display = initialData.Display.replace(/'/g, '');
+    initialData.RAM = initialData.RAM.replace(/\s+/g, '').replace('GB', '');
+    initialData.SSD = initialData.SSD.replace(/\s+/g, '').replace('GB', '');
+    initialData.Charger = initialData.Charger ? "Yes" : "No";
 
-  console.log("Has data changed:", hasChanged);
-  console.log("existingData:", existingData);
-  console.log("initialData:", initialData);
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
 
-  if (!hasChanged) {
-    Swal.fire({
-      icon: "info",
-      title: "No Data Has Been Changed",
-      showConfirmButton: false,
-      timer: 2000,
+    console.log("Has data changed:", hasChanged);
+    //console.log("existingData:", existingData);
+    //console.log("initialData:", initialData);
+
+    if (!hasChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "No Data Has Been Changed",
+            showConfirmButton: false,
+            timer: 2000,
+        }).then(() => {
+            $("#ModalAssets").modal("hide");
+        });
+        return;
+    }
+
+    $("input[required]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message").show();
+            isValid = false;
+        } else {
+            input.next(".error-message").hide();
+        }
     });
-    return;
-  }
 
-  $("input[required]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message").show();
-      isValid = false;
+    var ramValue = $("#ram").val().replace(/^0+/, ""); // Menghapus 0 di awal
+    var ssdValue = $("#ssd").val().replace(/^0+/, ""); //hapus 0 di awal
+    var hddValue = $("#hdd").val().replace(/^0+/, "");
+    var displayValue = $("#Display").val().replace(/^0+/, "");
+
+    if (ramValue === "") {
+        if (ssdValue === "" && hddValue === "") {
+            $("#ssd-error").show();
+            $("#hdd-error").show();
+            $("#ram").next().show();
+
+            return;
+        } else {
+            $("#ram").next().show();
+            $("#ssd-error").hide();
+            return;
+        }
     } else {
-      input.next(".error-message").hide();
+        $("#ram").next().hide();
+        if (ssdValue === "" && hddValue === "") {
+            $("#ssd-error").show();
+            $("#hdd-error").show();
+            return;
+        } else {
+            $("#ssd-error").hide();
+            $("#hdd-error").hide();
+        }
     }
-  });
-
-  var ramValue = $("#ram").val().replace(/^0+/, ""); // Menghapus 0 di awal
-  var ssdValue = $("#ssd").val().replace(/^0+/, ""); //hapus 0 di awal
-  var hddValue = $("#hdd").val().replace(/^0+/, "");
-  var displayValue = $("#Display").val().replace(/^0+/, "");
-
-  var validRam, validHDD, validDisplay;
-  if ($("#ram").val() === "") {
-    $("#ram-error").show();
-    validRam = false;
-  } else {
-    $("#ram-error").hide();
-    validRam = true;
-  }
-
-  if ($("#ssd").val() === "" && $("#hdd").val() === "") {
-    $("#ssd-error").show();
-    $("#hdd-error").show();
-    validHDD = false;
-  } else {
-    $("#ssd-error").hide();
-    $("#hdd-error").hide();
-    validHDD = true;
-  }
-
-  if ($("#Display").val() === "") {
-    $("#display-error").show();
-    validDisplay = false;
-  } else {
-    $("#display-error").hide();
-    validDisplay = true;
-  }
-
-  if (!isValid || !validRam || !validHDD || !validDisplay) {
-    return;
-  }
-
-  var Assets = new Object();
-  Assets.assetsManagementId = $("#assetsManagementId").val();
-  Assets.rfid = $("#RFID").val();
-  Assets.nama = $("#brand").val();
-  Assets.dateObtained = $("#dateObtained").val();
-  Assets.processor = $("#Processor").val();
-  Assets.operatingSystem = $("#os").val();
-  Assets.ram = ramValue !== "" ? ramValue + " GB" : "-";
-  Assets.ssd = ssdValue !== "" ? ssdValue + " GB" : "-";
-  Assets.hdd = hddValue !== "" ? hddValue + " GB" : "-";
-  Assets.display = displayValue !== "" ? displayValue + "''" : "-";
-  Assets.graphicCard = $("#GraphicCard").val();
-  Assets.charger = $("#charger").val() === "Yes" ? true : false;
-  const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const accid = decodedtoken.AccountId;
-  Assets.accountId = accid;
-  console.log(Assets);
-  $.ajax({
-    url: "https://localhost:7177/api/Assets",
-    type: "PUT",
-    data: JSON.stringify(Assets),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    // debugger;
-    if (result.status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been update!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      $("#ModalAssets").modal("hide");
-      table.ajax.reload();
-    } else {
-      Swal.fire("Error!", "Data failed to update!", "error");
-      table.ajax.reload();
+    if (!isValid) {
+        return;
     }
-  });
+    debugger;
+    var Assets = new Object();
+    Assets.assetsManagementId = $("#assetsManagementId").val();
+    Assets.rfid = $("#RFID").val();
+    Assets.nama = $("#brand").val();
+    Assets.dateObtained = $("#dateObtained").val();
+    Assets.processor = $("#Processor").val();
+    Assets.operatingSystem = $("#os").val();
+    Assets.ram = ramValue !== "" ? ramValue + " GB" : "-";
+    Assets.ssd = ssdValue !== "" ? ssdValue + " GB" : "-";
+    Assets.hdd = hddValue !== "" ? hddValue + " GB" : "-";
+    Assets.display = displayValue !== "" ? displayValue + "''" : "-";
+    Assets.graphicCard = $("#GraphicCard").val();
+    Assets.charger = $("#charger").val() === "Yes" ? true : false;
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    Assets.accountId = accid;
+    console.log(Assets);
+    $.ajax({
+        url: "https://localhost:7177/api/Assets",
+        type: "PUT",
+        data: JSON.stringify(Assets),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        // debugger;
+        if (result.status == 200) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: "Data has been update!",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            $("#ModalAssets").modal("hide");
+            table.ajax.reload();
+        } else {
+            Swal.fire("Error!", "Data failed to update!", "error");
+            table.ajax.reload();
+        }
+    });
 }
