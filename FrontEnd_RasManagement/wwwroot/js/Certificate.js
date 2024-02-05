@@ -1,4 +1,5 @@
 ﻿var table = null;
+var initialCertificateData = {};
 $(document).ready(function () {
     //debugger;
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -161,6 +162,14 @@ function GetById(CertificateId) {
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
+            initialCertificateData = {
+   
+                Name: obj.name,
+                Publisher: obj.publisher,
+                PublicationYear: obj.publicationYear,
+                ValidUntil: obj.validUntil
+            };
+        
             $("#CertificateId").val(obj.certificateId); //ngambil data dr api
             $("#Name").val(obj.name);
             $("#Publisher").val(obj.publisher);
@@ -326,6 +335,18 @@ function Update() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     Certificate.accountId = accid;
+    if (Certificate.name == initialCertificateData.Name &&
+        Certificate.publisher == initialCertificateData.Publisher &&
+        Certificate.publicationYear == initialCertificateData.PublicationYear &&
+        Certificate.validUntil == initialCertificateData.ValidUntil) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+        });
+        return;
+    }
+ 
     $.ajax({
         url: "https://localhost:7177/api/Certificate",
         type: "PUT",
