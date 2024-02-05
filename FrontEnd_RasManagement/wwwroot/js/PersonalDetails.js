@@ -262,7 +262,74 @@ function GetById(accountId) {
 function clear() {
     $(".error-message").hide();
 }
+function formatDate(dateString) {
+    var parts = dateString.split(" ");
+    var day = parts[0];
+    var month = parts[1];
+    var year = parts[2];
+
+    var indonesianMonths = {
+        "Januari": "01", "Februari": "02", "Maret": "03", "April": "04", "Mei": "05", "Juni": "06",
+        "Juli": "07", "Agustus": "08", "September": "09", "Oktober": "10", "November": "11", "Desember": "12"
+    };
+
+    // Konversi nama bulan menjadi angka bulan
+    var monthNumber = indonesianMonths[month];
+
+    // Format tanggal menjadi format "YYYY-MM-DD"
+    var formattedDate = year + "-" + monthNumber + "-" + day;
+    return formattedDate;
+}
+
 function updateData() {
+    // Data yang ada di form/modal
+    var existingData = {
+        Fullname: $("#editName").val(),
+        Nickname: $("#editNickName").val(),
+        Birthplace: $("#editBirthPlace").val(),
+        Birthdate: $("#editBirthDate").val(),
+        Gender: $("#editGender").val(),
+        Religion: $("#editReligion").val(),
+        MaritalStatus: $("#editMartialStatus").val(),
+        Nationality: $("#editNationality").val(),
+        Address: $("#editAddress").val(),
+    };
+
+    // Data awal
+    var initialData = {
+        Fullname: $("#nameFull").text(),
+        Nickname: $("#nickName").text(),
+        Birthplace: $("#birthPlace").text(),
+        Birthdate: $("#birthDate").text(),
+        Gender: $("#gender").text(),
+        Religion: $("#religion").text(),
+        MaritalStatus: $("#martialStatus").text(),
+        Nationality: $("#nationality").text(),
+        Address: $("#address").text(),
+    };
+
+    initialData.Birthplace = initialData.Birthplace.replace(/,\s*$/, '');
+
+    initialData.Birthdate = formatDate(initialData.Birthdate);
+
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+
+    console.log("Has data changed:", hasChanged);
+
+    // Jika tidak ada perubahan, tampilkan pesan Sweet Alert dan berhenti
+    if (!hasChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "No Data Has Been Changed",
+            showConfirmButton: false,
+            timer: 2000,
+        }).then(() => {
+            $("#myModal").modal("hide");
+        });
+        return;
+    }
+
+    // Lakukan validasi dan proses update jika ada perubahan
     var accountId = $("#accountId").val();
     var isValid = true;
     $("input[required]").each(function () {
@@ -340,7 +407,7 @@ function updateData() {
                 Swal.fire({
                     icon: "success",
                     title: "Success...",
-                    text: "Data has been to update!",
+                    text: "Data has been updated!",
                     showConfirmButton: false,
                     timer: 2000,
                 }).then(() => {
