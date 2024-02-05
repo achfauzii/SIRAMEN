@@ -110,7 +110,7 @@ function Save() {
   var selectedProgramming = $("#programmingLanguage_").val();
   var selectedDatabase = $("#qualDatabase").val();
 
-  if (
+/*  if (
     !selectedFrameworks?.some(Boolean) ||
     !selectedProgramming?.some(Boolean) ||
     !selectedDatabase?.some(Boolean)
@@ -121,7 +121,7 @@ function Save() {
     $(".frameworkOptions").closest(".form-group").find(".error-message").hide();
   }
 
-  /*
+  
         if (!isValid) {
     
             return;
@@ -399,7 +399,7 @@ function Update() {
   //debugger;
   var isValid = true;
   // Validasi apakah field frameworkUpdate memiliki nilai yang dipilih
-  var selectedFrameworks = $("#frameworkUpdate").val();
+ /* var selectedFrameworks = $("#frameworkUpdate").val();
   if (!selectedFrameworks || selectedFrameworks.length === 0) {
     $("#frameworkShow .error-message").show();
     isValid = false;
@@ -439,7 +439,7 @@ function Update() {
 
   if (!isValid) {
     return;
-  }
+  }*/
 
   var qualifications = new Object(); //bikin objek baru
   qualifications.accountId = $("#accountId").val();

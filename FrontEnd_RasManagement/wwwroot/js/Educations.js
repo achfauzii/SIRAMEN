@@ -1,4 +1,5 @@
 var table = null;
+var initialFormalEdu = {};
 $(document).ready(function () {
   Educations();
   formInputLocation();
@@ -256,7 +257,19 @@ function SaveFormal() {
         $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
         isValid = false;
       } else {
-        $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+          // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+          if (ipk === "4") {
+              ipk = "4.00";
+          } else {
+              var ipkParts = ipk.split(".");
+              if (ipkParts.length === 1) {
+                  ipk += ".00";
+              } else if (ipkParts[1].length === 1) {
+                  ipk += "0";
+              }
+          }
+          input.val(ipk);
+          $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
       }
     }
   });
@@ -436,6 +449,16 @@ function GetById(formalEduId) {
       $("#ModalFormal").modal("show");
       $("#Update").show();
       $("#Save").hide();
+
+        initialFormalEdu = {
+            UniversityName: obj.universityName,
+            Regencies: obj.location,
+            Major: obj.major,
+            Degree: obj.degree,
+            Ipk: obj.ipk,
+            Years: obj.years
+            // Add more fields if needed
+        };
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
@@ -444,8 +467,9 @@ function GetById(formalEduId) {
 }
 
 function UpdateFormal() {
-  var isValid = true;
-
+    var isValid = true;
+  
+   
   $("input[required],select[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
@@ -464,7 +488,19 @@ function UpdateFormal() {
         $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
         isValid = false;
       } else {
-        $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+          // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+          if (ipk === "4") {
+              ipk = "4.00";
+          } else {
+              var ipkParts = ipk.split(".");
+              if (ipkParts.length === 1) {
+                  ipk += ".00";
+              } else if (ipkParts[1].length === 1) {
+                  ipk += "0";
+              }
+          }
+          input.val(ipk);
+          $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
       }
     }
   });
@@ -486,6 +522,21 @@ function UpdateFormal() {
   const accid = decodedtoken.AccountId;
   FormalEdu.AccountId = accid;
 
+    if (FormalEdu.UniversityName == initialFormalEdu.UniversityName &&
+        FormalEdu.Location == initialFormalEdu.Regencies &&
+        FormalEdu.Major == initialFormalEdu.Major &&
+        FormalEdu.Degree == initialFormalEdu.Degree &&
+        FormalEdu.Years == initialFormalEdu.Years &&
+        FormalEdu.ipk == initialFormalEdu.Ipk
+        ) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+        });
+        $("#ModalFormal").modal("hide");
+        return;
+    }
   $.ajax({
     type: "PUT",
     url: "https://localhost:7177/api/Educations",

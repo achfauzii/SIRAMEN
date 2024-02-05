@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace RasManagement.Repository
 {
@@ -31,6 +32,55 @@ namespace RasManagement.Repository
 
             return timeSheets;
         }
+        public async Task<object> GetTimeSheetByCompanyNameAndMonth(string companyName, DateTime targetDate)
+        {
+            try
+            {
+                // Step 1: Get PlacementStatusId from Placement table
+                var placementStatusIds = await context.Placements
+                    .Where(p => p.CompanyName == companyName)
+                    .Select(p => p.PlacementStatusId)
+                    .ToListAsync();
+
+                if (placementStatusIds == null || !placementStatusIds.Any())
+                {
+                    return new List<TimeSheet>();
+                }
+
+                // Step 2: Get TimeSheet data based on PlacementStatusIds and month
+                var result = await context.TimeSheets
+                    .Where(ts => placementStatusIds.Contains((int)ts.PlacementStatusId)
+                        && ts.Date.HasValue
+                        && ts.Date.Value.Month == targetDate.Month
+                        && ts.Date.Value.Year == targetDate.Year)
+                    .GroupBy(ts => ts.AccountId)  // Group by AccountId
+                    .Select(group => new
+                    {
+                        AccountId = group.Key,
+                        AccountName = group.First().Account.Fullname,
+                        WFHCount = group.Count(ts => ts.Flag == "WFH"),
+                        WFOCount = group.Count(ts => ts.Flag == "WFO"),
+                        TimeSheets = group.Select(ts => new
+                        {
+                            TimeSheetId = ts.Id,
+                         
+                        }),
+
+                    })
+                    .ToListAsync();
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log errors
+                throw ex;
+            }
+        }
+
+
+
         public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end)
         {
             if (end.Subtract(start).Days > 41)
@@ -61,7 +111,7 @@ namespace RasManagement.Repository
                         description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}</br>"))}",
                         start = dayGroup.Key.Date,
                         allDay = true,
-                        
+
                         //flag = flagCount.Flag,
                         backgroundColor = GetColorByFlag(flagCount.Flag),
                         borderColor = GetColorByFlag(flagCount.Flag),
@@ -71,22 +121,25 @@ namespace RasManagement.Repository
                 }
 
                 return resultWithTitles.Cast<object>().ToList();
-               
-                } else {
-                    var timeSheets = await context.TimeSheets
-                    .Include(a=> a.Account)
-                    .Where(ts => ts.Date >= start
-                                && ts.Date <= end)
-                    .Select(ts => new {
-                        title = ts.Activity,
-                        start = ts.Date,
-                        description = ts.Account.Fullname,
-                        //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
-                        allDay = true,
-                        backgroundColor = GetColorByFlag(ts.Flag),
-                        borderColor = GetColorByFlag(ts.Flag),
+
+            }
+            else
+            {
+                var timeSheets = await context.TimeSheets
+                .Include(a => a.Account)
+                .Where(ts => ts.Date >= start
+                            && ts.Date <= end)
+                .Select(ts => new
+                {
+                    title = ts.Activity,
+                    start = ts.Date,
+                    description = ts.Account.Fullname,
+                    //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
+                    allDay = true,
+                    backgroundColor = GetColorByFlag(ts.Flag),
+                    borderColor = GetColorByFlag(ts.Flag),
                 })
-                .ToListAsync();
+            .ToListAsync();
                 return timeSheets;
             }
         }
