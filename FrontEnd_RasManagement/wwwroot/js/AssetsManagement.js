@@ -246,7 +246,6 @@ function SaveAsset() {
     });
 }
 function GetById(assetsManagementId) {
-    //debugger;
     $.ajax({
         url: "https://localhost:7177/api/Assets/" + assetsManagementId,
         type: "GET",
@@ -256,20 +255,19 @@ function GetById(assetsManagementId) {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-            // debugger;
-            var obj = result.data; //data yg dapet dr id
-            $("#assetsManagementId").val(obj.assetsManagementId); //ngambil data dr api
-            $("#brand").val(obj.nama);
-            $("#RFID").val(obj.rfid);
-            $("#Processor").val(obj.processor);
-            $("#Display").val(obj.display);
-            $("#os").val(obj.operatingSystem);
-            $("#ram").val(obj.ram ? obj.ram.replace(/\D/g, "") : "-");
-            $("#ssd").val(obj.ssd ? obj.ssd.replace(/\D/g, "") : "-");
-            $("#hdd").val(obj.hdd ? obj.hdd.replace(/\D/g, "") : "-");
-            $("#GraphicCard").val(obj.graphicCard);
+            var obj = result.data;
+            $("#assetsManagementId").val(obj.assetsManagementId);
+            $("#brand").val(obj.nama).attr("data-initial", obj.nama); // Set data-initial attribute
+            $("#RFID").val(obj.rfid).attr("data-initial", obj.rfid); // Set data-initial attribute
+            $("#Processor").val(obj.processor).attr("data-initial", obj.processor); // Set data-initial attribute
+            $("#Display").val(obj.display).attr("data-initial", obj.display); // Set data-initial attribute
+            $("#os").val(obj.operatingSystem).attr("data-initial", obj.operatingSystem); // Set data-initial attribute
+            $("#ram").val(obj.ram ? obj.ram.replace(/\D/g, "") : "-").attr("data-initial", obj.ram); // Set data-initial attribute
+            $("#ssd").val(obj.ssd ? obj.ssd.replace(/\D/g, "") : "-").attr("data-initial", obj.ssd); // Set data-initial attribute
+            $("#hdd").val(obj.hdd ? obj.hdd.replace(/\D/g, "") : "-").attr("data-initial", obj.hdd); // Set data-initial attribute
+            $("#GraphicCard").val(obj.graphicCard).attr("data-initial", obj.graphicCard); // Set data-initial attribute
             var chargerElement = $("#charger");
-            chargerElement.val(obj.charger ? "Yes" : "No");
+            chargerElement.val(obj.charger ? "Yes" : "No").attr("data-initial", obj.charger); // Set data-initial attribute
             $("#ModalAssets").modal("show");
             $("#Save").hide();
             $("#Update").show();
@@ -314,8 +312,51 @@ function Delete(assetsManagementId) {
 }
 
 function UpdateAsset() {
-    // debugger;
+    debugger;
     var isValid = true;
+
+    // Memeriksa apakah ada perubahan data
+    var existingData = {
+        Brand: $("#brand").val(),
+        RFID: $("#RFID").val(),
+        Processor: $("#Processor").val(),
+        Display: $("#Display").val(),
+        OS: $("#os").val(),
+        RAM: $("#ram").val(),
+        SSD: $("#ssd").val(),
+        HDD: $("#hdd").val(),
+        GraphicCard: $("#GraphicCard").val(),
+        Charger: $("#charger").val(),
+    };
+
+    var initialData = {
+        Brand: $("#brand").attr("data-initial"),
+        RFID: $("#RFID").attr("data-initial"),
+        Processor: $("#Processor").attr("data-initial"),
+        Display: $("#Display").attr("data-initial"),
+        OS: $("#os").attr("data-initial"),
+        RAM: $("#ram").attr("data-initial"),
+        SSD: $("#ssd").attr("data-initial"),
+        HDD: $("#hdd").attr("data-initial"),
+        GraphicCard: $("#GraphicCard").attr("data-initial"),
+        Charger: $("#charger").attr("data-initial"),
+    };
+
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+
+    console.log("Has data changed:", hasChanged);
+    console.log("existingData:", existingData);
+    console.log("initialData:", initialData);
+
+    if (!hasChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "No Data Has Been Changed",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        return;
+    }
 
     $("input[required]").each(function () {
         var input = $(this);
