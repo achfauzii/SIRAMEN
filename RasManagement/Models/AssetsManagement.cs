@@ -18,6 +18,7 @@ public partial class AssetsManagement
 
     public string? OperatingSystem { get; set; }
 
+    public DateTime? DateObtained { get; set; }
     public string? Ram { get; set; }
 
     public string? Ssd { get; set; }
