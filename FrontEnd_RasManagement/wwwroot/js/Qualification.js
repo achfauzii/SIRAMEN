@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿var initialQualification = {};
+$(document).ready(function () {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
 
@@ -264,7 +265,15 @@ function getbyID() {
     },
     success: function (result) {
       //debugger;
-      var obj = result.data[0]; //data yg dapet dr id
+        var obj = result.data[0]; //data yg dapet dr id
+        initialQualification = {
+            QualificationId: obj.qualificationId,
+            Framework: obj.framework,
+            ProgrammingLanguage: obj.programmingLanguage,
+            Database: obj.database,
+            Tools: obj.tools,
+            Others: obj.others,
+        };
       $("#accountId").val(accid);
       $("#qualificationId").val(obj.qualificationId);
       // Memecah string menjadi array dan mengisi nilai ke dalam Select2
@@ -453,6 +462,25 @@ function Update() {
   qualifications.database = $("#databaseUpdate").val().join(", ");
   qualifications.tools = $("#toolsUpdate").val().join(", ");
   qualifications.others = $("#othersUpdate").val();
+
+
+    // Compare values with initialQualification
+    if (
+        qualifications.framework== initialQualification.Framework &&
+        qualifications.programmingLanguage == initialQualification.ProgrammingLanguage &&
+        qualifications.database== initialQualification.Database &&
+        qualifications.tools == initialQualification.Tools &&
+        qualifications.others === initialQualification.Others
+    ) {
+        // No changes, show SweetAlert alert
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+        });
+        return;
+    }
+
 
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;

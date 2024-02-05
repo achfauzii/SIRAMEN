@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     // Mendapatkan nilai parameter accountId dari URL
     $("#backButton").on("click", function () {
         history.back(); // Go back to the previous page
@@ -177,17 +177,46 @@ function loadData() {
                     console.log(data);
                     //var qualification = qualificationData.data;
                     var qualification = data.data[0];
-                    $("#framework").text(qualification.framework);
-                    $("#programmingLanguage").text(qualification.programmingLanguage);
-                    $("#database").text(qualification.database);
-                    $("#datatools").text(qualification.tools);
-
-                    if (qualification.others == "") {
-                        var others = document.getElementById("othersShow_");
-
-                        others.style.display = "none";
+                    if (qualification == null){
+                        var qualificationShow = document.getElementById("listQualification");
+                        qualificationShow.style.display = "none";
+                    } else {
+                        if (qualification.framework == ""){
+                            var frameworkShow = document.getElementById("frameworkShow");
+                            frameworkShow.style.display = "none";
+                        } else {
+                            $("#framework").text(qualification.framework);
+                        }
+    
+                        if (qualification.programmingLanguage == ""){
+                            var programmingLanguageShow = document.getElementById("programmingLanguageShow");
+                            programmingLanguageShow.style.display = "none";
+                        } else {
+                            $("#programmingLanguage").text(qualification.programmingLanguage);
+                        }
+    
+                        if (qualification.database == ""){
+                            var databaseShow = document.getElementById("databaseShow");
+                            databaseShow.style.display = "none";
+                        } else {
+                            $("#database").text(qualification.database);
+                        }
+    
+                        if (qualification.tools == ""){
+                            var datatoolsShow = document.getElementById("datatoolsShow");
+                            datatoolsShow.style.display = "none";
+                        } else {
+                            $("#datatools").text(qualification.tools);
+                        }
+    
+                        if (qualification.others == "") {
+                            var others = document.getElementById("othersShow_");
+                            others.style.display = "none";
+                        } else{
+                            $("#others").text(qualification.others);
+                        }
                     }
-                    $("#others").text(qualification.others);
+                    
                 },
                 error: function (educationError) {
                     alert(educationError.responseText);
@@ -348,16 +377,17 @@ function loadData() {
                         var row = tableBody.insertRow(i);
 
                         // Menghilangkan bullet dari data jobSpec
-                        var jobSpecWithoutBullet = project.jobSpec.replace(/•/g, "");
+                        // var jobSpecWithoutBullet = project.jobSpec.replace(/•/g, "");
 
                         // Memisahkan data jobSpec dengan baris baru (enter)
-                        var jobSpecItems = jobSpecWithoutBullet.split("\n");
+                        var jobSpecItems = project.jobSpec.split("\n");
 
                         // Membuat elemen ul untuk menampilkan jobSpec
                         var ul = document.createElement("ul");
+                        ul.className = "list-unstyled custom-ul";
                         console.log(jobSpecItems);
                         ul.classList.add("pl-3");
-                        if (jobSpecItems != " ") {
+                        if (jobSpecItems != "") {
                             // Mengisi elemen ul dengan item-item jobSpec
                             jobSpecItems.forEach(function (item) {
                                 var li = document.createElement("li");

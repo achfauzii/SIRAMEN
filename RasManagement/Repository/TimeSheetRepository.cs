@@ -21,6 +21,15 @@ namespace RasManagement.Repository
             return timeSheetAccount;
         }
 
+        public async Task<List<TimeSheet>> GetTimeSheetsActivity(string accountId, DateTime date)
+        {
+            var timeSheetAccount = await context.TimeSheets
+                .Where(e => e.AccountId == accountId && e.Date == date)
+                .ToListAsync();
+
+            return timeSheetAccount;
+        }
+
         public async Task<List<TimeSheet>> GetTimeSheetsByAccountIdAndMonth(string accountId, DateTime targetDate)
         {
             var timeSheets = await context.TimeSheets
@@ -53,27 +62,23 @@ namespace RasManagement.Repository
                         && ts.Date.HasValue
                         && ts.Date.Value.Month == targetDate.Month
                         && ts.Date.Value.Year == targetDate.Year)
-                    .Join(context.Accounts,
-                        ts => ts.AccountId,
-                        acc => acc.AccountId,
-                        (ts, acc) => new
+                    .GroupBy(ts => ts.AccountId)  // Group by AccountId
+                    .Select(group => new
+                    {
+                        AccountId = group.Key,
+                        AccountName = group.First().Account.Fullname,
+                        WFHCount = group.Count(ts => ts.Flag == "WFH"),
+                        WFOCount = group.Count(ts => ts.Flag == "WFO"),
+                        TimeSheets = group.Select(ts => new
                         {
                             TimeSheetId = ts.Id,
-                            // Include other relevant time sheet properties
-                            Account = new
-                            {
-                                AccountId = acc.AccountId,
-                                AccountName = acc.Fullname // Adjust this based on your Account model
-                            }
-                        })
-                    .GroupBy(x => x.Account.AccountId)  // Group by AccountId
-                    .Select(group => group.First())   // Select the first item from each group
+                         
+                        }),
+
+                    })
                     .ToListAsync();
 
                 return result;
-
-
-
 
             }
             catch (Exception ex)
@@ -90,57 +95,48 @@ namespace RasManagement.Repository
             if (end.Subtract(start).Days > 41)
             {
                 var timeSheets = context.TimeSheets
-                .Where(ts => ts.Date >= start && ts.Date <= end)
+                  .Include(a => a.Account)
+                  .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
+                  .AsEnumerable()
+                  .Select(group => new
+                  {
+                      start = group.Key.Date,
+                      allDay = true,
+                      title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
+                      AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
+                      description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                      AccountInfo = group.Select(ts => new
+                      {
+                          AccountId = ts.AccountId,
+                          AccountName = ts.Account.Fullname
+                      }).Distinct(),
+                  })
+                  .ToList();
+                return timeSheets;
+            }
+            
+            else
+            {
+                var timeSheets = await context.TimeSheets
                 .Include(a => a.Account)
-                .GroupBy(ts => new { ts.Date, ts.Flag })
-                .ToList();
-
-                var resultWithTitles = new List<object>();
-                foreach (var dayGroup in timeSheets)
+                .Where(ts => ts.Date >= start
+                            && ts.Date <= end)
+                .Select(ts => new
                 {
-                    var countFlag = dayGroup
-                    .GroupBy(ts => ts.Flag)
-                    .Select(flagGroup => new
-                    {
-                        Flag = flagGroup.Key,
-                        Count = flagGroup.Count()
-                    })
-                    .ToList();
+                    title = ts.Activity,
+                    start = ts.Date,
+                    description = ts.Account.Fullname,
+                    //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
+                    allDay = true,
+                    backgroundColor = GetColorByFlag(ts.Flag),
+                    borderColor = GetColorByFlag(ts.Flag),
+                    start = group.Key.Date,
+                    title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
 
-                    var titles = countFlag
-
-                    .Select(flagCount => new
-                    {
-                        title = $"{flagCount.Flag}:{flagCount.Count}",
-                        description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}</br>"))}",
-                        start = dayGroup.Key.Date,
-                        allDay = true,
-                        
-                        //flag = flagCount.Flag,
-                        backgroundColor = GetColorByFlag(flagCount.Flag),
-                        borderColor = GetColorByFlag(flagCount.Flag),
-                    })
-                .ToList();
-                    resultWithTitles.AddRange(titles);
-                }
-
-                return resultWithTitles.Cast<object>().ToList();
-               
-                } else {
-                    var timeSheets = await context.TimeSheets
-                    .Include(a=> a.Account)
-                    .Where(ts => ts.Date >= start
-                                && ts.Date <= end)
-                    .Select(ts => new {
-                        title = ts.Activity,
-                        start = ts.Date,
-                        description = ts.Account.Fullname,
-                        //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
-                        allDay = true,
-                        backgroundColor = GetColorByFlag(ts.Flag),
-                        borderColor = GetColorByFlag(ts.Flag),
+                    description = string.Join("<br> ", group.Select(ts => ts.Activity)),
+                    allDay = true
                 })
-                .ToListAsync();
+            .ToListAsync();
                 return timeSheets;
             }
         }
@@ -166,13 +162,81 @@ namespace RasManagement.Repository
 
         public int AddTimeSheet(TimeSheet timeSheet)
         {
-            // Validasi untuk memastikan tanggal unik
-            if (IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+            // Validasi Flag harus sama
+            var data = context.TimeSheets.FirstOrDefault(t => t.AccountId == timeSheet.AccountId && t.Date == timeSheet.Date);
+
+            if (data != null)
+            {
+                if (data.Flag == "Sick" || data.Flag == "Leave")
+                {
+                    return 406;
+                }
+                else if (data.Flag == timeSheet.Flag)
+                {
+                    context.TimeSheets.Add(timeSheet);
+                    return context.SaveChanges();
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            else
             {
                 context.TimeSheets.Add(timeSheet);
                 return context.SaveChanges();
             }
-            return 400;
+
+            // Validasi untuk memastikan tanggal unik
+            // if (IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+            // {
+            //     context.TimeSheets.Add(timeSheet);
+            //     return context.SaveChanges();
+            // }
+            // return 400;
+        }
+
+        public int UpdateTimeSheet(TimeSheet data)
+        {
+            // Validasi Flag harus sama
+            var result = context.TimeSheets.FirstOrDefault(t => t.AccountId == data.AccountId && t.Date == data.Date);
+
+            if (result != null)
+            {
+                if (result.Flag == data.Flag)
+                {
+                    var timesheet = context.TimeSheets.Find(data.Id);
+                    timesheet.Activity = data.Activity;
+                    timesheet.Flag = data.Flag;
+                    timesheet.Date = data.Date;
+                    timesheet.Category = data.Category;
+                    timesheet.Status = data.Status;
+                    timesheet.KnownBy = data.KnownBy;
+                    timesheet.AccountId = data.AccountId;
+                    timesheet.PlacementStatusId = data.PlacementStatusId;
+                    Console.WriteLine("same");
+                    return context.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("not same");
+                    return 304;
+                }
+            }
+            else
+            {
+                var timesheet = context.TimeSheets.Find(data.Id);
+                timesheet.Activity = data.Activity;
+                timesheet.Flag = data.Flag;
+                timesheet.Date = data.Date;
+                timesheet.Category = data.Category;
+                timesheet.Status = data.Status;
+                timesheet.KnownBy = data.KnownBy;
+                timesheet.AccountId = data.AccountId;
+                timesheet.PlacementStatusId = data.PlacementStatusId;
+                Console.WriteLine("null");
+                return context.SaveChanges();
+            }
         }
 
         public bool IsDateUnique(string accountId, DateTime? targetDate)

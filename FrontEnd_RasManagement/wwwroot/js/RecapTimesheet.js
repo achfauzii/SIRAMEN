@@ -68,40 +68,42 @@ function submitReportTimesheet() {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
         },
-    
-        columnDefs: [
-            {
-                searchable: false,
-                orderable: false,
-                targets: 0
-            }
-        ],
-        columns: [
-            { data: 'timeSheetId' },
-            { data: 'account.accountName' },
-     
-            // Add more columns as needed based on your data structure
-        ],
+ 
+       columns: [
+           {
+               data: null,
+               render: function (data, type, row, meta) {
+                   return meta.row + meta.settings._iDisplayStart + 1 + ".";
+               },
+           },
+            { data: 'accountName' },
+            { data: 'wfoCount' },
+            { data: 'wfhCount' },
+  
+       ],
+       columnDefs: [
+           {
+               targets: [0],
+               orderable: false,
+           },
+       ],
+       //Agar nomor tidak berubah
+       drawCallback: function (settings) {
+           var api = this.api();
+           var rows = api.rows({ page: "current" }).nodes();
+           var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+           var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+           api.column(0, { page: "current" })
+               .nodes()
+               .each(function (cell, i) {
+                   cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+               });
+       },
 
        
       
     });
 
 
-    table
-        .on('order.dt search.dt', function () {
-            let i = 1;
-
-            table
-                .cells(null, 0, { search: 'applied', order: 'applied' })
-                .every(function (cell) {
-                    this.data(i++);
-                });
-        })
-        .draw();
-
-    // Hide the warning alert if inputs are valid
-    $('#nullInput').hide();
-    // Show the DataTable and card
-    report.show();
 }
