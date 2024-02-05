@@ -48,7 +48,7 @@ namespace RasManagement.Repository
                                 + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Database
                                 + emp.Qualifications.ToList()[emp.Qualifications.Count - 1].Tools : "",
                         Level = emp.Level,
-                        Education = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Degree + "-" +
+                        Education = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Degree + " - " +
                                 emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Major : "",
                         Ipk = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].Ipk : "",
                         University = emp.FormalEdus.Count != 0 ? emp.FormalEdus.ToList()[emp.FormalEdus.Count - 1].UniversityName : "",
