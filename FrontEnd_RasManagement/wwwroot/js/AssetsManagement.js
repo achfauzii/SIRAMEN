@@ -283,17 +283,17 @@ function GetById(assetsManagementId) {
             // debugger;
             var obj = result.data; //data yg dapet dr id
             $("#assetsManagementId").val(obj.assetsManagementId); //ngambil data dr api
-            $("#brand").val(obj.nama);
-            $("#RFID").val(obj.rfid);
-            $("#Processor").val(obj.processor);
-            $("#Display").val(obj.display ? obj.display.replace(/\D/g, "") : "-");
+            $("#brand").val(obj.nama).attr("data-initial", obj.nama);
+            $("#RFID").val(obj.rfid).attr("data-initial", obj.rfid);
+            $("#Processor").val(obj.processor).attr("data-initial", obj.processor);
+            $("#Display").val(obj.display ? obj.display.replace(/\D/g, "") : "-").attr("data-initial", obj.display);
             const date = formatDate(obj.dateObtained);
             $("#dateObtained").val(date);
-            $("#os").val(obj.operatingSystem);
-            $("#ram").val(obj.ram ? obj.ram.replace(/\D/g, "") : "-");
-            $("#ssd").val(obj.ssd ? obj.ssd.replace(/\D/g, "") : "-");
-            $("#hdd").val(obj.hdd ? obj.hdd.replace(/\D/g, "") : "-");
-            $("#GraphicCard").val(obj.graphicCard);
+            $("#os").val(obj.operatingSystem).attr("data-initial", obj.operatingSystem);
+            $("#ram").val(obj.ram ? obj.ram.replace(/\D/g, "") : "-").attr("data-initial", obj.ram);
+            $("#ssd").val(obj.ssd ? obj.ssd.replace(/\D/g, "") : "-").attr("data-initial", obj.ssd);
+            $("#hdd").val(obj.hdd ? obj.hdd.replace(/\D/g, "") : "-").attr("data-initial", obj.hdd);
+            $("#GraphicCard").val(obj.graphicCard).attr("data-initial", obj.graphicCard);
 
             var chargerElement = $("#charger");
             chargerElement.val(obj.charger ? "Yes" : "No").attr("data-initial", obj.charger); // Set data-initial attribute
@@ -341,7 +341,7 @@ function Delete(assetsManagementId) {
 }
 
 function UpdateAsset() {
-    //debugger;
+    debugger;
     var isValid = true;
 
     // Memeriksa apakah ada perubahan data
@@ -372,6 +372,7 @@ function UpdateAsset() {
     };
 
     initialData.HDD = initialData.HDD.replace(/-/g, '');
+    initialData.Display = initialData.Display.replace(/'/g, '');
     initialData.RAM = initialData.RAM.replace(/\s+/g, '').replace('GB', '');
     initialData.SSD = initialData.SSD.replace(/\s+/g, '').replace('GB', '');
     initialData.Charger = initialData.Charger ? "Yes" : "No";
@@ -379,8 +380,8 @@ function UpdateAsset() {
     var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
 
     console.log("Has data changed:", hasChanged);
-    //console.log("existingData:", existingData);
-    //console.log("initialData:", initialData);
+    console.log("existingData:", existingData);
+    console.log("initialData:", initialData);
 
     if (!hasChanged) {
         Swal.fire({
