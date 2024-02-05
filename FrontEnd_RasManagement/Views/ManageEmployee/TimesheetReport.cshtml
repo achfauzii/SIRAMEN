@@ -3,6 +3,9 @@
     ViewData["Title"] = "TimesheetReport";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
+<!-- Custom styles for this page -->
+<link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet">
 <style>
     input[type="month"]::-webkit-calendar-picker-indicator {
         margin-left: -25px;
@@ -34,13 +37,7 @@
         background-color: #FFFFFF;
     }
 
-    .modal-notify .modal-header {
-        border-radius: 3px 3px 0 0;
-    }
-
-    .modal-notify .modal-content {
-        border-radius: 3px;
-    }
+ 
 
     input[type="month"]::-webkit-calendar-picker-indicator {
         margin-left: -25px;
@@ -63,20 +60,9 @@
             font-size: 14px; /* Atur ukuran tombol Previous dan Next */
         }
 
-    /*pdf Style*/
-    .intro-form p span {
-        display: inline-block;
-        width: 100px; /* Atur lebar sesuai kebutuhan */
-    }
+ 
 
-        .intro-form p span:nth-child(odd) {
-            font-weight: bold; /* Membuat label-label seperti 'Name', 'Role' menjadi tebal */
-        }
-
-    .intro-form p {
-        line-height: 1.3; /* Mengatur spasi antar baris agar terlihat lebih jelas */
-    }
-
+  
 
 
 </style>
@@ -122,15 +108,18 @@
 <div class="card mt-2 mb-3" id="reportTimesheet">
     <div class="card-header">
         <div class="row">
-            <div class="col"><h5 class="mb-0">Time Sheet</h5></div>
+            <div class="col"><h6 class="mb-0 pb-0">Time Sheet Report</h6></div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body mb-2  pb-1">
         <table id="reportTimesheetTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
-                    <th scope="col">No</th>
+                    <th width="35px">No</th>
+
                     <th scope="col">Name</th>
+                    <th scope="col">WFO</th>
+                    <th scope="col">WFH</th>
                    @* <th scope="col">Action</th>*@
                 </tr>
             </thead>
@@ -142,6 +131,8 @@
     {
     <script src="~/js/RecapTimesheet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+      <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
 
 }
 
