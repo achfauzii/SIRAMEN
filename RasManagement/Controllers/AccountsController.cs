@@ -44,6 +44,7 @@ namespace RasManagement.Controllers
             return Ok(await _context.Accounts.ToListAsync());
         }
 
+        [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterVM registerVM)
         {
@@ -178,7 +179,7 @@ namespace RasManagement.Controllers
                 var token = new JwtSecurityToken(
                 /*    _configuration["Jwt:Issuer"],
                     _configuration["Jwt:Audience"],*/
-                    claims:claims,
+                    claims: claims,
                     expires: DateTime.UtcNow.AddMinutes(15),
                     signingCredentials: signIn);
                 var resetToken = new JwtSecurityTokenHandler().WriteToken(token);

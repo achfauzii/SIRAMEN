@@ -298,7 +298,7 @@
         var gender = document.querySelector('input[name="gender"]:checked').value;
         
         // Validate selected positions
-        var selectedPositions = $("#positionAcc").val().join(", ");
+        var selectedPositions = $("#positionAcc").val();
         //if (selectedPositions.length === 0) {
         //    $('#positionError').show();
         //    return;
@@ -359,6 +359,7 @@
             financialIndustry: financialIndustryAcc
         };
 
+        console.log(data);
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {

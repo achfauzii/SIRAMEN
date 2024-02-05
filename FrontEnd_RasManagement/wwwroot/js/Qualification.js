@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿var initialQualification = {};
+$(document).ready(function () {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
 
@@ -110,7 +111,7 @@ function Save() {
   var selectedProgramming = $("#programmingLanguage_").val();
   var selectedDatabase = $("#qualDatabase").val();
 
-  if (
+/*  if (
     !selectedFrameworks?.some(Boolean) ||
     !selectedProgramming?.some(Boolean) ||
     !selectedDatabase?.some(Boolean)
@@ -125,7 +126,7 @@ function Save() {
         if (!isValid) {
     
             return;
-        }
+        }*/
   var qualifications = new Object(); //bikin objek baru
 
   qualifications.framework = $("#framework_").val().join(", ");
@@ -264,7 +265,15 @@ function getbyID() {
     },
     success: function (result) {
       //debugger;
-      var obj = result.data[0]; //data yg dapet dr id
+        var obj = result.data[0]; //data yg dapet dr id
+        initialQualification = {
+            QualificationId: obj.qualificationId,
+            Framework: obj.framework,
+            ProgrammingLanguage: obj.programmingLanguage,
+            Database: obj.database,
+            Tools: obj.tools,
+            Others: obj.others,
+        };
       $("#accountId").val(accid);
       $("#qualificationId").val(obj.qualificationId);
       // Memecah string menjadi array dan mengisi nilai ke dalam Select2
@@ -399,7 +408,7 @@ function Update() {
   //debugger;
   var isValid = true;
   // Validasi apakah field frameworkUpdate memiliki nilai yang dipilih
-  var selectedFrameworks = $("#frameworkUpdate").val();
+ /* var selectedFrameworks = $("#frameworkUpdate").val();
   if (!selectedFrameworks || selectedFrameworks.length === 0) {
     $("#frameworkShow .error-message").show();
     isValid = false;
@@ -439,7 +448,7 @@ function Update() {
 
   if (!isValid) {
     return;
-  }
+  }*/
 
   var qualifications = new Object(); //bikin objek baru
   qualifications.accountId = $("#accountId").val();
@@ -453,6 +462,25 @@ function Update() {
   qualifications.database = $("#databaseUpdate").val().join(", ");
   qualifications.tools = $("#toolsUpdate").val().join(", ");
   qualifications.others = $("#othersUpdate").val();
+
+
+    // Compare values with initialQualification
+    if (
+        qualifications.framework== initialQualification.Framework &&
+        qualifications.programmingLanguage == initialQualification.ProgrammingLanguage &&
+        qualifications.database== initialQualification.Database &&
+        qualifications.tools == initialQualification.Tools &&
+        qualifications.others === initialQualification.Others
+    ) {
+        // No changes, show SweetAlert alert
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+        });
+        return;
+    }
+
 
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;

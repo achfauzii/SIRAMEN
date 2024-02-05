@@ -279,16 +279,19 @@ function SharedShortListCandidate(selectedCategory) {
                 " bulan " +
                 daysInMonth +
                 " hari</span>";
-            } else {
+              } else if (daysInMonth > 0){  
               // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
-              if (daysInMonth > 0) {
                 result =
                   '<span class="badge badge-danger" style="font-size: 13px;">' +
                   daysInMonth +
                   " hari</span>";
+            } else {
+              if (daysInMonth <= 0){
+                result = "ASAP"
               }
             }
             return result;
+            
           } else if (row.workStatus === "true" || data === "True") {
             return data;
           } else if (data === "false" || data === "False") {

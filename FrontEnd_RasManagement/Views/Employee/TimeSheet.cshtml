@@ -1,4 +1,4 @@
-﻿﻿@{
+﻿@{
     ViewData["Title"] = "TimeSheet";
     Layout = "~/Views/Layout/LayoutEmployee.cshtml";
 }
@@ -20,9 +20,12 @@
     }
 
     #timeSheetTable tbody tr {
-    height: 18px; /* Adjust the height as needed */
-    line-height: 18px; /* Adjust the line height as needed */
-}
+        height: 18px; /* Adjust the height as needed */
+        line-height: 18px; /* Adjust the line height as needed */
+    }
+    .dataTables_scroll {
+        margin-bottom: 0.7em;
+    }
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
@@ -100,7 +103,7 @@
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Activity</label>
                         <textarea class="form-control" id="activity" required></textarea>
-                        @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
 
                         <input class="form-control form-control-sm" type="text" id="timeSheetId" hidden>
                         <input class="form-control form-control-sm" type="text" id="lastPlacementId" hidden>
@@ -115,12 +118,12 @@
                                 <option value="Sick">Sick</option>
                                 <option value="Leave">Leave</option>
                             </select>
-                            @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Date</label>
                             <input type="date" class="form-control form-control-sm" id="inputDate" required> </input>
-                            @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
 
                     </div>
@@ -141,7 +144,7 @@
                                 <option value="GoLive/Deploy">GoLive/Deploy</option>
                                 <option value="Others">Others</option>
                             </select>
-                            @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Status</label>
@@ -152,14 +155,14 @@
                                 <option value="Done">Done</option>
                                 <option value="Need Approval">Need Approval</option>
                             </select>
-                            @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Known By</label>
                         <input class="form-control form-control-sm" type="text" id="knownBy" required>
-                        @*<span class="error-message" style="color: red; display: none;">This field is required!</span>*@
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                 </form>
             </div>
@@ -172,11 +175,9 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-
 @section script
-    {
+{
     <script src="~/js/TimeSheetEmp.js"></script>
-
-    <script src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>  
 }

@@ -106,6 +106,8 @@ function parseJwt(token) {
 function noHTML(input) {
   var value = input.value.replace(/<[^>]*>/g, "");
   var nohtml = value.replace(/[<>]/g, "");
+
+ 
   input.value = nohtml;
 }
 
@@ -114,10 +116,23 @@ function handleInput(event, input) {
   noHTML(input);
 }
 
+
 // Proses input pada textarea JobSpesification
 $("#JobSpec").on("input", function () {
   var jobSpecValue = $(this).val();
 
+  // var lines = jobSpecValue.value.split('\n');
+  // var bulletText = "$bull;";
+  // for (let i = 0; i < lines.length; i++) {
+  //   lines[i] = lines[i].trim();
+
+  //   // Remove lines that contain only the bullet point
+  //   if (lines[i] === bulletText) {
+  //     lines.splice(i, 1);
+  //     i--; // Adjust the index after removal
+  //   }
+  // }
+  // input.value = lines.join('\n');
   // Memecah teks menjadi baris-baris
   var lines = jobSpecValue.split("\n");
 
@@ -145,7 +160,7 @@ $("#JobSpec").on("keypress", function (e) {
     var currentValue = $(this).val();
     if (currentValue.trim() !== "") {
       // Jika teks tidak kosong, tambahkan baris baru dengan bullet
-      currentValue += "\n• ";
+      currentValue += "\n";
       $(this).val(currentValue);
     }
   }
@@ -191,12 +206,19 @@ function Save() {
 
   var ProjectHistory = new Object(); //object baru
   ProjectHistory.projectName = $("#ProjectName").val(); //value insert dari id pada input
-  ProjectHistory.jobSpec = $("#JobSpec").val();
+  var jobSpec = $("#JobSpec").val();
+  var cleanedJobSpec = jobSpec.split('\n').map(function(line) {
+    return line.trim();
+  }).filter(function(line) {
+    return line !== '';
+  }).join('\n');
+  ProjectHistory.jobSpec = cleanedJobSpec;
   ProjectHistory.year = $("#Year").val();
   ProjectHistory.companyName = $("#CompanyName").val();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   ProjectHistory.accountId = accid;
+  console.log(ProjectHistory)
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/ProjectHistory",
@@ -274,6 +296,57 @@ function GetById(projectHistoryId) {
   });
 }
 
+// function Update() {
+//   var isValid = true;
+
+//   $("input[required], textarea[required]").each(function () {
+//     var element = $(this);
+//     if (!element.val()) {
+//       element.next(".error-message").show();
+//       isValid = false;
+//     } else {
+//       element.next(".error-message").hide();
+//     }
+//   });
+
+//   if (!isValid) {
+//     return;
+//   }
+
+//   var ProjectHistory = new Object(); //object baru
+//   ProjectHistory.projectHistoryId = $("#ProjectHistoryId").val();
+//   ProjectHistory.projectName = $("#ProjectName").val(); //value insert dari id pada input
+//   ProjectHistory.jobSpec = $("#JobSpec").val();
+//   ProjectHistory.year = $("#Year").val();
+//   ProjectHistory.companyName = $("#CompanyName").val();
+//   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+//   const accid = decodedtoken.AccountId;
+//   ProjectHistory.accountId = accid;
+
+//   $.ajax({
+//     url: "https://localhost:7177/api/ProjectHistory",
+//     type: "PUT",
+//     data: JSON.stringify(ProjectHistory),
+//     contentType: "application/json; charset=utf-8",
+//     headers: {
+//       Authorization: "Bearer " + sessionStorage.getItem("Token"),
+//     },
+//   }).then((result) => {
+//     if (result.status == 200) {
+//       Swal.fire({
+//         icon: "success",
+//         title: "Success...",
+//         text: "Data has been update!",
+//         showConfirmButtom: false,
+//         timer: 2000,
+//       });
+//       $("#Modal").modal("hide");
+//       table.ajax.reload();
+//     } else {
+//       Swal.fire("Error!", "Data failed to update", "error");
+//     }
+//   });
+// }
 function Update() {
   var isValid = true;
 
@@ -323,10 +396,10 @@ function Update() {
     return;
   }
 
-  var ProjectHistory = new Object(); //object baru
+  var ProjectHistory = new Object(); // New object
   ProjectHistory.projectHistoryId = $("#ProjectHistoryId").val();
-  ProjectHistory.projectName = $("#ProjectName").val(); //value insert dari id pada input
-  ProjectHistory.jobSpec = $("#JobSpec").val();
+  ProjectHistory.projectName = $("#ProjectName").val();
+  ProjectHistory.jobSpec =  $("#JobSpec").val();
   ProjectHistory.year = $("#Year").val();
   ProjectHistory.companyName = $("#CompanyName").val();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -346,7 +419,7 @@ function Update() {
       Swal.fire({
         icon: "success",
         title: "Success...",
-        text: "Data has been update!",
+        text: "Data has been updated!",
         showConfirmButtom: false,
         timer: 2000,
       });
@@ -357,6 +430,7 @@ function Update() {
     }
   });
 }
+
 
 function Delete(projectHistoryId) {
   Swal.fire({

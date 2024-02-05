@@ -83,6 +83,7 @@
                 </div>
 
                 <!-- Personal Details -->
+                <input type="hidden" class="form-control" name="position" id="position">
                 <div class="section mt-1 ">
                     <div class="row">
                         <div class="col-4 text-dark">
@@ -305,9 +306,10 @@
 
         // Ambil teks dari elemen dengan ID fullName
         var fullName = document.getElementById('fullName').innerText;
+        var position = document.getElementById('position').value;
 
         // Ubah judul halaman sesuai dengan judul yang diinginkan
-        document.title = fullName + " CV(BHP)";
+        document.title = fullName + " CV(BHP) - " + position;
         // Ubah ukuran kertas cetakan menjadi A4
         document.body.style.width = "210mm";
         document.body.style.height = "297mm";

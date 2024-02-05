@@ -70,7 +70,7 @@ function updatePassword() {
     Swal.fire({
       icon: "error",
       title: "Failed",
-      text: "Password and Repeat Password do not match.",
+      text: "Your new password doesn't match.",
     });
     return; // Hentikan eksekusi lebih lanjut
   }
@@ -252,10 +252,10 @@ function checkOverviewEmployee() {
           emp.formalEdus.length == 0 ||
           emp.nonFormalEdus.length == 0 ||
           //Check Qualifications
-          emp.qualifications.length == 0 ||
-          emp.qualifications.framework == "" ||
-          emp.qualifications.programmingLanguage == "" ||
-          emp.qualifications.database == "" ||
+          // emp.qualifications.length == 0 ||
+          // emp.qualifications.framework == "" ||
+          // emp.qualifications.programmingLanguage == "" ||
+          // emp.qualifications.database == "" ||
           //Check Certificate
           emp.certificates.length == 0 ||
           //Check Employeement History
