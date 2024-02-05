@@ -138,7 +138,43 @@ namespace RasManagement.Controllers
             {
                 return Ok(new { status = HttpStatusCode.NotFound, message = "Cannot add a timesheet, the placement field is null." });
             }
+
         }
+        [AllowAnonymous]
+        [HttpGet("GetTimeSheetByCompanyNameAndMonth")]
+        public async Task<IActionResult> GetTimeSheetByCompanyNameAndMonth([FromQuery] string companyName, [FromQuery] string month)
+        {
+            // Menerjemahkan string bulan menjadi objek DateTime untuk memperoleh bulan yang sesuai
+            DateTime targetDate;
+            if (!DateTime.TryParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out targetDate))
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Month Not Valid" });
+            }
+
+            var get = await timeSheetRepository.GetTimeSheetByCompanyNameAndMonth(companyName, targetDate);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
+        /*[HttpGet("ByCurrentMonth")]
+        public async Task<IActionResult> GetTimeSheetsByAccountAndCurrentMonth(string accountId)
+        {
+            try
+            {
+                var timeSheets = await timeSheetRepository.GetCurrentMonth(accountId);
+                return Ok(timeSheets);
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { status = HttpStatusCode.NotFound, message = "Cannot add a timesheet, the placement field is null." });
+            }
+        }*/
 
     }
 

@@ -37,7 +37,7 @@ $(document).ready(function () {
 });
 
 function submitMonth(month) {
-    
+
     // $("#month").val()
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
@@ -120,11 +120,11 @@ function submitMonth(month) {
             accountId +
             "&month=" +
             month,
-           {
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-           } 
+            {
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+            }
         )
             .then((response) => response.json())
             .then((result) => {
@@ -150,16 +150,16 @@ function submitMonth(month) {
                     row.insertCell(5).textContent = item.status;
                     row.insertCell(6).textContent = item.knownBy;
                 });
-
+              
                 var placementId = result.data[0].placementStatusId;
-
+            
                 fetch(
                     "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
                     placementId, {
-                        headers: {
-                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-                        },
-                    }
+                    headers: {
+                        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                    },
+                }
                 )
                     .then((r) => r.json())
                     .then((res) => {

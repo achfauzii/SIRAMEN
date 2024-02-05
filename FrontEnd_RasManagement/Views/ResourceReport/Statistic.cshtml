@@ -105,6 +105,15 @@
             </div>
     </div>
 </div>
+<script>
+    // Fungsi untuk melakukan refresh halaman
+    function autoRefresh() {
+        location.reload(true); // Melakukan reload halaman
+    }
+
+    // Melakukan refresh setiap 5 menit (300000 milidetik)
+    setInterval(autoRefresh, 300000);
+</script>
 @section script{
     <script src="~/js/ResourceReport/Statistic.js"></script>
 }

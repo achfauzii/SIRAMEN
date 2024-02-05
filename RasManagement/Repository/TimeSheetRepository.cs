@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace RasManagement.Repository
 {
@@ -40,6 +41,59 @@ namespace RasManagement.Repository
 
             return timeSheets;
         }
+        public async Task<object> GetTimeSheetByCompanyNameAndMonth(string companyName, DateTime targetDate)
+        {
+            try
+            {
+                // Step 1: Get PlacementStatusId from Placement table
+                var placementStatusIds = await context.Placements
+                    .Where(p => p.CompanyName == companyName)
+                    .Select(p => p.PlacementStatusId)
+                    .ToListAsync();
+
+                if (placementStatusIds == null || !placementStatusIds.Any())
+                {
+                    return new List<TimeSheet>();
+                }
+
+                // Step 2: Get TimeSheet data based on PlacementStatusIds and month
+                var result = await context.TimeSheets
+                    .Where(ts => placementStatusIds.Contains((int)ts.PlacementStatusId)
+                        && ts.Date.HasValue
+                        && ts.Date.Value.Month == targetDate.Month
+                        && ts.Date.Value.Year == targetDate.Year)
+                    .Join(context.Accounts,
+                        ts => ts.AccountId,
+                        acc => acc.AccountId,
+                        (ts, acc) => new
+                        {
+                            TimeSheetId = ts.Id,
+                            // Include other relevant time sheet properties
+                            Account = new
+                            {
+                                AccountId = acc.AccountId,
+                                AccountName = acc.Fullname // Adjust this based on your Account model
+                            }
+                        })
+                    .GroupBy(x => x.Account.AccountId)  // Group by AccountId
+                    .Select(group => group.First())   // Select the first item from each group
+                    .ToListAsync();
+
+                return result;
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log errors
+                throw ex;
+            }
+        }
+
+
+
         public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end)
         {
             if (end.Subtract(start).Days > 41)
