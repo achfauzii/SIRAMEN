@@ -1,5 +1,6 @@
 var table = null;
 var isTruncated = null;
+var compare = {};
 var softlColors = [
     "#B7E4C7", // Mint Green
     "#FFD8B1", // Soft Peach
@@ -708,6 +709,7 @@ function Src(selectedCategory) {
     }
 
     table.on("click", "tbody tr i.edit", function () {
+        
         // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
 
         let row = $(this).closest("tr");
@@ -756,6 +758,7 @@ function Src(selectedCategory) {
         } else {
             $("#age").val("");
         }
+        $("#birthdate2").val(data.birthdate);
 
         $("#level2").val(data.level);
         $("#statusOffering").val(data.status);
@@ -1019,6 +1022,37 @@ $("#offer").hide();
         $("#notes").val(data.notes);
 
         //alert('You clicked on ' + data.fullname + "'s row");
+
+        compare = {
+            FullName: data.fullname,
+            Position: data.position,
+            Skillset: data.skillset,
+            Degree: data.education,
+            University: data.university,
+            ExpectedSalary: data.expectedSalary,
+            CurrentSalary: data.currentSalary,
+            EnglishLevel: data.englishLevel,
+            CvBerca: data.cvBerca,
+            RawCv: data.rawCv,
+            FinancialIndustry: data.financialIndustry,
+            NoticePeriod: data.noticePeriode,
+            WorkStatus: data.workStatus,
+            FilteringBy: data.filteringBy,
+            Status: data.status,
+            Level: data.level,
+            Birhtdate: data.birthdate,
+            Domisili: data.domisili,
+            Ipk: data.ipk,
+            Notes: data.notes,
+            Status: data.status,
+            LevelRekom: data.levelRekom,
+            IntwDateByRas: data.intwDateByRas,
+            IntwByRas: data.intwByRas,
+            TechTest: data.techTest,
+            Negotiable: data.negotiable,
+            ExperienceInYear: data.experienceInYear
+
+        };
     });
 
     /*   $('#filterNavigation .nav-link').click(function () {
@@ -1703,6 +1737,44 @@ function Update() {
     NonRasCandidate.notes = $("#notes").val();
     NonRasCandidate.lastModified = formatDate(Date());
 
+    if (NonRasCandidate.fullname == compare.FullName &&
+        NonRasCandidate.position == compare.Position &&
+        NonRasCandidate.skillset == compare.Skillset &&
+        NonRasCandidate.education == compare.Degree &&
+        NonRasCandidate.ipk == compare.Ipk &&
+        NonRasCandidate.university == compare.University &&
+        NonRasCandidate.domisili == compare.Domisili &&
+        NonRasCandidate.birthdate == compare.Birhtdate &&
+        NonRasCandidate.level == compare.Level &&
+        NonRasCandidate.experienceInYear == compare.ExperienceInYear &&
+        NonRasCandidate.filteringBy == compare.FilteringBy &&
+        NonRasCandidate.workStatus == compare.WorkStatus &&
+        NonRasCandidate.noticePeriode == compare.NoticePeriod &&
+        NonRasCandidate.financialIndustry == compare.FinancialIndustry &&
+        NonRasCandidate.rawCv == compare.RawCv &&
+        NonRasCandidate.cvBerca == compare.CvBerca &&
+        NonRasCandidate.englishLevel == compare.EnglishLevel &&
+        NonRasCandidate.currentSalary == compare.CurrentSalary &&
+        NonRasCandidate.expectedSalary == compare.ExpectedSalary &&
+        NonRasCandidate.negotiable == compare.Negotiable &&
+        NonRasCandidate.intwByRas == compare.IntwByRas &&
+        NonRasCandidate.intwDateByRas == compare.IntwDateByRas &&
+        NonRasCandidate.techTest == compare.TechTest &&
+        NonRasCandidate.levelRekom == compare.LevelRekom &&
+        NonRasCandidate.status == compare.Status &&
+        NonRasCandidate.notes == compare.Notes
+
+    ) {
+        const logMessage = `Updated Candidate data with no changes detected, Id ${NonRasCandidate.nonRasId}, name ${NonRasCandidate.fullname}`;
+        SaveLogUpdate(logMessage);
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been changed.",
+        });
+        $("#offeringSourceList").modal("hide");
+        return;
+    }
     $.ajax({
         type: "PUT",
         url: "https://localhost:7177/api/Shortlist",
