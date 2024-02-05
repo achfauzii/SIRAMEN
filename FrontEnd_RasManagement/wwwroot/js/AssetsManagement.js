@@ -312,7 +312,7 @@ function Delete(assetsManagementId) {
 }
 
 function UpdateAsset() {
-    debugger;
+    //debugger;
     var isValid = true;
 
     // Memeriksa apakah ada perubahan data
@@ -342,11 +342,16 @@ function UpdateAsset() {
         Charger: $("#charger").attr("data-initial"),
     };
 
+    initialData.HDD = initialData.HDD.replace(/-/g, '');
+    initialData.RAM = initialData.RAM.replace(/\s+/g, '').replace('GB', '');
+    initialData.SSD = initialData.SSD.replace(/\s+/g, '').replace('GB', '');
+    initialData.Charger = initialData.Charger ? "Yes" : "No";
+
     var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
 
     console.log("Has data changed:", hasChanged);
-    console.log("existingData:", existingData);
-    console.log("initialData:", initialData);
+    //console.log("existingData:", existingData);
+    //console.log("initialData:", initialData);
 
     if (!hasChanged) {
         Swal.fire({
@@ -354,6 +359,8 @@ function UpdateAsset() {
             title: "No Data Has Been Changed",
             showConfirmButton: false,
             timer: 2000,
+        }).then(() => {
+            $("#ModalAssets").modal("hide");
         });
         return;
     }
