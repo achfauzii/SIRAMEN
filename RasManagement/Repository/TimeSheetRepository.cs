@@ -53,27 +53,23 @@ namespace RasManagement.Repository
                         && ts.Date.HasValue
                         && ts.Date.Value.Month == targetDate.Month
                         && ts.Date.Value.Year == targetDate.Year)
-                    .Join(context.Accounts,
-                        ts => ts.AccountId,
-                        acc => acc.AccountId,
-                        (ts, acc) => new
+                    .GroupBy(ts => ts.AccountId)  // Group by AccountId
+                    .Select(group => new
+                    {
+                        AccountId = group.Key,
+                        AccountName = group.First().Account.Fullname,
+                        WFHCount = group.Count(ts => ts.Flag == "WFH"),
+                        WFOCount = group.Count(ts => ts.Flag == "WFO"),
+                        TimeSheets = group.Select(ts => new
                         {
                             TimeSheetId = ts.Id,
-                            // Include other relevant time sheet properties
-                            Account = new
-                            {
-                                AccountId = acc.AccountId,
-                                AccountName = acc.Fullname // Adjust this based on your Account model
-                            }
-                        })
-                    .GroupBy(x => x.Account.AccountId)  // Group by AccountId
-                    .Select(group => group.First())   // Select the first item from each group
+                         
+                        }),
+
+                    })
                     .ToListAsync();
 
                 return result;
-
-
-
 
             }
             catch (Exception ex)
@@ -115,7 +111,7 @@ namespace RasManagement.Repository
                         description = $"{string.Join("", dayGroup.Where(ts => ts.Flag == flagCount.Flag).Select(ts => $"{ts.Account.Fullname}</br>"))}",
                         start = dayGroup.Key.Date,
                         allDay = true,
-                        
+
                         //flag = flagCount.Flag,
                         backgroundColor = GetColorByFlag(flagCount.Flag),
                         borderColor = GetColorByFlag(flagCount.Flag),
@@ -125,22 +121,25 @@ namespace RasManagement.Repository
                 }
 
                 return resultWithTitles.Cast<object>().ToList();
-               
-                } else {
-                    var timeSheets = await context.TimeSheets
-                    .Include(a=> a.Account)
-                    .Where(ts => ts.Date >= start
-                                && ts.Date <= end)
-                    .Select(ts => new {
-                        title = ts.Activity,
-                        start = ts.Date,
-                        description = ts.Account.Fullname,
-                        //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
-                        allDay = true,
-                        backgroundColor = GetColorByFlag(ts.Flag),
-                        borderColor = GetColorByFlag(ts.Flag),
+
+            }
+            else
+            {
+                var timeSheets = await context.TimeSheets
+                .Include(a => a.Account)
+                .Where(ts => ts.Date >= start
+                            && ts.Date <= end)
+                .Select(ts => new
+                {
+                    title = ts.Activity,
+                    start = ts.Date,
+                    description = ts.Account.Fullname,
+                    //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
+                    allDay = true,
+                    backgroundColor = GetColorByFlag(ts.Flag),
+                    borderColor = GetColorByFlag(ts.Flag),
                 })
-                .ToListAsync();
+            .ToListAsync();
                 return timeSheets;
             }
         }
