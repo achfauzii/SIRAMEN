@@ -1,5 +1,6 @@
 ﻿var table = null;
 var position = null;
+// var navListMenu = null;
 
 $(document).ready(function () {
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
@@ -606,7 +607,7 @@ function clearProcess() {
 }
 
 function fetchCategories() {
-  fetch("https://localhost:7177/api/ClientName", {
+  fetch("https://localhost:7177/api/ClientName/Requirement", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -633,27 +634,11 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-  let maxVisibleCategories = 9;
+  let maxVisibleCategories = 4;
   categories.unshift({ id: 0, nameOfClient: "All" }); // Menambahkan opsi "All" ke dalam array categories
-
-  // Mendeteksi lebar layar saat halaman dimuat
-  const screenWidth = window.innerWidth || document.documentElement.clientWidth;
-
-  // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
-  if (screenWidth <= 1024) {
-    maxVisibleCategories = 9;
-  }
-  if (screenWidth < 850) {
-    maxVisibleCategories = 7;
-  }
-  if (screenWidth < 750) {
-    maxVisibleCategories = 5;
-  }
-  if (screenWidth <= 500) {
-    maxVisibleCategories = 3;
-  }
   const navList = document.createElement("ul");
   navList.className = "nav nav-tabs";
+  navList.setAttribute("id", "nav-menu");
 
   // Loop untuk menambahkan item navigasi sampai index 6 (item ke-7)
   for (let i = 0; i < Math.min(categories.length, maxVisibleCategories); i++) {
@@ -714,7 +699,7 @@ function createNavigation(categories) {
       navLinks.forEach((link) => {
         link.classList.remove("active");
       });
-      dropdownToggle.classList.add("active");
+      // dropdownToggle.classList.add("active");
     });
   }
 
@@ -726,6 +711,7 @@ function createNavigation(categories) {
 function createDropdown(categories) {
   const dropdownContainer = document.createElement("li");
   dropdownContainer.className = "nav-item dropdown ml-auto"; // Untuk mengatur ke kanan (ml-auto)
+  dropdownContainer.setAttribute("id", "dropdown-nav-tab");
 
   const dropdownToggle = document.createElement("a");
   dropdownToggle.className = "nav-link dropdown-toggle";
@@ -739,6 +725,7 @@ function createDropdown(categories) {
 
   const dropdownMenu = document.createElement("div");
   dropdownMenu.className = "dropdown-menu";
+  dropdownMenu.setAttribute("id", "dropdown-menu");
   dropdownMenu.setAttribute("aria-labelledby", "navbarDropdown");
 
   for (let i = 0; i < categories.length; i++) {
@@ -749,6 +736,47 @@ function createDropdown(categories) {
 
     dropdownItem.addEventListener("click", function (e) {
       e.preventDefault();
+      this.remove();
+
+      const navListMenu = document.getElementById("nav-menu");
+
+      const listItem = document.createElement("li");
+      listItem.className = "nav-item";
+      listItem.setAttribute("id", "item-" + this.textContent);
+
+      const link = document.createElement("a");
+      link.setAttribute("id", "new-menu");
+      link.className = "nav-link text-sm";
+      link.href = "#";
+      link.setAttribute("data-category", this.textContent.toLowerCase());
+      link.innerHTML = `<i class="fa fa-circle-xmark closeBtn" id="close${this.textContent}" onclick="addDropdown('${this.textContent}')"></i>&nbsp; ${this.textContent}`;
+
+      link.classList.add("active");
+
+      var dropdownLength =
+        document.querySelectorAll("#dropdown-menu > a").length;
+
+      if (dropdownLength == 0) {
+        $("#dropdown-nav-tab").hide();
+      } else {
+        $("#dropdown-nav-tab").show();
+      }
+
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const selectedCategory = this.getAttribute("data-category");
+
+        table.column(3).search(selectedCategory).draw();
+        navListMenu.querySelectorAll(".nav-link").forEach((link) => {
+          link.classList.remove("active");
+        });
+
+        this.classList.add("active");
+      });
+      var childItem = document.querySelectorAll("#nav-menu .nav-item").length;
+      listItem.appendChild(link);
+      navListMenu.insertBefore(listItem, navListMenu.children[childItem - 1]);
+
       const selectedCategory = this.textContent;
       if (selectedCategory == "all") {
         table.search("").draw();
@@ -764,4 +792,70 @@ function createDropdown(categories) {
   dropdownContainer.appendChild(dropdownMenu);
 
   return dropdownContainer;
+}
+function addDropdown(nameOfClient) {
+  const dropdownItem = document.createElement("a");
+  dropdownItem.className = "dropdown-item";
+  dropdownItem.href = "#";
+  dropdownItem.textContent = nameOfClient;
+
+  document.getElementById("dropdown-menu").appendChild(dropdownItem);
+  document.getElementById("item-" + nameOfClient).remove();
+  var dropdownLength = document.querySelectorAll("#dropdown-menu > a").length;
+
+  if (dropdownLength == 0) {
+    $("#dropdown-nav-tab").hide();
+  } else {
+    $("#dropdown-nav-tab").show();
+  }
+
+  dropdownItem.addEventListener("click", function (e) {
+    e.preventDefault();
+    this.remove();
+
+    const navListMenu = document.getElementById("nav-menu");
+
+    const listItem = document.createElement("li");
+    listItem.className = "nav-item";
+    listItem.setAttribute("id", "item-" + this.textContent);
+
+    const link = document.createElement("a");
+    link.setAttribute("id", "new-menu");
+    link.className = "nav-link text-sm";
+    link.href = "#";
+    link.setAttribute("data-category", this.textContent.toLowerCase());
+    link.innerHTML = `<i class="fa fa-circle-xmark closeBtn" id="close${this.textContent}" onclick="addDropdown('${this.textContent}')"></i>&nbsp; ${this.textContent}`;
+
+    link.classList.add("active");
+
+    var dropdownLength = document.querySelectorAll("#dropdown-menu > a").length;
+
+    if (dropdownLength == 0) {
+      $("#dropdown-nav-tab").hide();
+    } else {
+      $("#dropdown-nav-tab").show();
+    }
+
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      const selectedCategory = this.getAttribute("data-category");
+
+      table.column(3).search(selectedCategory).draw();
+      navListMenu.querySelectorAll(".nav-link").forEach((link) => {
+        link.classList.remove("active");
+      });
+
+      this.classList.add("active");
+    });
+    var childItem = document.querySelectorAll("#nav-menu .nav-item").length;
+    listItem.appendChild(link);
+    navListMenu.insertBefore(listItem, navListMenu.children[childItem - 1]);
+
+    const selectedCategory = this.textContent;
+    if (selectedCategory == "all") {
+      table.search("").draw();
+    } else {
+      table.column(3).search(selectedCategory).draw();
+    }
+  });
 }

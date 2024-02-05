@@ -68,6 +68,9 @@
         display: block; 
         z-index: 9;
     }
+    .report::-webkit-input-placeholder{
+        font-size: 0.9rem;
+    }
     
 </style>
 
@@ -84,20 +87,20 @@
             <form id="pengaduan">
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="name" placeholder="Enter your name" autocomplete="off" required-report>
+                        <input type="text" class="form-control report" id="name" placeholder="Enter your name" autocomplete="off" required-report>
                         
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="">
-                        <input type="email" class="form-control" id="email" placeholder="Enter Berca email" autocomplete="off" required-report>
+                        <input type="email" class="form-control report" id="email" placeholder="john.dao@berca.co.id" autocomplete="off" required-report>
                         <span class="error-message" id="validateEmail" style="color: red; display: none;">Use Berca Email Domain</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
 
-                        <textarea class="form-control" id="description" rows="3" placeholder="Enter your description" autocomplete="off" style="max-height: 200px;min-height:50px;" required-report></textarea>
+                        <textarea class="form-control report" id="description" rows="3" placeholder="Enter your description" autocomplete="off" style="max-height: 200px;min-height:50px;" required-report></textarea>
 
                     </div>
                 </div>

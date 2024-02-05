@@ -93,6 +93,18 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('select[required]').each(function () {
+            $(this).prev('label').append('<span style="color: red;">*</span>');
+        });
+        $('input[required]').each(function () {
+            $(this).prev('label').append('<span style="color: red;">*</span>');
+        });
+        $('textarea[required]').each(function () {
+            $(this).prev('label').append('<span style="color: red;">*</span>');
+        });
+    });
+
     // Get the select element
     const yearSelect = document.getElementById("Year");
 
