@@ -279,41 +279,6 @@ function GetById(workExperienceId) {
 function Update() {
     var isValid = true;
 
-    var existingData = {
-        CompanyName: $("#CompanyName").val(),
-        Job: $("#Job").val(),
-        StartYear: $("#StartYear").val(),
-        EndYear: $("#EndYear").val(),
-        Description: $("#Description").val(),
-    };
-
-    var initialData = {
-        CompanyName: $("#CompanyName").attr("data-initial"),
-        Job: $("#Job").attr("data-initial"),
-        StartYear: $("#StartYear").attr("data-initial"),
-        EndYear: $("#EndYear").attr("data-initial"),
-        Description: $("#Description").attr("data-initial"),
-    };
-
-    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
-
-    console.log("Has data changed:", hasChanged);
-    console.log("Exiting Data:", existingData);
-    console.log("Initial Data:", initialData);
-
-
-    if (!hasChanged) {
-        Swal.fire({
-            icon: "info",
-            title: "No Data Has Been Changed",
-            showConfirmButton: false,
-            timer: 2000,
-        }).then(() => {
-            $("#Modal").modal("hide");
-        });
-        return;
-    }
-
     $("input[required]").each(function () {
         var input = $(this);
         if (!input.val()) {
@@ -355,10 +320,12 @@ function Update() {
     ) {
         Swal.fire({
             icon: "info",
-            title: "No Changes Detected",
-            text: "No data has been modified.",
+            title: "No Data Has Been Changed",
+            showConfirmButton: false,
+            timer: 2000,
+        }).then(() => {
+            $("#Modal").modal("hide");
         });
-        $("#ModalFormal").modal("hide");
         return;
     }
     $.ajax({
