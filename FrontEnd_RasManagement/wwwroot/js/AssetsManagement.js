@@ -448,8 +448,7 @@ function UpdateAsset() {
         });
         return;
     }
-    console.log(initialAssetData);
-    console.log(Assets);
+  
     $.ajax({
         url: "https://localhost:7177/api/Assets",
         type: "PUT",
