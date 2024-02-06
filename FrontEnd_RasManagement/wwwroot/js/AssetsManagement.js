@@ -366,10 +366,6 @@ function Delete(assetsManagementId) {
 function UpdateAsset() {
     var isValid = true;
 
-   
-
-   
-
     $("input[required]").each(function () {
         var input = $(this);
         if (!input.val()) {
@@ -450,7 +446,6 @@ function UpdateAsset() {
             title: "No Changes Detected",
             text: "No data has been modified.",
         });
-        
         return;
     }
     console.log(initialAssetData);

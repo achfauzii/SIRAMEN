@@ -475,8 +475,9 @@ function Update() {
         // No changes, show SweetAlert alert
         Swal.fire({
             icon: "info",
-            title: "No Changes Detected",
-            text: "No data has been modified.",
+            title: "No Data Has Been Changed",
+            showConfirmButton: false,
+            timer: 2000,
         });
         return;
     }
