@@ -25,13 +25,13 @@ namespace RasManagement.Repository
                         .OrderByDescending(account => account.AccountId)
                         .FirstOrDefault();
 
-            if (countAccount == null || countAccount == 0)
+            if (countAccount == null || countAccount == 0 || lastAccount==null)
             {
                 newNIK = "RAS" + currentDate + "001";
             }
             else
             {
-                string lastTwoDigits = lastAccount.AccountId.Substring(lastAccount.AccountId.Length - 2);
+                string lastTwoDigits = lastAccount.AccountId.Substring(lastAccount.AccountId.Length - 3);
                 int incrementedNumber = int.Parse(lastTwoDigits) + 1;
                 newNIK = "RAS" + currentDate + incrementedNumber;
             }
