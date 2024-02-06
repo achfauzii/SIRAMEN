@@ -475,11 +475,13 @@ function Update() {
         // No changes, show SweetAlert alert
         Swal.fire({
             icon: "info",
-            title: "No Data Has Been Changed",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
             showConfirmButton: false,
             timer: 2000,
         });
-        return;
+        $("#modalFramework").modal("hide");
+        return;        
     }
 
 

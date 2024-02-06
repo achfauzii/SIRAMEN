@@ -445,11 +445,14 @@ function UpdateAsset() {
             icon: "info",
             title: "No Changes Detected",
             text: "No data has been modified.",
+            showConfirmButton: false,
+            timer: 2000,
         });
+        $("#ModalAssets").modal("hide");
         return;
     }
-    console.log(initialAssetData);
-    console.log(Assets);
+    /*console.log(initialAssetData);
+    console.log(Assets);*/
     $.ajax({
         url: "https://localhost:7177/api/Assets",
         type: "PUT",

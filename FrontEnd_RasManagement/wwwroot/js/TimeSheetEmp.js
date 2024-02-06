@@ -50,6 +50,8 @@ $(document).ready(function () {
             .append('<span class="required" style="color: red;">*</span>');
         }
       );
+
+      $("#detail-activity").hide();
     } else {
       $("#activity").removeAttr("disabled");
       $("#category").removeAttr("disabled");
@@ -69,6 +71,7 @@ $(document).ready(function () {
             .append('<span class="required" style="color: red;">*</span>');
         }
       );
+      $("#detail-activity").show();
     }
   });
 
@@ -239,6 +242,7 @@ function getById(Id) {
               .append('<span class="required" style="color: red;">*</span>');
           }
         );
+        $("#detail-activity").hide();
       } else {
         $("#activity").removeAttr("disabled");
         $("#category").removeAttr("disabled");
@@ -302,12 +306,12 @@ var existingData = {
     if (!hasChanged) {
         Swal.fire({
             icon: "info",
-            title: "No Data Has Been Changed",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
             showConfirmButton: false,
             timer: 2000,
-        }).then(() => {
-            $("#timeSheetModal").modal("hide");
         });
+        $("#timeSheetModal").modal("hide");
         return;
     }
 
@@ -520,9 +524,11 @@ function clearScreen() {
   $("#status").removeAttr("disabled");
   $("#knownBy").removeAttr("disabled");
 
+  $("#detail-activity").show();
   $("#inputDate").prop("disabled", false);
   $("#flag").prop("disabled", false);
-  document.getElementById("flag").selectedIndex = 0;
+
+  $("#flag").val("WFO").trigger("change");
   document.getElementById("category").selectedIndex = 0;
   document.getElementById("status").selectedIndex = 0;
   document.getElementById("inputDate").value = new Date()

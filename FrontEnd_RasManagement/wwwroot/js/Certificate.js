@@ -2,6 +2,11 @@
 var initialCertificateData = {};
 $(document).ready(function () {
     //debugger;
+
+    $('input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+    
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $("#TB_Certificate").DataTable({
@@ -341,12 +346,12 @@ function Update() {
         Certificate.validUntil == initialCertificateData.ValidUntil) {
         Swal.fire({
             icon: "info",
-            title: "No Data Has Been Changed",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
             showConfirmButton: false,
             timer: 2000,
-        }).then(() => {
-            $("#Modal").modal("hide");
         });
+        $("#Modal").modal("hide");
         return;
     }
  

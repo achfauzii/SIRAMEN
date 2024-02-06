@@ -3578,7 +3578,7 @@ var FullCalendar = (function (exports) {
                       eventStore: asStore,
                   });
               },
-          });
+          });fc-toolbar-title
       };
       Object.defineProperty(EventApi.prototype, "source", {
           get: function () {
