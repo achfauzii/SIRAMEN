@@ -270,7 +270,7 @@ function Update() {
             showConfirmButton: false,
             timer: 2000,
         });
-        $("#ModalNonFormal").modal("hide");
+      $("#ModalNonFormal").modal("hide");
         return;
     }
   $.ajax({

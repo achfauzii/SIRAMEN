@@ -366,10 +366,6 @@ function Delete(assetsManagementId) {
 function UpdateAsset() {
     var isValid = true;
 
-   
-
-   
-
     $("input[required]").each(function () {
         var input = $(this);
         if (!input.val()) {

@@ -536,7 +536,7 @@ function UpdateFormal() {
             showConfirmButton: false,
             timer: 2000,
         });
-        $("#ModalFormal").modal("hide");
+      $("#ModalFormal").modal("hide");
         return;
     }
   $.ajax({

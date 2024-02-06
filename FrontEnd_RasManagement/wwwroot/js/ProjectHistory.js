@@ -367,8 +367,8 @@ function Update() {
     var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
 
     console.log("Has data changed:", hasChanged);
-    console.log("existingData:", existingData);
-    console.log("initialData:", initialData);
+    //console.log("existingData:", existingData);
+    //console.log("initialData:", initialData);
 
     if (!hasChanged) {
         Swal.fire({
