@@ -88,7 +88,7 @@ namespace RasManagement.Repository
                 throw ex;
             }
         }
-        
+
         public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, String flag, String Search, String categories, String status)
         {
             if (!string.IsNullOrEmpty(flag))
@@ -204,8 +204,8 @@ namespace RasManagement.Repository
                         title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
                         AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
                         description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                        backgroundColor = GetColorByFlag(group.Key.Flag),
-                        borderColor = GetColorByFlag(group.Key.Flag),
+                        backgroundColor = GetColorByStatus(group.First().Status),
+                        borderColor = GetColorByStatus(group.First().Status),
                     })
                     .ToList();
                     return timeSheets;
@@ -222,8 +222,8 @@ namespace RasManagement.Repository
                         title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
                         description = string.Join("<br> ", group.Select(ts => ts.Activity)),
                         allDay = true,
-                        backgroundColor = GetColorByFlag(group.First().Flag),
-                        borderColor = GetColorByFlag(group.First().Flag),
+                        backgroundColor = GetColorByStatus(group.First().Status),
+                        borderColor = GetColorByStatus(group.First().Status),
                     })
                     .ToList();
                     return timeSheets;
@@ -334,6 +334,42 @@ namespace RasManagement.Repository
                     return "#f56954"; // Red
             }
         }
+
+        public static string GetColorByStatus(string status)
+        {
+            switch (status)
+            {
+                case "In Progress":
+                    return "#0073b7"; // Blue
+                case "Pending":
+                    return "#f39c12"; // Yellow
+                case "Done":
+                    return "#00a65a"; // Green
+                case "Need Approval":
+                    return "#6c757d"; // Grey
+                default:
+                    return "#f56954"; // Red
+            }
+        }
+
+        //  public static string GetColorByCategory(string categories)
+        // {
+        //     switch (categories)
+        //     {
+        //         case "WFO":
+        //             return "#0073b7"; // Blue
+        //         case "WFH":
+        //             return "#f39c12"; // Yellow
+        //         case "WFC":
+        //             return "#00a65a"; // Green
+        //         case "Sick":
+        //             return "#6c757d"; // Grey
+        //         case "Leave":
+        //             return "#6c757d"; // Grey
+        //         default:
+        //             return "#f56954"; // Red
+        //     }
+        // }
 
         public int AddTimeSheet(TimeSheet timeSheet)
         {

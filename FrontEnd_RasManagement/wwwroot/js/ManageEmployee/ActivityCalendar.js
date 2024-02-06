@@ -1,7 +1,7 @@
 //filterbyflag
 var flag = "";
 var categories = "";
-var statuss = "";
+var selectStatus = "";
 
 $(function () {
   createCalendar();
@@ -24,7 +24,7 @@ $(function () {
     .addEventListener("change", function () {
       selectStatus = this.value;
       console.log(selectStatus);
-      // FilterCalendarbyCategory();
+      FilterCalendarbyStatus();
     });
 });
 
