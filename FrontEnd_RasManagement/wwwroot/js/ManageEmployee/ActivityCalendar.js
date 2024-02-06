@@ -33,6 +33,9 @@ function createCalendar() {
       center: "title",
       right: "dayGridMonth,dayGridWeek,dayGridDay",
     },
+    // eventDidMount: function (info) {
+    //   updatePopoverContent(info);
+    // },
 
     themeSystem: "bootstrap",
     lazyFetching: false,
@@ -140,10 +143,6 @@ function createCalendar() {
           end;
       }
 
-      console.log(
-        "Flag: " + flag + " Category " + categories + " Status " + selectStatus
-      );
-
       $.ajax({
         url: urlApi,
         type: "GET",
@@ -155,101 +154,24 @@ function createCalendar() {
         },
       });
     },
-  });
-  calendar.render();
-}
+    eventContent: function (arg) {
+      var view = calendar.view;
+      var title = "";
 
-function FilterCalendarbyCategory() {
-  var calendarEl = document.getElementById("calendar");
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,dayGridWeek,dayGridDay",
-    },
+      if (view.type === "dayGridDay") {
+        title =
+          arg.event.title +
+          ": " +
+          arg.event._def.extendedProps.description.replace(/<br*\/?>/gi, ", ");
+        console.log(arg.event._def.extendedProps.description);
+      } else {
+        // Handle other views as needed
+        title = arg.event.title;
+      }
 
-    themeSystem: "bootstrap",
-    lazyFetching: false,
-    eventDidMount: function (info) {
-      $(info.el).popover({
-        title: info.event.title,
-        placement: "bottom",
-        html: true,
-        content: info.event.extendedProps.description,
-        trigger: "hover",
-        container: "body",
-      });
-    },
-
-    events: function (info, successCallback, failureCallback) {
-      let start = moment(info.start.valueOf()).format("YYYY-MM-DD");
-      let end = moment(info.end.valueOf()).format("YYYY-MM-DD");
-
-      $.ajax({
-        url:
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories,
-        type: "GET",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (response) {
-          successCallback(response);
-        },
-      });
-    },
-  });
-  calendar.render();
-}
-
-function FilterCalendarbyStatus() {
-  var calendarEl = document.getElementById("calendar");
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,dayGridWeek,dayGridDay",
-    },
-
-    themeSystem: "bootstrap",
-    lazyFetching: false,
-    eventDidMount: function (info) {
-      $(info.el).popover({
-        title: info.event.title,
-        placement: "bottom",
-        html: true,
-        content: info.event.extendedProps.description,
-        trigger: "hover",
-        container: "body",
-      });
-    },
-
-    events: function (info, successCallback, failureCallback) {
-      let start = moment(info.start.valueOf()).format("YYYY-MM-DD");
-      let end = moment(info.end.valueOf()).format("YYYY-MM-DD");
-
-      $.ajax({
-        url:
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&status=" +
-          selectStatus,
-        type: "GET",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (response) {
-          successCallback(response);
-        },
-      });
+      return {
+        html: '<div class="custom-event">' + title + "</div>",
+      };
     },
   });
   calendar.render();

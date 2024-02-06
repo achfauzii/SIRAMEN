@@ -171,7 +171,7 @@ namespace RasManagement.Repository
                     .Select(group => new
                     {
                         start = group.Key.Date,
-                        title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()) + ": " + string.Join(", ", group.Select(ts => ts.Activity)),
+                        title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
                         description = string.Join("<br> ", group.Select(ts => ts.Activity)),
                         allDay = true,
                         backgroundColor = GetColorByFlag(group.First().Flag),
