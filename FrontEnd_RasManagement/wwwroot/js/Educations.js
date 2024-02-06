@@ -249,29 +249,33 @@ function SaveFormal() {
     }
 
     // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-    if (input.attr("id") === "Ipk") {
-      var ipk = input.val().trim();
-      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+      if (input.attr("id") === "Ipk") {
+          var ipk = input.val().trim();
 
-      if (!validIPK.test(ipk)) {
-        $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
-        isValid = false;
-      } else {
-          // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
-          if (ipk === "4") {
-              ipk = "4.00";
+          // Mengubah tanda koma menjadi tanda titik
+          ipk = ipk.replace(/,/g, '.');
+
+          var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+          if (!validIPK.test(ipk)) {
+              $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+              isValid = false;
           } else {
-              var ipkParts = ipk.split(".");
-              if (ipkParts.length === 1) {
-                  ipk += ".00";
-              } else if (ipkParts[1].length === 1) {
-                  ipk += "0";
+              // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+              if (ipk === "4") {
+                  ipk = "4.00";
+              } else {
+                  var ipkParts = ipk.split(".");
+                  if (ipkParts.length === 1) {
+                      ipk += ".00";
+                  } else if (ipkParts[1].length === 1) {
+                      ipk += "0";
+                  }
               }
+              input.val(ipk);
+              $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
           }
-          input.val(ipk);
-          $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
       }
-    }
   });
 
   // Validasi select options
@@ -480,29 +484,33 @@ function UpdateFormal() {
     }
 
     // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-    if (input.attr("id") === "Ipk") {
-      var ipk = input.val().trim();
-      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+      if (input.attr("id") === "Ipk") {
+          var ipk = input.val().trim();
 
-      if (!validIPK.test(ipk)) {
-        $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
-        isValid = false;
-      } else {
-          // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
-          if (ipk === "4") {
-              ipk = "4.00";
+          // Mengubah tanda koma menjadi tanda titik
+          ipk = ipk.replace(/,/g, '.');
+
+          var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+          if (!validIPK.test(ipk)) {
+              $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+              isValid = false;
           } else {
-              var ipkParts = ipk.split(".");
-              if (ipkParts.length === 1) {
-                  ipk += ".00";
-              } else if (ipkParts[1].length === 1) {
-                  ipk += "0";
+              // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+              if (ipk === "4") {
+                  ipk = "4.00";
+              } else {
+                  var ipkParts = ipk.split(".");
+                  if (ipkParts.length === 1) {
+                      ipk += ".00";
+                  } else if (ipkParts[1].length === 1) {
+                      ipk += "0";
+                  }
               }
+              input.val(ipk);
+              $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
           }
-          input.val(ipk);
-          $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
       }
-    }
   });
 
   if (!isValid) {
