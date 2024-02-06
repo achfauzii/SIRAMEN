@@ -83,11 +83,11 @@
                                     <button type="button" id="btn-wfh" class="btn btn-warning" >wfh</button>
                                 </div>
                             </div> -->
-                        <div class="row align-items-center">
-                            <div class="col-sm-3">
+                        <div class="row m-2 align-items-center">
+                            <div class="col-sm-4">
                             @* <div class=" text-right mr-3 mt-2 "> *@
-                                <select id="selectflag" class="form-control">
-                                  <option selected disabled>Filter data by Flag</option>
+                                <select id="selectflag" class="form-control bg-light border">
+                                  <option selected disabled>Filter by Flag</option>
                                     <option value="wfo">Wfo</option>
                                     <option value="wfc">Wfc</option>
                                     <option value="wfh">Wfh</option>
@@ -95,10 +95,13 @@
                                     <option value="leave">Leave</option>
                                 </select>
                             </div>
+                            @* <div class="col-sm-6">
+                                <input class="form-control me-2" type="search" id="search" placeholder="Search..." aria-label="Search">
+                            </div> *@
 
-                            <div class="col-sm-3">
-                            <select class="form-control" id="selectCategory">
-                                <option selected disabled>Filter data by category</option>
+                            <div class="col-sm-4">
+                            <select class="form-control bg-light" id="selectCategory">
+                                <option selected disabled>Filter by Category</option>
                                 <option value="Meeting/Discussion">Meeting/Discussion</option>
                                 <option value="Coding">Coding</option>
                                 <option value="Testing">Testing</option>
@@ -113,9 +116,9 @@
                             </select>
                             </div>
                             
-                            <div class="col-sm-3">
-                            <select class="form-control" id="selectStatus">
-                                <option selected disabled>Filter data by status</option>
+                            <div class="col-sm-4">
+                            <select class="form-control bg-light" id="selectStatus">
+                                <option selected disabled>Filter by Status</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Done">Done</option>

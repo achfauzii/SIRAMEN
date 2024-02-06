@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
-using System.Linq;
-=======
 using Org.BouncyCastle.Tsp;
->>>>>>> origin/ina
 
 namespace RasManagement.Repository
 {
@@ -45,6 +41,54 @@ namespace RasManagement.Repository
 
             return timeSheets;
         }
+
+        public async Task<object> GetTimeSheetByCompanyNameAndMonth(string companyName, DateTime targetDate)
+        {
+            try
+            {
+                // Step 1: Get PlacementStatusId from Placement table
+                var placementStatusIds = await context.Placements
+                    .Where(p => p.CompanyName == companyName)
+                    .Select(p => p.PlacementStatusId)
+                    .ToListAsync();
+
+                if (placementStatusIds == null || !placementStatusIds.Any())
+                {
+                    return new List<TimeSheet>();
+                }
+
+                // Step 2: Get TimeSheet data based on PlacementStatusIds and month
+                var result = await context.TimeSheets
+                    .Where(ts => placementStatusIds.Contains((int)ts.PlacementStatusId)
+                        && ts.Date.HasValue
+                        && ts.Date.Value.Month == targetDate.Month
+                        && ts.Date.Value.Year == targetDate.Year)
+                    .GroupBy(ts => ts.AccountId)  // Group by AccountId
+                    .Select(group => new
+                    {
+                        AccountId = group.Key,
+                        AccountName = group.First().Account.Fullname,
+                        WFHCount = group.Count(ts => ts.Flag == "WFH"),
+                        WFOCount = group.Count(ts => ts.Flag == "WFO"),
+                        TimeSheets = group.Select(ts => new
+                        {
+                            TimeSheetId = ts.Id,
+
+                        }),
+
+                    })
+                    .ToListAsync();
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log errors
+                throw ex;
+            }
+        }
+        
         public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, String flag, String Search, String categories, String status)
         {
             if (!string.IsNullOrEmpty(flag))
@@ -94,6 +138,10 @@ namespace RasManagement.Repository
                 }
             }
 
+            Console.WriteLine("Flag " + flag);
+            Console.WriteLine("Category " + categories);
+            Console.WriteLine("Status " + status);
+
             if (!string.IsNullOrEmpty(categories))
             {
                 Console.WriteLine("Filter Category");
@@ -107,6 +155,7 @@ namespace RasManagement.Repository
                     .Select(group => new
                     {
                         start = group.Key.Date,
+
                         allDay = true,
                         title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
                         AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
@@ -115,7 +164,6 @@ namespace RasManagement.Repository
                         borderColor = GetColorByFlag(group.Key.Flag),
                     })
                     .ToList();
-
                     return timeSheets;
                 }
                 else
@@ -371,19 +419,6 @@ namespace RasManagement.Repository
             // Cek apakah tanggal sudah digunakan untuk TimeSheet lain
             return !context.TimeSheets.Any(ts => ts.AccountId == accountId && ts.Date == targetDate);
         }
-
-        /*public async Task<List<TimeSheet>> GetCurrentMonth(string accountId)
-        {
-            var today = DateTime.Today;
-            var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-
-            var timeSheetAccount = await context.TimeSheets
-                .Where(e => e.AccountId == accountId && e.Date >= firstDayOfMonth && e.Date <= lastDayOfMonth)
-                .ToListAsync();
-
-            return timeSheetAccount;
-        }*/
 
     }
 }
