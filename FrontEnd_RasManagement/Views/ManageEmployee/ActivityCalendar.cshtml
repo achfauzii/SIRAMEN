@@ -2,49 +2,203 @@
     ViewData["Title"] = "DepartmentEmployee";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
+
+<style>
+    /* Gaya untuk teks dengan latar belakang warna */
+    /* .bg-info {
+        border-right: 1px solid #10161c;
+        border-top: 1px solid #10161c;
+        border-bottom: 1px solid #10161c;
+        /* padding: 15px;  */
+
+    /* .color-bg {
+        padding: 5px 6px;
+        border-radius: 5px;
+        border-color: Blue;
+    } */
+
+    .green-bg {
+        background-color: #1cc88a; /* Warna hijau */
+        color: white;
+    }
+
+    .yellow-bg {
+        background-color: #f6c23e; /* Warna kuning */
+        color: white;
+    }
+
+    .red-bg {
+        background-color: #e74c3c; /* Warna merah */
+        color: white;
+    }
+
+    .grey-bg {
+        background-color: #858796; /* Warna abu-abu */
+        color: white;
+    }
+
+    /* Gaya untuk bullet */
+    .bullet {
+        list-style-type: none; /* Menghilangkan default bullet */
+        padding-left: 0; /* Menghilangkan padding default */
+        margin-bottom: 6px; /* Menambahkan jarak antara bagian */
+    }
+
+    /* Gaya untuk setiap item daftar */
+    .list-item {
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .bullet-text {
+        flex-grow: 1;
+        margin-left: 10px; /* Sesuaikan jarak sesuai kebutuhan */
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+</style>
+
 <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- fullCalendar -->
 <link rel="stylesheet" href="~/css/ManageEmployee/calendar.css">
  <!-- Theme style -->
-
 <link rel="stylesheet" href="~/css/ManageEmployee/adminlte.css">
-
-
-<!-- Content Header (Page header) -->
-
 
 <!-- Main content -->
 
 <section class="content">
     <div class="container-fluid">
-        <h4 style="font-family:comfortaa; color: black; padding: 5px 6px" class="font-weight-bold">Activity Calender</h4>
-    <div class="row">
-        <div class="col-md-0">
-            <div class="sticky-top mb-3">
-        </div>   
-        </div>
-        <!-- /.col -->
-        <div class="col-md">
-        <div class="card card-primary">
-            <div class="card-body p-0">
-            <!-- THE CALENDAR -->
-            <div id="calendar"></div>
+        <h4 style="font-family: comfortaa; color: black; padding: 5px 6px" class="font-weight-bold">Activity Calendar</h4>
+        <div class="row">
+            <div class="col-md">
+                <div class="card card-primary">
+                    <div class="card-body p-0">
+                            <!-- <div class=" text-right mr-3 mt-2 ">
+                                <div class="btn-group" role="group" aria-label="Button Filter">
+                                    <button type="button" id="btn-wfo" class="btn btn-primary" >wfo</button>
+                                    <button type="button" id="btn-wfc" class="btn btn-success" >wfc</button>
+                                    <button type="button" id="btn-wfh" class="btn btn-warning" >wfh</button>
+                                </div>
+                            </div> -->
+                        <div class="row m-2 align-items-center">
+                            <div class="col-sm-4">
+                            @* <div class=" text-right mr-3 mt-2 "> *@
+                                <select id="selectflag" class="form-control bg-light border">
+                                  <option selected disabled>Filter by Flag</option>
+                                    <option value="wfo">Wfo</option>
+                                    <option value="wfc">Wfc</option>
+                                    <option value="wfh">Wfh</option>
+                                    <option value="sick">Sick</option>
+                                    <option value="leave">Leave</option>
+                                </select>
+                            </div>
+                            @* <div class="col-sm-6">
+                                <input class="form-control me-2" type="search" id="search" placeholder="Search..." aria-label="Search">
+                            </div> *@
+
+                            <div class="col-sm-4">
+                            <select class="form-control bg-light" id="selectCategory">
+                                <option selected disabled>Filter by Category</option>
+                                <option value="Meeting/Discussion">Meeting/Discussion</option>
+                                <option value="Coding">Coding</option>
+                                <option value="Testing">Testing</option>
+                                <option value="UAT/SIT">UAT/SIT</option>
+                                <option value="Ticketing">Ticketing</option>
+                                <option value="Docummentation">Docummentation</option>
+                                <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+                                <option value="Support">Support</option>
+                                <option value="Review">Review</option>
+                                <option value="GoLive/Deploy">GoLive/Deploy</option>
+                                <option value="Others">Others</option>
+                            </select>
+                            </div>
+                            
+                            <div class="col-sm-4">
+                            <select class="form-control bg-light" id="selectStatus">
+                                <option selected disabled>Filter by Status</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Done">Done</option>
+                                <option value="Need Approval">Need Approval</option>
+                            </select>
+                            </div>
+                        </div>
+                        <!-- THE CALENDAR -->
+                        <div id="calendar"></div>
+                    </div>
+                    <div class="card mb-0">
+                        <div class="card-body mb-0">
+                            <h5 class="card-title" style="color: #858796; font-weight: bold; padding-left: 15px;">Information!</h5><br>
+                        <div class="row ml-3">
+                            <p class="card-text text-body-secondary" style="font-size: 14px; padding-bottom: 10px">Keterangan Label Flag:</p>
+                        </div>
+                        <div class="row"> 
+                         <div class="col-md-6">       
+                                <small>
+                                <ul>
+                                    <li class="list-item">
+                                        <span class="badge badge-primary" style="font-size: 12px;">Blue</span>
+                                        <span class="bullet-text">: WFO</span>
+                                    </li>
+                                    <li class="list-item">
+                                        <span class="badge badge-warning" style="font-size: 12px; color: white;">Yellow</span>
+                                        <span class="bullet-text">: WFH</span>
+                                    </li>
+                                    <li class="list-item">
+                                        <span class="badge badge-success" style="font-size: 12px;">Green</span>
+                                        <span class="bullet-text">: WFC</span>
+                                    </li>
+                                </ul>
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                            <small>
+                                <ul>
+                                    <li class="list-item">
+                                        <span class="badge badge-secondary" style="font-size: 12px;">Grey</span>
+                                        <span class="bullet-text">: Leave, Sick</span>
+                                    </li>
+                                    <li class="list-item">
+                                        <span class="badge badge-danger" style="font-size: 12px;">Red</span>
+                                        <span class="bullet-text">: Other</span>
+                                    </li>
+                                </ul>
+                            </small>
+                            </div>
+                        </div>
+                        </div> 
+                    </div>
+                    <!-- <div class="card-footer">
+                    <h5 class="card-title">Flag</h5>
+                    <p class="card-text">
+                    
+                    </div> -->
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
-        </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
+            <!-- /.col -->
+        <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
+
 <!-- /.content -->
+<!-- <script>
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+    });
+</script> -->
+
 
 <script src="~/js/ManageEmployee/ActivityCalendar.js"></script>
+
 <!-- jQuery UI -->
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
+
 <!-- fullCalendar 2.2.5 -->
 <script src="~/js/ManageEmployee/moment.min.js"></script>
 <script src="~/js/ManageEmployee/Calendar.js"></script>
