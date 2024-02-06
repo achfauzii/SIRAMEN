@@ -340,8 +340,6 @@ function updateData() {
         $("#myModal").modal("hide");
         return;
     }
-    console.log(initialData);
-    console.log(existingData);
 
     // Lakukan validasi dan proses update jika ada perubahan
     var accountId = $("#accountId").val();
@@ -355,7 +353,6 @@ function updateData() {
             input.next(".error-message").hide();
         }
     });
-    console.log(validName + " " + validNickName + " " + validBirthPlace);
     if (!validName) {
         $("#editName")
             .next(".error-message")
@@ -393,7 +390,6 @@ function updateData() {
     } else {
         imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
     }
-    console.log(imagePath);
     var formData = {
         AccountId: $("#accountId").val(),
         Fullname: $("#editName").val(),
