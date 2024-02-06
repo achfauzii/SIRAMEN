@@ -27,7 +27,7 @@ namespace RasManagement.Repository
 
             if (countAccount == null || countAccount == 0 || lastAccount==null)
             {
-                newNIK = "RAS" + currentDate + "001";
+                newNIK = "RAS" + currentDate + "01";
             }
             else
             {

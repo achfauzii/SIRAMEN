@@ -7,7 +7,6 @@ $(function () {
   createCalendar();
   document.getElementById("selectflag").addEventListener("change", function () {
     flag = this.value;
-    console.log(flag);
     createCalendar();
   });
 
@@ -15,16 +14,14 @@ $(function () {
     .getElementById("selectCategory")
     .addEventListener("change", function () {
       categories = this.value;
-      console.log(categories);
-      FilterCalendarbyCategory();
+      createCalendar();
     });
 
   document
     .getElementById("selectStatus")
     .addEventListener("change", function () {
       selectStatus = this.value;
-      console.log(selectStatus);
-      FilterCalendarbyStatus();
+      createCalendar();
     });
 });
 
@@ -54,15 +51,101 @@ function createCalendar() {
       let start = moment(info.start.valueOf()).format("YYYY-MM-DD");
       let end = moment(info.end.valueOf()).format("YYYY-MM-DD");
 
-      $.ajax({
-        url:
+      var urlApi = "";
+      if (flag != "" && categories != "" && selectStatus != "") {
+        urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
           start +
           "&end=" +
           end +
           "&flag=" +
-          flag,
+          flag +
+          "&categories=" +
+          categories +
+          "&status=" +
+          selectStatus;
+      }
+      // Apply mixed filter by flag and category
+      else if (flag != "" && categories != "") {
+        urlApi =
+          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
+          "?start=" +
+          start +
+          "&end=" +
+          end +
+          "&flag=" +
+          flag +
+          "&categories=" +
+          categories;
+      }
+      // Apply mixed filter by flag and status
+      else if (flag != "" && selectStatus != "") {
+        urlApi =
+          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
+          "?start=" +
+          start +
+          "&end=" +
+          end +
+          "&flag=" +
+          flag +
+          "&status=" +
+          selectStatus;
+      }
+      // Apply mixed filter by category andselectStatus
+      else if (categories != "" && selectStatus != "") {
+        urlApi =
+          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
+          "?start=" +
+          start +
+          "&end=" +
+          end +
+          "&categories=" +
+          categories +
+          "&status=" +
+          selectStatus;
+      } else if (flag != "") {
+        urlApi =
+          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
+          "?start=" +
+          start +
+          "&end=" +
+          end +
+          "&flag=" +
+          flag;
+      } else if (categories != "") {
+        urlApi =
+          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
+          "?start=" +
+          start +
+          "&end=" +
+          end +
+          "&categories=" +
+          categories;
+      } else if (selectStatus != "") {
+        urlApi =
+          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
+          "?start=" +
+          start +
+          "&end=" +
+          end +
+          "&status=" +
+          selectStatus;
+      } else {
+        urlApi =
+          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
+          "?start=" +
+          start +
+          "&end=" +
+          end;
+      }
+
+      console.log(
+        "Flag: " + flag + " Category " + categories + " Status " + selectStatus
+      );
+
+      $.ajax({
+        url: urlApi,
         type: "GET",
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
@@ -158,7 +241,7 @@ function FilterCalendarbyStatus() {
           "&end=" +
           end +
           "&status=" +
-          statuss,
+          selectStatus,
         type: "GET",
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
