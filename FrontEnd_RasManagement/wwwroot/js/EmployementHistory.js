@@ -248,15 +248,15 @@ function GetById(workExperienceId) {
         success: function (result) {
             var obj = result.data; // Data yang diterima dari API
             $("#WorkExperienceId").val(obj.workExperienceId);
-            $("#CompanyName").val(obj.companyName);
-            $("#Job").val(obj.job);
+            $("#CompanyName").val(obj.companyName).attr("data-initial", obj.companyName);
+            $("#Job").val(obj.job).attr("data-initial", obj.job);
 
             // Pisahkan Start Year dan End Year
             var periods = obj.period.split(" - ");
             $("#StartYear").val(periods[0]);
             $("#EndYear").val(periods[1]);
 
-            $("#Description").val(obj.description);
+            $("#Description").val(obj.description).attr("data-initial", obj.description);
             $("#Modal").modal("show");
             $("#Update").show();
             $("#Save").hide();
@@ -269,6 +269,41 @@ function GetById(workExperienceId) {
 
 function Update() {
     var isValid = true;
+
+    var existingData = {
+        CompanyName: $("#CompanyName").val(),
+        Job: $("#Job").val(),
+        StartYear: $("#StartYear").val(),
+        EndYear: $("#EndYear").val(),
+        Description: $("#Description").val(),
+    };
+
+    var initialData = {
+        CompanyName: $("#CompanyName").attr("data-initial"),
+        Job: $("#Job").attr("data-initial"),
+        StartYear: $("#StartYear").attr("data-initial"),
+        EndYear: $("#EndYear").attr("data-initial"),
+        Description: $("#Description").attr("data-initial"),
+    };
+
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+
+    console.log("Has data changed:", hasChanged);
+    console.log("Exiting Data:", existingData);
+    console.log("Initial Data:", initialData);
+
+
+    if (!hasChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "No Data Has Been Changed",
+            showConfirmButton: false,
+            timer: 2000,
+        }).then(() => {
+            $("#Modal").modal("hide");
+        });
+        return;
+    }
 
     $("input[required]").each(function () {
         var input = $(this);
