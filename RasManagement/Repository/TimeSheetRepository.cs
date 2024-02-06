@@ -72,7 +72,7 @@ namespace RasManagement.Repository
                         TimeSheets = group.Select(ts => new
                         {
                             TimeSheetId = ts.Id,
-                         
+
                         }),
 
                     })
@@ -114,29 +114,19 @@ namespace RasManagement.Repository
                   .ToList();
                 return timeSheets;
             }
-            
             else
             {
                 var timeSheets = await context.TimeSheets
-                .Include(a => a.Account)
-                .Where(ts => ts.Date >= start
-                            && ts.Date <= end)
-                .Select(ts => new
+                .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
+                .Select(group => new
                 {
-                    title = ts.Activity,
-                    start = ts.Date,
-                    description = ts.Account.Fullname,
-                    //url  = "https://localhost:7109/TimeSheets/Index?accountId=" + ts.AccountId,
-                    allDay = true,
-                    backgroundColor = GetColorByFlag(ts.Flag),
-                    borderColor = GetColorByFlag(ts.Flag),
                     start = group.Key.Date,
                     title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
 
                     description = string.Join("<br> ", group.Select(ts => ts.Activity)),
                     allDay = true
                 })
-            .ToListAsync();
+                .ToListAsync();
                 return timeSheets;
             }
         }

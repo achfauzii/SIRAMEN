@@ -281,11 +281,11 @@ function GetById(projectHistoryId) {
     },
     success: function (result) {
       var obj = result.data; //data yg kita dapat dr API
-      $("#ProjectHistoryId").val(obj.projectHistoryId);
-      $("#ProjectName").val(obj.projectName);
-      $("#JobSpec").val(obj.jobSpec);
-      $("#Year").val(obj.year);
-      $("#CompanyName").val(obj.companyName);
+        $("#ProjectHistoryId").val(obj.projectHistoryId);
+        $("#ProjectName").val(obj.projectName).attr("data-initial", obj.projectName);
+        $("#JobSpec").val(obj.jobSpec).attr("data-initial", obj.jobSpec);
+        $("#Year").val(obj.year).attr("data-initial", obj.year);
+        $("#CompanyName").val(obj.companyName).attr("data-initial", obj.companyName);
       $("#Modal").modal("show");
       $("#Update").show();
       $("#Save").hide();
@@ -349,6 +349,38 @@ function GetById(projectHistoryId) {
 // }
 function Update() {
   var isValid = true;
+
+    var existingData = {
+        ProjectName: $("#ProjectName").val(),
+        JobSpec: $("#JobSpec").val(),
+        Year: $("#Year").val(),
+        CompanyName: $("#CompanyName").val(),
+    };
+
+    var initialData = {
+        ProjectName: $("#ProjectName").attr("data-initial"),
+        JobSpec: $("#JobSpec").attr("data-initial"),
+        Year: $("#Year").attr("data-initial"),
+        CompanyName: $("#CompanyName").attr("data-initial"),
+    };
+
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+
+    console.log("Has data changed:", hasChanged);
+    console.log("existingData:", existingData);
+    console.log("initialData:", initialData);
+
+    if (!hasChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "No Data Has Been Changed",
+            showConfirmButton: false,
+            timer: 2000,
+        }).then(() => {
+            $("#Modal").modal("hide");
+        });
+        return;
+    }
 
   $("input[required], textarea[required]").each(function () {
     var element = $(this);
