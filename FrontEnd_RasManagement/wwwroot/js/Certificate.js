@@ -341,12 +341,12 @@ function Update() {
         Certificate.validUntil == initialCertificateData.ValidUntil) {
         Swal.fire({
             icon: "info",
-            title: "No Data Has Been Changed",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
             showConfirmButton: false,
             timer: 2000,
-        }).then(() => {
-            $("#Modal").modal("hide");
         });
+        $("#Modal").modal("hide");
         return;
     }
  
