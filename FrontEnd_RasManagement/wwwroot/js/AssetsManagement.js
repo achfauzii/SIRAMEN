@@ -296,8 +296,8 @@ function GetById(assetsManagementId) {
                 Display: obj.display,
                 DateObtained: formatDate(obj.dateObtained),
                 OperatingSystem: obj.operatingSystem,
-                RAM: obj.ram,
-                SSD: obj.ssd,
+                RAM: obj.ram ,
+                SSD: obj.ssd ,
                 HDD: obj.hdd,
                 GraphicCard: obj.graphicCard,
                 Charger: obj.charger,
@@ -365,10 +365,6 @@ function Delete(assetsManagementId) {
 
 function UpdateAsset() {
     var isValid = true;
-
-
-
-
 
     $("input[required]").each(function () {
         var input = $(this);
@@ -450,7 +446,6 @@ function UpdateAsset() {
             title: "No Changes Detected",
             text: "No data has been modified.",
         });
-
         return;
     }
     console.log(initialAssetData);

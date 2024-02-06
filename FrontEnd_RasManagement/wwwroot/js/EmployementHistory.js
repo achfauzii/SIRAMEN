@@ -1,4 +1,5 @@
 ﻿var table = null;
+var initialEmployementHis = {};
 $(document).ready(function () {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
@@ -247,6 +248,14 @@ function GetById(workExperienceId) {
         },
         success: function (result) {
             var obj = result.data; // Data yang diterima dari API
+            initialEmployementHis = {
+                WorkExperienceId: obj.workExperienceId,
+                CompanyName: obj.companyName,
+                Job: obj.job,
+                StartYear: obj.period.split(" - ")[0],
+                EndYear: obj.period.split(" - ")[1],
+                Description: obj.description,
+            };
             $("#WorkExperienceId").val(obj.workExperienceId);
             $("#CompanyName").val(obj.companyName).attr("data-initial", obj.companyName);
             $("#Job").val(obj.job).attr("data-initial", obj.job);
@@ -338,6 +347,20 @@ function Update() {
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
 
+    if (initialEmployementHis.CompanyName == EmploymentHistory.companyName &&
+        initialEmployementHis.Job == EmploymentHistory.job &&
+        initialEmployementHis.StartYear == startYear &&
+        initialEmployementHis.EndYear == endYear &&
+        initialEmployementHis.Description == EmploymentHistory.description
+    ) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+        });
+        $("#ModalFormal").modal("hide");
+        return;
+    }
     $.ajax({
         type: "PUT",
         url: "https://localhost:7177/api/EmploymentHistory",

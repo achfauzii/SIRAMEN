@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿var compare = {};
+$(document).ready(function () {
     var objDataToken = parseJwt(sessionStorage.getItem('Token'));
 
     if (objDataToken.RoleId == 7) {
@@ -122,6 +123,7 @@ function placement() {
 
 
 function GetById(accountId, placementStatusId) {
+    //debugger;
     const startDate = document.getElementById("showStartDate");
     const endDate = document.getElementById("showEndDate");
     startDate.style.display = "none";
@@ -187,5 +189,14 @@ function GetById(accountId, placementStatusId) {
         );
         $("#Update").show();
         $("#Add").hide();
+
+        compare = {
+            PicName: obj.picName,
+            PlacementStatus: obj.placementStatus,
+            CompanyName: obj.companyName,
+            Description: obj.description,
+            EndDate: endDate,
+            JobRole: obj.jobRole
+        };
     });
 }
