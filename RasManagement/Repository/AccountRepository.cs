@@ -25,9 +25,9 @@ namespace RasManagement.Repository
                         .OrderByDescending(account => account.AccountId)
                         .FirstOrDefault();
 
-            if (countAccount == null || countAccount == 0)
+            if (countAccount == null || countAccount == 0 || lastAccount == null)
             {
-                newNIK = "RAS" + currentDate + "001";
+                newNIK = "RAS" + currentDate + "01";
             }
             else
             {

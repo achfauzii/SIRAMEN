@@ -89,88 +89,67 @@ namespace RasManagement.Repository
             }
         }
 
-        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, String flag, String Search, String categories, String status)
+        public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, string flag, string search, string categories, string status)
         {
-            if (!string.IsNullOrEmpty(flag))
-            {
+            IQueryable<TimeSheet> query = context.TimeSheets.Include(a => a.Account);
 
-                if (end.Subtract(start).Days > 41)
-                {
-                    var timeSheets = context.TimeSheets
-                    .Include(a => a.Account)
-                    .Where(ts => ts.Flag == flag)
+            // Apply mixed filter by flag, category, and status
+            if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status))
+            {
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status);
+            }
+            // Apply mixed filter by flag and category
+            else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories))
+            {
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories);
+            }
+            // Apply mixed filter by flag and status
+            else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status))
+            {
+                query = query.Where(ts => ts.Flag == flag && ts.Status == status);
+            }
+            // Apply mixed filter by category and status
+            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status))
+            {
+                query = query.Where(ts => ts.Category == categories && ts.Status == status);
+            }
+            else if (!string.IsNullOrEmpty(flag))
+            {
+                query = query.Where(ts => ts.Flag == flag);
+            }
+            else if (!string.IsNullOrEmpty(categories))
+            {
+                query = query.Where(ts => ts.Category == categories);
+            }
+            else if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(ts => ts.Status == status);
+            }
+
+            if (end.Subtract(start).Days > 41)
+            {
+                var timeSheets = query
                     .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
                     .AsEnumerable()
                     .Select(group => new
                     {
                         start = group.Key.Date,
                         flag = flag,
-                        search = Search,
+                        search = search,
                         allDay = true,
                         title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
                         AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
                         description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                        categories = string.Join("<br> ", group.Select(ts => ts.Category).Distinct()),
                         backgroundColor = GetColorByFlag(group.Key.Flag),
                         borderColor = GetColorByFlag(group.Key.Flag),
                     })
                     .ToList();
-                    return timeSheets;
-                }
-                else
-                {
-                    var timeSheets = context.TimeSheets
-                    //  .Where(ts => ts.Flag == "WFO" || ts.Flag == "WFC" || ts.Flag == "WFH") // Filter by multiple flags
-                    .Where(ts => ts.Flag == flag)
-                    .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
-                    .Select(group => new
-                    {
-                        start = group.Key.Date,
-                        title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
 
-                        description = string.Join("<br> ", group.Select(ts => ts.Activity)),
-                        allDay = true,
-                        backgroundColor = GetColorByFlag(group.First().Flag),
-                        borderColor = GetColorByFlag(group.First().Flag),
-                    })
-                    .ToList();
-                    return timeSheets;
-                }
+                return timeSheets;
             }
-
-            Console.WriteLine("Flag " + flag);
-            Console.WriteLine("Category " + categories);
-            Console.WriteLine("Status " + status);
-
-            if (!string.IsNullOrEmpty(categories))
+            else if (end.Subtract(start).Days == 7)
             {
-                Console.WriteLine("Filter Category");
-                if (end.Subtract(start).Days > 41)
-                {
-                    var timeSheets = context.TimeSheets
-                    .Include(a => a.Account)
-                    .Where(ts => ts.Category == categories)
-                    .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
-                    .AsEnumerable()
-                    .Select(group => new
-                    {
-                        start = group.Key.Date,
-
-                        allDay = true,
-                        title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
-                        AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
-                        description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                        backgroundColor = GetColorByFlag(group.Key.Flag),
-                        borderColor = GetColorByFlag(group.Key.Flag),
-                    })
-                    .ToList();
-                    return timeSheets;
-                }
-                else
-                {
-                    var timeSheets = context.TimeSheets
-                    //  .Where(ts => ts.Flag == "WFO" || ts.Flag == "WFC" || ts.Flag == "WFH") // Filter by multiple flags
-                    .Where(ts => ts.Category == categories)
+                var timeSheets = query
                     .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
                     .Select(group => new
                     {
@@ -182,93 +161,24 @@ namespace RasManagement.Repository
                         borderColor = GetColorByFlag(group.First().Flag),
                     })
                     .ToList();
-                    return timeSheets;
-                }
-            }
 
-            if (!string.IsNullOrEmpty(status))
-            {
-                // Console.WriteLine("Filter Category");
-                if (end.Subtract(start).Days > 41)
-                {
-                    var timeSheets = context.TimeSheets
-                    .Include(a => a.Account)
-                    .Where(ts => ts.Status == status)
-                    .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
-                    .AsEnumerable()
-                    .Select(group => new
-                    {
-                        start = group.Key.Date,
-
-                        allDay = true,
-                        title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
-                        AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
-                        description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                        backgroundColor = GetColorByStatus(group.First().Status),
-                        borderColor = GetColorByStatus(group.First().Status),
-                    })
-                    .ToList();
-                    return timeSheets;
-                }
-                else
-                {
-                    var timeSheets = context.TimeSheets
-                    //  .Where(ts => ts.Flag == "WFO" || ts.Flag == "WFC" || ts.Flag == "WFH") // Filter by multiple flags
-                    .Where(ts => ts.Status == status)
-                    .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
-                    .Select(group => new
-                    {
-                        start = group.Key.Date,
-                        title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                        description = string.Join("<br> ", group.Select(ts => ts.Activity)),
-                        allDay = true,
-                        backgroundColor = GetColorByStatus(group.First().Status),
-                        borderColor = GetColorByStatus(group.First().Status),
-                    })
-                    .ToList();
-                    return timeSheets;
-                }
-            }
-
-
-            if (end.Subtract(start).Days > 41)
-            {
-                var timeSheets = context.TimeSheets
-                .Include(a => a.Account)
-                .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
-                .AsEnumerable()
-                .Select(group => new
-                {
-                    start = group.Key.Date,
-                    flag = flag,
-                    search = Search,
-                    allDay = true,
-                    title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
-                    AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
-                    description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                    backgroundColor = GetColorByFlag(group.Key.Flag),
-                    borderColor = GetColorByFlag(group.Key.Flag),
-                })
-                .ToList();
                 return timeSheets;
             }
             else
             {
-                var timeSheets = context.TimeSheets
-                //  .Where(ts => ts.Flag == "WFO" || ts.Flag == "WFC" || ts.Flag == "WFH") // Filter by multiple flags
-                .Where(ts => ts.Flag == "WFO" || ts.Flag == "WFC" || ts.Flag == "WFH")
-                .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
-                .Select(group => new
-                {
-                    start = group.Key.Date,
-                    title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
+                var timeSheets = query
+                    .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
+                    .Select(group => new
+                    {
+                        start = group.Key.Date,
+                        title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()) + ": " + string.Join(", ", group.Select(ts => ts.Activity)),
+                        description = string.Join("<br> ", group.Select(ts => ts.Activity)),
+                        allDay = true,
+                        backgroundColor = GetColorByFlag(group.First().Flag),
+                        borderColor = GetColorByFlag(group.First().Flag),
+                    })
+                    .ToList();
 
-                    description = string.Join("<br> ", group.Select(ts => ts.Activity)),
-                    allDay = true,
-                    backgroundColor = GetColorByFlag(group.First().Flag),
-                    borderColor = GetColorByFlag(group.First().Flag),
-                })
-                .ToList();
                 return timeSheets;
             }
         }
