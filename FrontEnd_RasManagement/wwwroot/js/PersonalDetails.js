@@ -329,10 +329,11 @@ function updateData() {
   // Jika tidak ada perubahan, tampilkan pesan Sweet Alert dan berhenti
   if (!hasChanged) {
     Swal.fire({
-      icon: "info",
-      title: "No Data Has Been Changed",
-      showConfirmButton: false,
-      timer: 2000,
+        icon: "info",
+        title: "No Changes Detected",
+        text: "No data has been modified.",
+        showConfirmButton: false,
+        timer: 2000,
     }).then(() => {
       $("#myModal").modal("hide");
     });
