@@ -1,6 +1,18 @@
 ﻿var table = null;
 var initialEmployementHis = {};
 $(document).ready(function () {
+    $("#StartYear").datepicker({
+        format: "yyyy-mm",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+
+    $("#EndYear").datepicker({
+        format: "yyyy-mm",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+
     $('select[required],input[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
