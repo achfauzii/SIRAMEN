@@ -178,7 +178,7 @@ function loadData() {
                     //var qualification = qualificationData.data;
                     var qualification = data.data[0];
           
-                    if (qualification == null || qualification.database =="" && qualification.framework==""&& qualification.framework =="" && qualification.programmingLanguage && qualification.others){
+                    if (qualification == null || qualification.database =="" && qualification.framework==""&& qualification.framework =="" && qualification.programmingLanguage =="" && qualification.others ==""){
                         var qualificationShow = document.getElementById("qualificationView");
                         qualificationShow.style.display = "none";
                     } else {

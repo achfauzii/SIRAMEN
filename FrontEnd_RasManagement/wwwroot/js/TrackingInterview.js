@@ -226,6 +226,7 @@ function getClient() {
 
     $("#client").select2({
         placeholder: "Choose Client",
+        dropdownParent: $('#trackingModal'),
         width: "100%",
         height: "100%",
         allowClear: true,
