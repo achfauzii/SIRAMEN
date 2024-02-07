@@ -2,6 +2,18 @@
 var initialCertificateData = {};
 $(document).ready(function () {
     //debugger;
+    
+
+    $("#PublicationYear").datepicker({
+        format: "MM yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+    $("#ValidUntil").datepicker({
+        format: "MM yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
 
     $('input[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
@@ -193,6 +205,7 @@ function GetById(CertificateId) {
 // Tambahkan event listener untuk memantau perubahan pada kolom "Publication Year"
 $("#PublicationYear").on('input', function () {
     validateDateInputs();
+
 });
 
 // Tambahkan event listener untuk memantau perubahan pada kolom "Valid Until"
