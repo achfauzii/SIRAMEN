@@ -147,23 +147,6 @@ namespace RasManagement.Repository
 
                 return timeSheets;
             }
-            else if (end.Subtract(start).Days == 7)
-            {
-                var timeSheets = query
-                    .GroupBy(ts => new { Date = ts.Date, AccountId = ts.AccountId })
-                    .Select(group => new
-                    {
-                        start = group.Key.Date,
-                        title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                        description = string.Join("<br> ", group.Select(ts => ts.Activity)),
-                        allDay = true,
-                        backgroundColor = GetColorByFlag(group.First().Flag),
-                        borderColor = GetColorByFlag(group.First().Flag),
-                    })
-                    .ToList();
-
-                return timeSheets;
-            }
             else
             {
                 var timeSheets = query
