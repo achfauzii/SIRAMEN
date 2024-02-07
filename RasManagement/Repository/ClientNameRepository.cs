@@ -47,7 +47,9 @@ namespace RasManagement.Repository
 
         public async Task<object> GetClientRequirement()
         {
+            //Get Data by Status Position is Open
             var data = context.Positions.Include(c => c.Client)
+                            .Where(p => p.Status == "Open")
                             .ToList() // Fetch the data from the database
                             .GroupBy(p => new { clientName = p.Client.NameOfClient })
                             .Select(group => new
@@ -61,6 +63,25 @@ namespace RasManagement.Repository
                             })
                             .OrderByDescending(item => item.quantity)
                             .ToList();
+
+            //Get Data by Status Position is not Open
+            var otherData = context.Positions.Include(c => c.Client)
+                            .Where(p => p.Status != "Open")
+                            .ToList() // Fetch the data from the database
+                            .GroupBy(p => new { clientName = p.Client.NameOfClient })
+                            .Select(group => new
+                            {
+                                nameOfClient = group.Key.clientName,
+                                quantity = group.Sum(p =>
+                                {
+                                    int parsedQuantity;
+                                    return int.TryParse(p.Quantity, out parsedQuantity) ? parsedQuantity : 0;
+                                }),
+                            })
+                            .OrderByDescending(item => item.quantity)
+                            .ToList();
+
+            data.AddRange(otherData);
             return data;
         }
 
