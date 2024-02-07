@@ -88,26 +88,58 @@ namespace RasManagement.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
             try
             {
-                if (timeSheetRepository.IsDateUnique(timeSheet.AccountId, timeSheet.Date))
+                int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
+                if (addTimeSheetResult == 1)
                 {
-                    /* if( timeSheet.PlacementStatusId==0 || timeSheet.PlacementStatus == null)
-                     {
-                         return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Tanggal sudah digunakan untuk TimeSheet lain." });
-                     }*/
-                    int addTimeSheetResult = timeSheetRepository.AddTimeSheet(timeSheet);
-
                     // If the operation is successful, return a 200 OK response
                     return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Ditambahkan", Data = addTimeSheetResult });
+                }
+                else if (addTimeSheetResult == 400)
+                {
+                    // Handle the case where the date is not unique
+                    return Ok(new { status = HttpStatusCode.BadRequest, message = "Flag with the same date can't be the same!" });
+                    // return Ok(new { status = HttpStatusCode.BadRequest, message = "Time Sheet with the same date already exists!" });
+                }
+                else if (addTimeSheetResult == 406)
+                {
+                    // Handle the case where the date is not unique
+                    return Ok(new { status = HttpStatusCode.NotAcceptable, message = "Can't add activities to sick or leave flags!" });
+                    // return Ok(new { status = HttpStatusCode.BadRequest, message = "Time Sheet with the same date already exists!" });
+                }
+                else
+                {
+                    return Ok(new { status = HttpStatusCode.InternalServerError, message = "Failed to add data timesheet" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { status = HttpStatusCode.NotFound, message = "Cannot add a timesheet, the placement field is null." });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut("Update")]
+        public IActionResult UpdateTimeSheet([FromBody] TimeSheet timeSheet)
+        {
+            try
+            {
+                int result = timeSheetRepository.UpdateTimeSheet(timeSheet);
+                if (result != 304)
+                {
+                    // If the operation is successful, return a 200 OK response
+                    return Ok(new { status = HttpStatusCode.OK, message = "Data Berhasil Diperbarui", Data = result });
                 }
                 else
                 {
                     // Handle the case where the date is not unique
-                    return Ok(new { status = HttpStatusCode.BadRequest, message = "Time Sheet with the same date already exists!" });
+                    return Ok(new { status = HttpStatusCode.BadRequest, message = "Flag with the same date can't be the same!" });
+                    // return Ok(new { status = HttpStatusCode.BadRequest, message = "Time Sheet with the same date already exists!" });
                 }
             }
             catch (Exception ex)
@@ -115,6 +147,27 @@ namespace RasManagement.Controllers
                 return Ok(new { status = HttpStatusCode.NotFound, message = "Cannot add a timesheet, the placement field is null." });
             }
 
+        }
+        [AllowAnonymous]
+        [HttpGet("GetTimeSheetByCompanyNameAndMonth")]
+        public async Task<IActionResult> GetTimeSheetByCompanyNameAndMonth([FromQuery] string companyName, [FromQuery] string month)
+        {
+            // Menerjemahkan string bulan menjadi objek DateTime untuk memperoleh bulan yang sesuai
+            DateTime targetDate;
+            if (!DateTime.TryParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out targetDate))
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Month Not Valid" });
+            }
+
+            var get = await timeSheetRepository.GetTimeSheetByCompanyNameAndMonth(companyName, targetDate);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
         }
 
         /*[HttpGet("ByCurrentMonth")]
@@ -127,11 +180,9 @@ namespace RasManagement.Controllers
             }
             catch (Exception ex)
             {
-                // Handle other exceptions
-                return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = ex.Message });
+                return Ok(new { status = HttpStatusCode.NotFound, message = "Cannot add a timesheet, the placement field is null." });
             }
         }*/
-
 
     }
 
