@@ -329,17 +329,7 @@ function updateData() {
     console.log("Has data changed:", hasChanged);
     debugger;
     // Jika tidak ada perubahan, tampilkan pesan Sweet Alert dan berhenti
-    if (!hasChanged) {
-        Swal.fire({
-            icon: "info",
-            title: "No Changes Detected",
-            text: "No data has been modified.",
-            showConfirmButton: false,
-            timer: 2000,
-        });
-        $("#myModal").modal("hide");
-        return;
-    }
+    
 
     // Lakukan validasi dan proses update jika ada perubahan
     var accountId = $("#accountId").val();
@@ -387,8 +377,20 @@ function updateData() {
     var imagePath;
     if ($("#imageFile").val() == "") {
         imagePath = null;
+        if (!hasChanged) {
+            Swal.fire({
+                icon: "info",
+                title: "No Changes Detected",
+                text: "No data has been modified.",
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            $("#myModal").modal("hide");
+            return;
+        }
     } else {
         imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
+        
     }
     var formData = {
         AccountId: $("#accountId").val(),
