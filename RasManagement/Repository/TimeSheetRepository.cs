@@ -235,9 +235,11 @@ namespace RasManagement.Repository
                 case "WFH": //dihilangkan
                     return "#f39c12"; // Yellow
                 case "Sick":
-                    return "#f56954"; // Grey
+                    return "#f56954"; // Red
                 case "Leave":
                     return "#6c757d"; // Grey
+                default:
+                    return "#ffffff"; // White
             }
         }
 
