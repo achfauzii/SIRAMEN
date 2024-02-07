@@ -395,6 +395,7 @@ function updateData() {
         }
     } else {
         imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
+        
     }
     var formData = {
         AccountId: $("#accountId").val(),
