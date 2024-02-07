@@ -49,15 +49,12 @@ $(document).ready(function () {
         render: function (data, type, row) {
           var modalId = "modal-edit-" + data.projectHistoryId;
           var deleteId = "modal-delete-" + data.projectHistoryId;
-          return (
-            '<button class="btn btn-sm btn-warning p-1 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-            row.projectHistoryId +
-            ')"><i class="fa fa-edit"></i></button >' +
-            "&nbsp;" +
-            '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
-            row.projectHistoryId +
-            ')"><i class="fa fa-trash"></i></button >'
-          );
+            return `
+            <div class="btn-group" role="group" aria-label="Action buttons">
+                <button class="btn btn-sm btn-warning action-button edit-button" data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(${row.projectHistoryId})"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-sm btn-danger action-button delete-button" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(${row.projectHistoryId})"><i class="fa fa-trash"></i></button>
+            </div>
+        `;
         },
       },
     ],
@@ -106,6 +103,8 @@ function parseJwt(token) {
 function noHTML(input) {
   var value = input.value.replace(/<[^>]*>/g, "");
   var nohtml = value.replace(/[<>]/g, "");
+
+ 
   input.value = nohtml;
 }
 
@@ -114,10 +113,23 @@ function handleInput(event, input) {
   noHTML(input);
 }
 
+
 // Proses input pada textarea JobSpesification
 $("#JobSpec").on("input", function () {
   var jobSpecValue = $(this).val();
 
+  // var lines = jobSpecValue.value.split('\n');
+  // var bulletText = "$bull;";
+  // for (let i = 0; i < lines.length; i++) {
+  //   lines[i] = lines[i].trim();
+
+  //   // Remove lines that contain only the bullet point
+  //   if (lines[i] === bulletText) {
+  //     lines.splice(i, 1);
+  //     i--; // Adjust the index after removal
+  //   }
+  // }
+  // input.value = lines.join('\n');
   // Memecah teks menjadi baris-baris
   var lines = jobSpecValue.split("\n");
 
@@ -145,7 +157,7 @@ $("#JobSpec").on("keypress", function (e) {
     var currentValue = $(this).val();
     if (currentValue.trim() !== "") {
       // Jika teks tidak kosong, tambahkan baris baru dengan bullet
-      currentValue += "\n• ";
+      currentValue += "\n";
       $(this).val(currentValue);
     }
   }
@@ -191,12 +203,19 @@ function Save() {
 
   var ProjectHistory = new Object(); //object baru
   ProjectHistory.projectName = $("#ProjectName").val(); //value insert dari id pada input
-  ProjectHistory.jobSpec = $("#JobSpec").val();
+  var jobSpec = $("#JobSpec").val();
+  var cleanedJobSpec = jobSpec.split('\n').map(function(line) {
+    return line.trim();
+  }).filter(function(line) {
+    return line !== '';
+  }).join('\n');
+  ProjectHistory.jobSpec = cleanedJobSpec;
   ProjectHistory.year = $("#Year").val();
   ProjectHistory.companyName = $("#CompanyName").val();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   ProjectHistory.accountId = accid;
+  console.log(ProjectHistory)
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/ProjectHistory",
@@ -259,11 +278,11 @@ function GetById(projectHistoryId) {
     },
     success: function (result) {
       var obj = result.data; //data yg kita dapat dr API
-      $("#ProjectHistoryId").val(obj.projectHistoryId);
-      $("#ProjectName").val(obj.projectName);
-      $("#JobSpec").val(obj.jobSpec);
-      $("#Year").val(obj.year);
-      $("#CompanyName").val(obj.companyName);
+        $("#ProjectHistoryId").val(obj.projectHistoryId);
+        $("#ProjectName").val(obj.projectName).attr("data-initial", obj.projectName);
+        $("#JobSpec").val(obj.jobSpec).attr("data-initial", obj.jobSpec);
+        $("#Year").val(obj.year).attr("data-initial", obj.year);
+        $("#CompanyName").val(obj.companyName).attr("data-initial", obj.companyName);
       $("#Modal").modal("show");
       $("#Update").show();
       $("#Save").hide();
@@ -274,8 +293,91 @@ function GetById(projectHistoryId) {
   });
 }
 
+// function Update() {
+//   var isValid = true;
+
+//   $("input[required], textarea[required]").each(function () {
+//     var element = $(this);
+//     if (!element.val()) {
+//       element.next(".error-message").show();
+//       isValid = false;
+//     } else {
+//       element.next(".error-message").hide();
+//     }
+//   });
+
+//   if (!isValid) {
+//     return;
+//   }
+
+//   var ProjectHistory = new Object(); //object baru
+//   ProjectHistory.projectHistoryId = $("#ProjectHistoryId").val();
+//   ProjectHistory.projectName = $("#ProjectName").val(); //value insert dari id pada input
+//   ProjectHistory.jobSpec = $("#JobSpec").val();
+//   ProjectHistory.year = $("#Year").val();
+//   ProjectHistory.companyName = $("#CompanyName").val();
+//   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+//   const accid = decodedtoken.AccountId;
+//   ProjectHistory.accountId = accid;
+
+//   $.ajax({
+//     url: "https://localhost:7177/api/ProjectHistory",
+//     type: "PUT",
+//     data: JSON.stringify(ProjectHistory),
+//     contentType: "application/json; charset=utf-8",
+//     headers: {
+//       Authorization: "Bearer " + sessionStorage.getItem("Token"),
+//     },
+//   }).then((result) => {
+//     if (result.status == 200) {
+//       Swal.fire({
+//         icon: "success",
+//         title: "Success...",
+//         text: "Data has been update!",
+//         showConfirmButtom: false,
+//         timer: 2000,
+//       });
+//       $("#Modal").modal("hide");
+//       table.ajax.reload();
+//     } else {
+//       Swal.fire("Error!", "Data failed to update", "error");
+//     }
+//   });
+// }
 function Update() {
   var isValid = true;
+
+    var existingData = {
+        ProjectName: $("#ProjectName").val(),
+        JobSpec: $("#JobSpec").val(),
+        Year: $("#Year").val(),
+        CompanyName: $("#CompanyName").val(),
+    };
+
+    var initialData = {
+        ProjectName: $("#ProjectName").attr("data-initial"),
+        JobSpec: $("#JobSpec").attr("data-initial"),
+        Year: $("#Year").attr("data-initial"),
+        CompanyName: $("#CompanyName").attr("data-initial"),
+    };
+
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+
+    console.log("Has data changed:", hasChanged);
+    //console.log("existingData:", existingData);
+    //console.log("initialData:", initialData);
+
+    if (!hasChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        $("#Modal").modal("hide");        
+        return;
+    }
 
   $("input[required], textarea[required]").each(function () {
     var element = $(this);
@@ -291,10 +393,10 @@ function Update() {
     return;
   }
 
-  var ProjectHistory = new Object(); //object baru
+  var ProjectHistory = new Object(); // New object
   ProjectHistory.projectHistoryId = $("#ProjectHistoryId").val();
-  ProjectHistory.projectName = $("#ProjectName").val(); //value insert dari id pada input
-  ProjectHistory.jobSpec = $("#JobSpec").val();
+  ProjectHistory.projectName = $("#ProjectName").val();
+  ProjectHistory.jobSpec =  $("#JobSpec").val();
   ProjectHistory.year = $("#Year").val();
   ProjectHistory.companyName = $("#CompanyName").val();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -314,7 +416,7 @@ function Update() {
       Swal.fire({
         icon: "success",
         title: "Success...",
-        text: "Data has been update!",
+        text: "Data has been updated!",
         showConfirmButtom: false,
         timer: 2000,
       });
@@ -325,6 +427,7 @@ function Update() {
     }
   });
 }
+
 
 function Delete(projectHistoryId) {
   Swal.fire({

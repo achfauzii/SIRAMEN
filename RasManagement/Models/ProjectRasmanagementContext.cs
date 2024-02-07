@@ -165,6 +165,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
+            entity.Property(e => e.DateObtained).HasColumnType("date");
             entity.Property(e => e.Display).IsUnicode(false);
             entity.Property(e => e.GraphicCard)
                 .HasMaxLength(50)

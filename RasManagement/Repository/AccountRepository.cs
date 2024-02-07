@@ -17,22 +17,24 @@ namespace RasManagement.Repository
         //Generate Account Id
         public async Task<string> GenerateId()
         {
-           string currentDate = DateTime.Now.ToString("ddMMyy");
+            string currentDate = DateTime.Now.ToString("ddMMyy");
             string newNIK = "";
             var countAccount = _context.Accounts.Count();
-            var lastAccount = _context.Accounts.OrderByDescending(account => account.AccountId).FirstOrDefault();
+            var lastAccount = _context.Accounts
+                        .Where(acc => acc.AccountId.Contains("RAS" + currentDate))
+                        .OrderByDescending(account => account.AccountId)
+                        .FirstOrDefault();
 
-
-            if (countAccount == null || countAccount==0)
+            if (countAccount == null || countAccount == 0 || lastAccount==null)
             {
-
-                newNIK = "RAS" + currentDate + "001";
-            } else{
-                string lastTwoDigits = lastAccount.AccountId.Substring(lastAccount.AccountId.Length - 2);
+                newNIK = "RAS" + currentDate + "01";
+            }
+            else
+            {
+                string lastTwoDigits = lastAccount.AccountId.Substring(lastAccount.AccountId.Length - 3);
                 int incrementedNumber = int.Parse(lastTwoDigits) + 1;
                 newNIK = "RAS" + currentDate + incrementedNumber;
             }
-
 
             return newNIK;
         }
@@ -113,23 +115,6 @@ namespace RasManagement.Repository
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerVM.Password);
             Account account = new Account
             {
-                /* AccountId = registerVM.AccountId,
-                 Email = registerVM.Email,
-                 Password = registerVM.Password,
-                 Nickname = registerVM.Nickname,
-                 Fullname = registerVM.Fullname,
-                 Birthplace = registerVM.Birthplace,
-                 Birthdate = registerVM.Birthdate,
-                 Religion = registerVM.Religion,
-                Gender = registerVM.Gender,
-                Maritalstatus = registerVM.Maritalstatus,
-                Hiredstatus = registerVM.Hiredstatus,    
-                Nationality = registerVM .Nationality,
-                Phone= registerVM .Phone,    
-                Address= registerVM .Address,     
-                Image= registerVM.Image,
-                RoleId= registerVM .RoleId,  */
-
                 AccountId = generateId,
                 NIK = registerVM.NIK,
                 Email = registerVM.Email,
@@ -137,7 +122,7 @@ namespace RasManagement.Repository
                 Position = registerVM.Position,
                 Fullname = registerVM.Fullname,
                 Gender = registerVM.Gender,
-                JoinDate=registerVM.JoinDate,
+                JoinDate = registerVM.JoinDate,
                 Hiredstatus = registerVM.Hiredstatus,
                 StartContract = registerVM.StartContract,
                 EndContract = registerVM.EndContract,
@@ -220,7 +205,7 @@ namespace RasManagement.Repository
             {
                 string passwordHash = BCrypt.Net.BCrypt.HashPassword(updatePassword.NewPassword);
                 account.Password = passwordHash;
-                
+
                 _context.Accounts.Update(account);
                 await _context.SaveChangesAsync();
                 return true;
@@ -368,7 +353,7 @@ namespace RasManagement.Repository
             // Kueri SQL untuk melakukan update
             string sql = "UPDATE Account " +
                          "SET Start_contract = @StartContract, " +
-                         "    End_contract = @EndContract " +
+                         "    End_contract = @EndContract, " +
                          "    Position = @Position " +
                          "WHERE Account_Id = @AccountId";
 
@@ -376,8 +361,8 @@ namespace RasManagement.Repository
             object[] parameters = {
                 new SqlParameter("@StartContract", contractVM.StartContract),
                 new SqlParameter("@EndContract", contractVM.EndContract),
-                new SqlParameter("@AccountId", contractVM.AccountId),
-                new SqlParameter("@Position", contractVM.Position)
+                new SqlParameter("@Position", contractVM.Position),
+                new SqlParameter("@AccountId", contractVM.AccountId)
             };
 
             // Jalankan kueri SQL secara async
@@ -396,13 +381,14 @@ namespace RasManagement.Repository
             {
                 var formalEdu = _context.FormalEdus.Where(fe => fe.AccountId == key);
                 var nonFormalEdu = _context.NonFormalEdus.Where(nfe => nfe.AccountId == key);
-                var qualifications = _context.Qualifications.Where(q => q.AccountId == key);                
-                var assets = _context.AssetsManagements.Where(a => a.AccountId == key);                
-                var certificate = _context.Certificates.Where(c => c.AccountId == key);                
+                var qualifications = _context.Qualifications.Where(q => q.AccountId == key);
+                var assets = _context.AssetsManagements.Where(a => a.AccountId == key);
+                var certificate = _context.Certificates.Where(c => c.AccountId == key);
                 var empHistory = _context.EmploymentHistories.Where(eh => eh.AccountId == key);
                 var projectHistory = _context.ProjectHistories.Where(ph => ph.AccountId == key);
 
-                if(!formalEdu.IsNullOrEmpty() || !nonFormalEdu.IsNullOrEmpty() || !qualifications.IsNullOrEmpty() || !assets.IsNullOrEmpty() || !certificate.IsNullOrEmpty() || !empHistory.IsNullOrEmpty() || !projectHistory.IsNullOrEmpty()){
+                if (!formalEdu.IsNullOrEmpty() || !nonFormalEdu.IsNullOrEmpty() || !qualifications.IsNullOrEmpty() || !assets.IsNullOrEmpty() || !certificate.IsNullOrEmpty() || !empHistory.IsNullOrEmpty() || !projectHistory.IsNullOrEmpty())
+                {
                     TurnOver turnOver = new TurnOver
                     {
                         TurnOverId = 0,
@@ -417,10 +403,12 @@ namespace RasManagement.Repository
                     account.RoleId = "4";
                     _context.Accounts.Update(account);
                     return _context.SaveChanges();
-                } else {
+                }
+                else
+                {
                     _context.Accounts.Remove(account);
                     return _context.SaveChanges();
-                }                
+                }
             }
             return 404;
         }

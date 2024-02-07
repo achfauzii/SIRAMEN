@@ -1,6 +1,19 @@
 ﻿var table = null;
+var initialCertificateData = {};
 $(document).ready(function () {
     //debugger;
+    
+
+    $("#PublicationYear").datepicker({
+        format: "MM yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+    $("#ValidUntil").datepicker({
+        format: "MM yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
 
     $('input[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
@@ -63,11 +76,11 @@ $(document).ready(function () {
                     var modalId = "modal-edit-" + data.certificateId;
                     var deleteId = "modal-delete-" + data.certificateId;
                     return (
-                        '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+                        '<button class="btn btn-sm btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
                         row.certificateId +
                         ')"><i class="fa fa-edit"></i></button >' +
                         "&nbsp;" +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
+                        '<button class="btn btn-sm btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
                         row.certificateId +
                         ')"><i class="fa fa-trash"></i></button >'
                     );
@@ -166,6 +179,14 @@ function GetById(CertificateId) {
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
+            initialCertificateData = {
+   
+                Name: obj.name,
+                Publisher: obj.publisher,
+                PublicationYear: obj.publicationYear,
+                ValidUntil: obj.validUntil
+            };
+        
             $("#CertificateId").val(obj.certificateId); //ngambil data dr api
             $("#Name").val(obj.name);
             $("#Publisher").val(obj.publisher);
@@ -184,6 +205,7 @@ function GetById(CertificateId) {
 // Tambahkan event listener untuk memantau perubahan pada kolom "Publication Year"
 $("#PublicationYear").on('input', function () {
     validateDateInputs();
+
 });
 
 // Tambahkan event listener untuk memantau perubahan pada kolom "Valid Until"
@@ -331,6 +353,21 @@ function Update() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     Certificate.accountId = accid;
+    if (Certificate.name == initialCertificateData.Name &&
+        Certificate.publisher == initialCertificateData.Publisher &&
+        Certificate.publicationYear == initialCertificateData.PublicationYear &&
+        Certificate.validUntil == initialCertificateData.ValidUntil) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        $("#Modal").modal("hide");
+        return;
+    }
+ 
     $.ajax({
         url: "https://localhost:7177/api/Certificate",
         type: "PUT",

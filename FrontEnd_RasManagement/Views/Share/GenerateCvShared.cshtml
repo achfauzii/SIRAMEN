@@ -209,10 +209,10 @@
 
                 <div class="section m-0 mt-1">
                     <ul id="listQualification" class="pl-3 ">
-                        <li class="text-justify" style="color:black">Framework/Library: <span id="framework"></span></li>
-                        <li style="color:black">Programming Language: <span id="programmingLanguage"></span></li>
-                        <li style="color:black">Database: <span id="database"></span></li>
-                        <li style="color:black">Tools: <span id="datatools"></span></li>
+                        <li class="text-justify" style="color:black" id="frameworkShow">Framework/Library: <span id="framework"></span></li>
+                        <li style="color:black" id="programmingLanguageShow" >Programming Language: <span id="programmingLanguage"></span></li>
+                        <li style="color:black" id="databaseShow">Database: <span id="database"></span></li>
+                        <li style="color:black" id="datatoolsShow">Tools: <span id="datatools"></span></li>
                         <li class="text-justify" style="color:black" id="othersShow_">Others: <span id="others"></span></li>
                     </ul>
 
@@ -278,9 +278,9 @@
         </div>
     </div>
 </div>
-<div class="text-center mb-3">
+<!-- <div class="text-center mb-3">
     <a href="" onclick="printCV()" type="button" class="btn btn-primary">Download PDF</a>
-</div>
+</div> -->
 <!-- Loader-->
 <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0; ">
     <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
@@ -294,7 +294,7 @@
 <script src="~/js/GenerateCvShared.js"></script>
 
 
-<script>
+<!-- <script>
     function printCV() {
         // Simpan pengaturan cetakan saat ini
         var originalBody = document.body.innerHTML;
@@ -323,4 +323,4 @@
         document.title = originalTitle;
     }
 
-</script>
+</script> -->

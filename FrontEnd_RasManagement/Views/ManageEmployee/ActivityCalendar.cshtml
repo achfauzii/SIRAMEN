@@ -73,7 +73,14 @@
                             </div> -->
                         <div class="row m-2 align-items-center">
                             <div class="col-sm-4">
+                        <div class="row m-2 align-items-center">
+                            <div class="col-sm-4">
                             @* <div class=" text-right mr-3 mt-2 "> *@
+                                <select id="selectflag" class="form-control bg-light border">
+                                  <option value="">Filter by Flag</option>
+                                    <option value="wfo">WFO</option>
+                                    <option value="wfc">WFC</option>
+                                    <option value="wfh">WFH</option>
                                 <select id="selectflag" class="form-control bg-light border">
                                   <option value="">Filter by Flag</option>
                                     <option value="wfo">WFO</option>
@@ -82,6 +89,13 @@
                                     <option value="leave">Leave</option>
                                 </select>
                             </div>
+                            @* <div class="col-sm-6">
+                                <input class="form-control me-2" type="search" id="search" placeholder="Search..." aria-label="Search">
+                            </div> *@
+
+                            <div class="col-sm-4">
+                            <select class="form-control bg-light" id="selectCategory">
+                                <option value="">Filter by Category</option>
                             @* <div class="col-sm-6">
                                 <input class="form-control me-2" type="search" id="search" placeholder="Search..." aria-label="Search">
                             </div> *@
@@ -103,6 +117,9 @@
                             </select>
                             </div>
                             
+                            <div class="col-sm-4">
+                            <select class="form-control bg-light" id="selectStatus">
+                                <option value="">Filter by Status</option>
                             <div class="col-sm-4">
                             <select class="form-control bg-light" id="selectStatus">
                                 <option value="">Filter by Status</option>

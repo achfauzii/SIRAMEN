@@ -144,18 +144,52 @@
                         <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
                     </div>
 
-                    <div class="form-group mb-1">
+                    <div class="form-group mb-1 mt-3">
                         <label class="m-0" for="exampleInputEmail1">End Contract</label>
                         <input type="date" class="form-control " id="EndContract" name="EndContract" requiredContract>
                         <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
                     </div>
 
-                    <div class="form-group mb-1">
-                        <label class="m-0" for="exampleInputEmail1">Position</label>
-                        <input type="text" class="form-control " id="Position" name="Position" requiredContract>
-                        <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
+                    @*<div class="form-group mb-1">
+                    <label class="m-0" for="exampleInputEmail1">Position</label>
+                    <input type="text" class="form-control " id="Position" name="Position" requiredContract>
+                    <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
+                    </div>*@
+                    <div class="form-group row mb-1 mt-3">
+                        <div class="col-sm-12">
+                            <label class="text-dark" for="exampleInputEmail1">Position</label>
+                            <select id="positionEmp" class="positionEmp form-control" name="state" requiredContract>
+                               @* <option selected disabled>Choose...</option>*@
+                                <option value="Back End Developer">Back End Developer</option>
+                                <option value="Business Analyst">Business Analyst</option>
+                                <option value="Business Intelligent Engineer">Business Intelligent Engineer</option>
+                                <option value="Data Analyst">Data Analyst</option>
+                                <option value="Data Engineer">Data Engineer</option>
+                                <option value="Database Administrator">Database Administrator</option>
+                                <option value="Database Analyst">Database Analyst</option>
+                                <option value="Database Engineer">Database Engineer</option>
+                                <option value="Devops Engineer">Devops Engineer</option>
+                                <option value="Developer">Developer</option>
+                                <option value="Front End Developer">Front End Developer</option>
+                                <option value="Head of IT">Head of IT</option>
+                                <option value="IT Admin">IT Admin</option>
+                                <option value="IT Applications Support">IT Applications Support</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Mobile Developer">Mobile Developer</option>
+                                <option value="Outsystems Developer">Outsystems Developer</option>
+                                <option value="Project Manager">Project Manager</option>
+                                <option value="Quality Assurance">Quality Assurance</option>
+                                <option value="Sage 300 Consultant">Sage 300 Consultant</option>
+                                <option value="SAP ABAP Developer">SAP ABAP Developer</option>
+                                <option value="Scrum Master">Scrum Master</option>
+                                <option value="Software Engineer">Software Engineer</option>
+                                <option value="System Analyst">System Analyst</option>
+                                <option value="UiPath Engineer">UiPath Engineer</option>
+                                <option value=".Net Developer">.Net Developer</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
+                        </div>
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -195,7 +229,7 @@
                         <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="jobRole" name="jobRole" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
-                     <div class="form-group mb-1">
+                    <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">PIC Name</label>
                         <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="picName" name="picName" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
@@ -210,7 +244,7 @@
                     <div class="form-group mb-1" id="showEndDate">
                         <label class="m-0" for="exampleInputEmail1">End Date</label>
                         <input type="date" class="form-control " id="endDate" name="endDate">
-                    </div>                   
+                    </div>
 
                     <div class="form-group row mb-1">
                         <div class="col-sm-6 mb-1 mb-sm-0">
@@ -245,5 +279,7 @@
 
 </div>
 
-<script src="~/js/ManageEmployee.js"></script>
 <script src="~/js/DetailEmployee.js"></script>
+<script src="~/js/ManageEmployee.js"></script>
+
+

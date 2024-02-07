@@ -1,3 +1,4 @@
+var initialNonFormalEdu = {};
 $(document).ready(function () {
   //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -113,6 +114,14 @@ function getbyID(NonFormalId) {
       $("#ModalNonFormal").modal("show");
       $("#SaveNonFormal").hide();
       $("#UpdateNonFormal").show();
+
+  
+        initialNonFormalEdu = {
+            Name: obj.name,
+            Organizer: obj.organizer,
+            Years: obj.years,
+            Description: obj.description,
+        };
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
@@ -248,6 +257,22 @@ function Update() {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   NonFormal.AccountId = accid;
+
+    if (NonFormal.Name == initialNonFormalEdu.Name &&
+        NonFormal.Organizer == initialNonFormalEdu.Organizer &&
+        NonFormal.Years == initialNonFormalEdu.Years &&
+        NonFormal.Description == initialNonFormalEdu.Description
+    ) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+      $("#ModalNonFormal").modal("hide");
+        return;
+    }
   $.ajax({
     url: "https://localhost:7177/api/NonFormalEdu",
     type: "PUT",

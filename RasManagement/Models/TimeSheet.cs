@@ -27,4 +27,5 @@ public partial class TimeSheet
     public virtual Account? Account { get; set; }
     [JsonIgnore]
     public virtual Placement? PlacementStatus { get; set; }
+
 }

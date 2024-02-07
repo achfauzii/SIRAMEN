@@ -2,12 +2,12 @@ let validName = true;
 let validNickName = true;
 let validBirthPlace = true;
 $("#employeeAnnouncement").hide();
+var initialData = {};
 
 $(document).ready(function () {
     $('select[required],input[required], textarea[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
-
 
     $('[data-toggle="tooltip"]').tooltip();
     //GetBirthday
@@ -116,6 +116,19 @@ function loadDataA() {
         },
         success: function (result) {
             var obj = result.data.result; // Data yang diterima dari API
+            initialData = {
+                Fullname: obj.fullname,
+                Nickname: obj.nickname,
+                Birthplace: obj.birthplace,
+                Birthdate: obj.birthdate.substring(0, 10),
+                Gender: obj.gender,
+                Religion: obj.religion,
+                MaritalStatus: obj.maritalstatus,
+                Nationality: obj.nationality,
+                Address: obj.address,
+                
+            };
+            console.log(obj);
             var birthDate = obj.birthdate;
             const date = new Date(birthDate);
             const options = { day: "numeric", month: "long", year: "numeric" };
@@ -218,12 +231,9 @@ function ClearScreen() {
         var input = $(this);
         input.next(".error-message").hide();
     });
-    $("textarea[required]").each(function () {
-        var textarea = $(this);
-        textarea.next(".error-message").hide();
-    })
 }
 function GetById(accountId) {
+
     $.ajax({
         url:
             "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
@@ -245,6 +255,9 @@ function GetById(accountId) {
             $("#editMartialStatus").val(obj.maritalstatus);
             $("#editNationality").val(obj.nationality);
             $("#editAddress").val(obj.address);
+
+
+
             // Set the image input value
             var imageInput = document.getElementById("imageFile");
             if (obj.image != null) {
@@ -271,8 +284,59 @@ function GetById(accountId) {
 function clear() {
     $(".error-message").hide();
 }
+function formatDate(dateString) {
+    var parts = dateString.split(" ");
+    var day = parts[0];
+    var month = parts[1];
+    var year = parts[2];
+
+    var indonesianMonths = {
+        Januari: "01",
+        Februari: "02",
+        Maret: "03",
+        April: "04",
+        Mei: "05",
+        Juni: "06",
+        Juli: "07",
+        Agustus: "08",
+        September: "09",
+        Oktober: "10",
+        November: "11",
+        Desember: "12",
+    };
+
+    // Konversi nama bulan menjadi angka bulan
+    var monthNumber = indonesianMonths[month];
+
+    // Format tanggal menjadi format "YYYY-MM-DD"
+    var formattedDate = year + "-" + monthNumber + "-" + day;
+    return formattedDate;
+}
 
 function updateData() {
+    // Data yang ada di form/modal
+    var existingData = {
+        Fullname: $("#editName").val(),
+        Nickname: $("#editNickName").val(),
+        Birthplace: $("#editBirthPlace").val(),
+        Birthdate: $("#editBirthDate").val(),
+        Gender: $("#editGender").val(),
+        Religion: $("#editReligion").val(),
+        MaritalStatus: $("#editMartialStatus").val(),
+        Nationality: $("#editNationality").val(),
+        Address: $("#editAddress").val(),
+    };
+
+    // Data awal
+
+
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+
+    console.log("Has data changed:", hasChanged);
+    debugger;
+    // Jika tidak ada perubahan, tampilkan pesan Sweet Alert dan berhenti
+
+    // Lakukan validasi dan proses update jika ada perubahan
     var accountId = $("#accountId").val();
     var isValid = true;
     $("input[required]").each(function () {
@@ -284,16 +348,6 @@ function updateData() {
             input.next(".error-message").hide();
         }
     });
-    $("texarea[required]").each(function () {
-        var textarea = $(this);
-        if (!textarea.val()) {
-            textarea.next(".error-message").text("This field is required!").show();
-            isValid = false;
-        } else {
-            textarea.next(".error-message").hide();
-        }
-    });
-    console.log(validName + " " + validNickName + " " + validBirthPlace);
     if (!validName) {
         $("#editName")
             .next(".error-message")
@@ -328,10 +382,21 @@ function updateData() {
     var imagePath;
     if ($("#imageFile").val() == "") {
         imagePath = null;
+        if (!hasChanged) {
+            Swal.fire({
+                icon: "info",
+                title: "No Changes Detected",
+                text: "No data has been modified.",
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            $("#myModal").modal("hide");
+            return;
+        }
     } else {
         imagePath = `/assets/photo/photo-${accountId}.jpg`; // Path lengkap ke foto
+        
     }
-    console.log(imagePath);
     var formData = {
         AccountId: $("#accountId").val(),
         Fullname: $("#editName").val(),
@@ -359,7 +424,7 @@ function updateData() {
                 Swal.fire({
                     icon: "success",
                     title: "Success...",
-                    text: "Data has been to update!",
+                    text: "Data has been updated!",
                     showConfirmButton: false,
                     timer: 2000,
                 }).then(() => {

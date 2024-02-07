@@ -1,39 +1,42 @@
-﻿$(document).ready(function () {
+﻿var compare = {};
+$(document).ready(function () {
     var objDataToken = parseJwt(sessionStorage.getItem('Token'));
 
     if (objDataToken.RoleId == 7) {
         $('.add-new-placement').hide();
         $('.editemp-placement').hide();
-    } 
-
-  document.getElementById("backButton").addEventListener("click", function () {
-    history.back();
-  });
-
-  document.getElementById("startDate").min = new Date()
-    .toISOString()
-    .split("T")[0];
-
-  document.getElementById("endDate").min = new Date()
-    .toISOString()
-    .split("T")[0];
-
-  $("#startDate").on("change", function () {
-    document.getElementById("endDate").min = new Date(this.value)
-      .toISOString()
-      .split("T")[0];
-  });
-
-  document.getElementById("endDate").addEventListener("change", function (e) {
-    if (e.target.value < $("#startDate").val()) {
-      $("#Update").addClass("disabled");
-      return;
-    } else {
-      $("#Update").removeClass("disabled");
     }
-  });
 
-  placement();
+    
+    
+    document.getElementById("backButton").addEventListener("click", function () {
+        history.back();
+    });
+
+    document.getElementById("startDate").min = new Date()
+        .toISOString()
+        .split("T")[0];
+
+    document.getElementById("endDate").min = new Date()
+        .toISOString()
+        .split("T")[0];
+
+    $("#startDate").on("change", function () {
+        document.getElementById("endDate").min = new Date(this.value)
+            .toISOString()
+            .split("T")[0];
+    });
+
+    document.getElementById("endDate").addEventListener("change", function (e) {
+        if (e.target.value < $("#startDate").val()) {
+            $("#Update").addClass("disabled");
+            return;
+        } else {
+            $("#Update").removeClass("disabled");
+        }
+    });
+
+    placement();
 });
 
 function placement() {
@@ -120,70 +123,80 @@ function placement() {
 
 
 function GetById(accountId, placementStatusId) {
-  const startDate = document.getElementById("showStartDate");
-  const endDate = document.getElementById("showEndDate");
-  startDate.style.display = "none";
-  endDate.style.display = "block";
+    //debugger;
+    const startDate = document.getElementById("showStartDate");
+    const endDate = document.getElementById("showEndDate");
+    startDate.style.display = "none";
+    endDate.style.display = "block";
 
-  var accountId = accountId;
-  $.ajax({
-    type: "GET",
-    url:
-      "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
-      accountId,
-    type: "GET",
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    async: true,
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    $("#modal-add").modal("hide");
-    $("#modal-add").on("hidden.bs.modal", function () {
-      $(this).data("bs.modal", null);
+    var accountId = accountId;
+    $.ajax({
+        type: "GET",
+        url:
+            "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
+            accountId,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: true,
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        $("#modal-add").modal("hide");
+        $("#modal-add").on("hidden.bs.modal", function () {
+            $(this).data("bs.modal", null);
+        });
+
+        var objArray = result.data; //data yg didapat dari api
+
+        // Melakukan filter berdasarkan placementStatusId
+        var obj = objArray.find(
+            (item) => item.placementStatusId == placementStatusId
+        );
+
+        // Konversi string tanggal menjadi objek Date
+        var startDate = new Date(obj.startDate);
+        var endDate = "";
+
+        // Fungsi untuk memformat tanggal menjadi "yyyy-MM-dd" (format yang diharapkan input date)
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, "0");
+            var day = date.getDate().toString().padStart(2, "0");
+            return year + "-" + month + "-" + day;
+        }
+
+        if (obj.endDate != null) {
+            var endDate_ = new Date(obj.endDate);
+            endDate = formatDate(endDate_);
+        }
+
+        document.getElementById("endDate").min = new Date(startDate)
+            .toISOString()
+            .split("T")[0];
+
+        $("#placementStatusId").val(placementStatusId);
+        $("#companyName_").val(obj.companyName);
+        $("#picName").val(obj.picName);
+        $("#jobRole").val(obj.jobRole);
+        $("#startDate").val(formatDate(startDate));
+        $("#endDate").val(endDate);
+        $("#description").val(obj.description);
+        $('input[name="status"][value="' + obj.placementStatus + '"]').prop(
+            "checked",
+            true
+        );
+        $("#Update").show();
+        $("#Add").hide();
+
+        compare = {
+            PicName: obj.picName,
+            PlacementStatus: obj.placementStatus,
+            CompanyName: obj.companyName,
+            Description: obj.description,
+            EndDate: endDate,
+            JobRole: obj.jobRole
+        };
     });
-
-    var objArray = result.data; //data yg didapat dari api
-
-    // Melakukan filter berdasarkan placementStatusId
-    var obj = objArray.find(
-      (item) => item.placementStatusId == placementStatusId
-    );
-
-    // Konversi string tanggal menjadi objek Date
-    var startDate = new Date(obj.startDate);
-    var endDate = "";
-
-    // Fungsi untuk memformat tanggal menjadi "yyyy-MM-dd" (format yang diharapkan input date)
-    function formatDate(date) {
-      var year = date.getFullYear();
-      var month = (date.getMonth() + 1).toString().padStart(2, "0");
-      var day = date.getDate().toString().padStart(2, "0");
-      return year + "-" + month + "-" + day;
-    }
-
-    if (obj.endDate != null) {
-      var endDate_ = new Date(obj.endDate);
-      endDate = formatDate(endDate_);
-    }
-
-    document.getElementById("endDate").min = new Date(startDate)
-      .toISOString()
-      .split("T")[0];
-
-    $("#placementStatusId").val(placementStatusId);
-    $("#companyName_").val(obj.companyName);
-    $("#picName").val(obj.picName);
-    $("#jobRole").val(obj.jobRole);
-    $("#startDate").val(formatDate(startDate));
-    $("#endDate").val(endDate);
-    $("#description").val(obj.description);
-    $('input[name="status"][value="' + obj.placementStatus + '"]').prop(
-      "checked",
-      true
-    );
-    $("#Update").show();
-    $("#Add").hide();
-  });
 }

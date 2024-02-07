@@ -274,7 +274,7 @@
                 Generate CV
             </div>
 
-            <li class="nav-item">
+            <li class="nav-item" @(currentUrl == "/GenerateCv/GenerateCvEmployee" ? "active" : "")>
                 <a class="nav-link" id="generateCvLink" href="#"
                    aria-controls="collapsePages">
                     <i class="far fa-fw fa-file-pdf"></i>
@@ -440,7 +440,7 @@
 
                         <div class="form-label-group">
                             <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="" autocomplete="false" req>
-                            <label for="repeatPassword">Repeat Password</label>
+                            <label for="repeatPassword">Confirm New Password</label>
                             <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('repeatPassword')">
                                 <i class="far fa-eye"></i>
                             </span>
