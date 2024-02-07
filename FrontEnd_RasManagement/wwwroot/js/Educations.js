@@ -11,7 +11,9 @@ $(document).ready(function () {
     placeholder: "Select your major",
     width: "100%",
     allowClear: true,
-    tags: true,
+      tags: true,
+      dropdownParent: $('#ModalFormal'),
+   
   });
 });
 
@@ -122,6 +124,7 @@ function getUniversitasList() {
 
   $(selectUniversity).select2({
     placeholder: "Select your University",
+      dropdownParent: $('#ModalFormal'),
     width: "100%",
     allowClear: true,
     tags: true,
@@ -157,7 +160,8 @@ function formInputLocation() {
 
   $(selectRegencies).select2({
     placeholder: "Select City or County",
-    width: "100%",
+      width: "100%",
+      dropdownParent: $('#ModalFormal'),
   });
 
   fetch("../assets/file_json/provinces.json") //path ke file provinces.json
@@ -173,7 +177,8 @@ function formInputLocation() {
       // Select2 untuk select provinsi
       $(selectProvinces).select2({
         placeholder: "Select Province",
-        width: "100%",
+          width: "100%",
+          dropdownParent: $('#ModalFormal'),
       });
 
       // Event listener ketika provinsi dipilih

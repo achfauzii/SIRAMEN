@@ -64,11 +64,11 @@ $(document).ready(function () {
                     var modalId = "modal-edit-" + data.certificateId;
                     var deleteId = "modal-delete-" + data.certificateId;
                     return (
-                        '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+                        '<button class="btn btn-sm btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
                         row.certificateId +
                         ')"><i class="fa fa-edit"></i></button >' +
                         "&nbsp;" +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
+                        '<button class="btn btn-sm btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
                         row.certificateId +
                         ')"><i class="fa fa-trash"></i></button >'
                     );
