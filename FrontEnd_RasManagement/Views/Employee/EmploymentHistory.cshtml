@@ -111,19 +111,6 @@
     </div>
 </div>
 
-<script>
- $(document).ready(function () {
-        $('select[required],input[required]').each(function () {
-            $(this).prev('label').append('<span style="color: red;">*</span>');
-        });
-        $('input[required]').each(function () {
-            $(this).closest('.col pr-0 form-group').prev('label').append('<span style="color: red;">*</span>');
-        });
-        $('input[required]').each(function () {
-            $(this).closest('.col pl-0 form-group').prev('label').append('<span style="color: red;">*</span>');
-        });
-    });
-</script>
 @section script
     {
     <script src="~/js/EmployementHistory.js"></script>
