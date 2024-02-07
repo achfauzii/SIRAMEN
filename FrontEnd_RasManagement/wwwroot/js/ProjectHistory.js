@@ -49,15 +49,12 @@ $(document).ready(function () {
         render: function (data, type, row) {
           var modalId = "modal-edit-" + data.projectHistoryId;
           var deleteId = "modal-delete-" + data.projectHistoryId;
-          return (
-            '<button class="btn btn-sm btn-warning p-1 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-            row.projectHistoryId +
-            ')"><i class="fa fa-edit"></i></button >' +
-            "&nbsp;" +
-            '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
-            row.projectHistoryId +
-            ')"><i class="fa fa-trash"></i></button >'
-          );
+            return `
+            <div class="btn-group" role="group" aria-label="Action buttons">
+                <button class="btn btn-sm btn-warning action-button edit-button" data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(${row.projectHistoryId})"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-sm btn-danger action-button delete-button" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(${row.projectHistoryId})"><i class="fa fa-trash"></i></button>
+            </div>
+        `;
         },
       },
     ],

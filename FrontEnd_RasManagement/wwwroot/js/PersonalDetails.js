@@ -126,7 +126,9 @@ function loadDataA() {
                 MaritalStatus: obj.maritalstatus,
                 Nationality: obj.nationality,
                 Address: obj.address,
+                
             };
+            console.log(obj);
             var birthDate = obj.birthdate;
             const date = new Date(birthDate);
             const options = { day: "numeric", month: "long", year: "numeric" };
