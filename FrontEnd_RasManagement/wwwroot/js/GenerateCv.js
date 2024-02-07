@@ -174,11 +174,12 @@ function loadData() {
                 },
                 async: true,
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     //var qualification = qualificationData.data;
                     var qualification = data.data[0];
-                    if (qualification == null){
-                        var qualificationShow = document.getElementById("listQualification");
+          
+                    if (qualification == null || qualification.database =="" && qualification.framework==""&& qualification.framework =="" && qualification.programmingLanguage =="" && qualification.others ==""){
+                        var qualificationShow = document.getElementById("qualificationView");
                         qualificationShow.style.display = "none";
                     } else {
                         if (qualification.framework == ""){
@@ -385,7 +386,7 @@ function loadData() {
                         // Membuat elemen ul untuk menampilkan jobSpec
                         var ul = document.createElement("ul");
                         ul.className = "list-unstyled custom-ul";
-                        console.log(jobSpecItems);
+                        //console.log(jobSpecItems);
                         ul.classList.add("pl-3");
                         if (jobSpecItems != "") {
                             // Mengisi elemen ul dengan item-item jobSpec

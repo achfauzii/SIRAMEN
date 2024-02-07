@@ -45,7 +45,7 @@ function submitReportTimesheet() {
     table.destroy();
     var companyName = $('#companySelect').val();
     var month = $('#month').val();
-  
+    $("#nullInput").hide();
     var report = $('#reportTimesheet');
 
     // Check if companyName or month is empty or null

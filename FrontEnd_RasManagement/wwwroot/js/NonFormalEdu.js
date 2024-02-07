@@ -267,8 +267,10 @@ function Update() {
             icon: "info",
             title: "No Changes Detected",
             text: "No data has been modified.",
+            showConfirmButton: false,
+            timer: 2000,
         });
-        $("#ModalNonFormal").modal("hide");
+      $("#ModalNonFormal").modal("hide");
         return;
     }
   $.ajax({

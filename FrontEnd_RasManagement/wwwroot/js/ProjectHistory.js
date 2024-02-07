@@ -49,15 +49,12 @@ $(document).ready(function () {
         render: function (data, type, row) {
           var modalId = "modal-edit-" + data.projectHistoryId;
           var deleteId = "modal-delete-" + data.projectHistoryId;
-          return (
-            '<button class="btn btn-sm btn-warning p-1 " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-            row.projectHistoryId +
-            ')"><i class="fa fa-edit"></i></button >' +
-            "&nbsp;" +
-            '<button class="btn btn-sm btn-danger p-1" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
-            row.projectHistoryId +
-            ')"><i class="fa fa-trash"></i></button >'
-          );
+            return `
+            <div class="btn-group" role="group" aria-label="Action buttons">
+                <button class="btn btn-sm btn-warning action-button edit-button" data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(${row.projectHistoryId})"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-sm btn-danger action-button delete-button" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(${row.projectHistoryId})"><i class="fa fa-trash"></i></button>
+            </div>
+        `;
         },
       },
     ],
@@ -281,11 +278,11 @@ function GetById(projectHistoryId) {
     },
     success: function (result) {
       var obj = result.data; //data yg kita dapat dr API
-      $("#ProjectHistoryId").val(obj.projectHistoryId);
-      $("#ProjectName").val(obj.projectName);
-      $("#JobSpec").val(obj.jobSpec);
-      $("#Year").val(obj.year);
-      $("#CompanyName").val(obj.companyName);
+        $("#ProjectHistoryId").val(obj.projectHistoryId);
+        $("#ProjectName").val(obj.projectName).attr("data-initial", obj.projectName);
+        $("#JobSpec").val(obj.jobSpec).attr("data-initial", obj.jobSpec);
+        $("#Year").val(obj.year).attr("data-initial", obj.year);
+        $("#CompanyName").val(obj.companyName).attr("data-initial", obj.companyName);
       $("#Modal").modal("show");
       $("#Update").show();
       $("#Save").hide();
@@ -349,6 +346,38 @@ function GetById(projectHistoryId) {
 // }
 function Update() {
   var isValid = true;
+
+    var existingData = {
+        ProjectName: $("#ProjectName").val(),
+        JobSpec: $("#JobSpec").val(),
+        Year: $("#Year").val(),
+        CompanyName: $("#CompanyName").val(),
+    };
+
+    var initialData = {
+        ProjectName: $("#ProjectName").attr("data-initial"),
+        JobSpec: $("#JobSpec").attr("data-initial"),
+        Year: $("#Year").attr("data-initial"),
+        CompanyName: $("#CompanyName").attr("data-initial"),
+    };
+
+    var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
+
+    console.log("Has data changed:", hasChanged);
+    //console.log("existingData:", existingData);
+    //console.log("initialData:", initialData);
+
+    if (!hasChanged) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        $("#Modal").modal("hide");        
+        return;
+    }
 
   $("input[required], textarea[required]").each(function () {
     var element = $(this);
