@@ -4,6 +4,11 @@
 }
 
 <style>
+    .blue-bg {
+        background-color: #fdf3d8; /* Set your desired background color */
+        color: white; /* Set the text color to white or any other color that suits your design */
+        padding: 10px; /* Adjust the padding as needed */
+    }
 
     .green-bg {
         background-color: #1cc88a; /* Warna hijau */
@@ -41,14 +46,33 @@
     .bullet-text {
         flex-grow: 1;
         margin-left: 10px; /* Sesuaikan jarak sesuai kebutuhan */
+        color: black;
     }
 
     .table.dataTable {
         margin-top: 0 !important;
     }
+
+    .btn.active {
+        background-color: blue;
+        color: white;
+    }
+
+    .fas.fa-filter.active {
+        color: white;
+    }
+
+    .filterText.active {
+        color: white;
+    }
+
 </style>
 
 <!-- Google Font: Source Sans Pro -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- fullCalendar -->
 <link rel="stylesheet" href="~/css/ManageEmployee/calendar.css">
@@ -61,138 +85,155 @@
     <div class="container-fluid">
         <h5 style="font-family: comfortaa; color: black; padding: 5px 6px" class="font-weight-bold">Activity Calendar</h5>
         <div class="row">
-            <div class="col-md">
+            <div class="col-lg-9 col-12">
                 <div class="card card-primary">
                     <div class="card-body p-0">
-                            <!-- <div class=" text-right mr-3 mt-2 ">
-                                <div class="btn-group" role="group" aria-label="Button Filter">
-                                    <button type="button" id="btn-wfo" class="btn btn-primary" >wfo</button>
-                                    <button type="button" id="btn-wfc" class="btn btn-success" >wfc</button>
-                                    <button type="button" id="btn-wfh" class="btn btn-warning" >wfh</button>
+                        <div class="row m-2 align-items-right">
+                        @* <div class="d-grid gap-2 col-6 mx-auto">
+                            <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Search">
+                                <div class="input-group-text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                    </svg>
                                 </div>
-                            </div> -->
-                        <div class="row m-2 align-items-center">
-                            <div class="col-sm-4">
-                        <div class="row m-2 align-items-center">
-                            <div class="col-sm-4">
-                            @* <div class=" text-right mr-3 mt-2 "> *@
-                                <select id="selectflag" class="form-control bg-light border">
-                                  <option value="">Filter by Flag</option>
-                                    <option value="wfo">WFO</option>
-                                    <option value="wfc">WFC</option>
-                                    <option value="wfh">WFH</option>
-                                <select id="selectflag" class="form-control bg-light border">
-                                  <option value="">Filter by Flag</option>
-                                    <option value="wfo">WFO</option>
-                                    <option value="wfh">WFH</option>
-                                    <option value="sick">Sick</option>
-                                    <option value="leave">Leave</option>
-                                </select>
                             </div>
-                            @* <div class="col-sm-6">
-                                <input class="form-control me-2" type="search" id="search" placeholder="Search..." aria-label="Search">
-                            </div> *@
+                        </div> *@
 
-                            <div class="col-sm-4">
-                            <select class="form-control bg-light" id="selectCategory">
-                                <option value="">Filter by Category</option>
-                            @* <div class="col-sm-6">
-                                <input class="form-control me-2" type="search" id="search" placeholder="Search..." aria-label="Search">
-                            </div> *@
+                        @* <div class="col-4">
+                           <button id="filterButton" class="btn btn-light btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="background-color: transparent;">
+                                <i id="filterIcon" class="fas fa-filter" style="color: blue;"></i><span id="filterText" style="font-family: comfortaa; color: blue;"> Filter</span>
+                            </button>
+                        </div> *@
 
-                            <div class="col-sm-4">
-                            <select class="form-control bg-light" id="selectCategory">
-                                <option value="">Filter by Category</option>
-                                <option value="Meeting/Discussion">Meeting/Discussion</option>
-                                <option value="Coding">Coding</option>
-                                <option value="Testing">Testing</option>
-                                <option value="UAT/SIT">UAT/SIT</option>
-                                <option value="Ticketing">Ticketing</option>
-                                <option value="Docummentation">Docummentation</option>
-                                <option value="Bug/Issue Fix">Bug/Issue Fix</option>
-                                <option value="Support">Support</option>
-                                <option value="Review">Review</option>
-                                <option value="GoLive/Deploy">GoLive/Deploy</option>
-                                <option value="Others">Others</option>
-                            </select>
-                            </div>
-                            
-                            <div class="col-sm-4">
-                            <select class="form-control bg-light" id="selectStatus">
-                                <option value="">Filter by Status</option>
-                            <div class="col-sm-4">
-                            <select class="form-control bg-light" id="selectStatus">
-                                <option value="">Filter by Status</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Done">Done</option>
-                                <option value="Need Approval">Need Approval</option>
-                            </select>
-                            </div>
-                        </div>
                         <!-- THE CALENDAR -->
                         <div id="calendar"></div>
                     </div>
-                    <div class="card mb-0">
-                        <div class="card-body mb-0">
-                            <h5 class="card-title" style="color: #858796; font-weight: bold; padding-left: 24px;">Notes</h5><br>
-                        <div class="row ml-3">
-                            <p class="card-text text-body-secondary" style="font-size: 16px; padding-bottom: 10px">Keterangan Label Flag:</p>
-                        </div>
-                        <div class="row"> 
-                         <div class="col-md-6">       
+
+                    <!-- footer label -->
+                    <div class="card mb-0 p-3">
+                        <div class="card-body blue-bg">
+                            <h5 class="card-title" style="color: #858796; font-weight: bold; padding-left: 3px;">Notes</h5><br>
+                            <div class="row mb-sm-3">
+                                <p class="card-text text-body-secondary" style="font-size: 14px;">Keterangan Label Flag:</p>
+                            </div>
+                            <div class="row"> 
+                            <div class="col-md-6">       
                                 <small>
-                                <ul>
-                                    <li class="list-item">
-                                        <span class="badge badge-primary" style="font-size: 12px;">Blue</span>
-                                        <span class="bullet-text">: WFO</span>
-                                    </li>
-                                    <li class="list-item">
-                                        <span class="badge badge-warning" style="font-size: 12px; color: white;">Yellow</span>
-                                        <span class="bullet-text">: WFH</span>
-                                    </li>
-                                    <li class="list-item">
-                                        <span class="badge badge-success" style="font-size: 12px;">Green</span>
-                                        <span class="bullet-text">: WFC</span>
-                                    </li>
-                                </ul>
+                                    <ul>
+                                        <li class="list-item">
+                                            <span class="badge badge-primary" style="font-size: 12px;">Blue</span>
+                                            <span class="bullet-text">: Work From Office (WFO)</span>
+                                        </li>
+                                        <li class="list-item">
+                                            <span class="badge badge-warning" style="font-size: 12px; color: white;">Yellow</span>
+                                            <span class="bullet-text">: Work From Home (WFH)</span>
+                                        </li>
+                                    </ul>
                                 </small>
                             </div>
                             <div class="col-md-6">
-                            <small>
-                                <ul>
-                                    <li class="list-item">
-                                        <span class="badge badge-secondary" style="font-size: 12px;">Grey</span>
-                                        <span class="bullet-text">: Leave, Sick</span>
-                                    </li>
-                                    <li class="list-item">
-                                        <span class="badge badge-danger" style="font-size: 12px;">Red</span>
-                                        <span class="bullet-text">: Other</span>
-                                    </li>
-                                </ul>
-                            </small>
+                                <small>
+                                    <ul>
+                                        <li class="list-item">
+                                            <span class="badge badge-secondary" style="font-size: 12px;">Red</span>
+                                            <span class="bullet-text">: Sick</span>
+                                        </li>
+                                        <li class="list-item">
+                                            <span class="badge badge-danger" style="font-size: 12px;">Grey</span>
+                                            <span class="bullet-text">: Leave</span>
+                                        </li>
+                                    </ul>
+                                </small>
+                            </div>
                             </div>
                         </div>
-                        </div> 
                     </div>
-                    <!-- <div class="card-footer">
-                    <h5 class="card-title">Flag</h5>
-                    <p class="card-text">
-                    
-                    </div> -->
-                    <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
             </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-header" style="background-color: #fdf3d8;">
+                       <h6 class="m-0">Filter Data</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="offcanvas-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Search">
+                                        <div class="input-group-text">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <select id="selectflag" class="form-select bg-light border">
+                                        <option value="">Filter by flag</option>
+                                        <option value="wfo">WFO</option>
+                                        <option value="wfh">WFH</option>
+                                        <option value="sick">Sick</option>
+                                        <option value="leave">Leave</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">   
+                                    <select class="form-select bg-light" id="selectCategory">
+                                        <option value="">Filter by category</option>
+                                        <option value="Meeting/Discussion">Meeting/Discussion</option>
+                                        <option value="Coding">Coding</option>
+                                        <option value="Testing">Testing</option>
+                                        <option value="UAT/SIT">UAT/SIT</option>
+                                        <option value="Ticketing">Ticketing</option>
+                                        <option value="Docummentation">Docummentation</option>
+                                        <option value="Bug/Issue Fix">Bug/Issue Fix</option>
+                                        <option value="Support">Support</option>
+                                        <option value="Review">Review</option>
+                                        <option value="GoLive/Deploy">GoLive/Deploy</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="form-select bg-light" id="selectStatus">
+                                        <option value="">Filter by status</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Done">Done</option>
+                                        <option value="Need Approval">Need Approval</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <select class="form-select bg-light">
+                                    <option value="">Filter by client</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                     @* <div class="d-grid gap-1"> *@
+                                    <button class="btn btn-sm btn-outline-danger" type="button" id="submitFilter">Submit</button>
+                                     @* </div> *@
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> 
         </div>
             <!-- /.col -->
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
 
-
 <script src="~/js/ManageEmployee/ActivityCalendar.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jQuery UI -->
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
 

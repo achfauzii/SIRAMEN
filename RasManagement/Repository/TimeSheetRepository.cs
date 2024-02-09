@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Tsp;
 
 namespace RasManagement.Repository
@@ -93,37 +94,76 @@ namespace RasManagement.Repository
         {
             IQueryable<TimeSheet> query = context.TimeSheets.Include(a => a.Account);
 
+            // Apply mixed filter by flag, category, and status, search
+            if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
+            {
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.Activity.Contains(search));
+            }
             // Apply mixed filter by flag, category, and status
-            if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status))
+            else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status))
             {
                 query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status);
+            }
+            // Apply mixed filter by flag and category, search
+            else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search))
+            {
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Activity.Contains(search));
             }
             // Apply mixed filter by flag and category
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories))
             {
                 query = query.Where(ts => ts.Flag == flag && ts.Category == categories);
             }
+            // Apply mixed filter by flag and status, search
+            else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
+            {
+                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.Activity.Contains(search));
+            }
             // Apply mixed filter by flag and status
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status))
             {
                 query = query.Where(ts => ts.Flag == flag && ts.Status == status);
+            }
+            // Apply mixed filter by category and status, search
+            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status)  && !string.IsNullOrEmpty(search))
+            {
+                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.Activity.Contains(search));
             }
             // Apply mixed filter by category and status
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status))
             {
                 query = query.Where(ts => ts.Category == categories && ts.Status == status);
             }
+            //Apply mixed filter by flag and search
+            else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(search))
+            {
+                query = query.Where(ts => ts.Flag == flag && ts.Activity.Contains(search));
+            }
             else if (!string.IsNullOrEmpty(flag))
             {
                 query = query.Where(ts => ts.Flag == flag);
+            }
+            //Apply mixed filter by category and search
+            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search))
+            {
+                query = query.Where(ts => ts.Category == categories && ts.Activity.Contains(search));
             }
             else if (!string.IsNullOrEmpty(categories))
             {
                 query = query.Where(ts => ts.Category == categories);
             }
+            //Apply mixed filter by status and search
+            else if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
+            {
+                query = query.Where(ts => ts.Status == status && ts.Activity.Contains(search));
+            } 
             else if (!string.IsNullOrEmpty(status))
             {
                 query = query.Where(ts => ts.Status == status);
+            } 
+            else if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(ts => ts.Activity.Contains(search));
             }
 
             if (end.Subtract(start).Days > 41)
