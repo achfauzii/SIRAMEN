@@ -123,6 +123,17 @@ $(document).ready(function () {
     });
 });
 
+function numeric(input) {
+    // Menghapus semua karakter selain angka dan tanda titik
+    var numericValue = input.value.replace(/[^0-9.]/g, "");
+
+    // Menghapus tanda titik yang lebih dari satu
+    numericValue = numericValue.replace(/(\..*)\./g, "$1");
+
+    // Memperbarui nilai input dengan hanya angka yang diizinkan
+    input.value = numericValue;
+}
+
 function parseJwt(token) {
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");

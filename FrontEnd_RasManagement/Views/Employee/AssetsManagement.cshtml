@@ -66,7 +66,7 @@
 
                     <div class="form-group">
                         <label for="RFID">RFID</label>
-                        <input type="number" step="6" class="form-control italic-placeholder" id="RFID" placeholder="Enter RFID" required>
+                        <input type="text" step="6" class="form-control italic-placeholder" id="RFID" placeholder="Enter RFID" oninput="numeric(this);" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
@@ -89,7 +89,7 @@
                     <div class="form-group">
                         <label for="ram">RAM<span style="color: red;">*</span></label>
                         <div class="input-group">
-                            <input type="number" class="form-control italic-placeholder" id="ram" placeholder="2 / 4 / 8 / 16" required>
+                            <input type="text" class="form-control italic-placeholder" id="ram" placeholder="2 / 4 / 8 / 16" oninput="numeric(this);" required>
                             <div class="input-group-append">
                                 <span class="input-group-text">GB</span>
                             </div>
@@ -100,7 +100,7 @@
                         <div class="col">
                             <label for="ssd">SSD</label>
                             <div class="input-group">
-                                <input type="number" class="form-control italic-placeholder" id="ssd" placeholder="256 / 512 / 1024" required>
+                                <input type="text" class="form-control italic-placeholder" id="ssd" placeholder="256 / 512 / 1024" oninput="numeric(this);" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">GB</span>
                                 </div>
@@ -110,7 +110,7 @@
                         <div class="col">
                             <label for="hdd">HDD</label>
                             <div class="input-group">
-                                <input type="number" class="form-control italic-placeholder" id="hdd" placeholder="256 / 512 / 1024">
+                                <input type="text" class="form-control italic-placeholder" id="hdd" placeholder="256 / 512 / 1024" oninput="numeric(this);">
                                 <div class="input-group-append">
                                     <span class="input-group-text">GB</span>
                                 </div>
@@ -127,7 +127,7 @@
                         <div class="col">
                             <label for="Display">Display<span style="color: red;">*</span></label>
                             <div class="input-group">
-                                <input type="number" class="form-control italic-placeholder" id="Display" placeholder="12 / 14 / 16" required>
+                                <input type="text" class="form-control italic-placeholder" id="Display" placeholder="12 / 14 / 16" oninput="numeric(this);" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">Inch</span>
                                 </div>
@@ -158,6 +158,9 @@
         </div>
     </div>
 </div>
+
+
+
 @section script
     {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
