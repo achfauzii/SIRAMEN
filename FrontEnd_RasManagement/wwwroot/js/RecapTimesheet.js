@@ -42,7 +42,7 @@ $(document).ready(function () {
 
 
 function submitReportTimesheet() {
-    table.destroy();
+
     var companyName = $('#companySelect').val();
     var month = $('#month').val();
     $("#nullInput").hide();
@@ -51,14 +51,17 @@ function submitReportTimesheet() {
     // Check if companyName or month is empty or null
     if (!companyName || !month) {
         // Show the warning alert
-        $('#nullInput').removeAttr('hidden');
+        $("#nullInput").show();
 
-        // Hide the DataTable and clear it
-        $('#reportTimesheetTable').DataTable().clear().destroy();
+   
         report.hide();
         return;
     }
+    report.show();
 
+    if ($.fn.DataTable.isDataTable('#reportTimesheetTable')) {
+        $('#reportTimesheetTable').DataTable().destroy();
+    }
    table = new $('#reportTimesheetTable').DataTable({
         ajax: {
             url: 'https://localhost:7177/api/TimeSheet/GetTimeSheetByCompanyNameAndMonth?companyName=' + companyName + '&month=' + month,

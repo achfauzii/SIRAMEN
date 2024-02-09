@@ -68,7 +68,7 @@
                     <div class="form-group">
                         <label for="PublicationYear">Publication Years</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="PublicationYear" required readonly>
+                            <input type="text" class="form-control" id="PublicationYear" placeholder="Choose month and year..." required readonly>
                             <div class="input-group-append">
                                 <span class="input-group-text" id="dateMonth"><i class="fas fa-calendar"></i></span>
                             </div>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         <label for="ValidUntil">Valid Until</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="ValidUntil" readonly>
+                            <input type="text" class="form-control" id="ValidUntil" placeholder="Choose month and year..." readonly>
                             <div class="input-group-append">
                                 <span class="input-group-text" id="dateMonth"><i class="fas fa-calendar"></i></span>
                             </div>
@@ -100,11 +100,6 @@
         </div>
     </div>
 </div>
-<script>
-    $('input[required]').each(function () {
-        $(this).prev('label').append('<span style="color: red;">*</span>');
-    });
-</script>
 
 @section script{
     <script src="~/js/Certificate.js"></script>
