@@ -218,7 +218,7 @@ function getClient() {
     }).then((result) => {
         if (result != null) {
             result.data.forEach((item) => {
-                var option = new Option(item.nameOfClient, item.id, true, false);
+                var option = new Option(item.nameOfClient +" ( "+item.salesName+" )", item.id, true, false);
                 selectClient.add(option);
             });
         }
