@@ -3,6 +3,17 @@ var position = null;
 var compare = {};
 // var navListMenu = null;
 
+//Set Focus on Input Search component Select2
+$(document).on("select2:open", (e) => {
+  const selectId = e.target.id;
+
+  $(
+    ".select2-search__field[aria-controls='select2-" + selectId + "-results']"
+  ).each(function (key, value) {
+    value.focus();
+  });
+});
+
 $(document).ready(function () {
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
@@ -198,6 +209,7 @@ function getResource() {
   });
   $("#resource").select2({
     placeholder: "Select Resource",
+    dropdownParent: $("#trackingModal"),
     width: "100%",
     height: "100%",
     allowClear: true,
