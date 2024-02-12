@@ -102,9 +102,6 @@ $(document).ready(function () {
   const level = urlParams.get("level");
   const skill = urlParams.get("skill");
 
-  console.log(position);
-  console.log(level);
-  console.log(skill);
   if (position != null) {
     Src(position);
   } else if (level != null) {
@@ -253,8 +250,7 @@ function Src(selectedCategory) {
         } else {
           d.search.category = "";
         }
-        console.log(d);
-        console.log("filter " + selectedCategory);
+
         return JSON.stringify(d);
       },
     },
@@ -1681,18 +1677,18 @@ function createNavigation(categories) {
   const screenWidth = window.innerWidth || document.documentElement.clientWidth;
 
   // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
-  if (screenWidth <= 1024) {
-    maxVisibleCategories = 5;
-  }
-  if (screenWidth < 850) {
-    maxVisibleCategories = 4;
-  }
-  if (screenWidth < 750) {
-    maxVisibleCategories = 3;
-  }
-  if (screenWidth <= 500) {
-    maxVisibleCategories = 1;
-  }
+  // if (screenWidth <= 1024) {
+  //   maxVisibleCategories = 5;
+  // }
+  // if (screenWidth < 850) {
+  //   maxVisibleCategories = 4;
+  // }
+  // if (screenWidth < 750) {
+  //   maxVisibleCategories = 3;
+  // }
+  // if (screenWidth <= 500) {
+  //   maxVisibleCategories = 1;
+  // }
   const navList = document.createElement("ul");
   navList.className = "nav nav-tabs";
   navList.setAttribute("id", "nav-menu");
@@ -1703,6 +1699,7 @@ function createNavigation(categories) {
     listItem.className = "nav-item";
 
     const link = document.createElement("a");
+    link.setAttribute("id", "item-" + categories[i].toLowerCase());
     link.className = "nav-link text-sm";
     link.href = "#";
     link.setAttribute("data-category", categories[i].toLowerCase());
@@ -1818,7 +1815,8 @@ function createDropdown(categories) {
         e.preventDefault();
         const selectedCategory = this.getAttribute("data-category");
 
-        table.column(3).search(selectedCategory).draw();
+        // table.column(3).search(selectedCategory).draw();
+        Src(selectedCategory);
         navListMenu.querySelectorAll(".nav-link").forEach((link) => {
           link.classList.remove("active");
         });
@@ -1831,10 +1829,11 @@ function createDropdown(categories) {
 
       const selectedCategory = this.textContent;
       if (selectedCategory == "all") {
-        table.search("").draw();
+        // table.search("").draw();
         Src(selectedCategory);
       } else {
-        table.column(3).search(selectedCategory).draw();
+        Src(selectedCategory);
+        // table.column(3).search(selectedCategory).draw();
       }
     });
 
@@ -1857,6 +1856,9 @@ function addDropdown(nameOfClient) {
   } else {
     $("#dropdown-nav-tab").show();
   }
+
+  $("#nav-menu li").first().click();
+  $("#item-all").addClass("active");
 }
 
 // Fungsi untuk mengubah huruf besar di awal dan setelah spasi

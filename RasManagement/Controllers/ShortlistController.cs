@@ -92,9 +92,7 @@ namespace RasManagement.Controllers
             {
                 var category = request.Search.Category.ToLower();
                 query = query.Where(e =>
-                    e.Position.ToLower().Contains(category) ||
-                    e.Skillset.ToLower().Contains(category) ||
-                    e.Level == category
+                    e.Position.ToLower().Contains(category)
                 );
 
                 if (!string.IsNullOrEmpty(request.Search?.Value))
@@ -193,9 +191,7 @@ namespace RasManagement.Controllers
             {
                 var category = request.Search.Category.ToLower();
                 query = query.Where(e =>
-                    e.Position.ToLower().Contains(category) ||
-                    e.Skillset.ToLower().Contains(category) ||
-                    e.Level == category
+                    e.Position.ToLower().Contains(category)
                 );
 
                 if (!string.IsNullOrEmpty(request.Search?.Value))
@@ -433,7 +429,7 @@ namespace RasManagement.Controllers
             }
         }
 
-        
+
 
     }
 
