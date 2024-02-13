@@ -154,6 +154,9 @@ function Save() {
 function ClearScreen() {
     $("#clientId").val("");
     $("#clientName").val("");
+    $("#salesName").val("");
+    $("#salesContact").val();
+    $("#clientContact").val();
     $("#Update").hide();
     $("#Save").show();
 }
@@ -190,6 +193,9 @@ function GetById(id) {
             var obj = result.data;
             $("#clientId").val(obj.id);
             $("#clientName").val(obj.nameOfClient);
+            $("#salesName").val(obj.salesName);
+            $("#salesContact").val(obj.salesContact);
+            $("#clientContact").val(obj.clientContact);
             $("#Modal").modal("show");
             $("#Update").show();
             $("#Save").hide();
@@ -220,9 +226,12 @@ function Update() {
     var ClientName = new Object(); //object baru
     ClientName.id = $("#clientId").val();
     ClientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
-
+    ClientName.salesName = $("#salesName").val();
+    ClientName.salesContact = $("#salesContact").val();
+    ClientName.clientContact = $("#clientContact").val();
+ 
     $.ajax({
-        url: "https://localhost:7177/api/ClientName/ChangeData",
+        url: "https://localhost:7177/api/ClientName",
         type: "PUT",
         data: JSON.stringify(ClientName),
         contentType: "application/json; charset=utf-8",
@@ -238,7 +247,7 @@ function Update() {
                 Swal.fire({
                     icon: "success",
                     title: "Success...",
-                    text: "Data has been added!",
+                    text: "Data has been updated!",
                     showConfirmButton: false,
                     timer: 1500,
                 });
@@ -314,7 +323,11 @@ function detailPosition(id) {
         .then((data) => {
             // Lakukan sesuatu dengan data yang diterima dari API
             var clientName = data.data.nameOfClient;
+            
             $("#modalTitle").text("Position List " + clientName);
+            $("#salesName_").text(data.data.salesName);
+            $("#salesContact_").text(data.data.salesContact);
+            $("#clientContact_").text(data.data.clientContact);
 
             //Get Data Position
             fetch("https://localhost:7177/api/Position/ByClientId?clientId=" + id, {

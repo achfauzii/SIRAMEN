@@ -61,12 +61,27 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="form-group">
+                           
                                 <input type="text" class="form-control" id="clientId" hidden>
-                            </div>
+                            
                             <div class="form-group">
                                 <label for="ClientName">Client Name</label>
-                                <input type="text" class="form-control" id="clientName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Client Name" required_>
+                                <input type="text" class="form-control form-control-sm" id="clientName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Client Name" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ClientName">Sales Name</label>
+                                <input type="text" class="form-control form-control-sm" id="salesName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Sales Name" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ClientName">Sales Contact</label>
+                                <input type="number" class="form-control form-control-sm" id="salesContact" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Sales Contact" required>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                             <div class="form-group">
+                                <label for="ClientName">Client Contact</label>
+                                <input type="number" class="form-control form-control-sm" id="clientContact" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Client Contact" required>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </form>
@@ -94,6 +109,45 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="sales-info">
+                            <div class="row" style="margin-bottom: -15px; margin-top: -10px">
+                                <div class="col-3">
+                                    <p><strong>Sales Name</strong></p>
+                                </div>
+                                  <div class="col-0">
+                                    <p><strong>:</strong></p>
+                                </div>
+                                <div class="col-7">
+                                    <p id="salesName_"></p>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: -15px;">
+                                <div class="col-3">
+                                    <p><strong>Sales Contact</strong></p>
+                                </div>
+                                <div class="col-0">
+                                    <p><strong>:</strong></p>
+                                </div>
+                                <div class="col-7">
+                                    <p id="salesContact_"></p>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: -13px;">
+                                <div class="col-3">
+                                    <p><strong>Client Contact</strong></p>
+                                </div>
+                                <div class="col-0">
+                                    <p><strong>:</strong></p>
+                                </div>
+                                <div class="col-7">
+                                    <p id="clientContact_"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
            
                 <div class="row justify-content-between">
                     <span class="col-4 text-left">
