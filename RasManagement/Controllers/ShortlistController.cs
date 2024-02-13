@@ -13,7 +13,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
+    //[Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
     public class ShortlistController : BaseController<NonRasCandidate, ShortlistRepository, int>
     {
         private readonly ShortlistRepository shortlistRepository;
@@ -82,7 +82,8 @@ namespace RasManagement.Controllers
                 query = query.Where(e =>
                     e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
                     e.Position.ToLower().Contains(searchTerm) ||
-                    e.Skillset.ToLower().Contains(searchTerm)
+                    e.Skillset.ToLower().Contains(searchTerm) ||
+                    e.Level.ToLower().Contains(searchTerm)
 
                 );
             }
@@ -91,7 +92,6 @@ namespace RasManagement.Controllers
             {
                 var category = request.Search.Category.ToLower();
                 query = query.Where(e =>
-
                     e.Position.ToLower().Contains(category)
                 );
 
@@ -100,11 +100,12 @@ namespace RasManagement.Controllers
                     var searchTerm = request.Search.Value.ToLower();
                     query = query.Where(e =>
                         e.Fullname.ToLower().Contains(searchTerm) ||
-                        e.Position.ToLower().Contains(category)
+                        e.Position.ToLower().Contains(searchTerm) ||
+                        e.Skillset.ToLower().Contains(searchTerm) ||
+                        e.Level.ToLower().Contains(searchTerm)
                     );
                 }
             }
-
 
             var sortColumnIndex = request.Order.column;
             var sortDirection = request.Order.dir;
@@ -181,7 +182,8 @@ namespace RasManagement.Controllers
                 query = query.Where(e =>
                     e.Fullname.ToLower().Contains(searchTerm) || // Ganti dengan kolom yang ingin dicari 
                     e.Position.ToLower().Contains(searchTerm) ||
-                    e.Skillset.ToLower().Contains(searchTerm)
+                    e.Skillset.ToLower().Contains(searchTerm) ||
+                    e.Level.ToLower().Contains(searchTerm)
                 );
             }
 
@@ -189,7 +191,6 @@ namespace RasManagement.Controllers
             {
                 var category = request.Search.Category.ToLower();
                 query = query.Where(e =>
-
                     e.Position.ToLower().Contains(category)
                 );
 
@@ -198,8 +199,9 @@ namespace RasManagement.Controllers
                     var searchTerm = request.Search.Value.ToLower();
                     query = query.Where(e =>
                         e.Fullname.ToLower().Contains(searchTerm) ||
-                        e.Position.ToLower().Contains(category) ||
-                        e.Skillset.ToLower().Contains(category)
+                        e.Position.ToLower().Contains(searchTerm) ||
+                        e.Skillset.ToLower().Contains(searchTerm) ||
+                        e.Level.ToLower().Contains(searchTerm)
                     );
                 }
             }
@@ -427,7 +429,7 @@ namespace RasManagement.Controllers
             }
         }
 
-        
+
 
     }
 
