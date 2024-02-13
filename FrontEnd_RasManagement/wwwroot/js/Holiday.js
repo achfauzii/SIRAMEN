@@ -224,7 +224,7 @@ function GetById(holiday_Id) {
 }
 
 function Update() {
-    debugger;
+    //debugger;
     var isValid = true;
 
     $("input[required],textarea[required]").each(function () {
@@ -247,8 +247,8 @@ function Update() {
     Holiday.date = $("#HolidayDate").val();
     Holiday.description = $("#Description").val();
 
-    console.log(Holiday);
-    console.log(initialHoliday);
+    //console.log(Holiday);
+    //console.log(initialHoliday);
     if (Holiday.name == initialHoliday.HolidayName &&
         Holiday.date == initialHoliday.HolidayDate &&
         Holiday.description == initialHoliday.Description){
@@ -288,7 +288,7 @@ function Update() {
 }
 
 function DeleteHoliday(holiday_Id) {
-    debugger;
+    //debugger;
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
