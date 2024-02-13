@@ -59,6 +59,16 @@ function submitReportTimesheet() {
     }
     report.show();
 
+    var downloadUrl = "/TimeSheetPdf/GeneratePdf?companyName=" + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
+
+    // Memperbarui atribut href tautan unduhan dengan URL yang baru
+    $("#btn-report").attr("href", downloadUrl);
+
+    // Menampilkan tombol unduh
+    $("#btn-report").show();
+
+
+
     if ($.fn.DataTable.isDataTable('#reportTimesheetTable')) {
         $('#reportTimesheetTable').DataTable().destroy();
     }
