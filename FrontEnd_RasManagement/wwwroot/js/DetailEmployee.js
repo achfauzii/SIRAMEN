@@ -6,8 +6,6 @@ $(document).ready(function () {
         $('.add-new-placement').hide();
         $('.editemp-placement').hide();
     }
-
-    
     
     document.getElementById("backButton").addEventListener("click", function () {
         history.back();
@@ -119,6 +117,7 @@ function placement() {
             alert(errormessage.responseText);
         },
     });
+    // getCompany();
 }
 
 
