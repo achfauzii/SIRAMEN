@@ -1,6 +1,9 @@
 ﻿var table = null;
 var initialHoliday = {};
 $(document).ready(function () {
+    $('input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
 
     table = $("#tbDataHoliday").DataTable({
         responsive: true,
@@ -118,7 +121,7 @@ function Save() {
     //debugger;
     var isValid = true;
 
-    $("input[required],textarea[required]").each(function () {
+    $("input[required]").each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next(".error-message").show();
@@ -137,7 +140,7 @@ function Save() {
     Holiday.date = $("#HolidayDate").val(); 
     Holiday.description = $("#Description").val(); 
 
-    console.log(Holiday);
+    //console.log(Holiday);
     
     $.ajax({
         type: "POST",
@@ -155,7 +158,7 @@ function Save() {
                 title: "Success...",
                 text: "Data has been added!",
                 showConfirmButtom: false,
-                timer: 1500,
+                timer: 2500,
             });
             $("#Modal").modal("hide");
             table.ajax.reload();
@@ -227,7 +230,7 @@ function Update() {
     //debugger;
     var isValid = true;
 
-    $("input[required],textarea[required]").each(function () {
+    $("input[required]").each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next(".error-message").show();
@@ -260,6 +263,7 @@ function Update() {
             timer: 2000,
         });
         $("#Modal").modal("hide");
+        table.ajax.reload();
         return;
     }
     $.ajax({
