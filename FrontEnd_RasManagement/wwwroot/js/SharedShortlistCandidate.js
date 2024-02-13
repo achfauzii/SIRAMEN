@@ -34,13 +34,11 @@ var pastelColors = [
 ];
 
 $(document).ready(function () {
-  // SharedShortListRAS("all");
   SharedShortListCandidate("all");
   fetchCategories();
-  // loadData(accountId);
 });
 
-function SharedShortListCandidate(selectedCategory) {
+function SharedShortListCandidate(position) {
   //$('#all').addClass('active');
   if ($.fn.DataTable.isDataTable("#resource")) {
     $("#resource").DataTable().destroy();
@@ -73,11 +71,12 @@ function SharedShortListCandidate(selectedCategory) {
         d.order = d.order[0];
         // Menambahkan parameter 'category' ke data yang dikirim ke server
         // Menambahkan parameter 'category' ke data yang dikirim ke server
-        if (selectedCategory != "all") {
-          d.search.category = selectedCategory;
+        if (position != "all") {
+          d.search.category = position;
         } else {
           d.search.category = "";
         }
+
         return JSON.stringify(d);
       },
     },
@@ -279,19 +278,18 @@ function SharedShortListCandidate(selectedCategory) {
                 " bulan " +
                 daysInMonth +
                 " hari</span>";
-              } else if (daysInMonth > 0){  
+            } else if (daysInMonth > 0) {
               // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
-                result =
-                  '<span class="badge badge-danger" style="font-size: 13px;">' +
-                  daysInMonth +
-                  " hari</span>";
+              result =
+                '<span class="badge badge-danger" style="font-size: 13px;">' +
+                daysInMonth +
+                " hari</span>";
             } else {
-              if (daysInMonth <= 0){
-                result = "ASAP"
+              if (daysInMonth <= 0) {
+                result = "ASAP";
               }
             }
             return result;
-            
           } else if (row.workStatus === "true" || data === "True") {
             return data;
           } else if (data === "false" || data === "False") {
@@ -399,8 +397,7 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-  let maxVisibleCategories = 7;
-
+  let maxVisibleCategories = 4;
   categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
   // Mendeteksi lebar layar saat halaman dimuat
@@ -408,19 +405,20 @@ function createNavigation(categories) {
 
   // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
   if (screenWidth <= 1024) {
-    maxVisibleCategories = 5; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+    maxVisibleCategories = 5;
   }
   if (screenWidth < 850) {
-    maxVisibleCategories = 4; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+    maxVisibleCategories = 4;
   }
   if (screenWidth < 750) {
-    maxVisibleCategories = 3; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+    maxVisibleCategories = 3;
   }
   if (screenWidth <= 500) {
-    maxVisibleCategories = 2; // Ubah menjadi 7 jika lebar layar <= 1024 pixel
+    maxVisibleCategories = 1;
   }
   const navList = document.createElement("ul");
   navList.className = "nav nav-tabs";
+  navList.setAttribute("id", "nav-menu");
 
   // Loop untuk menambahkan item navigasi sampai index 6 (item ke-7)
   for (let i = 0; i < Math.min(categories.length, maxVisibleCategories); i++) {
@@ -446,7 +444,7 @@ function createNavigation(categories) {
     link.addEventListener("click", function (e) {
       e.preventDefault();
       const selectedCategory = this.getAttribute("data-category");
-      // console.log("Selected category:", selectedCategory);
+      console.log("Selected category:", selectedCategory);
 
       navList.querySelectorAll(".nav-link").forEach((link) => {
         link.classList.remove("active");
@@ -476,7 +474,7 @@ function createNavigation(categories) {
       navLinks.forEach((link) => {
         link.classList.remove("active");
       });
-      dropdownToggle.classList.add("active");
+      //   dropdownToggle.classList.add("active");
     });
   }
 
@@ -501,20 +499,67 @@ function createDropdown(categories) {
 
   const dropdownMenu = document.createElement("div");
   dropdownMenu.className = "dropdown-menu";
+  dropdownMenu.setAttribute("id", "dropdown-menu");
   dropdownMenu.setAttribute("aria-labelledby", "navbarDropdown");
 
   categories.forEach((category) => {
     const dropdownItem = document.createElement("a");
     dropdownItem.className = "dropdown-item";
+    dropdownItem.setAttribute("id", "more-" + category);
     dropdownItem.href = "#";
     dropdownItem.textContent = category;
 
     dropdownItem.addEventListener("click", function (e) {
       e.preventDefault();
-      const selectedCategory = this.textContent;
-      // console.log("Selected category:", selectedCategory);
+      this.style.display = "none";
+      const navListMenu = document.getElementById("nav-menu");
 
-      SharedShortListCandidate(selectedCategory);
+      //Additional
+      const listItem = document.createElement("li");
+      listItem.className = "nav-item";
+      listItem.setAttribute("id", "item-" + this.textContent);
+
+      const link = document.createElement("a");
+      link.setAttribute("id", "new-menu");
+      link.className = "nav-link text-sm";
+      link.href = "#";
+      link.setAttribute("data-category", this.textContent.toLowerCase());
+      link.innerHTML = `<i class="fa fa-circle-xmark closeBtn" id="close${this.textContent}" onclick="addDropdown('${this.textContent}')"></i>&nbsp; ${this.textContent}`;
+
+      link.classList.add("active");
+
+      var dropdownLength =
+        document.querySelectorAll("#dropdown-menu > a").length;
+
+      if (dropdownLength == 0) {
+        $("#dropdown-nav-tab").hide();
+      } else {
+        $("#dropdown-nav-tab").show();
+      }
+
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const selectedCategory = this.getAttribute("data-category");
+
+        table.column(3).search(selectedCategory).draw();
+        navListMenu.querySelectorAll(".nav-link").forEach((link) => {
+          link.classList.remove("active");
+        });
+
+        this.classList.add("active");
+      });
+      var childItem = document.querySelectorAll("#nav-menu .nav-item").length;
+      listItem.appendChild(link);
+      navListMenu.insertBefore(listItem, navListMenu.children[childItem - 1]);
+
+      const selectedCategory = this.textContent;
+      if (selectedCategory == "all") {
+        table.search("").draw();
+        SharedShortListCandidate(selectedCategory);
+      } else {
+        table.column(3).search(selectedCategory).draw();
+        SharedShortListCandidate(selectedCategory);
+      }
     });
 
     dropdownMenu.appendChild(dropdownItem);
@@ -524,6 +569,18 @@ function createDropdown(categories) {
   dropdownContainer.appendChild(dropdownMenu);
 
   return dropdownContainer;
+}
+
+function addDropdown(nameOfClient) {
+  document.getElementById("more-" + nameOfClient).style.display = "block";
+  document.getElementById("item-" + nameOfClient).remove();
+  var dropdownLength = document.querySelectorAll("#dropdown-menu > a").length;
+
+  if (dropdownLength == 0) {
+    $("#dropdown-nav-tab").hide();
+  } else {
+    $("#dropdown-nav-tab").show();
+  }
 }
 
 // Fungsi untuk mengubah huruf besar di awal dan setelah spasi

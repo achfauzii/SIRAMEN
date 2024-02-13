@@ -20,6 +20,17 @@ const Toast = Swal.mixin({
 $("#employeeAnnouncement").hide();
 $("#adminAnnouncement").hide();
 
+//Set Focus on Input Search component Select2
+$(document).on("select2:open", (e) => {
+  const selectId = e.target.id;
+
+  $(
+    ".select2-search__field[aria-controls='select2-" + selectId + "-results']"
+  ).each(function (key, value) {
+    value.focus();
+  });
+});
+
 $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip();
   //GetBirthday
