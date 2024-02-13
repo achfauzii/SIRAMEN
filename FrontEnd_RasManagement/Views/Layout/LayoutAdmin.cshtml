@@ -321,7 +321,7 @@
             </li>*@
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
-                Department & Client
+                Department, Client, & Holidays 
             </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/DepartmentEmployee" ? "active" : "")" id="manageDepartmentMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
@@ -337,6 +337,13 @@
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fab fa-fw fa-hive"></i>
                     <span>Manage Client Data</span>
+                </a>
+            </li>
+            <li class="nav-item @(currentUrl == "/Holiday/Index" ? "active" : "")">
+                <a class="nav-link collapsed menu" href="/Holiday/Index" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fa-solid fa-fw fa-mug-hot"></i>
+                    <span>Manage Holidays</span>
                 </a>
             </li>
         </ul>
