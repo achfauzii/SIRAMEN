@@ -68,12 +68,16 @@ namespace RasManagement.Repository
                     {
                         AccountId = group.Key,
                         AccountName = group.First().Account.Fullname,
+                        Pic = group.First().PlacementStatus.PicName,
                         WFHCount = group.Count(ts => ts.Flag == "WFH"),
                         WFOCount = group.Count(ts => ts.Flag == "WFO"),
                         TimeSheets = group.Select(ts => new
                         {
                             TimeSheetId = ts.Id,
-
+                            Activity = ts.Activity,
+                            Category = ts.Category,
+                            Status = ts.Status,
+                            Date = ts.Date
                         }),
 
                     })
