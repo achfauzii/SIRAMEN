@@ -66,6 +66,19 @@
         color: white;
     }
 
+    .form-label {
+        font-weight: normal;
+    }
+    
+    .btn-info {
+        margin: 5px 5px;
+    }
+
+    .btn-secondary {
+        margin: 5px 5px;
+    }
+
+
 </style>
 
 <!-- Google Font: Source Sans Pro -->
@@ -156,22 +169,24 @@
             </div>
             <div class="col-3">
                 <div class="card">
-                    <div class="card-header" style="background-color: #fdf3d8;">
-                       <h6 class="m-0">Filter Data</h6>
+                    <div class="card-header" style="background-color: #17a2b8;">
+                       <h6 class="m-0" style="color: white;">Filter Data</h6>
                     </div>
                     <div class="card-body">
                         <div class="offcanvas-body">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
-                                    <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
+                                    <label for="exampleFormControlInput1" class="form-label">Search</label>
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Type to search...">
+                                    @* <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Search">
-                                        <div class="input-group-text">
+                                        @* <div class="input-group-text">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                                             </svg>
-                                        </div>
-                                    </div>
+                                        </div> *@
+                                    @* </div> *@
                                 </li>
                                 <li class="list-group-item">
                                     <select id="selectflag" class="form-select bg-light border">
@@ -183,7 +198,7 @@
                                     </select>
                                 </li>
                                 <li class="list-group-item">   
-                                    <select class="form-select bg-light" id="selectCategory">
+                                    <select class="form-select bg-light border" id="selectCategory">
                                         <option value="">Filter by category</option>
                                         <option value="Meeting/Discussion">Meeting/Discussion</option>
                                         <option value="Coding">Coding</option>
@@ -199,7 +214,7 @@
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                    <select class="form-select bg-light" id="selectStatus">
+                                    <select class="form-select bg-light border" id="selectStatus">
                                         <option value="">Filter by status</option>
                                         <option value="In Progress">In Progress</option>
                                         <option value="Pending">Pending</option>
@@ -208,17 +223,15 @@
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                    <select class="form-select bg-light">
-                                    <option value="">Filter by client</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <select class="form-select bg-light border" id="selectPlacement">
+                                    <option selected disabled>Filter by client</option>
                                     </select>
                                 </li>
                                 <li class="list-group-item">
-                                     @* <div class="d-grid gap-1"> *@
-                                    <button class="btn btn-sm btn-outline-danger" type="button" id="submitFilter">Submit</button>
-                                     @* </div> *@
+                                    <div class="row">
+                                        <button class="btn btn-sm btn-info col" type="button" id="submitFilter">Submit</button>
+                                        <button class="btn btn-sm btn-secondary col" type="button" id="resetFilter">Clear</button>
+                                    </div>    
                                 </li>
                             </ul>
                         </div>
