@@ -233,6 +233,15 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.NameOfClient)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.SalesName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SalesContact)
+            .HasMaxLength(50)
+            .IsUnicode(false);
+            entity.Property(e => e.ClientContact)
+          .HasMaxLength(50)
+          .IsUnicode(false);
         });
 
         modelBuilder.Entity<DataUniversita>(entity =>

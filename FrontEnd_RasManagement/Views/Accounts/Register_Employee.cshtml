@@ -57,7 +57,7 @@
                     <label class="text-dark" for="exampleInputEmail1">Position</label>
                     @* <input type="text" class="form-control " id="position" name="position" required>*@
                     @*<div class="form-check">*@
-                    <select id="positionAcc" class="positionAcc form-control" name="state" required>
+                    <select id="positionAcc" class="form-control positionAcc" name="state" required>
                          <option selected disabled>Select position</option>
                         <option value="Back End Developer">Back End Developer</option>
                         <option value="Business Analyst">Business Analyst</option>
@@ -169,7 +169,12 @@
         $('select[required]').each(function () {
             $(this).prev('label').append('<span style="color: red;">*</span>');
         });
+        
     })
+
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
 
     document.getElementById('prohire').addEventListener('click', function () {
         $('#duration').val('');
@@ -278,11 +283,10 @@
     //financial = financial.tostring();
 
     //function position
-    $(".positionAcc").select2({
+    $("#positionAcc").select2({
         placeholder: "Select position",
         tags: true,
     });
-
 
     document.getElementById('createAccountForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Mencegah pengiriman formulir secara default
