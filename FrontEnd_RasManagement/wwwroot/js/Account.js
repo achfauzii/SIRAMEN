@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
-  $("#reportbutton").on("click", function(){
-  $("#to-show").toggleClass("d-none");
+  
+    $("#reportbutton").on("click", function () {
+
+        $("#to-show").toggleClass("d-none");
+        $("#help-text").toggleClass("d-none");
   })
 
   $("#loginForm").on("submit", async function (event) {
