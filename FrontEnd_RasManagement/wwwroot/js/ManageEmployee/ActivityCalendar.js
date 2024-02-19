@@ -6,16 +6,9 @@ var searchInputValue = "";
 var selectPlacementClient = null;
 
 $(function () {
-  $('input[type="radio"][name="filter-flag"]').change(function(){
-    // Remove 'active' class from all labels
-    $('.btnflag').removeClass('active');
-    
-    // Add 'active' class to the label associated with the checked radio button
-    $('input[type="radio"]:checked + .btnflag').addClass('active');
-  });
   createCalendar();
   getPlacement();
-  
+
   // document.getElementById("selectflag").addEventListener("change", function () {
   //   flag = this.value;
   // });
@@ -37,32 +30,44 @@ $(function () {
   //     selectPlacementClient = this.value;
   //   });
 
-    document.getElementById('submitFilter').addEventListener('click', function () {
-      console.log("Search Input Value: ", $("#exampleFormControlInput1").val());
-      console.log("Selected Flag: ", $("#selectflag").val());
-      console.log("Selected Category: ", $("#selectCategory").val());
-      console.log("Selected Status: ", $("#selectStatus").val());
-      console.log("Selected Client: ", $("#selectPlacement").val());
-
-      searchInputValue = $("#exampleFormControlInput1").val();
-      flag = $("#selectflag").val();
-      categories =  $("#selectCategory").val();
-      selectStatus = $("#selectStatus").val();
+  document
+    .getElementById("submitFilter")
+    .addEventListener("click", function () {
+      searchInputValue = $("#searchActivity").val();
+      flag =
+        $("input[type='radio'][name='filter-flag']:checked").length > 0
+          ? $("input[type='radio'][name='filter-flag']:checked").val()
+          : "";
+      categories =
+        $("input[type='radio'][name='filter-category']:checked").length > 0
+          ? $("input[type='radio'][name='filter-category']:checked").val()
+          : "";
+      selectStatus =
+        $("input[type='radio'][name='filter-status']:checked").length > 0
+          ? $("input[type='radio'][name='filter-status']:checked").val()
+          : "";
       selectPlacementClient = $("#selectPlacement").val();
+
+      console.log(flag);
+      console.log(categories);
+      console.log(selectStatus);
       createCalendar();
     });
 
-    document.getElementById("resetFilter").addEventListener("click", function () {
+  document.getElementById("btnSearch").addEventListener("click", function () {
+    searchInputValue = $("#searchActivity").val();
+
+    createCalendar();
+  });
+
+  document.getElementById("resetFilter").addEventListener("click", function () {
     resetFilter();
-    });
-
-
+  });
 });
-
 
 function createCalendar() {
   var calendarEl = document.getElementById("calendar");
-  
+
   var calendar = new FullCalendar.Calendar(calendarEl, {
     headerToolbar: {
       left: "prev,next today",
@@ -92,375 +97,21 @@ function createCalendar() {
 
       var urlApi = "";
       // Apply mixed filter by flag, category, and status, search
-      if (flag != "" && categories != "" && selectStatus != "" && searchInputValue != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&categories=" +
-          categories +
-          "&status=" +
-          selectStatus +
-          "&search=" +
-          searchInputValue;
-      }
-      else if (flag != "" && categories != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&categories=" +
-          categories +
-          "&status=" +
-          selectStatus +
-          "&search=" +
-          searchInputValue + "&placement=" + selectPlacementClient;
-      }
-      else if (flag != "" && categories != "" && selectStatus != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&categories=" +
-          categories +
-          "&status=" +
-          selectStatus + "&placement=" + selectPlacementClient;
-      }
-      else if (flag != "" && categories != "" && selectStatus != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&categories=" +
-          categories +
-          "&status=" +
-          selectStatus;
-      }
-      else if (flag != "" && categories != "" && searchInputValue != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&categories=" +
-          categories + "&search=" + searchInputValue + "&placement=" + selectPlacementClient;
-      }
-      // Apply mixed filter by flag and category, search
-      else if (flag != "" && categories != "" && searchInputValue != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&categories=" +
-          categories + "&search=" + searchInputValue;
-      }
-      else if (flag != "" && categories != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&categories=" +
-          categories + "&placement=" + selectPlacementClient;
-      }
-      // Apply mixed filter by flag and category
-      else if (flag != "" && categories != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&categories=" +
-          categories;
-      }
-      else if (flag != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&status=" + 
-          selectStatus + "&search=" + searchInputValue + "&placement=" + selectPlacementClient;    
-      } 
-      // Apply mixed filter by flag and status, search
-      else if (flag != "" && selectStatus != "" && searchInputValue != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&status=" + 
-          selectStatus + "&search=" + searchInputValue;    
-      } 
-      // Apply mixed filter by flag and status, placement
-      else if (flag != "" && selectStatus != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&status=" +
-          selectStatus + "&placement=" + selectPlacementClient;
-      }   
-      // Apply mixed filter by flag and status
-      else if (flag != "" && selectStatus != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&status=" +
-          selectStatus;
-      } 
-       // Apply mixed filter by category andselectStatus, search
-       else if (categories != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories +
-          "&status=" +
-          selectStatus + "&search=" + searchInputValue + "&placement=" + selectPlacementClient;
-      }
-      // Apply mixed filter by category andselectStatus, search
-      else if (categories != "" && selectStatus != "" && searchInputValue != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories +
-          "&status=" +
-          selectStatus + "&search=" + searchInputValue;
-      }
-      else if (categories != "" && selectStatus != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories +
-          "&status=" +
-          selectStatus + "&placement=" + selectPlacementClient;
-      }
-      // Apply mixed filter by category and selectStatus
-      else if (categories != "" && selectStatus != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories +
-          "&status=" +
-          selectStatus;
-      } else if (flag != "" && searchInputValue != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&search=" +
-          searchInputValue + "&placement=" + selectPlacementClient;
-      } else if (flag != "" && selectPlacementClient != null ) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&placement=" +
-          selectPlacementClient;
-      } else if (flag != "" && searchInputValue != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag +
-          "&search=" +
-          searchInputValue;
-      } else if (flag != "") {
-        console.log("Flag Only")
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&flag=" +
-          flag;
-      } else if (categories != "" && searchInputValue != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories +
-          "&search=" +
-          searchInputValue + "&placement=" + selectPlacementClient;
-      } else if (categories != "" && searchInputValue != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories +
-          "&search=" +
-          searchInputValue;
-      } else if (categories != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories + "&placement=" + selectPlacementClient;
-      } else if (categories != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&categories=" +
-          categories;
-      } else if (selectStatus != "" && searchInputValue != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&status=" +
-          selectStatus +
-          "&search=" +
-          searchInputValue + "&placement=" + selectPlacementClient;
-      } else if (selectStatus != "" && searchInputValue != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&status=" +
-          selectStatus +
-          "&search=" +
-          searchInputValue;
-      } else if (selectStatus != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&status=" +
-          selectStatus + "&placement=" + selectPlacementClient;
-      } else if (selectStatus != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&status=" +
-          selectStatus;
-      } else if (searchInputValue != "" && selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&search=" +
-          searchInputValue + "&placement=" + selectPlacementClient;
-      } else if (searchInputValue != "") {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&search=" +
-          searchInputValue;
-      } else if (selectPlacementClient != null) {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end +
-          "&placement=" +
-          selectPlacementClient;
-      } else {
-        urlApi =
-          "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
-          "?start=" +
-          start +
-          "&end=" +
-          end;
-      }
+
+      urlApi =
+        "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
+        "?start=" +
+        start +
+        "&end=" +
+        end +
+        "&flag=" +
+        flag +
+        "&categories=" +
+        categories +
+        "&status=" +
+        selectStatus +
+        "&search=" +
+        searchInputValue;
 
       $.ajax({
         url: urlApi,
@@ -482,7 +133,6 @@ function createCalendar() {
           arg.event.title +
           ": " +
           arg.event._def.extendedProps.description.replace(/<br*\/?>/gi, ", ");
-        console.log(arg.event._def.extendedProps.description);
       } else {
         // Handle other views as needed
         title = arg.event.title;
@@ -496,41 +146,50 @@ function createCalendar() {
   calendar.render();
 }
 
-
-
 function getPlacement() {
-    var selectPlacement = document.getElementById("selectPlacement");
+  var selectPlacement = document.getElementById("selectPlacement");
 
-    $.ajax({
-        type: "GET",
-        url: "https://localhost:7177/api/EmployeePlacements",
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-    }).then((result) => {
-        console.log(result)
-        if (result != null) {
-            result.data.forEach((item) => {
-                var option = new Option(item.companyName, item.companyName, true, false);
-                selectPlacement.add(option);
-            });
-        }
-    });
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/EmployeePlacements",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      result.data.forEach((item) => {
+        var option = new Option(
+          item.companyName,
+          item.companyName,
+          true,
+          false
+        );
+        selectPlacement.add(option);
+      });
+    }
+  });
 
-    $("#selectPlacement").select2({
-        placeholder: "Filter by client",
-        width: "100%",
-        height: "100%",
-        allowClear: true,
-        tags: true,
-    });
+  $("#selectPlacement").select2({
+    placeholder: "Filter by client",
+    dropdownParent: $("#offcanvasRight"),
+    width: "100%",
+    height: "100%",
+    allowClear: true,
+    tags: true,
+  });
 }
 
 function resetFilter() {
   $("#selectflag").append(`<option selected disabled>Filter by flag</option>`);
-  $("#selectCategory").append(`<option selected disabled>Filter by category</option>`);
-  $("#selectStatus").append(`<option selected disabled>Filter by status</option>`);
-  $("#selectPlacement").append(`<option selected disabled>Filter by client</option>`);
+  $("#selectCategory").append(
+    `<option selected disabled>Filter by category</option>`
+  );
+  $("#selectStatus").append(
+    `<option selected disabled>Filter by status</option>`
+  );
+  $("#selectPlacement").append(
+    `<option selected disabled>Filter by client</option>`
+  );
   $("#exampleFormControlInput1").val("");
 }

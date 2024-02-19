@@ -124,7 +124,7 @@
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
         @* margin-right: 20px; *@
-        margin-left: 20px;
+        @* margin-left: 20px; *@
     }
 
 </style>
@@ -145,95 +145,102 @@
 <section class="content">
     <div class="container-fluid">
         @* <h5 style="font-family: comfortaa; color: black; padding: 5px 6px" class="font-weight-bold">Activity Calendar</h5> *@
-        <div class="rowFilter">
-            <button style="background-color:#624DE3; font-size: 12px;" type="button" class="btn text-light mb-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <div class="row mb-2">
+            <div class="col-2">
+            <button style="background-color:#624DE3; " type="button" class="btn text-light " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                 <i id="filterIcon" class="fas fa-filter" style="color: #ffffff;"></i> Filter 
             </button>
+            </div>
+            <div class="col-10">
+                <div class="d-grid mx-auto mb-2">
+                            <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchActivity" placeholder="Search">
+                                    <button class="btn btn-outline-secondary" id="btnSearch" type="button"><i class="fa fa-search"></i>
+                                    </button>
+                            </div>
+                        </div>
+             </div>
 
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasRightLabel">Data Filters</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvass-body">
-                <div class="row-search mb-3 p-2">
-                    @* <label for="exampleFormControlInput1" class="form-label">Search</label> *@
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Type to search...">
-                </div>
-                
-                <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="offcanvass-body">                
+                @* <div class="accordion" id="accordionPanelsStayOpenExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne"> *@
                             Filter by flag
-                        </button>
+                        @* </button> *@
                         </h2>
-                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                        @* <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"> *@
                         <div class="accordion-body">
                             <input type="radio" class="btn-check" name="filter-flag" id="option1" value="wfo" autocomplete="off">
-                            <label class="btn btn-outline-info" style="border-radius: 30px;" for="option1">WFO</label>
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option1">WFO</label>
                             <input type="radio" class="btn-check" name="filter-flag" id="option2" value="wfh" autocomplete="off">
-                            <label class="btn btn-outline-info" style="border-radius: 30px;" for="option2">WFH</label>
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option2">WFH</label>
                             <input type="radio" class="btn-check" name="filter-flag" id="option3" value="sick" autocomplete="off">
-                            <label class="btn btn-outline-info" style="border-radius: 30px;" for="option3">Sick</label>
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option3">Sick</label>
                             <input type="radio" class="btn-check" name="filter-flag" id="option4" value="leave" autocomplete="off">
-                            <label class="btn btn-outline-info" style="border-radius: 30px;" for="option4">Leave</label>
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option4">Leave</label>
                         </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
+                        @* </div> *@
+                    @* </div> *@
+                    @* <div class="accordion-item">
                         <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo"> *@
                             Filter by category
-                        </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                        @* </button> *@
+                        @* </h2> *@
+                        @* <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"> *@
                         <div class="accordion-body">
-                            <input type="radio" class="btn-check" name="options-base" id="option5" value="Meeting/Discussion" autocomplete="off">
-                            <label class="btnflag" for="option5">Meeting/Discussion</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option6" value="Coding" autocomplete="off">
-                            <label class="btnflag" for="option6">Coding</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option7" value="Testing" autocomplete="off">
-                            <label class="btnflag" for="option7">Testing</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option8" value="UAT/SIT" autocomplete="off">
-                            <label class="btnflag" for="option8">UAT/SIT</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option9" value="Ticketing" autocomplete="off">
-                            <label class="btnflag" for="option9">Ticketing</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option10" value="Docummentation" autocomplete="off">
-                            <label class="btnflag" for="option10">Docummentation</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option11" value="Bug/Issue Fix" autocomplete="off">
-                            <label class="btnflag" for="option11">Bug/Issue Fix</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option12" value="Support" autocomplete="off">
-                            <label class="btnflag" for="option12">Support</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option13" value="Review" autocomplete="off">
-                            <label class="btnflag" for="option13">Review</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option14" value="GoLive/Deploy" autocomplete="off">
-                            <label class="btnflag" for="option14">GoLive/Deploy</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option15" value="Others" autocomplete="off">
-                            <label class="btnflag" for="option15">Others</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option5" value="Meeting/Discussion" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option5">Meeting/Discussion</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option6" value="Coding" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option6">Coding</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option7" value="Testing" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option7">Testing</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option8" value="UAT/SIT" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option8">UAT/SIT</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option9" value="Ticketing" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option9">Ticketing</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option10" value="Docummentation" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option10">Docummentation</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option11" value="Bug/Issue Fix" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option11">Bug/Issue Fix</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option12" value="Support" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option12">Support</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option13" value="Review" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option13">Review</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option14" value="GoLive/Deploy" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option14">GoLive/Deploy</label>
+                            <input type="radio" class="btn-check" name="filter-category" id="option15" value="Others" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option15">Others</label>
                         </div>
-                        </div>
-                    </div>
+                        @* </div> *@
+                    @* </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree"> *@
                             Filter by status
-                        </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                        @* </button> *@
+                        @* </h2> *@
+                        @* <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"> *@
                         <div class="accordion-body">
-                            <input type="radio" class="btn-check" name="options-base" id="option16" value="In Approval" autocomplete="off">
-                            <label class="btnflag" for="option16">In Approval</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option17" value="Pending" autocomplete="off">
-                            <label class="btnflag" for="option17">Pending</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option18" value="Done" autocomplete="off">
-                            <label class="btnflag" for="option18">Done</label>
-                            <input type="radio" class="btn-check" name="options-base" id="option19" value="Need Approval" autocomplete="off">
-                            <label class="btnflag" for="option19">Need Approval</label>
+                            <input type="radio" class="btn-check" name="filter-status" id="option16" value="In Approval" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option16">In Approval</label>
+                            <input type="radio" class="btn-check" name="filter-status" id="option17" value="Pending" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option17">Pending</label>
+                            <input type="radio" class="btn-check" name="filter-status" id="option18" value="Done" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option18">Done</label>
+                            <input type="radio" class="btn-check" name="filter-status" id="option19" value="Need Approval" autocomplete="off">
+                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 14px; line-height: 1.5;" for="option19">Need Approval</label>
                         </div>
-                        </div>
-                    </div>
-                </div>
+                        @* </div> *@
+                    @* </div>
+                </div> *@
                 <div class="rows mt-3">
                     <select class="form-select bg-light border" id="selectPlacement">
                         <option selected disabled>Filter by client</option>
@@ -254,8 +261,8 @@
                 <div class="card card-primary">
                     <div class="card-body p-0">
                         <div class="row m-2 align-items-right">
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            @* <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
+                        @* <div class="d-grid gap-2 col-6 mx-auto">
+                            <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Search">
                                 <div class="input-group-text">
@@ -263,8 +270,8 @@
                                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                                     </svg>
                                 </div>
-                            </div> *@
-                        </div>
+                            </div>
+                        </div> *@
 
 
                         <!-- THE CALENDAR -->
