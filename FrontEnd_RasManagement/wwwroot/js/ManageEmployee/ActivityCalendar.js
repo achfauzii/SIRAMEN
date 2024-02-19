@@ -175,21 +175,16 @@ function getPlacement() {
     dropdownParent: $("#offcanvasRight"),
     width: "100%",
     height: "100%",
-    allowClear: true,
+    allowClear: false,
     tags: true,
   });
 }
 
 function resetFilter() {
-  $("#selectflag").append(`<option selected disabled>Filter by flag</option>`);
-  $("#selectCategory").append(
-    `<option selected disabled>Filter by category</option>`
-  );
-  $("#selectStatus").append(
-    `<option selected disabled>Filter by status</option>`
-  );
   $("#selectPlacement").append(
-    `<option selected disabled>Filter by client</option>`
+    `<option selected disabled>Choose client</option>`
   );
   $("#exampleFormControlInput1").val("");
+
+  $("input[type='radio']").prop("checked", false);
 }

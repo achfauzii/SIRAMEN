@@ -29,10 +29,20 @@ namespace RasManagement.Repository
             return false;
         }
 
-        public Placement GetPlacementId(int PlacementStatusId)
+        public Placement GetPlacementByViewModel(PlacementVM placementVM)
         {
-            return _context.Placements.Find(PlacementStatusId);
+            // Assuming you can uniquely identify a placement based on Client_Id, Position_Id, and PlacementStatusId
+            return _context.Placements
+                .Include(p => p.Client)
+                .Include(p => p.Position)
+                .FirstOrDefault(p =>
+                    p.ClientId == placementVM.Client_Id &&
+                    p.PositionId == placementVM.Position_Id &&
+                    p.PlacementStatusId == placementVM.PlacementStatusId
+                );
         }
+
+
 
         public async Task<IEnumerable<Placement>> Get()
         {
@@ -44,15 +54,14 @@ namespace RasManagement.Repository
             var placement = new Placement
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
-                CompanyName = placementVM.CompanyName,
-                JobRole = placementVM.JobRole,
+                ClientId = placementVM.Client_Id,
+                PositionId = placementVM.Position_Id,
                 PicName = placementVM.PicName,
                 StartDate = placementVM.StartDate,
                 EndDate = placementVM.EndDate,
                 Description = placementVM.Description,
                 PlacementStatus = placementVM.PlacementStatus,
                 AccountId = placementVM.AccountId,
-
             };
             _context.Placements.Add(placement);
 
@@ -65,7 +74,7 @@ namespace RasManagement.Repository
             var placement = new Placement
             {
                 PlacementStatusId = turnOverVM.PlacementStatusId,
-                CompanyName = turnOverVM.CompanyName,
+                ClientId = turnOverVM.ClientId,
                 PlacementStatus = turnOverVM.PlacementStatus,
                 Description = turnOverVM.Description,
                 AccountId = turnOverVM.AccountId,
@@ -81,6 +90,8 @@ namespace RasManagement.Repository
 
         {
             var placements = _context.Placements
+                     .Include(c => c.Client)
+                     .Include(p => p.Position)
                      .Where(a => a.AccountId == accountId)
                      .OrderByDescending(a => a.PlacementStatusId)
                      .ToList();
@@ -95,8 +106,8 @@ namespace RasManagement.Repository
             var placement = new Placement
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
-                CompanyName = placementVM.CompanyName,
-                JobRole = placementVM.JobRole,
+                ClientId = placementVM.Client_Id,
+                PositionId = placementVM.Position_Id,
                 PicName = placementVM.PicName,
                 StartDate = placementVM.StartDate,
                 EndDate = placementVM.EndDate,

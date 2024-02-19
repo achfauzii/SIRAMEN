@@ -49,7 +49,7 @@ namespace RasManagement.Repository
             {
                 // Step 1: Get PlacementStatusId from Placement table
                 var placementStatusIds = await context.Placements
-                    .Where(p => p.CompanyName == companyName)
+                    .Where(p => p.Client.NameOfClient == companyName)
                     .Select(p => p.PlacementStatusId)
                     .ToListAsync();
 
@@ -97,12 +97,12 @@ namespace RasManagement.Repository
             // Apply mixed filter by flag, category, and status, search, placement
             if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             // Apply mixed filter by flag, category, status, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             // Apply mixed filter by flag, category, and status, search
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
@@ -117,12 +117,12 @@ namespace RasManagement.Repository
             // Apply mixed filter by flag and category, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             // Apply mixed filter by flag and category, search, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Activity.Contains(search) && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             // Apply mixed filter by flag and category, search
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search))
@@ -137,12 +137,12 @@ namespace RasManagement.Repository
             // Apply mixed filter by flag and status, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             // Apply mixed filter by flag and status, search, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             // Apply mixed filter by flag and status, search
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
@@ -155,17 +155,17 @@ namespace RasManagement.Repository
                 query = query.Where(ts => ts.Flag == flag && ts.Status == status);
             }
             // Apply mixed filter by category and status, placement
-            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status)  && !string.IsNullOrEmpty(placement))
+            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             // Apply mixed filter by category and status, search, placement
-            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status)  && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
+            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             // Apply mixed filter by category and status, search
-            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status)  && !string.IsNullOrEmpty(search))
+            else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
             {
                 query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.Activity.Contains(search));
             }
@@ -177,12 +177,12 @@ namespace RasManagement.Repository
             //Apply mixed filter by flag and placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             //Apply mixed filter by flag and search, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Activity.Contains(search) && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             //Apply mixed filter by flag and search
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(search))
@@ -196,12 +196,12 @@ namespace RasManagement.Repository
             //Apply mixed filter by category and placement
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Category == categories && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Category == categories && ts.PlacementStatus.Client.NameOfClient == placement);
             }
-             //Apply mixed filter by category and search , placement
+            //Apply mixed filter by category and search , placement
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Category == categories && ts.Activity.Contains(search) && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Category == categories && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             //Apply mixed filter by category and search
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search))
@@ -215,26 +215,26 @@ namespace RasManagement.Repository
             //Apply mixed filter by status and placement
             else if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Status == status && ts.PlacementStatus.CompanyName == placement);
-            } 
+                query = query.Where(ts => ts.Status == status && ts.PlacementStatus.Client.NameOfClient == placement);
+            }
             //Apply mixed filter by status, search, placement
             else if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.CompanyName == placement);
-            } 
+                query = query.Where(ts => ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+            }
             //Apply mixed filter by status and search
             else if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
             {
                 query = query.Where(ts => ts.Status == status && ts.Activity.Contains(search));
-            } 
+            }
             else if (!string.IsNullOrEmpty(status))
             {
                 query = query.Where(ts => ts.Status == status);
-            } 
+            }
             //Apply mixed filter by search and placement
             else if (!string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Activity.Contains(search) && ts.PlacementStatus.CompanyName == placement);
+                query = query.Where(ts => ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
             }
             else if (!string.IsNullOrEmpty(search))
             {
@@ -242,13 +242,13 @@ namespace RasManagement.Repository
             }
             else if (!string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.PlacementStatus.CompanyName == placement);
-            } 
+                query = query.Where(ts => ts.PlacementStatus.Client.NameOfClient == placement);
+            }
 
             if (end.Subtract(start).Days > 41)
             {
                 var timeSheets = query
-                    .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag})
+                    .GroupBy(ts => new { Date = ts.Date, Flag = ts.Flag })
                     .AsEnumerable()
                     .Select(group => new
                     {
@@ -259,7 +259,7 @@ namespace RasManagement.Repository
                         title = $"{group.Key.Flag}: {group.Select(ts => ts.AccountId).Distinct().Count()}",
                         AccountIds = string.Join(",", group.Select(ts => ts.AccountId).Distinct()),
                         description = string.Join("<br> ", group.Select(ts => ts.Account.Fullname).Distinct()),
-                        placement = string.Join("", group.Select(ts => ts.PlacementStatus.CompanyName).Distinct()),
+                        placement = string.Join("", group.Select(ts => ts.PlacementStatus.Client.NameOfClient).Distinct()),
                         backgroundColor = GetColorByFlag(group.Key.Flag),
                         borderColor = GetColorByFlag(group.Key.Flag),
                     })
@@ -276,7 +276,7 @@ namespace RasManagement.Repository
                         start = group.Key.Date,
                         title = string.Join(", ", group.Select(ts => ts.Account.Fullname).Distinct()),
                         description = string.Join("<br> ", group.Select(ts => ts.Activity)),
-                        placement = string.Join("", group.Select(ts => ts.PlacementStatus.CompanyName).Distinct()),
+                        placement = string.Join("", group.Select(ts => ts.PlacementStatus.Client.NameOfClient).Distinct()),
                         allDay = true,
                         backgroundColor = GetColorByFlag(group.First().Flag),
                         borderColor = GetColorByFlag(group.First().Flag),
