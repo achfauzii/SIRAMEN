@@ -3,9 +3,16 @@ var flag = "";
 var categories = "";
 var selectStatus = "";
 var searchInputValue = "";
-var selectPlacementClient = "";
+var selectPlacementClient = null;
 
 $(function () {
+  $('input[type="radio"][name="filter-flag"]').change(function(){
+    // Remove 'active' class from all labels
+    $('.btnflag').removeClass('active');
+    
+    // Add 'active' class to the label associated with the checked radio button
+    $('input[type="radio"]:checked + .btnflag').addClass('active');
+  });
   createCalendar();
   getPlacement();
   
@@ -101,7 +108,7 @@ function createCalendar() {
           "&search=" +
           searchInputValue;
       }
-      else if (flag != "" && categories != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != "") {
+      else if (flag != "" && categories != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -117,7 +124,7 @@ function createCalendar() {
           "&search=" +
           searchInputValue + "&placement=" + selectPlacementClient;
       }
-      else if (flag != "" && categories != "" && selectStatus != "" && selectPlacementClient != "") {
+      else if (flag != "" && categories != "" && selectStatus != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -145,7 +152,7 @@ function createCalendar() {
           "&status=" +
           selectStatus;
       }
-      else if (flag != "" && categories != "" && searchInputValue != "" && selectPlacementClient != "") {
+      else if (flag != "" && categories != "" && searchInputValue != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -170,7 +177,7 @@ function createCalendar() {
           "&categories=" +
           categories + "&search=" + searchInputValue;
       }
-      else if (flag != "" && categories != "" && selectPlacementClient != "") {
+      else if (flag != "" && categories != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -195,7 +202,7 @@ function createCalendar() {
           "&categories=" +
           categories;
       }
-      else if (flag != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != "") {
+      else if (flag != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -221,7 +228,7 @@ function createCalendar() {
           selectStatus + "&search=" + searchInputValue;    
       } 
       // Apply mixed filter by flag and status, placement
-      else if (flag != "" && selectStatus != "" && selectPlacementClient != "") {
+      else if (flag != "" && selectStatus != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -247,7 +254,7 @@ function createCalendar() {
           selectStatus;
       } 
        // Apply mixed filter by category andselectStatus, search
-       else if (categories != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != "") {
+       else if (categories != "" && selectStatus != "" && searchInputValue != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -272,7 +279,7 @@ function createCalendar() {
           "&status=" +
           selectStatus + "&search=" + searchInputValue;
       }
-      else if (categories != "" && selectStatus != "" && selectPlacementClient != "") {
+      else if (categories != "" && selectStatus != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -296,7 +303,7 @@ function createCalendar() {
           categories +
           "&status=" +
           selectStatus;
-      } else if (flag != "" && searchInputValue != "" && selectPlacementClient != "") {
+      } else if (flag != "" && searchInputValue != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -307,7 +314,7 @@ function createCalendar() {
           flag +
           "&search=" +
           searchInputValue + "&placement=" + selectPlacementClient;
-      } else if (flag != "" && selectPlacementClient != "") {
+      } else if (flag != "" && selectPlacementClient != null ) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -330,6 +337,7 @@ function createCalendar() {
           "&search=" +
           searchInputValue;
       } else if (flag != "") {
+        console.log("Flag Only")
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -338,7 +346,7 @@ function createCalendar() {
           end +
           "&flag=" +
           flag;
-      } else if (categories != "" && searchInputValue != "" && selectPlacementClient != "") {
+      } else if (categories != "" && searchInputValue != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -360,7 +368,7 @@ function createCalendar() {
           categories +
           "&search=" +
           searchInputValue;
-      } else if (categories != "" && selectPlacementClient != "") {
+      } else if (categories != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -378,7 +386,7 @@ function createCalendar() {
           end +
           "&categories=" +
           categories;
-      } else if (selectStatus != "" && searchInputValue != "" && selectPlacementClient != "") {
+      } else if (selectStatus != "" && searchInputValue != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -400,7 +408,7 @@ function createCalendar() {
           selectStatus +
           "&search=" +
           searchInputValue;
-      } else if (selectStatus != "" && selectPlacementClient != "") {
+      } else if (selectStatus != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -418,7 +426,7 @@ function createCalendar() {
           end +
           "&status=" +
           selectStatus;
-      } else if (searchInputValue != "" && selectPlacementClient != "") {
+      } else if (searchInputValue != "" && selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
@@ -436,7 +444,7 @@ function createCalendar() {
           end +
           "&search=" +
           searchInputValue;
-      } else if (selectPlacementClient != "") {
+      } else if (selectPlacementClient != null) {
         urlApi =
           "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
           "?start=" +
