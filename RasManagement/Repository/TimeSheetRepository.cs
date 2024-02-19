@@ -243,7 +243,7 @@ namespace RasManagement.Repository
             else if (!string.IsNullOrEmpty(placement))
             {
                 query = query.Where(ts => ts.PlacementStatus.CompanyName == placement);
-            }
+            } 
 
             if (end.Subtract(start).Days > 41)
             {
