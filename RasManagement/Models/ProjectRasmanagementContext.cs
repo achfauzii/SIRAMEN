@@ -51,6 +51,8 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<TimeSheet> TimeSheets { get; set; }
 
+    public virtual DbSet<MasterHoliday> MasterHolidays { get; set; }
+
     public virtual DbSet<TrackingInterview> TrackingInterviews { get; set; }
 
     public virtual DbSet<TurnOver> TurnOvers { get; set; }
@@ -645,6 +647,24 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.HasOne(d => d.PlacementStatus).WithMany(p => p.TimeSheets)
                 .HasForeignKey(d => d.PlacementStatusId)
                 .HasConstraintName("FK_Time_Sheet_Placement");
+        });
+
+        modelBuilder.Entity<MasterHoliday>(entity =>
+        {
+            entity.HasKey(e => e.Holiday_Id);
+            entity.ToTable("MasterHoliday");
+
+           /* entity.Property(e => e.AccountId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Account_Id");*/
+            entity.Property(e => e.Name).IsUnicode(false);
+            entity.Property(e => e.Date).HasColumnType("date");
+            entity.Property(e => e.Description).IsUnicode(false);
+
+            /*entity.HasOne(d => d.Account).WithMany(p => p.MasterHolidays)
+                .HasForeignKey(d => d.AccountId)
+                .HasConstraintName("FK_MasterHoliday_Account");*/
         });
 
         modelBuilder.Entity<TrackingInterview>(entity =>
