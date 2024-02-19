@@ -72,6 +72,11 @@
         font-size: 0.9rem;
     }
 
+.help{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+}
   #help-text {
   background-color:white;
      
@@ -90,23 +95,39 @@
 
 }
 
-    #help-text :hover {
-       display:none;
-    }
-#help-text span {
+    #help-text span {
 
-    color: #007bff;
-}
+        color: #007bff;
+    }
+
+    #close-help-text {
+        background-color: white;
+        color:grey
+        display: block;
+        text-align: center;
+        padding: 6px 12px;
+        /*border-radius: 50%;*/
+        border-radius: 50%;
+        border:none;
+        transition: ease all 0.3s;
+        position: fixed;
+        right: 210px;
+        bottom: 90px;
+    }
 
     
 </style>
-
-<div class="bottom-right">
-    <div id="help-text" >
+<div class="help" id="containerHelpText">
+    <button id="close-help-text" onclick="closeHelpText();">
+        <i class="fa-solid fa-xmark" style="color: darkgrey;"></i>
+    </button>
+    <div id="help-text">
         <span>Hi,</span>
         <span class="ms-1">Need any help?</span>
-    
     </div>
+</div>
+<div class="bottom-right">
+   
    
     <button class="act-btn border-0" data-tooltip="tooltip" data-placement="left" title="Report Feedback">
         <i class="fa-regular fa-flag" id="icon-button" style="font-size: 0.55em; display: flex; justify-content: center; align-items: center;"></i>

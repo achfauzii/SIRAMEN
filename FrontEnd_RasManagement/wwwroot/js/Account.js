@@ -286,3 +286,8 @@ function getUserNameEmail() {
 
   return null;
 }
+
+
+function closeHelpText() {
+    $("#containerHelpText").hide();
+}
