@@ -4,6 +4,43 @@ $(document).ready(function () {
     $('input[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
+    debugger;
+    var today = new Date();
+    var dayOfWeek = today.getDay();
+
+    // Cek jika hari ini adalah Sabtu (6) atau Minggu (0)
+    if (dayOfWeek === 6 || dayOfWeek === 0) {
+
+        var month = ("0" + (today.getMonth() + 1)).slice(-2); // Tambahkan "0" di depan jika bulan < 10
+        var day = ("0" + today.getDate()).slice(-2); // Tambahkan "0" di depan jika hari < 10
+        var formattedDate = today.getFullYear() + "-" + month + "-" + day;
+
+        var weekendData = {
+            name: "Weekend",
+            date: formattedDate,
+            description: "Weekend Activity",
+        };
+
+        console.log(weekendData);
+
+        // Menambahkan data ke tabel tbDataHoliday
+        $.ajax({
+            url: "https://localhost:7177/api/MasterHoliday",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(weekendData),
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (response) {
+                // Reload tabel setelah menambahkan data
+                table.ajax.reload();
+            },
+            error: function (err) {
+                console.error("Error adding weekend data:", err);
+            },
+        });
+    }
 
     table = $("#tbDataHoliday").DataTable({
         responsive: true,
