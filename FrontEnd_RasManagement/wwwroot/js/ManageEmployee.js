@@ -1,4 +1,4 @@
-﻿// Simpan warna berdasarkan kata yang sama di objek
+// Simpan warna berdasarkan kata yang sama di objek
 var colorsByWord = {};
 var colorByPosition = {};
 var compareLevel = {};

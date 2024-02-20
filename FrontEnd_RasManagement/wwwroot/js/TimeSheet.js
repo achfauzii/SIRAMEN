@@ -1,4 +1,4 @@
-﻿//var table = null;
+//var table = null;
 var month;
 var accountId;
 var table;
