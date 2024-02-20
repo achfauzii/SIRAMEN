@@ -152,6 +152,7 @@ function submitMonth(month) {
                 });
               
                 var placementId = result.data[0].placementStatusId;
+                
             
                 fetch(
                     "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
@@ -163,6 +164,7 @@ function submitMonth(month) {
                 )
                     .then((r) => r.json())
                     .then((res) => {
+                      
                         var res1;
                         $(".companyName").text(res.data.companyName);
                         $("#picName").text(res.data.picName);
