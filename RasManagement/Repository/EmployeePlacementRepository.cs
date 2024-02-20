@@ -29,17 +29,10 @@ namespace RasManagement.Repository
             return false;
         }
 
-        public Placement GetPlacementByViewModel(PlacementVM placementVM)
+        public Placement GetPlacementByViewModel(int PlacementStatusId)
         {
             // Assuming you can uniquely identify a placement based on Client_Id, Position_Id, and PlacementStatusId
-            return _context.Placements
-                .Include(p => p.Client)
-                .Include(p => p.Position)
-                .FirstOrDefault(p =>
-                    p.ClientId == placementVM.Client_Id &&
-                    p.PositionId == placementVM.Position_Id &&
-                    p.PlacementStatusId == placementVM.PlacementStatusId
-                );
+            return _context.Placements.Find(PlacementStatusId);
         }
 
 
