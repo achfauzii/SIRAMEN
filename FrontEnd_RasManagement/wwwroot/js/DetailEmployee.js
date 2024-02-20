@@ -205,9 +205,12 @@ function GetById(accountId, placementStatusId) {
       .split("T")[0];
 
     $("#placementStatusId").val(placementStatusId);
-    $("#companyName_").val(obj.companyName);
+    $("#companyName_").val(obj.clientId).trigger("change");
     $("#picName").val(obj.picName);
-    $("#jobRole").val(obj.jobRole);
+
+    position = obj.positionId;
+    getPosition(obj.clientId);
+    // $("#jobRole").val(obj.jobRole);
     $("#startDate").val(formatDate(startDate));
     $("#endDate").val(endDate);
     $("#description").val(obj.description);
@@ -221,10 +224,10 @@ function GetById(accountId, placementStatusId) {
     compare = {
       PicName: obj.picName,
       PlacementStatus: obj.placementStatus,
-      CompanyName: obj.companyName,
+      ClientId: obj.clientId,
       Description: obj.description,
       EndDate: endDate,
-      JobRole: obj.jobRole,
+      PositionId: obj.positionId,
     };
   });
 }
@@ -282,8 +285,8 @@ function getPosition(idClient) {
         Choose Position
       </option>`);
 
-        var data = result.data.filter((element) => element.status == "Open");
-        data.forEach((item) => {
+        // var data = result.data.filter((element) => element.status == "Open");
+        result.data.forEach((item) => {
           var option = new Option(item.positionClient, item.id, true, false);
           selectPosition.add(option);
         });
