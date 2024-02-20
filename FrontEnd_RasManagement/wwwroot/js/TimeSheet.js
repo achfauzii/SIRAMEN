@@ -108,6 +108,44 @@ function submitMonth(month) {
                         cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
                     });
             },
+            createdRow: function (row, data, dataIndex) {
+                if (data.flag === 'Holiday') {
+                    $(row).css('background-color', '#E4DEBE');
+                    $(row).find('.fa-edit').hide();
+                }
+            }
+        });
+
+        //GET data from tbDataHoliday
+        $.ajax({
+            url: "https://localhost:7177/api/MasterHoliday",
+            type: "GET",
+            contentType: "application/json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                // Assuming result.data contains the array of holiday objects
+                var holidays = result.data;
+
+                // Loop through each holiday object
+                holidays.forEach(function (holiday) {
+                    // Append the holiday data to the timeSheetTable
+                    var rowData = {
+                        date: holiday.date,
+                        activity: holiday.name,
+                        flag: 'Holiday', // Set flag as 'Holiday' for holidays
+                        category: '', // You can set an appropriate category
+                        status: '', // You can set an appropriate status
+                        knownBy: '', // You can set an appropriate value for knownBy
+                    };
+                    // Add the holiday data to the timeSheetTable
+                    table.row.add(rowData).draw();
+                });
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            },
         });
 
         var tableBody = document
