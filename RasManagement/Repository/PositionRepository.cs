@@ -1,4 +1,6 @@
-﻿namespace RasManagement.Repository
+﻿using RasManagement.ViewModel;
+
+namespace RasManagement.Repository
 {
     public class PositionRepository : GeneralRepository<ProjectRasmanagementContext, Position, int>
     {
@@ -9,10 +11,22 @@
             this.context = context;
         }
 
-        public async Task<List<Position>> GetPositionByClientId(int clientId)
+        public async Task<List<PositionByClient>> GetPositionByClientId(int clientId)
         {
             var positionClient = await context.Positions
+                .Include(c => c.Client)
                 .Where(e => e.ClientId == clientId)
+                .Select(d => new PositionByClient
+                {
+                    Id = d.Id,
+                    PositionClient = d.PositionClient,
+                    Level = d.Level,
+                    Quantity = d.Quantity,
+                    Status = d.Status,
+                    Notes = d.Notes,
+                    ClientId = d.ClientId,
+                    ClientName = d.Client.NameOfClient
+                })
                 .ToListAsync();
 
             return positionClient;

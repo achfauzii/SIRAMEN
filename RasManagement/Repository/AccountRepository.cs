@@ -25,7 +25,7 @@ namespace RasManagement.Repository
                         .OrderByDescending(account => account.AccountId)
                         .FirstOrDefault();
 
-            if (countAccount == null || countAccount == 0 || lastAccount==null)
+            if (countAccount == null || countAccount == 0 || lastAccount == null)
             {
                 newNIK = "RAS" + currentDate + "01";
             }
@@ -296,7 +296,7 @@ namespace RasManagement.Repository
             {
                 PlacementStatusId = turnOverVM.PlacementStatusId,
                 PlacementStatus = turnOverVM.PlacementStatus,
-                CompanyName = turnOverVM.CompanyName,
+                ClientId = turnOverVM.ClientId,
                 Description = turnOverVM.Description,
                 AccountId = turnOverVM.AccountId,
 
