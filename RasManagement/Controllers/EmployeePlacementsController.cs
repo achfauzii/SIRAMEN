@@ -105,23 +105,17 @@ namespace RasManagement.Controllers
             }
         }
 
-        [HttpGet("Placement")]
-        public IActionResult GetById([FromQuery] PlacementVM placementVM)
+        [HttpGet("PlacementID")]
+        public IActionResult GetById(int placementStatusId)
         {
-            if (placementVM == null)
-            {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Invalid request parameters" });
-            }
-
-            var get = employeePlacementRepository.GetPlacementByViewModel(placementVM);
-
+            var get = employeePlacementRepository.GetPlacementId(placementStatusId);
             if (get != null)
             {
-                return Ok(new { status = HttpStatusCode.OK, message = "Data found", Data = get });
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
             }
             else
             {
-                return NotFound(new { status = HttpStatusCode.NotFound, message = "Data not found" });
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
             }
         }
 

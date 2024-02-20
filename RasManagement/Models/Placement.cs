@@ -26,9 +26,9 @@ public partial class Placement
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
 
-    // [JsonIgnore]
+    [JsonIgnore]
     public virtual ClientName? Client { get; set; }
-    // [JsonIgnore]
+    [JsonIgnore]
     public virtual Position? Position { get; set; }
     public virtual ICollection<TimeSheet> TimeSheets { get; set; } = new List<TimeSheet>();
 }

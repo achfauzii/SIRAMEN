@@ -29,17 +29,27 @@ namespace RasManagement.Repository
             return false;
         }
 
-        public Placement GetPlacementByViewModel(PlacementVM placementVM)
+        public EmployeePlacementVM GetPlacementId(int placementStatusId)
         {
             // Assuming you can uniquely identify a placement based on Client_Id, Position_Id, and PlacementStatusId
             return _context.Placements
                 .Include(p => p.Client)
                 .Include(p => p.Position)
-                .FirstOrDefault(p =>
-                    p.ClientId == placementVM.Client_Id &&
-                    p.PositionId == placementVM.Position_Id &&
-                    p.PlacementStatusId == placementVM.PlacementStatusId
-                );
+                .Select(p => new EmployeePlacementVM
+                {
+                    PlacementStatusId = p.PlacementStatusId,
+                    ClientId = p.ClientId,
+                    PositionId = p.PositionId,
+                    PicName = p.PicName,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    Description = p.Description,
+                    PlacementStatus = p.PlacementStatus,
+                    AccountId = p.AccountId,
+                    Client = p.Client,
+                    Position = p.Position,
+                })
+                .FirstOrDefault(p => p.PlacementStatusId == placementStatusId);
         }
 
 
@@ -54,8 +64,8 @@ namespace RasManagement.Repository
             var placement = new Placement
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
-                ClientId = placementVM.Client_Id,
-                PositionId = placementVM.Position_Id,
+                ClientId = placementVM.ClientId,
+                PositionId = placementVM.PositionId,
                 PicName = placementVM.PicName,
                 StartDate = placementVM.StartDate,
                 EndDate = placementVM.EndDate,
@@ -86,7 +96,7 @@ namespace RasManagement.Repository
             return insert;
         }
 
-        public List<Placement> GetAccount(string accountId)
+        public List<EmployeePlacementVM> GetAccount(string accountId)
 
         {
             var placements = _context.Placements
@@ -94,6 +104,20 @@ namespace RasManagement.Repository
                      .Include(p => p.Position)
                      .Where(a => a.AccountId == accountId)
                      .OrderByDescending(a => a.PlacementStatusId)
+                     .Select(p => new EmployeePlacementVM
+                     {
+                         PlacementStatusId = p.PlacementStatusId,
+                         ClientId = p.ClientId,
+                         PositionId = p.PositionId,
+                         PicName = p.PicName,
+                         StartDate = p.StartDate,
+                         EndDate = p.EndDate,
+                         Description = p.Description,
+                         PlacementStatus = p.PlacementStatus,
+                         AccountId = p.AccountId,
+                         Client = p.Client,
+                         Position = p.Position,
+                     })
                      .ToList();
 
             return placements;
@@ -106,8 +130,8 @@ namespace RasManagement.Repository
             var placement = new Placement
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
-                ClientId = placementVM.Client_Id,
-                PositionId = placementVM.Position_Id,
+                ClientId = placementVM.ClientId,
+                PositionId = placementVM.PositionId,
                 PicName = placementVM.PicName,
                 StartDate = placementVM.StartDate,
                 EndDate = placementVM.EndDate,
