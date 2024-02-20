@@ -218,8 +218,15 @@ function getClient() {
     }).then((result) => {
         if (result != null) {
             result.data.forEach((item) => {
-                var option = new Option(item.nameOfClient + " ( " + item.salesName + " )", item.id, true, false);
-                selectClient.add(option);
+                console.log(item.salesName);
+                if (item.salesName == null || item.salesName == "") {
+                    var option = new Option(item.nameOfClient, item.id, true, false);
+                    selectClient.add(option);
+                } else {
+                    var option = new Option(item.nameOfClient + " ( " + item.salesName + " )", item.id, true, false);
+                    selectClient.add(option);
+                }
+          
             });
         }
     });
