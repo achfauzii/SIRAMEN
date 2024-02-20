@@ -92,17 +92,18 @@ namespace RasManagement.Repository
 
         public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, string flag, string search, string categories, string status, string placement)
         {
-            IQueryable<TimeSheet> query = context.TimeSheets.Include(a => a.Account).Include(p => p.PlacementStatus);
+            IQueryable<TimeSheet> query = context.TimeSheets.Include(a => a.Account).Include(p => p.PlacementStatus).ThenInclude(pl => pl.Client);
+            int clientId = !string.IsNullOrEmpty(placement) ? Int32.Parse(placement) : 0;
 
             // Apply mixed filter by flag, category, and status, search, placement
             if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.ClientId == clientId);
             }
             // Apply mixed filter by flag, category, status, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Status == status && ts.PlacementStatus.ClientId == clientId);
             }
             // Apply mixed filter by flag, category, and status, search
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
@@ -117,12 +118,12 @@ namespace RasManagement.Repository
             // Apply mixed filter by flag and category, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.PlacementStatus.ClientId == clientId);
             }
             // Apply mixed filter by flag and category, search, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Category == categories && ts.Activity.Contains(search) && ts.PlacementStatus.ClientId == clientId);
             }
             // Apply mixed filter by flag and category, search
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search))
@@ -137,12 +138,12 @@ namespace RasManagement.Repository
             // Apply mixed filter by flag and status, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.PlacementStatus.ClientId == clientId);
             }
             // Apply mixed filter by flag and status, search, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.ClientId == clientId);
             }
             // Apply mixed filter by flag and status, search
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
@@ -157,12 +158,12 @@ namespace RasManagement.Repository
             // Apply mixed filter by category and status, placement
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.PlacementStatus.ClientId == clientId);
             }
             // Apply mixed filter by category and status, search, placement
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Category == categories && ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.ClientId == clientId);
             }
             // Apply mixed filter by category and status, search
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
@@ -177,12 +178,12 @@ namespace RasManagement.Repository
             //Apply mixed filter by flag and placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.PlacementStatus.ClientId == clientId);
             }
             //Apply mixed filter by flag and search, placement
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Flag == flag && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Flag == flag && ts.Activity.Contains(search) && ts.PlacementStatus.ClientId == clientId);
             }
             //Apply mixed filter by flag and search
             else if (!string.IsNullOrEmpty(flag) && !string.IsNullOrEmpty(search))
@@ -196,12 +197,12 @@ namespace RasManagement.Repository
             //Apply mixed filter by category and placement
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Category == categories && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Category == categories && ts.PlacementStatus.ClientId == clientId);
             }
             //Apply mixed filter by category and search , placement
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Category == categories && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Category == categories && ts.Activity.Contains(search) && ts.PlacementStatus.ClientId == clientId);
             }
             //Apply mixed filter by category and search
             else if (!string.IsNullOrEmpty(categories) && !string.IsNullOrEmpty(search))
@@ -212,15 +213,15 @@ namespace RasManagement.Repository
             {
                 query = query.Where(ts => ts.Category == categories);
             }
-            //Apply mixed filter by status and placement
+            //Apply mixed filter by status and placement~
             else if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Status == status && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Status == status && ts.PlacementStatus.ClientId == clientId);
             }
             //Apply mixed filter by status, search, placement
             else if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Status == status && ts.Activity.Contains(search) && ts.PlacementStatus.ClientId == clientId);
             }
             //Apply mixed filter by status and search
             else if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(search))
@@ -234,7 +235,7 @@ namespace RasManagement.Repository
             //Apply mixed filter by search and placement
             else if (!string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.Activity.Contains(search) && ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.Activity.Contains(search) && ts.PlacementStatus.ClientId == clientId);
             }
             else if (!string.IsNullOrEmpty(search))
             {
@@ -242,7 +243,7 @@ namespace RasManagement.Repository
             }
             else if (!string.IsNullOrEmpty(placement))
             {
-                query = query.Where(ts => ts.PlacementStatus.Client.NameOfClient == placement);
+                query = query.Where(ts => ts.PlacementStatus.ClientId == clientId);
             }
 
             if (end.Subtract(start).Days > 41)

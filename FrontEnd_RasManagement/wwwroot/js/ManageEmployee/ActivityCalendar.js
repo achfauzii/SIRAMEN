@@ -3,7 +3,18 @@ var flag = "";
 var categories = "";
 var selectStatus = "";
 var searchInputValue = "";
-var selectPlacementClient = null;
+var selectPlacementClient = "";
+
+//Set Focus on Input Search component Select2
+$(document).on("select2:open", (e) => {
+  const selectId = e.target.id;
+
+  $(
+    ".select2-search__field[aria-controls='select2-" + selectId + "-results']"
+  ).each(function (key, value) {
+    value.focus();
+  });
+});
 
 $(function () {
   createCalendar();
@@ -46,11 +57,13 @@ $(function () {
         $("input[type='radio'][name='filter-status']:checked").length > 0
           ? $("input[type='radio'][name='filter-status']:checked").val()
           : "";
-      selectPlacementClient = $("#selectPlacement").val();
+      selectPlacementClient =
+        $("#selectPlacement").val() != null ? $("#selectPlacement").val() : "";
 
       console.log(flag);
       console.log(categories);
       console.log(selectStatus);
+      console.log(selectPlacementClient);
       createCalendar();
     });
 
@@ -110,6 +123,8 @@ function createCalendar() {
         categories +
         "&status=" +
         selectStatus +
+        "&placement=" +
+        selectPlacementClient +
         "&search=" +
         searchInputValue;
 
@@ -151,27 +166,23 @@ function getPlacement() {
 
   $.ajax({
     type: "GET",
-    url: "https://localhost:7177/api/EmployeePlacements",
+    url: "https://localhost:7177/api/ClientName",
     contentType: "application/json; charset=utf-8",
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
   }).then((result) => {
     if (result != null) {
+      console.log(result.data);
       result.data.forEach((item) => {
-        var option = new Option(
-          item.companyName,
-          item.companyName,
-          true,
-          false
-        );
+        var option = new Option(item.nameOfClient, item.id, true, false);
         selectPlacement.add(option);
       });
     }
   });
 
   $("#selectPlacement").select2({
-    placeholder: "Filter by client",
+    placeholder: "Choose client",
     dropdownParent: $("#offcanvasRight"),
     width: "100%",
     height: "100%",
@@ -181,10 +192,19 @@ function getPlacement() {
 }
 
 function resetFilter() {
-  $("#selectPlacement").append(
-    `<option selected disabled>Choose client</option>`
+  $("#selectPlacement").select2(
+    "val",
+    $("#selectPlacement option:eq(0)").val()
   );
+
   $("#exampleFormControlInput1").val("");
 
   $("input[type='radio']").prop("checked", false);
+
+  flag = "";
+  categories = "";
+  selectStatus = "";
+  searchInputValue = "";
+  selectPlacementClient = "";
+  createCalendar();
 }
