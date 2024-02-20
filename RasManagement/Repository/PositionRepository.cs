@@ -18,10 +18,10 @@
             return positionClient;
         }
 
-        public async Task<bool> PositionNameIsExist(string name, int? clientId = null)
+        public async Task<bool> PositionNameIsExist(string name, int? clientId = null, string? level = null)
         {
             // Use AnyAsync to check if any department with the given name exists
-            var positionExists = await context.Positions.AnyAsync(a => a.PositionClient.ToLower() == name.ToLower() && a.ClientId == clientId);
+            var positionExists = await context.Positions.AnyAsync(a => a.PositionClient.ToLower() == name.ToLower() && a.ClientId == clientId && a.Level == level);
 
             return positionExists;
         }
