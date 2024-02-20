@@ -98,6 +98,7 @@ $(document).ready(function () {
                 leftColumns: window.innerWidth > 1024 ? 3 : null,
             },
             paging: true,
+            pagingType: 'full_numbers',
             fixedHeader: true,
             scrollX: true,
             scrollY: true,
