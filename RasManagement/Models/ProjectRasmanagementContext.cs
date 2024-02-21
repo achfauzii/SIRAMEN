@@ -502,15 +502,10 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
-            entity.Property(e => e.CompanyName)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Company_name");
+            entity.Property(e => e.ClientId).HasColumnName("Client_Id");
             entity.Property(e => e.Description).IsUnicode(false);
             entity.Property(e => e.EndDate).HasColumnType("date");
-            entity.Property(e => e.JobRole)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.PositionId).HasColumnName("Position_Id");
             entity.Property(e => e.PicName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -525,6 +520,14 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Placement_Account");
+
+            entity.HasOne(d => d.Client).WithMany(p => p.Placements)
+                .HasForeignKey(d => d.ClientId)
+                .HasConstraintName("FK_Placement_Client");
+
+            entity.HasOne(d => d.Position).WithMany(p => p.Placements)
+                .HasForeignKey(d => d.PositionId)
+                .HasConstraintName("FK_Placement_Position");
         });
 
         modelBuilder.Entity<Position>(entity =>

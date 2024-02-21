@@ -11,17 +11,17 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin,Trainer,Manager")]
+    // [Authorize(Roles = "Employee,Admin,Super_Admin,Trainer,Manager")]
     public class EmployeePlacementsController : ControllerBase
     {
         private readonly EmployeePlacementRepository employeePlacementRepository;
 
 
-        public EmployeePlacementsController(EmployeePlacementRepository employeePlacementRepository) 
+        public EmployeePlacementsController(EmployeePlacementRepository employeePlacementRepository)
         {
             this.employeePlacementRepository = employeePlacementRepository;
         }
-  
+
         // GET api/<EmployeePlacementsController>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -51,14 +51,14 @@ namespace RasManagement.Controllers
 
         // POST api/<EmployeePlacementsController>
         [HttpPost]
-        public async Task <ActionResult> AddPlacement(PlacementVM placementVM)
+        public async Task<ActionResult> AddPlacement(PlacementVM placementVM)
         {
 
             var data = await employeePlacementRepository.AddPlacement(placementVM);
 
-            if (data>=1)
+            if (data >= 1)
             {
-               
+
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil di tambahkan", Data = data });
 
             }
@@ -119,8 +119,10 @@ namespace RasManagement.Controllers
             }
         }
 
+
+
         [HttpPut]
-        public async Task <IActionResult> UpdatePlacement(PlacementVM placementVM)
+        public async Task<IActionResult> UpdatePlacement(PlacementVM placementVM)
         {
             var update = await employeePlacementRepository.UpdatePlacement(placementVM);
             if (update >= 1)

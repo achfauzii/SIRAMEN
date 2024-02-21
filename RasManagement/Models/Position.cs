@@ -23,4 +23,6 @@ public partial class Position
     public virtual ClientName? Client { get; set; }
     [JsonIgnore]
     public virtual ICollection<TrackingInterview>? TrackingInterviews { get; set; } = new List<TrackingInterview>();
+    [JsonIgnore]
+    public virtual ICollection<Placement>? Placements { get; set; } = new List<Placement>();
 }

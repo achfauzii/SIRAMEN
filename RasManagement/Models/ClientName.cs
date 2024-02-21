@@ -16,6 +16,8 @@ public partial class ClientName
     public virtual ICollection<Position>? Positions { get; set; } = new List<Position>();
     [JsonIgnore]
     public virtual ICollection<TrackingInterview>? TrackingInterviews { get; set; } = new List<TrackingInterview>();
+    [JsonIgnore]
+    public virtual ICollection<Placement>? Placements { get; set; } = new List<Placement>();
     /*    [JsonIgnore]
         public virtual ICollection<NonRasCandidate>? NonRasCandidates { get; set; } = new List<NonRasCandidate>();*/
 }
