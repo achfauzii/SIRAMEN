@@ -109,7 +109,6 @@ function submitMonth(month) {
           });
       },
     });
-
     var tableBody = document
       .getElementById("timeSheetTablePdf")
       .getElementsByTagName("tbody")[0];
