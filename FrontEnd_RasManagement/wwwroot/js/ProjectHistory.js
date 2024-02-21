@@ -15,7 +15,7 @@ $(document).ready(function () {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     },
-
+    pagingType: "full_numbers",
     columns: [
       {
         data: null,

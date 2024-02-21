@@ -15,7 +15,8 @@ $(document).ready(function () {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     },
-    pageLength: 3,
+      pageLength: 3,
+      pagingType: "full_numbers",
     lengthMenu: [3, 10, 25, 50],
     columns: [
       {

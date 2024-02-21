@@ -45,7 +45,8 @@ function Educations() {
                       console.log(result)
                   }*/
     },
-    pageLength: 3,
+      pageLength: 3,
+      pagingType: "full_numbers",
     columns: [
       {
         render: function (data, type, row, meta) {
