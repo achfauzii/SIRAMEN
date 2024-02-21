@@ -171,26 +171,26 @@
             cursor: pointer;
         }
 
-        .alertNotif::-webkit-scrollbar {            
+        .alertNotif::-webkit-scrollbar {
             width: 7px;
         }
 
         /* Track */
         .alertNotif::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 2px grey; 
+            box-shadow: inset 0 0 2px grey;
             border-radius: 10px;
         }
-        
+
         /* Handle */
         .alertNotif::-webkit-scrollbar-thumb {
             background: #c1c2c2;
             border-radius: 10px;
         }
 
-        /* Handle on hover */
-        .alertNotif::-webkit-scrollbar-thumb:hover {
-            background: #c1c2c2;
-        }
+            /* Handle on hover */
+            .alertNotif::-webkit-scrollbar-thumb:hover {
+                background: #c1c2c2;
+            }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css" />
@@ -267,12 +267,12 @@
                 </a>
             </li>
 
-     @*       <li class="nav-item @(currentUrl == "/ManageEmployee/TimesheetReport" ? "active" : "")" id="activityCalendarMenu">
-                <a class="nav-link collapsed menu" href="/ManageEmployee/TimesheetReport" data-target="#collapseUtilities"
-                   aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-paste"></i>
-                    <span>Recap Timesheet Report</span>
-                </a>
+            @*       <li class="nav-item @(currentUrl == "/ManageEmployee/TimesheetReport" ? "active" : "")" id="activityCalendarMenu">
+            <a class="nav-link collapsed menu" href="/ManageEmployee/TimesheetReport" data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-paste"></i>
+            <span>Recap Timesheet Report</span>
+            </a>
             </li>*@
 
             <li class="nav-item @(currentUrl == "/ManageEmployee/TrackingInterview" ? "active" : "")" id="trackingInterviewMenu">
@@ -314,15 +314,15 @@
             </li>
 
             <li class="nav-item @(currentUrl == "/ResourceReport/ShorlistCandidate" ? "active" : "")">
-            <a class="nav-link collapsed" href="/ResourceReport/ShorlistCandidate" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-list-ul"></i>
-            <span>Shortlist Candidate</span>
-            </a>
+                <a class="nav-link collapsed" href="/ResourceReport/ShorlistCandidate" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-list-ul"></i>
+                    <span>Shortlist Candidate</span>
+                </a>
             </li>
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
-                Department, Client, & Holidays 
+                Department, Client, & Holidays
             </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/DepartmentEmployee" ? "active" : "")" id="manageDepartmentMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
@@ -332,7 +332,7 @@
                 </a>
             </li>
 
-           
+
             <li class="nav-item @(currentUrl == "/Client/Index" ? "active" : "")" id="manageClientMenu">
                 <a class="nav-link collapsed menu" href="/Client/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
@@ -377,9 +377,9 @@
                                 <h6 class="dropdown-header">
                                     Notification
                                 </h6>
-                                
+
                                 <div class="m-0" id="notification">
-                                    <span class="dropdown-item text-center small text-dark-500" id="noNotif">No Notification</span>                                    
+                                    <span class="dropdown-item text-center small text-dark-500" id="noNotif">No Notification</span>
                                 </div>
                             </div>
                         </li>
@@ -558,7 +558,7 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
     <script src="~/js/JwtUtils.js"></script>
-    
+
 
     <script src="~/js/ChangePassword.js"></script>
     <script src="~/js/HistoryLog.js"></script>
