@@ -194,16 +194,20 @@ $(document).ready(function () {
             },*/
 
         // backgroud warna dengan flag holiday 
-        /*createdRow: function (row, data, dataIndex) {
+        createdRow: function (row, data, dataIndex) {
             if (data.flag === 'Holiday') {
                 $(row).css('background-color', '#E4DEBE');
                 $(row).find('.fa-edit').hide();
             }
-        }*/
+        }
     });
 
+    addRowHoliday();
+});
+
+function addRowHoliday() {
     //GET data from tbDataHoliday
-    /*$.ajax({
+    $.ajax({
         url: "https://localhost:7177/api/MasterHoliday",
         type: "GET",
         contentType: "application/json",
@@ -232,8 +236,8 @@ $(document).ready(function () {
         error: function (errormessage) {
             alert(errormessage.responseText);
         },
-    });*/
-});
+    });
+}
 
 function getById(Id) {
     $.ajax({
@@ -434,6 +438,7 @@ function Update() {
             });
             $("#timeSheetModal").modal("hide");
             table.ajax.reload();
+            addRowHoliday();
         } else if (result.status == 400) {
             Swal.fire({
                 icon: "warning",
@@ -505,6 +510,7 @@ function save() {
                 Swal.fire({
                     icon: "success",
                     title: "Data has been added!",
+                    timer: 2500,
                     html:
                         TimeSheet.Flag === "Sick"
                             ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
@@ -513,6 +519,7 @@ function save() {
                 });
                 $("#timeSheetModal").modal("hide");
                 table.ajax.reload();
+                addRowHoliday();
             } else if (response.status === 400) {
                 Swal.fire({
                     icon: "warning",
