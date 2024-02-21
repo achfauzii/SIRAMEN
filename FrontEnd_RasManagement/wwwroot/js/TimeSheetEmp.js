@@ -113,10 +113,9 @@ $(document).ready(function () {
         },
         success: function (result) {
             var obj = result.data;
-            var obj = result.data;
             if (obj && obj.length > 0) {
                 var lastData = obj[0];
-                $("#compName").text(lastData.companyName);
+                $("#compName").text(lastData.client.nameOfClient);
                 $("#lastPlacementId").val(lastData.placementStatusId);
             } else {
                 console.log("Tidak ada data");
@@ -193,6 +192,8 @@ $(document).ready(function () {
                         cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
                     });
             },*/
+
+        // backgroud warna dengan flag holiday 
         createdRow: function (row, data, dataIndex) {
             if (data.flag === 'Holiday') {
                 $(row).css('background-color', '#E4DEBE');
@@ -201,6 +202,10 @@ $(document).ready(function () {
         }
     });
 
+    addRowHoliday();
+});
+
+function addRowHoliday() {
     //GET data from tbDataHoliday
     $.ajax({
         url: "https://localhost:7177/api/MasterHoliday",
@@ -232,7 +237,7 @@ $(document).ready(function () {
             alert(errormessage.responseText);
         },
     });
-});
+}
 
 function getById(Id) {
     $.ajax({
@@ -433,6 +438,7 @@ function Update() {
             });
             $("#timeSheetModal").modal("hide");
             table.ajax.reload();
+            addRowHoliday();
         } else if (result.status == 400) {
             Swal.fire({
                 icon: "warning",
@@ -504,6 +510,7 @@ function save() {
                 Swal.fire({
                     icon: "success",
                     title: "Data has been added!",
+                    timer: 2500,
                     html:
                         TimeSheet.Flag === "Sick"
                             ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
@@ -512,6 +519,7 @@ function save() {
                 });
                 $("#timeSheetModal").modal("hide");
                 table.ajax.reload();
+                addRowHoliday();
             } else if (response.status === 400) {
                 Swal.fire({
                     icon: "warning",
