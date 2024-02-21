@@ -97,7 +97,9 @@ $(document).ready(function () {
       fixedColumns: {
         leftColumns: window.innerWidth > 1024 ? 3 : null,
       },
-      paging: true,
+        paging: true,
+    
+        pagingType: 'full_numbers',
       fixedHeader: true,
       scrollX: true,
       scrollY: true,
@@ -115,7 +117,7 @@ $(document).ready(function () {
         },
       },
 
-      initComplete: function () {
+    /*  initComplete: function () {
         this.api()
           .columns()
           .every(function () {
@@ -139,7 +141,7 @@ $(document).ready(function () {
               column.footer().replaceChildren("");
             }
           });
-      },
+      },*/
       columns: [
         //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
