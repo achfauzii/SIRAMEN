@@ -25,8 +25,8 @@ $(document).ready(function () {
   //Placment Comp Name
   getPlacement(accountId)
     .then(function (employee) {
-      console.log(employee.client.nameOfClient);
-      $("#compName").text(employee.client.nameOfClient);
+      //console.log(employee.client.nameOfClient);
+        $("#companyName").text(employee.client.nameOfClient);
     })
     .catch(function (error) {
       alert(error);
@@ -126,7 +126,11 @@ function submitMonth(month) {
       }
     )
       .then((response) => response.json())
-      .then((result) => {
+        .then((result) => {
+          
+            if (result.message == "Data not found") {
+                return;
+            }
         // Manipulasi tabel dengan data yang didapat dari API
         const tableBody = document
           .getElementById("timeSheetTablePdf")
@@ -149,7 +153,7 @@ function submitMonth(month) {
           row.insertCell(5).textContent = item.status;
           row.insertCell(6).textContent = item.knownBy;
         });
-
+      
         var placementId = result.data[0].placementStatusId;
 
         fetch(

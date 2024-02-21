@@ -113,10 +113,9 @@ $(document).ready(function () {
         },
         success: function (result) {
             var obj = result.data;
-            var obj = result.data;
             if (obj && obj.length > 0) {
                 var lastData = obj[0];
-                $("#compName").text(lastData.companyName);
+                $("#compName").text(lastData.client.nameOfClient);
                 $("#lastPlacementId").val(lastData.placementStatusId);
             } else {
                 console.log("Tidak ada data");
@@ -193,16 +192,18 @@ $(document).ready(function () {
                         cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
                     });
             },*/
-        createdRow: function (row, data, dataIndex) {
+
+        // backgroud warna dengan flag holiday 
+        /*createdRow: function (row, data, dataIndex) {
             if (data.flag === 'Holiday') {
                 $(row).css('background-color', '#E4DEBE');
                 $(row).find('.fa-edit').hide();
             }
-        }
+        }*/
     });
 
     //GET data from tbDataHoliday
-    $.ajax({
+    /*$.ajax({
         url: "https://localhost:7177/api/MasterHoliday",
         type: "GET",
         contentType: "application/json",
@@ -231,7 +232,7 @@ $(document).ready(function () {
         error: function (errormessage) {
             alert(errormessage.responseText);
         },
-    });
+    });*/
 });
 
 function getById(Id) {
