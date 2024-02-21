@@ -2,7 +2,7 @@ var table = null;
 var validateName = true;
 
 $(document).ready(function () {
-    debugger;
+    //debugger;
     $("input[required],select[required],textarea[required]").each(function () {
         $(this)
             .prev("label")
@@ -140,6 +140,7 @@ $(document).ready(function () {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
         },
+        pagingType: "full_numbers",
         columns: [
             {
                 name: "first",
