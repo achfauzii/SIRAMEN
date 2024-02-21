@@ -179,11 +179,14 @@ function Save() {
 
     $("input[required]").each(function () {
         var input = $(this);
+        var errorMessage = input.closest('.input-group').find('.error-message-p');
         if (!input.val()) {
             input.next(".error-message").show();
+            errorMessage.show();
             isValid = false;
         } else {
             input.next(".error-message").hide();
+            errorMessage.hide();
         }
     });
 
@@ -256,6 +259,7 @@ function ClearScreen() {
     $("input[required]").each(function () {
         var input = $(this);
         input.next(".error-message").hide();
+        input.next(".error-message-p").hide();
     });
 }
 
@@ -303,11 +307,14 @@ function Update() {
 
     $("input[required]").each(function () {
         var input = $(this);
+        var errorMessage = input.closest('.input-group').find('.error-message-p');
         if (!input.val()) {
             input.next(".error-message").show();
+            errorMessage.show();
             isValid = false;
         } else {
             input.next(".error-message").hide();
+            errorMessage.hide();
         }
     });
 
