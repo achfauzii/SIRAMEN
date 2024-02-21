@@ -117,7 +117,7 @@ $(document).ready(function () {
         },
       },
 
-    /*  initComplete: function () {
+     /* initComplete: function () {
         this.api()
           .columns()
           .every(function () {
@@ -325,7 +325,19 @@ $(document).ready(function () {
             if (placementStatus == "Idle") {
               placementLocation = "";
             } else {
-              placementLocation = placementLocation;
+                $.ajax({
+                    url: 'https://localhost:7177/api/ClientName/'+placementLocation, // URL API yang diinginkan
+                    type: 'GET',
+                    async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                    success: function (response) {
+                   
+                        placementLocation = response.data.nameOfClient;
+                     
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
             }
 
             return placementLocation;
