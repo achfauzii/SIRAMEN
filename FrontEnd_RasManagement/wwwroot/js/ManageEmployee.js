@@ -97,7 +97,9 @@ $(document).ready(function () {
       fixedColumns: {
         leftColumns: window.innerWidth > 1024 ? 3 : null,
       },
-      paging: true,
+        paging: true,
+    
+        pagingType: 'full_numbers',
       fixedHeader: true,
       scrollX: true,
       scrollY: true,
@@ -115,7 +117,7 @@ $(document).ready(function () {
         },
       },
 
-      initComplete: function () {
+    /*  initComplete: function () {
         this.api()
           .columns()
           .every(function () {
@@ -139,7 +141,7 @@ $(document).ready(function () {
               column.footer().replaceChildren("");
             }
           });
-      },
+      },*/
       columns: [
         //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
@@ -427,13 +429,13 @@ $(document).ready(function () {
           render: function (data, type, row) {
             return (
               '<div class="d-flex flex-row">' +
-              '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
+              '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="left" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
               row.accountId +
               '\')"><i class="far fa-file-pdf"></i></a>' +
-              '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="top" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
+              '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="left" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
               row.accountId +
               '\')"><i class="far fa-calendar-check"></i></a>' +
-              '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
+              '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
               row.accountId +
               '\')"><i class="far fa-edit"></i></a>' +
               "</div>"
