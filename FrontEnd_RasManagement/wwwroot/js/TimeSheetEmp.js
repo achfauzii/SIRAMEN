@@ -231,6 +231,7 @@ function addRowHoliday() {
                 };
                 // Add the holiday data to the timeSheetTable
                 table.row.add(rowData).draw();
+
             });
         },
         error: function (errormessage) {
@@ -319,7 +320,7 @@ function getById(Id) {
 }
 
 function Update() {
-    // debugger;
+    //debugger;
     var isValid = true;
 
     var existingData = {
@@ -419,7 +420,7 @@ function Update() {
     });
 
     $.ajax({
-        url: "https://localhost:7177/api/TimeSheet/Update",
+        url: "https://localhost:7177/api/TimeSheet",
         type: "PUT",
         data: JSON.stringify(TimeSheet),
         contentType: "application/json; charset=utf-8",
@@ -439,14 +440,14 @@ function Update() {
             $("#timeSheetModal").modal("hide");
             table.ajax.reload();
             addRowHoliday();
-        } else if (result.status == 400) {
+        } /*else if (result.status == 400) {
             Swal.fire({
                 icon: "warning",
                 title: "Failed",
                 text: "Flag with the same date can't be the same!",
                 showConfirmButton: true,
             });
-        } else {
+        }*/ else {
             Swal.fire("Error!", "Your failed to update", "error");
             table.ajax.reload();
         }
