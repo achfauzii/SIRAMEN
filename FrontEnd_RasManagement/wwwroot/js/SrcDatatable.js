@@ -266,7 +266,7 @@ function Src(selectedCategory) {
                             data +
                             '</div><div class="col text-right"><i class="far fa-edit edit" style="color: #0011ff; margin-right: 10px; visibility: hidden;"></i>' +
                             '<i class="far fa-trash-alt" onclick="return Delete(\'' +
-                            row.nonRasId +
+                            row.nonRasId + '\', \'' + row.fullname +
                             '\')" style="color: #ff0000; visibility: hidden;"></i></div></div>';
 
                         //Validasi manager hide action (Only View)
@@ -886,8 +886,9 @@ function Src(selectedCategory) {
     }
 }
 
-function Delete(NonRasId) {
+function Delete(NonRasId, FullName) {
     // debugger;
+
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -899,6 +900,7 @@ function Delete(NonRasId) {
         cancelButtonText: "No",
     }).then((result) => {
         if (result.value) {
+            showLoader();
             $.ajax({
                 url: "https://localhost:7177/api/Shortlist/SoftDelete/" + NonRasId,
                 type: "GET",
@@ -909,11 +911,18 @@ function Delete(NonRasId) {
             }).then((result) => {
                 // debugger;
                 if (result.status == 200) {
-                    const logMesagge = `Has Removed Shortlist Candidate ${NonRasCandidate.fullname}`;
+                    const logMesagge = `Has Removed Shortlist Candidate Id ${NonRasId}, Name : ${FullName}`;
                     SaveLogUpdate(logMesagge);
-                    Swal.fire("Deleted!", "Data has been deleted.", "success");
-                    table.ajax.reload();
+               
+                
+                  
+                    table.ajax.reload(() => {
+                        // Sembunyikan loader setelah tabel diperbarui
+                        hideLoader();
+                        Swal.fire("Deleted!", "Data has been deleted.", "success");
+                    });
                 } else {
+                    hideLoader();
                     Swal.fire("Error!", "Data failed to deleted.", "error");
                 }
             });
@@ -1396,7 +1405,7 @@ function Save() {
     let currentDate = `${day}-${month}-${year}`;
 
     NonRasCandidate.lastModified = formatDate(Date());
-
+    showLoader();
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/Shortlist/Add",
@@ -1407,20 +1416,28 @@ function Save() {
         },
     }).then((result) => {
         //
+       
         const logMesagge = `Has Added Shortlist Candidate ${NonRasCandidate.fullname}`;
         SaveLogUpdate(logMesagge);
+        
         if (result.status == 200) {
-            Swal.fire({
-                icon: "success",
-                title: "Success...",
-                text: "Data has been added!",
-                showConfirmButtom: false,
-                timer: 1500,
+            table.ajax.reload(() => {
+                // Sembunyikan loader setelah tabel diperbarui
+                hideLoader();
+                Swal.fire({
+                    icon: "success",
+                    title: "Success...",
+                    text: "Data has been added!",
+                    showConfirmButtom: false,
+                    timer: 1500,
+                });
             });
+           
             $("#Modal").modal("hide");
-            table.ajax.reload();
+           
             ClearScreenSave();
         } else {
+            hideLoader();
             Swal.fire({
                 icon: "warning",
                 title: "Data failed to added!",
@@ -1927,4 +1944,46 @@ function getColorForPosition(word) {
             softlColors[Object.keys(colorsByWord).length % softlColors.length];
     }
     return colorsByWord[word];
+}
+
+//Loader
+
+function showLoader() {
+    // Membuat elemen div untuk loader
+    var loaderContainer = document.createElement('div');
+    loaderContainer.id = 'loader';
+    loaderContainer.style.width = '100%';
+    loaderContainer.style.height = '100%';
+    loaderContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    loaderContainer.style.zIndex = '999';
+    loaderContainer.style.display = 'flex';
+    loaderContainer.style.justifyContent = 'center';
+    loaderContainer.style.alignItems = 'center';
+    loaderContainer.style.position = 'fixed';
+    loaderContainer.style.top = '0';
+    loaderContainer.style.left = '0';
+
+    // Membuat elemen spinner
+    var spinnerColors = ['text-primary', 'text-secondary', 'text-success', 'text-danger', 'text-warning'];
+    spinnerColors.forEach(function (color) {
+        var spinner = document.createElement('div');
+        spinner.className = 'spinner-grow ' + color;
+        spinner.setAttribute('role', 'status');
+        var span = document.createElement('span');
+        span.className = 'sr-only';
+        span.textContent = 'Loading...';
+        spinner.appendChild(span);
+        loaderContainer.appendChild(spinner);
+    });
+
+    // Menambahkan loaderContainer ke dalam body
+    document.body.appendChild(loaderContainer);
+}
+
+// Fungsi untuk menyembunyikan loader
+function hideLoader() {
+    var loader = document.getElementById('loader');
+    if (loader) {
+        loader.remove(); // Menghapus loader dari DOM
+    }
 }
