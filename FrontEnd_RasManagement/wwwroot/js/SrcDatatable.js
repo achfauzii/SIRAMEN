@@ -922,6 +922,7 @@ function Delete(NonRasId, FullName) {
                         Swal.fire("Deleted!", "Data has been deleted.", "success");
                     });
                 } else {
+                    hideLoader();
                     Swal.fire("Error!", "Data failed to deleted.", "error");
                 }
             });
@@ -1436,6 +1437,7 @@ function Save() {
            
             ClearScreenSave();
         } else {
+            hideLoader();
             Swal.fire({
                 icon: "warning",
                 title: "Data failed to added!",
