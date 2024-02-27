@@ -917,7 +917,7 @@ function Delete(NonRasId, FullName) {
                 
                   
                     table.ajax.reload(() => {
-                        // Sembunyikan loader setelah tabel diperbarui
+                        // hide loader
                         hideLoader();
                         Swal.fire("Deleted!", "Data has been deleted.", "success");
                     });

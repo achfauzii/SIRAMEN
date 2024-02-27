@@ -117,7 +117,7 @@ function submitMonth(month) {
         }
     });
 
-    addRowHoliday();
+    addRowHoliday(month);
 
     var tableBody = document
       .getElementById("timeSheetTablePdf")
@@ -198,7 +198,8 @@ function submitMonth(month) {
   // });
 }
 
-function addRowHoliday() {
+function addRowHoliday(month) {
+    console.log(month);
     //GET data from tbDataHoliday
     $.ajax({
         url: "https://localhost:7177/api/MasterHoliday",
@@ -211,8 +212,14 @@ function addRowHoliday() {
             // Assuming result.data contains the array of holiday objects
             var holidays = result.data;
 
-            // Loop through each holiday object
-            holidays.forEach(function (holiday) {
+            // Filter holidays based on the given month
+            var filteredHolidays = holidays.filter(function (holiday) {
+                // Check if the date of the holiday matches the given month
+                return holiday.date.startsWith(month);
+            });
+
+            // Loop through each filtered holiday object
+            filteredHolidays.forEach(function (holiday) {
                 // Append the holiday data to the timeSheetTable
                 var rowData = {
                     date: holiday.date,
@@ -231,6 +238,7 @@ function addRowHoliday() {
         },
     });
 }
+
 
 function clearScreen() {
   $("#activity").val("");
