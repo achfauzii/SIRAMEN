@@ -26,7 +26,7 @@ $(document).ready(function () {
   getPlacement(accountId)
     .then(function (employee) {
       //console.log(employee.client.nameOfClient);
-        $("#companyName").text(employee.client.nameOfClient);
+      $(".companyName").text(employee.client.nameOfClient);
     })
     .catch(function (error) {
       alert(error);
@@ -57,7 +57,6 @@ function submitMonth(month) {
 
     table = $("#timeSheetTable").DataTable({
       scrollX: true,
-      order: [1, "asc"],
       ajax: {
         url:
           "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
@@ -72,12 +71,7 @@ function submitMonth(month) {
       },
       columns: [
         {
-          data: null,
-          render: function (data, type, row, meta) {
-            return meta.row + meta.settings._iDisplayStart + 1 + ".";
-          },
-        },
-        {
+          name: "satu",
           data: "date",
           render: function (data, type, row) {
             if (type === "display" || type === "filter") {
@@ -90,99 +84,149 @@ function submitMonth(month) {
           },
         },
         { data: "activity" },
-        { data: "flag" },
+        { name: "dua", data: "flag" },
         { data: "category" },
         { data: "status" },
         { data: "knownBy" },
       ],
-      drawCallback: function (settings) {
-        var api = this.api();
-        var rows = api.rows({ page: "current" }).nodes();
-        var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-        var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+      rowsGroup: ["satu:name", "dua:name"],
+      order: [[0, "asc"]],
+      // drawCallback: function (settings) {
+      //   var api = this.api();
+      //   var rows = api.rows({ page: "current" }).nodes();
+      //   var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+      //   var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
 
-        api
-          .column(0, { page: "current" })
-          .nodes()
-          .each(function (cell, i) {
-            cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-          });
-        },
-        // backgroud warna dengan flag holiday 
-        createdRow: function (row, data, dataIndex) {
-            if (data.flag === 'Holiday') {
-                $(row).css('background-color', '#E4DEBE');
-                $(row).find('.fa-edit').hide();
-            }
+      //   api
+      //     .column(0, { page: "current" })
+      //     .nodes()
+      //     .each(function (cell, i) {
+      //       cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+      //     });
+      // },
+      // backgroud warna dengan flag holiday
+      createdRow: function (row, data, dataIndex) {
+        if (data.flag === "Holiday") {
+          $(row).css("background-color", "#E4DEBE");
+          $(row).find(".fa-edit").hide();
         }
+      },
     });
 
     addRowHoliday(month);
 
-    var tableBody = document
-      .getElementById("timeSheetTablePdf")
-      .getElementsByTagName("tbody")[0];
-    tableBody.innerHTML = "";
-
-    fetch(
-      "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
-        accountId +
-        "&month=" +
-        month,
-      {
+    $("#timeSheetTablePdf").DataTable({
+      ajax: {
+        url:
+          "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+          accountId +
+          "&month=" +
+          month,
+        type: "GET",
+        contentType: "application/json",
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
-      }
-    )
-      .then((response) => response.json())
-        .then((result) => {
-          
-            if (result.message == "Data not found") {
-                return;
+      },
+      pageLength: -1,
+      columns: [
+        {
+          name: "first",
+          data: "date",
+          render: function (data, type, row) {
+            if (type === "display" || type === "filter") {
+              // Format tanggal dalam format yang diinginkan
+              return moment(data).format("DD MMMM YYYY");
             }
-        // Manipulasi tabel dengan data yang didapat dari API
-        const tableBody = document
-          .getElementById("timeSheetTablePdf")
-          .getElementsByTagName("tbody")[0];
+            // Untuk tipe data lain, kembalikan data aslinya
 
-        result.data.sort(function (a, b) {
-          return new Date(a.date) - new Date(b.date);
-        });
+            return data;
+          },
+        },
+        { data: "activity" },
+        { name: "second", data: "flag" },
+        { data: "category" },
+        { data: "status" },
+        { data: "knownBy" },
+      ],
+      dom: "",
+      rowGroup: {
+        dataSrc: "group",
+      },
+      rowsGroup: ["first:name", "second:name"],
+      order: [[0, "asc"]],
+      // backgroud warna dengan flag holiday
+      createdRow: function (row, data, dataIndex) {
+        if (data.flag === "Holiday") {
+          $(row).css("background-color", "#E4DEBE");
+          $(row).find(".fa-edit").hide();
+        }
+      },
+    });
 
-        var number = 1;
-        result.data.forEach((item) => {
-          const row = tableBody.insertRow(-1);
-          row.insertCell(0).textContent = number++;
-          row.insertCell(1).textContent = moment(item.date).format(
-            "DD MMMM YYYY"
-          );
-          row.insertCell(2).textContent = item.activity;
-          row.insertCell(3).textContent = item.flag;
-          row.insertCell(4).textContent = item.category;
-          row.insertCell(5).textContent = item.status;
-          row.insertCell(6).textContent = item.knownBy;
-        });
-      
-        var placementId = result.data[0].placementStatusId;
+    // var tableBody = document
+    //   .getElementById("timeSheetTablePdf")
+    //   .getElementsByTagName("tbody")[0];
+    // tableBody.innerHTML = "";
 
-        fetch(
-          "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
-            placementId,
-          {
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-          }
-        )
-          .then((r) => r.json())
-          .then((res) => {
-            var res1;
-            console.log(res.data);
-            $(".companyName").text(res.data.client.nameOfClient);
-            $("#picName").text(res.data.picName);
-          });
-      });
+    // fetch(
+    //   "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+    //     accountId +
+    //     "&month=" +
+    //     month,
+    //   {
+    //     headers: {
+    //       Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    //     },
+    //   }
+    // )
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     if (result.message == "Data not found") {
+    //       return;
+    //     }
+    //     // Manipulasi tabel dengan data yang didapat dari API
+    //     const tableBody = document
+    //       .getElementById("timeSheetTablePdf")
+    //       .getElementsByTagName("tbody")[0];
+
+    //     result.data.sort(function (a, b) {
+    //       return new Date(a.date) - new Date(b.date);
+    //     });
+
+    //     var number = 1;
+    //     result.data.forEach((item) => {
+    //       const row = tableBody.insertRow(-1);
+    //       row.insertCell(0).textContent = number++;
+    //       row.insertCell(1).textContent = moment(item.date).format(
+    //         "DD MMMM YYYY"
+    //       );
+    //       row.insertCell(2).textContent = item.activity;
+    //       row.insertCell(3).textContent = item.flag;
+    //       row.insertCell(4).textContent = item.category;
+    //       row.insertCell(5).textContent = item.status;
+    //       row.insertCell(6).textContent = item.knownBy;
+    //     });
+
+    //     var placementId = result.data[0].placementStatusId;
+
+    //     fetch(
+    //       "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
+    //         placementId,
+    //       {
+    //         headers: {
+    //           Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    //         },
+    //       }
+    //     )
+    //       .then((r) => r.json())
+    //       .then((res) => {
+    //         var res1;
+    //         console.log(res.data);
+    //         $(".companyName").text(res.data.client.nameOfClient);
+    //         $("#picName").text(res.data.picName);
+    //       });
+    //   });
 
     //document.getElementById('badgeDisplay').hidden = true;
   } else {
@@ -199,46 +243,45 @@ function submitMonth(month) {
 }
 
 function addRowHoliday(month) {
-    console.log(month);
-    //GET data from tbDataHoliday
-    $.ajax({
-        url: "https://localhost:7177/api/MasterHoliday",
-        type: "GET",
-        contentType: "application/json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (result) {
-            // Assuming result.data contains the array of holiday objects
-            var holidays = result.data;
+  console.log(month);
+  //GET data from tbDataHoliday
+  $.ajax({
+    url: "https://localhost:7177/api/MasterHoliday",
+    type: "GET",
+    contentType: "application/json",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (result) {
+      // Assuming result.data contains the array of holiday objects
+      var holidays = result.data;
 
-            // Filter holidays based on the given month
-            var filteredHolidays = holidays.filter(function (holiday) {
-                // Check if the date of the holiday matches the given month
-                return holiday.date.startsWith(month);
-            });
+      // Filter holidays based on the given month
+      var filteredHolidays = holidays.filter(function (holiday) {
+        // Check if the date of the holiday matches the given month
+        return holiday.date.startsWith(month);
+      });
 
-            // Loop through each filtered holiday object
-            filteredHolidays.forEach(function (holiday) {
-                // Append the holiday data to the timeSheetTable
-                var rowData = {
-                    date: holiday.date,
-                    activity: holiday.name,
-                    flag: 'Holiday', // Set flag as 'Holiday' for holidays
-                    category: '', // You can set an appropriate category
-                    status: '', // You can set an appropriate status
-                    knownBy: '', // You can set an appropriate value for knownBy
-                };
-                // Add the holiday data to the timeSheetTable
-                table.row.add(rowData).draw();
-            });
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        },
-    });
+      // Loop through each filtered holiday object
+      filteredHolidays.forEach(function (holiday) {
+        // Append the holiday data to the timeSheetTable
+        var rowData = {
+          date: holiday.date,
+          activity: holiday.name,
+          flag: "Holiday", // Set flag as 'Holiday' for holidays
+          category: "", // You can set an appropriate category
+          status: "", // You can set an appropriate status
+          knownBy: "", // You can set an appropriate value for knownBy
+        };
+        // Add the holiday data to the timeSheetTable
+        table.row.add(rowData).draw();
+      });
+    },
+    error: function (errormessage) {
+      alert(errormessage.responseText);
+    },
+  });
 }
-
 
 function clearScreen() {
   $("#activity").val("");
