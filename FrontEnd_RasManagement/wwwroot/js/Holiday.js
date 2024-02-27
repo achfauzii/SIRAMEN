@@ -155,7 +155,6 @@ function handleInput(event, input) {
 }
 
 function Save() {
-    //debugger;
     var isValid = true;
 
     $("input[required]").each(function () {
@@ -173,12 +172,10 @@ function Save() {
     }
 
     var Holiday = new Object(); //object baru
-    Holiday.name = $("#HolidayName").val(); 
-    Holiday.date = $("#HolidayDate").val(); 
-    Holiday.description = $("#Description").val(); 
+    Holiday.name = $("#HolidayName").val();
+    Holiday.date = $("#HolidayDate").val();
+    Holiday.description = $("#Description").val();
 
-    //console.log(Holiday);
-    
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/MasterHoliday",
@@ -188,7 +185,6 @@ function Save() {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
     }).then((result) => {
-        //debugger;
         if (result.status == 200) {
             Swal.fire({
                 icon: "success",
@@ -198,7 +194,7 @@ function Save() {
                 timer: 2500,
             });
             $("#Modal").modal("hide");
-            table.ajax.reload();
+            $("#tbDataHoliday").DataTable().ajax.reload();
         } else {
             Swal.fire({
                 icon: "warning",
@@ -207,7 +203,7 @@ function Save() {
                 timer: 1500,
             });
             $("#Modal").modal("hide");
-            table.ajax.reload();
+            $("#tbDataHoliday").DataTable().ajax.reload();
         }
     });
 }
@@ -300,7 +296,7 @@ function Update() {
             timer: 2000,
         });
         $("#Modal").modal("hide");
-        table.ajax.reload();
+        $("#tbDataHoliday").DataTable().ajax.reload();
         return;
     }
     $.ajax({
@@ -321,7 +317,7 @@ function Update() {
                 timer: 2000,
             });
             $("#Modal").modal("hide");
-            table.ajax.reload();
+            $("#tbDataHoliday").DataTable().ajax.reload();
         } else {
             alert("Data Failed to Update");
         }
