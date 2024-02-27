@@ -25,8 +25,8 @@ $(document).ready(function () {
   //Placment Comp Name
   getPlacement(accountId)
     .then(function (employee) {
-      console.log(employee.client.nameOfClient);
-      $("#compName").text(employee.client.nameOfClient);
+      //console.log(employee.client.nameOfClient);
+        $("#companyName").text(employee.client.nameOfClient);
     })
     .catch(function (error) {
       alert(error);
@@ -107,8 +107,17 @@ function submitMonth(month) {
           .each(function (cell, i) {
             cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
           });
-      },
+        },
+        // backgroud warna dengan flag holiday 
+        createdRow: function (row, data, dataIndex) {
+            if (data.flag === 'Holiday') {
+                $(row).css('background-color', '#E4DEBE');
+                $(row).find('.fa-edit').hide();
+            }
+        }
     });
+
+    addRowHoliday(month);
 
     var tableBody = document
       .getElementById("timeSheetTablePdf")
@@ -127,7 +136,11 @@ function submitMonth(month) {
       }
     )
       .then((response) => response.json())
-      .then((result) => {
+        .then((result) => {
+          
+            if (result.message == "Data not found") {
+                return;
+            }
         // Manipulasi tabel dengan data yang didapat dari API
         const tableBody = document
           .getElementById("timeSheetTablePdf")
@@ -150,7 +163,7 @@ function submitMonth(month) {
           row.insertCell(5).textContent = item.status;
           row.insertCell(6).textContent = item.knownBy;
         });
-
+      
         var placementId = result.data[0].placementStatusId;
 
         fetch(
@@ -184,6 +197,48 @@ function submitMonth(month) {
   //   console.log(accountId);
   // });
 }
+
+function addRowHoliday(month) {
+    console.log(month);
+    //GET data from tbDataHoliday
+    $.ajax({
+        url: "https://localhost:7177/api/MasterHoliday",
+        type: "GET",
+        contentType: "application/json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            // Assuming result.data contains the array of holiday objects
+            var holidays = result.data;
+
+            // Filter holidays based on the given month
+            var filteredHolidays = holidays.filter(function (holiday) {
+                // Check if the date of the holiday matches the given month
+                return holiday.date.startsWith(month);
+            });
+
+            // Loop through each filtered holiday object
+            filteredHolidays.forEach(function (holiday) {
+                // Append the holiday data to the timeSheetTable
+                var rowData = {
+                    date: holiday.date,
+                    activity: holiday.name,
+                    flag: 'Holiday', // Set flag as 'Holiday' for holidays
+                    category: '', // You can set an appropriate category
+                    status: '', // You can set an appropriate status
+                    knownBy: '', // You can set an appropriate value for knownBy
+                };
+                // Add the holiday data to the timeSheetTable
+                table.row.add(rowData).draw();
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
+    });
+}
+
 
 function clearScreen() {
   $("#activity").val("");

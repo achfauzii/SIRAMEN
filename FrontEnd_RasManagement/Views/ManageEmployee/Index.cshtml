@@ -16,6 +16,7 @@
         color: white;
     }
 
+
     .yellow-bg {
         background-color: #f6c23e; /* Warna kuning */
         color: white;
@@ -48,9 +49,48 @@
         margin-left: 10px;
     }
 
+    .rounded-pill {
+    
+        font-size: 11px;
+    }
+
+
     .table.dataTable {
         margin-top: 0 !important;
     }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF;
+    }
+
+    .dataTables_length {
+        font-size: 14px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    }
+
+   .dataTables_filter input[type="search"] {
+ 
+    font-size: 12px; /* Atur ukuran font sesuai kebutuhan */
+
+   }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 13px;
+    }
+    div.dataTables_wrapper div.dataTables_info {
+        font-size: 13.5px;
+    }
+
+    table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
+        font-size: 14px;
+    }
+    table.table-bordered.dataTable th, table.table-bordered.dataTable td{
+        font-size: 14px;
+    }
+
+
 </style>
 
 <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
@@ -58,11 +98,8 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Employee Table</h6>
     </div>
-    <div class="card-body table-responsive">
-        <div class="text-right mb-1 mt-0">
-            <!-- Tombol reset filter -->
-            <button id="resetFilters" class="btn btn-secondary btn-sm">Reset Filters</button>
-        </div>
+    <div class="card-body table-responsive mb-2">
+ 
 
         <table class="table table-striped table-bordered text-nowrap" id="dataTableEmployee" style="width:100%" cellspacing="0">
 
@@ -87,7 +124,7 @@
             </thead>
 
             <tbody></tbody>
-            <tfoot>
+           @* <tfoot>
                 <tr>
                     <th>No</th>
                     <th>NIK</th>
@@ -105,7 +142,7 @@
                     <th>Assets</th>
                     <th>Action</th>
                 </tr>
-            </tfoot>
+            </tfoot>*@
         </table>
         <h6><strong>Notes</strong></h6>
         <div class="row ml-0">
@@ -114,15 +151,15 @@
                 <small>
                     <ul>
                         <li class="list-item">
-                            <span class="badge badge-success" style="font-size: 12px;">Green</span>
+                            <span class="badge badge-success" style="font-size: 10px;">Green</span>
                             <span class="bullet-text">: The remaining contract is more than 3 months</span>
                         </li>
                         <li class="list-item">
-                            <span class="badge badge-warning" style="font-size: 12px;">Yellow</span>
+                            <span class="badge badge-warning" style="font-size: 10px;">Yellow</span>
                             <span class="bullet-text">: The remaining contract is less than 3 months</span>
                         </li>
                         <li class="list-item">
-                            <span class="badge badge-danger" style="font-size: 12px;">Red</span>
+                            <span class="badge badge-danger" style="font-size: 10px;">Red</span>
                             <span class="bullet-text">: The remaining contract is less than 1 month</span>
                         </li>
                     </ul>
@@ -133,11 +170,11 @@
                 <small>
                     <ul>
                         <li class="list-item">
-                            <span class="badge badge-success rounded-pill" style="font-size: 12px;"> Green </span>
+                            <span class="badge badge-success rounded-pill" style="font-size: 10px;"> Green </span>
                             <span class="bullet-text">: Asset data exists</span>
                         </li>
                         <li class="list-item">
-                            <span class="badge badge-secondary rounded-pill" style="font-size: 12px;"> Grey </span>
+                            <span class="badge badge-secondary rounded-pill" style="font-size: 10px;"> Grey </span>
                             <span class="bullet-text">: Asset data is empty</span>
                         </li>
                     </ul>
