@@ -101,10 +101,10 @@ $(document).ready(function () {
             },
         ],
 
-        order: [[1, "asc"]],
+        order: [[2, "asc"]],
         columnDefs: [
             {
-                targets: [0, 2, 3],
+                targets: [0, 1, 3],
                 orderable: false,
             },
         ],
