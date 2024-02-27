@@ -2,7 +2,7 @@
 var table;
 $(document).ready(function () {
     $.ajax({
-        url: "https://localhost:7177/api/EmployeePlacements", // Replace with your API endpoint
+        url: "https://localhost:7177/api/ClientName", // Replace with your API endpoint
         method: "GET",
         dataType: "json",
         headers: {
@@ -10,20 +10,20 @@ $(document).ready(function () {
         },
         success: function (data) {
             // Create a Set to store unique company names
-            var placement = data.data;
-            var uniqueCompanyNames = new Set();
+            var placements = data.data;
+        /*    var uniqueCompanyNames = new Set();
 
             // Iterate over the data and add unique company names to the Set
             for (var i = 0; i < placement.length; i++) {
                 uniqueCompanyNames.add(placement[i].companyName);
-            }
-
+            }*/
+    
             // Create <option> elements based on unique company names and append them to the select
-            uniqueCompanyNames.forEach(function (companyName) {
+            placements.forEach(function (placement) {
                 var option = $("<option>")
-                    .val(companyName)  // Set the value attribute
-                    .text(companyName);
-                $("#companySelect").append(option);
+                    .val(placement.nameOfClient)  // Set the value attribute
+                    .text(placement.nameOfClient);
+                $("#companySelect").append(option).select2();
             });
         },
         error: function (error) {
@@ -47,7 +47,8 @@ function submitReportTimesheet() {
     var month = $('#month').val();
     $("#nullInput").hide();
     var report = $('#reportTimesheet');
-
+    console.log(companyName);
+    console.log(month);
     // Check if companyName or month is empty or null
     if (!companyName || !month) {
         // Show the warning alert

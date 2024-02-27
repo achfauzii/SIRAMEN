@@ -117,7 +117,9 @@ function submitMonth(month) {
             }
         });
 
+
         addRowHoliday(month);
+
 
         var tableBody = document
             .getElementById("timeSheetTablePdf")
@@ -238,6 +240,7 @@ function addRowHoliday(month) {
         },
     });
 }
+
 
 function clearScreen() {
     $("#activity").val("");
