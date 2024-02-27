@@ -1,5 +1,6 @@
 var table = null;
 var isTruncated = null;
+var compare = {};
 var softlColors = [
   "#B7E4C7", // Mint Green
   "#FFD8B1", // Soft Peach
@@ -59,25 +60,41 @@ function toggleContent(element, originalData) {
   }
 }
 
+//Set Focus on Input Search component Select2
+$(document).on("select2:open", (e) => {
+  const selectId = e.target.id;
+
+  $(
+    ".select2-search__field[aria-controls='select2-" + selectId + "-results']"
+  ).each(function (key, value) {
+    value.focus();
+  });
+});
+
 $(document).ready(function () {
-  // $("#experience_year").on("keyup", function () {
-  //   var regex = /^[0-9<>\s]+$/;
+  //validasi manager just view
+  var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
-  //   if (!regex.test(this.value)) {
-  //     var value = this.value.replace(/^[^0-9<>]/g, "");
-  //     this.value = value;
-  //     return;
-  //   }
-  // });
+  if (objDataToken.RoleId == 7) {
+    $(".btn-add-nonras").hide();
+    $(".btn-export-nonras").hide();
+  }
 
-  getClientList();
+  $("#export_excel").on("click", function () {
+    // $("#resource").DataTable().page.len(9999999).draw();
+
+    // if ($("#resource").DataTable().page.info().length > 9999) {
+    $("#excelButton").click();
+    // }
+  });
+
+  /*getClientList();*/
 
   getUniversitasList();
   // Panggil fungsi fetchCategories saat halaman dimuat
 
   fetchCategories();
 
-  //Src();
   Src("all");
   getUniversitasListt();
 
@@ -183,6 +200,7 @@ function handleInput(event, input) {
 }
 
 function Src(selectedCategory) {
+  // $.fn.dataTable.ext.errMode = "throw";
   if ($.fn.DataTable.isDataTable("#resource")) {
     $("#resource").DataTable().destroy();
   }
@@ -190,12 +208,14 @@ function Src(selectedCategory) {
     fixedColumns: {
       left: window.innerWidth > 1024 ? 1 : null,
     },
-
+    fixedHeader: true,
     scrollX: true,
     processing: true,
     serverSide: true,
-    //fixedColumns: true,
-    lengthMenu: [5, 10, 50, 75, 100],
+    lengthMenu: [
+      [10, 50, 100, 99999],
+      [10, 50, 100, "All"],
+    ],
     pageLength: 10,
     order: [[0, "asc"]],
 
@@ -214,6 +234,21 @@ function Src(selectedCategory) {
           d.search.category = "";
         }
 
+        //Get Parameter for Filter
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const position = urlParams.get("position");
+        const level = urlParams.get("level");
+        const skill = urlParams.get("skill");
+
+        if (position != null) {
+          d.search.value = position;
+        } else if (level != null) {
+          d.search.value = level;
+        } else if (skill != null) {
+          d.search.value = skill;
+        }
+
         return JSON.stringify(d);
       },
     },
@@ -227,7 +262,18 @@ function Src(selectedCategory) {
             var icon =
               '<div class="row"><div class="col-4 text-left mr-4">' +
               data +
-              '</div><div class="col text-right"><i class="far fa-edit" style="color: #0011ff; visibility: hidden;"></i></div></div>';
+              '</div><div class="col text-right"><i class="far fa-edit edit" style="color: #0011ff; margin-right: 10px; visibility: hidden;"></i>' +
+              '<i class="far fa-trash-alt" onclick="return Delete(\'' +
+              row.nonRasId +
+              "', '" +
+              row.fullname +
+              '\')" style="color: #ff0000; visibility: hidden;"></i></div></div>';
+
+            //Validasi manager hide action (Only View)
+            var objDataToken = parseJwt(sessionStorage.getItem("Token"));
+            if (objDataToken.RoleId == 7) {
+              return data;
+            }
 
             $(document).on("mouseover", ".row", function () {
               $(this).find("i").css("visibility", "visible");
@@ -314,8 +360,8 @@ function Src(selectedCategory) {
       {
         data: "education",
         /*render: function (data, type, row) {
-                                    return htmlspecialchars(data);
-                                }*/
+                                                            return htmlspecialchars(data);
+                                                        }*/
       },
       {
         data: "ipk",
@@ -328,11 +374,25 @@ function Src(selectedCategory) {
       },
       {
         data: "birthdate",
-        render: function (data) {
-          return data.trim() !== "" ? data + " Years Old" : "";
+        /*render: function (data) {
+                         return data.trim() !== "" ? data + " Years Old" : "";
+                       },*/
+        render: function (data, type, row) {
+          if (data === "") {
+            return "";
+          }
+          var datenow = Date.now();
+          var birth = new Date(data);
+
+          var milidetik = datenow - birth.getTime();
+          var daysremain = Math.ceil(milidetik / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
+          var years = Math.floor(daysremain / 365); // Menghitung bulan
+          var age = years + " Years Old";
+
+          //console.log(age);
+          return age;
         },
       },
-
       {
         data: "experienceInYear",
         render: function (data) {
@@ -414,6 +474,9 @@ function Src(selectedCategory) {
       {
         data: "rawCv",
         render: function (data, type, row) {
+          if (data == "" || data == null || data == " ") {
+            return " ";
+          }
           if (type === "display" || type === "filter") {
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
             var checkTrue =
@@ -429,6 +492,9 @@ function Src(selectedCategory) {
       {
         data: "cvBerca",
         render: function (data, type, row) {
+          if (data == "" || data == null || data == " ") {
+            return " ";
+          }
           if (type === "display" || type === "filter") {
             // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
             var checkTrue =
@@ -447,7 +513,7 @@ function Src(selectedCategory) {
       {
         data: "currentSalary",
         render: function (data) {
-          if (data === "Rp ") {
+          if (data === "Rp " || data == "" || data == null || data == " ") {
             return " ";
           } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
             return data; // Mengembalikan data tanpa pemformatan tambahan
@@ -475,7 +541,7 @@ function Src(selectedCategory) {
       {
         data: "expectedSalary",
         render: function (data) {
-          if (data === "Rp ") {
+          if (data === "Rp " || data == "" || data == null || data == " ") {
             return " ";
           } else if (/^Rp\s\d{1,3}(\.\d{3})*$/.test(data)) {
             return data; // Mengembalikan data tanpa pemformatan tambahan
@@ -501,7 +567,6 @@ function Src(selectedCategory) {
         },
       },
       {
-        //"data":"negotiable"
         data: "negotiable",
         render: function (data, type, row) {
           if (type === "display" || type === "filter") {
@@ -525,6 +590,21 @@ function Src(selectedCategory) {
       },
       {
         data: "techTest",
+        render: function (data, type, row) {
+          if (data == "" || data == null || data == " ") {
+            return " ";
+          }
+          if (type === "display" || type === "filter") {
+            // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+            var checkTrue =
+              '<a href ="' + data + '"> ' + row.fullname + " Test Result </a>";
+
+            return checkTrue;
+          }
+
+          // Untuk tipe data lain, kembalikan data aslinya
+          return data;
+        },
       },
       {
         data: "intwByRas",
@@ -532,7 +612,7 @@ function Src(selectedCategory) {
       {
         data: "intwDateByRas",
         render: function (data, type, row) {
-          if (data == null || data == "") {
+          if (data == null || data == "" || data == " ") {
             return "";
           } else {
             if (type === "display" || type === "filter") {
@@ -542,181 +622,6 @@ function Src(selectedCategory) {
             // Untuk tipe data lain, kembalikan data aslinya
 
             return data;
-          }
-        },
-      },
-      {
-        data: "nameOfUser",
-        render: function (data, type, row) {
-          var nameUser = row.nameOfUser;
-
-          if (nameUser == null || nameUser == "") {
-            return "";
-          } else if (!nameUser.includes("<br/>")) {
-            return nameUser;
-          } else {
-            const nameUserArray = nameUser.split("<br/>");
-
-            // Membuat objek untuk menyimpan data
-            const userData = { nameArray: [] };
-
-            // Mengumpulkan data status
-            for (let i = 0; i < nameUserArray.length; i++) {
-              // Menambahkan status ke dalam array yang sesuai
-              userData.nameArray.push(nameUserArray[i]);
-            }
-
-            // Menampilkan data terakhir
-            const lastName = userData.nameArray[userData.nameArray.length - 1];
-
-            return lastName;
-
-            //NAMPILIN PER USER
-            /*var nameOfUser = row.nameOfUser;
-                                    if (nameOfUser == null) {
-                                        return " ";
-                                    } else if (!nameOfUser.includes('<br/>')) {
-                                        return nameOfUser;
-                                    } else {
-                                        // Extract unique usernames from the nameOfUser column
-                                        const nameOfUserArray = nameOfUser.split('<br/>');
-                                        const uniqueUsernames = Array.from(new Set(nameOfUserArray.filter(name => name.trim() !== 'null')));
-                
-                                        // Return the unique usernames in the rendered cell
-                                        return '<li>' + uniqueUsernames.join('</li><li>') + '</li>';
-                                    }*/
-          }
-        },
-      },
-      {
-        data: "intwUser",
-        render: function (data, type, row) {
-          var intwuser = row.intwUser;
-
-          if (intwuser == null || intwuser == "") {
-            return "";
-          } else if (!intwuser.includes("<br/>")) {
-            return intwuser;
-          } else {
-            const intwUserArray = intwuser.split("<br/>");
-
-            // Membuat objek untuk menyimpan data
-            const userData = { statusArray: [] };
-
-            // Mengumpulkan data status
-            for (let i = 0; i < intwUserArray.length; i++) {
-              // Menambahkan status ke dalam array yang sesuai
-              userData.statusArray.push(intwUserArray[i]);
-            }
-
-            // Menampilkan data terakhir
-            const lastStatus =
-              userData.statusArray[userData.statusArray.length - 1];
-
-            return lastStatus;
-
-            //NAMPILIN STATUS INTERVIEW PER USER
-            /*var intwuser = row.intwUser;
-                                    var nameofuser = row.nameOfUser;
-                
-                                    if (intwuser == null) {
-                                        return "";
-                                    } else if (!intwuser.includes('<br/>')) {
-                                        return intwuser;
-                                    } else {
-                                        const intwUserArray = intwuser.split('<br/>');
-                                        const nameOfUserArray = nameofuser.split('<br/>');
-                
-                                        // Membuat objek untuk menyimpan data berdasarkan nama user
-                                        const userDataMap = new Map();
-                
-                                        // Mengumpulkan data berdasarkan nama user
-                                        for (let i = 0; i < intwUserArray.length; i++) {
-                                            const userName = nameOfUserArray[i];
-                
-                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
-                                            if (!userDataMap.has(userName)) {
-                                                userDataMap.set(userName, { statusArray: [] });
-                                            }
-                
-                                            // Menambahkan status ke dalam array yang sesuai
-                                            userDataMap.get(userName).statusArray.push(intwUserArray[i]);
-                                        }
-                
-                                        // Menampilkan data terakhir untuk setiap nama user
-                                        let lastStatusByUser = "";
-                                        userDataMap.forEach((userData, userName) => {
-                                            const lastStatus = userData.statusArray[userData.statusArray.length - 1];
-                                            lastStatusByUser += `<li>${lastStatus}</li>`;
-                                        });
-                
-                                        return lastStatusByUser;*/
-          }
-        },
-      },
-
-      {
-        data: "intwDateUser",
-        render: function (data, type, row) {
-          var dateuser = row.intwDateUser;
-
-          if (dateuser == null || dateuser == "") {
-            return "";
-          } else if (!dateuser.includes("<br/>")) {
-            return moment(dateuser).format("DD MMMM YYYY");
-          } else {
-            const dateUserArray = dateuser.split("<br/>");
-
-            // Membuat objek untuk menyimpan data
-            const userDate = { dateArray: [] };
-
-            // Mengumpulkan data status
-            for (let i = 0; i < dateUserArray.length; i++) {
-              // Menambahkan status ke dalam array yang sesuai
-              userDate.dateArray.push(dateUserArray[i]);
-            }
-
-            // Menampilkan data terakhir
-            const lastDate = userDate.dateArray[userDate.dateArray.length - 1];
-
-            return moment(lastDate).format("DD MMMM YYYY");
-
-            //NAMPILIN TANGGAL PER USER
-            /*var dateuser = row.intwDateUser;
-                                    var nameofuser = row.nameOfUser;
-                
-                                    if (dateuser == null) {
-                                        return "";
-                                    } else if (!dateuser.includes('<br/>')) {
-                                        return dateuser;
-                                    } else {
-                                        const dateuserArray = dateuser.split('<br/>');
-                                        const nameOfUserArray = nameofuser.split('<br/>');
-                
-                                        // Membuat objek untuk menyimpan data berdasarkan nama user
-                                        const userDataMap = new Map();
-                
-                                        // Mengumpulkan data berdasarkan nama user
-                                        for (let i = 0; i < dateuserArray.length; i++) {
-                                            const userName = nameOfUserArray[i];
-                                                
-                                            // Jika nama user belum ada dalam userDataMap, tambahkan sebagai kunci baru
-                                            if (!userDataMap.has(userName)) {
-                                                userDataMap.set(userName, { dateArray: [] });
-                                            }
-                
-                                            // Menambahkan status ke dalam array yang sesuai
-                                            userDataMap.get(userName).dateArray.push(dateuserArray[i]);
-                                        }
-                
-                                        // Menampilkan data terakhir untuk setiap nama user
-                                        let lastDateByUser = "";
-                                        userDataMap.forEach((userData, userName) => {
-                                            const lastDate = userData.dateArray[userData.dateArray.length - 1];
-                                            lastDateByUser += `<li>${lastDate}</li>`;
-                                        });
-                
-                                        return lastDateByUser;*/
           }
         },
       },
@@ -761,15 +666,66 @@ function Src(selectedCategory) {
           return " ";
         },
       },
+      {
+        data: "skillset",
+      },
+      {
+        data: "workStatus",
+      },
+      {
+        data: "financialIndustry",
+      },
+      {
+        data: "rawCv",
+      },
+      {
+        data: "cvBerca",
+      },
+      {
+        data: "negotiable",
+      },
+      {
+        data: "notes",
+      },
     ],
     columnDefs: [
       {
-        targets: [2, 28],
+        targets: [2, 25],
         className: "customWrap",
+      },
+      {
+        targets: [27, 28, 29, 30, 31, 32, 33],
+        visible: false,
       },
     ],
     searching: true,
+    dom: "lBfrtip",
+    buttons: [
+      {
+        extend: "excel",
+        className: "buttonsToHide",
+        exportOptions: {
+          columns: [
+            0, 1, 27, 3, 4, 5, 6, 7, 8, 9, 10, 28, 12, 29, 30, 31, 16, 17, 18,
+            32, 20, 21, 22, 23, 24, 33, 26,
+          ],
+          modifier: {
+            page: "current",
+          },
+        },
+        attr: {
+          id: "excelButton",
+        },
+      },
+    ],
   });
+
+  table
+    .buttons()
+    .container()
+    .appendTo($(".col-sm-6:eq(0)", table.table().container()));
+
+  table.buttons(".buttonsToHide").nodes().addClass("d-none");
 
   function getLastValue(data, key) {
     const regex = new RegExp(`([^<br/>]+)(?!.*<br\/>)`);
@@ -777,7 +733,7 @@ function Src(selectedCategory) {
     return match ? match[0] : null;
   }
 
-  table.on("click", "tbody tr i", function () {
+  table.on("click", "tbody tr i.edit", function () {
     // Temukan baris <tr> terdekat yang mengandung ikon yang di klik
 
     let row = $(this).closest("tr");
@@ -826,6 +782,7 @@ function Src(selectedCategory) {
     } else {
       $("#age").val("");
     }
+    $("#birthdate2").val(data.birthdate);
 
     $("#level2").val(data.level);
     $("#statusOffering").val(data.status);
@@ -871,235 +828,50 @@ function Src(selectedCategory) {
     } else {
       $("#dateIntwRAS").val("");
     }
-    if (data.intwUser !== null) {
-      var elems = document.getElementsByClassName("btn-status");
-      for (var i = 0; i < elems.length; i += 1) {
-        elems[i].style.display = "block";
-      }
-    }
-    // Ambil nilai data #intwByRAS dari database
-    //var intwByRAS = data.intwByRas; // Gantilah dengan data sebenarnya dari database
-
-    // Cek apakah data #intwByRAS sudah ada
-    const selectNameUser = $("#nameUser");
-    selectNameUser.val(data.nameOfUser).trigger("change");
-
-    const selectNameUser2 = $("#nameUser2");
-    const dataNameUser = data.nameOfUser;
-    selectNameUser2.val(null).trigger("change");
-    /*if (dataNameUser == null) {
-                    selectNameUser2.val(null).trigger("change");
-                }
-                else if (!dataNameUser.includes('<br/>')) {
-                    const optionNotExists = selectNameUser2.find("option[value='" + dataNameUser + "']").length === 0;
-        
-                    if (optionNotExists) {
-                        const newOption = new Option(dataNameUser, dataNameUser, true, true);
-                        selectNameUser2.append(newOption).trigger('change');
-                    }
-                    selectNameUser2.val(null).trigger("change");
-                } else {
-                    const nameOfUserArray = dataNameUser.split('<br/>');
-                    nameOfUserArray.forEach(value => {
-                        const optionNotExists = selectNameUser2.find("option[value='" + value + "']").length === 0;
-        
-                        if (optionNotExists) {
-                            const newOption = new Option(value, value, true, true);
-                            console.log(newOption);
-                            selectNameUser2.append(newOption).trigger('change');
-                        }
-                    });
-                    selectNameUser2.val(null).trigger("change");
-        
-                }*/
-
-    if (data.intwByRas) {
-      if (
-        data.intwUser == null ||
-        data.nameOfUser == null ||
-        data.intwDateUser == null
-      ) {
-        /*$(selectNameUser).select2({
-                                    width: '100%',
-                                    tags: true,
-                                    dropdownParent: $('#offeringSourceList')
-                                });*/
-
-        $("#intwUser").val(data.intwUser).prop("disabled", false);
-        $("#nameUser").val(data.nameOfUser).prop("disabled", false);
-        $("#dateIntwUser").val("").prop("disabled", false);
-
-        if (data.intwDateUser) {
-          $("#dateIntwUser")
-            .val(data.intwDateUser.substring(0, 10))
-            .prop("disabled", false);
-        } else {
-          $("#dateIntwUser").val("").prop("disabled", false);
-        }
-      } else if (
-        !data.intwUser.includes("<br/>") ||
-        !data.nameOfUser.includes("<br/>") ||
-        !data.intwDateUser.includes("<br/>")
-      ) {
-        /*  var elems = document.getElementsByClassName('btn-status');
-                                  for (var i = 0; i < elems.length; i += 1) {
-                                      elems[i].style.display = 'block';
-                                  }*/
-        /*$(selectNameUser).select2({
-                                    width: '100%',
-                                    tags: true,
-                                    dropdownParent: $('#offeringSourceList')
-                                });
-                                const optionNotExists = selectNameUser.find("option[value='" + dataNameUser + "']").length === 0;
-                
-                                if (optionNotExists) {
-                                    const newOption = new Option(dataNameUser, dataNameUser, true, true);
-                                    selectNameUser.append(newOption).trigger('change');
-                
-                                }*/
-        selectNameUser.val(dataNameUser).trigger("change");
-        $("#intwUser").val(data.intwUser).prop("disabled", false);
-        $("#nameUser").val(data.nameOfUser).prop("disabled", false);
-        $("#dateIntwUser").val("").prop("disabled", false);
-        if (data.intwDateUser) {
-          $("#dateIntwUser")
-            .val(data.intwDateUser.substring(0, 10))
-            .prop("disabled", false);
-        } else {
-          $("#dateIntwUser").val("").prop("disabled", false);
-        }
-      } else {
-        const intwUserArray = data.intwUser.split("<br/>");
-        const nameOfUserArray = data.nameOfUser.split("<br/>");
-        const intwDateUserArray = data.intwDateUser.split("<br/>");
-
-        const lastIntwUser = intwUserArray[intwUserArray.length - 1];
-        const lastNameOfUser = nameOfUserArray[nameOfUserArray.length - 1];
-        const lastIntwDateUser =
-          intwDateUserArray[intwDateUserArray.length - 1];
-
-        let beforeLastIntwUser = "";
-        let beforeLastDateIntwUser = "";
-        let beforeLastNameOfUser = "";
-        $("#intwUser").val(lastIntwUser).prop("disabled", false);
-        $("#nameUser").prop("disabled", true);
-        // Menggunakan loop untuk mengumpulkan semua data sebelum data terakhir
-        for (let i = 0; i < intwUserArray.length - 1; i++) {
-          beforeLastIntwUser += intwUserArray[i] + "<br/>";
-          beforeLastDateIntwUser += intwDateUserArray[i] + "<br/>";
-          beforeLastNameOfUser += nameOfUserArray[i] + "<br/>";
-        }
-
-        /*nameOfUserArray.forEach(value => {
-                                    const optionNotExists = selectNameUser.find("option[value='" + value + "']").length === 0;
-                
-                                    if (optionNotExists) {
-                                        const newOption = new Option(value, value, true, true);
-                                        selectNameUser.append(newOption).trigger('change');
-                                    }
-                                });*/
-        selectNameUser.val(lastNameOfUser).trigger("change");
-        // Menyimpan data sebelum data terakhir ke elemen tersembunyi
-        $("#intwuserHiden").val(beforeLastIntwUser);
-        //$('#intwUserHiddenLabel').html(beforeLastIntwUser);
-
-        $("#dateintwuserHiden").val(beforeLastDateIntwUser);
-        //$('#dateIntwUserHiddenLabel').html(beforeLastDateIntwUser);
-
-        $("#nameUserhidden").val(beforeLastNameOfUser);
-        if (lastIntwDateUser) {
-          $("#dateIntwUser")
-            .val(lastIntwDateUser.substring(0, 10))
-            .prop("disabled", false);
-        } else {
-          $("#dateIntwUser").val("").prop("disabled", false);
-        }
-
-        const beforeLastDataMap = new Map();
-
-        // Mengumpulkan data sebelum terakhir berdasarkan nama user
-        for (let i = 0; i < intwUserArray.length - 1; i++) {
-          const userName = nameOfUserArray[i];
-
-          // Jika nama user belum ada dalam beforeLastDataMap, tambahkan sebagai kunci baru
-          if (!beforeLastDataMap.has(userName)) {
-            beforeLastDataMap.set(userName, { intwArray: [], dateArray: [] });
-          }
-
-          // Menambahkan status dan tanggal ke dalam array yang sesuai
-          beforeLastDataMap.get(userName).intwArray.push(intwUserArray[i]);
-          beforeLastDataMap.get(userName).dateArray.push(intwDateUserArray[i]);
-        }
-
-        // Mendapatkan elemen div yang akan menampung label-label per nama user
-
-        // Menampilkan data sebelum terakhir untuk setiap nama user
-        beforeLastDataMap.forEach((userData, userName) => {
-          // Create container div for each user
-          const containerElement = document.getElementById("historyUser");
-          containerElement.style.display = "block";
-          // Create labels for user information
-          const judulLabel = document.createElement("label");
-          judulLabel.classList.add("col-sm-2", "col-form-label", "align-top");
-          judulLabel.innerHTML = `Interview by ${userName}`;
-
-          const intwLabel = document.createElement("label");
-          intwLabel.classList.add("col-sm-5");
-          intwLabel.innerHTML = `Interviews:<br>${userData.intwArray.join(
-            "<br>"
-          )}`;
-
-          const dateLabel = document.createElement("label");
-          dateLabel.classList.add("col-sm-5");
-          dateLabel.innerHTML = `Dates:<br>${userData.dateArray.join("<br>")}`;
-
-          // Append labels to the user container
-          containerElement.appendChild(judulLabel);
-          containerElement.appendChild(intwLabel);
-          containerElement.appendChild(dateLabel);
-        });
-      }
-      // Jika data #intwByRAS ada, atur nilai #intwUser dan tampilkan elemen #intwUser
-      //$('#intwByRAS').val(intwByRAS);
-      /* $('#intwUser').val(data.intwUser).prop('disabled', false);
-                         if (data.intwDateUser) {
-                             $('#dateIntwUser').val(data.intwDateUser.substring(0, 10)).prop('disabled', false);
-                         } else {
-                             $('#dateIntwUser').val('').prop('disabled', false);
-                         }
-                         
-                         $('#nameUser').val(data.nameOfUser).prop('disabled', false);*/
-    } else if (data.intwByRas === "" || data.intwByRas == null) {
-      // Jika data #intwByRAS tidak ada, sembunyikan elemen #intwUser
-      $("#intwUser").prop("disabled", true);
-      $("#nameUser").prop("disabled", true);
-      $("#dateIntwUser").prop("disabled", true);
-    }
-
-    if (data.intwUser) {
-      /*var offer = document.getElementById("formoffer");
-                        offer.show();*/
-      $("#offer").show();
-      //console.log(data.intwUser);
-    } else {
-      $("#offer").hide();
-      //console.log(data.intwUser);
-    }
-
     $("#levelRekom").val(data.levelRekom);
     $("#status").val(data.status);
     $("#notes").val(data.notes);
 
     //alert('You clicked on ' + data.fullname + "'s row");
+
+    compare = {
+      FullName: data.fullname,
+      Position: data.position,
+      Skillset: data.skillset,
+      Degree: data.education,
+      University: data.university,
+      ExpectedSalary: data.expectedSalary,
+      CurrentSalary: data.currentSalary,
+      EnglishLevel: data.englishLevel,
+      CvBerca: data.cvBerca,
+      RawCv: data.rawCv,
+      FinancialIndustry: data.financialIndustry,
+      NoticePeriod: data.noticePeriode,
+      WorkStatus: data.workStatus,
+      FilteringBy: data.filteringBy,
+      Status: data.status,
+      Level: data.level,
+      Birhtdate: data.birthdate,
+      Domisili: data.domisili,
+      Ipk: data.ipk,
+      Notes: data.notes,
+      Status: data.status,
+      LevelRekom: data.levelRekom,
+      IntwDateByRas: data.intwDateByRas,
+      IntwByRas: data.intwByRas,
+      TechTest: data.techTest,
+      Negotiable: data.negotiable,
+      ExperienceInYear: data.experienceInYear,
+    };
   });
 
   /*   $('#filterNavigation .nav-link').click(function () {
-               $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
-               $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
-         
-               // Mereload data DataTables dengan kategori yang baru
-               table.ajax.reload();
-           });*/
+                     $('#filterNavigation .nav-link').removeClass('active'); // Menghapus kelas active dari semua kategori
+                     $(this).addClass('active'); // Menambahkan kelas active ke kategori yang dipilih
+               
+                     // Mereload data DataTables dengan kategori yang baru
+                     table.ajax.reload();
+                 });*/
 
   function formatDate2(date) {
     var d = new Date(date),
@@ -1112,6 +884,48 @@ function Src(selectedCategory) {
 
     return [year, month, day].join("/");
   }
+}
+
+function Delete(NonRasId, FullName) {
+  // debugger;
+
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.value) {
+      showLoader();
+      $.ajax({
+        url: "https://localhost:7177/api/Shortlist/SoftDelete/" + NonRasId,
+        type: "GET",
+        dataType: "json",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+      }).then((result) => {
+        // debugger;
+        if (result.status == 200) {
+          const logMesagge = `Has Removed Shortlist Candidate Id ${NonRasId}, Name : ${FullName}`;
+          SaveLogUpdate(logMesagge);
+
+          table.ajax.reload(() => {
+            // hide loader
+            hideLoader();
+            Swal.fire("Deleted!", "Data has been deleted.", "success");
+          });
+        } else {
+          hideLoader();
+          Swal.fire("Error!", "Data failed to deleted.", "error");
+        }
+      });
+    }
+  });
 }
 
 function ClearScreenSave() {
@@ -1300,87 +1114,87 @@ function getUniversitasList() {
   });
 }
 
-function getClientList() {
-  const selectClient = document.getElementById("nameUser");
+/*function getClientList() {
+    const selectClient = document.getElementById("nameUser");
 
-  $.ajax({
-    url: "https://localhost:7177/api/ClientName",
-    type: "GET",
-    dataType: "json",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-    success: function (response) {
-      if (response.status === 200 && Array.isArray(response.data)) {
-        var clients = response.data.map(function (item) {
-          return item.nameOfClient;
-        });
+    $.ajax({
+        url: "https://localhost:7177/api/ClientName",
+        type: "GET",
+        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (response) {
+            if (response.status === 200 && Array.isArray(response.data)) {
+                var clients = response.data.map(function (item) {
+                    return item.nameOfClient;
+                });
 
-        // Clear previous options
-        selectClient.innerHTML = "";
+                // Clear previous options
+                selectClient.innerHTML = "";
 
-        clients.forEach(function (clientName) {
-          const option = document.createElement("option");
-          option.value = clientName;
-          option.textContent = clientName;
-          selectClient.appendChild(option);
-        });
+                clients.forEach(function (clientName) {
+                    const option = document.createElement("option");
+                    option.value = clientName;
+                    option.textContent = clientName;
+                    selectClient.appendChild(option);
+                });
 
-        $(selectClient).select2({
-          placeholder: "Select Client",
-          width: "100%",
-          dropdownParent: $("#offeringSourceList"),
-        });
-      } else {
-        console.error("Unexpected server response format:", response);
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error("Error making the AJAX request:", textStatus, errorThrown);
-    },
-  });
+                $(selectClient).select2({
+                    placeholder: "Select Client",
+                    width: "100%",
+                    dropdownParent: $("#offeringSourceList"),
+                });
+            } else {
+                console.error("Unexpected server response format:", response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Error making the AJAX request:", textStatus, errorThrown);
+        },
+    });
 }
 
 function getClientList2() {
-  const selectClient2 = document.getElementById("nameUser2");
+    const selectClient2 = document.getElementById("nameUser2");
 
-  $.ajax({
-    url: "https://localhost:7177/api/ClientName",
-    type: "GET",
-    dataType: "json",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-    success: function (response) {
-      if (response.status === 200 && Array.isArray(response.data)) {
-        var clients = response.data.map(function (item) {
-          return item.nameOfClient;
-        });
+    $.ajax({
+        url: "https://localhost:7177/api/ClientName",
+        type: "GET",
+        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (response) {
+            if (response.status === 200 && Array.isArray(response.data)) {
+                var clients = response.data.map(function (item) {
+                    return item.nameOfClient;
+                });
 
-        // Clear previous options
-        selectClient2.innerHTML = "";
+                // Clear previous options
+                selectClient2.innerHTML = "";
 
-        clients.forEach(function (clientName) {
-          const option = document.createElement("option");
-          option.value = clientName;
-          option.textContent = clientName;
-          selectClient2.appendChild(option);
-        });
+                clients.forEach(function (clientName) {
+                    const option = document.createElement("option");
+                    option.value = clientName;
+                    option.textContent = clientName;
+                    selectClient2.appendChild(option);
+                });
 
-        $(selectClient2).select2({
-          placeholder: "Select Client",
-          width: "100%",
-          dropdownParent: $("#offeringSourceList"),
-        });
-      } else {
-        console.error("Unexpected server response format:", response);
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error("Error making the AJAX request:", textStatus, errorThrown);
-    },
-  });
-}
+                $(selectClient2).select2({
+                    placeholder: "Select Client",
+                    width: "100%",
+                    dropdownParent: $("#offeringSourceList"),
+                });
+            } else {
+                console.error("Unexpected server response format:", response);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Error making the AJAX request:", textStatus, errorThrown);
+        },
+    });
+}*/
 
 function formInputLocation() {
   const selectProvinces = document.getElementById("selectProvinces");
@@ -1459,16 +1273,28 @@ function Save() {
     }
     // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
     /*if (input.attr("id") === "ipk") {
-                var ipk = input.val().trim();
-                var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
-    
-                if (!validIPK.test(ipk)) {
-                    $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
-                    isValid = false;
+            var ipk = input.val().trim();
+            var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+            if (!validIPK.test(ipk)) {
+                $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+                isValid = false;
+            } else {
+                // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+                if (ipk === "4") {
+                    ipk = "4.00";
                 } else {
-                    $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+                    var ipkParts = ipk.split(".");
+                    if (ipkParts.length === 1) {
+                        ipk += ".00";
+                    } else if (ipkParts[1].length === 1) {
+                        ipk += "0";
+                    }
                 }
-            }*/
+                input.val(ipk);
+                $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+            }
+        }*/
   });
 
   if (!$("#experience_year").val()) {
@@ -1531,7 +1357,7 @@ function Save() {
   }
 
   var NonRasCandidate = new Object(); //object baru
-  NonRasCandidate.nonRasId = $("#nonrasid").val();
+  //NonRasCandidate.nonRasId = 0;
   NonRasCandidate.fullname = $("#Name")
     .val()
     .toLowerCase()
@@ -1544,7 +1370,8 @@ function Save() {
   NonRasCandidate.ipk = $("#ipk").val();
   NonRasCandidate.university = $("#UniversityName").val();
   NonRasCandidate.domisili = $("#domicile").val();
-  NonRasCandidate.birthdate = $("#age1").val();
+  /*NonRasCandidate.birthdate = $("#age1").val();*/
+  NonRasCandidate.birthdate = $("#birthdate").val();
   NonRasCandidate.level = $("#level").val();
   NonRasCandidate.experienceInYear = experience;
   NonRasCandidate.filteringBy = $("#filteringby").val();
@@ -1560,9 +1387,9 @@ function Save() {
   NonRasCandidate.techTest = "";
   NonRasCandidate.intwByRas = null;
   NonRasCandidate.intwDateByRas = null;
-  NonRasCandidate.intwUser = null;
-  NonRasCandidate.nameOfUser = null;
-  NonRasCandidate.intwDateUser = null;
+  /* NonRasCandidate.intwUser = null;
+         NonRasCandidate.nameOfUser = null;
+         NonRasCandidate.intwDateUser = null;*/
   NonRasCandidate.levelRekom = "";
   NonRasCandidate.status = "";
   NonRasCandidate.notes = "";
@@ -1576,7 +1403,7 @@ function Save() {
   let currentDate = `${day}-${month}-${year}`;
 
   NonRasCandidate.lastModified = formatDate(Date());
-
+  showLoader();
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/Shortlist/Add",
@@ -1587,23 +1414,31 @@ function Save() {
     },
   }).then((result) => {
     //
+
     const logMesagge = `Has Added Shortlist Candidate ${NonRasCandidate.fullname}`;
     SaveLogUpdate(logMesagge);
+
     if (result.status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been added!",
-        showConfirmButtom: false,
-        timer: 1500,
+      table.ajax.reload(() => {
+        // Sembunyikan loader setelah tabel diperbarui
+        hideLoader();
+        Swal.fire({
+          icon: "success",
+          title: "Success...",
+          text: "Data has been added!",
+          showConfirmButtom: false,
+          timer: 1500,
+        });
       });
+
       $("#Modal").modal("hide");
-      table.ajax.reload();
+
       ClearScreenSave();
     } else {
+      hideLoader();
       Swal.fire({
         icon: "warning",
-        title: "Data Gagal dimasukkan!",
+        title: "Data failed to added!",
         showConfirmButtom: false,
         timer: 1500,
       });
@@ -1639,17 +1474,29 @@ function Update() {
       input.next(".error-message").hide();
     }
     // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
-    if (input.attr("id") === "ipk2") {
-      var ipk = input.val().trim();
-      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+    /*if (input.attr("id") === "ipk2") {
+            var ipk = input.val().trim();
+            var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
 
-      if (!validIPK.test(ipk)) {
-        $(".error-format-ipk-update").show(); // Menampilkan pesan error format IPK
-        isValid = false;
-      } else {
-        $(".error-format-ipk-update").hide(); // Menyembunyikan pesan error format IPK
-      }
-    }
+            if (!validIPK.test(ipk)) {
+                $(".error-format-ipk-update").show(); // Menampilkan pesan error format IPK
+                isValid = false;
+            } else {
+                // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+                if (ipk === "4") {
+                    ipk = "4.00";
+                } else {
+                    var ipkParts = ipk.split(".");
+                    if (ipkParts.length === 1) {
+                        ipk += ".00";
+                    } else if (ipkParts[1].length === 1) {
+                        ipk += "0";
+                    }
+                }
+                input.val(ipk);
+                $(".error-format-ipk-update").hide(); // Menyembunyikan pesan error format IPK
+            }
+        }*/
   });
 
   var workstatus = $("#workstatus2").is(":checked");
@@ -1688,7 +1535,8 @@ function Update() {
   NonRasCandidate.ipk = $("#ipk2").val();
   NonRasCandidate.university = $("#UniversityName2").val();
   NonRasCandidate.domisili = $("#domicile2").val();
-  NonRasCandidate.birthdate = $("#age").val();
+  /*NonRasCandidate.birthdate = $("#age").val();*/
+  NonRasCandidate.birthdate = $("#birthdate2").val();
   NonRasCandidate.level = $("#level2").val();
   // NonRasCandidate.experienceInYear = $("#experience").val();
   NonRasCandidate.experienceInYear = experience;
@@ -1704,188 +1552,54 @@ function Update() {
   NonRasCandidate.negotiable = $('input[name="nego2"]:checked').val();
   NonRasCandidate.intwByRas = $("#intwByRAS").val();
 
-  //New User
-  var nameUser = $("#nameUser").val();
-  var intwUser = $("#intwUser").val();
-  var dateIntwUser = $("#dateIntwUser").val();
-  var nameUserHidden = $("#nameUserhidden").val();
-  var intwUser2 = $("#intwUser2").val();
-  var dateIntwUser2 = $("#dateIntwUser2").val();
-  var intwUserHidden = $("#intwuserHiden").val();
-  var dateIntwUserHidden = $("#dateintwuserHiden").val();
-
-  var newNameUser = $("#nameUser2").val();
-  if (newNameUser === "" || newNameUser === null) {
-    newNameUser = null;
-  }
-  var newIntwUser = $("#displayUserItw").val();
-  var newDateIntwUser = $("#dateIntwUserr").val();
-
-  if ($("#displayUserItw").is(":visible")) {
-    if ($("#displayUserItw").val() === null) {
-      $(".error-message-update").css("display", "block");
-      return false; // Field tidak valid
-    }
-  }
-
-  if ($("#dateIntwUserr").is(":visible")) {
-    if ($("#dateIntwUserr").val() === "") {
-      $(".error-message-update").css("display", "block");
-      return false; // Field tidak valid
-    }
-  }
-  if ($("#nameUser2").is(":visible")) {
-    if ($("#dateIntwUserr").val() === "") {
-      $(".error-message-update").css("display", "block");
-      return false; // Field tidak valid
-    }
-  }
-  if (!isValid) {
-    return;
-  }
-
-  if (
-    nameUser !== null &&
-    nameUserHidden == "" &&
-    intwUser !== "" &&
-    dateIntwUser !== "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden == "" &&
-    dateIntwUserHidden == "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-    var nameUser_ = nameUser;
-    var intwUser_ = intwUser;
-    var dateIntwUser_ = dateIntwUser;
-    console.log("AA");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden == "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 !== null &&
-    dateIntwUser2 !== "" &&
-    intwUserHidden == "" &&
-    dateIntwUserHidden == "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-    var nameUser_ = nameUser + "<br/>" + nameUser;
-    var intwUser_ = intwUser + "<br/>" + intwUser2;
-    var dateIntwUser_ = dateIntwUser + "<br/>" + dateIntwUser2;
-    console.log("BB");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden !== "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 !== null &&
-    dateIntwUser2 !== "" &&
-    intwUserHidden !== "" &&
-    dateIntwUserHidden !== "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-    var nameUser_ = nameUserHidden + nameUser + "<br/>" + nameUser;
-    var intwUser_ = intwUserHidden + intwUser + "<br/>" + intwUser2;
-    var dateIntwUser_ =
-      dateIntwUserHidden + dateIntwUser + "<br/>" + dateIntwUser2;
-    console.log("CC");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden !== "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden !== "" &&
-    dateIntwUserHidden !== "" &&
-    newNameUser !== null &&
-    newIntwUser !== null &&
-    newDateIntwUser !== ""
-  ) {
-    var nameUser_ = nameUserHidden + nameUser + "<br/>" + newNameUser;
-    var intwUser_ = intwUserHidden + intwUser + "<br/>" + newIntwUser;
-    var dateIntwUser_ =
-      dateIntwUserHidden +
-      dateIntwUser +
-      "<br/>" +
-      dateIntwUser2 +
-      "<br/>" +
-      newDateIntwUser;
-    console.log("DD");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden == "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden == "" &&
-    dateIntwUserHidden == "" &&
-    newNameUser !== null &&
-    newIntwUser !== null &&
-    newDateIntwUser !== ""
-  ) {
-    var nameUser_ = nameUser + "<br/>" + newNameUser;
-    var intwUser_ = intwUser + "<br/>" + newIntwUser;
-    var dateIntwUser_ = dateIntwUser + "<br/>" + newDateIntwUser;
-    console.log("EE");
-  } else if (
-    nameUser !== null &&
-    nameUserHidden !== "" &&
-    intwUser !== null &&
-    dateIntwUser !== "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden !== "" &&
-    dateIntwUserHidden !== "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-    var nameUser_ = nameUserHidden + nameUser;
-    var intwUser_ = intwUserHidden + intwUser;
-    var dateIntwUser_ = dateIntwUserHidden + dateIntwUser;
-    console.log("FF");
-  } else if (
-    nameUser == null &&
-    nameUserHidden == "" &&
-    intwUser == null &&
-    dateIntwUser == "" &&
-    intwUser2 == null &&
-    dateIntwUser2 == "" &&
-    intwUserHidden == "" &&
-    dateIntwUserHidden == "" &&
-    newNameUser == null &&
-    newIntwUser == null &&
-    newDateIntwUser == ""
-  ) {
-  } else {
-    Swal.fire({
-      icon: "warning",
-      title: "Data Gagal dimasukkan!",
-      text: "There is a client data that has been deleted, or data input error",
-      showConfirmButtom: true,
-    });
-    return;
-  }
-
   NonRasCandidate.techTest = $("#techTest").val();
   NonRasCandidate.intwDateByRas = $("#dateIntwRAS").val();
-  NonRasCandidate.intwUser = intwUser_;
-  NonRasCandidate.nameOfUser = nameUser_;
-  NonRasCandidate.intwDateUser = dateIntwUser_;
+  /*NonRasCandidate.intwUser = intwUser_;
+        NonRasCandidate.nameOfUser = nameUser_;
+        NonRasCandidate.intwDateUser = dateIntwUser_;*/
   NonRasCandidate.levelRekom = $("#levelRekom").val();
   NonRasCandidate.status = $("#statusOffering").val();
   NonRasCandidate.notes = $("#notes").val();
   NonRasCandidate.lastModified = formatDate(Date());
 
+  if (
+    NonRasCandidate.fullname == compare.FullName &&
+    NonRasCandidate.position == compare.Position &&
+    NonRasCandidate.skillset == compare.Skillset &&
+    NonRasCandidate.education == compare.Degree &&
+    NonRasCandidate.ipk == compare.Ipk &&
+    NonRasCandidate.university == compare.University &&
+    NonRasCandidate.domisili == compare.Domisili &&
+    NonRasCandidate.birthdate == compare.Birhtdate &&
+    NonRasCandidate.level == compare.Level &&
+    NonRasCandidate.experienceInYear == compare.ExperienceInYear &&
+    NonRasCandidate.filteringBy == compare.FilteringBy &&
+    NonRasCandidate.workStatus == compare.WorkStatus &&
+    NonRasCandidate.noticePeriode == compare.NoticePeriod &&
+    NonRasCandidate.financialIndustry == compare.FinancialIndustry &&
+    NonRasCandidate.rawCv == compare.RawCv &&
+    NonRasCandidate.cvBerca == compare.CvBerca &&
+    NonRasCandidate.englishLevel == compare.EnglishLevel &&
+    NonRasCandidate.currentSalary == compare.CurrentSalary &&
+    NonRasCandidate.expectedSalary == compare.ExpectedSalary &&
+    NonRasCandidate.negotiable == compare.Negotiable &&
+    NonRasCandidate.intwByRas == compare.IntwByRas &&
+    NonRasCandidate.intwDateByRas == compare.IntwDateByRas &&
+    NonRasCandidate.techTest == compare.TechTest &&
+    NonRasCandidate.levelRekom == compare.LevelRekom &&
+    NonRasCandidate.status == compare.Status &&
+    NonRasCandidate.notes == compare.Notes
+  ) {
+    const logMessage = `Updated Candidate data with no changes detected, Id ${NonRasCandidate.nonRasId}, name ${NonRasCandidate.fullname}`;
+    SaveLogUpdate(logMessage);
+    Swal.fire({
+      icon: "info",
+      title: "No Changes Detected",
+      text: "No data has been changed.",
+    });
+    $("#offeringSourceList").modal("hide");
+    return;
+  }
   $.ajax({
     type: "PUT",
     url: "https://localhost:7177/api/Shortlist",
@@ -1912,7 +1626,7 @@ function Update() {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Data Gagal dimasukkan!",
+        title: "Data failed to update!",
         showConfirmButtom: false,
         timer: 1500,
       });
@@ -1971,27 +1685,28 @@ function fetchCategories() {
 }
 
 function createNavigation(categories) {
-  let maxVisibleCategories = 6;
+  let maxVisibleCategories = 4;
   categories.unshift("All"); // Menambahkan opsi "All" ke dalam array categories
 
   // Mendeteksi lebar layar saat halaman dimuat
   const screenWidth = window.innerWidth || document.documentElement.clientWidth;
 
   // Ubah jumlah maksimum kategori yang ditampilkan berdasarkan lebar layar
-  if (screenWidth <= 1024) {
-    maxVisibleCategories = 5;
-  }
-  if (screenWidth < 850) {
-    maxVisibleCategories = 4;
-  }
-  if (screenWidth < 750) {
-    maxVisibleCategories = 3;
-  }
-  if (screenWidth <= 500) {
-    maxVisibleCategories = 1;
-  }
+  // if (screenWidth <= 1024) {
+  //   maxVisibleCategories = 5;
+  // }
+  // if (screenWidth < 850) {
+  //   maxVisibleCategories = 4;
+  // }
+  // if (screenWidth < 750) {
+  //   maxVisibleCategories = 3;
+  // }
+  // if (screenWidth <= 500) {
+  //   maxVisibleCategories = 1;
+  // }
   const navList = document.createElement("ul");
   navList.className = "nav nav-tabs";
+  navList.setAttribute("id", "nav-menu");
 
   // Loop untuk menambahkan item navigasi sampai index 6 (item ke-7)
   for (let i = 0; i < Math.min(categories.length, maxVisibleCategories); i++) {
@@ -1999,10 +1714,11 @@ function createNavigation(categories) {
     listItem.className = "nav-item";
 
     const link = document.createElement("a");
+    link.setAttribute("id", "item-" + categories[i].toLowerCase());
     link.className = "nav-link text-sm";
     link.href = "#";
     link.setAttribute("data-category", categories[i].toLowerCase());
-    link.textContent = capitalizeWords(categories[i]);
+    link.textContent = categories[i];
 
     if (i === 0) {
       // Tandai 'All' sebagai aktif secara default
@@ -2047,7 +1763,7 @@ function createNavigation(categories) {
       navLinks.forEach((link) => {
         link.classList.remove("active");
       });
-      dropdownToggle.classList.add("active");
+      //   dropdownToggle.classList.add("active");
     });
   }
 
@@ -2072,20 +1788,68 @@ function createDropdown(categories) {
 
   const dropdownMenu = document.createElement("div");
   dropdownMenu.className = "dropdown-menu";
+  dropdownMenu.setAttribute("id", "dropdown-menu");
   dropdownMenu.setAttribute("aria-labelledby", "navbarDropdown");
 
   categories.forEach((category) => {
     const dropdownItem = document.createElement("a");
     dropdownItem.className = "dropdown-item";
+    dropdownItem.setAttribute("id", "more-" + category);
     dropdownItem.href = "#";
-    dropdownItem.textContent = capitalizeWords(category);
+    dropdownItem.textContent = category;
 
     dropdownItem.addEventListener("click", function (e) {
       e.preventDefault();
-      const selectedCategory = this.textContent;
-      console.log("Selected category:", selectedCategory);
+      this.style.display = "none";
+      const navListMenu = document.getElementById("nav-menu");
 
-      Src(selectedCategory);
+      //Additional
+      const listItem = document.createElement("li");
+      listItem.className = "nav-item";
+      listItem.setAttribute("id", "item-" + this.textContent);
+
+      const link = document.createElement("a");
+      link.setAttribute("id", "new-menu");
+      link.className = "nav-link text-sm";
+      link.href = "#";
+      link.setAttribute("data-category", this.textContent.toLowerCase());
+      link.innerHTML = `<i class="fa fa-circle-xmark closeBtn" id="close${this.textContent}" onclick="addDropdown('${this.textContent}')"></i>&nbsp; ${this.textContent}`;
+
+      link.classList.add("active");
+
+      var dropdownLength =
+        document.querySelectorAll("#dropdown-menu > a").length;
+
+      if (dropdownLength == 0) {
+        $("#dropdown-nav-tab").hide();
+      } else {
+        $("#dropdown-nav-tab").show();
+      }
+
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const selectedCategory = this.getAttribute("data-category");
+
+        // table.column(3).search(selectedCategory).draw();
+        Src(selectedCategory);
+        navListMenu.querySelectorAll(".nav-link").forEach((link) => {
+          link.classList.remove("active");
+        });
+
+        this.classList.add("active");
+      });
+      var childItem = document.querySelectorAll("#nav-menu .nav-item").length;
+      listItem.appendChild(link);
+      navListMenu.insertBefore(listItem, navListMenu.children[childItem - 1]);
+
+      const selectedCategory = this.textContent;
+      if (selectedCategory == "all") {
+        // table.search("").draw();
+        Src(selectedCategory);
+      } else {
+        Src(selectedCategory);
+        // table.column(3).search(selectedCategory).draw();
+      }
     });
 
     dropdownMenu.appendChild(dropdownItem);
@@ -2095,6 +1859,21 @@ function createDropdown(categories) {
   dropdownContainer.appendChild(dropdownMenu);
 
   return dropdownContainer;
+}
+
+function addDropdown(nameOfClient) {
+  document.getElementById("more-" + nameOfClient).style.display = "block";
+  document.getElementById("item-" + nameOfClient).remove();
+  var dropdownLength = document.querySelectorAll("#dropdown-menu > a").length;
+
+  if (dropdownLength == 0) {
+    $("#dropdown-nav-tab").hide();
+  } else {
+    $("#dropdown-nav-tab").show();
+  }
+
+  $("#nav-menu li").first().click();
+  $("#item-all").addClass("active");
 }
 
 // Fungsi untuk mengubah huruf besar di awal dan setelah spasi
@@ -2163,4 +1942,52 @@ function getColorForPosition(word) {
       softlColors[Object.keys(colorsByWord).length % softlColors.length];
   }
   return colorsByWord[word];
+}
+
+//Loader
+
+function showLoader() {
+  // Membuat elemen div untuk loader
+  var loaderContainer = document.createElement("div");
+  loaderContainer.id = "loader";
+  loaderContainer.style.width = "100%";
+  loaderContainer.style.height = "100%";
+  loaderContainer.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+  loaderContainer.style.zIndex = "999";
+  loaderContainer.style.display = "flex";
+  loaderContainer.style.justifyContent = "center";
+  loaderContainer.style.alignItems = "center";
+  loaderContainer.style.position = "fixed";
+  loaderContainer.style.top = "0";
+  loaderContainer.style.left = "0";
+
+  // Membuat elemen spinner
+  var spinnerColors = [
+    "text-primary",
+    "text-secondary",
+    "text-success",
+    "text-danger",
+    "text-warning",
+  ];
+  spinnerColors.forEach(function (color) {
+    var spinner = document.createElement("div");
+    spinner.className = "spinner-grow " + color;
+    spinner.setAttribute("role", "status");
+    var span = document.createElement("span");
+    span.className = "sr-only";
+    span.textContent = "Loading...";
+    spinner.appendChild(span);
+    loaderContainer.appendChild(spinner);
+  });
+
+  // Menambahkan loaderContainer ke dalam body
+  document.body.appendChild(loaderContainer);
+}
+
+// Fungsi untuk menyembunyikan loader
+function hideLoader() {
+  var loader = document.getElementById("loader");
+  if (loader) {
+    loader.remove(); // Menghapus loader dari DOM
+  }
 }
