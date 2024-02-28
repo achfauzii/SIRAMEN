@@ -1,4 +1,7 @@
-﻿using Org.BouncyCastle.Utilities;
+﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Utilities;
+using RasManagement.Controllers;
+using RasManagement.ViewModel;
 
 namespace RasManagement.Repository
 {
@@ -17,16 +20,19 @@ namespace RasManagement.Repository
 
             return clientnameExists;
         }
-        public async Task<ClientName> AddClient(string clientname)
+        public async Task<int> AddClient(ClientNameInputModel inputModel)
         {
-            // Assuming you have a Department model and DbSet<Department> in your context
-            var newClient = new ClientName { NameOfClient = clientname };
-
-            // Add the new department to the context and save changes
-            context.ClientNames.Add(newClient);
-            await context.SaveChangesAsync();
-
-            return newClient;
+            var client = new ClientName
+            {
+              NameOfClient = inputModel.NameOfClient,
+              SalesName = inputModel.SalesName,
+              SalesContact = inputModel.SalesContact,
+              ClientContact = inputModel.ClientContact,
+              PicClient = inputModel.PicClient
+            };
+            context.ClientNames.Add(client);
+            var insert = context.SaveChanges();
+            return insert;
         }
 
         public async Task<ClientName> ChangeName(string clientname, int id)

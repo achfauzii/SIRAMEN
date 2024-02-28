@@ -12,6 +12,8 @@ public partial class ClientName
     public string? SalesName { get; set; }
     public string? SalesContact { get; set; }
     public string? ClientContact { get; set; }
+    public string? PicClient { get; set; }
+
     [JsonIgnore]
     public virtual ICollection<Position>? Positions { get; set; } = new List<Position>();
     [JsonIgnore]
