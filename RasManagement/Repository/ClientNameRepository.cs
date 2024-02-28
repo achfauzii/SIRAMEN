@@ -55,6 +55,7 @@ namespace RasManagement.Repository
                             .Select(group => new
                             {
                                 nameOfClient = group.Key.clientName,
+                                status = "Open",
                                 quantity = group.Sum(p =>
                                 {
                                     int parsedQuantity;
@@ -72,6 +73,7 @@ namespace RasManagement.Repository
                             .Select(group => new
                             {
                                 nameOfClient = group.Key.clientName,
+                                status = "Not Open",
                                 quantity = group.Sum(p =>
                                 {
                                     int parsedQuantity;
@@ -82,7 +84,28 @@ namespace RasManagement.Repository
                             .ToList();
 
             data.AddRange(otherData);
-            return data;
+
+            // Combine the two lists
+            var combinedData = data.Concat(otherData)
+                        .GroupBy(item => item.nameOfClient)
+                        .Select(group =>
+                        {
+                            var openEntry = group.FirstOrDefault(item => item.status == "Open");
+                            if (openEntry != null)
+                            {
+                                // If there is an 'Open' entry for this client, return it
+                                return openEntry;
+                            }
+                            else
+                            {
+                                // If there is no 'Open' entry, return the first 'Not Open' entry
+                                return group.First();
+                            }
+                        })
+                        .OrderByDescending(item => item.quantity)
+                        .ToList();
+
+            return combinedData;
         }
 
     }
