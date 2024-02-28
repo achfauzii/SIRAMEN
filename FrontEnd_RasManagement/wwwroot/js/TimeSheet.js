@@ -117,9 +117,27 @@ function submitMonth(month) {
             }
         });
 
-
-        addRowHoliday(month);
-
+        // Memanggil addRowHoliday(month); jika data timesheet ada, jika kosong hide
+        $.ajax({
+            url:
+                "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+                accountId +
+                "&month=" +
+                month,
+            type: "GET",
+            contentType: "application/json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                if (result.message !== "Data not found") {
+                    addRowHoliday(month);
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            },
+        });
 
         var tableBody = document
             .getElementById("timeSheetTablePdf")
