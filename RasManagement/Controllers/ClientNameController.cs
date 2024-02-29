@@ -30,10 +30,10 @@ namespace RasManagement.Controllers
 
             if (clientExists)
             {
-                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Department Already Exists." });
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Client Already Exists." });
             }
 
-            var result = await clientNameRepository.AddClient(inputModel.NameOfClient);
+            var result = await clientNameRepository.AddClient(inputModel);
 
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = result });
         }
@@ -68,7 +68,12 @@ namespace RasManagement.Controllers
 
     public class ClientNameInputModel
     {
-        public string NameOfClient { get; set; }
+        public string? NameOfClient { get; set; }
+      
+        public string? SalesName { get; set; }
+        public string? SalesContact { get; set; }
+        public string? ClientContact { get; set; }
+        public string? PicClient { get; set; }
         public int Id { get; set; }
     }
 }

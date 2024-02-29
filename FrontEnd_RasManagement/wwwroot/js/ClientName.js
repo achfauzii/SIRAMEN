@@ -108,9 +108,15 @@ function Save() {
         return;
     }
 
-    var Client = new Object(); //object baru
-    Client.nameOfClient = $("#clientName").val(); //value insert dari id pada input
-
+    var Client = {
+        nameOfClient : $("#clientName").val(), //value insert dari id pada input
+        salesName : $('#salesName').val(),
+        salesContact : $('#salesContact').val(),
+        picClient : $('#picClient').val(),
+        clientContact : $('#clientContact').val(),
+}
+    
+    console.log(Client);
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/ClientName/AddValidasi",
@@ -155,8 +161,9 @@ function ClearScreen() {
     $("#clientId").val("");
     $("#clientName").val("");
     $("#salesName").val("");
-    $("#salesContact").val();
-    $("#clientContact").val();
+    $("#salesContact").val("");
+    $("#picClient").val("");
+    $("#clientContact").val("");
     $("#Update").hide();
     $("#Save").show();
 }
@@ -172,13 +179,13 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
-function ClearScreen() {
+/*function ClearScreen() {
     $("#clientId").val("");
     $("#clientName").val("");
     $(".error-message").hide();
     $("#Update").hide();
     $("#Save").show();
-}
+}*/
 
 function GetById(id) {
     $.ajax({
@@ -196,6 +203,7 @@ function GetById(id) {
             $("#salesName").val(obj.salesName);
             $("#salesContact").val(obj.salesContact);
             $("#clientContact").val(obj.clientContact);
+            $("#picClient").val(obj.picClient);
             $("#Modal").modal("show");
             $("#Update").show();
             $("#Save").hide();
@@ -229,6 +237,7 @@ function Update() {
     ClientName.salesName = $("#salesName").val();
     ClientName.salesContact = $("#salesContact").val();
     ClientName.clientContact = $("#clientContact").val();
+    ClientName.picClient = $("#picClient").val();
  
     $.ajax({
         url: "https://localhost:7177/api/ClientName",
