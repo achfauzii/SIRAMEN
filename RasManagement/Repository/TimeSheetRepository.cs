@@ -72,6 +72,11 @@ namespace RasManagement.Repository
                         Pic = group.First().PlacementStatus.PicName,
                         WFHCount = group.Count(ts => ts.Flag == "WFH"),
                         WFOCount = group.Count(ts => ts.Flag == "WFO"),
+                        ClientSite= companyName,
+                        Position = context.Positions
+                               .Where(p => p.Id == group.First().PlacementStatus.PositionId)
+                               .Select(p => p.PositionClient)
+                               .FirstOrDefault(),
                         TimeSheets = group.Select(ts => new
                         {
                             TimeSheetId = ts.Id,
