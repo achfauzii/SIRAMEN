@@ -36,12 +36,22 @@ namespace FrontEnd_RasManagement.Controllers
                 foreach (var entry in timeSheetEntries)
                 {
 
-                    PdfPTable table = new PdfPTable(4);
-                    float[] columnWidths = { 10f, 4f, 2.5f, 4f };
+                    PdfPTable table = new PdfPTable(6);
+                    float[] columnWidths = { 3.5f, 10f,1.7f,2.9f, 3f, 5.4f };
                     table.SetWidths(columnWidths);
-                    table.WidthPercentage = 100;
+                    table.WidthPercentage = 100; 
 
-                    PdfPCell headerCell = new PdfPCell(new Phrase("Activity", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
+                    PdfPCell headerCell = new PdfPCell(new Phrase("Date", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
+                    headerCell.BackgroundColor = new BaseColor(173, 216, 230);
+                    headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.AddCell(headerCell);
+
+                    headerCell = new PdfPCell(new Phrase("Activity", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
+                    headerCell.BackgroundColor = new BaseColor(173, 216, 230);
+                    headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.AddCell(headerCell);
+
+                    headerCell = new PdfPCell(new Phrase("Flag", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
                     table.AddCell(headerCell);
@@ -56,7 +66,7 @@ namespace FrontEnd_RasManagement.Controllers
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
                     table.AddCell(headerCell);
 
-                    headerCell = new PdfPCell(new Phrase("Date", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
+                    headerCell = new PdfPCell(new Phrase("Known By", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
                     table.AddCell(headerCell);
@@ -65,24 +75,37 @@ namespace FrontEnd_RasManagement.Controllers
 
 
 
+
+
                     // Mengisi data ke dalam tabel
                     foreach (var timeSheet in entry.TimeSheets)
                     {
-                        PdfPCell activityCell = new PdfPCell(new Phrase(timeSheet.Activity, new Font(Font.FontFamily.HELVETICA, 10.2f)));
+                        PdfPCell dateCell = new PdfPCell(new Phrase(timeSheet.Date.ToString("dd MMMM yyyy"), new Font(Font.FontFamily.HELVETICA, 10f)));
+                        dateCell.PaddingBottom = 6.6f;
+                        table.AddCell(dateCell); 
+
+                        PdfPCell activityCell = new PdfPCell(new Phrase(timeSheet.Activity, new Font(Font.FontFamily.HELVETICA, 10f)));
                         activityCell.PaddingBottom = 6.6f;
                         table.AddCell(activityCell);
 
-                        PdfPCell categoryCell = new PdfPCell(new Phrase(timeSheet.Category ?? "",new Font(Font.FontFamily.HELVETICA, 10.2f)));
+                        PdfPCell flagCell = new PdfPCell(new Phrase(timeSheet.Flag, new Font(Font.FontFamily.HELVETICA, 10f)));
+                        flagCell.PaddingBottom = 6.6f;
+                        flagCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        table.AddCell(flagCell);
+
+                        PdfPCell categoryCell = new PdfPCell(new Phrase(timeSheet.Category ?? "",new Font(Font.FontFamily.HELVETICA, 10f)));
                         categoryCell.PaddingBottom = 6.6f;
                         table.AddCell(categoryCell);
 
-                        PdfPCell statusCell = new PdfPCell(new Phrase(timeSheet.Status ?? "", new Font(Font.FontFamily.HELVETICA, 10.2f)));
+                        PdfPCell statusCell = new PdfPCell(new Phrase(timeSheet.Status ?? "", new Font(Font.FontFamily.HELVETICA, 10f)));
                         statusCell.PaddingBottom = 6.6f;
                         table.AddCell(statusCell);
 
-                        PdfPCell dateCell = new PdfPCell(new Phrase(timeSheet.Date.ToString("dd MMMM yyyy"), new Font(Font.FontFamily.HELVETICA, 10.2f)));
-                        dateCell.PaddingBottom = 6.6f;
-                        table.AddCell(dateCell);
+                        PdfPCell knownByCell = new PdfPCell(new Phrase(timeSheet.KnownBy ?? "", new Font(Font.FontFamily.HELVETICA, 10f)));
+                        knownByCell.PaddingBottom = 6.6f;
+                        table.AddCell(knownByCell);
+
+
                     }
 
                     // Membuat objek Font dengan properti yang diinginkan
@@ -191,6 +214,8 @@ namespace FrontEnd_RasManagement.Controllers
             public string Activity { get; set; }
             public string Category { get; set; }
             public string Status { get; set; }
+            public string Flag { get; set; }
+            public string KnownBy { get; set; }
             public DateTime Date { get; set; }
         }
 

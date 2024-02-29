@@ -77,13 +77,16 @@ namespace RasManagement.Repository
                                .Where(p => p.Id == group.First().PlacementStatus.PositionId)
                                .Select(p => p.PositionClient)
                                .FirstOrDefault(),
-                        TimeSheets = group.Select(ts => new
+                        TimeSheets = group .OrderBy(ts => ts.Date)
+                        .Select(ts => new
                         {
                             TimeSheetId = ts.Id,
                             Activity = ts.Activity,
                             Category = ts.Category,
                             Status = ts.Status,
-                            Date = ts.Date
+                            Date = ts.Date,
+                            Flag = ts.Flag,
+                            KnownBy= ts.KnownBy
                         }),
 
                     })
