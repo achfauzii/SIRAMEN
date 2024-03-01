@@ -70,9 +70,9 @@ namespace RasManagement.Repository
                         AccountId = group.Key,
                         AccountName = group.First().Account.Fullname,
                         Pic = group.First().PlacementStatus.PicName,
-                        WFHCount = group.Count(ts => ts.Flag == "WFH"),
-                        WFOCount = group.Count(ts => ts.Flag == "WFO"),
-                        ClientSite= companyName,
+                        WFHCount = group.Where(ts => ts.Flag == "WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFH
+                        WFOCount = group.Where(ts => ts.Flag == "WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFO
+                        ClientSite = companyName,
                         Position = context.Positions
                                .Where(p => p.Id == group.First().PlacementStatus.PositionId)
                                .Select(p => p.PositionClient)
@@ -86,14 +86,20 @@ namespace RasManagement.Repository
                             Status = ts.Status,
                             Date = ts.Date,
                             Flag = ts.Flag,
-                            KnownBy= ts.KnownBy
+                            KnownBy= ts.KnownBy,
+                      /*      IsHoliday = false, // Initialize as false by default
+                            HolidayName = ""*/
                         }),
 
                     })
                     .ToListAsync();
 
+                // Step 3: Get holidays for the target month
+      /*          var holidays = await context.MasterHolidays
+                    .Where(h => h.Date.Value.Month == targetDate.Month && h.Date.Value.Year == targetDate.Year)
+                    .Select(h => h.Date)
+                    .ToListAsync();*/
                 return result;
-
             }
             catch (Exception ex)
             {

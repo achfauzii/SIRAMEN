@@ -155,6 +155,7 @@ namespace FrontEnd_RasManagement.Controllers
                     document.Add(new Paragraph(" "));
                     document.Add(table); // Tambahkan tabel ke dokumen
 
+                    document.Add(new Paragraph("Timesheet Total : "+entry.WfhCount+entry.WfoCount +" days", FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
 
                     // Menambahkan kolom-kolom untuk tanda tangan
                     PdfPTable signatureTable = new PdfPTable(3); // Tiga kolom untuk tanda tangan
