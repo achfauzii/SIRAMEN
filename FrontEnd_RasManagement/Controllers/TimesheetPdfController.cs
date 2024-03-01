@@ -32,7 +32,9 @@ namespace FrontEnd_RasManagement.Controllers
                 Document document = new Document(PageSize.A4);
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
                 document.Open(); // Buka dokumen di sini
-
+                int count = 1;
+    
+                
                 foreach (var entry in timeSheetEntries)
                 {
 
@@ -72,17 +74,36 @@ namespace FrontEnd_RasManagement.Controllers
                     table.AddCell(headerCell);
 
 
-
-
-
-
-
+                    string previousDate = null; // Menyimpan tanggal sebelumnya
+                    int rowspan = 1; // Menyimpan jumlah baris yang digabungkan
                     // Mengisi data ke dalam tabel
                     foreach (var timeSheet in entry.TimeSheets)
                     {
-                        PdfPCell dateCell = new PdfPCell(new Phrase(timeSheet.Date.ToString("dd MMMM yyyy"), new Font(Font.FontFamily.HELVETICA, 10f)));
-                        dateCell.PaddingBottom = 6.6f;
-                        table.AddCell(dateCell); 
+
+                        string currentDate = timeSheet.Date.ToString("dd MMMM yyyy"); // Ambil tanggal saat ini
+
+                        // Periksa apakah tanggal saat ini sama dengan tanggal sebelumnya
+                        if (currentDate == previousDate)
+                        {
+                            // Jika sama, lanjutkan ke iterasi selanjutnya
+                            continue;
+                        }
+                        else
+                        {
+                            // Jika tidak, tambahkan sel tanggal dengan Rowspan yang sesuai
+                            PdfPCell dateCell = new PdfPCell(new Phrase(currentDate, new Font(Font.FontFamily.HELVETICA, 10f)));
+                            dateCell.PaddingBottom = 6.6f;
+
+                            // Hitung Rowspan berdasarkan jumlah entri TimeSheets dengan tanggal yang sama
+                            rowspan = entry.TimeSheets.Count(ts => ts.Date.ToString("dd MMMM yyyy") == currentDate);
+                            dateCell.Rowspan = rowspan;
+
+                            table.AddCell(dateCell); // Tambahkan sel tanggal ke tabel
+
+                            // Tetapkan tanggal saat ini sebagai tanggal sebelumnya
+                            previousDate = currentDate;
+                        }
+
 
                         PdfPCell activityCell = new PdfPCell(new Phrase(timeSheet.Activity, new Font(Font.FontFamily.HELVETICA, 10f)));
                         activityCell.PaddingBottom = 6.6f;
