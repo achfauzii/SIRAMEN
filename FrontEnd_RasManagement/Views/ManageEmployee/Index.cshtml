@@ -53,6 +53,12 @@
     }
 </style>
 
+<!-- Custom styles for filter canvas page -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+
+
+<!-- Main Content-->
 <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -60,6 +66,9 @@
     </div>
     <div class="card-body table-responsive">
         <div class="text-right mb-1 mt-0">
+            <!-- Tombol filter data-->
+            <button id="filterData" type="button" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filter Data</button>
+
             <!-- Tombol reset filter -->
             <button id="resetFilters" class="btn btn-secondary btn-sm">Reset Filters</button>
         </div>
@@ -260,7 +269,6 @@
 
 
 <!-- Modal Info Level-->
-<!-- Modal Info Level-->
 <div class="modal fade" id="modalLevel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -290,6 +298,30 @@
     </div>
 </div>
 
+<!-- Modal Filter Data-->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h6 class="offcanvas-title" id="offcanvasRightLabel">Data Filters</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body m-2">
+        <div class="row" style="font-size: 14px;">
+            Position
+            <div class="accordion-body mt-2">
+                <input type="radio" class="btn-check" name="filter-flag" id="option1" value="wfo" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option1">WFO</label>
+                <input type="radio" class="btn-check" name="filter-flag" id="option2" value="wfh" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option2">WFH</label>
+                <input type="radio" class="btn-check" name="filter-flag" id="option3" value="sick" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option3">Sick</label>
+                <input type="radio" class="btn-check" name="filter-flag" id="option4" value="leave" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option4">Leave</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <!-- Loader-->
 <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0;">
@@ -318,3 +350,4 @@
 <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

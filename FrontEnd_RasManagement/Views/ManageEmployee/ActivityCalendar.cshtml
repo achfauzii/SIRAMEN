@@ -153,13 +153,13 @@
             </div>
             <div class="col-10">
                 <div class="d-grid mx-auto mb-2">
-                            <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="searchActivity" placeholder="Search">
-                                    <button class="btn btn-primary" id="btnSearch" type="button" style="background-color:#624DE3;"><i class="fa fa-search"></i>
-                                    </button>
-                            </div>
-                        </div>
+                    <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchActivity" placeholder="Search">
+                            <button class="btn btn-primary" id="btnSearch" type="button" style="background-color:#624DE3;"><i class="fa fa-search"></i>
+                            </button>
+                    </div>
+                </div>
              </div>
 
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -168,85 +168,73 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvass-body p-2">                
-                @* <div class="accordion" id="accordionPanelsStayOpenExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne"> *@
-                        <div class="row" style="font-size: 14px;">
-                            Flag
-                        @* </button> *@
-                        </h2>
-                        @* <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"> *@
-                        <div class="accordion-body mt-2">
-                            <input type="radio" class="btn-check" name="filter-flag" id="option1" value="wfo" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option1">WFO</label>
-                            <input type="radio" class="btn-check" name="filter-flag" id="option2" value="wfh" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option2">WFH</label>
-                            <input type="radio" class="btn-check" name="filter-flag" id="option3" value="sick" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option3">Sick</label>
-                            <input type="radio" class="btn-check" name="filter-flag" id="option4" value="leave" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option4">Leave</label>
-                        </div>
-                        </div>
-                        @* </div> *@
-                    @* </div> *@
-                    @* <div class="accordion-item">
-                        <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo"> *@
-                            <div class="row mt-2" style="font-size: 14px;">
-                            Category
-                        @* </button> *@
-                        @* </h2> *@
-                        @* <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"> *@
-                        <div class="accordion-body mt-2">
-                            <input type="radio" class="btn-check" name="filter-category" id="option5" value="Meeting/Discussion" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option5">Meeting/Discussion</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option6" value="Coding" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option6">Coding</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option7" value="Testing" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option7">Testing</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option8" value="UAT/SIT" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option8">UAT/SIT</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option9" value="Ticketing" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option9">Ticketing</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option10" value="Docummentation" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option10">Docummentation</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option11" value="Bug/Issue Fix" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option11">Bug/Issue Fix</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option12" value="Support" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option12">Support</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option13" value="Review" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option13">Review</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option14" value="GoLive/Deploy" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option14">GoLive/Deploy</label>
-                            <input type="radio" class="btn-check" name="filter-category" id="option15" value="Others" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option15">Others</label>
-                        </div>
-                        </div>
-                        @* </div> *@
-                    @* </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree"> *@
-                            <div class="row mt-2" style="font-size: 14px;">
-                                Status
-                        @* </button> *@
-                        @* </h2> *@
-                        @* <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"> *@
-                        <div class="accordion-body mt-2">
-                            <input type="radio" class="btn-check" name="filter-status" id="option16" value="In Approval" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option16">In Approval</label>
-                            <input type="radio" class="btn-check" name="filter-status" id="option17" value="Pending" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option17">Pending</label>
-                            <input type="radio" class="btn-check" name="filter-status" id="option18" value="Done" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option18">Done</label>
-                            <input type="radio" class="btn-check" name="filter-status" id="option19" value="Need Approval" autocomplete="off">
-                            <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option19">Need Approval</label>
-                        </div>
-                        </div>
-                        @* </div> *@
-                    @* </div>
-                </div> *@
+                <div class="row" style="font-size: 14px;">
+                    Flag
+                <div class="accordion-body mt-2">
+                    <input type="radio" class="btn-check" name="filter-flag" id="option1" value="wfo" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option1">WFO</label>
+                    <input type="radio" class="btn-check" name="filter-flag" id="option2" value="wfh" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option2">WFH</label>
+                    <input type="radio" class="btn-check" name="filter-flag" id="option3" value="sick" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option3">Sick</label>
+                    <input type="radio" class="btn-check" name="filter-flag" id="option4" value="leave" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option4">Leave</label>
+                </div>
+                </div>
+                    <div class="row mt-2" style="font-size: 14px;">
+                    Category
+                @* </button> *@
+                @* </h2> *@
+                @* <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"> *@
+                <div class="accordion-body mt-2">
+                    <input type="radio" class="btn-check" name="filter-category" id="option5" value="Meeting/Discussion" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option5">Meeting/Discussion</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option6" value="Coding" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option6">Coding</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option7" value="Testing" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option7">Testing</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option8" value="UAT/SIT" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option8">UAT/SIT</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option9" value="Ticketing" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option9">Ticketing</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option10" value="Docummentation" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option10">Docummentation</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option11" value="Bug/Issue Fix" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option11">Bug/Issue Fix</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option12" value="Support" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option12">Support</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option13" value="Review" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option13">Review</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option14" value="GoLive/Deploy" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option14">GoLive/Deploy</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option15" value="Others" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option15">Others</label>
+                </div>
+                </div>
+                @* </div> *@
+            @* </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree"> *@
+                    <div class="row mt-2" style="font-size: 14px;">
+                        Status
+                @* </button> *@
+                @* </h2> *@
+                @* <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"> *@
+                <div class="accordion-body mt-2">
+                    <input type="radio" class="btn-check" name="filter-status" id="option16" value="In Approval" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option16">In Approval</label>
+                    <input type="radio" class="btn-check" name="filter-status" id="option17" value="Pending" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option17">Pending</label>
+                    <input type="radio" class="btn-check" name="filter-status" id="option18" value="Done" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option18">Done</label>
+                    <input type="radio" class="btn-check" name="filter-status" id="option19" value="Need Approval" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option19">Need Approval</label>
+                </div>
+                </div>
+                @* </div> *@
+            @* </div>
+        </div> *@
                 <div class="row mt-2" style="font-size: 14px;">
                     Client
                     <div class="accordion-body form-group mt-2">
@@ -313,11 +301,11 @@
                                 <small>
                                     <ul>
                                         <li class="list-item">
-                                            <span class="badge badge-secondary" style="font-size: 12px;">Red</span>
+                                            <span class="badge badge-danger" style="font-size: 12px;">Red</span>
                                             <span class="bullet-text">: Sick</span>
                                         </li>
                                         <li class="list-item">
-                                            <span class="badge badge-danger" style="font-size: 12px;">Grey</span>
+                                            <span class="badge badge-secondary" style="font-size: 12px;">Grey</span>
                                             <span class="bullet-text">: Leave</span>
                                         </li>
                                     </ul>
