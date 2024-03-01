@@ -75,7 +75,7 @@ namespace FrontEnd_RasManagement.Controllers
 
 
                     string previousDate = null; // Menyimpan tanggal sebelumnya
-                    int rowspan = 1; // Menyimpan jumlah baris yang digabungkan
+                  
                     // Mengisi data ke dalam tabel
                     foreach (var timeSheet in entry.TimeSheets)
                     {
@@ -83,19 +83,15 @@ namespace FrontEnd_RasManagement.Controllers
                         string currentDate = timeSheet.Date.ToString("dd MMMM yyyy"); // Ambil tanggal saat ini
 
                         // Periksa apakah tanggal saat ini sama dengan tanggal sebelumnya
-                        if (currentDate == previousDate)
+                        if (currentDate != previousDate)
                         {
-                            // Jika sama, lanjutkan ke iterasi selanjutnya
-                            continue;
-                        }
-                        else
-                        {
-                            // Jika tidak, tambahkan sel tanggal dengan Rowspan yang sesuai
+                            // Jika tanggal saat ini tidak sama dengan tanggal sebelumnya,
+                            // tambahkan sel tanggal dengan Rowspan yang sesuai
                             PdfPCell dateCell = new PdfPCell(new Phrase(currentDate, new Font(Font.FontFamily.HELVETICA, 10f)));
                             dateCell.PaddingBottom = 6.6f;
 
                             // Hitung Rowspan berdasarkan jumlah entri TimeSheets dengan tanggal yang sama
-                            rowspan = entry.TimeSheets.Count(ts => ts.Date.ToString("dd MMMM yyyy") == currentDate);
+                            int rowspan = entry.TimeSheets.Count(ts => ts.Date.ToString("dd MMMM yyyy") == currentDate);
                             dateCell.Rowspan = rowspan;
 
                             table.AddCell(dateCell); // Tambahkan sel tanggal ke tabel
@@ -103,6 +99,7 @@ namespace FrontEnd_RasManagement.Controllers
                             // Tetapkan tanggal saat ini sebagai tanggal sebelumnya
                             previousDate = currentDate;
                         }
+
 
 
                         PdfPCell activityCell = new PdfPCell(new Phrase(timeSheet.Activity, new Font(Font.FontFamily.HELVETICA, 10f)));
