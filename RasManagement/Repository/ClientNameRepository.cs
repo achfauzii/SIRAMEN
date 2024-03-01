@@ -102,7 +102,7 @@ namespace RasManagement.Repository
                                 return group.First();
                             }
                         })
-                        .OrderByDescending(item => item.quantity)
+                        .OrderByDescending(item => item.status).ThenByDescending(item => item.quantity)
                         .ToList();
 
             return combinedData;
