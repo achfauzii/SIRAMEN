@@ -73,6 +73,8 @@ public partial class Account
 
     public virtual ICollection<TimeSheet> TimeSheets { get; set; } = new List<TimeSheet>();
 
+    //public virtual ICollection<MasterHoliday> MasterHolidays { get; set; } = new List<MasterHoliday>();
+
     public virtual ICollection<TrackingInterview> TrackingInterviews { get; set; } = new List<TrackingInterview>();
 
     public virtual ICollection<TurnOver> TurnOvers { get; set; } = new List<TurnOver>();

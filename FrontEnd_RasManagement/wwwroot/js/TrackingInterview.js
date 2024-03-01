@@ -1,4 +1,4 @@
-﻿var table = null;
+var table = null;
 var position = null;
 var compare = {};
 // var navListMenu = null;

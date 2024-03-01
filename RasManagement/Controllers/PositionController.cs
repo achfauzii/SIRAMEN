@@ -39,7 +39,7 @@ namespace RasManagement.Controllers
                 return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Data Kosong atau hanya mengandung spasi", Data = position });
             }
 
-            bool clientExists = await positionRepository.PositionNameIsExist(position.PositionClient, position.ClientId);
+            bool clientExists = await positionRepository.PositionNameIsExist(position.PositionClient, position.ClientId, position.Level);
 
             if (clientExists)
             {
