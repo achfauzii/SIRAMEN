@@ -39,7 +39,7 @@ namespace FrontEnd_RasManagement.Controllers
                 {
 
                     PdfPTable table = new PdfPTable(6);
-                    float[] columnWidths = { 3.5f, 10f,1.7f,2.9f, 3f, 5.4f };
+                    float[] columnWidths = { 3.5f, 10f,1.8f,3f, 3f, 5.2f };
                     table.SetWidths(columnWidths);
                     table.WidthPercentage = 100; 
 
@@ -151,10 +151,11 @@ namespace FrontEnd_RasManagement.Controllers
 
                     document.Add(topTable);
 
-              
+                    int total = entry.WfhCount + entry.WfoCount;
                     document.Add(new Paragraph(" "));
                     document.Add(table); // Tambahkan tabel ke dokumen
 
+                    document.Add(new Paragraph("Timesheet Total : "+total+" days", FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
 
                     // Menambahkan kolom-kolom untuk tanda tangan
                     PdfPTable signatureTable = new PdfPTable(3); // Tiga kolom untuk tanda tangan

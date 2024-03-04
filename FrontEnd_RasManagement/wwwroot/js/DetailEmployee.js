@@ -287,7 +287,7 @@ function getPosition(idClient) {
 
         // var data = result.data.filter((element) => element.status == "Open");
         result.data.forEach((item) => {
-          var option = new Option(item.positionClient, item.id, true, false);
+            var option = new Option(item.positionClient + " (" + item.level + ")", item.id, true, false);
           selectPosition.add(option);
         });
       }
@@ -308,7 +308,7 @@ function getPosition(idClient) {
         Choose Position
       </option>`);
         result.data.forEach((item) => {
-          var option = new Option(item.positionClient, item.id, true, false);
+          var option = new Option(item.positionClient + " ("+ item.level+")", item.id, true, false);
           selectPosition.add(option);
         });
         $("#jobRole").val(position).trigger("change");
