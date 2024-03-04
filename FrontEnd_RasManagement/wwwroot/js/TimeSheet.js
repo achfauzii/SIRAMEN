@@ -10,7 +10,7 @@ $(document).ready(function () {
   var month = currentDate.toISOString().slice(0, 7);
   $("#month").val(month);
   submitMonth(month);
-  $("#timeSheetPdf").hide();
+  // $("#timeSheetPdf").hide();
 
   //Employee Info
   getEmployee(accountId)
@@ -55,112 +55,140 @@ function submitMonth(month) {
       $("#timeSheetTablePdf").DataTable().destroy();
     }
 
-    table = $("#timeSheetTable").DataTable({
-      scrollX: true,
-      ajax: {
-        url:
-          "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
-          accountId +
-          "&month=" +
-          month,
-        type: "GET",
-        contentType: "application/json",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
+    $.ajax({
+      url:
+        "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+        accountId +
+        "&month=" +
+        month,
+      type: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
-      columns: [
-        {
-          name: "satu",
-          data: "date",
-          render: function (data, type, row) {
-            if (type === "display" || type === "filter") {
-              // Format tanggal dalam format yang diinginkan
-              return moment(data).format("DD MMMM YYYY");
+      success: function (response) {
+        var data = response.data;
+        var dataPdf = response.data;
+        console.log(data);
+        table = $("#timeSheetTable").DataTable({
+          data: data,
+          columns: [
+            {
+              name: "first",
+              data: "date",
+              render: function (data, type, row) {
+                if (type === "display" || type === "filter") {
+                  // Format tanggal dalam format yang diinginkan
+                  return moment(data).format("DD MMMM YYYY");
+                }
+                // Untuk tipe data lain, kembalikan data aslinya
+
+                return data;
+              },
+            },
+            { data: "activity" },
+            { name: "second", data: "flag" },
+            { data: "category" },
+            { data: "status" },
+            { data: "knownBy" },
+          ],
+          rowsGroup: ["first:name", "second:name"],
+          order: [[0, "asc"]],
+          // backgroud warna dengan flag holiday
+          createdRow: function (row, data, dataIndex) {
+            if (data.flag === "Holiday") {
+              $(row).css("background-color", "#E4DEBE");
+              $(row).find(".fa-edit").hide();
             }
-            // Untuk tipe data lain, kembalikan data aslinya
-
-            return data;
           },
-        },
-        { data: "activity" },
-        { name: "dua", data: "flag" },
-        { data: "category" },
-        { data: "status" },
-        { data: "knownBy" },
-      ],
-      rowsGroup: ["satu:name", "dua:name"],
-      order: [[0, "asc"]],
-      // drawCallback: function (settings) {
-      //   var api = this.api();
-      //   var rows = api.rows({ page: "current" }).nodes();
-      //   var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-      //   var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+        });
 
-      //   api
-      //     .column(0, { page: "current" })
-      //     .nodes()
-      //     .each(function (cell, i) {
-      //       cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-      //     });
-      // },
-      // backgroud warna dengan flag holiday
-      createdRow: function (row, data, dataIndex) {
-        if (data.flag === "Holiday") {
-          $(row).css("background-color", "#E4DEBE");
-          $(row).find(".fa-edit").hide();
-        }
+        tablePDF = $("#timeSheetTablePdf").DataTable({
+          data: dataPdf,
+          pageLength: -1,
+          dom: "",
+          columns: [
+            {
+              name: "one",
+              data: "date",
+              render: function (data, type, row) {
+                if (type === "display" || type === "filter") {
+                  // Format tanggal dalam format yang diinginkan
+                  return moment(data).format("DD MMMM YYYY");
+                }
+                // Untuk tipe data lain, kembalikan data aslinya
+
+                return data;
+              },
+            },
+            { data: "activity" },
+            { name: "two", data: "flag" },
+            { data: "category" },
+            { data: "status" },
+            { data: "knownBy" },
+          ],
+          rowsGroup: [["one:name", "two:name"]],
+          order: [[0, "asc"]],
+          // backgroud warna dengan flag holiday
+          createdRow: function (row, data, dataIndex) {
+            if (data.flag === "Holiday") {
+              $(row).css("background-color", "#E4DEBE");
+              $(row).find(".fa-edit").hide();
+            }
+          },
+        });
       },
     });
 
-    $("#timeSheetTablePdf").DataTable({
-      ajax: {
-        url:
-          "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
-          accountId +
-          "&month=" +
-          month,
-        type: "GET",
-        contentType: "application/json",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-      },
-      pageLength: -1,
-      columns: [
-        {
-          name: "first",
-          data: "date",
-          render: function (data, type, row) {
-            if (type === "display" || type === "filter") {
-              // Format tanggal dalam format yang diinginkan
-              return moment(data).format("DD MMMM YYYY");
-            }
-            // Untuk tipe data lain, kembalikan data aslinya
+    // tablePDF = $("#timeSheetTablePdf").DataTable({
+    //   ajax: {
+    //     url:
+    //       "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+    //       accountId +
+    //       "&month=" +
+    //       month,
+    //     type: "GET",
+    //     contentType: "application/json",
+    //     headers: {
+    //       Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    //     },
+    //   },
+    //   pageLength: -1,
+    //   columns: [
+    //     {
+    //       name: "first",
+    //       data: "date",
+    //       render: function (data, type, row) {
+    //         if (type === "display" || type === "filter") {
+    //           // Format tanggal dalam format yang diinginkan
+    //           return moment(data).format("DD MMMM YYYY");
+    //         }
+    //         // Untuk tipe data lain, kembalikan data aslinya
 
-            return data;
-          },
-        },
-        { data: "activity" },
-        { name: "second", data: "flag" },
-        { data: "category" },
-        { data: "status" },
-        { data: "knownBy" },
-      ],
-      dom: "",
-      rowGroup: {
-        dataSrc: "group",
-      },
-      rowsGroup: ["first:name", "second:name"],
-      order: [[0, "asc"]],
-      // backgroud warna dengan flag holiday
-      createdRow: function (row, data, dataIndex) {
-        if (data.flag === "Holiday") {
-          $(row).css("background-color", "#E4DEBE");
-          $(row).find(".fa-edit").hide();
-        }
-      },
-    });
+    //         return data;
+    //       },
+    //     },
+    //     { data: "activity" },
+    //     { name: "second", data: "flag" },
+    //     { data: "category" },
+    //     { data: "status" },
+    //     { data: "knownBy" },
+    //   ],
+    //   dom: "",
+    //   rowGroup: {
+    //     dataSrc: "group",
+    //   },
+    //   rowsGroup: ["first:name", "second:name"],
+    //   order: [[0, "asc"]],
+    //   // backgroud warna dengan flag holiday
+    //   createdRow: function (row, data, dataIndex) {
+    //     if (data.flag === "Holiday") {
+    //       $(row).css("background-color", "#E4DEBE");
+    //       $(row).find(".fa-edit").hide();
+    //     }
+    //   },
+    // });
 
     // var tableBody = document
     //   .getElementById("timeSheetTablePdf")
