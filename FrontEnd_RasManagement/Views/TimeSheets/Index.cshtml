@@ -340,7 +340,6 @@
 
         #pspdfkit-footer {
             font-size: 0.5rem;
-            text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 500;
             color: #717885;
@@ -355,6 +354,10 @@
             justify-content: space-between;
             padding-left: 2.5rem;
             padding-right: 2.5rem;
+        }
+
+        .badge {
+            border: none;
         }
     </style>
     <div id="pspdfkit-header" class="pdf-body">
@@ -443,6 +446,21 @@
             <div class="col-3">DATE: </div>
             <div class="col-3">DATE: </div>
             <div class="col-3">DATE: </div>
+        </div>
+        <div id="pspdfkit-footer" class="pdf-body">
+
+            <h6 class="ml-0"><strong>Notes :</strong></h6>
+            <div class="row">
+                <div class="col color-bg bullet">
+                    <span class="badge badge-warning" style="font-size: 12px;">Orange</span>
+                    <span style="font-size: 12px;">: Overtime</span>
+                </div>
+                <div class="col color-bg bullet">
+                    <span class="badge badge-danger" style="font-size: 12px;"> Red </span>
+                    <span style="font-size: 12px;">: Weekend/Holiday</span>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
