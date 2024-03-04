@@ -75,7 +75,7 @@ namespace FrontEnd_RasManagement.Controllers
 
 
                     string previousDate = null; // Menyimpan tanggal sebelumnya
-                  
+                    string previousDateFlag = null;
                     // Mengisi data ke dalam tabel
                     foreach (var timeSheet in entry.TimeSheets)
                     {
@@ -106,10 +106,27 @@ namespace FrontEnd_RasManagement.Controllers
                         activityCell.PaddingBottom = 6.6f;
                         table.AddCell(activityCell);
 
-                        PdfPCell flagCell = new PdfPCell(new Phrase(timeSheet.Flag, new Font(Font.FontFamily.HELVETICA, 10f)));
-                        flagCell.PaddingBottom = 6.6f;
-                        flagCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                        table.AddCell(flagCell);
+                        // Periksa apakah tanggal saat ini sama dengan tanggal sebelumnya
+                        if (currentDate != previousDateFlag)
+                        {
+                            // Jika tanggal saat ini tidak sama dengan tanggal sebelumnya,
+                            // tambahkan sel tanggal dengan Rowspan yang sesuai
+                            PdfPCell flagCell = new PdfPCell(new Phrase(timeSheet.Flag, new Font(Font.FontFamily.HELVETICA, 10f)));
+                            flagCell.PaddingBottom = 6.6f;
+                            flagCell.HorizontalAlignment = Element.ALIGN_CENTER;
+
+                            // Hitung Rowspan berdasarkan jumlah entri TimeSheets dengan tanggal yang sama
+                            int rowspan = entry.TimeSheets.Count(ts => ts.Date.ToString("dd MMMM yyyy") == currentDate);
+                            flagCell.Rowspan = rowspan;
+
+
+                            table.AddCell(flagCell);
+
+                            // Tetapkan tanggal saat ini sebagai tanggal sebelumnya
+                            previousDateFlag = currentDate;
+                        }
+
+            
 
                         PdfPCell categoryCell = new PdfPCell(new Phrase(timeSheet.Category ?? "",new Font(Font.FontFamily.HELVETICA, 10f)));
                         categoryCell.PaddingBottom = 6.6f;
@@ -155,6 +172,7 @@ namespace FrontEnd_RasManagement.Controllers
                     document.Add(new Paragraph(" "));
                     document.Add(table); // Tambahkan tabel ke dokumen
 
+                    document.Add(new Paragraph(" "));
                     document.Add(new Paragraph("Timesheet Total : "+total+" days", FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
 
                     // Menambahkan kolom-kolom untuk tanda tangan
