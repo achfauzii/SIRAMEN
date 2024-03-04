@@ -10,14 +10,12 @@ $(document).ready(function () {
   var month = currentDate.toISOString().slice(0, 7);
   $("#month").val(month);
   submitMonth(month);
-  // $("#timeSheetPdf").hide();
+  $("#timeSheetPdf").hide();
 
   //Employee Info
   getEmployee(accountId)
     .then(function (employee) {
       $(".fullName").text(employee.fullname);
-      // $("#fullNamePreview").text(employee.fullname);
-      // $("#fullnamePdf").text(employee.fullname);
     })
     .catch(function (error) {
       alert(error);
@@ -25,7 +23,6 @@ $(document).ready(function () {
   //Placment Comp Name
   getPlacement(accountId)
     .then(function (employee) {
-      //console.log(employee.client.nameOfClient);
       $(".companyName").text(employee.client.nameOfClient);
     })
     .catch(function (error) {
@@ -38,7 +35,6 @@ $(document).ready(function () {
 });
 
 function submitMonth(month) {
-  // $("#month").val()
   var urlParams = new URLSearchParams(window.location.search);
   accountId = urlParams.get("accountId");
   $("#timeSheetMonth").text(moment(month).format("MMMM YYYY"));
@@ -70,44 +66,11 @@ function submitMonth(month) {
       success: function (response) {
         var data = response.data;
         var dataPdf = response.data;
+        addRowHoliday(month);
+
         console.log(data);
         table = $("#timeSheetTable").DataTable({
           data: data,
-          columns: [
-            {
-              name: "first",
-              data: "date",
-              render: function (data, type, row) {
-                if (type === "display" || type === "filter") {
-                  // Format tanggal dalam format yang diinginkan
-                  return moment(data).format("DD MMMM YYYY");
-                }
-                // Untuk tipe data lain, kembalikan data aslinya
-
-                return data;
-              },
-            },
-            { data: "activity" },
-            { name: "second", data: "flag" },
-            { data: "category" },
-            { data: "status" },
-            { data: "knownBy" },
-          ],
-          rowsGroup: ["first:name", "second:name"],
-          order: [[0, "asc"]],
-          // backgroud warna dengan flag holiday
-          createdRow: function (row, data, dataIndex) {
-            if (data.flag === "Holiday") {
-              $(row).css("background-color", "#E4DEBE");
-              $(row).find(".fa-edit").hide();
-            }
-          },
-        });
-
-        tablePDF = $("#timeSheetTablePdf").DataTable({
-          data: dataPdf,
-          pageLength: -1,
-          dom: "",
           columns: [
             {
               name: "one",
@@ -138,132 +101,50 @@ function submitMonth(month) {
             }
           },
         });
+
+        tablePDF = $("#timeSheetTablePdf").DataTable({
+          data: dataPdf,
+          paging: false,
+          lengthMenu: false,
+          searching: false,
+          info: false,
+          pageLength: -1,
+          columns: [
+            {
+              name: "first",
+              data: "date",
+              render: function (data, type, row) {
+                if (type === "display" || type === "filter") {
+                  // Format tanggal dalam format yang diinginkan
+                  return moment(data).format("DD MMMM YYYY");
+                }
+                // Untuk tipe data lain, kembalikan data aslinya
+
+                return data;
+              },
+            },
+            { data: "activity" },
+            { name: "second", data: "flag" },
+            { data: "category" },
+            { data: "status" },
+            { data: "knownBy" },
+          ],
+          rowsGroup: [["first:name", "second:name"]],
+          order: [[0, "asc"]],
+          // backgroud warna dengan flag holiday
+          createdRow: function (row, data, dataIndex) {
+            if (data.flag === "Holiday") {
+              $(row).css("background-color", "#E4DEBE");
+              $(row).find(".fa-edit").hide();
+            }
+          },
+        });
       },
     });
-
-    // tablePDF = $("#timeSheetTablePdf").DataTable({
-    //   ajax: {
-    //     url:
-    //       "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
-    //       accountId +
-    //       "&month=" +
-    //       month,
-    //     type: "GET",
-    //     contentType: "application/json",
-    //     headers: {
-    //       Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    //     },
-    //   },
-    //   pageLength: -1,
-    //   columns: [
-    //     {
-    //       name: "first",
-    //       data: "date",
-    //       render: function (data, type, row) {
-    //         if (type === "display" || type === "filter") {
-    //           // Format tanggal dalam format yang diinginkan
-    //           return moment(data).format("DD MMMM YYYY");
-    //         }
-    //         // Untuk tipe data lain, kembalikan data aslinya
-
-    //         return data;
-    //       },
-    //     },
-    //     { data: "activity" },
-    //     { name: "second", data: "flag" },
-    //     { data: "category" },
-    //     { data: "status" },
-    //     { data: "knownBy" },
-    //   ],
-    //   dom: "",
-    //   rowGroup: {
-    //     dataSrc: "group",
-    //   },
-    //   rowsGroup: ["first:name", "second:name"],
-    //   order: [[0, "asc"]],
-    //   // backgroud warna dengan flag holiday
-    //   createdRow: function (row, data, dataIndex) {
-    //     if (data.flag === "Holiday") {
-    //       $(row).css("background-color", "#E4DEBE");
-    //       $(row).find(".fa-edit").hide();
-    //     }
-    //   },
-    // });
-
-    // var tableBody = document
-    //   .getElementById("timeSheetTablePdf")
-    //   .getElementsByTagName("tbody")[0];
-    // tableBody.innerHTML = "";
-
-    // fetch(
-    //   "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
-    //     accountId +
-    //     "&month=" +
-    //     month,
-    //   {
-    //     headers: {
-    //       Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    //     },
-    //   }
-    // )
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     if (result.message == "Data not found") {
-    //       return;
-    //     }
-    //     // Manipulasi tabel dengan data yang didapat dari API
-    //     const tableBody = document
-    //       .getElementById("timeSheetTablePdf")
-    //       .getElementsByTagName("tbody")[0];
-
-    //     result.data.sort(function (a, b) {
-    //       return new Date(a.date) - new Date(b.date);
-    //     });
-
-    //     var number = 1;
-    //     result.data.forEach((item) => {
-    //       const row = tableBody.insertRow(-1);
-    //       row.insertCell(0).textContent = number++;
-    //       row.insertCell(1).textContent = moment(item.date).format(
-    //         "DD MMMM YYYY"
-    //       );
-    //       row.insertCell(2).textContent = item.activity;
-    //       row.insertCell(3).textContent = item.flag;
-    //       row.insertCell(4).textContent = item.category;
-    //       row.insertCell(5).textContent = item.status;
-    //       row.insertCell(6).textContent = item.knownBy;
-    //     });
-
-    //     var placementId = result.data[0].placementStatusId;
-
-    //     fetch(
-    //       "https://localhost:7177/api/EmployeePlacements/PlacementID?placementStatusId=" +
-    //         placementId,
-    //       {
-    //         headers: {
-    //           Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    //         },
-    //       }
-    //     )
-    //       .then((r) => r.json())
-    //       .then((res) => {
-    //         var res1;
-    //         console.log(res.data);
-    //         $(".companyName").text(res.data.client.nameOfClient);
-    //         $("#picName").text(res.data.picName);
-    //       });
-    //   });
   } else {
     document.getElementById("badgeDisplay").hidden = false;
     document.getElementById("tableTimeSheet").hidden = true;
   }
-
-  // openPreviewPdf(table.rows().data().toArray());
-  // document.getElementById("previewPDF").addEventListener("click", function () {
-  //   window.location.href = "/TimeSheets/Timesheettopdf";
-
-  //   console.log(accountId);
-  // });
 }
 
 function addRowHoliday(month) {
@@ -299,6 +180,7 @@ function addRowHoliday(month) {
         };
         // Add the holiday data to the timeSheetTable
         table.row.add(rowData).draw();
+        tablePDF.row.add(rowData).draw();
       });
     },
     error: function (errormessage) {
