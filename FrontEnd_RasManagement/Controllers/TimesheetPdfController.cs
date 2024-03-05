@@ -12,6 +12,25 @@ namespace FrontEnd_RasManagement.Controllers
     {
         public ActionResult GeneratePdf(string companyName, string month)
         {
+
+            //Get Holiday
+            var holidayHttpClient = new HttpClient();
+            var holidayResponse = holidayHttpClient.GetAsync("https://localhost:7177/api/MasterHoliday").Result;
+
+            List<Holiday> holidays = new List<Holiday>();
+
+            if (holidayResponse.IsSuccessStatusCode)
+            {
+                var holidayJsonData = holidayResponse.Content.ReadAsStringAsync().Result;
+                var holidayData = JsonConvert.DeserializeObject<ApiResponse<Holiday>>(holidayJsonData);
+                holidays = holidayData.Data;
+            }
+            else
+            {
+                return Content("Failed to fetch holiday data from API.");
+            }
+
+
             MemoryStream memoryStream = new MemoryStream();
             string Token = HttpContext.Session.GetString("Token");
 
@@ -39,7 +58,7 @@ namespace FrontEnd_RasManagement.Controllers
                 {
 
                     PdfPTable table = new PdfPTable(6);
-                    float[] columnWidths = { 3.5f, 10f,1.8f,3f, 3f, 5.2f };
+                    float[] columnWidths = { 3.5f, 10f,1.8f,3.1f, 3f, 5.1f };
                     table.SetWidths(columnWidths);
                     table.WidthPercentage = 100; 
 
@@ -82,6 +101,7 @@ namespace FrontEnd_RasManagement.Controllers
 
                         string currentDate = timeSheet.Date.ToString("dd MMMM yyyy"); // Ambil tanggal saat ini
 
+
                         // Periksa apakah tanggal saat ini sama dengan tanggal sebelumnya
                         if (currentDate != previousDate)
                         {
@@ -99,8 +119,22 @@ namespace FrontEnd_RasManagement.Controllers
                             // Tetapkan tanggal saat ini sebagai tanggal sebelumnya
                             previousDate = currentDate;
                         }
+                       /* var holiday = holidays.FirstOrDefault(h => h.date.Date == timeSheet.Date.Date);
+                        var addHoliady = holidays.FirstOrDefault(h => h.date.Date != timeSheet.Date.Date);
 
-
+                        if (holiday != null)
+                        {
+                            // Jika ada libur pada tanggal tersebut, gunakan aktivitas dari timesheet
+                            timeSheet.Activity = timeSheet.Activity;
+                        }
+                        else
+                        {
+                            PdfPTable holidayTable = new PdfPTable(1);
+                            PdfPCell holidayCell = new PdfPCell(new Phrase(holiday.name, new Font(Font.FontFamily.HELVETICA, 10f)));
+                            holidayCell.PaddingBottom = 6.6f;
+                            holidayTable.AddCell(holidayCell); 
+                            document.Add(holidayTable); // Tambahkan tabel libur ke dalam dokumen
+                        }*/
 
                         PdfPCell activityCell = new PdfPCell(new Phrase(timeSheet.Activity, new Font(Font.FontFamily.HELVETICA, 10f)));
                         activityCell.PaddingBottom = 6.6f;
@@ -171,8 +205,6 @@ namespace FrontEnd_RasManagement.Controllers
                     int total = entry.WfhCount + entry.WfoCount;
                     document.Add(new Paragraph(" "));
                     document.Add(table); // Tambahkan tabel ke dokumen
-
-                    document.Add(new Paragraph(" "));
                     document.Add(new Paragraph("Timesheet Total : "+total+" days", FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
 
                     // Menambahkan kolom-kolom untuk tanda tangan
@@ -263,5 +295,14 @@ namespace FrontEnd_RasManagement.Controllers
             public string Message { get; set; }
             public List<T> Data { get; set; }
         }
+
+        public class Holiday
+        {
+            public int holiday_Id { get; set; }
+            public string name { get; set; }
+            public DateTime date { get; set; }
+            public string description { get; set; }
+        }
+
     }
 }

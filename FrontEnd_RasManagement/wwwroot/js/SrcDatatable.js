@@ -241,12 +241,14 @@ function Src(selectedCategory) {
         const level = urlParams.get("level");
         const skill = urlParams.get("skill");
 
-        if (position != null) {
-          d.search.value = position;
-        } else if (level != null) {
-          d.search.value = level;
-        } else if (skill != null) {
-          d.search.value = skill;
+        if (selectedCategory == "all") {
+          if (position != null) {
+            d.search.value = position;
+          } else if (level != null) {
+            d.search.value = level;
+          } else if (skill != null) {
+            d.search.value = skill;
+          }
         }
 
         return JSON.stringify(d);
