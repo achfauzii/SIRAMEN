@@ -967,7 +967,15 @@ function ClearScreenSave() {
   $(".skillset").closest(".form-group").find(".error-message").hide();
   //$('.selectRegencies').closest('.form-group').find('.error-message').hide();
 
-  $(".selectUniversity").closest(".form-group").find(".error-message-u").hide();
+    $(".selectUniversity").closest(".form-group").find(".error-message-u").hide();
+
+    var saveButton = document.getElementById("Save");
+
+    // Menonaktifkan tombol
+    saveButton.disabled = false;
+
+    // Menambahkan pesan jika diperlukan
+    saveButton.innerHTML = "Save"; // Optional: Change button text
 }
 
 function ClearScreenUpt() {
@@ -1269,7 +1277,14 @@ function Save() {
     var input = $(this);
     if (!input.val()) {
       input.next(".error-message_").show();
-      isValid = false;
+        isValid = false;
+        var saveButton = document.getElementById("Save");
+
+        // Menonaktifkan tombol
+        saveButton.disabled = false;
+
+        // Menambahkan pesan jika diperlukan
+        saveButton.innerHTML = "Save";
     } else {
       input.next(".error-message_").hide();
     }
@@ -1992,4 +2007,18 @@ function hideLoader() {
   if (loader) {
     loader.remove(); // Menghapus loader dari DOM
   }
+}
+
+function saveAndDisable() {
+    // Mendapatkan tombol dengan id "Save"
+    var saveButton = document.getElementById("Save");
+
+    // Menonaktifkan tombol
+    saveButton.disabled = true;
+
+    // Menambahkan pesan jika diperlukan
+    saveButton.innerHTML = "Saving..."; // Optional: Change button text
+
+    // Memanggil fungsi Save()
+    Save();
 }
