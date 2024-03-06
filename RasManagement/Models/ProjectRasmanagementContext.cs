@@ -242,6 +242,8 @@ public partial class ProjectRasmanagementContext : DbContext
             .HasMaxLength(50)
             .IsUnicode(false);
             entity.Property(e => e.ClientContact)
+          .HasMaxLength(50);
+            entity.Property(e => e.PicClient)
           .HasMaxLength(50)
           .IsUnicode(false);
         });
