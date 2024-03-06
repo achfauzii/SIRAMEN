@@ -66,6 +66,16 @@ $(document).ready(function () {
                 orderable: false,
             },
         ],
+        createdRow: function (row, data, dataIndex) {
+            if (data.statusApproval === 'Reject') {
+                $(row).css('background-color', '#FF8080');
+                $(row).find('.fa-edit').hide();
+            }
+
+            if (data.statusApproval === 'Approve') {
+                $(row).hide();
+            }
+        },
         drawCallback: function (settings) {
             var api = this.api();
             var rows = api.rows({ page: "current" }).nodes();
@@ -96,6 +106,9 @@ function GetById(Id) {
         success: function (result) {
             //debugger;
             var obj = result.data;
+
+            // Set previous status approval
+            $("#prevStatusApproval").val(obj.statusApproval)
 
             // Mengambil accountId dari data Approval
             var accountId = obj.accountId;
@@ -145,6 +158,7 @@ function GetById(Id) {
 
             $("#approvalId").val(obj.id); //ngambil data dr api
             $("#lastPlacementId").val(obj.placementStatusId);
+            $("#accountId").val(obj.accountId);
             $("#activity").val(obj.activity).attr(obj.activity);
             $("#activity").prop('disabled', true);
             $("#inputDate").val(obj.date.substring(0, 10));
@@ -160,7 +174,7 @@ function GetById(Id) {
             $("#statusApproval").val(obj.statusApproval).attr(obj.statusApproval);
             $("#ApprovalModal").modal("show");
             $("#Update").show();
-
+     
             $(".required").remove();
 
             $("#ApprovalModal").modal("show");
@@ -174,6 +188,108 @@ function GetById(Id) {
 }
 
 function Update() {
+    var placementStatusId = $("#lastPlacementId").val();
+    var Approval = new Object();
+    Approval.Id = $("#approvalId").val();
+    Approval.Date = $("#inputDate").val();
+    Approval.Activity = $("#activity").val();
+    Approval.Flag = $("#flag").val();
+    Approval.Category = $("#category").val();
+    Approval.Status = $("#status").val();
+    Approval.KnownBy = $("#knownBy").val();
+    Approval.StatusApproval = $("#statusApproval").val();
+    Approval.placementStatusId = placementStatusId;
+    Approval.accountId = $("#accountId").val()
+ 
+
+    //console.log(Approval);
+    // Check apakah Status Approval berubah dari On Progress menjadi Approve
+    var prevStatusApproval = $("#prevStatusApproval").val();
+    if (prevStatusApproval == "On Progress" && Approval.StatusApproval == "Approve") {
+        // Buat salinan data kecuali Status Approval
+        var TimeSheetData = {
+            Date: Approval.Date,
+            Activity: Approval.Activity,
+            Flag: Approval.Flag,
+            Category: Approval.Category,
+            Status: Approval.Status,
+            KnownBy: Approval.KnownBy,
+            placementStatusId: placementStatusId,
+            accountId: Approval.accountId
+        };
+
+        // Kirim data ke endpoint API TimeSheet
+        $.ajax({
+            url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+            type: "POST",
+            data: JSON.stringify(TimeSheetData),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+                if (result.status == 200) {
+                    // Jika berhasil, lanjutkan dengan update data Approval
+                    updateApproval(Approval);
+                } else {
+                    // Tampilkan pesan error jika gagal
+                    Swal.fire("Error!", "Failed to add timesheet", "error");
+                }
+            },
+            error: function () {
+                // Tampilkan pesan error jika gagal
+                Swal.fire("Error!", "Failed to add timesheet", "error");
+            }
+        });
+    } else {
+        // Jika Status Approval tidak berubah, lanjutkan dengan update data Approval
+        updateApproval(Approval);
+    }
+}
+
+// Fungsi untuk mengirim data Approval ke endpoint API Approval untuk diupdate
+function updateApproval(Approval) {
+
+    $.ajax({
+        url: "https://localhost:7177/api/Approval",
+        type: "PUT",
+        data: JSON.stringify(Approval),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            if (result.status == 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success...",
+                    text: "Data has been updated!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                const logMessage = `Has ${Approval.statusApproval},Timesheet Date ${Approval.Date}, Account Id: ${Approval.accountId}`;
+                SaveLogUpdate(logMessage);
+                $("#ApprovalModal").modal("hide");
+                $("#ApprovalTable").DataTable().ajax.reload();
+            } else if (result.status == 400) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Flag with the same date can't be the same!",
+                    showConfirmButton: true,
+                });
+            } else {
+                Swal.fire("Error!", "Failed to update data", "error");
+            }
+            table.columns.adjust().draw();
+        },
+        error: function () {
+            Swal.fire("Error!", "Failed to update data", "error");
+        }
+    });
+}
+
+/*function Update() {
     //debugger;
 
     var Approval = new Object();
@@ -223,7 +339,7 @@ function Update() {
         table.columns.adjust().draw();
     });
 }
-
+*/
 function clearScreen() {
     $("#activity").val("");
     document.getElementById("flag").selectedIndex = 0;
@@ -250,55 +366,3 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 }
-
-/*function getEmployee(accountId) {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            url:
-                "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            *//*headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },*//*
-            success: function (result) {
-                var obj = result.data.result;
-                resolve(obj);
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            },
-        });
-    });
-}
-
-function getPlacement(accountId) {
-    return new Promise(function (resolve, reject) {
-        //Get CompanyName (Placement)
-        $.ajax({
-            url:
-                "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
-                accountId,
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-           *//* headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },*//*
-            success: function (result) {
-                var obj = result.data;
-                if (obj && obj.length > 0) {
-                    var lastData = obj[0];
-
-                    resolve(lastData);
-                } else {
-                    console.log("Tidak ada data");
-                }
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            },
-        });
-    });
-}*/
