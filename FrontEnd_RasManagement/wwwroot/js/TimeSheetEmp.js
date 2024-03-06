@@ -257,7 +257,7 @@ function addRowApproval() {
         },
         success: function (result) {
             var approvals = result.data;
-            approvals.forEach(function (approval) {
+            if (approval.statusApproval !== 'Reject' && approval.statusApproval !== 'Approve') {
                 // Append the holiday data to the timeSheetTable
                 var rowData = {
                     date: approval.date,
@@ -269,7 +269,7 @@ function addRowApproval() {
                 };
                 // Add the holiday data to the timeSheetTable
                 table.row.add(rowData).draw();
-            });
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
