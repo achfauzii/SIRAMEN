@@ -348,8 +348,13 @@
             color: #717885;
             margin-top: 2.5rem;
             bottom: 2.5rem;
-            position: absolute;
+            display: none; 
             width: 100%;
+        }
+
+        body:last-of-type #pspdfkit-footer {
+            display: block;
+            position:initial;
         }
 
         .footer-columns {
@@ -379,7 +384,7 @@
     </div>
 
     @*Body*@
-    <div class="page" style="page-break-after: always">
+    <div class="page" >
         <div>
             <h2>Time Sheet #</h2>
         </div>
@@ -411,7 +416,7 @@
             </div>
         </div>
 
-        <table id="timeSheetTablePdf" class="table table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
+        <table id="timeSheetTablePdf" class="table table-bordered  w-100 timeSheetTable" style="font-size:13px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
                     <th scope="col">Date</th>
@@ -446,20 +451,19 @@
             <div class="col-3">DATE: </div>
             <div class="col-3">DATE: </div>
         </div>
-        <div id="pspdfkit-footer" class="pdf-body">
+    </div>
+    <div id="pspdfkit-footer" class="footer-columns" style="page-break-after: always">
 
-            <h6 class="ml-0"><strong>Notes :</strong></h6>
-            <div class="row">
-                <div class="col color-bg bullet">
-                    <span class="badge badge-warning" style="font-size: 12px;">Orange</span>
-                    <span style="font-size: 12px;">: Overtime</span>
-                </div>
-                <div class="col color-bg bullet">
-                    <span class="badge badge-danger" style="font-size: 12px;"> Red </span>
-                    <span style="font-size: 12px;">: Weekend/Holiday</span>
-                </div>
+        <h6 class="ml-0"><strong>Notes :</strong></h6>
+        <div class="row">
+            <div class="col color-bg bullet">
+                <span class="badge badge-warning" style="font-size: 12px;">Orange</span>
+                <span style="font-size: 12px;">: Overtime</span>
             </div>
-
+            <div class="col color-bg bullet">
+                <span class="badge badge-danger" style="font-size: 12px;"> Red </span>
+                <span style="font-size: 12px;">: Weekend/Holiday</span>
+            </div>
         </div>
     </div>
 </div>

@@ -193,16 +193,21 @@ $(document).ready(function () {
                     });
             },*/
 
-    // backgroud warna dengan flag holiday
-    createdRow: function (row, data, dataIndex) {
-      if (data.flag === "Holiday") {
-        $(row).css("background-color", "#E4DEBE");
-        $(row).find(".fa-edit").hide();
-      }
-    },
-  });
+        // backgroud warna dengan flag holiday 
+        createdRow: function (row, data, dataIndex) {
+            if (data.flag === 'Holiday') {
+                $(row).css('background-color', '#FF8080');
+                $(row).find('.fa-edit').hide();
+            }
+            if (data.flag === 'Overtime') {
+                $(row).css('background-color', '#EADFB4');
+                $(row).find('.fa-edit').hide();
+            }
+        }
+    });
 
-  addRowHoliday();
+    addRowHoliday();
+    addRowApproval();
 });
 
 function addRowHoliday() {
@@ -237,6 +242,39 @@ function addRowHoliday() {
       alert(errormessage.responseText);
     },
   });
+}
+
+function addRowApproval() {
+    //GET data from tbDataHoliday
+    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    const accid = decodedtoken.AccountId;
+    $.ajax({
+        url: "https://localhost:7177/api/Approval/accountId?accountId=" + accid,
+        type: "GET",
+        contentType: "application/json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (result) {
+            var approvals = result.data;
+            approvals.forEach(function (approval) {
+                // Append the holiday data to the timeSheetTable
+                var rowData = {
+                    date: approval.date,
+                    activity: approval.activity,
+                    flag: 'Overtime', // Set flag as 'Holiday' for holidays
+                    category: approval.category, // You can set an appropriate category
+                    status: approval.status, // You can set an appropriate status
+                    knownBy: approval.knownBy, // You can set an appropriate value for knownBy
+                };
+                // Add the holiday data to the timeSheetTable
+                table.row.add(rowData).draw();
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        },
+    });
 }
 
 function getById(Id) {
@@ -487,80 +525,128 @@ function save() {
   TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
   TimeSheet.KnownBy = $("#knownBy").val();
 
-  if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
-    TimeSheet.Activity = "";
-    TimeSheet.Category = "";
-    TimeSheet.Status = "";
-  } else {
-    TimeSheet.Activity = $("#activity").val();
-    TimeSheet.Category = $("#category").val();
-    TimeSheet.Status = $("#status").val();
-  }
-
-  $.ajax({
-    type: "POST",
-    url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
-    data: JSON.stringify(TimeSheet),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-    success: function (response) {
-      if (response.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Data has been added!",
-          timer: 2500,
-          html:
-            TimeSheet.Flag === "Sick"
-              ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
-              : "",
-          showConfirmButton: true,
+    if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave") {
+        TimeSheet.Activity = "";
+        TimeSheet.Category = "";
+        TimeSheet.Status = "";
+    } else {
+        TimeSheet.Activity = $("#activity").val();
+        TimeSheet.Category = $("#category").val();
+        TimeSheet.Status = $("#status").val();
+    }
+    debugger;
+    // Checking if the day is Saturday or Sunday
+    var dayOfWeek = new Date(TimeSheet.Date).getDay();
+    // Cek jika hari ini adalah Sabtu (6) atau Minggu (0)
+    if (dayOfWeek === 6 || dayOfWeek === 0) {
+        // If it's Saturday or Sunday, set statusApproval to "On Progress"
+        TimeSheet.statusApproval = "On Progress";
+        console.log(TimeSheet);
+        // Send data to the Approval endpoint
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:7177/api/Approval",
+            data: JSON.stringify(TimeSheet),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data overtime has been added!",
+                        timer: 2500,
+                        html:
+                            TimeSheet.statusApproval = "On Progress"
+                                ? "Please wait for the admin to approve the overtime request"
+                                : "",
+                        showConfirmButton: true,
+                    });
+                    $("#timeSheetModal").modal("hide");
+                    table.ajax.reload();
+                    addRowHoliday();
+                }
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Cannot add a overtime",
+                    showConfirmButton: true,
+                });
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+                addRowHoliday();
+            },
         });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-        addRowHoliday();
-      } else if (response.status === 400) {
-        Swal.fire({
-          icon: "warning",
-          title: "Failed",
-          text: "Flag with the same date can't be the same!",
-          showConfirmButton: true,
+    } else {
+        // If it's not Saturday or Sunday, send data to the original endpoint
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
+            data: JSON.stringify(TimeSheet),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data has been added!",
+                        timer: 2500,
+                        html:
+                            TimeSheet.Flag === "Sick"
+                                ? "Please send sick note to this email <a href='mailto:ras_mgmt@berca.co.id'>ras_mgmt@berca.co.id</a>"
+                                : "",
+                        showConfirmButton: true,
+                    });
+                    $("#timeSheetModal").modal("hide");
+                    table.ajax.reload();
+                    addRowHoliday();
+                } else if (response.status === 400) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Failed",
+                        text: "Flag with the same date can't be the same!",
+                        showConfirmButton: true,
+                    });
+                    // $("#timeSheetModal").modal("hide");
+                    // table.ajax.reload();
+                } else if (response.status === 406) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Failed",
+                        text: "Can't add activities to Sick or Leave flags!",
+                        showConfirmButton: true,
+                    });
+                    // $("#timeSheetModal").modal("hide");
+                    // table.ajax.reload();
+                } else if (response.status === 404) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Failed",
+                        text: "Cannot add a timesheet, the placement field is null.",
+                        showConfirmButton: true,
+                    });
+                    $("#timeSheetModal").modal("hide");
+                    table.ajax.reload();
+                }
+                table.columns.adjust().draw();
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Failed",
+                    text: "Cannot add a timesheet, the placement field is null.",
+                    showConfirmButton: true,
+                });
+                $("#timeSheetModal").modal("hide");
+                table.ajax.reload();
+            },
         });
-        // $("#timeSheetModal").modal("hide");
-        // table.ajax.reload();
-      } else if (response.status === 406) {
-        Swal.fire({
-          icon: "warning",
-          title: "Failed",
-          text: "Can't add activities to Sick or Leave flags!",
-          showConfirmButton: true,
-        });
-        // $("#timeSheetModal").modal("hide");
-        // table.ajax.reload();
-      } else if (response.status === 404) {
-        Swal.fire({
-          icon: "warning",
-          title: "Failed",
-          text: "Cannot add a timesheet, the placement field is null.",
-          showConfirmButton: true,
-        });
-        $("#timeSheetModal").modal("hide");
-        table.ajax.reload();
-      }
-      table.columns.adjust().draw();
-    },
-    error: function (error) {
-      Swal.fire({
-        icon: "warning",
-        title: "Failed",
-        text: "Cannot add a timesheet, the placement field is null.",
-        showConfirmButton: true,
-      });
-      $("#timeSheetModal").modal("hide");
-      table.ajax.reload();
-    },
-  });
+    }
 }
 
 function clearScreen() {
