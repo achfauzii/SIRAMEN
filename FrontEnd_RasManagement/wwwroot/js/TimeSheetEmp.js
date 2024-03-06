@@ -478,7 +478,8 @@ function Update() {
       });
       $("#timeSheetModal").modal("hide");
       table.ajax.reload();
-      addRowHoliday();
+        addRowHoliday();
+        addRowApproval();
     } else if (result.status == 400) {
       Swal.fire({
         icon: "warning",
@@ -568,6 +569,7 @@ function save() {
                     $("#timeSheetModal").modal("hide");
                     table.ajax.reload();
                     addRowHoliday();
+                    addRowApproval();
                 }
             },
             error: function (error) {
@@ -607,6 +609,7 @@ function save() {
                     $("#timeSheetModal").modal("hide");
                     table.ajax.reload();
                     addRowHoliday();
+                    addRowApproval();
                 } else if (response.status === 400) {
                     Swal.fire({
                         icon: "warning",
