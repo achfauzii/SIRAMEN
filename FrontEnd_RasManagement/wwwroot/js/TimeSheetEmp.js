@@ -257,19 +257,21 @@ function addRowApproval() {
         },
         success: function (result) {
             var approvals = result.data;
-            if (approval.statusApproval !== 'Reject' && approval.statusApproval !== 'Approve') {
-                // Append the holiday data to the timeSheetTable
-                var rowData = {
-                    date: approval.date,
-                    activity: approval.activity,
-                    flag: 'Overtime', // Set flag as 'Holiday' for holidays
-                    category: approval.category, // You can set an appropriate category
-                    status: approval.status, // You can set an appropriate status
-                    knownBy: approval.knownBy, // You can set an appropriate value for knownBy
-                };
-                // Add the holiday data to the timeSheetTable
-                table.row.add(rowData).draw();
-            }
+            approvals.forEach(function (approval) {
+                if (approval.statusApproval !== 'Reject' && approval.statusApproval !== 'Approve') {
+                    // Append the holiday data to the timeSheetTable
+                    var rowData = {
+                        date: approval.date,
+                        activity: approval.activity,
+                        flag: 'Overtime', // Set flag as 'Holiday' for holidays
+                        category: approval.category, // You can set an appropriate category
+                        status: approval.status, // You can set an appropriate status
+                        knownBy: approval.knownBy, // You can set an appropriate value for knownBy
+                    };
+                    // Add the holiday data to the timeSheetTable
+                    table.row.add(rowData).draw();
+                }
+            });
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
