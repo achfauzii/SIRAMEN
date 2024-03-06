@@ -1,6 +1,7 @@
 $(document).ready(function () {
     /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
         const accid = decodedtoken.AccountId;*/
+
     $("#dataTableAccounts").DataTable({
         responsive: true,
         ajax: {

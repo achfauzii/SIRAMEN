@@ -4,6 +4,9 @@ using RasManagement.Interface;
 using System.Collections.Generic;
 using System.Linq;
 using RasManagement.ViewModel;
+using RasManagement.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 namespace RasManagement.Repository
 {
     public class EmployeeRepository : GeneralRepository<ProjectRasmanagementContext, Account, string>
@@ -119,5 +122,168 @@ namespace RasManagement.Repository
             return employees;
         }
 
+        public async Task<IEnumerable<Object>> GetEmployeeFilter(string position, string hiredStatus, string level, string financialIndustry, string placementStatus, string placementLocation)
+        {
+            var data = _context.Accounts.Include(p => p.Placements).ThenInclude(c => c.Client).AsQueryable();
+            //int clientId = !string.IsNullOrEmpty(placementLocation) ? Int32.Parse(placementLocation) : 0;
+
+            if (!string.IsNullOrEmpty(position))
+            {
+                data = data.Where(emp => emp.Position == position);
+            }
+
+            else if (!string.IsNullOrEmpty(level))
+            {
+                data = data.Where(emp => emp.Level == level);
+            }
+
+            else if (!string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.Hiredstatus == hiredStatus);
+            }
+
+            else if (!string.IsNullOrEmpty(financialIndustry))
+            {
+                data = data.Where(emp => emp.FinancialIndustry == financialIndustry);
+            }
+
+            else if (!string.IsNullOrEmpty(placementStatus))
+            {
+                data = data.Where(emp => emp.Placements.Any(ps => ps.PlacementStatus == placementStatus));
+            }
+
+            else if (!string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(financialIndustry) && !string.IsNullOrEmpty(hiredStatus) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.FinancialIndustry == financialIndustry && emp.Hiredstatus == hiredStatus  && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            //apply mix filter by position
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level);
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(placementStatus))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus));
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(financialIndustry))
+            {
+                data = data.Where(emp => emp.Position == position && emp.FinancialIndustry == financialIndustry);
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Hiredstatus == hiredStatus);
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus));
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(financialIndustry))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.FinancialIndustry == financialIndustry);
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.Hiredstatus == hiredStatus);
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(financialIndustry))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.FinancialIndustry == financialIndustry);
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(financialIndustry) && !string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.FinancialIndustry == financialIndustry && emp.Hiredstatus == hiredStatus );
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.Hiredstatus == hiredStatus);
+            }
+            else if (!string.IsNullOrEmpty(position) && !string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Position == position && emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+
+            //apply mix filter by level
+            else if (!string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus))
+            {
+                data = data.Where(emp => emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus));
+            }
+            else if (!string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(financialIndustry))
+            {
+                data = data.Where(emp => emp.Level == level && emp.FinancialIndustry == financialIndustry );
+            }
+            else if (!string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(hiredStatus) )
+            {
+                data = data.Where(emp => emp.Level == level && emp.Hiredstatus == hiredStatus);
+            }
+            else if (!string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Level == level && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            else if (!string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(financialIndustry))
+            {
+                data = data.Where(emp => emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.FinancialIndustry == financialIndustry);
+            }
+            else if (!string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.Hiredstatus == hiredStatus);
+            }
+            else if (!string.IsNullOrEmpty(level) && !string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Level == level && emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) &&  emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            //apply mix fitering by placementstatus
+            else if (!string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(financialIndustry))
+            {
+                data = data.Where(emp => emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.FinancialIndustry == financialIndustry);
+            }
+            else if (!string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.Hiredstatus == hiredStatus);
+            }
+            else if (!string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            //apply mix filtering by financial Industry
+            else if (!string.IsNullOrEmpty(financialIndustry) && !string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.FinancialIndustry == financialIndustry && emp.Hiredstatus == hiredStatus);
+            }
+            else if (!string.IsNullOrEmpty(financialIndustry) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.FinancialIndustry == financialIndustry && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            //apply mix filtering by hired status
+            else if (!string.IsNullOrEmpty(hiredStatus) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp => emp.Hiredstatus == hiredStatus && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            else if (!string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(financialIndustry) && !string.IsNullOrEmpty(hiredStatus))
+            {
+                data = data.Where(emp => emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.FinancialIndustry == financialIndustry && emp.Hiredstatus == hiredStatus);
+            }
+            else if (!string.IsNullOrEmpty(placementStatus) && !string.IsNullOrEmpty(hiredStatus) && !string.IsNullOrEmpty(placementLocation))
+            {
+                data = data.Where(emp =>emp.Placements.Any(ps => ps.PlacementStatus == placementStatus) && emp.Hiredstatus == hiredStatus && emp.Placements.Any(pl => pl.Client.NameOfClient == placementLocation));
+            }
+            
+
+            var result = data.ToList();
+
+            return result;
+        }
     }
+
 }
