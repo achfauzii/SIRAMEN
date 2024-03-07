@@ -170,7 +170,7 @@ $(document).ready(function () {
         {
           data: null,
           width: "4%",
-          render: function (data, type, row, meta) {
+              render: function (data, type, row, meta) {              
             return meta.row + meta.settings._iDisplayStart + 1 + ".";
           },
         },
@@ -225,7 +225,7 @@ $(document).ready(function () {
               var word = posisitionSplit[i].trim();
               var badgeColor = getColorForPosition(word);
               var badge = $(
-                '<span class="badge badge-pill badge-pastel">' +
+                '<span class="badge badge-pill badge-pastel text-secondary">' +
                   word +
                   "</span>"
               );
@@ -1574,6 +1574,7 @@ function handleFilterSubmission() {
                 data: null,
                 width: "4%",
                 render: function (data, type, row, meta) {
+                    console.log(row)
                     return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 },
             },
@@ -1614,7 +1615,7 @@ function handleFilterSubmission() {
             },
             {
                 data: "position",
-                render: function (data) {
+                render: function (data) {                    
                     if (data == null) {
                         var a = "";
                         return a;
@@ -1628,7 +1629,7 @@ function handleFilterSubmission() {
                         var word = posisitionSplit[i].trim();
                         var badgeColor = getColorForPosition(word);
                         var badge = $(
-                            '<span class="badge badge-pill badge-pastel">' +
+                            '<span class="badge badge-pill badge-pastel text-secondary">' +
                             word +
                             "</span>"
                         );
@@ -1658,7 +1659,7 @@ function handleFilterSubmission() {
 
                     if (levelStatus === "Fresh Graduate") {
                         return (
-                            '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#modalLevel" onclick="GetbyLevel(\'' +
+                            '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                             row.accountId +
                             "')\">" +
                             row.level +
@@ -1670,7 +1671,7 @@ function handleFilterSubmission() {
                         levelStatus === "Middle to Senior"
                     ) {
                         return (
-                            '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-target="#modalLevel" onclick = "GetbyLevel(\'' +
+                            '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
                             row.accountId +
                             "')\">" +
                             row.level +
@@ -1678,7 +1679,7 @@ function handleFilterSubmission() {
                         );
                     } else {
                         return (
-                            '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-target="#modalLevel" onclick="GetbyLevel(\'' +
+                            '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                             row.accountId +
                             "')\">" +
                             row.level +
