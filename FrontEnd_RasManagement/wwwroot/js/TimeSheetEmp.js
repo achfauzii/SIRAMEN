@@ -556,6 +556,7 @@ function save() {
             },
             success: function (response) {
                 if (response.status === 200) {
+                    location.reload();
                     Swal.fire({
                         icon: "success",
                         title: "Data overtime has been added!",
@@ -567,7 +568,8 @@ function save() {
                         showConfirmButton: true,
                     });
                     $("#timeSheetModal").modal("hide");
-                    table.ajax.reload();
+                    /*table.ajax.reload();*/
+                    
                     addRowHoliday();
                     addRowApproval();
                 }
