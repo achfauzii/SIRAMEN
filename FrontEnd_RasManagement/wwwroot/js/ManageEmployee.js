@@ -255,7 +255,7 @@ $(document).ready(function () {
 
             if (levelStatus === "Fresh Graduate") {
               return (
-                '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#modalLevel" onclick="GetbyLevel(\'' +
+                '<span type="button" class="badge badge-pill badge-dark" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -267,7 +267,7 @@ $(document).ready(function () {
               levelStatus === "Middle to Senior"
             ) {
               return (
-                '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-target="#modalLevel" onclick = "GetbyLevel(\'' +
+                '<span type="button" class="badge badge-pill badge-danger" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -275,7 +275,7 @@ $(document).ready(function () {
               );
             } else {
               return (
-                '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-target="#modalLevel" onclick="GetbyLevel(\'' +
+                '<span type="button" class="badge badge-pill badge-primary" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -1405,7 +1405,7 @@ function getPlacementLoc() {
         }
     });
 
-    $("#selectPlacement").select2({
+    $("#selectPlacementLoc").select2({
         placeholder: "Choose Placement",
         dropdownParent: $("#offcanvasRight"),
         width: "100%",
@@ -1446,14 +1446,18 @@ function getPosition() {
     });
 }
 
+function closeLevel() {
+    table.ajax.reload();
+}
+
 function resetFilter() {
     $("#selectPosition").select2(
         "val",
         $("#selectPosition option:eq(0)").val()
     );
-    $("#selectPlacement").select2(
+    $("#selectPlacementLoc").select2(
         "val",
-        $("#selectPlacement option:eq(0)").val()
+        $("#selectPlacementLoc option:eq(0)").val()
     );
     $("input[type='radio']").prop("checked", false);
 
@@ -1510,7 +1514,11 @@ function handleFilterSubmission() {
         filterplacLoc;
 
     // Make an AJAX request to a server endpoint (replace 'your_endpoint' with the actual URL)
-    $("#dataTableEmployee").DataTable({
+
+    $("#dataTableEmployee").on("processing.dt", function (e, settings, processing) {
+            $("#loader").css("display", processing ? "block" : "none");
+        })
+    .DataTable({
         fixedColumns: {
             leftColumns: window.innerWidth > 1024 ? 3 : null,
         },

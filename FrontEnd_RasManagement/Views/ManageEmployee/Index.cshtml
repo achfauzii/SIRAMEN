@@ -4,6 +4,9 @@
     var employeeData = ViewData["EmployeeData"] as dynamic;
 }
 
+<!-- Custom styles for filter canvas page -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 <style>
     /*.body {
         
@@ -106,50 +109,94 @@
         font-size: 14px;
     }
 
-    .btn-info {
+    .btn-info-custom {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        box-shadow: none;
         margin: 5px 5px;
         padding: 6px 12px;
     }
 
-    .btn-secondary {
+    .btn-info-custom:hover {
+        color: #fff;
+        background-color: #138496;
+        border-color: #117a8b;
+    }
+
+    .btn-info-custom:focus,
+    .btn-info-custom.focus {
+        color: #fff;
+        background-color: #138496;
+        border-color: #117a8b;
+        box-shadow: 0 0 0 0 rgba(58, 176, 195, 0.5);
+    }
+
+    .btn-info-custom.disabled,
+    .btn-info-custom:disabled {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .btn-info-custom:not(:disabled):not(.disabled):active,
+    .btn-info-custom:not(:disabled):not(.disabled).active,
+    .show > .btn-info-custom.dropdown-toggle {
+        color: #fff;
+        background-color: #117a8b;
+        border-color: #10707f;
+    }
+
+    .btn-info-custom:not(:disabled):not(.disabled):active:focus,
+    .btn-info-custom:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-info-custom.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0 rgba(58, 176, 195, 0.5);
+    }
+
+    .btn-secondary-custom {
+        color: #6c757d;
+        background-color: #e5e4e4;
+        border-color: #e5e4e4;
+        box-shadow: none;
         margin: 5px 5px;
-        border-radius: 30px;
+        padding: 6px 12px;
     }
 
-    .bs-canvas-overlay {
-        opacity: 0;
-        z-index: -1;
+    .btn-secondary-custom:hover {
+        color: #fff;
+        background-color: #cbcbcb;
+        border-color: #cbcbcb;
     }
 
-        .bs-canvas-overlay.show {
-            opacity: 0.85;
-            z-index: 1100;
-        }
-
-    .bs-canvas-overlay, .bs-canvas {
-        transition: all .4s ease-out;
-        -webkit-transition: all .4s ease-out;
-        -moz-transition: all .4s ease-out;
-        -ms-transition: all .4s ease-out;
+    .btn-secondary-custom:focus,
+    .btn-secondary-custom.focus {
+        color: #fff;
+        background-color: #cbcbcb;
+        border-color: #cbcbcb;
+        box-shadow: 0 0 0 0 rgba(130, 138, 145, 0.5);
     }
 
-    .bs-canvas {
-        top: 0;
-        z-index: 1110;
-        overflow-x: hidden;
-        overflow-y: auto;
-        width: 330px;
+    .btn-secondary-custom.disabled,
+    .btn-secondary-custom:disabled {
+        color: #fff;
+        background-color: #cbcbcb;
+        border-color: #cbcbcb;
     }
 
-    .bs-canvas-left {
-        left: 0;
-        margin-left: -330px;
+    .btn-secondary-custom:not(:disabled):not(.disabled):active,
+    .btn-secondary-custom:not(:disabled):not(.disabled).active,
+    .show > .btn-secondary-custom.dropdown-toggle {
+        color: #fff;
+        background-color: #cbcbcb;
+        border-color: #cbcbcb;
     }
 
-    .bs-canvas-right {
-        right: 0;
-        margin-right: -330px;
+    .btn-secondary-custom:not(:disabled):not(.disabled):active:focus,
+    .btn-secondary-custom:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-secondary-custom.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0 rgba(130, 138, 145, 0.5);
     }
+
 
     /* Only for demo */
     body {
@@ -157,13 +204,10 @@
     }
 </style>
 
-<!-- Custom styles for filter canvas page -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">*@
 
 @*<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">*@
-
 
 <!-- Main Content-->
 <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
@@ -268,8 +312,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><span id="Fullname" class="badge badge-light"></span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="Fullname" class="badge text-secondary"></span></h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -314,8 +358,39 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" id="Update" onclick="SaveTurnOver();">Update</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Info Level-->
+<div class="modal fade" id="modalLevel" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Level</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm">
+                    <input type="hidden" class="form-control" id="accountLevel" readonly>
+
+                    <label class="text-dark" for="levelchange">Level</label>
+                    <select id="levelchange" class="selectLevel form-control" name="state" required>
+                        <option selected disabled>Choose...</option>
+                    </select>
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="update" data-dismiss="modal" onclick="UpdateLevel()">Update</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" id="closemodal">Close</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -326,7 +401,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(31, 31, 31)">Assets Management</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -359,7 +434,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(31, 31, 31)">Assets Management</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -373,47 +448,16 @@
     </div>
 </div>
 
-
-<!-- Modal Info Level-->
-<div class="modal fade" id="modalLevel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Level</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="col-sm">
-                    <input type="hidden" class="form-control" id="accountLevel" readonly>
-
-                    <label class="text-dark" for="levelchange">Level</label>
-                    <select id="levelchange" class="selectLevel form-control" name="state" required>
-                        <option selected disabled>Choose...</option>
-                    </select>
-                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" id="update" data-dismiss="modal" onclick="UpdateLevel()">Update</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 <!-- Modal Filter Data-->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h6 class="offcanvas-title" id="offcanvasRightLabel">Data Filters</h6>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body m-2">
-        <div class="row m-1" style="font-size: 14px;">
+    <div class="offcanvas-body">
+        <div class="row mx-1" style="font-size: 14px;">
             Level
-            <div class="accordion-body mt-2">
+            <div class="accordion-body p-2 ">
                 <input type="radio" class="btn-check" name="filter-level" id="option1" value="Fresh Graduate" autocomplete="off">
                 <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option1">Fresh Graduate</label>
                 <input type="radio" class="btn-check" name="filter-level" id="option2" value="Junior" autocomplete="off">
@@ -428,52 +472,52 @@
                 <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option6">Senior</label>
             </div>
         </div>
-        <div class="row m-1" style="font-size: 14px;">
+        <div class="row mx-1" style="font-size: 14px;">
             Financial Industry
-            <div class="accordion-body mt-2">
+            <div class="accordion-body p-2">
                 <input type="radio" class="btn-check" name="filter-financi" id="option7" value="Yes" autocomplete="off">
                 <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option7">Ya</label>
                 <input type="radio" class="btn-check" name="filter-financi" id="option8" value="False" autocomplete="off">
                 <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option8">Tidak</label>
             </div>
         </div>
-        <div class="row m-1" style="font-size: 14px;">
+        <div class="row mx-1" style="font-size: 14px;">
             Placement Status
-            <div class="accordion-body mt-2">
+            <div class="accordion-body p-2">
                 <input type="radio" class="btn-check" name="filter-placeStatus" id="option9" value="Onsite" autocomplete="off">
                 <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option9">Onsite</label>
                 <input type="radio" class="btn-check" name="filter-placeStatus" id="option10" value="Idle" autocomplete="off">
                 <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option10">Idle</label>
             </div>
         </div>
-        <div class="row m-1" style="font-size: 14px;">
+        <div class="row mx-1" style="font-size: 14px;">
             Hired Status
-            <div class="accordion-body mt-2">
+            <div class="accordion-body p-2">
                 <input type="radio" class="btn-check" name="filter-Hired" id="option11" value="Prohire" autocomplete="off">
                 <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option11">Prohire</label>
                 <input type="radio" class="btn-check" name="filter-Hired" id="option12" value="Bootcamp" autocomplete="off">
                 <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option12">Bootcamp</label>
             </div>
         </div>
-        <div class="row m-1" style="font-size: 14px;">
+        <div class="row mx-1" style="font-size: 14px;">
             Position
-            <div class="accordion-body mt-2">
+            <div class="accordion-body p-2">
                 <select class="form-select bg-light" id="selectPosition">
                     <option selected disabled>Choose Position</option>
                 </select>
             </div>
         </div>
-        <div class="row m-1" style="font-size: 14px;">
+        <div class="row mx-1" style="font-size: 14px;">
            Placement Location
-            <div class="accordion-body mt-2">
+            <div class="accordion-body p-2">
                 <select class="form-select bg-light" id="selectPlacementLoc">
                     <option selected disabled>Choose Placement</option>
                 </select>
             </div>
         </div>
-        <div class="row" style="font-size: 14px;">
-            <button class="btn btn-sm btn-secondary col" style="border-radius: 30px;" type="button" id="resetFilterData">Clear</button>
-            <button class="btn btn-sm btn-info col" style="border-radius: 30px; "type="button" id="submitFilter">Apply all filters</button>
+        <div class="row p-3" style="font-size: 14px;">
+            <button class="btn btn-sm btn-secondary-custom col text-dark" style="border-radius: 30px;" type="button" id="resetFilterData">Clear</button>
+            <button class="btn btn-sm btn-info-custom col" style="border-radius: 30px; "type="button" id="submitFilter">Apply all filters</button>
         </div>
     </div>
 </div>
@@ -564,40 +608,4 @@
 <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-@*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-<script>
-    jQuery(document).ready(function ($) {
-        var bsOverlay = $('.bs-canvas-overlay');
-        $('[data-toggle="canvas"]').on('click', function () {
-            var ctrl = $(this),
-                elm = ctrl.is('button') ? ctrl.data('target') : ctrl.attr('href');
-            $(elm).addClass('mr-0');
-            $(elm + ' .bs-canvas-close').attr('aria-expanded', "true");
-            $('[data-target="' + elm + '"], a[href="' + elm + '"]').attr('aria-expanded', "true");
-            if (bsOverlay.length)
-                bsOverlay.addClass('show');
-            return false;
-        });
-
-        $('.bs-canvas-close, .bs-canvas-overlay').on('click', function () {
-            var elm;
-            if ($(this).hasClass('bs-canvas-close')) {
-                elm = $(this).closest('.bs-canvas');
-                $('[data-target="' + elm + '"], a[href="' + elm + '"]').attr('aria-expanded', "false");
-            } else {
-                elm = $('.bs-canvas')
-                $('[data-toggle="canvas"]').attr('aria-expanded', "false");
-            }
-            elm.removeClass('mr-0');
-            $('.bs-canvas-close', elm).attr('aria-expanded', "false");
-            if (bsOverlay.length)
-                bsOverlay.removeClass('show');
-            return false;
-        });
-    });
-</script>
-*@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
