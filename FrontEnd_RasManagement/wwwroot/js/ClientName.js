@@ -336,6 +336,7 @@ function detailPosition(id) {
             $("#modalTitle").text("Position List " + clientName);
             $("#salesName_").text(data.data.salesName);
             $("#salesContact_").text(data.data.salesContact);
+            $("#picClient_").text(data.data.picClient);
             $("#clientContact_").text(data.data.clientContact);
 
             //Get Data Position
