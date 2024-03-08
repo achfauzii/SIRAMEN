@@ -4,25 +4,25 @@ using Org.BouncyCastle.Tsp;
 
 namespace RasManagement.Repository
 {
-    public class TimeSheetRepository : GeneralRepository<ProjectRasmanagementContext, TimeSheet, int>
+    public class ApprovalRepository : GeneralRepository<ProjectRasmanagementContext, Approval, int>
     {
         private readonly ProjectRasmanagementContext context;
 
-        public TimeSheetRepository(ProjectRasmanagementContext context) : base(context)
+        public ApprovalRepository(ProjectRasmanagementContext context) : base(context)
         {
             this.context = context;
         }
 
-        public async Task<List<TimeSheet>> GetTimeSheetsByAccount(string accountId)
+        public async Task<List<Approval>> GetApprovalsByAccount(string accountId)
         {
-            var timeSheetAccount = await context.TimeSheets
+            var approvalAccount = await context.Approvals
                 .Where(e => e.AccountId == accountId)
                 .ToListAsync();
 
-            return timeSheetAccount;
+            return approvalAccount;
         }
 
-        public async Task<List<TimeSheet>> GetTimeSheetsActivity(string accountId, DateTime date)
+        /*public async Task<List<TimeSheet>> GetTimeSheetsActivity(string accountId, DateTime date)
         {
             var timeSheetAccount = await context.TimeSheets
                 .Where(e => e.AccountId == accountId && e.Date == date)
@@ -70,36 +70,22 @@ namespace RasManagement.Repository
                         AccountId = group.Key,
                         AccountName = group.First().Account.Fullname,
                         Pic = group.First().PlacementStatus.PicName,
-                        WFHCount = group.Where(ts => ts.Flag == "WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFH
-                        WFOCount = group.Where(ts => ts.Flag == "WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFO
-                        ClientSite = companyName,
-                        Position = context.Positions
-                               .Where(p => p.Id == group.First().PlacementStatus.PositionId)
-                               .Select(p => p.PositionClient)
-                               .FirstOrDefault(),
-                        TimeSheets = group .OrderBy(ts => ts.Date)
-                        .Select(ts => new
+                        WFHCount = group.Count(ts => ts.Flag == "WFH"),
+                        WFOCount = group.Count(ts => ts.Flag == "WFO"),
+                        TimeSheets = group.Select(ts => new
                         {
                             TimeSheetId = ts.Id,
                             Activity = ts.Activity,
                             Category = ts.Category,
                             Status = ts.Status,
-                            Date = ts.Date,
-                            Flag = ts.Flag,
-                            KnownBy= ts.KnownBy,
-                      /*      IsHoliday = false, // Initialize as false by default
-                            HolidayName = ""*/
+                            Date = ts.Date
                         }),
 
                     })
                     .ToListAsync();
 
-                // Step 3: Get holidays for the target month
-      /*          var holidays = await context.MasterHolidays
-                    .Where(h => h.Date.Value.Month == targetDate.Month && h.Date.Value.Year == targetDate.Year)
-                    .Select(h => h.Date)
-                    .ToListAsync();*/
                 return result;
+
             }
             catch (Exception ex)
             {
@@ -382,7 +368,7 @@ namespace RasManagement.Repository
                     return "#f56954"; // Red
             }
         }
-
+        */
         //  public static string GetColorByCategory(string categories)
         // {
         //     switch (categories)
@@ -402,7 +388,7 @@ namespace RasManagement.Repository
         //     }
         // }
 
-        public int AddTimeSheet(TimeSheet timeSheet)
+        /*public int AddTimeSheet(TimeSheet timeSheet)
         {
             // Validasi Flag harus sama
             var data = context.TimeSheets.FirstOrDefault(t => t.AccountId == timeSheet.AccountId && t.Date == timeSheet.Date);
@@ -490,6 +476,6 @@ namespace RasManagement.Repository
         internal async Task GetTimeSheetsByMonth(DateTime start, DateTime end, string? flag, string? search, string? categories, string? status, int? placement)
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }

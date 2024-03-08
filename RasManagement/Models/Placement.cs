@@ -31,4 +31,5 @@ public partial class Placement
     [JsonIgnore]
     public virtual Position? Position { get; set; }
     public virtual ICollection<TimeSheet> TimeSheets { get; set; } = new List<TimeSheet>();
+    public virtual ICollection<Approval> Approvals { get; set; } = new List<Approval>();
 }
