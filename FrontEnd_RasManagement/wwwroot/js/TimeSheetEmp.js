@@ -556,6 +556,7 @@ function save() {
             },
             success: function (response) {
                 if (response.status === 200) {
+                    location.reload();
                     Swal.fire({
                         icon: "success",
                         title: "Data overtime has been added!",

@@ -165,5 +165,15 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = get.Count() + " Data Ditemukan", Data = get });
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetEmployeeFilter")]
+        public async Task<IActionResult> GetEmployeeFilter([FromQuery] string? position, [FromQuery] string? hiredStatus, [FromQuery] string? level, [FromQuery] string? financialIndustry, [FromQuery] string? placementStatus, [FromQuery] string? placementLocation)
+        {
+            var get = await employeeRepository.GetEmployeeFilter(position, hiredStatus, level, financialIndustry, placementStatus, placementLocation);
+
+            return StatusCode(200, new { status = HttpStatusCode.OK, message = get.Count() + " Data Ditemukan", TotalData = get.Count(), Data = get });
+        }
     }
+    
 }

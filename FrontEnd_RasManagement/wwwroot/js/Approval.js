@@ -267,6 +267,8 @@ function updateApproval(Approval) {
                     showConfirmButton: false,
                     timer: 1500,
                 });
+                const logMessage = `Has ${Approval.statusApproval},Timesheet Date ${Approval.Date}, Account Id: ${Approval.accountId}`;
+                SaveLogUpdate(logMessage);
                 $("#ApprovalModal").modal("hide");
                 $("#ApprovalTable").DataTable().ajax.reload();
             } else if (result.status == 400) {
