@@ -1470,20 +1470,20 @@ function resetFilter() {
     handleFilterSubmission();
 }
 function handleFilterSubmission() {
-    var filterPosition = $("#selectPosition").val() != null ? $("#selectPosition").val(): "";
+    var filterPosition = $("#selectPosition").val() != null ? $("#selectPosition").val(): null;
     var filterLevel = $("input[type='radio'][name='filter-level']:checked").length > 0
         ? $("input[type='radio'][name='filter-level']:checked").val()
-        : "";
+        : null;
     var filterHiredStatus = $("input[type='radio'][name='filter-Hired']:checked").length > 0
         ? $("input[type='radio'][name='filter-Hired']:checked").val()
-        : "";
+        : null;
     var filterFinanIn = $("input[type='radio'][name='filter-financi']:checked").length > 0
         ? $("input[type='radio'][name='filter-financi']:checked").val()
-        : "";
-    var filterplacLoc = $("#selectPlacementLoc").val() != null ? $("#selectPlacementLoc").val() : "";
+        : null;
+    var filterplacLoc = $("#selectPlacementLoc").val() != null ? $("#selectPlacementLoc").val() : null;
     var filterplacStatus = $("input[type='radio'][name='filter-placeStatus']:checked").length > 0
         ? $("input[type='radio'][name='filter-placeStatus']:checked").val()
-        : "";
+        : null;
 
     if ($.fn.DataTable.isDataTable("#dataTableEmployee")) {
         $("#dataTableEmployee").DataTable().destroy();
