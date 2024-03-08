@@ -567,7 +567,8 @@ function save() {
                         showConfirmButton: true,
                     });
                     $("#timeSheetModal").modal("hide");
-                    table.ajax.reload();
+                    /*table.ajax.reload();*/
+                    location.reload();
                     addRowHoliday();
                     addRowApproval();
                 }
