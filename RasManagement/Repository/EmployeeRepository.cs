@@ -462,7 +462,7 @@ namespace RasManagement.Repository
             //var result = data.ToList();
 
             var result = _context.Accounts
-                .FromSqlRaw($"exec dbo.FILTER_EMPLOYEE " +
+                .FromSqlRaw($"EXEC FILTER_EMPLOYEE " +
                 $"@v_Level='{level}', " +
                 $"@v_Financial='{financialIndustry}', " +
                 $"@v_Status='{placementStatus}', " +
