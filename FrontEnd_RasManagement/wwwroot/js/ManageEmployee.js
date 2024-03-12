@@ -292,7 +292,7 @@ $(document).ready(function () {
           render: function (data, type, row) {
             if (type === "display") {
               // Jika data bernilai true, tambahkan atribut checked
-              var isChecked = data === "true" ? "checked" : "";
+                var isChecked = data === "true" || data === "True" ? "checked" : "";
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +
@@ -1717,7 +1717,7 @@ function handleFilterSubmission() {
           render: function (data, type, row) {
             if (type === "display") {
               // Jika data bernilai true, tambahkan atribut checked
-              var isChecked = data === "true" ? "checked" : "";
+                var isChecked = data === "true" || data === "True" ? "checked" : "";
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +
