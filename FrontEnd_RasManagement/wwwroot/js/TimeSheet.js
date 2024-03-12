@@ -91,12 +91,13 @@ function submitMonth(month) {
             { data: "status" },
             { data: "knownBy" },
           ],
-          rowsGroup: [["one:name", "two:name"]],
+          rowsGroup: ["one:name", "two:name"],
           order: [[0, "asc"]],
           // backgroud warna dengan flag holiday
           createdRow: function (row, data, dataIndex) {
             if (data.flag === "Holiday") {
-              $(row).css("background-color", "#E4DEBE");
+              $(row).css("background-color", "#fe6675");
+              $(row).css("font-weight", "bold");
               $(row).find(".fa-edit").hide();
             }
           },
@@ -129,12 +130,13 @@ function submitMonth(month) {
             { data: "status" },
             { data: "knownBy" },
           ],
-          rowsGroup: [["first:name", "second:name"]],
+          rowsGroup: ["first:name", "second:name"],
           order: [[0, "asc"]],
           // backgroud warna dengan flag holiday
           createdRow: function (row, data, dataIndex) {
             if (data.flag === "Holiday") {
-              $(row).css("background-color", "#E4DEBE");
+              $(row).css("background-color", "#fe6675");
+              $(row).css("font-weight", "bold");
               $(row).find(".fa-edit").hide();
             }
           },

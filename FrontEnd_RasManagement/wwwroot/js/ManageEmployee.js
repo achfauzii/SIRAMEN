@@ -37,7 +37,6 @@ var pastelColors = [
   "#F7F5EB",
 ];
 
-
 // Filter data
 //var filterPosition = "";
 //var filterLevel = "";
@@ -46,7 +45,6 @@ var pastelColors = [
 //var filterplacLoc = "";
 //var filterplacStatus = "";
 
-
 $(document).ajaxComplete(function () {
   $('[data-tooltip="tooltip"]').tooltip({
     trigger: "hover",
@@ -54,40 +52,44 @@ $(document).ajaxComplete(function () {
 });
 
 $(document).ready(function () {
-      getPlacementLoc();
-      getPosition();
+  getPlacementLoc();
+  getPosition();
 
-      var objDataToken = parseJwt(sessionStorage.getItem("Token"));
+  var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
-      if (objDataToken.RoleId == 7) {
-        $(".edit-contract-emp").hide();
-      }
+  if (objDataToken.RoleId == 7) {
+    $(".edit-contract-emp").hide();
+  }
 
-      $(
-        "input[required], input[required_], input[requiredContract], select[required], select[required_]"
-      ).each(function () {
-        $(this).prev("label").append('<span style="color: red;">*</span>');
-      });
+  $(
+    "input[required], input[required_], input[requiredContract], select[required], select[required_]"
+  ).each(function () {
+    $(this).prev("label").append('<span style="color: red;">*</span>');
+  });
 
-      $('[data-tooltip="tooltip"]').tooltip({
-        trigger: "hover",
-      });
-      fetchDepartments();
+  $('[data-tooltip="tooltip"]').tooltip({
+    trigger: "hover",
+  });
+  fetchDepartments();
 
-      document
-        .getElementById("Status")
-        .addEventListener("change", handlePlacementStatusChange);
+  document
+    .getElementById("Status")
+    .addEventListener("change", handlePlacementStatusChange);
 
-      // Panggil fungsi saat halaman dimuat untuk mengatur keadaan awal
-      window.addEventListener("load", function () {
-        // Periksa nilai awal dropdown saat halaman dimuat
-        handlePlacementStatusChange();
-      });
+  // Panggil fungsi saat halaman dimuat untuk mengatur keadaan awal
+  window.addEventListener("load", function () {
+    // Periksa nilai awal dropdown saat halaman dimuat
+    handlePlacementStatusChange();
+  });
 
-    document.getElementById("submitFilter").addEventListener("click", handleFilterSubmission);
+  document
+    .getElementById("submitFilter")
+    .addEventListener("click", handleFilterSubmission);
 
-    document.getElementById("resetFilterData").addEventListener("click", function () {
-        resetFilter();
+  document
+    .getElementById("resetFilterData")
+    .addEventListener("click", function () {
+      resetFilter();
     });
 
   // $("#dataTableEmployee thead tr")
@@ -109,9 +111,7 @@ $(document).ready(function () {
   //   );
   // });
 
-
-
-   table = $("#dataTableEmployee")
+  table = $("#dataTableEmployee")
     .on("processing.dt", function (e, settings, processing) {
       $("#loader").css("display", processing ? "block" : "none");
     })
@@ -119,9 +119,9 @@ $(document).ready(function () {
       fixedColumns: {
         leftColumns: window.innerWidth > 1024 ? 3 : null,
       },
-        paging: true,
-    
-        pagingType: 'full_numbers',
+      paging: true,
+
+      pagingType: "full_numbers",
       fixedHeader: true,
       scrollX: true,
       scrollY: true,
@@ -139,7 +139,7 @@ $(document).ready(function () {
         },
       },
 
-     /* initComplete: function () {
+      /* initComplete: function () {
         this.api()
           .columns()
           .every(function () {
@@ -170,7 +170,7 @@ $(document).ready(function () {
         {
           data: null,
           width: "4%",
-              render: function (data, type, row, meta) {              
+          render: function (data, type, row, meta) {
             return meta.row + meta.settings._iDisplayStart + 1 + ".";
           },
         },
@@ -292,7 +292,7 @@ $(document).ready(function () {
           render: function (data, type, row) {
             if (type === "display") {
               // Jika data bernilai true, tambahkan atribut checked
-              var isChecked = data === "true" ? "checked" : "";
+                var isChecked = data === "true" || data === "True" ? "checked" : "";
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +
@@ -347,19 +347,18 @@ $(document).ready(function () {
             if (placementStatus == "Idle") {
               placementLocation = "";
             } else {
-                $.ajax({
-                    url: 'https://localhost:7177/api/ClientName/'+placementLocation, // URL API yang diinginkan
-                    type: 'GET',
-                    async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
-                    success: function (response) {
-                   
-                        placementLocation = response.data.nameOfClient;
-                     
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
+              $.ajax({
+                url:
+                  "https://localhost:7177/api/ClientName/" + placementLocation, // URL API yang diinginkan
+                type: "GET",
+                async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                success: function (response) {
+                  placementLocation = response.data.nameOfClient;
+                },
+                error: function (xhr, status, error) {
+                  console.error(xhr.responseText);
+                },
+              });
             }
 
             return placementLocation;
@@ -518,57 +517,63 @@ $(document).ready(function () {
     });
 
   //Check Box Financial Industry
-  $("#dataTableEmployee").on("change", "#financialIndustryCheck", function () {
-    var rowIndex = $(this).closest("td").index();
-    var isChecked = $(this).prop("checked");
 
-    var rowData = table.row(rowIndex).data();
-    var financialIndustryValue = { financialIndustry: isChecked.toString() };
-    if (isChecked == true) {
-      var status = "Yes";
-    } else {
-      var status = "No";
-    }
+  $("#dataTableEmployee").on(
+    "change",
+    "#financialIndustryCheck",
+    function (data) {
+      var row = $(this).closest("tr");
+      var rowIndex = table.row(row).index();
+      var isChecked = $(this).prop("checked");
 
-    Swal.fire({
-      title: "Do you want to change?",
-      text: `You changes ${rowData.fullname}'s financial industry to ${status}`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: "https://localhost:7177/api/Employees/" + rowData.accountId,
-          type: "PUT",
-          data: JSON.stringify(financialIndustryValue),
-          contentType: "application/json; charset=utf-8",
-          headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-          },
-          success: function (result) {
-            if ((result.status = 200)) {
-              Swal.fire({
-                title: "Data has been change!",
-                icon: "success",
-              });
-              const logMessage = `Has change financial Industry ${
-                rowData.accountId
-              }, to FinancialIndustry : ${isChecked.toString()}`;
-              SaveLogUpdate(logMessage);
-            }
-          },
-        });
+      var rowData = table.row(rowIndex).data();
+      var financialIndustryValue = { financialIndustry: isChecked.toString() };
+      if (isChecked == true) {
+        var status = "Yes";
       } else {
-        // Jika pengguna memilih "No", Anda dapat melakukan sesuatu di sini
-        console.log("User chose No");
-        // Contoh: Mengubah kembali status checkbox sesuai dengan nilai sebelumnya
-        $(this).prop("checked", !isChecked);
+        var status = "No";
       }
-    });
-  });
+
+      Swal.fire({
+        title: "Do you want to change?",
+        text: `You changes ${rowData.fullname}'s financial industry to ${status}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "https://localhost:7177/api/Employees/" + rowData.accountId,
+            type: "PUT",
+            data: JSON.stringify(financialIndustryValue),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (result) {
+              if ((result.status = 200)) {
+                Swal.fire({
+                  title: "Data has been change!",
+                  icon: "success",
+                });
+                const logMessage = `Has change financial Industry ${
+                  rowData.accountId
+                }, to FinancialIndustry : ${isChecked.toString()}`;
+                SaveLogUpdate(logMessage);
+              }
+            },
+          });
+        } else {
+          // Jika pengguna memilih "No", Anda dapat melakukan sesuatu di sini
+          console.log("User chose No");
+          // Contoh: Mengubah kembali status checkbox sesuai dengan nilai sebelumnya
+          $(this).prop("checked", !isChecked);
+        }
+      });
+    }
+  );
 
   $("#resetFilters").on("click", function () {
     // Reset input pencarian dan filter DataTable
@@ -1385,164 +1390,180 @@ function getColorForPosition(word) {
 }
 
 function getPlacementLoc() {
-    var selectPlacement = document.getElementById("selectPlacementLoc");
+  var selectPlacement = document.getElementById("selectPlacementLoc");
 
-    $.ajax({
-        type: "GET",
-        url: "https://localhost:7177/api/ClientName",
-        
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-    }).then((result) => {
-        if (result != null) {
-            console.log(result.data);
-            result.data.forEach((item) => {
-                var option = new Option(item.nameOfClient, item.nameOfClient, true, false);
-                selectPlacement.add(option);
-            });
-        }
-    });
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/ClientName",
 
-    $("#selectPlacementLoc").select2({
-        placeholder: "Choose Placement",
-        dropdownParent: $("#offcanvasRight"),
-        width: "100%",
-        height: "100%",
-        allowClear: false,
-        tags: true,
-    });    
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      console.log(result.data);
+      result.data.forEach((item) => {
+        var option = new Option(
+          item.nameOfClient,
+          item.nameOfClient,
+          true,
+          false
+        );
+        selectPlacement.add(option);
+      });
+    }
+  });
+
+  $("#selectPlacementLoc").select2({
+    placeholder: "Choose Placement",
+    dropdownParent: $("#offcanvasRight"),
+    width: "100%",
+    height: "100%",
+    allowClear: false,
+    tags: true,
+  });
 }
 
 function getPosition() {
-    var selectPosition = document.getElementById("selectPosition");
+  var selectPosition = document.getElementById("selectPosition");
 
-    $.ajax({
-        type: "GET",
-        url: "https://localhost:7177/api/Position",
+  $.ajax({
+    type: "GET",
+    url: "https://localhost:7177/api/Position",
 
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-    }).then((result) => {
-        if (result != null) {
-            console.log(result.data);
-            result.data.forEach((item) => {
-                var option = new Option(item.positionClient, item.positionClient, true, false);
-                selectPosition.add(option);
-            });
-        }
-    });
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+  }).then((result) => {
+    if (result != null) {
+      console.log(result.data);
+      result.data.forEach((item) => {
+        var option = new Option(
+          item.positionClient,
+          item.positionClient,
+          true,
+          false
+        );
+        selectPosition.add(option);
+      });
+    }
+  });
 
-    $("#selectPosition").select2({
-        placeholder: "Choose Position",
-        dropdownParent: $("#offcanvasRight"),
-        width: "100%",
-        height: "100%",
-        allowClear: false,
-        tags: true,
-    });
+  $("#selectPosition").select2({
+    placeholder: "Choose Position",
+    dropdownParent: $("#offcanvasRight"),
+    width: "100%",
+    height: "100%",
+    allowClear: false,
+    tags: true,
+  });
 }
 
 function closeLevel() {
-    table.ajax.reload();
+  table.ajax.reload();
 }
 
 function resetFilter() {
-    $("#selectPosition").select2(
-        "val",
-        $("#selectPosition option:eq(0)").val()
-    );
-    $("#selectPlacementLoc").select2(
-        "val",
-        $("#selectPlacementLoc option:eq(0)").val()
-    );
-    $("input[type='radio']").prop("checked", false);
+  $("#selectPosition").select2("val", $("#selectPosition option:eq(0)").val());
+  $("#selectPlacementLoc").select2(
+    "val",
+    $("#selectPlacementLoc option:eq(0)").val()
+  );
+  $("input[type='radio']").prop("checked", false);
 
-    filterPosition = "";
-    filterLevel = "";
-    filterHiredStatus = "";
-    filterFinanIn = "";
-    filterplacLoc = "";
-    filterplacStatus = "";
-    handleFilterSubmission();
+  filterPosition = "";
+  filterLevel = "";
+  filterHiredStatus = "";
+  filterFinanIn = "";
+  filterplacLoc = "";
+  filterplacStatus = "";
+  handleFilterSubmission();
 }
 function handleFilterSubmission() {
-    var filterPosition = $("#selectPosition").val() != null ? $("#selectPosition").val(): "";
-    var filterLevel = $("input[type='radio'][name='filter-level']:checked").length > 0
-        ? $("input[type='radio'][name='filter-level']:checked").val()
-        : "";
-    var filterHiredStatus = $("input[type='radio'][name='filter-Hired']:checked").length > 0
-        ? $("input[type='radio'][name='filter-Hired']:checked").val()
-        : "";
-    var filterFinanIn = $("input[type='radio'][name='filter-financi']:checked").length > 0
-        ? $("input[type='radio'][name='filter-financi']:checked").val()
-        : "";
-    var filterplacLoc = $("#selectPlacementLoc").val() != null ? $("#selectPlacementLoc").val() : "";
-    var filterplacStatus = $("input[type='radio'][name='filter-placeStatus']:checked").length > 0
-        ? $("input[type='radio'][name='filter-placeStatus']:checked").val()
-        : "";
+  var filterPosition =
+    $("#selectPosition").val() != null ? $("#selectPosition").val() : null;
+  var filterLevel =
+    $("input[type='radio'][name='filter-level']:checked").length > 0
+      ? $("input[type='radio'][name='filter-level']:checked").val()
+      : null;
+  var filterHiredStatus =
+    $("input[type='radio'][name='filter-Hired']:checked").length > 0
+      ? $("input[type='radio'][name='filter-Hired']:checked").val()
+      : null;
+  var filterFinanIn =
+    $("input[type='radio'][name='filter-financi']:checked").length > 0
+      ? $("input[type='radio'][name='filter-financi']:checked").val()
+      : null;
+  var filterplacLoc =
+    $("#selectPlacementLoc").val() != null
+      ? $("#selectPlacementLoc").val()
+      : null;
+  var filterplacStatus =
+    $("input[type='radio'][name='filter-placeStatus']:checked").length > 0
+      ? $("input[type='radio'][name='filter-placeStatus']:checked").val()
+      : null;
 
-    if ($.fn.DataTable.isDataTable("#dataTableEmployee")) {
-        $("#dataTableEmployee").DataTable().destroy();
-    }
+  if ($.fn.DataTable.isDataTable("#dataTableEmployee")) {
+    $("#dataTableEmployee").DataTable().destroy();
+  }
 
-    console.log("Position:", filterPosition);
-    console.log("Level:", filterLevel);
-    console.log("Hired Status:", filterHiredStatus);
-    console.log("Financial Industry:", filterFinanIn);
-    console.log("Placement Location:", filterplacLoc);
-    console.log("Placement Status:", filterplacStatus);
+  console.log("Position:", filterPosition);
+  console.log("Level:", filterLevel);
+  console.log("Hired Status:", filterHiredStatus);
+  console.log("Financial Industry:", filterFinanIn);
+  console.log("Placement Location:", filterplacLoc);
+  console.log("Placement Status:", filterplacStatus);
 
-    // Apply mixed filter
-    var urlApi = "";
-    urlApi =
-        "https://localhost:7177/api/Employees/GetEmployeeFilter" +
-        "?position=" +
-        filterPosition +
-        "&level=" +
-        filterLevel +
-        "&hiredStatus=" +
-        filterHiredStatus +
-        "&financialIndustry=" +
-        filterFinanIn +
-        "&placementStatus=" +
-        filterplacStatus +
-        "&placementLocation=" +
-        filterplacLoc;
+  // Apply mixed filter
+  var urlApi = "";
+  urlApi =
+    "https://localhost:7177/api/Employees/GetEmployeeFilter" +
+    "?position=" +
+    filterPosition +
+    "&level=" +
+    filterLevel +
+    "&hiredStatus=" +
+    filterHiredStatus +
+    "&financialIndustry=" +
+    filterFinanIn +
+    "&placementStatus=" +
+    filterplacStatus +
+    "&placementLocation=" +
+    filterplacLoc;
 
-    // Make an AJAX request to a server endpoint (replace 'your_endpoint' with the actual URL)
+  // Make an AJAX request to a server endpoint (replace 'your_endpoint' with the actual URL)
 
-    $("#dataTableEmployee").on("processing.dt", function (e, settings, processing) {
-            $("#loader").css("display", processing ? "block" : "none");
-        })
+  $("#dataTableEmployee")
+    .on("processing.dt", function (e, settings, processing) {
+      $("#loader").css("display", processing ? "block" : "none");
+    })
     .DataTable({
-        fixedColumns: {
-            leftColumns: window.innerWidth > 1024 ? 3 : null,
+      fixedColumns: {
+        leftColumns: window.innerWidth > 1024 ? 3 : null,
+      },
+      paging: true,
+
+      pagingType: "full_numbers",
+      fixedHeader: true,
+      scrollX: true,
+      scrollY: true,
+      // scrollCollapse: true,
+      orderCellsTop: true,
+
+      ajax: {
+        url: urlApi,
+        type: "GET",
+        datatype: "json",
+        async: true,
+        dataSrc: "data",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
-        paging: true,
+      },
 
-        pagingType: 'full_numbers',
-        fixedHeader: true,
-        scrollX: true,
-        scrollY: true,
-        // scrollCollapse: true,
-        orderCellsTop: true,
-
-        ajax: {
-            url: urlApi,
-            type: "GET",
-            datatype: "json",
-            async: true,
-            dataSrc: "data",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-        },
-
-        /* initComplete: function () {
+      /* initComplete: function () {
            this.api()
              .columns()
              .every(function () {
@@ -1567,218 +1588,217 @@ function handleFilterSubmission() {
                }
              });
          },*/
-        columns: [
-            //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
+      columns: [
+        //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
-            {
-                data: null,
-                width: "4%",
-                render: function (data, type, row, meta) {
-                    console.log(row)
-                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
-                },
-            },
+        {
+          data: null,
+          width: "4%",
+          render: function (data, type, row, meta) {
+            console.log(row);
+            return meta.row + meta.settings._iDisplayStart + 1 + ".";
+          },
+        },
 
-            { data: "nik" },
-            {
-                data: "fullname",
-                render: function (data, type, row) {
-                    if (type === "display" || type === "filter") {
-                        // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
-                        var icon =
-                            '<div class="row"><div class="col-4 text-left mr-5">' +
-                            data +
-                            '</div><div class="col text-right"><i class="fas fa-external-link-alt edit btn-edit-status" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
-                            row.accountId +
-                            "')\"></i>";
+        { data: "nik" },
+        {
+          data: "fullname",
+          render: function (data, type, row) {
+            if (type === "display" || type === "filter") {
+              // Inisialisasi variabel yang akan menyimpan kode HTML checkbox
+              var icon =
+                '<div class="row"><div class="col-4 text-left mr-5">' +
+                data +
+                '</div><div class="col text-right"><i class="fas fa-external-link-alt edit btn-edit-status" style="color: #ff0000;  visibility: hidden;" onclick="return GetByIdPlacement(\'' +
+                row.accountId +
+                "')\"></i>";
 
-                        // Validasi manager hide action (Only View)
-                        var objDataToken = parseJwt(sessionStorage.getItem("Token"));
-                        if (objDataToken.RoleId == 7) {
-                            $(".btn-edit-status, .edit").hide();
-                        }
+              // Validasi manager hide action (Only View)
+              var objDataToken = parseJwt(sessionStorage.getItem("Token"));
+              if (objDataToken.RoleId == 7) {
+                $(".btn-edit-status, .edit").hide();
+              }
 
-                        $(document).on("mouseover", ".row", function () {
-                            $(this).find("i.edit").css("visibility", "visible");
-                        });
+              $(document).on("mouseover", ".row", function () {
+                $(this).find("i.edit").css("visibility", "visible");
+              });
 
-                        $(document).on("mouseout", ".row", function () {
-                            $(this).find("i.edit").css("visibility", "hidden");
-                        });
-                        var expand = icon;
-                        return expand;
-                    }
+              $(document).on("mouseout", ".row", function () {
+                $(this).find("i.edit").css("visibility", "hidden");
+              });
+              var expand = icon;
+              return expand;
+            }
 
-                    // Untuk tipe data lain, kembalikan data aslinya
-                    return data;
-                },
-            },
-            {
-                data: "position",
-                render: function (data) {                    
-                    if (data == null) {
-                        var a = "";
-                        return a;
-                    }
+            // Untuk tipe data lain, kembalikan data aslinya
+            return data;
+          },
+        },
+        {
+          data: "position",
+          render: function (data) {
+            if (data == null) {
+              var a = "";
+              return a;
+            }
 
-                    var posisitionSplit = data.split(",");
+            var posisitionSplit = data.split(",");
 
-                    var badgeContainer = $('<div class="badge-container"></div>');
+            var badgeContainer = $('<div class="badge-container"></div>');
 
-                    for (var i = 0; i < posisitionSplit.length; i++) {
-                        var word = posisitionSplit[i].trim();
-                        var badgeColor = getColorForPosition(word);
-                        var badge = $(
-                            '<span class="badge badge-pill badge-pastel text-secondary">' +
-                            word +
-                            "</span>"
-                        );
+            for (var i = 0; i < posisitionSplit.length; i++) {
+              var word = posisitionSplit[i].trim();
+              var badgeColor = getColorForPosition(word);
+              var badge = $(
+                '<span class="badge badge-pill badge-pastel text-secondary">' +
+                  word +
+                  "</span>"
+              );
 
-                        // Atur warna latar belakang badge sesuai dengan kata yang sama
-                        badge.css("background-color", badgeColor);
+              // Atur warna latar belakang badge sesuai dengan kata yang sama
+              badge.css("background-color", badgeColor);
 
-                        badgeContainer.append(badge);
-                        if (i < posisitionSplit.length - 1) {
-                            badgeContainer.append(" ");
-                        }
-                    }
-                    // Kembalikan HTML dari container badge
-                    return badgeContainer.html();
-                },
-            },
-            {
-                data: "level",
-                render: function (data, type, row) {
-                    var levelStatus = row.level;
+              badgeContainer.append(badge);
+              if (i < posisitionSplit.length - 1) {
+                badgeContainer.append(" ");
+              }
+            }
+            // Kembalikan HTML dari container badge
+            return badgeContainer.html();
+          },
+        },
+        {
+          data: "level",
+          render: function (data, type, row) {
+            var levelStatus = row.level;
 
-                    // Validasi manager hide action (Only View)
-                    var objDataToken = parseJwt(sessionStorage.getItem("Token"));
-                    if (objDataToken.RoleId == 7) {
-                        return data;
-                    }
+            // Validasi manager hide action (Only View)
+            var objDataToken = parseJwt(sessionStorage.getItem("Token"));
+            if (objDataToken.RoleId == 7) {
+              return data;
+            }
 
-                    if (levelStatus === "Fresh Graduate") {
-                        return (
-                            '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
-                            row.accountId +
-                            "')\">" +
-                            row.level +
-                            "</span>"
-                        );
-                    } else if (
-                        levelStatus === "Junior" ||
-                        levelStatus === "Junior to Middle" ||
-                        levelStatus === "Middle to Senior"
-                    ) {
-                        return (
-                            '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
-                            row.accountId +
-                            "')\">" +
-                            row.level +
-                            "</span>"
-                        );
-                    } else {
-                        return (
-                            '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
-                            row.accountId +
-                            "')\">" +
-                            row.level +
-                            "</span>"
-                        );
-                    }
-                },
-            },
-            { data: "email" },
-            { data: "gender" },
-            { data: "address" },
-            {
-                data: "financialIndustry",
-                render: function (data, type, row) {
-                    if (type === "display") {
-                        // Jika data bernilai true, tambahkan atribut checked
-                        var isChecked = data === "true" ? "checked" : "";
-                        return (
-                            '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
-                            isChecked +
-                            ">"
-                        );
-                    }
-                    return data;
-                },
-                className: "text-center",
-            },
-            {
-                render: function (data, type, row) {
-                    //var accountId = row.accountId;
-                    var placementStatus = "Idle"; // Default value jika data tidak ditemukan
+            if (levelStatus === "Fresh Graduate") {
+              return (
+                '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                row.accountId +
+                "')\">" +
+                row.level +
+                "</span>"
+              );
+            } else if (
+              levelStatus === "Junior" ||
+              levelStatus === "Junior to Middle" ||
+              levelStatus === "Middle to Senior"
+            ) {
+              return (
+                '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
+                row.accountId +
+                "')\">" +
+                row.level +
+                "</span>"
+              );
+            } else {
+              return (
+                '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                row.accountId +
+                "')\">" +
+                row.level +
+                "</span>"
+              );
+            }
+          },
+        },
+        { data: "email" },
+        { data: "gender" },
+        { data: "address" },
+        {
+          data: "financialIndustry",
+          render: function (data, type, row) {
+            if (type === "display") {
+              // Jika data bernilai true, tambahkan atribut checked
+                var isChecked = data === "true" || data === "True" ? "checked" : "";
+              return (
+                '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
+                isChecked +
+                ">"
+              );
+            }
+            return data;
+          },
+          className: "text-center",
+        },
+        {
+          render: function (data, type, row) {
+            //var accountId = row.accountId;
+            var placementStatus = "Idle"; // Default value jika data tidak ditemukan
 
-                    row.placements.forEach(function (placement) {
-                        if (placement.placementStatus !== "Idle") {
-                            placementStatus = placement.placementStatus;
-                        }
-                    });
+            row.placements.forEach(function (placement) {
+              if (placement.placementStatus !== "Idle") {
+                placementStatus = placement.placementStatus;
+              }
+            });
 
-                    if (placementStatus == "Idle") {
-                        /*placementStatus =
+            if (placementStatus == "Idle") {
+              /*placementStatus =
                                                         '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
                                                         row.accountId +
                                                         "', 'Idle')\">Idle</button>";*/
-                        placementStatus =
-                            '<span class="badge badge-pill badge-warning" style="outline: none; border:none">Idle</span>';
-                    } else {
-                        /*placementStatus =
+              placementStatus =
+                '<span class="badge badge-pill badge-warning" style="outline: none; border:none">Idle</span>';
+            } else {
+              /*placementStatus =
                                                         '<button class="badge badge-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
-                        placementStatus =
-                            '<span class="badge badge-pill badge-success" style="outline: none; border:none">' +
-                            placementStatus +
-                            "</span>";
-                    }
+              placementStatus =
+                '<span class="badge badge-pill badge-success" style="outline: none; border:none">' +
+                placementStatus +
+                "</span>";
+            }
 
-                    return placementStatus;
+            return placementStatus;
+          },
+        },
+
+        {
+          render: function (data, type, row) {
+            var placementStatus = "Idle";
+            row.placements.forEach(function (placement) {
+              if (placement.placementStatus !== "Idle") {
+                placementStatus = placement.placementStatus;
+                placementLocation = placement.clientId;
+              }
+            });
+
+            if (placementStatus == "Idle") {
+              placementLocation = "";
+            } else {
+              $.ajax({
+                url:
+                  "https://localhost:7177/api/ClientName/" + placementLocation, // URL API yang diinginkan
+                type: "GET",
+                async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                success: function (response) {
+                  placementLocation = response.data.nameOfClient;
                 },
-            },
-
-            {
-                render: function (data, type, row) {
-                    var placementStatus = "Idle";
-                    row.placements.forEach(function (placement) {
-                        if (placement.placementStatus !== "Idle") {
-                            placementStatus = placement.placementStatus;
-                            placementLocation = placement.clientId;
-                        }
-                    });
-
-                    if (placementStatus == "Idle") {
-                        placementLocation = "";
-                    } else {
-                        $.ajax({
-                            url: 'https://localhost:7177/api/ClientName/' + placementLocation, // URL API yang diinginkan
-                            type: 'GET',
-                            async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
-                            success: function (response) {
-
-                                placementLocation = response.data.nameOfClient;
-
-                            },
-                            error: function (xhr, status, error) {
-                                console.error(xhr.responseText);
-                            }
-                        });
-                    }
-
-                    return placementLocation;
+                error: function (xhr, status, error) {
+                  console.error(xhr.responseText);
                 },
-            },
-            { data: "hiredstatus" },
-            {
-                render: function (data, type, row) {
-                    var startc = Date.now();
-                    var endc = new Date(row.endContract);
+              });
+            }
 
-                    var timeDiff = endc.getTime() - startc; // Menghitung selisih dalam milidetik
-                    var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
+            return placementLocation;
+          },
+        },
+        { data: "hiredstatus" },
+        {
+          render: function (data, type, row) {
+            var startc = Date.now();
+            var endc = new Date(row.endContract);
 
-                    /*if (daysremain >= 30) {
+            var timeDiff = endc.getTime() - startc; // Menghitung selisih dalam milidetik
+            var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
+
+            /*if (daysremain >= 30) {
                                                         // Jika sisa kontrak lebih dari 1 bulan, hitung dalam bulan
                                                         var monthsRemaining = Math.floor(daysremain / 30);
                                                         return monthsRemaining + " months";
@@ -1787,13 +1807,13 @@ function handleFilterSubmission() {
                                                         return daysremain + " days";
                                                     }*/
 
-                    var monthsRemaining = Math.floor(daysremain / 30); // Menghitung bulan
-                    var daysInMonth = daysremain % 30; // Menghitung sisa hari
-                    //console.log(monthsRemaining);
-                    //console.log(daysInMonth)
-                    var result = "";
+            var monthsRemaining = Math.floor(daysremain / 30); // Menghitung bulan
+            var daysInMonth = daysremain % 30; // Menghitung sisa hari
+            //console.log(monthsRemaining);
+            //console.log(daysInMonth)
+            var result = "";
 
-                    /*if (monthsRemaining > 0) {
+            /*if (monthsRemaining > 0) {
                                                         result += monthsRemaining + " months ";
                                                     }
                                 
@@ -1805,91 +1825,91 @@ function handleFilterSubmission() {
                                                         }                     
                                                     }*/
 
-                    if (monthsRemaining > 2) {
-                        // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
-                        result =
-                            '<span class="badge badge-success" style="font-size: 13px;">' +
-                            monthsRemaining +
-                            " bulan " +
-                            daysInMonth +
-                            " hari</span>";
-                    } else if (monthsRemaining >= 1) {
-                        // Jika sisa kontrak 1-3 bulan, beri warna kuning
-                        result =
-                            '<span class="badge badge-warning" style="font-size: 13px;">' +
-                            monthsRemaining +
-                            " bulan " +
-                            daysInMonth +
-                            " hari</span>";
-                    } else {
-                        // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
-                        if (daysInMonth > 0) {
-                            result =
-                                '<span class="badge badge-danger" style="font-size: 13px;">' +
-                                daysInMonth +
-                                " hari</span>";
-                        }
-                    }
+            if (monthsRemaining > 2) {
+              // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
+              result =
+                '<span class="badge badge-success" style="font-size: 13px;">' +
+                monthsRemaining +
+                " bulan " +
+                daysInMonth +
+                " hari</span>";
+            } else if (monthsRemaining >= 1) {
+              // Jika sisa kontrak 1-3 bulan, beri warna kuning
+              result =
+                '<span class="badge badge-warning" style="font-size: 13px;">' +
+                monthsRemaining +
+                " bulan " +
+                daysInMonth +
+                " hari</span>";
+            } else {
+              // Jika sisa kontrak kurang dari 1 bulan, beri warna merah
+              if (daysInMonth > 0) {
+                result =
+                  '<span class="badge badge-danger" style="font-size: 13px;">' +
+                  daysInMonth +
+                  " hari</span>";
+              }
+            }
 
-                    return result;
-                },
-            },
-            {
-                data: null,
-                orderable: false,
-                render: function (data, type, row) {
-                    var tulisanButton = "View Asset"; // Default value
+            return result;
+          },
+        },
+        {
+          data: null,
+          orderable: false,
+          render: function (data, type, row) {
+            var tulisanButton = "View Asset"; // Default value
 
-                    if (row.assetsManagements && row.assetsManagements.length > 0) {
-                        tulisanButton =
-                            '<button class="btn btn-success btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
-                            row.accountId +
-                            "')\">" +
-                            "View Data" +
-                            "</button>";
-                    } else {
-                        tulisanButton =
-                            '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
-                            row.accountId +
-                            "')\">" +
-                            "Data Empty" +
-                            "</button>";
-                    }
+            if (row.assetsManagements && row.assetsManagements.length > 0) {
+              tulisanButton =
+                '<button class="btn btn-success btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
+                row.accountId +
+                "')\">" +
+                "View Data" +
+                "</button>";
+            } else {
+              tulisanButton =
+                '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
+                row.accountId +
+                "')\">" +
+                "Data Empty" +
+                "</button>";
+            }
 
-                    //console.log("Generated HTML:", tulisanButton);
-                    return tulisanButton;
-                },
-            },
-            {
-                data: null,
-                orderable: false, // menonaktifkan order
-                width: "7%",
-                render: function (data, type, row) {
-                    return (
-                        '<div class="d-flex flex-row">' +
-                        '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="left" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
-                        row.accountId +
-                        '\')"><i class="far fa-file-pdf"></i></a>' +
-                        '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="left" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
-                        row.accountId +
-                        '\')"><i class="far fa-calendar-check"></i></a>' +
-                        '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
-                        row.accountId +
-                        '\')"><i class="far fa-edit"></i></a>' +
-                        "</div>"
-                    );
-                },
-                //visible: objDataToken.RoleId != 7,
-            },
-        ],
-        columnDefs: [
-            {
-                defaultContent: "-",
-                targets: "_all",
-            },
-        ],
-        //"order": [], // menonaktifkan order pada semua kolom
-        /*   "fnDrawCallback": function (oSettings) {
+            //console.log("Generated HTML:", tulisanButton);
+            return tulisanButton;
+          },
+        },
+        {
+          data: null,
+          orderable: false, // menonaktifkan order
+          width: "7%",
+          render: function (data, type, row) {
+            return (
+              '<div class="d-flex flex-row">' +
+              '<a href="#" class="text-danger ml-2 pt-0" data-toggle="tooltip" style="font-size: 14pt" data-placement="left" data-tooltip="tooltip" title="Curiculum Vitae" onclick = "GenerateCv(\'' +
+              row.accountId +
+              '\')"><i class="far fa-file-pdf"></i></a>' +
+              '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="left" data-tooltip="tooltip" title="Time Sheet" onclick = "TimeSheetView(\'' +
+              row.accountId +
+              '\')"><i class="far fa-calendar-check"></i></a>' +
+              '<a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Detail Employee" onclick = "return Detail(\'' +
+              row.accountId +
+              '\')"><i class="far fa-edit"></i></a>' +
+              "</div>"
+            );
+          },
+          //visible: objDataToken.RoleId != 7,
+        },
+      ],
+      columnDefs: [
+        {
+          defaultContent: "-",
+          targets: "_all",
+        },
+      ],
+      //"order": [], // menonaktifkan order pada semua kolom
+      /*   "fnDrawCallback": function (oSettings) {
                                // mengatur nomor urut berdasarkan halaman dan pengurutan yang aktif, menetapkan nomor urut menjadi 1
                                var table = $('#TB_Department').DataTable();
                                var startIndex = table.context[0]._iDisplayStart;
@@ -1898,7 +1918,7 @@ function handleFilterSubmission() {
                                });
                            }*/
 
-        /*   "fndrawCallback": function (settings) {
+      /*   "fndrawCallback": function (settings) {
                              var api = this.api();
                              var rows = api.rows({ page: 'current' }).nodes();
                              api.column(1, { page: 'current' }).data().each(function (group, i) {
@@ -1906,37 +1926,35 @@ function handleFilterSubmission() {
                                  $(rows).eq(i).find('td:first').html(i + 1);
                              });s
                          }*/
-        drawCallback: function (settings) {
-            var api = this.api();
-            var rows = api.rows({ page: "current" }).nodes();
-            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+      drawCallback: function (settings) {
+        var api = this.api();
+        var rows = api.rows({ page: "current" }).nodes();
+        var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+        var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
 
-            api
-                .column(0, { page: "current" })
-                .nodes()
-                .each(function (cell, i) {
-                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-                });
-        },
+        api
+          .column(0, { page: "current" })
+          .nodes()
+          .each(function (cell, i) {
+            cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+          });
+      },
     });
 
-    //$.ajax({
-    //    url: urlApi,
-    //    type: "GET",
-    //    headers: {
-    //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    //    },
-    //    success: function (result) {
-    //        console.log(result);
+  //$.ajax({
+  //    url: urlApi,
+  //    type: "GET",
+  //    headers: {
+  //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+  //    },
+  //    success: function (result) {
+  //        console.log(result);
 
-    //        location.reload;
-    //    },
-    //    error: function (error) {
-    //        // Handle the error
-    //        console.error('Error:', error);
-    //    }
-    //});
+  //        location.reload;
+  //    },
+  //    error: function (error) {
+  //        // Handle the error
+  //        console.error('Error:', error);
+  //    }
+  //});
 }
-
-

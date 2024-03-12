@@ -193,31 +193,45 @@ function fetchContractPlacement() {
           if (daysremainPositive <= 30) {
             endPlacement.setDate(endPlacement.getDate() - 30);
             notificationDate.push(endPlacement);
-            var data = {
-              accountId: emp.accountId,
-              fullname: emp.fullname,
-              placement: emp.placements[emp.placements.length - 1].companyName,
-              days: daysremain,
-              date: endPlacement.toLocaleDateString(),
-            };
-            dataEmployee.push(data);
+
+            fetch(
+              "https://localhost:7177/api/ClientName/" +
+                emp.placements[emp.placements.length - 1].clientId,
+              {
+                method: "GET",
+                datatype: "json",
+                dataSrc: "data",
+                headers: {
+                  Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+              }
+            )
+              .then((response) => response.json())
+              .then((result) => {
+                var data = {
+                  accountId: emp.accountId,
+                  fullname: emp.fullname,
+                  placement: result.data.nameOfClient,
+                  days: daysremain,
+                  date: endPlacement.toLocaleDateString(),
+                };
+                dataEmployee.push(data);
+
+                notification.innerHTML += `
+                  <a class="dropdown-item d-flex align-items-center notification-item" href="/ManageEmployee/DetailEmployee?accountId=${data.accountId}">
+                        <div class="mr-3">
+                          <div class="icon-circle bg-primary">
+                          <i class="fas fa-file-alt text-white"></i>
+                          </div>
+                        </div>
+                        <div>
+                        <div class="small text-gray-500">Reminder &nbsp;<span class="badge-lg badge-pill badge-success">${data.date}</span></div>
+                          <b>${data.fullname}</b> contract at <b>${data.placement}</b> is less than a month.
+                        </div>
+                      </a>`;
+              });
           }
         }
-      });
-
-      dataEmployee.forEach(function (notif) {
-        notification.innerHTML += `
-        <a class="dropdown-item d-flex align-items-center notification-item" href="/ManageEmployee/DetailEmployee?accountId=${notif.accountId}">
-          <div class="mr-3">
-            <div class="icon-circle bg-primary">
-              <i class="fas fa-file-alt text-white"></i>
-            </div>
-          </div>
-          <div>
-          <div class="small text-gray-500">Reminder &nbsp;<span class="badge-lg badge-pill badge-success">${notif.date}</span></div>
-            <b>${notif.fullname}</b> contract at <b>${notif.placement}</b> is less than a month.
-          </div>
-        </a>`;
       });
     })
     .then(() => {
