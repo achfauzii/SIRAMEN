@@ -376,31 +376,6 @@
         })
             .then(function (response) {
                 if (response.ok) {
-
-                    $.post("/Accounts/NewAccount", { email, password })
-                        .done(function () {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 2000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
-
-
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'Email Has ben sent',
-                                text: "",
-
-                            })
-                            const activity = "Have Created an Employee Account";
-                            SaveLogUpdate(activity);
-                        });
                     if (hiredStatus == 'Bootcamp') {
                         response.json().then(function (item) {
                             //Add Data Template
@@ -476,7 +451,30 @@
                     form.reset(); // Reset form setelah pengiriman berhasil
                     $("#positionAcc").val().
 
-                   
+                    $.post("/Accounts/NewAccount", { email, password })
+                        .done(function () {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Email Has ben sent',
+                                text: "",
+
+                            })
+                                const activity = "Have Created an Employee Account";
+                                SaveLogUpdate(activity);
+                        });
 
                 } else {
                     // Tampilkan pesan error jika permintaan gagal
