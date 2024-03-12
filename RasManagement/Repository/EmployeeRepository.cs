@@ -124,7 +124,7 @@ namespace RasManagement.Repository
             return employees;
         }
 
-        public async Task<IEnumerable<Object>> GetEmployeeFilter(string position=null, string hiredStatus=null, string level=null, string financialIndustry=null, string placementStatus=null, string placementLocation=null)
+        public async Task<IEnumerable<Object>> GetEmployeeFilter(string position, string hiredStatus, string level, string financialIndustry, string placementStatus, string placementLocation)
         {
             //var data = _context.Accounts.Where(emp => emp.RoleId == "3").Include(p => p.Placements).ThenInclude(c => c.Client).AsQueryable();
             ////int clientId = !string.IsNullOrEmpty(placementLocation) ? Int32.Parse(placementLocation) : 0;
