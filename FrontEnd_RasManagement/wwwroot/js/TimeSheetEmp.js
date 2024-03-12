@@ -569,7 +569,7 @@ function save() {
                     });
                     $("#timeSheetModal").modal("hide");
                     /*table.ajax.reload();*/
-                    
+                    location.reload();
                     addRowHoliday();
                     addRowApproval();
                 }
