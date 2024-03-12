@@ -517,6 +517,7 @@ $(document).ready(function () {
     });
 
   //Check Box Financial Industry
+
   $("#dataTableEmployee").on(
     "change",
     "#financialIndustryCheck",
