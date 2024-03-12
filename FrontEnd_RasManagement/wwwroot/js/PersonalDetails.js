@@ -260,11 +260,8 @@ function GetById(accountId) {
       $("#accountId").val(accountId);
       $("#editName").val(obj.fullname);
       $("#editNickName").val(obj.nickname);
-      $("#editBirthPlace").val(obj.birthplace);
-      
+      $("#editBirthPlace").val(obj.birthplace); 
             $("#editBirthDate").val(obj.birthdate.substring(0, 10)); // Set birth date input value
-        
-
       $("#editGender").val(obj.gender);
       $("#editReligion").val(obj.religion);
       $("#editMartialStatus").val(obj.maritalstatus);
