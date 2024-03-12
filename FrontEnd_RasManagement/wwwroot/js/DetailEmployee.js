@@ -50,8 +50,9 @@ $(document).ready(function () {
   getClient();
 
   $("#companyName_").on("change", function () {
-    $("#jobRole").removeAttr("disabled");
-    getPosition(this.value);
+      $("#jobRole").removeAttr("disabled");
+
+    getPosition_(this.value);
   });
 });
 
@@ -210,7 +211,7 @@ function GetById(accountId, placementStatusId) {
 
     position = obj.positionId;
     getPosition(obj.clientId);
-    // $("#jobRole").val(obj.jobRole);
+    //$("#jobRole").val(obj.jobRole);
     $("#startDate").val(formatDate(startDate));
     $("#endDate").val(endDate);
     $("#description").val(obj.description);
@@ -266,9 +267,9 @@ function getClient() {
   });
 }
 
-function getPosition(idClient) {
+function getPosition_(idClient) {
+    
   var selectPosition = document.getElementById("jobRole");
-
   if (position == null) {
     $.ajax({
       type: "GET",
@@ -284,7 +285,7 @@ function getPosition(idClient) {
         $("#jobRole").append(`<option selected disabled>
         Choose Position
       </option>`);
-
+    
         // var data = result.data.filter((element) => element.status == "Open");
         result.data.forEach((item) => {
             var option = new Option(item.positionClient + " (" + item.level + ")", item.id, true, false);
