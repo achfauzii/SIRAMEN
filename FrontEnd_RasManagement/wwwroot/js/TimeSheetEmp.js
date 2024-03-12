@@ -171,7 +171,7 @@ $(document).ready(function () {
       },
     ],
     rowsGroup: ["first:name", "second:name"],
-    order: [[0, "desc"]],
+    order: [[0, "asc"]],
     columnDefs: [
       {
         targets: [2, 3, 4, 5, 6],
@@ -205,7 +205,7 @@ $(document).ready(function () {
             }
         }
     });
-
+  
     addRowHoliday();
     addRowApproval();
 });
