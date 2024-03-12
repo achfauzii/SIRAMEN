@@ -127,11 +127,14 @@ function loadDataA() {
     },
     success: function (result) {
       var obj = result.data.result; // Data yang diterima dari API
+        if (obj.birthdate != null ) {
+            obj.birthdate = obj.birthdate.substring(0, 10)
+        }
       initialData = {
         Fullname: obj.fullname,
         Nickname: obj.nickname,
         Birthplace: obj.birthplace,
-        Birthdate: obj.birthdate.substring(0, 10),
+        Birthdate: obj.birthdate,
         Gender: obj.gender,
         Religion: obj.religion,
         MaritalStatus: obj.maritalstatus,
@@ -254,17 +257,20 @@ function GetById(accountId) {
     },
     success: function (result) {
       var obj = result.data.result;
-      $("#accountId").val(obj.accountId);
+      $("#accountId").val(accountId);
       $("#editName").val(obj.fullname);
       $("#editNickName").val(obj.nickname);
       $("#editBirthPlace").val(obj.birthplace);
-      $("#editBirthDate").val(obj.birthdate.substring(0, 10)); // Set birth date input value
+      
+            $("#editBirthDate").val(obj.birthdate.substring(0, 10)); // Set birth date input value
+        
+
       $("#editGender").val(obj.gender);
       $("#editReligion").val(obj.religion);
       $("#editMartialStatus").val(obj.maritalstatus);
       $("#editNationality").val(obj.nationality);
       $("#editAddress").val(obj.address);
-
+    
       // Set the image input value
       var imageInput = document.getElementById("imageFile");
       if (obj.image != null) {
@@ -280,7 +286,7 @@ function GetById(accountId) {
         $("#imagePreview").css("display", "none"); // Hide the image previewy
       }
       $("#Modal").modal("show");
-      /$('#Update').show();/;
+      $('#Update').show();
       $("#Update").prop("disabled", false); // Enable the Update button
     },
     error: function (errormessage) {
@@ -415,7 +421,8 @@ function updateData() {
     Nationality: $("#editNationality").val(),
     Address: $("#editAddress").val(),
     Image: imagePath,
-  };
+    };
+    console.log(formData);
   $.ajax({
     url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
     type: "PUT",
