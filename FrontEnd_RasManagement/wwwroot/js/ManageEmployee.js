@@ -519,7 +519,7 @@ $(document).ready(function () {
 
   //Check Box Financial Industry
   $("#dataTableEmployee").on("change", "#financialIndustryCheck", function () {
-    var rowIndex = $(this).closest("tr").index();
+    var rowIndex = $(this).closest("td").index();
     var isChecked = $(this).prop("checked");
 
     var rowData = table.row(rowIndex).data();
