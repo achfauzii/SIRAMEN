@@ -26,6 +26,38 @@
     .dataTables_scroll {
         margin-bottom: 0.7em;
     }
+
+    .color-bg {
+        padding: 5px 6px;
+        border-radius: 5px;
+    }
+
+    .red-bg {
+        background-color: #FF8080; /* Warna merah */
+        color: white;
+    }
+
+    .beige-bg {
+        background-color: #EBC49F;
+        color: white;
+    }
+
+    /* Gaya untuk bullet */
+    .bullet {
+        list-style-type: none; /* Menghilangkan default bullet */
+        padding-left: 0; /* Menghilangkan padding default */
+        margin-bottom: 6px; /* Menambahkan jarak antara bagian */
+    }
+
+    /* Gaya untuk setiap item daftar */
+    .list-item {
+        margin-bottom: 8px;
+    }
+
+    /* Gaya untuk teks bullet */
+    .bullet-text {
+        margin-left: 10px;
+    }
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
@@ -85,6 +117,24 @@
             </thead>
             <tbody></tbody>
         </table>
+        <br /><h6><strong>Notes</strong></h6>
+        <div class="row ml-0">
+            <div class="col color-bg bullet">
+                <h6>Remaining Contract :</h6>
+                <small>
+                    <ul>
+                        <li class="list-item">
+                            <span class="badge badge-danger" style="font-size: 10px;">Red</span>
+                            <span class="bullet-text">: Displaying public holidays or national holidays.</span>
+                        </li>
+                        <li class="list-item">
+                            <span class="badge beige-bg" style="font-size: 10px;">Beige</span>
+                            <span class="bullet-text">: Displaying Overtime, requires admin approval.</span>
+                        </li>
+                    </ul>
+                </small>
+            </div>
+        </div>
     </div>
 </div>
 

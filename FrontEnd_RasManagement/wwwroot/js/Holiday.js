@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('input[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
-    debugger;
+    //debugger;
     var today = new Date();
     var dayOfWeek = today.getDay();
 
@@ -193,6 +193,8 @@ function Save() {
                 showConfirmButtom: false,
                 timer: 2500,
             });
+            const logMessage = `Add holiday ${Holiday.name} date ${Holiday.date}`
+            SaveLogUpdate(logMessage);
             $("#Modal").modal("hide");
             $("#tbDataHoliday").DataTable().ajax.reload();
         } else {
@@ -316,6 +318,8 @@ function Update() {
                 showConfirmButtom: false,
                 timer: 2000,
             });
+            const logMessage = `Update holiday ${Holiday.name} date ${Holiday.date} ID:${Holiday.holiday_Id}`
+            SaveLogUpdate(logMessage);
             $("#Modal").modal("hide");
             $("#tbDataHoliday").DataTable().ajax.reload();
         } else {
@@ -324,7 +328,7 @@ function Update() {
     });
 }
 
-function DeleteHoliday(holiday_Id) {
+function DeleteHoliday(holiday_Id,name) {
     //debugger;
     Swal.fire({
         title: "Are you sure?",
@@ -347,6 +351,8 @@ function DeleteHoliday(holiday_Id) {
             }).then((result) => {
                 if (result.status == 200) {
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
+                    const logMessage = `Delete holiday ${name}`
+                    SaveLogUpdate(logMessage);
                     $("#tbDataHoliday").DataTable().ajax.reload();
                 } else {
                     Swal.fire("Error!", result.message, "error");

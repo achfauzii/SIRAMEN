@@ -73,9 +73,26 @@ $(function () {
     createCalendar();
   });
 
+  $('#searchActivity').keydown(function (e) {
+    if (e.keyCode == 13) {
+        searchInputValue = $("#searchActivity").val();
+        console.log(searchInputValue);
+        
+        createCalendar();
+    } 
+})
+
   document.getElementById("resetFilter").addEventListener("click", function () {
     resetFilter();
   });
+    $('#searchActivity').keydown(function (e) {
+        if (e.keyCode == 13) {
+            searchInputValue = $("#searchActivity").val();
+            console.log(searchInputValue);
+
+            createCalendar();
+        }
+    });
 });
 
 function createCalendar() {

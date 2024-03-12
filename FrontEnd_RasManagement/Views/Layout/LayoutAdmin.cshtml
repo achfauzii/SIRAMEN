@@ -266,7 +266,13 @@
                     <span>Activity Calendar</span>
                 </a>
             </li>
-
+            <li class="nav-item @(currentUrl == "/Approval/Overtime" ? "active" : "")" id="#">
+                <a class="nav-link collapsed menu" href="/Approval/Overtime" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-solid fa-house-laptop"></i>
+                    <span>Overtime Approval</span>
+                </a>
+            </li>
             <li class="nav-item @(currentUrl == "/ManageEmployee/TimesheetReport" ? "active" : "")" id="activityCalendarMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/TimesheetReport" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
