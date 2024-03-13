@@ -72,9 +72,12 @@ $(document).ready(function () {
   });
   fetchDepartments();
 
-  document
-    .getElementById("Status")
-    .addEventListener("change", handlePlacementStatusChange);
+  // document
+  //   .getElementById("Status")
+  //   .addEventListener("change", handlePlacementStatusChange);
+  $("#Status").on("change", function () {
+    handlePlacementStatusChange();
+  });
 
   // Panggil fungsi saat halaman dimuat untuk mengatur keadaan awal
   window.addEventListener("load", function () {
@@ -82,15 +85,23 @@ $(document).ready(function () {
     handlePlacementStatusChange();
   });
 
-  document
-    .getElementById("submitFilter")
-    .addEventListener("click", handleFilterSubmission);
+  // document
+  //   .getElementById("submitFilter")
+  //   .addEventListener("click", handleFilterSubmission);
 
-  document
-    .getElementById("resetFilterData")
-    .addEventListener("click", function () {
-      resetFilter();
-    });
+  // document
+  //   .getElementById("resetFilterData")
+  //   .addEventListener("click", function () {
+  //     resetFilter();
+  //   });
+
+  $("#submitFilter").on("click", function () {
+    handleFilterSubmission();
+  });
+
+  $("#resetFilterData").on("click", function () {
+    resetFilter();
+  });
 
   // $("#dataTableEmployee thead tr")
   //   .clone(true)
@@ -292,7 +303,9 @@ $(document).ready(function () {
           render: function (data, type, row) {
             if (type === "display") {
               // Jika data bernilai true, tambahkan atribut checked
-                var isChecked = data === "true" || data === "True" ? "checked" : "";
+              var isChecked =
+                data === "true" || data === "True" ? "checked" : "";
+
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +
@@ -761,6 +774,8 @@ function parseJwt(token) {
 }
 
 function GetByIdPlacement(accountId, placementStatus) {
+  ClearScreenChangeStatus();
+
   //debugger;
   $(".PlacementStatus")
     .closest(".form-group")
@@ -801,7 +816,9 @@ function GetByIdPlacement(accountId, placementStatus) {
       $("#AccountId").val(accountId);
       $("#PlacementID").val(obj.placementStatusId);
       $("#picName").val(obj.picName);
-      $("#Status").val(placementStatus);
+      // $("#Status").val(placementStatus);
+      console.log(obj);
+      console.log(placementStatus);
       $("#CompanyName").val(obj.clientId);
       $("#Description").val(obj.description);
       $("#Modal").modal("show");
@@ -1072,7 +1089,7 @@ function ClearScreenPlacement() {
   const endDate = document.getElementById("showEndDate");
   $("#companyName_").val("");
   $("#picName").val("");
-  $("#jobRole").val("");
+  $("#jobRole").selectedindex = "0";
   $("#startDate").val("");
   $("#endDate").val("");
   $("#description").val("");
@@ -1092,7 +1109,7 @@ function ClearScreenPlacement() {
 
 function ClearScreenChangeStatus() {
   $("#AccountId").val("");
-  $("#Status").val("");
+  $("#Status").selectedIndex = "0";
   $("#date").val("");
   $("#Description").val("");
 
@@ -1179,7 +1196,6 @@ function Update() {
   placement.placementStatus = $('input[name="status"]:checked').val();
   placement.accountId = $("#accountId").val();
 
-
   if (
     placement.clientId == compare.ClientId &&
     placement.positionId == compare.PositionId &&
@@ -1202,8 +1218,7 @@ function Update() {
       return;
     }
   }
- 
- 
+
   $.ajax({
     url: "https://localhost:7177/api/EmployeePlacements",
     type: "PUT",
@@ -1289,8 +1304,6 @@ function GetbyLevel(accountId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      console.log(result);
-
       var obj = result.data.result;
       $("#accountLevel").val(obj.accountId); //ngambil data dr api
       $("#levelchange").val(obj.level);
@@ -1350,7 +1363,7 @@ function UpdateLevel() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-    
+
       // Handle success, for example, close the modal
       $("#modalLevel").modal("hide");
       if (result.status == 200) {
@@ -1438,7 +1451,7 @@ function getPosition() {
     },
   }).then((result) => {
     if (result != null) {
-    
+
       result.data.forEach((item) => {
         var option = new Option(
           item.positionClient,
@@ -1508,13 +1521,6 @@ function handleFilterSubmission() {
   if ($.fn.DataTable.isDataTable("#dataTableEmployee")) {
     $("#dataTableEmployee").DataTable().destroy();
   }
-
-  console.log("Position:", filterPosition);
-  console.log("Level:", filterLevel);
-  console.log("Hired Status:", filterHiredStatus);
-  console.log("Financial Industry:", filterFinanIn);
-  console.log("Placement Location:", filterplacLoc);
-  console.log("Placement Status:", filterplacStatus);
 
   // Apply mixed filter
   var urlApi = "";
@@ -1595,7 +1601,6 @@ function handleFilterSubmission() {
           data: null,
           width: "4%",
           render: function (data, type, row, meta) {
-            console.log(row);
             return meta.row + meta.settings._iDisplayStart + 1 + ".";
           },
         },
@@ -1717,7 +1722,10 @@ function handleFilterSubmission() {
           render: function (data, type, row) {
             if (type === "display") {
               // Jika data bernilai true, tambahkan atribut checked
-                var isChecked = data === "true" || data === "True" ? "checked" : "";
+
+              var isChecked =
+                data === "true" || data === "True" ? "checked" : "";
+
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +

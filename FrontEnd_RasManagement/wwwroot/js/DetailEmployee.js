@@ -13,6 +13,7 @@ $(document).on("select2:open", (e) => {
 
 $(document).ready(function () {
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
+  // document.getElementById("jobRole").selectedindex = "0";
 
   if (objDataToken.RoleId == 7) {
     $(".add-new-placement").hide();
@@ -50,9 +51,10 @@ $(document).ready(function () {
   getClient();
 
   $("#companyName_").on("change", function () {
-      $("#jobRole").removeAttr("disabled");
 
-    getPosition_(this.value);
+    $("#jobRole").removeAttr("disabled");
+    getPositionByClient(this.value);
+
   });
 });
 
@@ -262,13 +264,14 @@ function getClient() {
     dropdownParent: $("#modalPlacement"),
     width: "100%",
     height: "100%",
-    allowClear: true,
+    allowClear: false,
     tags: true,
   });
 }
 
-function getPosition_(idClient) {
-    
+
+function getPositionByClient(idClient) {
+
   var selectPosition = document.getElementById("jobRole");
   if (position == null) {
     $.ajax({
@@ -288,9 +291,15 @@ function getPosition_(idClient) {
     
         // var data = result.data.filter((element) => element.status == "Open");
         result.data.forEach((item) => {
-            var option = new Option(item.positionClient + " (" + item.level + ")", item.id, true, false);
+          var option = new Option(
+            item.positionClient + " (" + item.level + ")",
+            item.id,
+            true,
+            false
+          );
           selectPosition.add(option);
         });
+        $("#jobRole").val(position).trigger("change");
       }
     });
   } else {
@@ -309,7 +318,12 @@ function getPosition_(idClient) {
         Choose Position
       </option>`);
         result.data.forEach((item) => {
-          var option = new Option(item.positionClient + " ("+ item.level+")", item.id, true, false);
+          var option = new Option(
+            item.positionClient + " (" + item.level + ")",
+            item.id,
+            true,
+            false
+          );
           selectPosition.add(option);
         });
         $("#jobRole").val(position).trigger("change");
