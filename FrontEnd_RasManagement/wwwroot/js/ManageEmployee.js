@@ -305,6 +305,7 @@ $(document).ready(function () {
               // Jika data bernilai true, tambahkan atribut checked
               var isChecked =
                 data === "true" || data === "True" ? "checked" : "";
+
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +
@@ -955,10 +956,11 @@ function GetContract(accountId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      var obj = result.data;
+        var obj = result.data;
+        console.log(formatDate(obj.startContract));
       $("#AccountId").val(obj.accountId); //ngambil data dr api
-      $("#StartContract").val(obj.startContract);
-      $("#EndContract").val(obj.endContract);
+        $("#StartContract").val(formatDate(obj.startContract));
+        $("#EndContract").val(formatDate(obj.endContract));
       $("#positionEmp").val(obj.position);
       $("#modalContract").modal("show");
     },
@@ -989,7 +991,7 @@ function UpdateContract() {
   Account.startContract = $("#StartContract").val();
   Account.endContract = $("#EndContract").val();
   Account.position = $("#positionEmp").val();
-
+    console.log(Account.startContract);
   $.ajax({
     url: "https://localhost:7177/api/Accounts/UpdateContract",
     type: "PUT",
@@ -1361,6 +1363,7 @@ function UpdateLevel() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
+
       // Handle success, for example, close the modal
       $("#modalLevel").modal("hide");
       if (result.status == 200) {
@@ -1448,6 +1451,7 @@ function getPosition() {
     },
   }).then((result) => {
     if (result != null) {
+
       result.data.forEach((item) => {
         var option = new Option(
           item.positionClient,
@@ -1718,8 +1722,10 @@ function handleFilterSubmission() {
           render: function (data, type, row) {
             if (type === "display") {
               // Jika data bernilai true, tambahkan atribut checked
+
               var isChecked =
                 data === "true" || data === "True" ? "checked" : "";
+
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +
@@ -1959,4 +1965,15 @@ function handleFilterSubmission() {
   //        console.error('Error:', error);
   //    }
   //});
+}
+
+function formatDate(dateString) {
+    // Pisahkan tanggal dan waktu jika diperlukan
+    var parts = dateString.split('T')[0].split('-');
+
+    // Buat string baru dengan urutan tanggal, bulan, dan tahun yang diubah
+    var formattedDate = parts[0] + '-' + parts[1] + '-' + parts[2];
+
+    // Kembalikan tanggal yang telah diformat
+    return formattedDate;
 }
