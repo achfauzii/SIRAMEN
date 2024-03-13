@@ -197,17 +197,25 @@
         box-shadow: 0 0 0 0 rgba(130, 138, 145, 0.5);
     }
 
-
     /* Only for demo */
     body {
         min-height: 100vh;
     }
+
+    .sidebar-dark hr.sidebar-divider {
+        border-top:0px solid #fff;
+
+    }
+
+    .hr {
+        background-color: #fff;
+        border: 0;
 </style>
 
 
 @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">*@
 
-@*<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">*@
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
 
 <!-- Main Content-->
 <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
@@ -322,8 +330,9 @@
                     <div class="form-group">
                         <input type="text" class="form-control" id="AccountId" hidden>
                         <label for="PlacementStatus">Change Status</label>
-                        <select id="Status" class="form-control PlacementStatus" placeholder="Select Turn Over Status" required>
-
+                        <select id="Status" class="form-select PlacementStatus" placeholder="Select Turn Over Status" required>
+                            
+                            <option selected disabled>Choose Status</option>
                             <option value="Blacklist">Blacklist</option>
                             <option value="Resign">Resign</option>
                             <option value="Transfer">Transfer</option>
@@ -380,7 +389,7 @@
                     <input type="hidden" class="form-control" id="accountLevel" readonly>
 
                     <label class="text-dark" for="levelchange">Level</label>
-                    <select id="levelchange" class="selectLevel form-control" name="state" required>
+                    <select id="levelchange" class="selectLevel form-select" name="state" required>
                         <option selected disabled>Choose...</option>
                     </select>
                     <span class="error-message" style="color: red; display: none;">This field is required!</span>

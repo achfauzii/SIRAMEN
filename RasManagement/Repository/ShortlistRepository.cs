@@ -61,30 +61,32 @@ namespace RasManagement.Repository
 
 
                     }).ToList();
-            var nonras = _context.NonRasCandidates.Select(non => new SharedShortListVM
+
+            var nonras = _context.NonRasCandidates
+            .Where(f => f.isDeleted != true)
+            .Select(non => new SharedShortListVM
             {
-                NonRAS_Id = non.NonRasId,
-                Fullname = non.Fullname,
-                Position = non.Position,
-                Skillset = non.Skillset,
-                Level = non.Level,
-                Education = non.Education,
-                Ipk = non.Ipk,
-                University = non.University,
-                Age = non.Birthdate != "" ? non.Birthdate + " Years Old" : "",
-                ExperienceInYear = non.ExperienceInYear,
-                WorkStatus = non.WorkStatus,
-                NoticePeriode = non.NoticePeriode,
-                FinancialIndustry = non.FinancialIndustry,
-                CvBerca = non.CvBerca
-
-
-            }).ToList();
+                NonRAS_Id = non.NonRasId != null ? non.NonRasId : 0,
+                Fullname = non.Fullname != null ? non.Fullname : "",
+                Position = non.Position != null ? non.Position : "",
+                Skillset = non.Skillset != null ? non.Skillset : "",
+                Level = non.Level != null ? non.Level : "",
+                Education = non.Education != null ? non.Education : "",
+                Ipk = non.Ipk != null ? non.Ipk : "",
+                University = non.University != null ? non.University : "",
+                Age = non.Birthdate != "" || non.Birthdate != null ? non.Birthdate + " Years Old" : "",
+                ExperienceInYear = non.ExperienceInYear != null ? non.ExperienceInYear : "",
+                WorkStatus = non.WorkStatus != null ? non.WorkStatus : "",
+                NoticePeriode = non.NoticePeriode != null ? non.NoticePeriode : "",
+                FinancialIndustry = non.FinancialIndustry != null ? non.FinancialIndustry : "",
+                CvBerca = non.CvBerca != null ? non.CvBerca : ""
+            })
+            .ToList();
 
             List<SharedShortListVM> sharedShortLists = new List<SharedShortListVM>();
             sharedShortLists.AddRange(employees);
             sharedShortLists.AddRange(nonras);
-            
+
             return sharedShortLists;
 
         }
