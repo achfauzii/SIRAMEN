@@ -296,6 +296,7 @@ function getPositionByClient(idClient) {
           );
           selectPosition.add(option);
         });
+        $("#jobRole").val(position).trigger("change");
       }
     });
   } else {

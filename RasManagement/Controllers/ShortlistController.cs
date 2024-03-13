@@ -84,7 +84,6 @@ namespace RasManagement.Controllers
                     e.Position.ToLower().Contains(searchTerm) ||
                     e.Skillset.ToLower().Contains(searchTerm) ||
                     e.Level.ToLower().Contains(searchTerm)
-
                 );
             }
 
@@ -173,7 +172,6 @@ namespace RasManagement.Controllers
         {
             //var employees = await employeeRepository.GetEmployeeData();
             var query = shortlistRepository.GetSharedShortList().AsQueryable();
-            // Filter berdasarkan kategori (Category)
 
             // Implementasi pencarian
             if (!string.IsNullOrEmpty(request.Search?.Value))
