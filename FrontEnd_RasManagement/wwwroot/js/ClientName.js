@@ -8,6 +8,10 @@ $(document).ready(function () {
         $(".btn-new-position").hide();
     }
 
+    $('input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+
     table = $("#tbDataCleint").DataTable({
         responsive: true,
 
