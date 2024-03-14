@@ -51,9 +51,10 @@ $(document).ajaxComplete(function () {
   });
 });
 
+
 $(document).ready(function () {
   getPlacementLoc();
-  getPosition();
+    getPosition();
 
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
@@ -94,6 +95,11 @@ $(document).ready(function () {
   //   .addEventListener("click", function () {
   //     resetFilter();
   //   });
+
+
+
+
+
 
   $("#submitFilter").on("click", function () {
     handleFilterSubmission();
@@ -944,6 +950,7 @@ function handlePlacementStatusChange() {
     inputCompany.style.display = "none";
   }
 }
+
 
 function GetContract(accountId) {
   $.ajax({
