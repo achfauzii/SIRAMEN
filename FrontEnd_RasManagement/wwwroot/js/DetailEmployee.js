@@ -21,7 +21,7 @@ $(document).ready(function () {
     });
 
     $("#positionEmp").select2({
-        placeholder: " ",
+        placeholder: "Choose Position",
         tags: true,
         dropdownParent: '#modalContract',
         width: "100%",
@@ -32,7 +32,6 @@ $(document).ready(function () {
     $(".add-new-placement").hide();
     $(".editemp-placement").hide();
     }
-
 
     $("select[requiredContract]").each(function () {
         $(this).prev("label").append('<span style="color: red;">*</span>');

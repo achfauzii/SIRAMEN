@@ -76,18 +76,7 @@ builder.Services.AddScoped<ApprovalRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowOrigin", builder =>
-    {
-        builder
-            .WithOrigins("https://siramen.berca.co.id")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
-
-/*builder.Services.AddCors(c =>
+builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", options => options
     .WithOrigins("https://siramen.berca.co.id")
@@ -96,7 +85,7 @@ builder.Services.AddCors(options =>
      .AllowAnyOrigin()
      .AllowAnyHeader()
      .AllowAnyMethod());
-});*/
+});
 var app = builder.Build();
 
 app.UseStaticFiles();
@@ -123,11 +112,10 @@ app.UseSwaggerUI();*/
 
 
 //IMPLEMENTASI CORS
-app.UseCors("AllowOrigin");
-/*app.UseCors(options => options
+app.UseCors(options => options
 .AllowAnyOrigin()
 .AllowAnyHeader()
-.AllowAnyMethod());*/
+.AllowAnyMethod());
 app.UseHttpsRedirection();
 
 app.UseAuthentication(); // Menambahkan middleware autentikasi

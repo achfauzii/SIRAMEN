@@ -190,7 +190,7 @@ function getPlacement() {
     },
   }).then((result) => {
     if (result != null) {
-      console.log(result.data);
+      /*console.log(result.data);*/
       result.data.forEach((item) => {
         var option = new Option(item.nameOfClient, item.id, true, false);
         selectPlacement.add(option);
