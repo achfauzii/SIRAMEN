@@ -367,6 +367,13 @@
         .badge {
             border: none;
         }
+
+        @@media print {
+    .bold-print {
+        font-weight: bold;
+        color:black;
+    }
+}
     </style>
     <div id="pspdfkit-header" class="pdf-body">
 
@@ -432,24 +439,24 @@
         <br /><br />
         <div class="row mt-4">
             <div class="col-3"></div>
-            <div class="col-3">TTD PEGAWAI</div>
-            <div class="col-3">DIPERIKSA OLEH</div>
-            <div class="col-3">DIKETAHUI OLEH</div>
+            <div class="col-3 bold-print">TTD PEGAWAI</div>
+            <div class="col-3 bold-print">DIPERIKSA OLEH</div>
+            <div class="col-3 bold-print">DIKETAHUI OLEH</div>
         </div>
         <div class="row m-4"></div>
         <div class="row m-4"></div>
         <div class="row m-4"></div>
         <div class="row mt-4">
             <div class="col-3"></div>
-            <div id="fullnamePdf" class="col-3 fullName"></div>
-            <div class="col-3">@Model.Examiner</div>
-            <div class="col-3" id="picName"></div>
+            <div id="fullnamePdf" class="col-3 fullName bold-print"></div>
+            <div class="col-3 bold-print">@Model.Examiner</div>
+            <div class="col-3 bold-print" id="picName"></div>
         </div>
         <div class="row">
             <div class="col-3"></div>
-            <div class="col-3">DATE: </div>
-            <div class="col-3">DATE: </div>
-            <div class="col-3">DATE: </div>
+            <div class="col-3 bold-print">DATE: </div>
+            <div class="col-3 bold-print">DATE: </div>
+            <div class="col-3 bold-print">DATE: </div>
         </div>
     </div>
    @* <div id="pspdfkit-footer" class="footer-columns" style="page-break-after: always">
