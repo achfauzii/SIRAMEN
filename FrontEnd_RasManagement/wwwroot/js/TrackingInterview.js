@@ -15,6 +15,17 @@ $(document).on("select2:open", (e) => {
 });
 
 $(document).ready(function () {
+
+    $(
+        "input[required], select[required]"
+    ).each(function () {
+        $(this).prev("label").append('<span style="color: red;">*</span>');
+    });
+
+    //$("input[required], select[required]").each(function () {
+    //    $(this).closest(".col").find("label").append('<span style="color: red;">*</span>');
+    //});
+
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
   if (objDataToken.RoleId == 7) {
@@ -253,7 +264,9 @@ function getClient() {
 
 function getPosition(idClient) {
   var selectPosition = document.getElementById("position");
-
+    if (idClient == null || idClient=="") {
+        return;
+    }
   if (position == null) {
     $.ajax({
       type: "GET",
@@ -338,9 +351,36 @@ function Save() {
     }
   });
 
-  if (!isValid) {
-    return;
-  }
+    //validasi selected
+    var selectedResource = $("#resource").val();
+    var selectedClient = $("#client").val();
+    var selectedIntStatus = $("#intStatus").val();
+
+    if (!selectedResource) {
+        $(".selectedResource").closest(".form-group").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".selectedResource").closest(".form-group").find(".error-message").hide();
+    }
+
+    if (!selectedClient) {
+        $(".client").closest(".col").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".client").closest(".col").find(".error-message").hide();
+    }
+
+    if (!selectedIntStatus) {
+        $(".intStatus").closest(".col").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".intStatus").closest(".col").find(".error-message").hide();
+    }
+
+
+    if (!isValid) {
+        return;
+    }
 
   var TrackingInterview = new Object();
 
