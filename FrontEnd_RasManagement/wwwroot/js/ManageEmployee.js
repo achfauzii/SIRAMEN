@@ -586,7 +586,7 @@ $(document).ready(function () {
           });
         } else {
           // Jika pengguna memilih "No", Anda dapat melakukan sesuatu di sini
-          console.log("User chose No");
+        
           // Contoh: Mengubah kembali status checkbox sesuai dengan nilai sebelumnya
           $(this).prop("checked", !isChecked);
         }
@@ -823,8 +823,7 @@ function GetByIdPlacement(accountId, placementStatus) {
       $("#PlacementID").val(obj.placementStatusId);
       $("#picName").val(obj.picName);
       // $("#Status").val(placementStatus);
-      console.log(obj);
-      console.log(placementStatus);
+   
       $("#CompanyName").val(obj.clientId);
       $("#Description").val(obj.description);
       $("#Modal").modal("show");
@@ -883,7 +882,7 @@ function SaveTurnOver() {
   var updateRole = new Object();
   updateRole.accountId = $("#AccountId").val();
   updateRole.roleId = "4";
-
+    $("#Modal").modal("hide");
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/TurnOver",
@@ -963,14 +962,14 @@ function GetContract(accountId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
       success: function (result) {
-          console.log(result.data);
+      
           var obj = result.data;
-          console.log(formatDate(obj.startContract));
+         
           $("#AccountId").val(obj.accountId); //ngambil data dr api
           $("#StartContract").val(formatDate(obj.startContract));
           $("#EndContract").val(formatDate(obj.endContract));
           $("#positionEmp").val(obj.position);
-          console.log(obj.position);
+      
 
           //clear exsiting position
           $("#positionEmp").empty();
