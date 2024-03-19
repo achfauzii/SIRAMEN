@@ -76,7 +76,16 @@ builder.Services.AddScoped<ApprovalRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 
-builder.Services.AddCors(options =>
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowOrigin", options => options
+     .AllowAnyOrigin()
+     .AllowAnyHeader()
+     .AllowAnyMethod());
+});
+
+
+/*builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowOrigin", builder =>
     {
@@ -85,7 +94,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
-});
+});*/
 
 /*builder.Services.AddCors(c =>
 {
