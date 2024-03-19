@@ -586,7 +586,7 @@ $(document).ready(function () {
           });
         } else {
           // Jika pengguna memilih "No", Anda dapat melakukan sesuatu di sini
-          console.log("User chose No");
+        
           // Contoh: Mengubah kembali status checkbox sesuai dengan nilai sebelumnya
           $(this).prop("checked", !isChecked);
         }
@@ -823,8 +823,7 @@ function GetByIdPlacement(accountId, placementStatus) {
       $("#PlacementID").val(obj.placementStatusId);
       $("#picName").val(obj.picName);
       // $("#Status").val(placementStatus);
-      console.log(obj);
-      console.log(placementStatus);
+   
       $("#CompanyName").val(obj.clientId);
       $("#Description").val(obj.description);
       $("#Modal").modal("show");
@@ -883,7 +882,7 @@ function SaveTurnOver() {
   var updateRole = new Object();
   updateRole.accountId = $("#AccountId").val();
   updateRole.roleId = "4";
-
+    $("#Modal").modal("hide");
   $.ajax({
     type: "POST",
     url: "https://localhost:7177/api/TurnOver",
@@ -962,14 +961,68 @@ function GetContract(accountId) {
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-    success: function (result) {
-        var obj = result.data;
-        console.log(formatDate(obj.startContract));
-      $("#AccountId").val(obj.accountId); //ngambil data dr api
-        $("#StartContract").val(formatDate(obj.startContract));
-        $("#EndContract").val(formatDate(obj.endContract));
-      $("#positionEmp").val(obj.position);
-      $("#modalContract").modal("show");
+      success: function (result) {
+      
+          var obj = result.data;
+         
+          $("#AccountId").val(obj.accountId); //ngambil data dr api
+          $("#StartContract").val(formatDate(obj.startContract));
+          $("#EndContract").val(formatDate(obj.endContract));
+          $("#positionEmp").val(obj.position);
+      
+
+          //clear exsiting position
+          $("#positionEmp").empty();
+
+          // Add default "Choose Position" option
+          $("#positionEmp").append($("<option>", {
+              value: "",
+              text: "Choose Position",
+              selected: true, // Optionally set this option as selected
+          }));
+
+          // Create and append new options based on the selected level
+          var positions = [
+              "Fullstack Developer",
+              "Back End Developer",
+              "Business Analyst",
+              "Business Intelligent Engineer",
+              "Data Analyst",
+              "Data Engineer",
+              "Database Administrator",
+              "Database Analyst",
+              "Database Engineer",
+              "Devops Engineer",
+              "Developer",
+              "Front End Developer",
+              "Head of IT",
+              "IT Admin",
+              "IT Applications Support",
+              "Manager",
+              "Mobile Developer",
+              "Outsystems Developer",
+              "Project Manager",
+              "Quality Assurance",
+              "Sage 300 Consultant",
+              "SAP ABAP Developer",
+              "Scrum Master",
+              "Software Engineer",
+              "System Analyst",
+              "UiPath Engineer",
+              ".Net Developer"
+          ];
+       
+          for (var i = 0; i < positions.length; i++) {
+              var option = $("<option>", {
+                  value: positions[i],
+                  text: positions[i],
+                  selected: positions[i] === obj.position,
+              });
+              $("#positionEmp").append(option);
+          }
+          compare = {
+              Position: obj.position,
+          };
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
@@ -981,6 +1034,16 @@ function UpdateContract() {
     var table = $("#dataTableEmployee").DataTable();
     var isValid = true;
     $("input[requiredContract]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message-contract").show();
+            isValid = false;
+        } else {
+            input.next(".error-message-contract").hide();
+        }
+    });
+
+    $("select[requiredContract]").each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next(".error-message-contract").show();
@@ -1022,11 +1085,13 @@ function UpdateContract() {
             SaveLogUpdate(logMessage);
             $("#modalContract").modal("hide");
             setTimeout(function () {
-                table.ajax.reload();
+                location.reload();
+                //table.ajax.reload();
             }, 1800); // 3000 milliseconds = 3 seconds
         } else {
             Swal.fire("Error!", "Data failed to update", "error");
-            table.ajax.reload();
+            location.reload();
+            //table.ajax.reload();
         }
     });
 }
@@ -1072,9 +1137,10 @@ function UpdatePlacement() {
 function ClearScreenContract() {
   $("#AccountId").val("");
   $("#StartContract").val("");
-  $("#EndContract").val("");
+    $("#EndContract").val("");
+  $("positionEmp").val("");
 
-  $("input[required]").each(function () {
+  $("input[required], select[required]").each(function () {
     var input = $(this);
 
     input.next(".error-message").hide();

@@ -214,35 +214,35 @@ namespace FrontEnd_RasManagement.Controllers
                     signatureTable.HorizontalAlignment = Element.ALIGN_RIGHT;
 
                     // Kolom pertama untuk tanda tangan pegawai
-                    PdfPCell employeeSignatureCell = new PdfPCell(new Phrase("TTD Pegawai", FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
+                    PdfPCell employeeSignatureCell = new PdfPCell(new Phrase("TTD Pegawai", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     employeeSignatureCell.Border = PdfPCell.NO_BORDER;
                     signatureTable.AddCell(employeeSignatureCell);
 
                     // Kolom kedua untuk tanda tangan yang mengetahui
-                    PdfPCell acknowledgedByCell = new PdfPCell(new Phrase("Diketahui Oleh", FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
+                    PdfPCell acknowledgedByCell = new PdfPCell(new Phrase("Diketahui Oleh", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     acknowledgedByCell.Border = PdfPCell.NO_BORDER;
                     acknowledgedByCell.PaddingLeft = 2f;
                     signatureTable.AddCell(acknowledgedByCell);
 
                     // Kolom ketiga untuk tanda tangan yang mengetahui
-                    PdfPCell acknowledgedByCell2 = new PdfPCell(new Phrase("Diketahui Oleh", FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
+                    PdfPCell acknowledgedByCell2 = new PdfPCell(new Phrase("Diketahui Oleh", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     acknowledgedByCell2.Border = PdfPCell.NO_BORDER;
                     acknowledgedByCell2.PaddingLeft = 2f;
                     signatureTable.AddCell(acknowledgedByCell2);
 
                     // Menambahkan nama di bawah setiap kolom tanda tangan
-                    PdfPCell employeeNameCell = new PdfPCell(new Phrase(entry.AccountName, FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
+                    PdfPCell employeeNameCell = new PdfPCell(new Phrase(entry.AccountName, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     employeeNameCell.Border = PdfPCell.NO_BORDER;
                     employeeNameCell.PaddingTop = 35f;
                     signatureTable.AddCell(employeeNameCell);
 
-                    PdfPCell acknowledgedByNameCell = new PdfPCell(new Phrase("Bella Oktavia", FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
+                    PdfPCell acknowledgedByNameCell = new PdfPCell(new Phrase("Bela Oktavia", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     acknowledgedByNameCell.Border = PdfPCell.NO_BORDER;
                     acknowledgedByNameCell.PaddingTop = 35f;
                     acknowledgedByNameCell.PaddingLeft = 2f;
                     signatureTable.AddCell(acknowledgedByNameCell);
 
-                    PdfPCell acknowledgedByNameCell2 = new PdfPCell(new Phrase(entry.Pic, FontFactory.GetFont(FontFactory.HELVETICA, 10f)));
+                    PdfPCell acknowledgedByNameCell2 = new PdfPCell(new Phrase(entry.Pic, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     acknowledgedByNameCell2.Border = PdfPCell.NO_BORDER;
                     acknowledgedByNameCell2.PaddingTop = 35f;
                     acknowledgedByNameCell2.PaddingLeft = 2f;
