@@ -152,37 +152,10 @@
 
                     <div class="form-group mb-1 mt-3">
                             <label class="text-dark" for="exampleInputEmail1">Position</label>
-                            <select id="positionEmp" class="form-select col-12 positionEmp" name="state" requiredContract>
+                            <select id="positionEmp" class="form-control col-12 positionEmp" name="state" requiredContract>
                                <option selected disabled>Choose Position</option>
-                            @*<option value="Back End Developer">Back End Developer</option>
-                                <option value="Business Analyst">Business Analyst</option>
-                                <option value="Fullstack Developer">Fullstack Developer</option>
-                                <option value="Business Intelligent Engineer">Business Intelligent Engineer</option>
-                                <option value="Data Analyst">Data Analyst</option>
-                                <option value="Data Engineer">Data Engineer</option>
-                                <option value="Database Administrator">Database Administrator</option>
-                                <option value="Database Analyst">Database Analyst</option>
-                                <option value="Database Engineer">Database Engineer</option>
-                                <option value="Devops Engineer">Devops Engineer</option>
-                                <option value="Developer">Developer</option>
-                                <option value="Front End Developer">Front End Developer</option>
-                                <option value="Head of IT">Head of IT</option>
-                                <option value="IT Admin">IT Admin</option>
-                                <option value="IT Applications Support">IT Applications Support</option>
-                                <option value="Manager">Manager</option>
-                                <option value="Mobile Developer">Mobile Developer</option>
-                                <option value="Outsystems Developer">Outsystems Developer</option>
-                                <option value="Project Manager">Project Manager</option>
-                                <option value="Quality Assurance">Quality Assurance</option>
-                                <option value="Sage 300 Consultant">Sage 300 Consultant</option>
-                                <option value="SAP ABAP Developer">SAP ABAP Developer</option>
-                                <option value="Scrum Master">Scrum Master</option>
-                                <option value="Software Engineer">Software Engineer</option>
-                                <option value="System Analyst">System Analyst</option>
-                                <option value="UiPath Engineer">UiPath Engineer</option>
-                                <option value=".Net Developer">.Net Developer</option>*@
                             </select>
-                            <span class="error-message-contract" style="color: red; display: none;">Please select at least one Position.</span>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
                     </div>
                 </form>
             </div>
@@ -214,7 +187,7 @@
                     <input type="hidden" id="placementStatusId">
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Company Name</label>
-                         <select class="form-control form-control-sm" id="companyName_" required>
+                         <select class="form-control form-control-sm selectedCompany" id="companyName_" required>
                             <option selected disabled>Choose Company</option>
                         </select>
                         @* <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="companyName_" name="companyName" required> 

@@ -1043,15 +1043,16 @@ function UpdateContract() {
         }
     });
 
-    $("select[requiredContract]").each(function () {
-        var input = $(this);
-        if (!input.val()) {
-            input.next(".error-message-contract").show();
-            isValid = false;
-        } else {
-            input.next(".error-message-contract").hide();
-        }
-    });
+    //validasi selectedPosition
+    var selectedPosition = $("#positionEmp").val();
+
+    if (!selectedPosition) {
+        $(".positionEmp").closest(".form-group").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".positionEmp").closest(".form-group").find(".error-message").hide();
+    }
+
 
     if (!isValid) {
         return;
@@ -1108,6 +1109,7 @@ function UpdatePlacement() {
   /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
         const accid = decodedtoken.AccountId;
         Account.accountId = accid;*/
+
   $.ajax({
     url: "https://localhost:7177/api/Accounts/UpdateTurnOver",
     type: "PUT",
@@ -1205,6 +1207,17 @@ function Save(accountId) {
       input.next(".error-message").hide();
     }
   });
+
+    //validasi selectedPosition
+    var selectedCompanyName = $("#companyName_").val();
+
+    if (!selectedCompanyName) {
+        $(".selectedCompany").closest(".form-group").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".selectedCompany").closest(".form-group").find(".error-message").hide();
+    }
+
 
   if (!isValid) {
     return;
