@@ -22,10 +22,6 @@ $(document).ready(function () {
         $(this).prev("label").append('<span style="color: red;">*</span>');
     });
 
-    //$("input[required], select[required]").each(function () {
-    //    $(this).closest(".col").find("label").append('<span style="color: red;">*</span>');
-    //});
-
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
   if (objDataToken.RoleId == 7) {
@@ -257,7 +253,7 @@ function getClient() {
     dropdownParent: $("#trackingModal"),
     width: "100%",
     height: "100%",
-    allowClear: true,
+    allowClear: false,
     tags: true,
   });
 }
@@ -667,12 +663,12 @@ function setProcess(length) {
 function clearProcess() {
   $("#process").append(`<div class="row mb-2 process">
                             <div class="col">
-                                <label for="message-text" class="col-form-label">Interview Date</label>                            
+                                <label for="message-text" class="col-form-label">Interview Date<span style="color: red;">*</span></label>                            
                                 <input class="form-control form-control-sm intDate" type="date" id="intDate" required>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="col">
-                                <label for="message-text" class="col-form-label">Interview Status</label>
+                                <label for="message-text" class="col-form-label">Interview Status<span style="color: red;">*</span></label>
                                 <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newProcess();">+ New </button>
                                 <select class=" form-control form-control-sm intStatus" id="intStatus" >
                                         <option selected disabled>Choose...</option>
@@ -684,6 +680,7 @@ function clearProcess() {
                                         <option value="Reject">Reject</option>
                                     </select>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                
                             </div>
                         </div>
                     </div>`);

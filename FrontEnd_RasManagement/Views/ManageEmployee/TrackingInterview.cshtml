@@ -173,19 +173,19 @@
                     <div id="process">
                         <div class="row mb-2 process">
                             <div class="col">
-                                <label for="message-text" class="col-form-label">Interview Date</label>
-                                 <span style="color: red;">*</span>
-                                 <p>
-                                <input class="form-control form-control-sm intDate" type="date" id="intDate" required>
+                                <label for="intDate" class="col-form-label">Interview Date<span style="color: red;">*</span></label>
+                                
+                                <p>
+                                    <input class="form-control form-control-sm intDate" type="date" id="intDate" required>
                                 </p>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="col">
-                                <label for="message-text" class="col-form-label">Interview Status</label>
-                                 <span style="color: red;">*</span>
-                                 <p>
-                                <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newProcess();">+ New </button>
-                                <select class=" form-control form-control-sm intStatus" id="intStatus" required>
+                                <label for="intStatus" class="col-form-label">Interview Status<span style="color: red;">*</span></label>
+                                <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 35%;" onclick="newProcess();">+ New</button>
+                                <p>
+                                    
+                                    <select class="form-control form-control-sm intStatus" id="intStatus" required>
                                         <option selected disabled>Choose...</option>
                                         <option value="Submitted CV">Submitted CV</option>
                                         <option value="Hold">Hold</option>
@@ -196,9 +196,11 @@
                                     </select>
                                 </p>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                
                             </div>
                         </div>
                     </div>
+
 
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Notes</label>
