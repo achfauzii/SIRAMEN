@@ -18,7 +18,12 @@ $(document).ready(function () {
   if (objDataToken.RoleId == 7) {
     $(".add-new-placement").hide();
     $(".editemp-placement").hide();
-  }
+    }
+
+
+    $("select[requiredContract]").each(function () {
+        $(this).prev("label").append('<span style="color: red;">*</span>');
+    });
 
   document.getElementById("backButton").addEventListener("click", function () {
     history.back();

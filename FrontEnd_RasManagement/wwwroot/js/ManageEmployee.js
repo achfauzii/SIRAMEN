@@ -597,7 +597,7 @@ $(document).ready(function () {
     $(".filters input").val("").keyup().change();
 
     // Lakukan reload data
-    table.ajax.reload();
+      table.ajax.reload();
   });
 });
 
@@ -971,56 +971,59 @@ function GetContract(accountId) {
 }
 
 function UpdateContract() {
-  table = $("#dataTableEmployee").DataTable();
-  var isValid = true;
-  $("input[requiredContract]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message-contract").show();
-      isValid = false;
-    } else {
-      input.next(".error-message-contract").hide();
-    }
-  });
+    var table = $("#dataTableEmployee").DataTable();
+    var isValid = true;
+    $("input[requiredContract]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message-contract").show();
+            isValid = false;
+        } else {
+            input.next(".error-message-contract").hide();
+        }
+    });
 
-  if (!isValid) {
-    return;
-  }
-  var Account = new Object();
-  Account.accountId = $("#accountId").val();
-  Account.startContract = $("#StartContract").val();
-  Account.endContract = $("#EndContract").val();
-  Account.position = $("#positionEmp").val();
-    console.log(Account.startContract);
-  $.ajax({
-    url: "https://localhost:7177/api/Accounts/UpdateContract",
-    type: "PUT",
-    data: JSON.stringify(Account),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (result.status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been update!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
-      SaveLogUpdate(logMessage);
-      $("#modalContract").modal("hide");
-      setTimeout(function () {
-        table.ajax.reload();
-      }, 1800); // 3000 milliseconds = 3 seconds
-    } else {
-      Swal.fire("Error!", "Data failed to update", "error");
-      table.ajax.reload();
+    if (!isValid) {
+        return;
     }
-  });
+
+    var Account = {
+        accountId: $("#accountId").val(),
+        startContract: $("#StartContract").val(),
+        endContract: $("#EndContract").val(),
+        position: $("#positionEmp").val()
+    };
+
+    $.ajax({
+        url: "https://localhost:7177/api/Accounts/UpdateContract",
+        type: "PUT",
+        data: JSON.stringify(Account),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        if (result.status == 200) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: "Data has been updated!",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
+            SaveLogUpdate(logMessage);
+            $("#modalContract").modal("hide");
+            setTimeout(function () {
+                table.ajax.reload();
+            }, 1800); // 3000 milliseconds = 3 seconds
+        } else {
+            Swal.fire("Error!", "Data failed to update", "error");
+            table.ajax.reload();
+        }
+    });
 }
+
 
 function UpdatePlacement() {
   //table = $("#dataTableEmployee").DataTable()
