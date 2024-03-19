@@ -79,13 +79,23 @@ builder.Services.AddScoped<ApprovalRepository>();
 builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", options => options
-    .WithOrigins("https://siramen.berca.co.id")
-               .AllowAnyHeader()
-               .AllowAnyMethod()
      .AllowAnyOrigin()
      .AllowAnyHeader()
      .AllowAnyMethod());
 });
+
+
+/*builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin", builder =>
+    {
+        builder
+            .WithOrigins("https://siramen.berca.co.id")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});*/
+
 var app = builder.Build();
 
 app.UseStaticFiles();
