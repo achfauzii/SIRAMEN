@@ -150,16 +150,10 @@
                         <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
                     </div>
 
-                    @*<div class="form-group mb-1">
-                    <label class="m-0" for="exampleInputEmail1">Position</label>
-                    <input type="text" class="form-control " id="Position" name="Position" requiredContract>
-                    <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
-                    </div>*@
-                    <div class="form-group row mb-1 mt-3">
-                        <div class="col-sm-12">
+                    <div class="form-group mb-1 mt-3">
                             <label class="text-dark" for="exampleInputEmail1">Position</label>
-                            <select id="positionEmp" class="positionEmp form-control" name="state" requiredContract>
-                               @* <option selected disabled>Choose...</option>*@
+                            <select id="positionEmp" class="form-control col-12 positionEmp" name="state" requiredContract>
+                               <option selected disabled>Choose Position</option>
                                 <option value="Back End Developer">Back End Developer</option>
                                 <option value="Business Analyst">Business Analyst</option>
                                 <option value="Business Intelligent Engineer">Business Intelligent Engineer</option>
@@ -188,7 +182,6 @@
                                 <option value=".Net Developer">.Net Developer</option>
                             </select>
                             <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
-                        </div>
                     </div>
                 </form>
             </div>
@@ -223,7 +216,7 @@
                          <select class="form-control form-control-sm" id="companyName_" required>
                             <option selected disabled>Choose Company</option>
                         </select>
-                        @* <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="companyName_" name="companyName" required> *@
+                        @* <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="companyName_" name="companyName" required> 
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
