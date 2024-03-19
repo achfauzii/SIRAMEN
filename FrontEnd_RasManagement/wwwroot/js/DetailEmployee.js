@@ -14,11 +14,28 @@ $(document).on("select2:open", (e) => {
 $(document).ready(function () {
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
   // document.getElementById("jobRole").selectedindex = "0";
+    //function position
+
+      $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+
+    $("#positionEmp").select2({
+        placeholder: "Choose Position",
+        tags: true,
+        dropdownParent: '#modalContract',
+        width: "100%",
+        height: "100%",
+    });
 
   if (objDataToken.RoleId == 7) {
     $(".add-new-placement").hide();
     $(".editemp-placement").hide();
-  }
+    }
+
+    $("select[requiredContract]").each(function () {
+        $(this).prev("label").append('<span style="color: red;">*</span>');
+    });
 
   document.getElementById("backButton").addEventListener("click", function () {
     history.back();

@@ -79,6 +79,9 @@ builder.Services.AddScoped<ApprovalRepository>();
 builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", options => options
+    .WithOrigins("https://siramen.berca.co.id")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
      .AllowAnyOrigin()
      .AllowAnyHeader()
      .AllowAnyMethod());

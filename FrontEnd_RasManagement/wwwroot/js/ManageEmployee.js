@@ -51,9 +51,10 @@ $(document).ajaxComplete(function () {
   });
 });
 
+
 $(document).ready(function () {
   getPlacementLoc();
-  getPosition();
+    getPosition();
 
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
@@ -94,6 +95,11 @@ $(document).ready(function () {
   //   .addEventListener("click", function () {
   //     resetFilter();
   //   });
+
+
+
+
+
 
   $("#submitFilter").on("click", function () {
     handleFilterSubmission();
@@ -597,7 +603,7 @@ $(document).ready(function () {
     $(".filters input").val("").keyup().change();
 
     // Lakukan reload data
-    table.ajax.reload();
+      table.ajax.reload();
   });
 });
 
@@ -946,6 +952,7 @@ function handlePlacementStatusChange() {
   }
 }
 
+
 function GetContract(accountId) {
   $.ajax({
     url: "https://localhost:7177/api/Accounts/AccountId?accountId=" + accountId,
@@ -955,14 +962,68 @@ function GetContract(accountId) {
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
-    success: function (result) {
-        var obj = result.data;
-        console.log(formatDate(obj.startContract));
-      $("#AccountId").val(obj.accountId); //ngambil data dr api
-        $("#StartContract").val(formatDate(obj.startContract));
-        $("#EndContract").val(formatDate(obj.endContract));
-      $("#positionEmp").val(obj.position);
-      $("#modalContract").modal("show");
+      success: function (result) {
+          console.log(result.data);
+          var obj = result.data;
+          console.log(formatDate(obj.startContract));
+          $("#AccountId").val(obj.accountId); //ngambil data dr api
+          $("#StartContract").val(formatDate(obj.startContract));
+          $("#EndContract").val(formatDate(obj.endContract));
+          $("#positionEmp").val(obj.position);
+          console.log(obj.position);
+
+          //clear exsiting position
+          $("#positionEmp").empty();
+
+          // Add default "Choose Position" option
+          $("#positionEmp").append($("<option>", {
+              value: "",
+              text: "Choose Position",
+              selected: true, // Optionally set this option as selected
+          }));
+
+          // Create and append new options based on the selected level
+          var positions = [
+              "Fullstack Developer",
+              "Back End Developer",
+              "Business Analyst",
+              "Business Intelligent Engineer",
+              "Data Analyst",
+              "Data Engineer",
+              "Database Administrator",
+              "Database Analyst",
+              "Database Engineer",
+              "Devops Engineer",
+              "Developer",
+              "Front End Developer",
+              "Head of IT",
+              "IT Admin",
+              "IT Applications Support",
+              "Manager",
+              "Mobile Developer",
+              "Outsystems Developer",
+              "Project Manager",
+              "Quality Assurance",
+              "Sage 300 Consultant",
+              "SAP ABAP Developer",
+              "Scrum Master",
+              "Software Engineer",
+              "System Analyst",
+              "UiPath Engineer",
+              ".Net Developer"
+          ];
+       
+          for (var i = 0; i < positions.length; i++) {
+              var option = $("<option>", {
+                  value: positions[i],
+                  text: positions[i],
+                  selected: positions[i] === obj.position,
+              });
+              $("#positionEmp").append(option);
+          }
+          compare = {
+              Position: obj.position,
+          };
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
@@ -971,56 +1032,71 @@ function GetContract(accountId) {
 }
 
 function UpdateContract() {
-  table = $("#dataTableEmployee").DataTable();
-  var isValid = true;
-  $("input[requiredContract]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message-contract").show();
-      isValid = false;
-    } else {
-      input.next(".error-message-contract").hide();
-    }
-  });
+    var table = $("#dataTableEmployee").DataTable();
+    var isValid = true;
+    $("input[requiredContract]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message-contract").show();
+            isValid = false;
+        } else {
+            input.next(".error-message-contract").hide();
+        }
+    });
 
-  if (!isValid) {
-    return;
-  }
-  var Account = new Object();
-  Account.accountId = $("#accountId").val();
-  Account.startContract = $("#StartContract").val();
-  Account.endContract = $("#EndContract").val();
-  Account.position = $("#positionEmp").val();
-    console.log(Account.startContract);
-  $.ajax({
-    url: "https://localhost:7177/api/Accounts/UpdateContract",
-    type: "PUT",
-    data: JSON.stringify(Account),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (result.status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been update!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
-      SaveLogUpdate(logMessage);
-      $("#modalContract").modal("hide");
-      setTimeout(function () {
-        table.ajax.reload();
-      }, 1800); // 3000 milliseconds = 3 seconds
-    } else {
-      Swal.fire("Error!", "Data failed to update", "error");
-      table.ajax.reload();
+    $("select[requiredContract]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message-contract").show();
+            isValid = false;
+        } else {
+            input.next(".error-message-contract").hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
     }
-  });
+
+    var Account = {
+        accountId: $("#accountId").val(),
+        startContract: $("#StartContract").val(),
+        endContract: $("#EndContract").val(),
+        position: $("#positionEmp").val()
+    };
+
+    $.ajax({
+        url: "https://localhost:7177/api/Accounts/UpdateContract",
+        type: "PUT",
+        data: JSON.stringify(Account),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        if (result.status == 200) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: "Data has been updated!",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
+            SaveLogUpdate(logMessage);
+            $("#modalContract").modal("hide");
+            setTimeout(function () {
+                location.reload();
+                //table.ajax.reload();
+            }, 1800); // 3000 milliseconds = 3 seconds
+        } else {
+            Swal.fire("Error!", "Data failed to update", "error");
+            location.reload();
+            //table.ajax.reload();
+        }
+    });
 }
+
 
 function UpdatePlacement() {
   //table = $("#dataTableEmployee").DataTable()
@@ -1062,9 +1138,10 @@ function UpdatePlacement() {
 function ClearScreenContract() {
   $("#AccountId").val("");
   $("#StartContract").val("");
-  $("#EndContract").val("");
+    $("#EndContract").val("");
+  $("positionEmp").val("");
 
-  $("input[required]").each(function () {
+  $("input[required], select[required]").each(function () {
     var input = $(this);
 
     input.next(".error-message").hide();
