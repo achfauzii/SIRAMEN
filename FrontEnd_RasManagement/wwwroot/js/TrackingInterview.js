@@ -322,13 +322,24 @@ function clearScreen() {
   $("#client").select2("val", $("#client option:eq(0)").val());
 
   document.getElementById("position").selectedIndex = "0";
-  document.getElementById("intStatus").selectedIndex = "0";
+    document.getElementById("intStatus").selectedIndex = "0";
+
+    $("input[required], select[required]").each(function () {
+        var input = $(this);
+
+        input.next(".error-message").hide();
+    });
+
+    // Menyembunyikan pesan kesalahan untuk kedua input
+    $(".error-message").hide();
+
 
   $("#intDate").val("");
   $("#notes").val("");
 
   $("#Save").show();
   $("#Update").hide();
+
 }
 
 function Save() {
