@@ -311,6 +311,7 @@ $(document).ready(function () {
               // Jika data bernilai true, tambahkan atribut checked
               var isChecked =
                 data === "true" || data === "True" ? "checked" : "";
+
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +
@@ -602,7 +603,7 @@ $(document).ready(function () {
     $(".filters input").val("").keyup().change();
 
     // Lakukan reload data
-    table.ajax.reload();
+      table.ajax.reload();
   });
 });
 
@@ -962,10 +963,11 @@ function GetContract(accountId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      var obj = result.data;
+        var obj = result.data;
+        console.log(formatDate(obj.startContract));
       $("#AccountId").val(obj.accountId); //ngambil data dr api
-      $("#StartContract").val(obj.startContract);
-      $("#EndContract").val(obj.endContract);
+        $("#StartContract").val(formatDate(obj.startContract));
+        $("#EndContract").val(formatDate(obj.endContract));
       $("#positionEmp").val(obj.position);
       $("#modalContract").modal("show");
     },
@@ -976,56 +978,59 @@ function GetContract(accountId) {
 }
 
 function UpdateContract() {
-  table = $("#dataTableEmployee").DataTable();
-  var isValid = true;
-  $("input[requiredContract]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message-contract").show();
-      isValid = false;
-    } else {
-      input.next(".error-message-contract").hide();
-    }
-  });
+    var table = $("#dataTableEmployee").DataTable();
+    var isValid = true;
+    $("input[requiredContract]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message-contract").show();
+            isValid = false;
+        } else {
+            input.next(".error-message-contract").hide();
+        }
+    });
 
-  if (!isValid) {
-    return;
-  }
-  var Account = new Object();
-  Account.accountId = $("#accountId").val();
-  Account.startContract = $("#StartContract").val();
-  Account.endContract = $("#EndContract").val();
-  Account.position = $("#positionEmp").val();
-
-  $.ajax({
-    url: "https://localhost:7177/api/Accounts/UpdateContract",
-    type: "PUT",
-    data: JSON.stringify(Account),
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (result.status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Success...",
-        text: "Data has been update!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
-      SaveLogUpdate(logMessage);
-      $("#modalContract").modal("hide");
-      setTimeout(function () {
-        table.ajax.reload();
-      }, 1800); // 3000 milliseconds = 3 seconds
-    } else {
-      Swal.fire("Error!", "Data failed to update", "error");
-      table.ajax.reload();
+    if (!isValid) {
+        return;
     }
-  });
+
+    var Account = {
+        accountId: $("#accountId").val(),
+        startContract: $("#StartContract").val(),
+        endContract: $("#EndContract").val(),
+        position: $("#positionEmp").val()
+    };
+
+    $.ajax({
+        url: "https://localhost:7177/api/Accounts/UpdateContract",
+        type: "PUT",
+        data: JSON.stringify(Account),
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+    }).then((result) => {
+        if (result.status == 200) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: "Data has been updated!",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            const logMessage = `Has updated contract Account ID ${Account.accountId}, starting from ${Account.startContract} to ${Account.endContract}`;
+            SaveLogUpdate(logMessage);
+            $("#modalContract").modal("hide");
+            setTimeout(function () {
+                table.ajax.reload();
+            }, 1800); // 3000 milliseconds = 3 seconds
+        } else {
+            Swal.fire("Error!", "Data failed to update", "error");
+            table.ajax.reload();
+        }
+    });
 }
+
 
 function UpdatePlacement() {
   //table = $("#dataTableEmployee").DataTable()
@@ -1368,6 +1373,7 @@ function UpdateLevel() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
+
       // Handle success, for example, close the modal
       $("#modalLevel").modal("hide");
       if (result.status == 200) {
@@ -1455,6 +1461,7 @@ function getPosition() {
     },
   }).then((result) => {
     if (result != null) {
+
       result.data.forEach((item) => {
         var option = new Option(
           item.positionClient,
@@ -1725,8 +1732,10 @@ function handleFilterSubmission() {
           render: function (data, type, row) {
             if (type === "display") {
               // Jika data bernilai true, tambahkan atribut checked
+
               var isChecked =
                 data === "true" || data === "True" ? "checked" : "";
+
               return (
                 '<input type="checkbox" class="financialIndustry" id="financialIndustryCheck" ' +
                 isChecked +
@@ -1966,4 +1975,15 @@ function handleFilterSubmission() {
   //        console.error('Error:', error);
   //    }
   //});
+}
+
+function formatDate(dateString) {
+    // Pisahkan tanggal dan waktu jika diperlukan
+    var parts = dateString.split('T')[0].split('-');
+
+    // Buat string baru dengan urutan tanggal, bulan, dan tahun yang diubah
+    var formattedDate = parts[0] + '-' + parts[1] + '-' + parts[2];
+
+    // Kembalikan tanggal yang telah diformat
+    return formattedDate;
 }

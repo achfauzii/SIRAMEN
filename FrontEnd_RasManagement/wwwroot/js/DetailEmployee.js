@@ -31,7 +31,12 @@ $(document).ready(function () {
   if (objDataToken.RoleId == 7) {
     $(".add-new-placement").hide();
     $(".editemp-placement").hide();
-  }
+    }
+
+
+    $("select[requiredContract]").each(function () {
+        $(this).prev("label").append('<span style="color: red;">*</span>');
+    });
 
   document.getElementById("backButton").addEventListener("click", function () {
     history.back();
@@ -64,8 +69,10 @@ $(document).ready(function () {
   getClient();
 
   $("#companyName_").on("change", function () {
+
     $("#jobRole").removeAttr("disabled");
     getPositionByClient(this.value);
+
   });
 });
 
@@ -224,7 +231,7 @@ function GetById(accountId, placementStatusId) {
 
     position = obj.positionId;
     getPosition(obj.clientId);
-    // $("#jobRole").val(obj.jobRole);
+    //$("#jobRole").val(obj.jobRole);
     $("#startDate").val(formatDate(startDate));
     $("#endDate").val(endDate);
     $("#description").val(obj.description);
@@ -280,9 +287,10 @@ function getClient() {
   });
 }
 
-function getPositionByClient(idClient) {
-  var selectPosition = document.getElementById("jobRole");
 
+function getPositionByClient(idClient) {
+
+  var selectPosition = document.getElementById("jobRole");
   if (position == null) {
     $.ajax({
       type: "GET",
@@ -298,7 +306,7 @@ function getPositionByClient(idClient) {
         $("#jobRole").append(`<option selected disabled>
         Choose Position
       </option>`);
-
+    
         // var data = result.data.filter((element) => element.status == "Open");
         result.data.forEach((item) => {
           var option = new Option(
@@ -309,6 +317,7 @@ function getPositionByClient(idClient) {
           );
           selectPosition.add(option);
         });
+        $("#jobRole").val(position).trigger("change");
       }
     });
   } else {

@@ -363,7 +363,7 @@
             financialIndustry: financialIndustryAcc
         };
 
-        console.log(data);
+    
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
@@ -398,7 +398,7 @@
                                 text: "",
 
                             })
-                            const activity = "Have Created an Employee Account" + email;
+                            const activity = "Have Created an Employee Account " + email;
                             SaveLogUpdate(activity);
                         });
                     if (hiredStatus == 'Bootcamp') {
