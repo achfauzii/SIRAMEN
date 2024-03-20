@@ -82,7 +82,7 @@ namespace RasManagement.Controllers
             {
                 return StatusCode(404, "data not found");
             }
-     
+
         }
 
         [AllowAnonymous]
