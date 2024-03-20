@@ -496,6 +496,7 @@ $(document).ready(function () {
           //visible: objDataToken.RoleId != 7,
         },
       ],
+      order: [[2, "asc"]],
       columnDefs: [
         {
           defaultContent: "-",

@@ -123,7 +123,7 @@ function createCalendar() {
 
     events: function (info, successCallback, failureCallback) {
       let start = moment(info.start.valueOf()).format("YYYY-MM-DD");
-      let end = moment(info.end.valueOf()).format("YYYY-MM-DD");
+      let end = moment(info.end.valueOf()).subtract(1, 'days').format("YYYY-MM-DD");
 
       var urlApi = "";
       // Apply mixed filter by flag, category, and status, search
