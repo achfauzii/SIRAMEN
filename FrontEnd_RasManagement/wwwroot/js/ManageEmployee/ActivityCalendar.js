@@ -122,12 +122,12 @@ function createCalendar() {
     },
 
     events: function (info, successCallback, failureCallback) {
-      let start = moment(info.start.valueOf()).format("YYYY-MM-DD");
-      let end = moment(info.end.valueOf()).subtract(1, 'days').format("YYYY-MM-DD");
+        let start = moment(info.start.valueOf()).format("YYYY-MM-DD");
+        let end = moment(info.end.valueOf()).subtract(1, 'days').format("YYYY-MM-DD");
 
-      var urlApi = "";
+        var urlApi = "";
       // Apply mixed filter by flag, category, and status, search
-
+       
       urlApi =
         "https://localhost:7177/api/TimeSheet/TimeSheetByMonth" +
         "?start=" +
@@ -144,6 +144,8 @@ function createCalendar() {
         selectPlacementClient +
         "&search=" +
         searchInputValue;
+
+        console.log(urlApi);
 
       $.ajax({
         url: urlApi,
