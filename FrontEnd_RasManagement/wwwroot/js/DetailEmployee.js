@@ -37,8 +37,10 @@ $(document).ready(function () {
         $(this).prev("label").append('<span style="color: red;">*</span>');
     });
 
-  document.getElementById("backButton").addEventListener("click", function () {
-    history.back();
+    document.getElementById("backButton").addEventListener("click", function () {
+       
+        window.location.href = "/ManageEmployee/Index";
+      
   });
 
   document.getElementById("startDate").min = new Date()
