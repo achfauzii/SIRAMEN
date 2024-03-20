@@ -1605,14 +1605,17 @@ function handleFilterSubmission() {
   var filterplacStatus =
     $("input[type='radio'][name='filter-placeStatus']:checked").length > 0
       ? $("input[type='radio'][name='filter-placeStatus']:checked").val()
-      : null;
+            : null;
+
+    console.log(filterplacStatus);
 
   if ($.fn.DataTable.isDataTable("#dataTableEmployee")) {
     $("#dataTableEmployee").DataTable().destroy();
   }
 
   // Apply mixed filter
-  var urlApi = "";
+    var urlApi = "";
+    
   urlApi =
     "https://localhost:7177/api/Employees/GetEmployeeFilter" +
     "?position=" +
@@ -1629,7 +1632,7 @@ function handleFilterSubmission() {
     filterplacLoc;
 
   // Make an AJAX request to a server endpoint (replace 'your_endpoint' with the actual URL)
-
+    console.log(urlApi);
   $("#dataTableEmployee")
     .on("processing.dt", function (e, settings, processing) {
       $("#loader").css("display", processing ? "block" : "none");
@@ -1828,14 +1831,14 @@ function handleFilterSubmission() {
         {
           render: function (data, type, row) {
             //var accountId = row.accountId;
-            var placementStatus = "Idle"; // Default value jika data tidak ditemukan
+                var placementStatus = 'Idle'; // Default value jika data tidak ditemukan
 
             row.placements.forEach(function (placement) {
               if (placement.placementStatus !== "Idle") {
-                placementStatus = placement.placementStatus;
+                  placementStatus = placement.placementStatus;
               }
             });
-
+                console.log(placementStatus);
             if (placementStatus == "Idle") {
               /*placementStatus =
                                                         '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
@@ -1850,8 +1853,7 @@ function handleFilterSubmission() {
                 '<span class="badge badge-pill badge-success" style="outline: none; border:none">' +
                 placementStatus +
                 "</span>";
-            }
-
+                }
             return placementStatus;
           },
         },
