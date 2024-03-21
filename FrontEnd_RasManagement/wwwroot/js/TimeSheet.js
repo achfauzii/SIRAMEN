@@ -30,7 +30,7 @@ $(document).ready(function () {
     });
 
   $("#backButton").on("click", function () {
-    history.back(); // Go back to the previous page
+      window.location.href = "/ManageEmployee/Index"; // Go back to the previous page
   });
 });
 
