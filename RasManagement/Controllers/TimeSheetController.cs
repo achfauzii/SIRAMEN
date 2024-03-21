@@ -74,7 +74,15 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> GetTimeSheetByMonth([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string? flag, [FromQuery] string? search, [FromQuery] string? categories, [FromQuery] string? status, [FromQuery] string? placement)
         {
             var get = await timeSheetRepository.GetTimeSheetsByMonth(start, end, flag, search, categories, status, placement);
-            return StatusCode(200, get);
+            if (get != null)
+            {
+                return StatusCode(200, get);
+            }
+            else
+            {
+                return StatusCode(404, "data not found");
+            }
+
         }
 
         [AllowAnonymous]

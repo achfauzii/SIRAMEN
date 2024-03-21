@@ -15,6 +15,13 @@ $(document).on("select2:open", (e) => {
 });
 
 $(document).ready(function () {
+
+    $(
+        "input[required], select[required]"
+    ).each(function () {
+        $(this).prev("label").append('<span style="color: red;">*</span>');
+    });
+
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
   if (objDataToken.RoleId == 7) {
@@ -246,14 +253,16 @@ function getClient() {
     dropdownParent: $("#trackingModal"),
     width: "100%",
     height: "100%",
-    allowClear: true,
+    allowClear: false,
     tags: true,
   });
 }
 
 function getPosition(idClient) {
   var selectPosition = document.getElementById("position");
-
+    if (idClient == null || idClient=="") {
+        return;
+    }
   if (position == null) {
     $.ajax({
       type: "GET",
@@ -313,13 +322,24 @@ function clearScreen() {
   $("#client").select2("val", $("#client option:eq(0)").val());
 
   document.getElementById("position").selectedIndex = "0";
-  document.getElementById("intStatus").selectedIndex = "0";
+    document.getElementById("intStatus").selectedIndex = "0";
+
+    $("input[required], select[required]").each(function () {
+        var input = $(this);
+
+        input.next(".error-message").hide();
+    });
+
+    // Menyembunyikan pesan kesalahan untuk kedua input
+    $(".error-message").hide();
+
 
   $("#intDate").val("");
   $("#notes").val("");
 
   $("#Save").show();
   $("#Update").hide();
+
 }
 
 function Save() {
@@ -338,9 +358,36 @@ function Save() {
     }
   });
 
-  if (!isValid) {
-    return;
-  }
+    //validasi selected
+    var selectedResource = $("#resource").val();
+    var selectedClient = $("#client").val();
+    var selectedIntStatus = $("#intStatus").val();
+
+    if (!selectedResource) {
+        $(".selectedResource").closest(".form-group").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".selectedResource").closest(".form-group").find(".error-message").hide();
+    }
+
+    if (!selectedClient) {
+        $(".client").closest(".col").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".client").closest(".col").find(".error-message").hide();
+    }
+
+    if (!selectedIntStatus) {
+        $(".intStatus").closest(".col").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".intStatus").closest(".col").find(".error-message").hide();
+    }
+
+
+    if (!isValid) {
+        return;
+    }
 
   var TrackingInterview = new Object();
 
@@ -627,12 +674,12 @@ function setProcess(length) {
 function clearProcess() {
   $("#process").append(`<div class="row mb-2 process">
                             <div class="col">
-                                <label for="message-text" class="col-form-label">Interview Date</label>                            
+                                <label for="message-text" class="col-form-label">Interview Date<span style="color: red;">*</span></label>                            
                                 <input class="form-control form-control-sm intDate" type="date" id="intDate" required>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="col">
-                                <label for="message-text" class="col-form-label">Interview Status</label>
+                                <label for="message-text" class="col-form-label">Interview Status<span style="color: red;">*</span></label>
                                 <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newProcess();">+ New </button>
                                 <select class=" form-control form-control-sm intStatus" id="intStatus" >
                                         <option selected disabled>Choose...</option>
@@ -644,6 +691,7 @@ function clearProcess() {
                                         <option value="Reject">Reject</option>
                                     </select>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                
                             </div>
                         </div>
                     </div>`);
