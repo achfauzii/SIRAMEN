@@ -81,6 +81,7 @@ $(document).ready(function () {
         $(this).prev("label").append('<span style="color: red;">*</span>');
     });
 
+
     $('[data-tooltip="tooltip"]').tooltip({
         trigger: "hover",
     });
@@ -1205,13 +1206,14 @@ function ClearScreenPlacement() {
   $("#Add").show();
   startDate.style.display = "block";
   endDate.style.display = "block";
-  $("input[required]").each(function () {
+    $("input[required]").each(function () {
     var input = $(this);
 
     input.next(".error-message").hide();
   });
 
-  $('input[name="status"]').prop("checked", false);
+    $('input[name="status"]').prop("checked", false);
+    $(".error-message").hide();
 }
 
 function ClearScreenChangeStatus() {
@@ -1247,6 +1249,15 @@ function Save(accountId) {
         $(".selectedCompany").closest(".form-group").find(".error-message").hide();
     }
 
+    //validasi status 
+    var isCheckedStatus = $('input[type="radio"][name="status"]:checked').length > 0;
+
+    if (!isCheckedStatus) {
+        $('.error-message').show();
+        isInvalid = false;
+    } else {
+        $('.error-message').hide();
+    }
 
   if (!isValid) {
     return;
@@ -1570,14 +1581,22 @@ function getPosition() {
   }).then((result) => {
     if (result != null) {
 
+      const uniquePositions = new Set();
+
       result.data.forEach((item) => {
-        var option = new Option(
-          item.positionClient,
-          item.positionClient,
-          true,
-          false
-        );
-        selectPosition.add(option);
+        // Tambahkan nilai posisi ke dalam Set
+        uniquePositions.add(item.positionClient);
+
+        // Buat option hanya jika posisi belum ada
+        if (!selectPosition.querySelector(`option[value="${item.positionClient}"]`)) {
+          var option = new Option(
+            item.positionClient,
+            item.positionClient,
+            true,
+            false
+          );
+          selectPosition.add(option);
+        }
       });
     }
   });
