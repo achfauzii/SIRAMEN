@@ -140,10 +140,10 @@ $(document).ready(function () {
     //       '" />'
     //   );
     // });
-    debugger;
+    //debugger;
     var urlParams = new URLSearchParams(window.location.search);
     var placementStatus_ = urlParams.get("placementStatus");
-    console.log(placementStatus_);
+    //console.log(placementStatus_);
     if (placementStatus_ !== null) {
         if (placementStatus_ === "Onsite") {
             $("#option9").prop("checked", true);
@@ -522,6 +522,7 @@ $(document).ready(function () {
                     //visible: objDataToken.RoleId != 7,
                 },
             ],
+            order: [2, 'asc'],
             columnDefs: [
                 {
                     defaultContent: "-",
@@ -1610,6 +1611,7 @@ function resetFilter() {
   filterplacLoc = "";
   filterplacStatus = "";
   handleFilterSubmission();
+  window.location.href = "/ManageEmployee/Index";
 }
 function handleFilterSubmission() {
   var filterPosition =
@@ -1635,7 +1637,7 @@ function handleFilterSubmission() {
       ? $("input[type='radio'][name='filter-placeStatus']:checked").val()
             : null;
 
-    console.log(filterplacStatus);
+    //console.log(filterplacStatus);
 
   if ($.fn.DataTable.isDataTable("#dataTableEmployee")) {
     $("#dataTableEmployee").DataTable().destroy();
@@ -1660,7 +1662,7 @@ function handleFilterSubmission() {
     filterplacLoc;
 
   // Make an AJAX request to a server endpoint (replace 'your_endpoint' with the actual URL)
-    console.log(urlApi);
+    //console.log(urlApi);
   $("#dataTableEmployee")
     .on("processing.dt", function (e, settings, processing) {
       $("#loader").css("display", processing ? "block" : "none");
@@ -1676,7 +1678,8 @@ function handleFilterSubmission() {
       scrollX: true,
       scrollY: true,
       // scrollCollapse: true,
-      orderCellsTop: true,
+        orderCellsTop: true,
+
 
       ajax: {
         url: urlApi,
@@ -1866,7 +1869,7 @@ function handleFilterSubmission() {
                   placementStatus = placement.placementStatus;
               }
             });
-                console.log(placementStatus);
+                //console.log(placementStatus);
             if (placementStatus == "Idle") {
               /*placementStatus =
                                                         '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
@@ -2028,7 +2031,8 @@ function handleFilterSubmission() {
           },
           //visible: objDataToken.RoleId != 7,
         },
-      ],
+        ],
+        order: [2, 'asc'],
       columnDefs: [
         {
           defaultContent: "-",
