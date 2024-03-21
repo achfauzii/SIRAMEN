@@ -461,21 +461,23 @@ namespace RasManagement.Repository
 
             //var result = data.ToList();
 
-            var result = _context.Accounts
-                .FromSqlRaw($"EXEC FILTER_EMPLOYEE " +
-                $"@v_Level='{level}', " +
-                $"@v_Financial='{financialIndustry}', " +
-                $"@v_Status='{placementStatus}', " +
-                $"@v_Hired='{hiredStatus}', " +
-                $"@v_Position='{position}', " +
-                $"@v_Placement='{placementLocation}'"
-                )
-                .ToList();
+            var employees = _context.Accounts
+            .FromSqlRaw($"EXEC FILTER_EMPLOYEE " +
+            $"@v_Level='{level}', " +
+            $"@v_Financial='{financialIndustry}', " +
+            $"@v_Status='{placementStatus}', " +
+            $"@v_Hired='{hiredStatus}', " +
+            $"@v_Position='{position}', " +
+            $"@v_Placement='{placementLocation}'"
+        )
+        .ToList();
 
-            Console.WriteLine(result);
-
-
-            return result;
+            // Sekarang tambahkan entitas terkait
+            _context.Accounts
+                .Include(a => a.Placements)        // Menyertakan entitas terkait Placements
+                    .ThenInclude(pl => pl.Client)  // Menyertakan entitas terkait Client dalam Placements
+                .Load();
+            return employees;
         }
     }
 
