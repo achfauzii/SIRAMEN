@@ -384,21 +384,14 @@
                                 toast: true,
                                 position: 'top-end',
                                 showConfirmButton: false,
-                                timer: 2000,
+                                timer: 5000,
                                 timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
                             })
 
                             Toast.fire({
                                 icon: 'success',
                                 title: 'Email Has ben sent',
                                 text: "",
-                                showConfirmButton: false,
-                                timer: 2000,
-                                timerProgressBar: true,
 
                             })
                             const activity = "Have Created an Employee Account " + email;
