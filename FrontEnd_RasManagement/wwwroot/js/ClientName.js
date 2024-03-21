@@ -170,6 +170,11 @@ function ClearScreen() {
     $("#clientContact").val("");
     $("#Update").hide();
     $("#Save").show();
+    $("input[required]").each(function () {
+        var input = $(this);
+
+        input.next(".error-message").hide();
+    });
 }
 
 function noHTML(input) {
@@ -183,13 +188,13 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
-/*function ClearScreen() {
-    $("#clientId").val("");
-    $("#clientName").val("");
-    $(".error-message").hide();
-    $("#Update").hide();
-    $("#Save").show();
-}*/
+//function ClearScreen() {
+//    $("#clientId").val("");
+//    $("#clientName").val("");
+//    $(".error-message").hide();
+//    $("#Update").hide();
+//    $("#Save").show();
+//}
 
 function GetById(id) {
     $.ajax({
