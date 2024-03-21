@@ -83,7 +83,8 @@ function placement() {
   var hideEditIcon = objDataToken.RoleId == 7; // true if RoleId is 7 (Manager)
 
   var urlParams = new URLSearchParams(window.location.search);
-  var accountId = urlParams.get("accountId");
+    var accountId = urlParams.get("accountId");
+
   $.ajax({
     url:
       "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
