@@ -22,5 +22,15 @@ namespace RasManagement.Repository
 
             return assetsAccount;
         }
+
+        public async Task<int> InsertAssets(AssetsManagement asset)
+        {
+            context.AssetsManagements.Add(asset);
+            var save = await context.SaveChangesAsync();
+
+            return save;
+
+        }
+
     }
 }

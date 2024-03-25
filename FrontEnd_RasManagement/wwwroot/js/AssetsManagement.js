@@ -239,7 +239,7 @@ function SaveAsset() {
 
     $.ajax({
         type: "POST",
-        url: "https://localhost:7177/api/Assets",
+        url: "https://localhost:7177/api/Assets/Insert",
         data: JSON.stringify(Assets), //ngirim data ke api
         contentType: "application/json; charset=utf-8",
         headers: {
