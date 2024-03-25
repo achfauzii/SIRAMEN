@@ -8,7 +8,7 @@ $(document).ready(function () {
         $(".btn-new-position").hide();
     }
 
-    $('input[required]').each(function () {
+    $('input[required], input[required-client]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
             },
         ],
 
-        order: [[1, "desc"]],
+        order: [[1, "asc"]],
         columnDefs: [
             {
                 targets: [0, 2],
@@ -170,6 +170,11 @@ function ClearScreen() {
     $("#clientContact").val("");
     $("#Update").hide();
     $("#Save").show();
+    $("input[required], input[required-client]").each(function () {
+        var input = $(this);
+
+        input.next(".error-message").hide();
+    });
 }
 
 function noHTML(input) {
@@ -183,13 +188,13 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
-/*function ClearScreen() {
-    $("#clientId").val("");
-    $("#clientName").val("");
-    $(".error-message").hide();
-    $("#Update").hide();
-    $("#Save").show();
-}*/
+//function ClearScreen() {
+//    $("#clientId").val("");
+//    $("#clientName").val("");
+//    $(".error-message").hide();
+//    $("#Update").hide();
+//    $("#Save").show();
+//}
 
 function GetById(id) {
     $.ajax({
@@ -761,6 +766,7 @@ function savePosition() {
         clientId: clientId,
     };
 
+    console.log(newPositionData);
     fetch("https://localhost:7177/api/Position/Insert", {
         method: "POST",
         headers: {

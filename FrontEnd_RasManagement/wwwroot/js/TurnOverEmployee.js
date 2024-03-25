@@ -154,8 +154,8 @@
             return placementStatus;
           },
         },
-        ],
-
+      ],
+        order: [1, 'asc'],
         drawCallback: function (settings) {
             var api = this.api();
             var rows = api.rows({ page: "current" }).nodes();

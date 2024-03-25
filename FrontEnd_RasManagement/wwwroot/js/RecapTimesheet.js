@@ -95,6 +95,7 @@ function submitReportTimesheet() {
             { data: 'wfhCount' },
   
        ],
+       order: [1, 'asc'],
        columnDefs: [
            {
                targets: [0],

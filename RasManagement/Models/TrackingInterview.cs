@@ -21,6 +21,8 @@ public partial class TrackingInterview
     public string? IntvwStatus { get; set; }
 
     public string? Notes { get; set; }
+    public DateTime? CreatedAt { get; set; } // Add created_at property
+
     [JsonIgnore]
     public virtual Account? Account { get; set; }
     [JsonIgnore]
