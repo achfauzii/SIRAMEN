@@ -94,4 +94,16 @@
     </div>
 </div>
 
-<script src="~/js/holiday.js"></script>
+<script>
+    // Fungsi untuk melakukan refresh halaman
+    function autoRefresh() {
+        location.reload(true); // Melakukan reload halaman
+    }
+    // Resfesh halaman setiap 1 jam
+    setInterval(autoRefresh, 3600000);
+</script>
+
+@section script {
+
+    <script src="~/js/holiday.js"></script>
+}

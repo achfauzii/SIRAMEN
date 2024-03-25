@@ -190,16 +190,6 @@
                          <select class="form-control form-control-sm selectedCompany" id="companyName_" required>
                             <option selected disabled>Choose Company</option>
                         </select>
-                        @* <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="companyName_" name="companyName" required> 
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                    </div>
-
-                    <div class="form-group mb-1">
-                        <label class="m-0" for="exampleInputEmail1">Job </label>
-                        <select class="form-control form-control-sm" id="jobRole" required>
-                            <option selected disabled>Choose Job</option>
-                        </select>
-                        @* <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="jobRole" name="jobRole" required> *@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group mb-1">
@@ -217,21 +207,23 @@
                     <div class="form-group mb-1" id="showEndDate">
                         <label class="m-0" for="exampleInputEmail1">End Date</label>
                         <input type="date" class="form-control " id="endDate" name="endDate" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
                     <div class="form-group row mb-1">
                         <div class="col-sm-6 mb-1 mb-sm-0">
-                            <label class="text-dark mb-0" for="exampleInputEmail1 ">Status</label>
+                            <label class="text-dark mb-0" for="exampleInputEmail1 ">Status
+                                <span style="color: red;">*</span>
+                            </label>
                             <div class="form-check mx-2">
-                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite" required>
+                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite" requiredStatusplac>
                                 <label class="form-check-label" for="radio1">Onsite</label>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="form-check mx-2">
-                                <input type="radio" class="form-check-input" id="idle" name="status" value="Idle" required>
+                                <input type="radio" class="form-check-input" id="idle" name="status" value="Idle" requiredStatusplac>
                                 <label class="form-check-label" for="radio2">Idle</label>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
 

@@ -81,6 +81,7 @@ $(document).ready(function () {
         $(this).prev("label").append('<span style="color: red;">*</span>');
     });
 
+
     $('[data-tooltip="tooltip"]').tooltip({
         trigger: "hover",
     });
@@ -143,7 +144,7 @@ $(document).ready(function () {
 
     var urlParams = new URLSearchParams(window.location.search);
     var placementStatus_ = urlParams.get("placementStatus");
-    console.log(placementStatus_);
+    //console.log(placementStatus_);
     if (placementStatus_ !== null) {
         if (placementStatus_ === "Onsite") {
             $("#option9").prop("checked", true);
@@ -522,6 +523,7 @@ $(document).ready(function () {
                     //visible: objDataToken.RoleId != 7,
                 },
             ],
+            order: [2, 'asc'],
             columnDefs: [
                 {
                     defaultContent: "-",
@@ -1204,13 +1206,14 @@ function ClearScreenPlacement() {
   $("#Add").show();
   startDate.style.display = "block";
   endDate.style.display = "block";
-  $("input[required]").each(function () {
+    $("input[required]").each(function () {
     var input = $(this);
 
     input.next(".error-message").hide();
   });
 
-  $('input[name="status"]').prop("checked", false);
+    $('input[name="status"]').prop("checked", false);
+    $(".error-message").hide();
 }
 
 function ClearScreenChangeStatus() {
@@ -1246,6 +1249,15 @@ function Save(accountId) {
         $(".selectedCompany").closest(".form-group").find(".error-message").hide();
     }
 
+    //validasi status 
+    var isCheckedStatus = $('input[type="radio"][name="status"]:checked').length > 0;
+
+    if (!isCheckedStatus) {
+        $('.error-message').show();
+        isInvalid = false;
+    } else {
+        $('.error-message').hide();
+    }
 
   if (!isValid) {
     return;
@@ -1569,14 +1581,22 @@ function getPosition() {
   }).then((result) => {
     if (result != null) {
 
+      const uniquePositions = new Set();
+
       result.data.forEach((item) => {
-        var option = new Option(
-          item.positionClient,
-          item.positionClient,
-          true,
-          false
-        );
-        selectPosition.add(option);
+        // Tambahkan nilai posisi ke dalam Set
+        uniquePositions.add(item.positionClient);
+
+        // Buat option hanya jika posisi belum ada
+        if (!selectPosition.querySelector(`option[value="${item.positionClient}"]`)) {
+          var option = new Option(
+            item.positionClient,
+            item.positionClient,
+            true,
+            false
+          );
+          selectPosition.add(option);
+        }
       });
     }
   });
@@ -1610,6 +1630,7 @@ function resetFilter() {
   filterplacLoc = "";
   filterplacStatus = "";
   handleFilterSubmission();
+  window.location.href = "/ManageEmployee/Index";
 }
 function handleFilterSubmission() {
   var filterPosition =
@@ -1635,7 +1656,7 @@ function handleFilterSubmission() {
       ? $("input[type='radio'][name='filter-placeStatus']:checked").val()
             : null;
 
-    console.log(filterplacStatus);
+    //console.log(filterplacStatus);
 
   if ($.fn.DataTable.isDataTable("#dataTableEmployee")) {
     $("#dataTableEmployee").DataTable().destroy();
@@ -1660,7 +1681,7 @@ function handleFilterSubmission() {
     filterplacLoc;
 
   // Make an AJAX request to a server endpoint (replace 'your_endpoint' with the actual URL)
-    console.log(urlApi);
+    //console.log(urlApi);
   $("#dataTableEmployee")
     .on("processing.dt", function (e, settings, processing) {
       $("#loader").css("display", processing ? "block" : "none");
@@ -1676,7 +1697,8 @@ function handleFilterSubmission() {
       scrollX: true,
       scrollY: true,
       // scrollCollapse: true,
-      orderCellsTop: true,
+        orderCellsTop: true,
+
 
       ajax: {
         url: urlApi,
@@ -1866,7 +1888,7 @@ function handleFilterSubmission() {
                   placementStatus = placement.placementStatus;
               }
             });
-                console.log(placementStatus);
+                //console.log(placementStatus);
             if (placementStatus == "Idle") {
               /*placementStatus =
                                                         '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
@@ -2028,7 +2050,8 @@ function handleFilterSubmission() {
           },
           //visible: objDataToken.RoleId != 7,
         },
-      ],
+        ],
+        order: [2, 'asc'],
       columnDefs: [
         {
           defaultContent: "-",
