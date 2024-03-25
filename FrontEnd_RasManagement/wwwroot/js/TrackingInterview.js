@@ -142,9 +142,14 @@ $(document).ready(function () {
       },
       {
         data: "notes",
-      },
+        },
+        {
+            data: "createdAt",
+            visible: false
+        },
     ],
-    order: [[1, "desc"]],
+    order: [[7, "desc"]],
+    
     drawCallback: function (settings) {
       var api = this.api();
       var rows = api.rows({ page: "current" }).nodes();
@@ -413,7 +418,7 @@ function Save() {
 
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/Tracking",
+    url: "https://localhost:7177/api/Tracking/Interview",
     data: JSON.stringify(TrackingInterview),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -593,7 +598,7 @@ function Update() {
   }
   $.ajax({
     type: "PUT",
-    url: "https://localhost:7177/api/Tracking",
+    url: "https://localhost:7177/api/Tracking/UpdateInterview",
     data: JSON.stringify(TrackingInterview),
     contentType: "application/json; charset=utf-8",
     headers: {

@@ -8,7 +8,7 @@ $(document).ready(function () {
         $(".btn-new-position").hide();
     }
 
-    $('input[required]').each(function () {
+    $('input[required], input[required-client]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
             },
         ],
 
-        order: [[1, "desc"]],
+        order: [[1, "asc"]],
         columnDefs: [
             {
                 targets: [0, 2],
@@ -98,7 +98,7 @@ function hideButtonAndActionForManager() {
 function Save() {
     var isValid = true;
 
-    $("input[required]").each(function () {
+    $("input[required-client]").each(function () {
         var element = $(this);
         if (!element.val()) {
             element.next(".error-message").show();
@@ -170,7 +170,7 @@ function ClearScreen() {
     $("#clientContact").val("");
     $("#Update").hide();
     $("#Save").show();
-    $("input[required]").each(function () {
+    $("input[required], input[required-client]").each(function () {
         var input = $(this);
 
         input.next(".error-message").hide();
@@ -738,13 +738,15 @@ function savePosition() {
 
     // Loop over them and prevent submission
     var form = document.querySelector("#positionModal .needs-validation");
+    var positionLevelSelect = document.getElementById("positionLevel");
 
-    if (form.checkValidity() === false) {
+    if (form.checkValidity() === false || !positionLevelSelect.value) {
         event.preventDefault();
         event.stopPropagation();
         form.classList.add("was-validated");
         return;
     }
+
 
     const newPositionData = {
         positionClient: positionName,
@@ -755,6 +757,7 @@ function savePosition() {
         clientId: clientId,
     };
 
+    console.log(newPositionData);
     fetch("https://localhost:7177/api/Position/Insert", {
         method: "POST",
         headers: {
