@@ -284,6 +284,10 @@ function Update() {
 }
 
 function Delete(id, nameOfClient) {
+
+    // cek index pagination
+    var currentPageIndex = $("#tbDataCleint").DataTable().page.info().page;
+
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -306,7 +310,12 @@ function Delete(id, nameOfClient) {
                     const logMessage = `Has deleted client ${nameOfClient}`;
                     SaveLogUpdate(logMessage);
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
-                    $("#tbDataCleint").DataTable().ajax.reload();
+                    //$("#tbDataCleint").DataTable().ajax.reload();
+                    // Reload data tabel
+                    $("#tbDataCleint").DataTable().ajax.reload(null, false);
+
+                    // Setel kembali halaman tabel ke indeks yang disimpan
+                    $("#tbDataCleint").DataTable().page(currentPageIndex).draw(false);
                 },
                 error: function (errormessage) {
                     Swal.fire("Error!", "Cant Delete, client Is Not Empty", "error");

@@ -891,7 +891,10 @@ function Src(selectedCategory) {
 }
 
 function Delete(NonRasId, FullName) {
-    // debugger;
+    debugger;
+
+    // cek index pagination
+    var currentPageIndex = $("#resource").DataTable().page.info().page;
 
     Swal.fire({
         title: "Are you sure?",
@@ -918,11 +921,21 @@ function Delete(NonRasId, FullName) {
                     const logMesagge = `Has Removed Shortlist Candidate Id ${NonRasId}, Name : ${FullName}`;
                     SaveLogUpdate(logMesagge);
 
-                    table.ajax.reload(() => {
+                    // Reload data tabel
+                    $("#resource").DataTable().ajax.reload(null, false);
+
+                    // Setel kembali halaman tabel ke indeks yang disimpan
+                    $("#resource").DataTable().page(currentPageIndex).draw(false);
+
+                    // hide loader
+                    hideLoader();
+                    Swal.fire("Deleted!", "Data has been deleted.", "success");
+
+                    /*table.ajax.reload(() => {
                         // hide loader
                         hideLoader();
                         Swal.fire("Deleted!", "Data has been deleted.", "success");
-                    });
+                    });*/
                 } else {
                     hideLoader();
                     Swal.fire("Error!", "Data failed to deleted.", "error");

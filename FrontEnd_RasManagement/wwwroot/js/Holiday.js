@@ -365,6 +365,10 @@ function Update() {
 
 function DeleteHoliday(holiday_Id,name) {
     //debugger;
+
+    // cek index pagination
+    var currentPageIndex = $("#tbDataHoliday").DataTable().page.info().page;
+
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -388,7 +392,11 @@ function DeleteHoliday(holiday_Id,name) {
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
                     const logMessage = `Delete holiday ${name}`
                     SaveLogUpdate(logMessage);
-                    $("#tbDataHoliday").DataTable().ajax.reload();
+                    // Reload data tabel
+                    $("#tbDataHoliday").DataTable().ajax.reload(null, false);
+
+                    // Setel kembali halaman tabel ke indeks yang disimpan
+                    $("#tbDataHoliday").DataTable().page(currentPageIndex).draw(false);
                 } else {
                     Swal.fire("Error!", result.message, "error");
                 }
