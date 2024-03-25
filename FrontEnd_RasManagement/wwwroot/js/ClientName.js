@@ -98,7 +98,7 @@ function hideButtonAndActionForManager() {
 function Save() {
     var isValid = true;
 
-    $("input[required]").each(function () {
+    $("input[required-client]").each(function () {
         var element = $(this);
         if (!element.val()) {
             element.next(".error-message").show();
@@ -733,13 +733,15 @@ function savePosition() {
 
     // Loop over them and prevent submission
     var form = document.querySelector("#positionModal .needs-validation");
+    var positionLevelSelect = document.getElementById("positionLevel");
 
-    if (form.checkValidity() === false) {
+    if (form.checkValidity() === false || !positionLevelSelect.value) {
         event.preventDefault();
         event.stopPropagation();
         form.classList.add("was-validated");
         return;
     }
+
 
     const newPositionData = {
         positionClient: positionName,
