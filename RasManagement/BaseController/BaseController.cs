@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using RasManagement.Interface;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace RasManagement.BaseController
 {
@@ -16,6 +17,27 @@ namespace RasManagement.BaseController
         {
             this.repository = repository;
         }
+        private string GetAccountIdFromToken()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            if (jsonToken == null)
+            {
+                throw new ArgumentException("Invalid JWT token");
+            }
+
+            var accountId = jsonToken.Claims.FirstOrDefault(claim => claim.Type == "AccountId")?.Value;
+
+            if (accountId == null)
+            {
+                throw new ArgumentException("Claim not found in token");
+            }
+
+            return accountId;
+        }
+
 
         [HttpGet]
         public virtual ActionResult Get()
@@ -45,9 +67,12 @@ namespace RasManagement.BaseController
             }
         }
 
+       
+
         [HttpPost]
         public virtual ActionResult Insert(Entity entity)
         {
+           
             Console.WriteLine(entity.ToString());
             var insert = repository.Insert(entity);
             if (insert >= 1)

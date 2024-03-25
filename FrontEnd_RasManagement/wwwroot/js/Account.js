@@ -236,7 +236,7 @@ function kirimPengaduan() {
     message: $("#description").val(),
   };
 
-  console.log(data);
+  
 
   $.ajax({
     type: "POST",

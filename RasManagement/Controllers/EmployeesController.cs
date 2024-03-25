@@ -24,6 +24,8 @@ namespace RasManagement.Controllers
             _context = context;
             this.employeeRepository = employeeRepository;
         }
+
+        [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
         [HttpGet]
         public async Task<IActionResult> Employees()
         {
@@ -38,6 +40,7 @@ namespace RasManagement.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
         [HttpGet("EmployeeAdmin")]
         public async Task<IActionResult> GetAccountsEmployeeAdmin()
         {
@@ -69,7 +72,7 @@ namespace RasManagement.Controllers
             }
         }
 
-        [AllowAnonymous]
+
         [HttpGet("accountId")]
         public IActionResult Employees(string accountId)
         {
@@ -149,7 +152,8 @@ namespace RasManagement.Controllers
              }
          }*/
 
-        [AllowAnonymous]
+
+        [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
         [HttpGet("CheckOverviewEmployee")]
         public async Task<IActionResult> CheckOverviewEmployee()
         {
@@ -166,7 +170,8 @@ namespace RasManagement.Controllers
             }
         }
 
-        [AllowAnonymous]
+
+        [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
         [HttpGet("GetEmployeeFilter")]
         public async Task<IActionResult> GetEmployeeFilter([FromQuery] string? position, [FromQuery] string? hiredStatus, [FromQuery] string? level, [FromQuery] string? financialIndustry, [FromQuery] string? placementStatus, [FromQuery] string? placementLocation)
         {
