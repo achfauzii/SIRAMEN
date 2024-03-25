@@ -445,25 +445,36 @@ namespace RasManagement.Repository
 
             if (result != null)
             {
-                if (result.Flag == data.Flag)
-                {
-                    var timesheet = context.TimeSheets.Find(data.Id);
-                    timesheet.Activity = data.Activity;
-                    timesheet.Flag = data.Flag;
-                    timesheet.Date = data.Date;
-                    timesheet.Category = data.Category;
-                    timesheet.Status = data.Status;
-                    timesheet.KnownBy = data.KnownBy;
-                    timesheet.AccountId = data.AccountId;
-                    timesheet.PlacementStatusId = data.PlacementStatusId;
-                    Console.WriteLine("same");
-                    return context.SaveChanges();
-                }
-                else
-                {
-                    Console.WriteLine("not same");
-                    return 304;
-                }
+                //if (result.Flag == data.Flag)
+                //{
+                //    var timesheet = context.TimeSheets.Find(data.Id);
+                //    timesheet.Activity = data.Activity;
+                //    timesheet.Flag = data.Flag;
+                //    timesheet.Date = data.Date;
+                //    timesheet.Category = data.Category;
+                //    timesheet.Status = data.Status;
+                //    timesheet.KnownBy = data.KnownBy;
+                //    timesheet.AccountId = data.AccountId;
+                //    timesheet.PlacementStatusId = data.PlacementStatusId;
+                //    Console.WriteLine("same");
+                //    return context.SaveChanges();
+                //}
+                //else
+                //{
+                //    Console.WriteLine("not same");
+                //    return 304;
+                //}
+                var timesheet = context.TimeSheets.Find(data.Id);
+                timesheet.Activity = data.Activity;
+                timesheet.Flag = data.Flag;
+                timesheet.Date = data.Date;
+                timesheet.Category = data.Category;
+                timesheet.Status = data.Status;
+                timesheet.KnownBy = data.KnownBy;
+                timesheet.AccountId = data.AccountId;
+                timesheet.PlacementStatusId = data.PlacementStatusId;
+                Console.WriteLine("same");
+                return context.SaveChanges();
             }
             else
             {
