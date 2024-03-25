@@ -141,7 +141,7 @@ function loadDataA() {
         Nationality: obj.nationality,
         Address: obj.address,
       };
-      console.log(obj);
+     
       var birthDate = obj.birthdate;
       const date = new Date(birthDate);
       const options = { day: "numeric", month: "long", year: "numeric" };
@@ -419,7 +419,7 @@ function updateData() {
     Address: $("#editAddress").val(),
     Image: imagePath,
     };
-    console.log(formData);
+ 
   $.ajax({
     url: `https://localhost:7177/api/Employees/${formData.AccountId}`,
     type: "PUT",

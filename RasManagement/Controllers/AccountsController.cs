@@ -38,8 +38,10 @@ namespace RasManagement.Controllers
             this.mailService = mailService;
         }
 
+
+        [Authorize(Roles = "Admin,Super_Admin,Trainer,Sales,Manager")]
         [HttpGet]
-        public async Task<ActionResult<List<Account>>> GetAccounts()
+        public async Task<ActionResult<List<AccountVM>>> GetAccountsAsync()
         {
             return Ok(await _context.Accounts.ToListAsync());
         }

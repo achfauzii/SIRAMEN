@@ -97,21 +97,21 @@
                 <div class="col-sm-3">
                     <label class="text-dark" for="exampleInputEmail1">Level</label>
                     @*<div class="form-check">*@
-                        <select id="levelAcc" class="selectLevel form-control" name="state" required>
-                            <option selected disabled>Select level</option>
-                            <option value="Fresh Graduate">Fresh Graduate</option>
-                            <option value="Junior">Junior</option>
-                            <option value="Junior to Middle">Junior to Middle</option>
-                            <option value="Middle">Middle</option>
-                            <option value="Middle to Senior">Middle to Senior</option>
-                            <option value="Senior">Senior</option>
-                        </select>
+                    <select id="levelAcc" class="selectLevel form-control" name="state" required>
+                        <option selected disabled>Select level</option>
+                        <option value="Fresh Graduate">Fresh Graduate</option>
+                        <option value="Junior">Junior</option>
+                        <option value="Junior to Middle">Junior to Middle</option>
+                        <option value="Middle">Middle</option>
+                        <option value="Middle to Senior">Middle to Senior</option>
+                        <option value="Senior">Senior</option>
+                    </select>
                     <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     @*</div>*@
                 </div>
-            
+
                 <div class="col-sm-3">
-                <label class="text-dark" for="exampleInputEmail1">Financial Industry</label>
+                    <label class="text-dark" for="exampleInputEmail1">Financial Industry</label>
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="financialAcc" name="financialAcc" value="True">
                         <span class="status-indicator-acc" style="font-size: smaller">No</span>
@@ -172,7 +172,7 @@
         $('select[required]').each(function () {
             $(this).prev('label').append('<span style="color: red;">*</span>');
         });
-        
+
     })
 
     $(document).on('select2:open', () => {
@@ -204,7 +204,7 @@
         let mm = endContract.getMonth() + 1;
         if (mm < 10) mm = '0' + mm;
         let lastDay = new Date(yyyy, mm, 0);
-        
+
         //// add function automate financial and level
         var financialCheck = document.getElementById('financialAcc');
         //const statusIndicatorAc = document.querySelector(".status-indicator-acc");
@@ -216,7 +216,7 @@
         }
 
         var StatusDropdown = document.getElementById("levelAcc");
-        StatusDropdown.value = "Junior"; 
+        StatusDropdown.value = "Junior";
 
         const endContractForm = yyyy + '-' + mm + '-' + lastDay.getDate();
         document.getElementById('duration').removeAttribute('disabled');
@@ -273,10 +273,10 @@
         if (statusIndicatorAcc) {
             statusIndicatorAcc.textContent = financialIndustryValue ? "Yes" : "No";
         }
-        
+
     });
 
-    
+
     var financial = $("#financialAcc").is(":checked");
     if (!financial) {
         financial = "False";
@@ -303,7 +303,7 @@
         var endContract = document.getElementById('end').value;
         var joinDate = document.getElementById('join').value;
         var gender = document.querySelector('input[name="gender"]:checked').value;
-        
+
         // Validate selected positions
         var selectedPositions = $("#positionAcc").val();
         //if (selectedPositions.length === 0) {
@@ -312,7 +312,7 @@
         //} else {
         //    $('#positionError').hide();
         //}
-       
+
 
         var roleId = document.getElementById('roleId').value;
         var hiredStatus = document.querySelector('input[name="hiredStatus"]:checked').value;
@@ -366,7 +366,7 @@
             financialIndustry: financialIndustryAcc
         };
 
-    
+
 
         // Mengirim data ke API menggunakan Fetch API
         fetch('https://localhost:7177/api/Accounts/Register', {
@@ -467,15 +467,15 @@
                             })
                         });
                     }
-                
+
                     // Redirect atau tampilkan pesan sukses jika permintaan berhasil
                     // ...
                     Swal.fire('Success', 'Registration Employee successful', 'success');
                     var form = document.getElementById('createAccountForm');
                     form.reset(); // Reset form setelah pengiriman berhasil
                     $("#positionAcc").val();
-                  
-                 
+
+
 
                 } else {
                     // Tampilkan pesan error jika permintaan gagal

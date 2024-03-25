@@ -20,8 +20,41 @@ namespace RasManagement.Repository
         }
         public async Task<IEnumerable<Object>> GetEmployeeData()
         {
-            var employees = _context.Accounts.Include(a => a.AssetsManagements).Include(a => a.Placements).ThenInclude(pl => pl.Client)
-                            .Where(a => a.RoleId == "3");
+            var employees = await _context.Accounts
+       .Include(a => a.AssetsManagements)
+       .Include(a => a.Placements)
+           .ThenInclude(pl => pl.Client)
+       .Where(a => a.RoleId == "3")
+       .Select(a => new
+       {
+           a.AccountId,
+           a.NIK,
+           a.Email,
+           a.Position,
+           a.Nickname,
+           a.Fullname,
+           a.Birthplace,
+           a.Birthdate,
+           a.Religion,
+           a.Gender,
+           a.Maritalstatus,
+           a.Hiredstatus,
+           a.Nationality,
+           a.Phone,
+           a.Address,
+           a.JoinDate,
+           a.StartContract,
+           a.EndContract,
+           a.Image,
+           a.IsChangePassword,
+           a.RoleId,
+           a.Level,
+           a.FinancialIndustry,
+           a.AssetsManagements,
+           a.Placements
+       })
+       .ToListAsync();
+
             return employees;
 
         }
@@ -461,9 +494,8 @@ namespace RasManagement.Repository
 
             //var result = data.ToList();
 
-
             var employees = _context.Accounts
-        .FromSqlRaw($"EXEC FILTER_EMPLOYEE " +
+            .FromSqlRaw($"EXEC FILTER_EMPLOYEE " +
             $"@v_Level='{level}', " +
             $"@v_Financial='{financialIndustry}', " +
             $"@v_Status='{placementStatus}', " +

@@ -141,7 +141,7 @@ $(document).ready(function () {
     //       '" />'
     //   );
     // });
-    //debugger;
+
     var urlParams = new URLSearchParams(window.location.search);
     var placementStatus_ = urlParams.get("placementStatus");
     //console.log(placementStatus_);
@@ -1707,7 +1707,7 @@ function handleFilterSubmission() {
         async: true,
         dataSrc: "data",
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
       },
 

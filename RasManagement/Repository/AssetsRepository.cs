@@ -22,5 +22,24 @@ namespace RasManagement.Repository
 
             return assetsAccount;
         }
+
+        public async Task<int> InsertAssets(AssetsManagement asset)
+        {
+            context.AssetsManagements.Add(asset);
+            var save = await context.SaveChangesAsync();
+
+            return save;
+
+        }
+
+        public async Task<int> UpdateAsset(AssetsManagement updatedAsset)
+        {
+            context.Entry(updatedAsset).State = EntityState.Modified;
+            var save = await context.SaveChangesAsync();
+
+            return save;
+        }
+
+
     }
 }
