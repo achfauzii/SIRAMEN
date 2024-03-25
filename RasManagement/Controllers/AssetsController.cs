@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using RasManagement.BaseController;
+using RasManagement.Models;
 using RasManagement.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -13,10 +14,10 @@ namespace RasManagement.Controllers
     //[EnableCors("AllowOrigin")]
     [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
 
-    public class AssetsController : BaseController<AssetsManagement, AssetsRepository, int>
+    public class AssetsController : ControllerBase
     {
         private readonly AssetsRepository assetsRepository;
-        public AssetsController(AssetsRepository assetsRepository) : base(assetsRepository)
+        public AssetsController(AssetsRepository assetsRepository)
         {
             this.assetsRepository = assetsRepository;
         }
@@ -86,6 +87,17 @@ namespace RasManagement.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> UpdateAsset(AssetsManagement updatedAsset)
         {
+            var isAdmin = User.IsInRole("Admin");
+            var isTrainer = User.IsInRole("Admin");
+            if (!isAdmin && !isTrainer)
+            {
+                var accountId = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
+
+                if (accountId != updatedAsset.AccountId)
+                {
+                    return Forbid("You are not authorized to insert data for this account");
+                }
+            }
             var update = await assetsRepository.UpdateAsset(updatedAsset);
             if (update >= 1)
             {
