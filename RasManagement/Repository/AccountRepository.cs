@@ -14,6 +14,40 @@ namespace RasManagement.Repository
             _context = context;
         }
 
+        public async Task<IEnumerable<AccountVM>> GetAccountsAsync()
+        {
+            var accounts = await _context.Accounts.ToListAsync();
+
+            // Mapping Account entities to AccountVM view models
+            var accountViewModels = accounts.Select(a => new AccountVM
+            {
+                AccountId = a.AccountId,
+                NIK = a.NIK,
+                Position = a.Position,
+                Nickname = a.Nickname,
+                Fullname = a.Fullname,
+                Birthplace = a.Birthplace,
+                Birthdate = a.Birthdate,
+                Religion = a.Religion,
+                Gender = a.Gender,
+                Maritalstatus = a.Maritalstatus,
+                Hiredstatus = a.Hiredstatus,
+                Nationality = a.Nationality,
+                Phone = a.Phone,
+                Address = a.Address,
+                JoinDate = a.JoinDate,
+                StartContract = a.StartContract,
+                EndContract = a.EndContract,
+                Image = a.Image,
+                IsChangePassword = a.IsChangePassword,
+                RoleId = a.RoleId,
+                Level = a.Level,
+                FinancialIndustry = a.FinancialIndustry
+            });
+
+            return accountViewModels;
+        }
+
         //Generate Account Id
         public async Task<string> GenerateId()
         {

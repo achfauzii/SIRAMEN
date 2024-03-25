@@ -465,7 +465,7 @@ function UpdateAsset() {
     /*console.log(initialAssetData);
     console.log(Assets);*/
     $.ajax({
-        url: "https://localhost:7177/api/Assets",
+        url: "https://localhost:7177/api/Assets/Update",
         type: "PUT",
         data: JSON.stringify(Assets),
         contentType: "application/json; charset=utf-8",

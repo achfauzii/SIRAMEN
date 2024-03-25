@@ -82,5 +82,19 @@ namespace RasManagement.Controllers
                 return StatusCode(400, new { status = HttpStatusCode.BadRequest});
             }
         }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateAsset(AssetsManagement updatedAsset)
+        {
+            var update = await assetsRepository.UpdateAsset(updatedAsset);
+            if (update >= 1)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Diperbarui", Data = update });
+            }
+            else
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest });
+            }
+        }
     }
 }

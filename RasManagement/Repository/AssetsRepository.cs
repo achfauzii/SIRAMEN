@@ -32,5 +32,14 @@ namespace RasManagement.Repository
 
         }
 
+        public async Task<int> UpdateAsset(AssetsManagement updatedAsset)
+        {
+            context.Entry(updatedAsset).State = EntityState.Modified;
+            var save = await context.SaveChangesAsync();
+
+            return save;
+        }
+
+
     }
 }

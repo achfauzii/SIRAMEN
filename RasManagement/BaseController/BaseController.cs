@@ -67,48 +67,10 @@ namespace RasManagement.BaseController
             }
         }
 
-        //[HttpPost]
-        //public virtual ActionResult Insert(Entity entity, string? accountId_)
-        //{
-        //    var isAdmin = User.IsInRole("Admin");
-        //    var isTrainer = User.IsInRole("Admin");
-        //    if (!isAdmin && !isTrainer)
-        //    {
-        //        var accountId = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
-        //        Console.WriteLine(accountId);
-        //        Console.WriteLine(accountId_);
-        //        // Lakukan pengecekan ID di sini
-        //        if (accountId != accountId_)
-        //        {
-        //            return Forbid("You are not authorized to insert data for this account");
-        //        }
-        //    }
-        //    Console.WriteLine(entity.ToString());
-        //    var insert = repository.Insert(entity);
-        //    if (insert >= 1)
-        //    {
-        //        return StatusCode(200,
-        //            new
-        //            {
-        //                status = HttpStatusCode.OK,
-        //                message = "Data Berhasil Dimasukkan",
-        //                Data = entity
-        //            });
-        //    }
-        //    else
-        //    {
-        //        return StatusCode(500,
-        //            new
-        //            {
-        //                status = HttpStatusCode.InternalServerError,
-        //                message = "Gagal Memasukkan Data",
-        //                Data = insert
-        //            });
-        //    }
-        //}
+       
 
         [HttpPost]
-        public virtual ActionResult Insert(Entity entity, string? accountId_)
+        public virtual ActionResult Insert(Entity entity)
         {
            
             Console.WriteLine(entity.ToString());
