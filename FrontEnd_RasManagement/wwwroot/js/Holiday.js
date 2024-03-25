@@ -21,23 +21,58 @@ $(document).ready(function () {
             description: "Weekend Activity",
         };
 
-        console.log(weekendData);
-
-        // Menambahkan data ke tabel tbDataHoliday
+        //console.log(weekendData);
+        //debugger;
+        // Lakukan GET request untuk memeriksa apakah data sudah ada sebelumnya
         $.ajax({
             url: "https://localhost:7177/api/MasterHoliday",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(weekendData),
+            type: "GET",
+            dataType: "json",
             headers: {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
             success: function (response) {
-                // Reload tabel setelah menambahkan data
-                table.ajax.reload();
+                // Cek apakah data sudah ada
+                var isDataExist = false;
+                response.data.forEach(function (item) {
+                    // Format tanggal dari data response menjadi "YYYY-MM-DD"
+                    var dateObj = new Date(item.date);
+                    var year = dateObj.getFullYear();
+                    var month = ("0" + (dateObj.getMonth() + 1)).slice(-2); // Tambahkan "0" di depan jika bulan < 10
+                    var day = ("0" + dateObj.getDate()).slice(-2); // Tambahkan "0" di depan jika hari < 10
+                    var formattedResponseDate = year + "-" + month + "-" + day;
+
+                    // Bandingkan tanggal yang diformat dengan formattedDate
+                    if (formattedResponseDate === formattedDate) {
+                        isDataExist = true;
+                        return false; // Keluar dari loop jika data sudah ditemukan
+                    }
+                });
+
+                // Jika data belum ada, lakukan POST
+                if (!isDataExist) {
+                    // Menambahkan data ke tabel tbDataHoliday
+                    $.ajax({
+                        url: "https://localhost:7177/api/MasterHoliday",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(weekendData),
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                        },
+                        success: function (response) {
+                            // Reload tabel setelah menambahkan data
+                            table.ajax.reload();
+                        },
+                        error: function (err) {
+                            console.error("Error adding weekend data:", err);
+                        },
+                    });
+                }
             },
+
             error: function (err) {
-                console.error("Error adding weekend data:", err);
+                console.error("Error checking existing data:", err);
             },
         });
     }
@@ -101,7 +136,7 @@ $(document).ready(function () {
             },
         ],
 
-        order: [[2, "asc"]],
+        order: [[2, "desc"]],
         columnDefs: [
             {
                 targets: [0, 1, 3],
