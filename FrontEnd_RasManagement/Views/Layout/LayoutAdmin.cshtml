@@ -31,6 +31,9 @@
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
 
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet" />*@
+    <link href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css" rel="stylesheet" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -75,11 +78,11 @@
             display: none; /* Mulai dengan menyembunyikan loader */
         }
 
-            .loader-container.active {
-                display: flex; /* Tampilkan loader saat loader-container aktif */
-                justify-content: center;
-                align-items: center;
-            }
+        .loader-container.active {
+            display: flex; /* Tampilkan loader saat loader-container aktif */
+            justify-content: center;
+            align-items: center;
+        }
 
         .logo-container {
             background-color: white; /* Ganti warna latar belakang sesuai kebutuhan */
@@ -107,57 +110,57 @@
             margin-bottom: 1rem;
         }
 
-            .form-label-group > input,
-            .form-label-group > label {
-                padding: var(--input-padding-y) var(--input-padding-x);
-                height: 45px;
-            }
+        .form-label-group > input,
+        .form-label-group > label {
+            padding: var(--input-padding-y) var(--input-padding-x);
+            height: 45px;
+        }
 
-            .form-label-group > label {
-                position: absolute;
-                top: 0;
-                left: 0;
-                display: block;
-                width: 100%;
-                margin-bottom: 0; /* Override default `<label>` margin */
-                line-height: 1.5;
-                color: #495057;
-                border: 1px solid transparent;
-                border-radius: .25rem;
-                transition: all .1s ease-in-out;
-            }
+        .form-label-group > label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            margin-bottom: 0; /* Override default `<label>` margin */
+            line-height: 1.5;
+            color: #495057;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: all .1s ease-in-out;
+        }
 
-            .form-label-group input::-webkit-input-placeholder {
-                color: transparent;
-            }
+        .form-label-group input::-webkit-input-placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input:-ms-input-placeholder {
-                color: transparent;
-            }
+        .form-label-group input:-ms-input-placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input::-ms-input-placeholder {
-                color: transparent;
-            }
+        .form-label-group input::-ms-input-placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input::-moz-placeholder {
-                color: transparent;
-            }
+        .form-label-group input::-moz-placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input::placeholder {
-                color: transparent;
-            }
+        .form-label-group input::placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input:not(:placeholder-shown) {
-                padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
-                padding-bottom: calc(var(--input-padding-y) / 3);
-            }
+        .form-label-group input:not(:placeholder-shown) {
+            padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+            padding-bottom: calc(var(--input-padding-y) / 3);
+        }
 
-                .form-label-group input:not(:placeholder-shown) ~ label {
-                    padding-top: calc(var(--input-padding-y) / 3);
-                    padding-bottom: calc(var(--input-padding-y) / 3);
-                    font-size: 12px;
-                    color: #777;
-                }
+        .form-label-group input:not(:placeholder-shown) ~ label {
+            padding-top: calc(var(--input-padding-y) / 3);
+            padding-bottom: calc(var(--input-padding-y) / 3);
+            font-size: 12px;
+            color: #777;
+        }
 
         .password-container {
             position: relative;
@@ -187,10 +190,10 @@
             border-radius: 10px;
         }
 
-            /* Handle on hover */
-            .alertNotif::-webkit-scrollbar-thumb:hover {
-                background: #c1c2c2;
-            }
+        /* Handle on hover */
+        .alertNotif::-webkit-scrollbar-thumb:hover {
+            background: #c1c2c2;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css" />

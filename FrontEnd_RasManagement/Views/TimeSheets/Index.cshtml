@@ -9,6 +9,24 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css">
 
 <style>
+
+    .badge {
+        font-size: 12px;
+    }
+
+    .cards {
+        font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        color: #858796;
+        background-color: #fff;
+    }
+
+    .cards-header {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
     .table-striped tbody tr:nth-of-type(odd) {
         background-color: #F7F6FE;
     }
@@ -17,47 +35,108 @@
         background-color: #FFFFFF;
     }
 
-    .modal-notify .modal-header {
-        border-radius: 3px 3px 0 0;
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #f2f2f2;
     }
 
-    .modal-notify .modal-content {
-        border-radius: 3px;
+    #resource_filter label {
+        font-size: 14px;
     }
 
-    input[type="month"]::-webkit-calendar-picker-indicator {
-        margin-left: -25px;
+    #resource_filter input[type="search"] {
+        font-size: 14px;
+        height: 26px;
     }
 
-    .dataTables_length,
-    .dataTables_filter,
-    .dataTables_info,
-    .dataTables_paginate {
-        font-size: 14px; /* Atur ukuran teks */
+    #resource td {
+        font-size: 13px;
     }
 
-        .dataTables_length select,
-        .dataTables_filter input[type="search"] {
-            height: 24px; /* Atur tinggi elemen dropdown dan input search */
-            font-size: 14px; /* Atur ukuran teks dropdown dan input search */
+    th {
+        font-size: 14px;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+
+    .dataTables_length {
+        font-size: 14px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    }
+
+    .dataTables_filter input[type="search"] {
+        font-size: 12px; /* Atur ukuran font sesuai kebutuhan */
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 13px;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        font-size: 13.5px;
+    }
+
+    table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
+        font-size: 14px;
+    }
+
+    table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+        font-size: 14px;
+    }
+
+    /* Badge Styles with Pastel Colors and Black Text */
+
+    .form-control {
+        height: 31px;
+    }
+
+    select.form-control {
+        font-size: 14.5px;
+    }
+
+    .dataTables_info {
+        font-size: 14.5px;
+    }
+
+    .dataTables_filter {
+        margin-right: 18px;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+        font-size: 14.5px;
+    }
+
+    .paginate_button {
+        font-size: 14px;
+        padding: 4px 8px;
+    }
+
+    .customWrap {
+        white-space: normal !important;
+        word-wrap: break-word;
+    }
+
+    .expand-content {
+        cursor: pointer;
+    }
+
+        .expand-content:hover {
+            color: darkblue !important;
         }
 
-        .dataTables_paginate .paginate_button {
-            font-size: 14px; /* Atur ukuran tombol Previous dan Next */
+    @@media (min-width: 768px) {
+        .dataTables_filter {
+            margin-right: 10px;
         }
-
-    /*pdf Style*/
-    .intro-form p span {
-        display: inline-block;
-        width: 100px; /* Atur lebar sesuai kebutuhan */
     }
 
-        .intro-form p span:nth-child(odd) {
-            font-weight: bold; /* Membuat label-label seperti 'Name', 'Role' menjadi tebal */
-        }
-
-    .intro-form p {
-        line-height: 1.3; /* Mengatur spasi antar baris agar terlihat lebih jelas */
+    .closeBtn:hover {
+        background-color: #e3e3e3;
     }
 
 </style>
@@ -71,6 +150,8 @@
                 <i class="fas fa-arrow-left"></i>
             </button>
         </div>
+    </div>
+    <div class="row mb-2">
         <div class="col-xl-6 col-sm-6 col-10">
             <div class="card shadow">
                 <div class="card-content">
@@ -131,8 +212,8 @@
         </div>
     </div>
     <div class="card-body">
-        <table id="timeSheetTable" class="table table-bordered w-100 timeSheetTable" style="font-size:13px; color:black">
-            <thead style="background-color:#FFFFFF">
+        <table id="timeSheetTable" class="table table-bordered w-100 timeSheetTable" style="font-size:13px; color:black; font-weight: normal;">
+        <thead style="background-color:#FFFFFF;">
                 <tr>
                     <th scope="col">Date</th>
                     <th scope="col">Activity Detail</th>
