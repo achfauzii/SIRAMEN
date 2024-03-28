@@ -69,6 +69,7 @@ function SharedShortListCandidate(position) {
         // Customize request parameters here if needed
         // Example: d.customParam = 'value';
         // Mengambil kategori yang dipilih dari filter-navigation
+          console.log(d);
         //var selectedCategory = $('#filterNavigation .nav-link.active').data('category');
         d.order = d.order[0];
         // Menambahkan parameter 'category' ke data yang dikirim ke server

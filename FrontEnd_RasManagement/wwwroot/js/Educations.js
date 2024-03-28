@@ -349,7 +349,7 @@ function SaveFormal() {
   FormalEdu.AccountId = accid;
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/Educations",
+      url: "https://localhost:7177/api/Educations/Insert",
     data: JSON.stringify(FormalEdu),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -566,7 +566,7 @@ function UpdateFormal() {
   }
   $.ajax({
     type: "PUT",
-    url: "https://localhost:7177/api/Educations",
+    url: "https://localhost:7177/api/Educations/Update",
     data: JSON.stringify(FormalEdu),
     contentType: "application/json; charset=utf-8",
     headers: {

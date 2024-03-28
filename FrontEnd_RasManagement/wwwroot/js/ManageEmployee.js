@@ -689,6 +689,14 @@ function fetchDepartments() {
           })
         );
       });
+        $("#deptId").prepend(
+            $("<option>", {
+                value: "",
+                text: "Select Department",
+                selected: true,
+                disabled: true
+            })
+        );
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
@@ -696,99 +704,99 @@ function fetchDepartments() {
   });
 }
 
-function SaveTurnOver() {
-  table = $("#dataTableEmployee").DataTable();
-  var isValid = true;
+//function SaveTurnOver() {
+//  table = $("#dataTableEmployee").DataTable();
+//  var isValid = true;
 
-  // Validasi select options
-  var status = $("#Status").val();
+//  // Validasi select options
+//  var status = $("#Status").val();
 
-  if (!status) {
-    $(".PlacementStatus")
-      .closest(".form-group")
-      .find(".error-message-status")
-      .show();
-    isValid = false;
-  } else {
-    $(".PlacementStatus")
-      .closest(".form-group")
-      .find(".error-message-status")
-      .hide();
-  }
+//  if (!status) {
+//    $(".PlacementStatus")
+//      .closest(".form-group")
+//      .find(".error-message-status")
+//      .show();
+//    isValid = false;
+//  } else {
+//    $(".PlacementStatus")
+//      .closest(".form-group")
+//      .find(".error-message-status")
+//      .hide();
+//  }
 
-  if (!isValid) {
-    return;
-  }
-  var deptIdValue = $("#deptId").val();
-  var TurnOver = new Object(); //object baru
+//  if (!isValid) {
+//    return;
+//  }
+//  var deptIdValue = $("#deptId").val();
+//  var TurnOver = new Object(); //object baru
 
-  TurnOver.status = $("#Status").val();
-  // TurnOver.deptId = $('#DeptId').val();
-  TurnOver.deptId = deptIdValue ? deptIdValue : null;
+//  TurnOver.status = $("#Status").val();
+//  // TurnOver.deptId = $('#DeptId').val();
+//  TurnOver.deptId = deptIdValue ? deptIdValue : null;
 
-  TurnOver.description = $("#Description").val();
-  TurnOver.accountId = $("#AccountId").val();
-  TurnOver.exitDate = $("#date").val();
+//  TurnOver.description = $("#Description").val();
+//  TurnOver.accountId = $("#AccountId").val();
+//  TurnOver.exitDate = $("#date").val();
 
-  var updateRole = new Object();
-  updateRole.accountId = $("#AccountId").val();
-  updateRole.roleId = "4";
+//  var updateRole = new Object();
+//  updateRole.accountId = $("#AccountId").val();
+//  updateRole.roleId = "4";
 
-  $.ajax({
-    type: "POST",
+//  $.ajax({
+//    type: "POST",
 
-    url: "https://localhost:7177/api/TurnOver",
-    data: JSON.stringify(TurnOver),
+//    url: "https://localhost:7177/api/TurnOver",
+//    data: JSON.stringify(TurnOver),
 
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (
-      (result.status == result.status) == 201 ||
-      result.status == 204 ||
-      result.status == 200
-    ) {
-      // debugger;
-      //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+//    contentType: "application/json; charset=utf-8",
+//    headers: {
+//      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+//    },
+//  }).then((result) => {
+//    if (
+//      (result.status == result.status) == 201 ||
+//      result.status == 204 ||
+//      result.status == 200
+//    ) {
+//      // debugger;
+//      //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
 
-      Swal.fire({
-        title: "Success!",
-        text: "Turn Over Status has Updated",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        if (
-          TurnOver.status == "Blacklist" ||
-          TurnOver.status == "Resign" ||
-          TurnOver.status == "Transfer"
-        ) {
-          $.ajax({
-            url: "https://localhost:7177/api/Accounts/UpdateRole",
-            type: "PUT",
-            data: JSON.stringify(updateRole),
-            contentType: "application/json; charset=utf-8",
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-          }).then((updateResult) => {
-            const logMessage = `Has turn over employee Id ${TurnOver.accountId}, status ${TurnOver.status}, date : ${TurnOver.exitDate} `;
-            SaveLogUpdate(logMessage);
-          });
-        }
+//      Swal.fire({
+//        title: "Success!",
+//        text: "Turn Over Status has Updated",
+//        icon: "success",
+//        showConfirmButton: false,
+//        timer: 1500,
+//      }).then(() => {
+//        if (
+//          TurnOver.status == "Blacklist" ||
+//          TurnOver.status == "Resign" ||
+//          TurnOver.status == "Transfer"
+//        ) {
+//          $.ajax({
+//            url: "https://localhost:7177/api/Accounts/UpdateRole",
+//            type: "PUT",
+//            data: JSON.stringify(updateRole),
+//            contentType: "application/json; charset=utf-8",
+//            headers: {
+//              Authorization: "Bearer " + sessionStorage.getItem("Token"),
+//            },
+//          }).then((updateResult) => {
+//            const logMessage = `Has turn over employee Id ${TurnOver.accountId}, status ${TurnOver.status}, date : ${TurnOver.exitDate} `;
+//            SaveLogUpdate(logMessage);
+//          });
+//        }
 
-        // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
-        if (selectedOption === "Transfer") {
-          inputCompany.style.display = "block";
-        } else {
-          inputCompany.style.display = "none";
-        }
-      });
-    }
-  });
-}
+//        // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
+//        if (selectedOption === "Transfer") {
+//          inputCompany.style.display = "block";
+//        } else {
+//          inputCompany.style.display = "none";
+//        }
+//      });
+//    }
+//  });
+//}
 
 function Detail(id) {
   window.location.href = "/ManageEmployee/DetailEmployee?accountId=" + id;
@@ -900,12 +908,12 @@ function SaveTurnOver() {
   }
   var deptIdValue = $("#deptId").val();
   var TurnOver = new Object(); //object baru
-
+   
   TurnOver.status = $("#Status").val();
   // TurnOver.deptId = $('#DeptId').val();
   TurnOver.deptId = deptIdValue ? deptIdValue : null;
   TurnOver.description = $("#Description").val();
-  TurnOver.description = $("#Description").val();
+
   TurnOver.accountId = $("#AccountId").val();
   TurnOver.exitDate = $("#date").val();
 

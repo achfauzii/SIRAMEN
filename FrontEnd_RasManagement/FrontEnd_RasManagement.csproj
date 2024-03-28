@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.0.5" />
+    <PackageReference Include="itext7" Version="8.0.3" />
     <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="MailKit" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
@@ -56,6 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\assets\pdfFileUpload\" />
     <Folder Include="wwwroot\assets\photo\" />
   </ItemGroup>
 

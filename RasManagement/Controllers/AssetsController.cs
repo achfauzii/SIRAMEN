@@ -46,6 +46,17 @@ namespace RasManagement.Controllers
         [HttpGet("accountId")]
         public async Task<IActionResult> GetAssetsByAccountId(string accountId)
         {
+            var isAdmin = User.IsInRole("Admin");
+            var isTrainer = User.IsInRole("Admin");
+            if (!isAdmin && !isTrainer)
+            {
+                var accountId_ = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
+
+                if (accountId_ != accountId)
+                {
+                    return StatusCode(403, new { status = HttpStatusCode.Forbidden, message = "You are not authorized to insert data for this account" });
+                }
+            }
             var get = await assetsRepository.GetAssetsByAccountId(accountId);
             if (get != null)
             {
@@ -69,7 +80,8 @@ namespace RasManagement.Controllers
      
                 if (accountId != assetsManagement.AccountId)
                 {
-                    return Forbid("You are not authorized to insert data for this account");
+                    return StatusCode(403, new { status = HttpStatusCode.Forbidden, message = "You are not authorized to insert data for this account" });
+                
                 }
             }
           
@@ -95,7 +107,7 @@ namespace RasManagement.Controllers
 
                 if (accountId != updatedAsset.AccountId)
                 {
-                    return Forbid("You are not authorized to insert data for this account");
+                    return StatusCode(403, new { status = HttpStatusCode.Forbidden, message = "You are not authorized to insert data for this account" });
                 }
             }
             var update = await assetsRepository.UpdateAsset(updatedAsset);
