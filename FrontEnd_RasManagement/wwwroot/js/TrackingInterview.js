@@ -149,7 +149,7 @@ $(document).ready(function () {
                     var word = posisitionSplit[i].trim();
                     var badgeColor = getColorForPosition(word);
                     var badge = $(
-                        '<span class="badge badge-pill badge-pastel text-secondary">' +
+                        '<span class="badge badge-pill badge-pastel text-dark">' +
                         word +
                         "</span>"
                     );
@@ -186,17 +186,17 @@ $(document).ready(function () {
             userData.statusArray[userData.statusArray.length - 1];
 
             if (lastStatus == "Scheduling") {
-                return '<span class="badge badge-pill text-secondary" style="background-color: #C9C8E8">' + lastStatus + '</span>';
+                return '<span class="badge badge-pill text-dark" style="background-color: #C9C8E8">' + lastStatus + '</span>';
             } else if (lastStatus == "Submitted CV") {
-                return '<span class="badge badge-pill text-secondary" style="background-color: #95c0f8">' + lastStatus + '</span>';
+                return '<span class="badge badge-pill text-dark" style="background-color: #95c0f8">' + lastStatus + '</span>';
             } else if (lastStatus == "Hold") {
-                return '<span class="badge badge-pill text-secondary" style="background-color: #ffd8b1">' + lastStatus + '</span>';
+                return '<span class="badge badge-pill text-dark" style="background-color: #ffd8b1">' + lastStatus + '</span>';
             } else if (lastStatus == "Technical Test") {
-                return '<span class="badge badge-pill text-secondary" style="background-color: #D0AEEF">' + lastStatus + '</span>';
+                return '<span class="badge badge-pill text-dark" style="background-color: #D0AEEF">' + lastStatus + '</span>';
             } else if (lastStatus == "Done") {
-                return '<span class="badge badge-pill text-secondary" style="background-color: #b7e4c7">' + lastStatus + '</span>';
+                return '<span class="badge badge-pill text-dark" style="background-color: #b7e4c7">' + lastStatus + '</span>';
             }else {
-                return '<span class="badge badge-pill text-secondary" style="background-color: #f56954">' + lastStatus + '</span>';
+                return '<span class="badge badge-pill text-dark" style="background-color: #f56954">' + lastStatus + '</span>';
             }
           return lastStatus;
         },

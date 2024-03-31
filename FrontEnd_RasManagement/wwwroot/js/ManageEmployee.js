@@ -269,7 +269,7 @@ $(document).ready(function () {
                             var word = posisitionSplit[i].trim();
                             var badgeColor = getColorForPosition(word);
                             var badge = $(
-                                '<span class="badge rounded-pill badge-pastel text-secondary">' +
+                                '<span class="badge rounded-pill badge-pastel text-dark">' +
                                 word +
                                 "</span>"
                             );
