@@ -398,6 +398,9 @@ $(document).ready(function () {
                                     "https://localhost:7177/api/ClientName/" + placementLocation, // URL API yang diinginkan
                                 type: "GET",
                                 async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                                headers: {
+                                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                                },
                                 success: function (response) {
                                     placementLocation = response.data.nameOfClient;
                                 },
@@ -1933,7 +1936,10 @@ function handleFilterSubmission() {
                 url:
                   "https://localhost:7177/api/ClientName/" + placementLocation, // URL API yang diinginkan
                 type: "GET",
-                async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                  async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                  headers: {
+                      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                  },
                 success: function (response) {
                   placementLocation = response.data.nameOfClient;
                 },

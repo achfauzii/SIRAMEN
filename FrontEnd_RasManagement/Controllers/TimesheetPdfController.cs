@@ -10,6 +10,12 @@ namespace FrontEnd_RasManagement.Controllers
 {
     public class TimesheetPdfController : Controller
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public TimesheetPdfController(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
         public ActionResult GeneratePdf(string companyName, string month)
         {
 
@@ -31,9 +37,11 @@ namespace FrontEnd_RasManagement.Controllers
             }
 
 
-            // Pengaturan Logo dan Alamat Perusahaan
-            //string companyLogoPath = "E:\\ProjectRAS new Version(2024)\\RAS_Management\\FrontEnd_RasManagement\\wwwroot\\img\\logo_putih.png"; 
-            //string companyAddress = "Alamat Perusahaan Anda";
+          
+            string wwwRootPath = _hostingEnvironment.WebRootPath;
+            string logoRelativePath = "img/logo_putih.png";
+            string companyLogoPath = Path.Combine(wwwRootPath, logoRelativePath);
+            string companyAddress = "Alamat Perusahaan Anda";
 
 
             MemoryStream memoryStream = new MemoryStream();
@@ -182,6 +190,31 @@ namespace FrontEnd_RasManagement.Controllers
 
                     }
 
+
+                    // Membuat tabel untuk menyusun logo dan alamat secara sejajar
+                    //PdfPTable headingLogo = new PdfPTable(2); // 2 kolom untuk logo dan alamat
+                    //headingLogo.WidthPercentage = 100;
+
+
+                    //    iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(companyLogoPath);
+                    //    logo.ScaleAbsolute(128f, 30f); // Sesuaikan ukuran logo sesuai kebutuhan
+                    //    document.Add(logo);
+                    //    PdfPCell logoCell = new PdfPCell(logo);
+                    //    logoCell.Border = PdfPCell.NO_BORDER;
+                    //    headingLogo.AddCell(logoCell);
+
+                    //    Paragraph addressParagraph = new Paragraph(companyAddress);
+                    //    addressParagraph.Alignment = Element.ALIGN_RIGHT; // Alamat ditampilkan di sebelah kanan
+                    //    PdfPCell addressCell = new PdfPCell(addressParagraph);
+                    //    addressCell.Border = PdfPCell.NO_BORDER;
+                    //    headingLogo.AddCell(addressCell);
+
+                    //// Tambahkan tabel ke dalam dokumen
+                    //document.Add(headingLogo);
+
+
+
+                    document.Add(new Paragraph(" "));
                     // Membuat objek Font dengan properti yang diinginkan
                     Font header = FontFactory.GetFont("HECTIVA", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 10.2f, Font.NORMAL, BaseColor.BLACK);
 
