@@ -11,7 +11,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Employee,Admin,Manager, Trainer")]
+    [Authorize(Roles = "Employee,Admin,Manager, Trainer")]
     public class ApprovalController : BaseController<Approval, ApprovalRepository, int>
     {
         private readonly ApprovalRepository approvalRepository;

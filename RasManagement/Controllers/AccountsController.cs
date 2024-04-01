@@ -46,7 +46,7 @@ namespace RasManagement.Controllers
             return Ok(await _context.Accounts.ToListAsync());
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Super_Admin,Trainer,Sales,Manager")]
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterVM registerVM)
         {

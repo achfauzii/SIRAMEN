@@ -21,7 +21,7 @@ namespace RasManagement.Controllers
         }
 
         
-        [AllowAnonymous]
+   
         [HttpGet("accountId")]
         public async Task<IActionResult> GetCertificateByAccountId(string accountId)
         {
