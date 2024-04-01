@@ -47,8 +47,11 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> GetAssetsByAccountId(string accountId)
         {
             var isAdmin = User.IsInRole("Admin");
-            var isTrainer = User.IsInRole("Admin");
-            if (!isAdmin && !isTrainer)
+            var isTrainer = User.IsInRole("Trainer");
+            var isManager = User.IsInRole("Manager");
+            var isSales = User.IsInRole("Sales");
+            var isSA = User.IsInRole("Super_Admin");
+            if (!isAdmin && !isTrainer && !isSA && !isSales && !isManager)
             {
                 var accountId_ = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
 
@@ -73,8 +76,11 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> InsertAsset(AssetsManagement assetsManagement)
         {
             var isAdmin = User.IsInRole("Admin");
-            var isTrainer = User.IsInRole("Admin");
-            if (!isAdmin && !isTrainer)
+            var isTrainer = User.IsInRole("Trainer");
+            var isManager = User.IsInRole("Manager");
+            var isSales = User.IsInRole("Sales");
+            var isSA = User.IsInRole("Super_Admin");
+            if (!isAdmin && !isTrainer && !isSA && !isSales && !isManager)
             {
                 var accountId = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
      
@@ -100,8 +106,11 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> UpdateAsset(AssetsManagement updatedAsset)
         {
             var isAdmin = User.IsInRole("Admin");
-            var isTrainer = User.IsInRole("Admin");
-            if (!isAdmin && !isTrainer)
+            var isTrainer = User.IsInRole("Trainer");
+            var isManager = User.IsInRole("Manager");
+            var isSales = User.IsInRole("Sales");
+            var isSA = User.IsInRole("Super_Admin");
+            if (!isAdmin && !isTrainer && !isSA && !isSales && !isManager)
             {
                 var accountId = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
 
@@ -118,6 +127,20 @@ namespace RasManagement.Controllers
             else
             {
                 return StatusCode(400, new { status = HttpStatusCode.BadRequest });
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteEducation(int assetId)
+        {
+            var success = await assetsRepository.DeleteAsset(assetId);
+            if (success)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil dihapus" });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak ditemukan atau gagal dihapus" });
             }
         }
     }

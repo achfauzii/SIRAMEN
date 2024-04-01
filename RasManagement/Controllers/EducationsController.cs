@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using RasManagement.BaseController;
 using RasManagement.Repository;
 using System.IdentityModel.Tokens.Jwt;
@@ -75,8 +76,11 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> GetEducationByAccountId(string accountId)
         {
             var isAdmin = User.IsInRole("Admin");
-            var isTrainer = User.IsInRole("Admin");
-            if (!isAdmin && !isTrainer)
+            var isTrainer = User.IsInRole("Trainer");
+            var isManager = User.IsInRole("Manager");
+            var isSales = User.IsInRole("Sales");
+            var isSA = User.IsInRole("Super_Admin");
+            if (!isAdmin && !isTrainer && !isSA && !isSales && !isManager)
             {
                 var accountId_ = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
 
@@ -97,15 +101,18 @@ namespace RasManagement.Controllers
         }
 
         [HttpPost("Insert")]
-        public async Task<IActionResult> InsertAsset(FormalEdu edu)
+        public async Task<IActionResult> InsertEdu(FormalEdu edu)
         {
             var isAdmin = User.IsInRole("Admin");
-            var isTrainer = User.IsInRole("Admin");
-            if (!isAdmin && !isTrainer)
+            var isTrainer = User.IsInRole("Trainer");
+            var isManager = User.IsInRole("Manager");
+            var isSales = User.IsInRole("Sales");
+            var isSA = User.IsInRole("Super_Admin");
+            if (!isAdmin && !isTrainer && !isSA && !isSales && !isManager)
             {
-                var accountId = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
+                var accountId_ = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
 
-                if (accountId != edu.AccountId)
+                if (accountId_ != edu.AccountId)
                 {
                     return StatusCode(403, new { status = HttpStatusCode.Forbidden, message = "You are not authorized to insert data for this account" });
                 }
@@ -125,13 +132,16 @@ namespace RasManagement.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> UpdateEducation(FormalEdu edu)
         {
-            var isAdmin = User.IsInRole("Admin");
-            var isTrainer = User.IsInRole("Admin");
-            if (!isAdmin && !isTrainer)
+           var isAdmin = User.IsInRole("Admin");
+            var isTrainer = User.IsInRole("Trainer");
+            var isManager = User.IsInRole("Manager");
+            var isSales = User.IsInRole("Sales");
+            var isSA = User.IsInRole("Super_Admin");
+            if (!isAdmin && !isTrainer && !isSA && !isSales && !isManager)
             {
-                var accountId = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
+                var accountId_ = GetAccountIdFromToken(); // Pastikan Anda sudah memiliki metode GetAccountIdFromToken() yang sesuai
 
-                if (accountId != edu.AccountId)
+                if (accountId_ != edu.AccountId)
                 {
                     return StatusCode(403, new { status = HttpStatusCode.Forbidden, message = "You are not authorized to insert data for this account" });
                 }

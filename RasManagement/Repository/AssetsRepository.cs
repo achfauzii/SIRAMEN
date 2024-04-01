@@ -40,6 +40,18 @@ namespace RasManagement.Repository
             return save;
         }
 
+        public async Task<bool> DeleteAsset(int assetId)
+        {
+            var delete = await context.AssetsManagements.FindAsync(assetId);
+            if (delete != null)
+            {
+                context.AssetsManagements.Remove(delete);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
 
     }
 }

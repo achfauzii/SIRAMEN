@@ -65,7 +65,6 @@ function extractInformation(text) {
   
 
 
-
     //GET Degree 
     var regexDegree = /(.*)\s*NON FORMAL EDUCATIONS/;
     var matchDegree = regexDegree.exec(text);
@@ -91,21 +90,90 @@ function extractInformation(text) {
     
 
     //Birthdate
-    var regexPlaceDateOfBirth = /Place\s*&\s*date\s*of\s*birth\s*:\s*([\w\s,]+)\s*(\d{2}\s*(?:Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s*\d{4})/;;
-    var matchPlaceDateOfBirth = regexPlaceDateOfBirth.exec(text);
-    if (matchPlaceDateOfBirth && matchPlaceDateOfBirth.length > 1) {
+    var regexID = /Place\s*&\s*date\s*of\s*birth\s*:\s*([\w\s,]+)\s*(\d{2}\s*(?:Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s*\d{4})/;
+    var regexEN = /Place\s*&\s*date\s*of\s*birth\s*:\s*([\w\s,]+)\s*(\d{2}\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)\s*\d{4})/;
+    var matchID = regexID.exec(text);
+    var matchEN = regexEN.exec(text);
 
-        let formattedDate = moment(matchPlaceDateOfBirth[2].trim(), "DD MMMM YYYY").format("YYYY-MM-DD");
+    var formattedDate;
+    if (matchID && matchID.length > 1) {
+
+         formattedDate = moment(matchID[2].trim(), "DD MMMM YYYY").format("YYYY-MM-DD");
         if (!moment(formattedDate, "YYYY-MM-DD").isValid()) {
 
-            var date = matchPlaceDateOfBirth[2].trim();
+            var date = matchID[2].trim();
             var fotamtedDate_ = (formatedToEnDate(date));
             formattedDate = moment(fotamtedDate_, "DD MMMM YYYY").format("YYYY-MM-DD");
-            console.log(date);
+           
+        }
+    }
+    if (matchEN && matchEN.length > 1) {
+ 
+        formattedDate = moment(matchEN[2].trim(), "DD MMMM YYYY").format("YYYY-MM-DD");
+        if (!moment(formattedDate, "YYYY-MM-DD").isValid()) {
+
+            var date = matchEN[2].trim();
+            var fotamtedDate_ = (formatedToEnDate(date));
+            formattedDate = moment(fotamtedDate_, "DD MMMM YYYY").format("YYYY-MM-DD");
+            console.log(formattedDate);
          
         }
-        $("#birthdate").val(formattedDate);
     }
+    $("#birthdate").val(formattedDate);
+ 
+  
+
+    //Skillset
+    var regexFramework = /Framework\/Library\s*:\s*(.*)/;
+    var matchFramework = regexFramework.exec(text);
+    var regexProgLang = /Programming Language\s*:\s*(.*)/;
+    var matchProgLang = regexProgLang.exec(text);
+    var regexDatabase = /Database\s*:\s*(.*)/;
+    var matchDatabase = regexDatabase.exec(text);
+
+    var skillset;
+
+        if (matchFramework && matchFramework.length > 1) {
+            var frameworks = matchFramework[1].split(',').map(function (item) { return item.trim(); });
+
+            if (frameworks.length > 0 && frameworks[frameworks.length - 1].endsWith('.')) {
+                frameworks[frameworks.length - 1] = frameworks[frameworks.length - 1].replace(/\.$/, '');
+            }
+        }
+
+        if (matchProgLang && matchProgLang.length > 1) {
+            var progLang = matchProgLang[1].split(',').map(function (item) { return item.trim(); });
+
+            if (progLang.length > 0 && progLang[progLang.length - 1].endsWith('.')) {
+                progLang[progLang.length - 1] = progLang[progLang.length - 1].replace(/\.$/, '');
+            }
+
+            skillset = frameworks.concat(progLang);
+        }
+
+        if (matchDatabase && matchDatabase.length > 1) {
+            var database = matchDatabase[1].split(',').map(function (item) { return item.trim(); });
+
+            if (database.length > 0 && database[database.length - 1].endsWith('.')) {
+                database[database.length - 1] = database[database.length - 1].replace(/\.$/, '');
+            }
+
+            skillset = skillset.concat(database);
+        }
+
+
+        const skillSelect = $("#skillset");
+  
+        skillset.forEach((value) => {
+            const optionNotExists =
+                skillSelect.find("option[value='" + value + "']").length === 0;
+
+            if (optionNotExists) {
+                const newOption = new Option(value, value, true, true);
+                skillSelect.append(newOption).trigger("change");
+            }
+        });
+        skillSelect.val(skillset).trigger("change");
     
 }
 
@@ -175,6 +243,7 @@ function ClearScreenSave() {
 
     $("#position").val(null).trigger("change");
     $("#skillset").val(null).trigger("change");
+    $("#birthdate").val("");
     $("#degree").val("");
     $("#ipk").val("");
     $("#UniversityName").val("");
@@ -221,6 +290,7 @@ function ClearScreenSave() {
 
 
 document.getElementById('fileInput2').addEventListener('change', function (event) {
+    ClearScreenSave();
     const file = event.target.files[0];
     const reader = new FileReader();
 

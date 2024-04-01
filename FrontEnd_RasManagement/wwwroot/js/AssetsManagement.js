@@ -342,7 +342,7 @@ function GetById(assetsManagementId) {
 }
 
 function Delete(assetsManagementId) {
-    // debugger;
+
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -355,7 +355,7 @@ function Delete(assetsManagementId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Assets/" + assetsManagementId,
+                url: "https://localhost:7177/api/Assets?assetId="+ assetsManagementId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {
