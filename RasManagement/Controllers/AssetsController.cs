@@ -43,6 +43,7 @@ namespace RasManagement.Controllers
             return accountId;
         }
 
+
         [HttpGet("accountId")]
         public async Task<IActionResult> GetAssetsByAccountId(string accountId)
         {
@@ -141,6 +142,21 @@ namespace RasManagement.Controllers
             else
             {
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak ditemukan atau gagal dihapus" });
+            }
+        }
+
+
+        [HttpGet("{assetId}")]
+        public async Task<IActionResult> GetByFormalEduId(int assetId)
+        {
+            var asset = await assetsRepository.GetByAssetId(assetId);
+            if (asset != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = asset });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found" });
             }
         }
     }

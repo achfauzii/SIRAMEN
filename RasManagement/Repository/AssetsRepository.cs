@@ -23,6 +23,11 @@ namespace RasManagement.Repository
             return assetsAccount;
         }
 
+        public async Task<AssetsManagement> GetByAssetId(int assetId)
+        {
+            return await context.AssetsManagements.FindAsync(assetId);
+        }
+
         public async Task<int> InsertAssets(AssetsManagement asset)
         {
             context.AssetsManagements.Add(asset);

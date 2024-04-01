@@ -31,6 +31,11 @@ namespace FrontEnd_RasManagement.Controllers
             }
 
 
+            // Pengaturan Logo dan Alamat Perusahaan
+            //string companyLogoPath = "E:\\ProjectRAS new Version(2024)\\RAS_Management\\FrontEnd_RasManagement\\wwwroot\\img\\logo_putih.png"; 
+            //string companyAddress = "Alamat Perusahaan Anda";
+
+
             MemoryStream memoryStream = new MemoryStream();
             string Token = HttpContext.Session.GetString("Token");
 
