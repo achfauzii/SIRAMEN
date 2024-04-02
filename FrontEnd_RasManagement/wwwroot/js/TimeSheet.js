@@ -3,7 +3,9 @@ var month;
 var accountId;
 var table;
 var tablePDF;
+var comp;
 $(document).ready(function () {
+
     var urlParams = new URLSearchParams(window.location.search);
     accountId = urlParams.get("accountId");
     var currentDate = new Date();
@@ -11,6 +13,32 @@ $(document).ready(function () {
     $("#month").val(month);
     submitMonth(month);
     $("#timeSheetPdf").hide();
+
+  //var urlParams = new URLSearchParams(window.location.search);
+  //accountId = urlParams.get("accountId");
+  //var currentDate = new Date();
+  //var month = currentDate.toISOString().slice(0, 7);
+  //$("#month").val(month);
+  //submitMonth(month);
+  //$("#timeSheetPdf").hide();
+
+  //Employee Info
+  //getEmployee(accountId)
+    //.then(function (employee) {
+      //$(".fullName").text(employee.fullname);
+    //})
+    //.catch(function (error) {
+      //alert(error);
+    //});
+  //Placment Comp Name
+  //getPlacement(accountId)
+    //.then(function (employee) {
+        //$(".companyName").text(employee.client.nameOfClient);
+    //})
+    //.catch(function (error) {
+      //alert(error);
+    //});
+
 
     //Employee Info
     getEmployee(accountId)
@@ -35,21 +63,66 @@ $(document).ready(function () {
 });
 
 function submitMonth(month) {
-    var urlParams = new URLSearchParams(window.location.search);
-    accountId = urlParams.get("accountId");
-    $("#timeSheetMonth").text(moment(month).format("MMMM YYYY"));
+
+
+  var urlParams = new URLSearchParams(window.location.search);
+  accountId = urlParams.get("accountId");
+  $("#timeSheetMonth").text(moment(month).format("MMMM YYYY"));
 
     if (month !== "") {
-        //GET datatable
-        document.getElementById("badgeDisplay").hidden = true;
-        document.getElementById("tableTimeSheet").hidden = false;
-        if ($.fn.DataTable.isDataTable("#timeSheetTable")) {
-            $("#timeSheetTable").DataTable().destroy();
-        }
 
-        if ($.fn.DataTable.isDataTable("#timeSheetTablePdf")) {
-            $("#timeSheetTablePdf").DataTable().destroy();
-        }
+        getPlacement(accountId)
+            .then(function (employee) {
+                comp = employee.client.nameOfClient;
+
+                var downloadUrl = "/TimeSheetPdf/GeneratePdfperEmployee?accountId=" + encodeURIComponent(accountId) + "&month=" + encodeURIComponent(month) + "&companyName=" + encodeURIComponent(comp);
+                $("#exportPDF").attr("href", downloadUrl);
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+
+    //GET datatable
+    document.getElementById("badgeDisplay").hidden = true;
+    document.getElementById("tableTimeSheet").hidden = false;
+    if ($.fn.DataTable.isDataTable("#timeSheetTable")) {
+      $("#timeSheetTable").DataTable().destroy();
+    }
+
+    if ($.fn.DataTable.isDataTable("#timeSheetTablePdf")) {
+      $("#timeSheetTablePdf").DataTable().destroy();
+    }
+
+    $.ajax({
+      url:
+        "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+        accountId +
+        "&month=" +
+        month,
+      type: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+      },
+      success: function (response) {
+        var data = response.data;
+        var dataPdf = response.data;
+        addRowHoliday(month);
+
+      
+        table = $("#timeSheetTable").DataTable({
+          data: data,
+          columns: [
+            {
+              name: "one",
+              data: "date",
+              render: function (data, type, row) {
+                if (type === "display" || type === "filter") {
+                  // Format tanggal dalam format yang diinginkan
+                  return moment(data).format("DD MMMM YYYY");
+                }
+                // Untuk tipe data lain, kembalikan data aslinya
 
         $.ajax({
             url:
@@ -351,5 +424,9 @@ function exportPDF() {
 
     window.print();
 
-    document.body.innerHTML = originalContents;
+
+  document.body.innerHTML = originalContents;
 }
+
+
+

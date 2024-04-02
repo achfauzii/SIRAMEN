@@ -47,8 +47,7 @@ function submitReportTimesheet() {
     var month = $('#month').val();
     $("#nullInput").hide();
     var report = $('#reportTimesheet');
-    console.log(companyName);
-    console.log(month);
+
     // Check if companyName or month is empty or null
     if (!companyName || !month) {
         // Show the warning alert
