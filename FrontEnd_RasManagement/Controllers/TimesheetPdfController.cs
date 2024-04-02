@@ -41,7 +41,7 @@ namespace FrontEnd_RasManagement.Controllers
             string wwwRootPath = _hostingEnvironment.WebRootPath;
             string logoRelativePath = "img/logo_putih.png";
             string companyLogoPath = Path.Combine(wwwRootPath, logoRelativePath);
-            string companyAddress = "Alamat Perusahaan Anda";
+            string companyAddress = "JL. ABDUL MUIS NO.62, KEC. GAMBIR, JAKARTA PUSAT.";
 
 
             MemoryStream memoryStream = new MemoryStream();
@@ -78,31 +78,37 @@ namespace FrontEnd_RasManagement.Controllers
                     PdfPCell headerCell = new PdfPCell(new Phrase("Date", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    headerCell.PaddingBottom = 5f;
                     table.AddCell(headerCell);
 
                     headerCell = new PdfPCell(new Phrase("Activity", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    headerCell.PaddingBottom = 5f;
                     table.AddCell(headerCell);
 
                     headerCell = new PdfPCell(new Phrase("Flag", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    headerCell.PaddingBottom = 5f;
                     table.AddCell(headerCell);
 
                     headerCell = new PdfPCell(new Phrase("Category", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    headerCell.PaddingBottom = 5f;
                     table.AddCell(headerCell);
 
                     headerCell = new PdfPCell(new Phrase("Status", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    headerCell.PaddingBottom = 5f;
                     table.AddCell(headerCell);
 
                     headerCell = new PdfPCell(new Phrase("Known By", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    headerCell.PaddingBottom = 5f;
                     table.AddCell(headerCell);
 
 
@@ -192,24 +198,29 @@ namespace FrontEnd_RasManagement.Controllers
 
 
                     // Membuat tabel untuk menyusun logo dan alamat secara sejajar
-                    //PdfPTable headingLogo = new PdfPTable(2); // 2 kolom untuk logo dan alamat
-                    //headingLogo.WidthPercentage = 100;
+                    PdfPTable headingLogo = new PdfPTable(2); // 2 kolom untuk logo dan alamat
+                    headingLogo.WidthPercentage = 100;
 
 
-                    //iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(companyLogoPath);
-                    //logo.ScaleAbsolute(128f, 30f); // Sesuaikan ukuran logo sesuai kebutuhan
-                    //PdfPCell logoCell = new PdfPCell(logo);
-                    //logoCell.Border = PdfPCell.NO_BORDER;
-                    //headingLogo.AddCell(logoCell);
+                    iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(companyLogoPath);
+                    logo.ScaleAbsolute(145f, 30f); // Sesuaikan ukuran logo sesuai kebutuhan
+                    PdfPCell logoCell = new PdfPCell(logo);
+                    logoCell.Border = PdfPCell.NO_BORDER;
+                    headingLogo.AddCell(logoCell);
 
-                    //Paragraph addressParagraph = new Paragraph(companyAddress);
-                    //addressParagraph.Alignment = Element.ALIGN_RIGHT;
-                    //PdfPCell addressCell = new PdfPCell(addressParagraph);
-                    //addressCell.Border = PdfPCell.NO_BORDER;
-                    //headingLogo.AddCell(addressCell);
 
-                    //// Tambahkan tabel ke dalam dokumen
-                    //document.Add(headingLogo);
+                    BaseFont baseFont = BaseFont.CreateFont(BaseFont.COURIER, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                    Font courierFont = new Font(baseFont, 9f, Font.NORMAL, BaseColor.GRAY); // Atur ukuran, gaya, dan warna font
+                    Paragraph addressParagraph = new Paragraph(companyAddress, courierFont);
+                    addressParagraph.Alignment = Element.ALIGN_RIGHT;
+         
+                    PdfPCell addressCell = new PdfPCell(addressParagraph);
+                    addressCell.Border = PdfPCell.NO_BORDER;
+                    headingLogo.AddCell(addressCell);
+
+
+                    // Tambahkan tabel ke dalam dokumen
+                    document.Add(headingLogo);
 
 
 
