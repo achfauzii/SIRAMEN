@@ -210,7 +210,7 @@ namespace FrontEnd_RasManagement.Controllers
 
 
                     BaseFont baseFont = BaseFont.CreateFont(BaseFont.COURIER, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-                    Font courierFont = new Font(baseFont, 9f, Font.NORMAL, BaseColor.GRAY); // Atur ukuran, gaya, dan warna font
+                    Font courierFont = new Font(baseFont, 10f, Font.NORMAL, BaseColor.GRAY); // Atur ukuran, gaya, dan warna font
                     Paragraph addressParagraph = new Paragraph(companyAddress, courierFont);
                     addressParagraph.Alignment = Element.ALIGN_RIGHT;
          
