@@ -3,6 +3,7 @@ var month;
 var accountId;
 var table;
 var tablePDF;
+var comp;
 $(document).ready(function () {
   var urlParams = new URLSearchParams(window.location.search);
   accountId = urlParams.get("accountId");
@@ -23,7 +24,7 @@ $(document).ready(function () {
   //Placment Comp Name
   getPlacement(accountId)
     .then(function (employee) {
-      $(".companyName").text(employee.client.nameOfClient);
+        $(".companyName").text(employee.client.nameOfClient);
     })
     .catch(function (error) {
       alert(error);
@@ -35,11 +36,24 @@ $(document).ready(function () {
 });
 
 function submitMonth(month) {
+
   var urlParams = new URLSearchParams(window.location.search);
   accountId = urlParams.get("accountId");
   $("#timeSheetMonth").text(moment(month).format("MMMM YYYY"));
 
-  if (month !== "") {
+    if (month !== "") {
+
+        getPlacement(accountId)
+            .then(function (employee) {
+                comp = employee.client.nameOfClient;
+
+                var downloadUrl = "/TimeSheetPdf/GeneratePdfperEmployee?accountId=" + encodeURIComponent(accountId) + "&month=" + encodeURIComponent(month) + "&companyName=" + encodeURIComponent(comp);
+                $("#exportPDF").attr("href", downloadUrl);
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+
     //GET datatable
     document.getElementById("badgeDisplay").hidden = true;
     document.getElementById("tableTimeSheet").hidden = false;
@@ -68,7 +82,7 @@ function submitMonth(month) {
         var dataPdf = response.data;
         addRowHoliday(month);
 
-        console.log(data);
+      
         table = $("#timeSheetTable").DataTable({
           data: data,
           columns: [
@@ -353,3 +367,5 @@ function exportPDF() {
 
   document.body.innerHTML = originalContents;
 }
+
+

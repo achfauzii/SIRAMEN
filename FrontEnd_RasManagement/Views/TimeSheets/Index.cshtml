@@ -205,9 +205,12 @@
         <div class="row">
             <div class="col"><h5 class="mb-2">Time Sheet</h5></div>
             <div class="col">
-                <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 float-right" id="exportPDF" onclick="exportPDF()">
+           @*     <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 float-right" id="exportPDF" onclick="exportPDF()">
                     Export PDF
-                </button>
+                </button>*@
+                <a href="@Url.Action("GeneratePdf", "TimeSheetPdf", new { accountId = "", month = "", companyName="" })" style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 float-right" id="exportPDF">
+                    Export PDF
+                </a>
             </div>
         </div>
     </div>
