@@ -115,7 +115,7 @@
                     var placementStatus = row.placements.placementStatus;*/
             if (placementStatus === "Blacklist") {
               return (
-                '<span type="button" class="badge badge-pill badge-dark"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' +
+                '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' +
                 row.deptName +
                 "', '" +
                 row.description +
@@ -154,8 +154,8 @@
             return placementStatus;
           },
         },
-        ],
-
+      ],
+        order: [1, 'asc'],
         drawCallback: function (settings) {
             var api = this.api();
             var rows = api.rows({ page: "current" }).nodes();

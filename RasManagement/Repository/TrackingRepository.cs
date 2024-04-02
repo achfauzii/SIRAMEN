@@ -1,4 +1,7 @@
-﻿namespace RasManagement.Repository
+﻿using RasManagement.Models;
+using RasManagement.ViewModel;
+
+namespace RasManagement.Repository
 {
     public class TrackingRepository : GeneralRepository<ProjectRasmanagementContext, TrackingInterview, int>
     {
@@ -25,9 +28,9 @@
                     position = ti.Position.PositionClient,
                     intDate = ti.IntvwDate,
                     intStatus = ti.IntvwStatus,
-                    notes = ti.Notes
-                }
-                )
+                    notes = ti.Notes,
+                    createdAt = ti.CreatedAt // Tambahan properti created_at
+                })
                 .ToList();
             // var data = _context.TrackingInterviews
             // .Join(
@@ -59,5 +62,43 @@
 
             return data;
         }
+
+        public virtual int Insert(TrackingInterview trackingInterview)
+        {
+            trackingInterview.CreatedAt = DateTime.UtcNow;
+
+            _context.TrackingInterviews.Add(trackingInterview);
+            _context.SaveChanges();
+            return trackingInterview.Id;
+        }
+
+        public virtual int Update(TrackingInterview trackingInterview)
+        {
+            var data = _context.TrackingInterviews.Find(trackingInterview.Id);
+            if (data == null)
+            {
+                // Data tidak ditemukan, lakukan penanganan kesalahan atau kembalikan nilai yang sesuai
+                return -1;
+            }
+
+
+            // Update nilai properti dari data yang ada
+            data.AccountId = trackingInterview.AccountId;
+            data.NonRasId = trackingInterview.NonRasId;
+            data.ClientId = trackingInterview.ClientId;
+            data.PositionId = trackingInterview.PositionId;
+            data.IntvwDate = trackingInterview.IntvwDate;
+            data.IntvwStatus = trackingInterview.IntvwStatus;
+            data.Notes = trackingInterview.Notes;
+            data.CreatedAt = DateTime.UtcNow;
+           
+
+            // Atur EntityState menjadi Modified agar entitas terdeteksi sebagai entitas yang dimodifikasi
+            _context.Entry(data).State = EntityState.Modified;
+
+            // Simpan perubahan ke dalam database
+            return _context.SaveChanges();
+        }
+
     }
 }

@@ -269,7 +269,7 @@ $(document).ready(function () {
                             var word = posisitionSplit[i].trim();
                             var badgeColor = getColorForPosition(word);
                             var badge = $(
-                                '<span class="badge badge-pill badge-pastel text-secondary">' +
+                                '<span class="badge rounded-pill badge-pastel text-dark">' +
                                 word +
                                 "</span>"
                             );
@@ -299,7 +299,7 @@ $(document).ready(function () {
 
                         if (levelStatus === "Fresh Graduate") {
                             return (
-                                '<span type="button" class="badge badge-pill badge-dark" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                                '<span type="button" class="badge rounded-pill badge-dark" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                                 row.accountId +
                                 "')\">" +
                                 row.level +
@@ -311,7 +311,7 @@ $(document).ready(function () {
                             levelStatus === "Middle to Senior"
                         ) {
                             return (
-                                '<span type="button" class="badge badge-pill badge-danger" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
+                                '<span type="button" class="badge rounded-pill badge-danger" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
                                 row.accountId +
                                 "')\">" +
                                 row.level +
@@ -319,7 +319,7 @@ $(document).ready(function () {
                             );
                         } else {
                             return (
-                                '<span type="button" class="badge badge-pill badge-primary" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                                '<span type="button" class="badge rounded-pill badge-primary" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                                 row.accountId +
                                 "')\">" +
                                 row.level +
@@ -362,16 +362,16 @@ $(document).ready(function () {
 
                         if (placementStatus == "Idle") {
                             /*placementStatus =
-                                                            '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
+                                                            '<span class="badge rounded-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
                                                             row.accountId +
                                                             "', 'Idle')\">Idle</button>";*/
                             placementStatus =
-                                '<span class="badge badge-pill badge-warning" style="outline: none; border:none">Idle</span>';
+                                '<span class="badge rounded-pill badge-warning" style="outline: none; border:none">Idle</span>';
                         } else {
                             /*placementStatus =
-                                                            '<button class="badge badge-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
+                                                            '<button class="badge rounded-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
                             placementStatus =
-                                '<span class="badge badge-pill badge-success" style="outline: none; border:none">' +
+                                '<span class="badge rounded-pill badge-success" style="outline: none; border:none">' +
                                 placementStatus +
                                 "</span>";
                         }
@@ -445,7 +445,7 @@ $(document).ready(function () {
                                                             if (monthsRemaining > 0) {
                                                                 result += daysInMonth + " days";
                                                             } else {
-                                                                result = '<span class="badge badge-pill badge-danger">' + daysInMonth + ' days' + '</span > '
+                                                                result = '<span class="badge rounded-pill badge-danger">' + daysInMonth + ' days' + '</span > '
                                                             }                     
                                                         }*/
 
@@ -1808,7 +1808,7 @@ function handleFilterSubmission() {
               var word = posisitionSplit[i].trim();
               var badgeColor = getColorForPosition(word);
               var badge = $(
-                '<span class="badge badge-pill badge-pastel text-secondary">' +
+                '<span class="badge rounded-pill badge-pastel text-secondary">' +
                   word +
                   "</span>"
               );
@@ -1838,7 +1838,7 @@ function handleFilterSubmission() {
 
             if (levelStatus === "Fresh Graduate") {
               return (
-                '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                '<span type="button" class="badge rounded-pill badge-dark" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -1850,7 +1850,7 @@ function handleFilterSubmission() {
               levelStatus === "Middle to Senior"
             ) {
               return (
-                '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
+                '<span type="button" class="badge rounded-pill badge-danger" data-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -1858,7 +1858,7 @@ function handleFilterSubmission() {
               );
             } else {
               return (
-                '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                '<span type="button" class="badge rounded-pill badge-primary" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -1902,16 +1902,16 @@ function handleFilterSubmission() {
                 //console.log(placementStatus);
             if (placementStatus == "Idle") {
               /*placementStatus =
-                                                        '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
+                                                        '<span class="badge rounded-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
                                                         row.accountId +
                                                         "', 'Idle')\">Idle</button>";*/
               placementStatus =
-                '<span class="badge badge-pill badge-warning" style="outline: none; border:none">Idle</span>';
+                '<span class="badge rounded-pill badge-warning" style="outline: none; border:none">Idle</span>';
             } else {
               /*placementStatus =
-                                                        '<button class="badge badge-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
+                                                        '<button class="badge rounded-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
               placementStatus =
-                '<span class="badge badge-pill badge-success" style="outline: none; border:none">' +
+                '<span class="badge rounded-pill badge-success" style="outline: none; border:none">' +
                 placementStatus +
                 "</span>";
                 }
@@ -1984,7 +1984,7 @@ function handleFilterSubmission() {
                                                         if (monthsRemaining > 0) {
                                                             result += daysInMonth + " days";
                                                         } else {
-                                                            result = '<span class="badge badge-pill badge-danger">' + daysInMonth + ' days' + '</span > '
+                                                            result = '<span class="badge rounded-pill badge-danger">' + daysInMonth + ' days' + '</span > '
                                                         }                     
                                                     }*/
 

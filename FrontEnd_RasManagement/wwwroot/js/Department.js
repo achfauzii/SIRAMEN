@@ -1,5 +1,11 @@
 var table = null;
 $(document).ready(function () {
+    $(
+        "input[required]"
+    ).each(function () {
+        $(this).prev("label").append('<span style="color: red;">*</span>');
+    });
+
     var objDataToken = parseJwt(sessionStorage.getItem('Token'));
 
     if (objDataToken.RoleId == 7) {
@@ -49,7 +55,7 @@ $(document).ready(function () {
       },
     ],
 
-    order: [[1, "desc"]],
+    order: [[1, "asc"]],
     //"responsive": true,
     //Buat ngilangin order kolom No dan Action
     columnDefs: [
@@ -140,6 +146,7 @@ function ClearScreen() {
   $("#NamaDept").val("");
   $("#UpdateDept").hide();
   $("#Save").show();
+  $(".error-message").hide();
 }
 
 function noHTML(input) {

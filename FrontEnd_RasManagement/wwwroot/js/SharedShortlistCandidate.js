@@ -103,7 +103,7 @@ function SharedShortListCandidate(position) {
             var word = posisitionSplit[i].trim();
             var badgeColor = getColorForPosition(word);
             var badge = $(
-              '<span class="badge badge-pill badge-pastel">' + word + "</span>"
+              '<span class="badge badge-pill badge-pastel text-secondary">' + word + "</span>"
             );
 
             // Atur warna latar belakang badge sesuai dengan kata yang sama
@@ -135,7 +135,7 @@ function SharedShortListCandidate(position) {
             var word = skillsetArray[i].trim();
             var badgeColor = getColorForWord(word);
             var badge = $(
-              '<span class="badge badge-pill badge-pastel;" style="margin: 0.1rem">' +
+              '<span class="badge badge-pill badge-pastel text-secondary" style="margin: 0.1rem">' +
                 word +
                 "</span>"
             );

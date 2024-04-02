@@ -8,7 +8,7 @@ $(document).ready(function () {
         $(".btn-new-position").hide();
     }
 
-    $('input[required]').each(function () {
+    $('input[required], input[required-client]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
             },
         ],
 
-        order: [[1, "desc"]],
+        order: [[1, "asc"]],
         columnDefs: [
             {
                 targets: [0, 2],
@@ -170,6 +170,11 @@ function ClearScreen() {
     $("#clientContact").val("");
     $("#Update").hide();
     $("#Save").show();
+    $("input[required], input[required-client]").each(function () {
+        var input = $(this);
+
+        input.next(".error-message").hide();
+    });
 }
 
 function noHTML(input) {
@@ -183,13 +188,13 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
-/*function ClearScreen() {
-    $("#clientId").val("");
-    $("#clientName").val("");
-    $(".error-message").hide();
-    $("#Update").hide();
-    $("#Save").show();
-}*/
+//function ClearScreen() {
+//    $("#clientId").val("");
+//    $("#clientName").val("");
+//    $(".error-message").hide();
+//    $("#Update").hide();
+//    $("#Save").show();
+//}
 
 function GetById(id) {
     $.ajax({
@@ -284,6 +289,10 @@ function Update() {
 }
 
 function Delete(id, nameOfClient) {
+
+    // cek index pagination
+    var currentPageIndex = $("#tbDataCleint").DataTable().page.info().page;
+
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -306,7 +315,12 @@ function Delete(id, nameOfClient) {
                     const logMessage = `Has deleted client ${nameOfClient}`;
                     SaveLogUpdate(logMessage);
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
-                    $("#tbDataCleint").DataTable().ajax.reload();
+                    //$("#tbDataCleint").DataTable().ajax.reload();
+                    // Reload data tabel
+                    $("#tbDataCleint").DataTable().ajax.reload(null, false);
+
+                    // Setel kembali halaman tabel ke indeks yang disimpan
+                    $("#tbDataCleint").DataTable().page(currentPageIndex).draw(false);
                 },
                 error: function (errormessage) {
                     Swal.fire("Error!", "Cant Delete, client Is Not Empty", "error");
@@ -752,6 +766,7 @@ function savePosition() {
         clientId: clientId,
     };
 
+    console.log(newPositionData);
     fetch("https://localhost:7177/api/Position/Insert", {
         method: "POST",
         headers: {

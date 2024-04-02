@@ -2,12 +2,24 @@
     ViewData["Title"] = "TrackingInterview";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
+
 <style>
-    @* *{
-        border: 1px solid green;
-    } *@
+
     .badge {
-        font-size: 12px;
+        font-size: 10.5px;
+    }
+
+    .cards {
+        font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        color: #858796;
+        background-color: #fff;
+    }
+
+    .cards-header {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
@@ -18,53 +30,65 @@
         background-color: #FFFFFF;
     }
 
-    #resource_length label {
-        font-size: 14px;
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #eeeeee;
     }
 
-    #resource_filter label {
+    label {
+        display: inline-block;
+        margin-bottom: .5rem;
         font-size: 14px;
-    }
-
-
-    #resource_filter input[type="search"] {
-        font-size: 14px;
-        height: 26px;
-    }
-
-
-    #resource td {
-        font-size: 13px;
     }
 
     th {
+        font-size: 14px;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+
+    .dataTables_length {
+        font-size: 14px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    }
+
+    .dataTables_filter input[type="search"] {
+        font-size: 12px; /* Atur ukuran font sesuai kebutuhan */
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
         font-size: 13px;
     }
 
+    div.dataTables_wrapper div.dataTables_info {
+        font-size: 13.5px;
+    }
+
+    table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
+        font-size: 14px;
+    }
+
+    table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+        font-size: 14px;
+    }
+
     /* Badge Styles with Pastel Colors and Black Text */
-
-
 
     .form-control {
         height: 31px;
     }
 
-
     select.form-control {
         font-size: 14.5px;
     }
-
 
     .dataTables_info {
         font-size: 14.5px;
     }
 
-    .dataTables_filter {
-        margin-right: 18px;
-    }
     .table.dataTable {
-    margin-top: 0 !important;
-}
+        margin-top: 0 !important;
+    }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
     .dataTables_wrapper .dataTables_paginate .paginate_button.next {
@@ -77,21 +101,16 @@
     }
 
     .customWrap {
-        white-space: normal !important; 
+        white-space: normal !important;
         word-wrap: break-word;
     }
+
     .expand-content {
-        cursor: pointer; 
+        cursor: pointer;
     }
+
     .expand-content:hover {
         color: darkblue !important;
-    }
-
-
-    @@media (min-width: 768px) {
-        .dataTables_filter {
-            margin-right: 10px;
-        }
     }
 
     .closeBtn:hover {
@@ -100,21 +119,18 @@
 
 </style>
 
-
 <div>
     <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 btn-add-tracking" data-toggle="modal" data-target="#trackingModal" onclick="clearScreen();">
         Add New
     </button>
 </div>
 <div class="card mb-3 rounded-bottom border-0">
-
     <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
-
     </nav>
 
-    <div class="card-body pb-1 px-3">
+    <div class="card-body pb-1 px-3" style="color: #858796;">
         <table id="trackingIntvw" class="table table-striped table-bordered text-nowrap w-100" style="max-width:100%; color:black" cellspacing="0">
-            <thead>
+            <thead style="color: #858796;">
                 <tr>
                     <th>No</th>
                     <th>Fullname</th>
@@ -123,6 +139,7 @@
                     <th>Interview Status</th>
                     <th>Interview Date</th>
                     <th>Notes</th>
+                    <th style="display: none;">CreatedAt</th>
                 </tr>
             </thead>
             <tbody>

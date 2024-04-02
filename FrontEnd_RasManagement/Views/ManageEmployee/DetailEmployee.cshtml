@@ -193,6 +193,14 @@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Job </label>
+                        <select class="form-control form-control-sm" id="jobRole" required>
+                            <option selected disabled>Choose Job</option>
+                        </select>
+                        @* <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="jobRole" name="jobRole" required> *@
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">PIC Name</label>
                         <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="picName" name="picName" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
