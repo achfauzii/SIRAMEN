@@ -90,10 +90,6 @@ namespace FrontEnd_RasManagement.Controllers
                 ViewData["EmployeePlacement"] = placement;
                 ViewData["StartDate"] =placement.startDate;
                 ViewData["EndDate"] = placement.endDate;
-               
-
-            
-
                 return View();
             }
 

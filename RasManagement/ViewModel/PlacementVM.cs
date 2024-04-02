@@ -7,6 +7,7 @@
         public int? ClientId { get; set; }
         public int? PositionId { get; set; }
         public string? PicName { get; set; }
+        public string? PicRas { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
