@@ -192,25 +192,24 @@ namespace FrontEnd_RasManagement.Controllers
 
 
                     // Membuat tabel untuk menyusun logo dan alamat secara sejajar
-                    PdfPTable headingLogo = new PdfPTable(2); // 2 kolom untuk logo dan alamat
-                    headingLogo.WidthPercentage = 100;
+                    //PdfPTable headingLogo = new PdfPTable(2); // 2 kolom untuk logo dan alamat
+                    //headingLogo.WidthPercentage = 100;
 
 
-                    iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(companyLogoPath);
-                    logo.ScaleAbsolute(128f, 30f); // Sesuaikan ukuran logo sesuai kebutuhan
-                    document.Add(logo);
-                    PdfPCell logoCell = new PdfPCell(logo);
-                    logoCell.Border = PdfPCell.NO_BORDER;
-                    headingLogo.AddCell(logoCell);
+                    //iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(companyLogoPath);
+                    //logo.ScaleAbsolute(128f, 30f); // Sesuaikan ukuran logo sesuai kebutuhan
+                    //PdfPCell logoCell = new PdfPCell(logo);
+                    //logoCell.Border = PdfPCell.NO_BORDER;
+                    //headingLogo.AddCell(logoCell);
 
-                    Paragraph addressParagraph = new Paragraph(companyAddress);
-                    addressParagraph.Alignment = Element.ALIGN_RIGHT; // Alamat ditampilkan di sebelah kanan
-                    PdfPCell addressCell = new PdfPCell(addressParagraph);
-                    addressCell.Border = PdfPCell.NO_BORDER;
-                    headingLogo.AddCell(addressCell);
+                    //Paragraph addressParagraph = new Paragraph(companyAddress);
+                    //addressParagraph.Alignment = Element.ALIGN_RIGHT;
+                    //PdfPCell addressCell = new PdfPCell(addressParagraph);
+                    //addressCell.Border = PdfPCell.NO_BORDER;
+                    //headingLogo.AddCell(addressCell);
 
-                    // Tambahkan tabel ke dalam dokumen
-                    document.Add(headingLogo);
+                    //// Tambahkan tabel ke dalam dokumen
+                    //document.Add(headingLogo);
 
 
 
