@@ -514,6 +514,10 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("PIC");
+            entity.Property(e => e.PicRas)
+               .HasMaxLength(50)
+               .IsUnicode(false)
+               .HasColumnName("PIC_Ras");
             entity.Property(e => e.PlacementStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false)

@@ -398,6 +398,9 @@ $(document).ready(function () {
                                     "https://localhost:7177/api/ClientName/" + placementLocation, // URL API yang diinginkan
                                 type: "GET",
                                 async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                                headers: {
+                                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                                },
                                 success: function (response) {
                                     placementLocation = response.data.nameOfClient;
                                 },
@@ -860,7 +863,7 @@ function GetByIdPlacement(accountId, placementStatus) {
       $("#AccountId").val(accountId);
       $("#PlacementID").val(obj.placementStatusId);
       $("#picName").val(obj.picName);
-      // $("#Status").val(placementStatus);
+      $("#picNameRas").val(obj.picRas);
    
       $("#CompanyName").val(obj.clientId);
       $("#Description").val(obj.description);
@@ -1205,6 +1208,7 @@ function ClearScreenPlacement() {
   const endDate = document.getElementById("showEndDate");
   $("#companyName_").val("");
   $("#picName").val("");
+  $("#picNameRas").val("");
   $("#jobRole").selectedindex = "0";
   $("#startDate").val("");
   $("#endDate").val("");
@@ -1277,6 +1281,7 @@ function Save(accountId) {
   placement.startDate = $("#startDate").val();
   placement.endDate = $("#endDate").val();
   placement.picName = $("#picName").val();
+  placement.picRas = $("#picNameRas").val();
   placement.description = $("#description").val(); //value insert dari id pada input
 
   placement.placementStatus = $('input[name="status"]:checked').val();
@@ -1324,6 +1329,7 @@ function Update() {
   placement.positionId = $("#jobRole").val();
   placement.startDate = $("#startDate").val();
   placement.picName = $("#picName").val();
+  placement.picRas = $("#picNameRas").val();
 
   placement.endDate = $("#endDate").val();
   if (placement.endDate == "") {
@@ -1338,6 +1344,7 @@ function Update() {
     placement.positionId == compare.PositionId &&
     placement.endDate == compare.EndDate &&
     placement.picName == compare.PicName &&
+    placement.picRas == compare.PicRas &&
     placement.description == compare.Description &&
     placement.placementStatus == compare.PlacementStatus
   ) {
@@ -1933,7 +1940,10 @@ function handleFilterSubmission() {
                 url:
                   "https://localhost:7177/api/ClientName/" + placementLocation, // URL API yang diinginkan
                 type: "GET",
-                async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                  async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                  headers: {
+                      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                  },
                 success: function (response) {
                   placementLocation = response.data.nameOfClient;
                 },
@@ -2098,23 +2108,6 @@ function handleFilterSubmission() {
           });
       },
     });
-
-  //$.ajax({
-  //    url: urlApi,
-  //    type: "GET",
-  //    headers: {
-  //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-  //    },
-  //    success: function (result) {
-  //        console.log(result);
-
-  //        location.reload;
-  //    },
-  //    error: function (error) {
-  //        // Handle the error
-  //        console.error('Error:', error);
-  //    }
-  //});
 }
 
 function formatDate(dateString) {
