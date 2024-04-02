@@ -324,13 +324,13 @@ function SharedShortListCandidate(position) {
           // Untuk tipe data lain, kembalikan data aslinya
           return data;
         },
-      },
+        },
 
       {
         data: "cvBerca",
         render: function (data, type, row) {
           if (data == "" || data == null || data == " ") {
-            return " ";
+              return " ";
           }
           if (data == "cvberca") {
             var cvberca =
@@ -362,7 +362,7 @@ function SharedShortListCandidate(position) {
         className: "customWrap",
       },
     ],
-    searching: true,
+      searching: true,
   });
   table.columns.adjust().draw();
 }
