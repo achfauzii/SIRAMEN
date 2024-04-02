@@ -289,7 +289,7 @@ namespace FrontEnd_RasManagement.Controllers
                     employeeNameCell.PaddingTop = 35f;
                     signatureTable.AddCell(employeeNameCell);
 
-                    PdfPCell acknowledgedByNameCell = new PdfPCell(new Phrase("Bela Oktavia", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
+                    PdfPCell acknowledgedByNameCell = new PdfPCell(new Phrase(entry.Pic_Ras, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     acknowledgedByNameCell.Border = PdfPCell.NO_BORDER;
                     acknowledgedByNameCell.PaddingTop = 35f;
                     acknowledgedByNameCell.PaddingLeft = 2f;
@@ -330,6 +330,8 @@ namespace FrontEnd_RasManagement.Controllers
 
         public ActionResult GeneratePdfperEmployee(string accountId, string month, string companyName)
         {
+
+            string name = null;
             //Get Holiday
             var holidayHttpClient = new HttpClient();
             var holidayResponse = holidayHttpClient.GetAsync("https://localhost:7177/api/MasterHoliday").Result;
@@ -380,7 +382,8 @@ namespace FrontEnd_RasManagement.Controllers
                 Console.WriteLine(timeSheetEntries);
                 foreach (var entry in timeSheetEntries)
                 {
-                    Console.WriteLine(entry.AccountName);
+
+                    name = entry.AccountName;
                     PdfPTable table = new PdfPTable(6);
                     float[] columnWidths = { 3.5f, 10f, 1.8f, 3.1f, 3f, 5.1f };
                     table.SetWidths(columnWidths);
@@ -600,7 +603,7 @@ namespace FrontEnd_RasManagement.Controllers
                     employeeNameCell.PaddingTop = 35f;
                     signatureTable.AddCell(employeeNameCell);
 
-                    PdfPCell acknowledgedByNameCell = new PdfPCell(new Phrase("Bela Oktavia", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
+                    PdfPCell acknowledgedByNameCell = new PdfPCell(new Phrase(entry.Pic_Ras, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     acknowledgedByNameCell.Border = PdfPCell.NO_BORDER;
                     acknowledgedByNameCell.PaddingTop = 35f;
                     acknowledgedByNameCell.PaddingLeft = 2f;
@@ -621,7 +624,7 @@ namespace FrontEnd_RasManagement.Controllers
                 }
 
                 document.Close(); // Tutup dokumen di sini setelah selesai menghasilkan konten
-                return File(memoryStream.ToArray(), "application/pdf", $"Recaptimesheet_{companyName}.pdf");
+                return File(memoryStream.ToArray(), "application/pdf", $"{name}_TimeSheet({companyName}).pdf");
             }
             else
             {
@@ -635,6 +638,7 @@ namespace FrontEnd_RasManagement.Controllers
             public string AccountId { get; set; }
             public string AccountName { get; set; }
             public string Pic { get; set; }
+            public string Pic_Ras { get; set; }
             public int WfhCount { get; set; }
             public int WfoCount { get; set; }
             public string Position { get; set; }
