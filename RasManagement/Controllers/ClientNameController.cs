@@ -9,6 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
     public class ClientNameController : BaseController<ClientName, ClientNameRepository, int>
     {
         private readonly ClientNameRepository clientNameRepository;

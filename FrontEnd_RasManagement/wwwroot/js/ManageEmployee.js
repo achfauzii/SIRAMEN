@@ -269,7 +269,7 @@ $(document).ready(function () {
                             var word = posisitionSplit[i].trim();
                             var badgeColor = getColorForPosition(word);
                             var badge = $(
-                                '<span class="badge badge-pill badge-pastel text-secondary">' +
+                                '<span class="badge rounded-pill badge-pastel text-dark">' +
                                 word +
                                 "</span>"
                             );
@@ -299,7 +299,7 @@ $(document).ready(function () {
 
                         if (levelStatus === "Fresh Graduate") {
                             return (
-                                '<span type="button" class="badge badge-pill badge-dark" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                                '<span type="button" class="badge rounded-pill badge-dark" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                                 row.accountId +
                                 "')\">" +
                                 row.level +
@@ -311,7 +311,7 @@ $(document).ready(function () {
                             levelStatus === "Middle to Senior"
                         ) {
                             return (
-                                '<span type="button" class="badge badge-pill badge-danger" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
+                                '<span type="button" class="badge rounded-pill badge-danger" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
                                 row.accountId +
                                 "')\">" +
                                 row.level +
@@ -319,7 +319,7 @@ $(document).ready(function () {
                             );
                         } else {
                             return (
-                                '<span type="button" class="badge badge-pill badge-primary" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                                '<span type="button" class="badge rounded-pill badge-primary" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                                 row.accountId +
                                 "')\">" +
                                 row.level +
@@ -362,16 +362,16 @@ $(document).ready(function () {
 
                         if (placementStatus == "Idle") {
                             /*placementStatus =
-                                                            '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
+                                                            '<span class="badge rounded-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
                                                             row.accountId +
                                                             "', 'Idle')\">Idle</button>";*/
                             placementStatus =
-                                '<span class="badge badge-pill badge-warning" style="outline: none; border:none">Idle</span>';
+                                '<span class="badge rounded-pill badge-warning" style="outline: none; border:none">Idle</span>';
                         } else {
                             /*placementStatus =
-                                                            '<button class="badge badge-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
+                                                            '<button class="badge rounded-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
                             placementStatus =
-                                '<span class="badge badge-pill badge-success" style="outline: none; border:none">' +
+                                '<span class="badge rounded-pill badge-success" style="outline: none; border:none">' +
                                 placementStatus +
                                 "</span>";
                         }
@@ -398,6 +398,9 @@ $(document).ready(function () {
                                     "https://localhost:7177/api/ClientName/" + placementLocation, // URL API yang diinginkan
                                 type: "GET",
                                 async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                                headers: {
+                                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                                },
                                 success: function (response) {
                                     placementLocation = response.data.nameOfClient;
                                 },
@@ -442,7 +445,7 @@ $(document).ready(function () {
                                                             if (monthsRemaining > 0) {
                                                                 result += daysInMonth + " days";
                                                             } else {
-                                                                result = '<span class="badge badge-pill badge-danger">' + daysInMonth + ' days' + '</span > '
+                                                                result = '<span class="badge rounded-pill badge-danger">' + daysInMonth + ' days' + '</span > '
                                                             }                     
                                                         }*/
 
@@ -689,6 +692,14 @@ function fetchDepartments() {
           })
         );
       });
+        $("#deptId").prepend(
+            $("<option>", {
+                value: "",
+                text: "Select Department",
+                selected: true,
+                disabled: true
+            })
+        );
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
@@ -696,99 +707,99 @@ function fetchDepartments() {
   });
 }
 
-function SaveTurnOver() {
-  table = $("#dataTableEmployee").DataTable();
-  var isValid = true;
+//function SaveTurnOver() {
+//  table = $("#dataTableEmployee").DataTable();
+//  var isValid = true;
 
-  // Validasi select options
-  var status = $("#Status").val();
+//  // Validasi select options
+//  var status = $("#Status").val();
 
-  if (!status) {
-    $(".PlacementStatus")
-      .closest(".form-group")
-      .find(".error-message-status")
-      .show();
-    isValid = false;
-  } else {
-    $(".PlacementStatus")
-      .closest(".form-group")
-      .find(".error-message-status")
-      .hide();
-  }
+//  if (!status) {
+//    $(".PlacementStatus")
+//      .closest(".form-group")
+//      .find(".error-message-status")
+//      .show();
+//    isValid = false;
+//  } else {
+//    $(".PlacementStatus")
+//      .closest(".form-group")
+//      .find(".error-message-status")
+//      .hide();
+//  }
 
-  if (!isValid) {
-    return;
-  }
-  var deptIdValue = $("#deptId").val();
-  var TurnOver = new Object(); //object baru
+//  if (!isValid) {
+//    return;
+//  }
+//  var deptIdValue = $("#deptId").val();
+//  var TurnOver = new Object(); //object baru
 
-  TurnOver.status = $("#Status").val();
-  // TurnOver.deptId = $('#DeptId').val();
-  TurnOver.deptId = deptIdValue ? deptIdValue : null;
+//  TurnOver.status = $("#Status").val();
+//  // TurnOver.deptId = $('#DeptId').val();
+//  TurnOver.deptId = deptIdValue ? deptIdValue : null;
 
-  TurnOver.description = $("#Description").val();
-  TurnOver.accountId = $("#AccountId").val();
-  TurnOver.exitDate = $("#date").val();
+//  TurnOver.description = $("#Description").val();
+//  TurnOver.accountId = $("#AccountId").val();
+//  TurnOver.exitDate = $("#date").val();
 
-  var updateRole = new Object();
-  updateRole.accountId = $("#AccountId").val();
-  updateRole.roleId = "4";
+//  var updateRole = new Object();
+//  updateRole.accountId = $("#AccountId").val();
+//  updateRole.roleId = "4";
 
-  $.ajax({
-    type: "POST",
+//  $.ajax({
+//    type: "POST",
 
-    url: "https://localhost:7177/api/TurnOver",
-    data: JSON.stringify(TurnOver),
+//    url: "https://localhost:7177/api/TurnOver",
+//    data: JSON.stringify(TurnOver),
 
-    contentType: "application/json; charset=utf-8",
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    },
-  }).then((result) => {
-    if (
-      (result.status == result.status) == 201 ||
-      result.status == 204 ||
-      result.status == 200
-    ) {
-      // debugger;
-      //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
+//    contentType: "application/json; charset=utf-8",
+//    headers: {
+//      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+//    },
+//  }).then((result) => {
+//    if (
+//      (result.status == result.status) == 201 ||
+//      result.status == 204 ||
+//      result.status == 200
+//    ) {
+//      // debugger;
+//      //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
 
-      Swal.fire({
-        title: "Success!",
-        text: "Turn Over Status has Updated",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        if (
-          TurnOver.status == "Blacklist" ||
-          TurnOver.status == "Resign" ||
-          TurnOver.status == "Transfer"
-        ) {
-          $.ajax({
-            url: "https://localhost:7177/api/Accounts/UpdateRole",
-            type: "PUT",
-            data: JSON.stringify(updateRole),
-            contentType: "application/json; charset=utf-8",
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-          }).then((updateResult) => {
-            const logMessage = `Has turn over employee Id ${TurnOver.accountId}, status ${TurnOver.status}, date : ${TurnOver.exitDate} `;
-            SaveLogUpdate(logMessage);
-          });
-        }
+//      Swal.fire({
+//        title: "Success!",
+//        text: "Turn Over Status has Updated",
+//        icon: "success",
+//        showConfirmButton: false,
+//        timer: 1500,
+//      }).then(() => {
+//        if (
+//          TurnOver.status == "Blacklist" ||
+//          TurnOver.status == "Resign" ||
+//          TurnOver.status == "Transfer"
+//        ) {
+//          $.ajax({
+//            url: "https://localhost:7177/api/Accounts/UpdateRole",
+//            type: "PUT",
+//            data: JSON.stringify(updateRole),
+//            contentType: "application/json; charset=utf-8",
+//            headers: {
+//              Authorization: "Bearer " + sessionStorage.getItem("Token"),
+//            },
+//          }).then((updateResult) => {
+//            const logMessage = `Has turn over employee Id ${TurnOver.accountId}, status ${TurnOver.status}, date : ${TurnOver.exitDate} `;
+//            SaveLogUpdate(logMessage);
+//          });
+//        }
 
-        // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
-        if (selectedOption === "Transfer") {
-          inputCompany.style.display = "block";
-        } else {
-          inputCompany.style.display = "none";
-        }
-      });
-    }
-  });
-}
+//        // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
+//        if (selectedOption === "Transfer") {
+//          inputCompany.style.display = "block";
+//        } else {
+//          inputCompany.style.display = "none";
+//        }
+//      });
+//    }
+//  });
+//}
 
 function Detail(id) {
   window.location.href = "/ManageEmployee/DetailEmployee?accountId=" + id;
@@ -852,7 +863,7 @@ function GetByIdPlacement(accountId, placementStatus) {
       $("#AccountId").val(accountId);
       $("#PlacementID").val(obj.placementStatusId);
       $("#picName").val(obj.picName);
-      // $("#Status").val(placementStatus);
+      $("#picNameRas").val(obj.picRas);
    
       $("#CompanyName").val(obj.clientId);
       $("#Description").val(obj.description);
@@ -900,12 +911,12 @@ function SaveTurnOver() {
   }
   var deptIdValue = $("#deptId").val();
   var TurnOver = new Object(); //object baru
-
+   
   TurnOver.status = $("#Status").val();
   // TurnOver.deptId = $('#DeptId').val();
   TurnOver.deptId = deptIdValue ? deptIdValue : null;
   TurnOver.description = $("#Description").val();
-  TurnOver.description = $("#Description").val();
+
   TurnOver.accountId = $("#AccountId").val();
   TurnOver.exitDate = $("#date").val();
 
@@ -1197,6 +1208,7 @@ function ClearScreenPlacement() {
   const endDate = document.getElementById("showEndDate");
   $("#companyName_").val("");
   $("#picName").val("");
+  $("#picNameRas").val("");
   $("#jobRole").selectedindex = "0";
   $("#startDate").val("");
   $("#endDate").val("");
@@ -1269,6 +1281,7 @@ function Save(accountId) {
   placement.startDate = $("#startDate").val();
   placement.endDate = $("#endDate").val();
   placement.picName = $("#picName").val();
+  placement.picRas = $("#picNameRas").val();
   placement.description = $("#description").val(); //value insert dari id pada input
 
   placement.placementStatus = $('input[name="status"]:checked').val();
@@ -1316,6 +1329,7 @@ function Update() {
   placement.positionId = $("#jobRole").val();
   placement.startDate = $("#startDate").val();
   placement.picName = $("#picName").val();
+  placement.picRas = $("#picNameRas").val();
 
   placement.endDate = $("#endDate").val();
   if (placement.endDate == "") {
@@ -1330,6 +1344,7 @@ function Update() {
     placement.positionId == compare.PositionId &&
     placement.endDate == compare.EndDate &&
     placement.picName == compare.PicName &&
+    placement.picRas == compare.PicRas &&
     placement.description == compare.Description &&
     placement.placementStatus == compare.PlacementStatus
   ) {
@@ -1797,7 +1812,7 @@ function handleFilterSubmission() {
               var word = posisitionSplit[i].trim();
               var badgeColor = getColorForPosition(word);
               var badge = $(
-                '<span class="badge badge-pill badge-pastel text-secondary">' +
+                '<span class="badge rounded-pill badge-pastel text-secondary">' +
                   word +
                   "</span>"
               );
@@ -1827,7 +1842,7 @@ function handleFilterSubmission() {
 
             if (levelStatus === "Fresh Graduate") {
               return (
-                '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                '<span type="button" class="badge rounded-pill badge-dark" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -1839,7 +1854,7 @@ function handleFilterSubmission() {
               levelStatus === "Middle to Senior"
             ) {
               return (
-                '<span type="button" class="badge badge-pill badge-danger" data-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
+                '<span type="button" class="badge rounded-pill badge-danger" data-toggle="modal" data-bs-target="#modalLevel" onclick = "GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -1847,7 +1862,7 @@ function handleFilterSubmission() {
               );
             } else {
               return (
-                '<span type="button" class="badge badge-pill badge-primary" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                '<span type="button" class="badge rounded-pill badge-primary" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -1891,16 +1906,16 @@ function handleFilterSubmission() {
                 //console.log(placementStatus);
             if (placementStatus == "Idle") {
               /*placementStatus =
-                                                        '<span class="badge badge-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
+                                                        '<span class="badge rounded-pill badge-warning" style="outline: none; border:none"  data - placement="right" data - toggle="modal" data - animation="false" title="Edit" onclick="return GetByIdPlacement(\'' +
                                                         row.accountId +
                                                         "', 'Idle')\">Idle</button>";*/
               placementStatus =
-                '<span class="badge badge-pill badge-warning" style="outline: none; border:none">Idle</span>';
+                '<span class="badge rounded-pill badge-warning" style="outline: none; border:none">Idle</span>';
             } else {
               /*placementStatus =
-                                                        '<button class="badge badge-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
+                                                        '<button class="badge rounded-pill badge-success" style="outline: none; border:none" data - placement="right" data - toggle="modal" data - animation="false" title="Edit">' +placementStatus +'</button>';*/
               placementStatus =
-                '<span class="badge badge-pill badge-success" style="outline: none; border:none">' +
+                '<span class="badge rounded-pill badge-success" style="outline: none; border:none">' +
                 placementStatus +
                 "</span>";
                 }
@@ -1925,7 +1940,10 @@ function handleFilterSubmission() {
                 url:
                   "https://localhost:7177/api/ClientName/" + placementLocation, // URL API yang diinginkan
                 type: "GET",
-                async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                  async: false, // Tunggu hingga permintaan selesai (opsional, bisa diubah)
+                  headers: {
+                      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                  },
                 success: function (response) {
                   placementLocation = response.data.nameOfClient;
                 },
@@ -1970,7 +1988,7 @@ function handleFilterSubmission() {
                                                         if (monthsRemaining > 0) {
                                                             result += daysInMonth + " days";
                                                         } else {
-                                                            result = '<span class="badge badge-pill badge-danger">' + daysInMonth + ' days' + '</span > '
+                                                            result = '<span class="badge rounded-pill badge-danger">' + daysInMonth + ' days' + '</span > '
                                                         }                     
                                                     }*/
 
@@ -2090,23 +2108,6 @@ function handleFilterSubmission() {
           });
       },
     });
-
-  //$.ajax({
-  //    url: urlApi,
-  //    type: "GET",
-  //    headers: {
-  //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-  //    },
-  //    success: function (result) {
-  //        console.log(result);
-
-  //        location.reload;
-  //    },
-  //    error: function (error) {
-  //        // Handle the error
-  //        console.error('Error:', error);
-  //    }
-  //});
 }
 
 function formatDate(dateString) {

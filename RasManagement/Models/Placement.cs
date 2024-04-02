@@ -20,6 +20,7 @@ public partial class Placement
     public DateTime? EndDate { get; set; }
 
     public string? PicName { get; set; }
+    public string? PicRas { get; set; }
 
     public string AccountId { get; set; } = null!;
 

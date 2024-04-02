@@ -1,6 +1,42 @@
 var table = null;
 var position = null;
 var compare = {};
+var colorsByWord = {};
+var colorByPosition = {};
+
+var softlColors = [
+  "#B7E4C7", // Mint Green
+  "#FFD8B1", // Soft Peach
+  "#C9C8E8", // Lavender Grey
+  "#BCCEF8",
+  "#AED9E0", // Sky Blue
+  "#F9E4AD", // Pale Yellow
+  "#FFA69E", // Coral Pink
+  "#D0AEEF", // Pastel Lilac
+  "#B5DFE6", // Icy Blue
+  "#F6E4C8", // Buttercreamy
+  "#c9a7eb",
+  "#a4b0f5",
+  "#D2E0FB",
+  "#F7F5EB",
+];
+
+var pastelColors = [
+  "#B7E4C7", // Mint Green
+  "#FFD8B1", // Soft Peach
+  "#C9C8E8", // Lavender Grey
+  "#BCCEF8",
+  "#AED9E0", // Sky Blue
+  "#F9E4AD", // Pale Yellow
+  "#FFA69E", // Coral Pink
+  "#D0AEEF", // Pastel Lilac
+  "#B5DFE6", // Icy Blue
+  "#F6E4C8", // Buttercream
+  "#c9a7eb",
+  "#a4b0f5",
+  "#D2E0FB",
+  "#F7F5EB",
+];
 // var navListMenu = null;
 
 //Set Focus on Input Search component Select2
@@ -97,7 +133,39 @@ $(document).ready(function () {
           return data;
         },
       },
-      { data: "position" },
+        {
+            data: "position",
+            render: function (data) {
+                if (data == null) {
+                    var a = "";
+                    return a;
+                }
+
+                var posisitionSplit = data.split(",");
+
+                var badgeContainer = $('<div class="badge-container"></div>');
+
+                for (var i = 0; i < posisitionSplit.length; i++) {
+                    var word = posisitionSplit[i].trim();
+                    var badgeColor = getColorForPosition(word);
+                    var badge = $(
+                        '<span class="badge badge-pill badge-pastel" style="color: #212529">' +
+                        word +
+                        "</span>"
+                    );
+
+                    // Atur warna latar belakang badge sesuai dengan kata yang sama
+                    badge.css("background-color", badgeColor);
+
+                    badgeContainer.append(badge);
+                    if (i < posisitionSplit.length - 1) {
+                        badgeContainer.append(" ");
+                    }
+                }
+                // Kembalikan HTML dari container badge
+                return badgeContainer.html();
+            },
+        },
       { data: "client" },
       {
         data: "intStatus",
@@ -117,6 +185,19 @@ $(document).ready(function () {
           const lastStatus =
             userData.statusArray[userData.statusArray.length - 1];
 
+            if (lastStatus == "Scheduling") {
+                return '<span class="badge badge-pill" style="background-color: #C9C8E8; color: #212529;">' + lastStatus + '</span>';
+            } else if (lastStatus == "Submitted CV") {
+                return '<span class="badge badge-pill" style="background-color: #95c0f8; color: #212529;">' + lastStatus + '</span>';
+            } else if (lastStatus == "Hold") {
+                return '<span class="badge badge-pill" style="background-color: #ffd8b1; color: #212529;">' + lastStatus + '</span>';
+            } else if (lastStatus == "Technical Test") {
+                return '<span class="badge badge-pill" style="background-color: #D0AEEF; color: #212529;">' + lastStatus + '</span>';
+            } else if (lastStatus == "Done") {
+                return '<span class="badge badge-pill" style="background-color: #b7e4c7; color: #212529;">' + lastStatus + '</span>';
+            }else {
+                return '<span class="badge badge-pill" style="background-color: #f56954; color: #212529;">' + lastStatus + '</span>';
+            }
           return lastStatus;
         },
       },
@@ -909,4 +990,23 @@ function addDropdown(nameOfClient) {
   } else {
     $("#dropdown-nav-tab").show();
   }
+}
+
+
+function getColorForWord(word) {
+    if (!colorsByWord.hasOwnProperty(word)) {
+        // Jika kata belum memiliki warna yang terkait, atur warna pastel secara urut
+        colorsByWord[word] =
+            pastelColors[Object.keys(colorsByWord).length % pastelColors.length];
+    }
+    return colorsByWord[word];
+}
+
+function getColorForPosition(word) {
+    if (!colorsByWord.hasOwnProperty(word)) {
+        // Jika kata belum memiliki warna yang terkait, atur warna pastel secara urut
+        colorsByWord[word] =
+            softlColors[Object.keys(colorsByWord).length % softlColors.length];
+    }
+    return colorsByWord[word];
 }

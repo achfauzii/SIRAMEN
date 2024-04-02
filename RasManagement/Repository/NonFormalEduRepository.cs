@@ -23,6 +23,45 @@ namespace RasManagement.Repository
             return educationAccount;
         }
 
+        public async Task<NonFormalEdu> GetByNonFormalEduId(int nonFormalEduId)
+        {
+            return await context.NonFormalEdus.FindAsync(nonFormalEduId);
+        }
+
+        public async Task<IEnumerable<NonFormalEdu>> Get()
+        {
+            return await context.NonFormalEdus.ToListAsync();
+        }
+
+        public async Task<int> InsertNonFormalEducation(NonFormalEdu nonFormalEdu)
+        {
+            context.NonFormalEdus.Add(nonFormalEdu);
+            var save = await context.SaveChangesAsync();
+
+            return save;
+
+        }
+
+        public async Task<int> UpdateNonFormalEducation(NonFormalEdu updateNonEdu)
+        {
+            context.Entry(updateNonEdu).State = EntityState.Modified;
+            var save = await context.SaveChangesAsync();
+
+            return save;
+        }
+
+        public async Task<bool> DeleteNonFormalEducation(int nonEducationId)
+        {
+            var education = await context.NonFormalEdus.FindAsync(nonEducationId);
+            if (education != null)
+            {
+                context.NonFormalEdus.Remove(education);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
         /*public int Insert(InsertNonFormalEdu insertNonFormalEdu)
         {
             NonFormalEdu nonFormalEdu = new NonFormalEdu

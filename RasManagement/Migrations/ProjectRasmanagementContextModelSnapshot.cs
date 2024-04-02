@@ -733,6 +733,12 @@ namespace RasManagement.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("PIC");
 
+                    b.Property<string>("PicRas")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("PIC_Ras");
+
                     b.Property<string>("PlacementStatus")
                         .HasMaxLength(50)
                         .IsUnicode(false)

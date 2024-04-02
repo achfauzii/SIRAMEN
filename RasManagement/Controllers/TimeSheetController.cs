@@ -96,7 +96,7 @@ namespace RasManagement.Controllers
 
         }
 
-        [AllowAnonymous]
+
         [HttpPost("AddTimeSheet")]
         public IActionResult AddTimeSheet([FromBody] TimeSheet timeSheet)
         {
@@ -131,7 +131,7 @@ namespace RasManagement.Controllers
             }
         }
 
-        [AllowAnonymous]
+     
         [HttpPut("Update")]
         public IActionResult UpdateTimeSheet([FromBody] TimeSheet timeSheet)
         {

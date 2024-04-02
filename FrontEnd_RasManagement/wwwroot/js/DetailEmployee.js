@@ -158,8 +158,12 @@ function placement() {
                         <div class="col-10">: ${placement.description} </div>
                     </div>
                     <div class="row">
-                        <div class="col  " style="color: black">PIC Name</div>
+                        <div class="col  " style="color: black">PIC Name User</div>
                         <div class="col-10">: ${placement.picName} </div>
+                    </div>
+                    <div class="row">
+                        <div class="col  " style="color: black">PIC Name RAS</div>
+                        <div class="col-10">: ${placement.picRas} </div>
                     </div>
                     `;
         // Tambahkan elemen placement ke div dengan id "placementData"
@@ -230,6 +234,8 @@ function GetById(accountId, placementStatusId) {
     $("#placementStatusId").val(placementStatusId);
     $("#companyName_").val(obj.clientId).trigger("change");
     $("#picName").val(obj.picName);
+    $("#picNameRas").val(obj.picRas);
+
 
     position = obj.positionId;
     getPosition(obj.clientId);
@@ -245,12 +251,13 @@ function GetById(accountId, placementStatusId) {
     $("#Add").hide();
 
     compare = {
-      PicName: obj.picName,
-      PlacementStatus: obj.placementStatus,
-      ClientId: obj.clientId,
-      Description: obj.description,
-      EndDate: endDate,
-      PositionId: obj.positionId,
+        PicName: obj.picName,
+        picRas: obj.picRas,
+        PlacementStatus: obj.placementStatus,
+        ClientId: obj.clientId,
+        Description: obj.description,
+        EndDate: endDate,
+        PositionId: obj.positionId,
     };
   });
 }
