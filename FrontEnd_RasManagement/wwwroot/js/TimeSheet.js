@@ -367,4 +367,3 @@ function exportPDF() {
 
   document.body.innerHTML = originalContents;
 }
-
