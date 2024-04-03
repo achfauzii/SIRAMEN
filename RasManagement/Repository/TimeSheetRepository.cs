@@ -70,6 +70,7 @@ namespace RasManagement.Repository
                         AccountId = group.Key,
                         AccountName = group.First().Account.Fullname,
                         Pic = group.First().PlacementStatus.PicName,
+                        Pic_RAS = group.First().PlacementStatus.PicRas,
                         WFHCount = group.Where(ts => ts.Flag == "WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFH
                         WFOCount = group.Where(ts => ts.Flag == "WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFO
                         ClientSite = companyName,
@@ -521,6 +522,7 @@ namespace RasManagement.Repository
                         AccountId = group.Key,
                         AccountName = group.First().Account.Fullname,
                         Pic = group.First().PlacementStatus.PicName,
+                        Pic_RAS = group.First().PlacementStatus.PicRas,
                         WFHCount = group.Where(ts => ts.Flag == "WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFH
                         WFOCount = group.Where(ts => ts.Flag == "WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFO
                       
