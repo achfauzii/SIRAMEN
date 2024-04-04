@@ -299,7 +299,7 @@ $(document).ready(function () {
 
                         if (levelStatus === "Fresh Graduate") {
                             return (
-                                '<span type="button" class="badge rounded-pill badge-dark" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                                '<span type="button" class="badge rounded-pill badge-secondary" data-bs-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                                 row.accountId +
                                 "')\">" +
                                 row.level +
@@ -493,11 +493,11 @@ $(document).ready(function () {
                                 "</button>";
                         } else {
                             tulisanButton =
-                                '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
+                                '<button class="btn btn-sm rounded-pill" style="background-color: #858796; color: #FFFFFF;" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
                                 row.accountId +
                                 "')\">" +
                                 "Data Empty" +
-                                "</button>";
+                                '</button>';
                         }
 
                         //console.log("Generated HTML:", tulisanButton);
