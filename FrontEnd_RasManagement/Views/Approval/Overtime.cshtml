@@ -3,6 +3,117 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
 
+<style>
+    .cards {
+        font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        color: #858796;
+        background-color: #fff;
+    }
+
+/*    .cards-header {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+    }*/
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF;
+    }
+
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #e3e6f0;
+    }
+
+    label {
+        display: inline-block;
+        margin-bottom: .5rem;
+        font-size: 14px;
+    }
+
+    th {
+        font-size: 14px;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+
+    .dataTables_length {
+        font-size: 14px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    }
+
+    .dataTables_filter input[type="search"] {
+        font-size: 12px; /* Atur ukuran font sesuai kebutuhan */
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 13px;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        font-size: 13.5px;
+    }
+
+    table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
+        font-size: 14px;
+    }
+
+    table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+        font-size: 13px;
+    }
+
+    /* Badge Styles with Pastel Colors and Black Text */
+
+    .form-control {
+        height: 31px;
+    }
+
+    select.form-control {
+        font-size: 14.5px;
+    }
+
+    .dataTables_info {
+        font-size: 14.5px;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+        font-size: 14.5px;
+    }
+
+    .paginate_button {
+        font-size: 14px;
+        padding: 4px 8px;
+    }
+
+    .customWrap {
+        white-space: normal !important;
+        word-wrap: break-word;
+    }
+
+    .expand-content {
+        cursor: pointer;
+    }
+
+    .expand-content:hover {
+        color: darkblue !important;
+    }
+
+    .closeBtn:hover {
+        background-color: #e3e3e3;
+    }
+
+</style>
+
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
 <div class="card mt-2 mb-3">
@@ -11,9 +122,9 @@
             <div class="col"><h5 class="mb-2 font-weight-bold text-primary">Overtime Approval</h5></div>
         </div>
     </div>
-    <div class="card-body">
-        <table id="ApprovalTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
-            <thead style="background-color:#FFFFFF">
+    <div class="card-body" style="color: #858796;">
+        <table id="ApprovalTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black;" cellspacing="0">
+            <thead style="color: #858796;">
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Date</th>
