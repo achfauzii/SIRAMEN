@@ -361,7 +361,7 @@ namespace RasManagement.Repository
                 case "Sick":
                     return "#f56954"; // Red
                 case "Leave":
-                    return "#6c757d"; // Grey
+                    return "#858796"; // Grey
                 default:
                     return "#ffffff"; // White
             }
