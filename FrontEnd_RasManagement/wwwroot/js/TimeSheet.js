@@ -25,6 +25,7 @@ $(document).ready(function () {
   getPlacement(accountId)
     .then(function (employee) {
         $(".companyName").text(employee.client.nameOfClient);
+        $("#jobRole").text(employee.position.positionClient);
     })
     .catch(function (error) {
       alert(error);
@@ -273,7 +274,8 @@ function getPlacement(accountId) {
         if (obj && obj.length > 0) {
           var lastData = obj[0];
 
-          resolve(lastData);
+            resolve(lastData);
+            
         } else {
           console.log("Tidak ada data");
         }

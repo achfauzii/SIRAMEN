@@ -114,8 +114,10 @@ $(document).ready(function () {
     success: function (result) {
       var obj = result.data;
       if (obj && obj.length > 0) {
-        var lastData = obj[0];
-        $("#compName").text(lastData.client.nameOfClient);
+          var lastData = obj[0];
+   
+          $("#compName").text(lastData.client.nameOfClient);
+          $("#jobRole").text(lastData.position.positionClient);
         $("#lastPlacementId").val(lastData.placementStatusId);
       } else {
         console.log("Tidak ada data");
@@ -171,7 +173,7 @@ $(document).ready(function () {
       },
     ],
     rowsGroup: ["first:name", "second:name"],
-    order: [[0, "asc"]],
+    order: [[0, "desc"]],
     columnDefs: [
       {
         targets: [2, 3, 4, 5, 6],
