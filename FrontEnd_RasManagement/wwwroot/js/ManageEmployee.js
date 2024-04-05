@@ -1812,7 +1812,7 @@ function handleFilterSubmission() {
               var word = posisitionSplit[i].trim();
               var badgeColor = getColorForPosition(word);
               var badge = $(
-                '<span class="badge rounded-pill badge-pastel text-secondary">' +
+                '<span class="badge rounded-pill badge-pastel text-dark">' +
                   word +
                   "</span>"
               );
@@ -1842,7 +1842,7 @@ function handleFilterSubmission() {
 
             if (levelStatus === "Fresh Graduate") {
               return (
-                '<span type="button" class="badge rounded-pill badge-dark" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
+                '<span type="button" class="badge rounded-pill badge-secondary" data-toggle="modal" data-bs-target="#modalLevel" onclick="GetbyLevel(\'' +
                 row.accountId +
                 "')\">" +
                 row.level +
@@ -2028,19 +2028,19 @@ function handleFilterSubmission() {
             var tulisanButton = "View Asset"; // Default value
 
             if (row.assetsManagements && row.assetsManagements.length > 0) {
-              tulisanButton =
+                tulisanButton =
                 '<button class="btn btn-success btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
                 row.accountId +
                 "')\">" +
                 "View Data" +
                 "</button>";
             } else {
-              tulisanButton =
-                '<button class="btn btn-secondary btn-sm rounded-pill" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
-                row.accountId +
-                "')\">" +
-                "Data Empty" +
-                "</button>";
+                tulisanButton =
+                    '<button class="btn btn-sm rounded-pill" style="background-color: #858796; color: #FFFFFF;" data-placement="left" data-toggle="modal" data-tooltip="tooltip" data-animation="false" title="Assets" onclick="return GetByIdAsset(\'' +
+                    row.accountId +
+                    "')\">" +
+                    "Data Empty" +
+                    '</button>';
             }
 
             //console.log("Generated HTML:", tulisanButton);
