@@ -60,9 +60,9 @@ function extractInformation(text) {
         matchUniv = regexUniv.exec(text);
         console.log(matchUniv[2]);
         $("#UniversityName").val(matchUniv[2]).trigger("change");
-       
+
     }
-  
+
 
 
     //GET Degree 
@@ -83,11 +83,11 @@ function extractInformation(text) {
         matchDegree = regexDegree.exec(text);
         degree = matchDegree[4].trim() + " " + matchDegree[5].trim();
         $("#degree").val(degree);
-        
-      
+
+
 
     }
-    
+
 
     //Birthdate
     var regexID = /Place\s*&\s*date\s*of\s*birth\s*:\s*([\w\s,]+)\s*(\d{2}\s*(?:Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s*\d{4})/;
@@ -98,17 +98,17 @@ function extractInformation(text) {
     var formattedDate;
     if (matchID && matchID.length > 1) {
 
-         formattedDate = moment(matchID[2].trim(), "DD MMMM YYYY").format("YYYY-MM-DD");
+        formattedDate = moment(matchID[2].trim(), "DD MMMM YYYY").format("YYYY-MM-DD");
         if (!moment(formattedDate, "YYYY-MM-DD").isValid()) {
 
             var date = matchID[2].trim();
             var fotamtedDate_ = (formatedToEnDate(date));
             formattedDate = moment(fotamtedDate_, "DD MMMM YYYY").format("YYYY-MM-DD");
-           
+
         }
     }
     if (matchEN && matchEN.length > 1) {
- 
+
         formattedDate = moment(matchEN[2].trim(), "DD MMMM YYYY").format("YYYY-MM-DD");
         if (!moment(formattedDate, "YYYY-MM-DD").isValid()) {
 
@@ -116,12 +116,12 @@ function extractInformation(text) {
             var fotamtedDate_ = (formatedToEnDate(date));
             formattedDate = moment(fotamtedDate_, "DD MMMM YYYY").format("YYYY-MM-DD");
             console.log(formattedDate);
-         
+
         }
     }
     $("#birthdate").val(formattedDate);
- 
-  
+
+
 
     //Skillset
     var regexFramework = /Framework\/Library\s*:\s*(.*)/;
@@ -131,7 +131,12 @@ function extractInformation(text) {
     var regexDatabase = /Database\s*:\s*(.*)/;
     var matchDatabase = regexDatabase.exec(text);
 
+    var regexQualifications = /QUALIFICATION\s*([\s\S]*?)\bPREVIOUS\sEMPLOYMENT\sHISTORY/;
+    var matchQualifications = regexQualifications.exec(text);
+
     var skillset;
+
+    if (matchFramework) {
 
         if (matchFramework && matchFramework.length > 1) {
             var frameworks = matchFramework[1].split(',').map(function (item) { return item.trim(); });
@@ -161,25 +166,55 @@ function extractInformation(text) {
             skillset = skillset.concat(database);
         }
 
+        //Jika format cv berbeda
+    } else if (matchQualifications) {
 
-        const skillSelect = $("#skillset");
-  
-        skillset.forEach((value) => {
-            const optionNotExists =
-                skillSelect.find("option[value='" + value + "']").length === 0;
+        var qualifications = matchQualifications[1].split('\n\n').map(function (item) { return item.trim(); });
 
-            if (optionNotExists) {
-                const newOption = new Option(value, value, true, true);
-                skillSelect.append(newOption).trigger("change");
-            }
-        });
-        skillSelect.val(skillset).trigger("change");
-    
+        var lastQualification = qualifications[qualifications.length - 1];
+        if (lastQualification == "") {
+            qualifications.pop();
+        }
+        skillset = qualifications;
+    }
+
+
+    const skillSelect = $("#skillset");
+
+    skillset.forEach((value) => {
+        const optionNotExists =
+            skillSelect.find("option[value='" + value + "']").length === 0;
+
+        if (optionNotExists) {
+            const newOption = new Option(value, value, true, true);
+            skillSelect.append(newOption).trigger("change");
+        }
+    });
+    skillSelect.val(skillset).trigger("change");
+
+
+
+    // Job Position
+    var regexLastJob = /PREVIOUS\sEMPLOYMENT\sHISTORY\s*([\s\S]*?)\bJob\s*:\s*(.*)/;
+    var matchLastJob = regexLastJob.exec(text);
+    if (matchLastJob) {
+        var job = matchLastJob[2].trim();
+ 
+        var selectElement = document.getElementById("position");
+
+        const newOption = new Option(job, job, true, true);
+        selectElement.append(newOption).trigger("change");
+
+        selectElement.val(job).trigger("change");
+
+    }
+
+
 }
 
 
-function formatedToEnDate(tanggalIndonesia){
-  
+function formatedToEnDate(tanggalIndonesia) {
+
     var bagianTanggal = tanggalIndonesia.split(' ');
     var tanggal = bagianTanggal[0];
     var bulan = bagianTanggal[1];
@@ -288,7 +323,7 @@ function ClearScreenSave() {
 
 
 
-
+//Word
 document.getElementById('fileInput2').addEventListener('change', function (event) {
     ClearScreenSave();
     const file = event.target.files[0];
