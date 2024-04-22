@@ -6,6 +6,20 @@
 }
 
 <style>
+    .input-group {
+        position: relative;
+    }
+    .error-message-p {
+        color: red;
+        display: none;
+        margin-top: 37px;
+        margin-bottom:100px;
+        position:absolute;
+    }
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+<style>
     .table-striped tbody tr:nth-of-type(odd) {
         background-color: #F7F6FE; /* Warna latar belakang untuk baris ganjil */
     }
@@ -15,6 +29,8 @@
     }
 
 </style>
+
+
 
 <!-- /.card-header -->
 <div class="card">
@@ -66,13 +82,27 @@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group">
-                        <label for="PublicationYear">Publication Years</label>
-                        <input type="month" class="form-control" id="PublicationYear" required>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <label for="PublicationYear">Publication Years<span style="color: red;">*</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="PublicationYear" placeholder="Choose month and year..." required readonly>
+                            <span class="error-message-p" style="color: red; display: none;">This field is required!</span>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="dateMonth"><i class="fas fa-calendar"></i></span>
+                            </div>
+                        </div>
+
                     </div>
+
+
                     <div class="form-group">
                         <label for="ValidUntil">Valid Until</label>
-                        <input type="month" class="form-control" id="ValidUntil">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="ValidUntil" placeholder="Choose month and year..." readonly>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="dateMonth"><i class="fas fa-calendar"></i></span>
+                            </div>
+                        </div>
+
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         <small class="form-text text-muted">Leave blank if there is no expiration date</small>
 
@@ -90,4 +120,5 @@
 
 @section script{
     <script src="~/js/Certificate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 }

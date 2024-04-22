@@ -5,6 +5,7 @@
     Layout = layoutPath;
 }
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 <style>
     .table-striped tbody tr:nth-of-type(odd) {
@@ -20,7 +21,20 @@
         justify-content: space-between;
         align-items: baseline;
     }
+
+
+    .input-group {
+        position: relative;
+    }
+
+    .error-message-p {
+        color: red;
+        display: none;
+        margin-top: 37px;
+        position: absolute;
+    }
 </style>
+
 
 <!-- /.card-header -->
 <div class="card">
@@ -79,15 +93,26 @@
                     </div>*@
                     <div class="form-group-inline">
                         <div class="col pl-0 form-group">
-                            <label for="StartYear">Start Date</label>
-                            <input type="month" class="form-control" id="StartYear" placeholder="Enter Start Year" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <label for="StartYear">Start Date<span style="color: red;">*</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="StartYear" placeholder="Choose month..." required readonly>
+                                <span class="error-message-p" style="color: red; display: none;">This field is required!</span>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="dateMonth"><i class="fas fa-calendar"></i></span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col pr-0 form-group">
                             <label for="EndYear">End Date</label>
-                            <input type="month" class="form-control" id="EndYear" placeholder="Enter End Year">
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="EndYear" placeholder="Choose month..." readonly>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="dateMonth"><i class="fas fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">Leave it blank if still working</small>
                         </div>
                     </div>
 
@@ -111,8 +136,8 @@
     </div>
 </div>
 
-
 @section script
     {
     <script src="~/js/EmployementHistory.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 }

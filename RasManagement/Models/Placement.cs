@@ -8,10 +8,9 @@ public partial class Placement
 {
     public int PlacementStatusId { get; set; }
 
-    public string? CompanyName { get; set; }
+    public int? ClientId { get; set; }
 
-    public string? JobRole { get; set; }
-
+    public int? PositionId { get; set; }
     public string? Description { get; set; }
 
     public string? PlacementStatus { get; set; }
@@ -20,7 +19,18 @@ public partial class Placement
 
     public DateTime? EndDate { get; set; }
 
+    public string? PicName { get; set; }
+    public string? PicRas { get; set; }
+
     public string AccountId { get; set; } = null!;
+
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
+
+    [JsonIgnore]
+    public virtual ClientName? Client { get; set; }
+    [JsonIgnore]
+    public virtual Position? Position { get; set; }
+    public virtual ICollection<TimeSheet> TimeSheets { get; set; } = new List<TimeSheet>();
+    public virtual ICollection<Approval> Approvals { get; set; } = new List<Approval>();
 }

@@ -25,21 +25,22 @@
     <div class="card-body">
         <h5 class="mb-3">Assets Management</h5>
         <h6 class="mb-3 " id="rfid_h6">
-            </h5>
-            <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalAssets" onclick="ClearScreenAsset();" id="add-asset">
-                + Add Asset
-            </button>
+            <h6 class="mb-3 " id="date_h6">
+                </h5>
+                <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalAssets" onclick="ClearScreenAsset();" id="add-asset">
+                    + Add Asset
+                </button>
 
-            <table id="TB_Assets" class="table table-striped" style="font-size:14px; color:black">
-                <thead style="background-color:#FFFFFF">
-                    <tr>
-                        <th scope="col">Brand</th>
-                        <th scope="col">Spesifikasi</th>
-                        <th scope="col">Action</th>
+                <table id="TB_Assets" class="table table-striped" style="font-size:14px; color:black">
+                    <thead style="background-color:#FFFFFF">
+                        <tr>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Spesifikasi</th>
+                            <th scope="col">Action</th>
 
-                    </tr>
-                </thead>
-            </table>
+                        </tr>
+                    </thead>
+                </table>
     </div>
 </div>
 
@@ -65,7 +66,7 @@
 
                     <div class="form-group">
                         <label for="RFID">RFID</label>
-                        <input type="number" step="6" class="form-control italic-placeholder" id="RFID" placeholder="Enter RFID" required>
+                        <input type="text" step="6" class="form-control italic-placeholder" id="RFID" placeholder="Enter RFID" oninput="numeric(this);" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
@@ -86,15 +87,20 @@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group">
-                        <label for="ram">RAM</label>
-                        <input type="text" class="form-control italic-placeholder" id="ram" placeholder="4GB / 8GB" required>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <label for="ram">RAM<span style="color: red;">*</span></label>
+                        <div class="input-group">
+                            <input type="text" class="form-control italic-placeholder" id="ram" placeholder="2 / 4 / 8 / 16" oninput="numeric(this);" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">GB</span>
+                            </div>
+                        </div>
+                        <span class="error-message" style="color: red; display: none;" id="ram-error">This field is required!</span>
                     </div>
                     <div class="row form-group">
                         <div class="col">
                             <label for="ssd">SSD</label>
                             <div class="input-group">
-                                <input type="text" class="form-control italic-placeholder" id="ssd" placeholder="256 / 512 / 1024">
+                                <input type="text" class="form-control italic-placeholder" id="ssd" placeholder="256 / 512 / 1024" oninput="numeric(this);" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">GB</span>
                                 </div>
@@ -104,7 +110,7 @@
                         <div class="col">
                             <label for="hdd">HDD</label>
                             <div class="input-group">
-                                <input type="text" class="form-control italic-placeholder" id="hdd" placeholder="256 / 512 / 1024">
+                                <input type="text" class="form-control italic-placeholder" id="hdd" placeholder="256 / 512 / 1024" oninput="numeric(this);">
                                 <div class="input-group-append">
                                     <span class="input-group-text">GB</span>
                                 </div>
@@ -119,9 +125,14 @@
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
-                            <label for="Display">Display</label>
-                            <input type="text" class="form-control italic-placeholder" id="Display" placeholder="Enter Screen Size in Inch" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <label for="Display">Display<span style="color: red;">*</span></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control italic-placeholder" id="Display" placeholder="12 / 14 / 16" oninput="numeric(this);" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Inch</span>
+                                </div>
+                            </div>
+                            <span class="error-message" style="color: red; display: none;" id="display-error">This field is required!</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -130,6 +141,11 @@
                             <option>Yes</option>
                             <option>No</option>
                         </select>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="charger">Obtained Date</label>
+                        <input type="date" class="form-control" id="dateObtained" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
                 </form>
@@ -143,8 +159,10 @@
     </div>
 </div>
 
+
+
 @section script
     {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="~/js/AssetsManagement.js"></script>
-
 }

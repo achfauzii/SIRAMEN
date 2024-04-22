@@ -20,7 +20,7 @@ namespace FrontEnd_RasManagement.Controllers
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
 
-            if (role != "Admin" && role != "Super_Admin")
+            if (role != "Admin" && role != "Super_Admin" && role !="Trainer" && role != "Manager")
             {
                 return RedirectToAction("Login", "Accounts");
             }
@@ -38,7 +38,7 @@ namespace FrontEnd_RasManagement.Controllers
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
 
-            if (role != "Admin" && role != "Super_Admin")
+            if (role != "Admin" && role != "Super_Admin" && role != "Trainer" && role != "Manager")
             {
                 return RedirectToAction("Login", "Accounts");
             }
@@ -90,10 +90,6 @@ namespace FrontEnd_RasManagement.Controllers
                 ViewData["EmployeePlacement"] = placement;
                 ViewData["StartDate"] =placement.startDate;
                 ViewData["EndDate"] = placement.endDate;
-               
-
-            
-
                 return View();
             }
 
@@ -109,7 +105,7 @@ namespace FrontEnd_RasManagement.Controllers
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
 
-            if (role != "Admin" && role != "Super_Admin")
+            if (role != "Admin" && role != "Super_Admin" && role != "Trainer")
             {
                 return RedirectToAction("Login", "Accounts");
             }
@@ -127,7 +123,25 @@ namespace FrontEnd_RasManagement.Controllers
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
 
-            if (role != "Admin" && role != "Super_Admin")
+            if (role != "Admin" && role != "Super_Admin" && role != "Trainer" && role != "Sales" && role != "Manager")
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            //End Validate
+            return View();
+        }
+
+        public IActionResult TimesheetReport()
+        {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+            if (role != "Admin" && role != "Super_Admin" && role != "Trainer" && role != "Sales" && role != "Manager")
             {
                 return RedirectToAction("Login", "Accounts");
             }
@@ -145,12 +159,47 @@ namespace FrontEnd_RasManagement.Controllers
 
             var role = JwtHelper.GetRoleFromJwt(HttpContext);
 
-            if (role != "Admin")
+            if (role != "Admin" && role != "Trainer" && role != "Manager")
             {
                 return RedirectToAction("Login", "Accounts");
             }
             //End Validate
             return View("DepartmentEmployee");
+        }
+
+        public IActionResult TrackingInterview()
+        {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+            if (role != "Admin" && role != "Sales" && role != "Manager")
+            {
+                return RedirectToAction("Login", "Accounts" );
+            }
+            //End Validate
+            return View();
+        }
+        public IActionResult ActivityCalendar()
+        {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+            if (role != "Admin" && role != "Manager")
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            //End Validate
+            return View();
         }
     }
 }

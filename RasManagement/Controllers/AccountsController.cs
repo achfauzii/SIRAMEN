@@ -18,7 +18,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Trainer,Sales,Manager")]
     public class AccountsController : ControllerBase
     {
         private readonly IUnitWork _unitWork;
@@ -38,12 +38,15 @@ namespace RasManagement.Controllers
             this.mailService = mailService;
         }
 
+
+        [Authorize(Roles = "Admin,Super_Admin,Trainer,Sales,Manager")]
         [HttpGet]
-        public async Task<ActionResult<List<Account>>> GetAccounts()
+        public async Task<ActionResult<List<AccountVM>>> GetAccountsAsync()
         {
             return Ok(await _context.Accounts.ToListAsync());
         }
 
+        [Authorize(Roles = "Admin,Super_Admin,Trainer,Sales,Manager")]
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterVM registerVM)
         {
@@ -92,7 +95,7 @@ namespace RasManagement.Controllers
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("Email", viewLogin.Email),
-                        new Claim("Password", viewLogin.Password),
+                        new Claim("Password", ""),
                         new Claim("AccountId", roleId.AccountId),
                         new Claim("RoleId", roleId.RoleId),
                         new Claim("Name", roleId.Fullname),
@@ -178,7 +181,7 @@ namespace RasManagement.Controllers
                 var token = new JwtSecurityToken(
                 /*    _configuration["Jwt:Issuer"],
                     _configuration["Jwt:Audience"],*/
-                    claims:claims,
+                    claims: claims,
                     expires: DateTime.UtcNow.AddMinutes(15),
                     signingCredentials: signIn);
                 var resetToken = new JwtSecurityTokenHandler().WriteToken(token);

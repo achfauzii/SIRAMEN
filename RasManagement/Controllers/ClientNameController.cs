@@ -9,6 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
     public class ClientNameController : BaseController<ClientName, ClientNameRepository, int>
     {
         private readonly ClientNameRepository clientNameRepository;
@@ -30,10 +31,10 @@ namespace RasManagement.Controllers
 
             if (clientExists)
             {
-                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Department Already Exists." });
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Client Already Exists." });
             }
 
-            var result = await clientNameRepository.AddClient(inputModel.NameOfClient);
+            var result = await clientNameRepository.AddClient(inputModel);
 
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = result });
         }
@@ -50,18 +51,31 @@ namespace RasManagement.Controllers
 
             if (clientExists)
             {
-                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Department Already Exists." });
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Client Already Exists." });
             }
 
-            var result = await clientNameRepository.ChangeName(inputModel.NameOfClient);
+            var result = await clientNameRepository.ChangeName(inputModel.NameOfClient, inputModel.Id);
 
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = result });
+        }
+        [AllowAnonymous]
+        [HttpGet("Requirement")]
+        public async Task<IActionResult> GetClientRequirement()
+        {
+            var result = await clientNameRepository.GetClientRequirement();
+            return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Temukan", Data = result });
         }
     }
 
     public class ClientNameInputModel
     {
-        public string NameOfClient { get; set; }
+        public string? NameOfClient { get; set; }
+      
+        public string? SalesName { get; set; }
+        public string? SalesContact { get; set; }
+        public string? ClientContact { get; set; }
+        public string? PicClient { get; set; }
+        public int Id { get; set; }
     }
 }
 

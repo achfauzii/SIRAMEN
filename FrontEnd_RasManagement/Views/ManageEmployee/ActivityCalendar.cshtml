@@ -1,0 +1,339 @@
+@{
+    ViewData["Title"] = "DepartmentEmployee";
+    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+}
+
+<style>
+    .blue-bg {
+        background-color: #fdf3d8; /* Set your desired background color */
+        color: white; /* Set the text color to white or any other color that suits your design */
+        padding: 10px; /* Adjust the padding as needed */
+    }
+
+    .green-bg {
+        background-color: #1cc88a; /* Warna hijau */
+        color: white;
+    }
+
+    .yellow-bg {
+        background-color: #f6c23e; /* Warna kuning */
+        color: white;
+    }
+
+    .red-bg {
+        background-color: #e74c3c; /* Warna merah */
+        color: white;
+    }
+
+    .grey-bg {
+        background-color: #858796; /* Warna abu-abu */
+        color: white;
+    }
+
+    /* Gaya untuk bullet */
+    .bullet {
+        list-style-type: none; /* Menghilangkan default bullet */
+        padding-left: 0; /* Menghilangkan padding default */
+        margin-bottom: 6px; /* Menambahkan jarak antara bagian */
+    }
+
+    /* Gaya untuk setiap item daftar */
+    .list-item {
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .bullet-text {
+        flex-grow: 1;
+        margin-left: 10px; /* Sesuaikan jarak sesuai kebutuhan */
+        color: black;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+
+    .btn.active {
+        background-color: blue;
+        color: white;
+    }
+
+    .fas.fa-filter.active {
+        color: white;
+    }
+
+    .filterText.active {
+        color: white;
+    }
+
+    .form-label {
+        font-weight: normal;
+    }
+    
+    .btn-info {
+        margin: 5px 5px;
+        padding: 6px 12px;
+    }
+
+    .btn-secondary {
+        margin: 5px 5px;
+        border-radius: 30px;
+    }
+
+
+    /* Apply styles to the labels associated with radio buttons */
+    /* Apply styles to the labels associated with radio buttons */
+    .btnflag {
+        display: inline-block;
+        font-weight: 400;
+        color: #212529;
+        text-align: center;
+        vertical-align: middle;
+        background-color: transparent;
+        border: 1px solid #17a2b8;
+        padding: 0.3rem 0.5rem;
+        font-size: 14px;
+        line-height: 1.5;
+        border-radius: 30px;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        cursor: pointer; /* Set cursor to pointer on all buttons */
+    }
+
+    /* Apply hover styles */
+    .btnflag:hover {
+        background-color: #17a2b8 !important; /* Change background color on hover */
+        color: white !important; /* Change text color on hover */
+    }
+
+    /* Apply active styles */
+    .btnflag:active,
+    .btnflag.active {
+        background-color: blue !important; /* Set the background color to blue when the button is active */
+        color: white !important; /* Set the text color to white when the button is active */
+    }
+
+    .offcanvass-body {
+        flex-grow: 1;
+        @* padding: var(--#{$prefix}offcanvas-padding-y) var(--#{$prefix}offcanvas-padding-x); *@
+        overflow-y: auto;
+    }
+    
+    .rowFilter {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        @* margin-right: 20px; *@
+        @* margin-left: 20px; *@
+    }
+    .sidebar hr.sidebar-divider{
+        border-top: 1px solid;
+    }
+
+</style>
+
+<!-- Google Font: Source Sans Pro -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- fullCalendar -->
+<link rel="stylesheet" href="~/css/ManageEmployee/calendar.css">
+ <!-- Theme style -->
+<link rel="stylesheet" href="~/css/ManageEmployee/adminlte.css">
+
+<!-- Main content -->
+
+<section class="content">
+    <div class="container-fluid">
+        @* <h5 style="font-family: comfortaa; color: black; padding: 5px 6px" class="font-weight-bold">Activity Calendar</h5> *@
+        <div class="row mb-2">
+            <div class="col-2">
+            <button style="background-color:#624DE3;" type="button" class="col btn text-light " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                <i id="filterIcon" class="fas fa-filter" style="color: #ffffff;"></i> Filter 
+            </button>
+            </div>
+            <div class="col-10">
+                <div class="d-grid mx-auto mb-2">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchActivity" placeholder="Search">
+                            <button class="btn btn-primary" id="btnSearch" type="button" style="background-color:#624DE3;"><i class="fa fa-search"></i>
+                            </button>
+                    </div>
+                </div>
+             </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h6 class="offcanvas-title" id="offcanvasRightLabel">Data Filters</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvass-body p-2">                
+                <div class="row" style="font-size: 14px;">
+                    Flag
+                <div class="accordion-body mt-2">
+                    <input type="radio" class="btn-check" name="filter-flag" id="option1" value="wfo" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option1">WFO</label>
+                    <input type="radio" class="btn-check" name="filter-flag" id="option2" value="wfh" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option2">WFH</label>
+                    <input type="radio" class="btn-check" name="filter-flag" id="option3" value="sick" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option3">Sick</label>
+                    <input type="radio" class="btn-check" name="filter-flag" id="option4" value="leave" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option4">On Leave</label>
+                </div>
+                </div>
+                <div class="row mt-2" style="font-size: 14px;">
+                    Category
+                @* </button> *@
+                @* </h2> *@
+                @* <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"> *@
+                <div class="accordion-body mt-2">
+                    <input type="radio" class="btn-check" name="filter-category" id="option5" value="Meeting/Discussion" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option5">Meeting/Discussion</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option6" value="Coding" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option6">Coding</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option7" value="Testing" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option7">Testing</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option8" value="UAT/SIT" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option8">UAT/SIT</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option9" value="Ticketing" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option9">Ticketing</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option10" value="Docummentation" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option10">Docummentation</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option11" value="Bug/Issue Fix" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option11">Bug/Issue Fix</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option12" value="Support" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option12">Support</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option13" value="Review" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option13">Review</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option14" value="GoLive/Deploy" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option14">GoLive/Deploy</label>
+                    <input type="radio" class="btn-check" name="filter-category" id="option15" value="Others" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option15">Others</label>
+                </div>
+                </div>
+                @* </div> *@
+            @* </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree"> *@
+                <div class="row mt-2" style="font-size: 14px;">
+                        Status
+                @* </button> *@
+                @* </h2> *@
+                @* <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"> *@
+                <div class="accordion-body mt-2">
+                    <input type="radio" class="btn-check" name="filter-status" id="option16" value="In Approval" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option16">In Approval</label>
+                    <input type="radio" class="btn-check" name="filter-status" id="option17" value="Pending" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option17">Pending</label>
+                    <input type="radio" class="btn-check" name="filter-status" id="option18" value="Done" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option18">Done</label>
+                    <input type="radio" class="btn-check" name="filter-status" id="option19" value="Need Approval" autocomplete="off">
+                    <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option19">Need Approval</label>
+                </div>
+                </div>
+                @* </div> *@
+            @* </div>
+        </div> *@
+                <div class="row mt-2" style="font-size: 14px;">
+                    Client
+                    <div class="accordion-body form-group mt-2">
+                        <select class="form-select bg-light" id="selectPlacement">
+                            <option selected disabled>Choose client</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="container position-relative">
+                    <div class="row mt-2">
+                        <button class="btn btn-sm btn-secondary col text-dark" type="button" id="resetFilter">Clear</button>
+                        <button class="btn btn-sm btn-info col" type="button" id="submitFilter">Apply all filters</button>
+                    </div>
+                </div>
+
+            </div>
+            </div>                            
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <div class="card card-primary">
+                    <div class="card-body p-0">
+                        <div class="row m-2 align-items-right">
+                        @* <div class="d-grid gap-2 col-6 mx-auto">
+                            <label class="visually-hidden" for="autoSizingInputGroup">Search</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Search">
+                                <div class="input-group-text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div> *@
+
+
+                        <!-- THE CALENDAR -->
+                        <div id="calendar"></div>
+                    </div>
+
+                    <!-- footer label -->
+                    <div class="card mb-0 p-3">
+                        <div class="card-body blue-bg">
+                             <div class="row mb-sm-3">
+                            <h5 class="card-title" style="color: #858796; font-weight: bold;">Notes</h5><br>
+                            <p class="card-text text-body-secondary" style="font-size: 14px;">Keterangan Label Flag:</p>
+                            </div>
+                            <div class="row"> 
+                            <div class="col-md-6">       
+                                <small>
+                                    <ul>
+                                        <li class="list-item">
+                                            <span class="badge" style="font-size: 12px; background-color: #0073b7;">Blue</span>
+                                            <span class="bullet-text">: Work From Office (WFO)</span>
+                                        </li>
+                                        <li class="list-item">
+                                            <span class="badge" style="font-size: 12px; color: white; background-color: #f39c12;">Yellow</span>
+                                            <span class="bullet-text">: Work From Home (WFH)</span>
+                                        </li>
+                                    </ul>
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <small>
+                                    <ul>
+                                        <li class="list-item">
+                                            <span class="badge" style="font-size: 12px; background-color: #f56954;">Red</span>
+                                            <span class="bullet-text">: Sick</span>
+                                        </li>
+                                        <li class="list-item">
+                                            <span class="badge badge-secondary" style="font-size: 12px; background-color: #6c757d">Grey</span>
+                                            <span class="bullet-text">: On Leave</span>
+                                        </li>
+                                    </ul>
+                                </small>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            </div>
+            
+        </div>
+            <!-- /.col -->
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+
+<script src="~/js/ManageEmployee/ActivityCalendar.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
+
+<!-- fullCalendar 2.2.5 -->
+<script src="~/js/ManageEmployee/moment.min.js"></script>
+<script src="~/js/ManageEmployee/Calendar.js"></script>

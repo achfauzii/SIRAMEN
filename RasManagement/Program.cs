@@ -18,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure SMTP settings from appsettings.json
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.Configure<TimeSheet>(builder.Configuration.GetSection("TimeSheet"));
 builder.Services.AddTransient<IMailService, MailService>();
 
 
@@ -67,6 +68,11 @@ builder.Services.AddScoped<ShortlistRepository>();
 builder.Services.AddScoped<AssetsRepository>();
 builder.Services.AddScoped<HistoryLogRepository>();
 builder.Services.AddScoped<ClientNameRepository>();
+builder.Services.AddScoped<TimeSheetRepository>();
+builder.Services.AddScoped<TrackingRepository>();
+builder.Services.AddScoped<PositionRepository>();
+builder.Services.AddScoped<MasterHolidayRepository>();
+builder.Services.AddScoped<ApprovalRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 
@@ -77,6 +83,19 @@ builder.Services.AddCors(c =>
      .AllowAnyHeader()
      .AllowAnyMethod());
 });
+
+
+/*builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin", builder =>
+    {
+        builder
+            .WithOrigins("https://siramen.berca.co.id")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});*/
+
 var app = builder.Build();
 
 app.UseStaticFiles();

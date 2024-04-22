@@ -16,9 +16,12 @@ public partial class FormalEdu
 
     public string Degree { get; set; } = null!;
 
+    public string? Ipk { get; set; }
+
     public string Years { get; set; } = null!;
 
-    public string AccountId { get; set; } = null!;
+    public string? AccountId { get; set; } = null!;
+
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
 }

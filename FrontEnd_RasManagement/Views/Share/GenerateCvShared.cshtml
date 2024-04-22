@@ -1,0 +1,326 @@
+﻿﻿@{
+    ViewData["Title"] = "GenerateCvShared";
+    Layout = "~/Views/Layout/LayoutEmployee.cshtml";
+    @* Layout = null; *@
+}
+
+<style>
+    .cv {
+        font-family: Tahoma;
+        margin: 40px;
+        padding: 20px;
+        background-color: #fff;
+        /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+        page-break-after: avoid;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    p {
+        margin-bottom: 5px;
+    }
+
+    /* Media query untuk tampilan cetakan */
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .cv, .cv * {
+            visibility: visible;
+        }
+
+        .cv {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    .flex-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
+@* <button id="backButton" class="btn btn-secondary rounded-circle mr-3 mt-3">
+    <i class="fas fa-arrow-left"></i>
+</button> *@
+
+<div class="cv" id="print-content">
+
+    <div class="ml-5 pl-4 mt-4 pr-5">
+        @* <h6 class="mb-4">
+        PT. Berca Hardayaperkasa Curriculum Vitae
+
+        <img class="ml-4 img-fluid" src="~/img/logo_putih.png" style="height: 50px;width: 260px;">
+        </h6>*@
+        <h6 class="mb-4 flex-container">
+            PT. Berca Hardayaperkasa Curriculum Vitae
+            <img class="ml-4 img-fluid" src="~/img/logo_putih.png" style="height: 50px;width: 260px;">
+        </h6>
+
+        <!--Card CV -->  <!-- Personal Details -->
+        <div class="mb-3">
+            <div class="border-0 rounded-0">
+                <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                    <h6 class="m-0  font-weight-bold" style="color:black">PERSONAL DETAILS </h6>
+                </div>
+
+                <!-- Personal Details -->
+                <div class="section mt-1 ">
+                    <div class="row">
+                        <div class="col-4 text-dark">
+                            <p style="color:black">Name</p>
+                        </div>
+                        <div class="col">
+                            <span>:</span>
+                            <span id="fullName" style="color:black"> </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 text-dark">
+                            <p style="color:black">Nickname</p>
+                        </div>
+                        <div class="col">
+                            <span>:</span>
+                            <span id="nickName" style="color:black"> </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 text-dark">
+                            <p style="color:black">Place & date of birth</p>
+                        </div>
+                        <div class="col">
+                            <span>:</span>
+                            <span id="birthPlace" style="color:black"> </span>
+                            <span id="birthDate" style="color:black"> </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 text-dark">
+                            <p style="color:black">Gender</p>
+                        </div>
+                        <div class="col">
+                            <span>:</span>
+                            <span id="gender" style="color:black"> </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 text-dark">
+                            <p style="color:black">Religion</p>
+                        </div>
+                        <div class="col">
+                            <span>:</span>
+                            <span id="religion" style="color:black"> </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 text-dark">
+                            <p style="color:black">Martial Status</p>
+                        </div>
+                        <div class="col">
+                            <span>:</span>
+                            <span id="martialStatus" style="color:black"> </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 text-dark">
+                            <p style="color:black">Nationality</p>
+                        </div>
+                        <div class="col">
+                            <span>:</span>
+                            <span id="nationality" style="color:black"> </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Educations -->
+        <div class=" section mb-3">
+            <div class="border-0 rounded-0">
+                <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                    <h6 class="m-0 font-weight-bold" style="color:black">EDUCATIONS </h6>
+                </div>
+
+                <div class="section m-0 mt-2 ">
+                    <table class="table table-responsive p-0">
+                        <thead class="thead-light p-0">
+                            <tr>
+                                <th class="col-1 text-dark" scope="col"><p><h6 style="color:black">Years Graduate</h6></th>
+                                <th class="col-5 text-dark" scope="col"><h6 style="color:black">Name of School / University</h6></th>
+                                <th class="col-2 text-dark" scope="col"><h6 style="color:black">Location</h6></th>
+                                <th class="col-3 text-dark" scope="col"><h6 style="color:black">Major</h6></th>
+                                <th class="col-2 text-dark" scope="col"><h6 style="color:black">Degree</h6></th>
+                            </tr>
+                        </thead>
+                        <tbody id="educationTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Non Formal Educations -->
+        <div class="section mb-4">
+            <div class="border-0 rounded-0">
+                <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                    <h6 class="m-0 font-weight-bold" style="color:black">NON FORMAL EDUCATIONS </h6>
+                </div>
+
+                <div class="section m-0 mt-1">
+                    <ul id="listNonEdu" class="pl-3">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--Qualifications -->
+        <div class="section mb-4">
+            <div class="border-0 rounded-0">
+                <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                    <h6 class="m-0 font-weight-bold" style="color:black">QUALIFICATIONS </h6>
+                </div>
+
+                <div class="section m-0 mt-1">
+                    <ul id="listQualification" class="pl-3 ">
+                        <li class="text-justify" style="color:black" id="frameworkShow">Framework/Library: <span id="framework"></span></li>
+                        <li style="color:black" id="programmingLanguageShow" >Programming Language: <span id="programmingLanguage"></span></li>
+                        <li style="color:black" id="databaseShow">Database: <span id="database"></span></li>
+                        <li style="color:black" id="datatoolsShow">Tools: <span id="datatools"></span></li>
+                        <li class="text-justify" style="color:black" id="othersShow_">Others: <span id="others"></span></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!--Award/Achivment-->
+
+        <div class="section mb-3">
+            <div class="border-0 rounded-0">
+                <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                    <h6 class="m-0 font-weight-bold" style="color:black">AWARDS / ACHIEVEMENTS / CERTIFICATE </h6>
+                </div>
+
+                <div class="section m-0 mt-1">
+                    <ul id="certificate" class="pl-3 ">
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <!--Employement History-->
+
+        <div class="section mb-3">
+            <div class="border-0 rounded-0">
+                <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                    <h6 class="m-0 font-weight-bold" style="color:black">PREVIOUS EMPLOYMENT HISTORY </h6>
+                </div>
+
+                <div class="section m-0 mt-1">
+                    <ul id="employeementHistory" class="pl-3 ">
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Project History -->
+        <div class=" section mb-3">
+            <div class="border-0 rounded-0">
+                <div class="m-0 pl-1 pt-1 pb-2" style="background-color:#bfbfbd">
+                    <h6 class="m-0 font-weight-bold" style="color:black">PROJECT HISTORY </h6>
+                </div>
+            </div>
+            <div class="section m-0 mt-2 ">
+                <table class="table table-responsive p-0">
+                    <thead class="thead-light p-0">
+                        <tr>
+                            <th class="col-3 text-dark" scope="col"><p><h6 style="color:black">Project Name</h6></th>
+                            <th class="col-5 text-dark" scope="col"><h6 style="color:black">Job Specification</h6></th>
+                            <th class="col-1 text-dark" scope="col"><h6 style="color:black">Project Involved</h6></th>
+                            <th class="col-2 text-dark" scope="col"><h6 style="color:black">Company Name</h6></th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectHistoryTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="text-center mb-3">
+    <a href="" onclick="printCV()" type="button" class="btn btn-primary">Download PDF</a>
+</div> -->
+<!-- Loader-->
+<div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0; ">
+    <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
+        <!-- Icon spinner -->
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/GenerateCvShared.js"></script>
+
+
+<!-- <script>
+    function printCV() {
+        // Simpan pengaturan cetakan saat ini
+        var originalBody = document.body.innerHTML;
+        var originalFontSize = document.body.style.fontSize;
+        // Simpan judul halaman saat ini
+        var originalTitle = document.title;
+
+        // Ambil teks dari elemen dengan ID fullName
+        var fullName = document.getElementById('fullName').innerText;
+
+        // Ubah judul halaman sesuai dengan judul yang diinginkan
+        document.title = fullName + " CV(BHP)";
+        // Ubah ukuran kertas cetakan menjadi A4
+        document.body.style.width = "210mm";
+        document.body.style.height = "297mm";
+
+        // Ubah font ukuran default agar sesuai dengan ukuran kertas
+        //document.body.style.fontSize = "12pt";
+
+        // Cetak halaman
+        window.print();
+
+        // Kembalikan pengaturan cetakan ke nilai semula
+        document.body.innerHTML = originalBody;
+        document.body.style.fontSize = originalFontSize;
+        document.title = originalTitle;
+    }
+
+</script> -->

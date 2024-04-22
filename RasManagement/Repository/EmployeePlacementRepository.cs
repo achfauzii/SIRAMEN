@@ -29,10 +29,31 @@ namespace RasManagement.Repository
             return false;
         }
 
-        public Placement GetPlacementId(int PlacementStatusId)
+        public EmployeePlacementVM GetPlacementId(int placementStatusId)
         {
-            return _context.Placements.Find(PlacementStatusId);
+            // Assuming you can uniquely identify a placement based on Client_Id, Position_Id, and PlacementStatusId
+            return _context.Placements
+                .Include(p => p.Client)
+                .Include(p => p.Position)
+                .Select(p => new EmployeePlacementVM
+                {
+                    PlacementStatusId = p.PlacementStatusId,
+                    ClientId = p.ClientId,
+                    PositionId = p.PositionId,
+                    PicName = p.PicName,
+                    PicRas = p.PicRas,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    Description = p.Description,
+                    PlacementStatus = p.PlacementStatus,
+                    AccountId = p.AccountId,
+                    Client = p.Client,
+                    Position = p.Position,
+                })
+                .FirstOrDefault(p => p.PlacementStatusId == placementStatusId);
         }
+
+
 
         public async Task<IEnumerable<Placement>> Get()
         {
@@ -44,14 +65,15 @@ namespace RasManagement.Repository
             var placement = new Placement
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
-                CompanyName = placementVM.CompanyName,
-                JobRole = placementVM.JobRole,
+                ClientId = placementVM.ClientId,
+                PositionId = placementVM.PositionId,
+                PicName = placementVM.PicName,
+                PicRas = placementVM.PicRas,
                 StartDate = placementVM.StartDate,
                 EndDate = placementVM.EndDate,
                 Description = placementVM.Description,
                 PlacementStatus = placementVM.PlacementStatus,
                 AccountId = placementVM.AccountId,
-
             };
             _context.Placements.Add(placement);
 
@@ -64,7 +86,7 @@ namespace RasManagement.Repository
             var placement = new Placement
             {
                 PlacementStatusId = turnOverVM.PlacementStatusId,
-                CompanyName = turnOverVM.CompanyName,
+                ClientId = turnOverVM.ClientId,
                 PlacementStatus = turnOverVM.PlacementStatus,
                 Description = turnOverVM.Description,
                 AccountId = turnOverVM.AccountId,
@@ -76,12 +98,29 @@ namespace RasManagement.Repository
             return insert;
         }
 
-        public List<Placement> GetAccount(string accountId)
+        public List<EmployeePlacementVM> GetAccount(string accountId)
 
         {
             var placements = _context.Placements
+                     .Include(c => c.Client)
+                     .Include(p => p.Position)
                      .Where(a => a.AccountId == accountId)
                      .OrderByDescending(a => a.PlacementStatusId)
+                     .Select(p => new EmployeePlacementVM
+                     {
+                         PlacementStatusId = p.PlacementStatusId,
+                         ClientId = p.ClientId,
+                         PositionId = p.PositionId,
+                         PicName = p.PicName,
+                         PicRas = p.PicRas,
+                         StartDate = p.StartDate,
+                         EndDate = p.EndDate,
+                         Description = p.Description,
+                         PlacementStatus = p.PlacementStatus,
+                         AccountId = p.AccountId,
+                         Client = p.Client,
+                         Position = p.Position,
+                     })
                      .ToList();
 
             return placements;
@@ -94,8 +133,10 @@ namespace RasManagement.Repository
             var placement = new Placement
             {
                 PlacementStatusId = placementVM.PlacementStatusId,
-                CompanyName = placementVM.CompanyName,
-                JobRole = placementVM.JobRole,
+                ClientId = placementVM.ClientId,
+                PositionId = placementVM.PositionId,
+                PicName = placementVM.PicName,
+                PicRas = placementVM.PicRas,
                 StartDate = placementVM.StartDate,
                 EndDate = placementVM.EndDate,
                 Description = placementVM.Description,

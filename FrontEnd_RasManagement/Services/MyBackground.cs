@@ -15,7 +15,7 @@ namespace FrontEnd_RasManagement.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
-            {                
+            {
                 // Calculate the delay until the next 9:30 AM
                 var now = DateTime.Now;
                 var nextRunTime = new DateTime(now.Year, now.Month, now.Day, 9, 15, 0);
@@ -38,7 +38,7 @@ namespace FrontEnd_RasManagement.Services
                         try
                         {
                             _logger.LogInformation("Get Birthday API");
-                            HttpResponseMessage response = await client.GetAsync(apiEndpoint);                           
+                            HttpResponseMessage response = await client.GetAsync(apiEndpoint);
                             if (response.IsSuccessStatusCode)
                             {
                                 _logger.LogInformation("Get Birthday API Success...");
@@ -73,6 +73,76 @@ namespace FrontEnd_RasManagement.Services
                     await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
                 }
             }
-        }        
+        }
+
+        //protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        //{
+        //    while (!stoppingToken.IsCancellationRequested)
+        //    {
+        //        // Calculate the delay until the next 9:15 AM
+        //        var now = DateTime.Now;
+        //        var nextRunTime = new DateTime(now.Year, now.Month, now.Day, 9, 15, 0);
+        //        if (now > nextRunTime)
+        //        {
+        //            nextRunTime = nextRunTime.AddDays(1);
+        //        }
+
+        //        var delay = nextRunTime - now;
+        //        // Initial delay before the first execution
+        //        await Task.Delay(delay, stoppingToken);
+
+        //        while (!stoppingToken.IsCancellationRequested)
+        //        {
+        //            _logger.LogInformation("Background task is running...");
+        //            string apiEndpoint = "https://localhost:7177/api/Accounts/BirthDay";
+
+        //            using (HttpClient client = new HttpClient())
+        //            {
+        //                try
+        //                {
+        //                    _logger.LogInformation("Get Birthday API");
+        //                    HttpResponseMessage response = await client.GetAsync(apiEndpoint);
+        //                    if (response.IsSuccessStatusCode)
+        //                    {
+        //                        _logger.LogInformation("Get Birthday API Success...");
+        //                        string responseData = await response.Content.ReadAsStringAsync();
+        //                        _logger.LogInformation($"API Response: {responseData}");
+
+        //                        var userData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseData);
+
+        //                        var birthdayData = new BirthdayVM
+        //                        {
+        //                            email = userData.data.email.ToObject<List<string>>(),
+        //                            name = userData.data.name.ToObject<List<string>>(),
+        //                        };
+
+        //                        //Send Email
+        //                        _logger.LogInformation("Send Birthday Email...");
+        //                        await mailService.SendEmailBirthday(birthdayData);
+        //                    }
+        //                    else
+        //                    {
+        //                        _logger.LogError("Get Birthday API Failed..");
+        //                        _logger.LogError($"API Request failed with status code: {response.StatusCode}");
+        //                    }
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    _logger.LogError(ex, "An error occurred while processing birthday API or sending email");
+        //                }
+        //            }
+
+        //            // Calculate the next execution time
+        //            now = DateTime.Now;
+        //            nextRunTime = new DateTime(now.Year, now.Month, now.Day, 9, 15, 0).AddDays(1);
+        //            delay = nextRunTime - now;
+
+        //            // Delay until the next execution
+        //            await Task.Delay(delay, stoppingToken);
+        //        }
+        //    }
+        //}
+
+
     }
 }

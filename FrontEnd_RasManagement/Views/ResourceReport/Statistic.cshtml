@@ -3,64 +3,66 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 }
+<style>
+    * {
+        border: 0px solid red
+    }
+</style>
 <div class="row">
 
     <!-- Employee RAS Total -->
     <div class="col-xl col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-1">
-            <a href="/ManageEmployee/Index" class="nav-link collapsed card-body">
+        <div class="card shadow h-100 py-1" style="border-left: 4px solid rgb(255, 99, 132);">
+             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-3" style="margin: -25px 0;">
                         <span style="font-size: 10px;">Resource</span>
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Top Positions
+                            Top Candidate Positions
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">Developer</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="topPosition"></div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
+                        <i class="fas fa-briefcase fa-2x text-gray-300"></i>
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
-
 
     <!-- Employee Status Idle -->
     <div class="col-xl col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-1">
+         <div class="card shadow h-100 py-1" style="border-left: 4px solid rgb(255, 205, 86);">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-3" style="margin: -25px 0;">
                         <span style="font-size: 10px;">Resource</span>
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                           Level Mastery 
+                           Most Candidate Level 
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="countIdle">Junior</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="topLevel"></div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Employee Status Onsite -->
     <div class="col-xl col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-1">
+        <div class="card shadow h-100 py-1" style="border-left: 4px solid rgb(54, 162, 235);">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-3" style="margin: -25px 0;">
                         <span style="font-size: 10px;">Resource</span>
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                          Skill Spectrum
+                          Most Candidate Skill
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="countOnsite">Java</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="topSkill"></div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-chart-simple fa-2x text-gray-300"></i>
+                        <i class="fas fa-cogs fa-2x text-gray-300"></i>
 
                     </div>
                 </div>
@@ -68,10 +70,49 @@
         </div>
     </div>
 </div>
-
-<div>
-   <canvas id="salaryChart" width="1000" height="400"></canvas>
+<div class="row mb-4">
+    <div class="col-4">
+        <div class="card d-none shadow d-lg-block h-100">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Candidate Level</h6>
+            </div>
+            <div class="card-body p-3">
+                <center><div class="chart-bar">
+                    <canvas id="statisticChart" ></canvas>
+                </div></center>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card d-none shadow  d-lg-block h-100">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary" id="skillsetTable">Top 5 Skill Candidate Level</h6>
+            </div>
+                <div class="card-body p-3">
+                    <table id="tableSkills" class="table table-striped " style="font-size:14px; color:black;">
+                        <thead style="background-color:#FFFFFF">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" width="60%">Skill</th>
+                                <th scope="col" width="30%">Total Candidates</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
 </div>
+<script>
+    // Fungsi untuk melakukan refresh halaman
+    function autoRefresh() {
+        location.reload(true); // Melakukan reload halaman
+    }
+
+    // Melakukan refresh setiap 5 menit (300000 milidetik)
+    setInterval(autoRefresh, 300000);
+</script>
 @section script{
     <script src="~/js/ResourceReport/Statistic.js"></script>
 }

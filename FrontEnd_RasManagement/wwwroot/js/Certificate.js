@@ -1,6 +1,24 @@
 ﻿var table = null;
+var initialCertificateData = {};
 $(document).ready(function () {
     //debugger;
+    
+
+    $("#PublicationYear").datepicker({
+        format: "MM yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+    $("#ValidUntil").datepicker({
+        format: "MM yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+
+    $('input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+    
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $("#TB_Certificate").DataTable({
@@ -15,7 +33,7 @@ $(document).ready(function () {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
         },
-
+        pagingType: "full_numbers",
         columns: [
             {
                 data: null,
@@ -58,11 +76,11 @@ $(document).ready(function () {
                     var modalId = "modal-edit-" + data.certificateId;
                     var deleteId = "modal-delete-" + data.certificateId;
                     return (
-                        '<button class="btn btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+                        '<button class="btn btn-sm btn-warning " data-placement="left" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
                         row.certificateId +
                         ')"><i class="fa fa-edit"></i></button >' +
                         "&nbsp;" +
-                        '<button class="btn btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
+                        '<button class="btn btn-sm btn-danger" data-placement="right" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(' +
                         row.certificateId +
                         ')"><i class="fa fa-trash"></i></button >'
                     );
@@ -93,14 +111,13 @@ $(document).ready(function () {
         drawCallback: function (settings) {
             var api = this.api();
             var rows = api.rows({ page: "current" }).nodes();
-            api
-                .column(1, { page: "current" })
-                .data()
-                .each(function (group, i) {
-                    $(rows)
-                        .eq(i)
-                        .find("td:first")
-                        .html(i + 1);
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+            api.column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
                 });
         },
     });
@@ -146,6 +163,7 @@ function ClearScreen() {
         var input = $(this);
 
         input.next(".error-message").hide();
+        input.next(".error-message-p").hide();
     });
 }
 
@@ -162,6 +180,14 @@ function GetById(CertificateId) {
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
+            initialCertificateData = {
+   
+                Name: obj.name,
+                Publisher: obj.publisher,
+                PublicationYear: obj.publicationYear,
+                ValidUntil: obj.validUntil
+            };
+        
             $("#CertificateId").val(obj.certificateId); //ngambil data dr api
             $("#Name").val(obj.name);
             $("#Publisher").val(obj.publisher);
@@ -180,6 +206,7 @@ function GetById(CertificateId) {
 // Tambahkan event listener untuk memantau perubahan pada kolom "Publication Year"
 $("#PublicationYear").on('input', function () {
     validateDateInputs();
+
 });
 
 // Tambahkan event listener untuk memantau perubahan pada kolom "Valid Until"
@@ -210,11 +237,14 @@ function Save() {
 
     $("input[required]").each(function () {
         var input = $(this);
+        var errorMessage = input.closest('.input-group').find('.error-message-p');
         if (!input.val()) {
             input.next(".error-message").show();
+            errorMessage.show();
             isValid = false;
         } else {
             input.next(".error-message").hide();
+            errorMessage.hide();
         }
     });
 
@@ -307,17 +337,21 @@ function Update() {
 
     $("input[required]").each(function () {
         var input = $(this);
+        var errorMessage = input.closest('.input-group').find('.error-message-p');
         if (!input.val()) {
             input.next(".error-message").show();
+            errorMessage.show();
             isValid = false;
         } else {
             input.next(".error-message").hide();
+            errorMessage.hide();
         }
     });
 
     if (!isValid) {
         return;
     }
+
     var Certificate = new Object();
     Certificate.certificateId = $("#CertificateId").val();
     Certificate.name = $("#Name").val();
@@ -327,6 +361,21 @@ function Update() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     Certificate.accountId = accid;
+    if (Certificate.name == initialCertificateData.Name &&
+        Certificate.publisher == initialCertificateData.Publisher &&
+        Certificate.publicationYear == initialCertificateData.PublicationYear &&
+        Certificate.validUntil == initialCertificateData.ValidUntil) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        $("#Modal").modal("hide");
+        return;
+    }
+ 
     $.ajax({
         url: "https://localhost:7177/api/Certificate",
         type: "PUT",
@@ -353,3 +402,4 @@ function Update() {
         }
     });
 }
+

@@ -18,6 +18,7 @@ public partial class AssetsManagement
 
     public string? OperatingSystem { get; set; }
 
+    public DateTime? DateObtained { get; set; }
     public string? Ram { get; set; }
 
     public string? Ssd { get; set; }
@@ -29,6 +30,7 @@ public partial class AssetsManagement
     public bool? Charger { get; set; }
 
     public string AccountId { get; set; } = null!;
+
     [JsonIgnore]
     public virtual Account? Account { get; set; } = null!;
 }

@@ -20,6 +20,17 @@ const Toast = Swal.mixin({
 $("#employeeAnnouncement").hide();
 $("#adminAnnouncement").hide();
 
+//Set Focus on Input Search component Select2
+$(document).on("select2:open", (e) => {
+  const selectId = e.target.id;
+
+  $(
+    ".select2-search__field[aria-controls='select2-" + selectId + "-results']"
+  ).each(function (key, value) {
+    value.focus();
+  });
+});
+
 $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip();
   //GetBirthday
@@ -82,6 +93,7 @@ $(document).ready(function () {
       }
     });
   }
+  GetEmployeeList();
 });
 
 function clearAnnounce() {
@@ -210,6 +222,12 @@ function SendAnnouncement() {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
           },
+          beforeSend: function () {
+            $("#loader").show();
+          },
+          complete: function () {
+            $("#loader").hide();
+          },
           success: function (d) {
             Toast.fire({
               icon: "success",
@@ -311,6 +329,12 @@ function SendAnnouncement() {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
           },
+          beforeSend: function () {
+            $("#loader").show();
+          },
+          complete: function () {
+            $("#loader").hide();
+          },
         }).then((result) => {
           Toast.fire({
             icon: "success",
@@ -384,9 +408,13 @@ function matchCustom(params, data) {
   return null;
 }
 $(document).ajaxComplete(function () {
-  $('[data-tooltip="tooltip"]').tooltip({
-    trigger: "hover",
-  });
+  $('[data-tooltip="tooltip"]')
+    .tooltip({
+      trigger: "hover",
+    })
+    .click(function () {
+      $('[data-tooltip="tooltip"]').tooltip("hide");
+    });
 });
 
 function GetEmployeeList() {
@@ -411,20 +439,21 @@ function GetEmployeeList() {
         select.add(opt);
       });
     }
-  });
-  $("#NameEmployee").select2({
-    placeholder: "Select Employee",
-    width: "100%",
-    height: "100%",
-    allowClear: true,
-    tags: true,
-  });
+    $("#NameEmployee").select2({
+      placeholder: "Select Employee",
+      width: "100%",
+      height: "100%",
+      allowClear: true,
+      tags: true,
+    });
 
-  $("#EmployeeName").select2({
-    placeholder: "Select Employee",
-    width: "100%",
-    height: "100%",
-    allowClear: true,
-    tags: true,
+    $("#EmployeeName").select2({
+      placeholder: "Select Employee",
+      width: "100%",
+      height: "100%",
+      allowClear: true,
+      tags: true,
+    });
   });
 }
+

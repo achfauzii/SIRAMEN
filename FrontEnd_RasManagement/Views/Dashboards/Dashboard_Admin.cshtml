@@ -33,16 +33,196 @@
         z-index: 1;
     }
 
-        .act-btn:hover {
-            background: gray
-        }
+    .act-btn:hover {
+        background: gray
+    }
+   
+
+ 
+@@-webkit-keyframes come-in {
+  0% {
+    -webkit-transform: translatey(100px);
+            transform: translatey(100px);
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translateX(-50px) scale(0.4);
+            transform: translateX(-50px) scale(0.4);
+  }
+  70% {
+    -webkit-transform: translateX(0px) scale(1.2);
+            transform: translateX(0px) scale(1.2);
+  }
+  100% {
+    -webkit-transform: translatey(0px) scale(1);
+            transform: translatey(0px) scale(1);
+    opacity: 1;
+  }
+}
+@@keyframes come-in {
+  0% {
+    -webkit-transform: translatey(100px);
+            transform: translatey(100px);
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translateX(-50px) scale(0.4);
+            transform: translateX(-50px) scale(0.4);
+  }
+  70% {
+    -webkit-transform: translateX(0px) scale(1.2);
+            transform: translateX(0px) scale(1.2);
+  }
+  100% {
+    -webkit-transform: translatey(0px) scale(1);
+            transform: translatey(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+
+.floating-container {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  bottom: 0;
+  right: 0;
+  margin: 35px 25px;
+  z-index: 9;
+}
+.floating-container:hover {
+  height: 190px;
+}
+.floating-container:hover .floating-button {
+  box-shadow: 0 10px 25px rgba(44, 179, 240, 0.6);
+  -webkit-transform: translatey(5px);
+          transform: translatey(5px);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.floating-container:hover .element-container .float-element:nth-child(1) {
+  -webkit-animation: come-in 0.4s forwards 0.2s;
+          animation: come-in 0.4s forwards 0.2s;
+          cursor: pointer;
+}
+.floating-container:hover .element-container .float-element:nth-child(2) {
+  -webkit-animation: come-in 0.4s forwards 0.4s;
+          animation: come-in 0.4s forwards 0.4s;
+          cursor: pointer;
+}
+.floating-container:hover .element-container .float-element:nth-child(3) {
+  -webkit-animation: come-in 0.4s forwards 0.6s;
+          animation: come-in 0.4s forwards 0.6s;
+}
+.floating-container .floating-button {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  background: #2cb3f0;
+  bottom: 0;
+  border-radius: 50%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: white;
+  line-height: 55px;
+  text-align: center;
+  font-size: 23px;
+  z-index: 100;
+  box-shadow: 0 10px 25px -5px rgba(44, 179, 240, 0.6);
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.floating-container .float-element {
+  position: relative;
+  display: block;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 10px auto;
+  color: white;
+  font-weight: 500;
+  text-align: center;
+  line-height: 50px;
+  z-index: 0;
+  opacity: 0;
+  -webkit-transform: translateY(100px);
+          transform: translateY(100px);
+}
+.floating-container .float-element .material-icons {
+  vertical-align: middle;
+  font-size: 16px;
+}
+.floating-container .float-element:nth-child(1) {
+  background: #42A5F5;
+  box-shadow: 0 20px 20px -10px rgba(66, 165, 245, 0.5);
+}
+.floating-container .float-element:nth-child(2) {
+  background: #4CAF50;
+  box-shadow: 0 20px 20px -10px rgba(76, 175, 80, 0.5);
+}
+.floating-container .float-element:nth-child(3) {
+  background: #FF9800;
+  box-shadow: 0 20px 20px -10px rgba(255, 152, 0, 0.5);
+}
+#to-show{
+    position:fixed;
+	z-index: 9;
+	bottom:3rem;
+	right:6rem;
+	box-shadow: 2px 2px 3px #999;
+ 
+}
 
 </style>
 
 
-<button class="act-btn border-0" data-toggle="modal" data-target="#ModalAnnouncement" data-tooltip="tooltip" data-placement="left" title="Create Announcement" onclick="clearAnnounce();">
+@* <button class="act-btn border-0" data-toggle="modal" data-target="#ModalAnnouncement" data-tooltip="tooltip" data-placement="left" title="Create Announcement" onclick="clearAnnounce();">
     <i class="fa fa-bullhorn" style="font-size: 0.55em; display: flex; justify-content: center; align-items: center;"></i>
-</button>
+</button> *@
+
+    <!-- Loader-->
+    <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0; ">
+        <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
+            <!-- Icon spinner -->
+            <div class="spinner-border text-danger" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    
+  <div id="to-show" class="card shadow-lg bg-white d-none" style="margin-bottom: 3.5rem; margin-right: 1rem">
+        <div class="card-header text-center">
+            <h6 class="text-dark" style="font-weight: bold;">Report Feedback</h6>
+        </div>
+         <div class="card-body">
+            <form id="pengaduan">
+                <div class="form-group">
+                    <div class="input-group">
+                        <textarea class="form-control" id="description" rows="3" placeholder="Enter your description" autocomplete="off" style="max-height: 200px;min-height:50px;" required-report></textarea>
+                    </div>
+                </div>
+                <button type="button" onclick="kirimPengaduan();" class="btn btn-secondary btn-user btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+<div class="floating-container">
+  <div class="floating-button"><i class="fa-solid fa-plus"></i></div>
+  <div class="element-container">
+
+    <span class="float-element" data-tooltip="tooltip" data-placement="left" title="Report Feedback" id="reportbutton">
+      <i class="fa-regular fa-flag"></i>
+    </span>
+      <span class="float-element" data-toggle="modal" data-target="#ModalAnnouncement" data-tooltip="tooltip" data-placement="left" title="Create Announcement" onclick="clearAnnounce();">
+      <i class="fa fa-bullhorn">
+    </i>
+    </span>
+  </div>
+  
+</div>
 
 @*Modal Announcement*@
 <div class="modal fade" id="ModalAnnouncement" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -245,7 +425,7 @@
     <!-- Employee Status Idle -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-1">
-            <div class="card-body">
+            <a href="/ManageEmployee/Index?placementStatus=Idle" class="nav-link collapsed card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-3" style="margin: -25px 0;">
                         <span style="font-size: 10px;">Placement Status</span>
@@ -259,14 +439,14 @@
 
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
     <!-- Employee Status Onsite -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-1">
-            <div class="card-body">
+            <a href="/ManageEmployee/Index?placementStatus=Onsite" class="nav-link collapsed card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-3" style="margin: -25px 0;">
                         <span style="font-size: 10px;">Placement Status</span>
@@ -280,7 +460,7 @@
 
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
@@ -374,6 +554,13 @@
 
 @*<script src="~/js/Chart.js"></script>*@
 <script>
+  
+    @* $('span[data-tooltip="tooltip"]').tooltip({
+        animated: 'fade',
+        placement: 'bottom',
+        trigger: 'click'
+    });   *@
+  
     function updateClock() {
         var now = new Date();
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };

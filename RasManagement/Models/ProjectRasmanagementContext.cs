@@ -39,11 +39,9 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<NonRasCandidate> NonRasCandidates { get; set; }
 
-    public virtual DbSet<OfferCandidate> OfferCandidates { get; set; }
-
-    public virtual DbSet<OfferingProcess> OfferingProcesses { get; set; }
-
     public virtual DbSet<Placement> Placements { get; set; }
+
+    public virtual DbSet<Position> Positions { get; set; }
 
     public virtual DbSet<ProjectHistory> ProjectHistories { get; set; }
 
@@ -51,14 +49,33 @@ public partial class ProjectRasmanagementContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<ShortlistCandidate> ShortlistCandidates { get; set; }
+    public virtual DbSet<TimeSheet> TimeSheets { get; set; }
+
+    public virtual DbSet<Approval> Approvals { get; set; }
+
+    public virtual DbSet<MasterHoliday> MasterHolidays { get; set; }
+
+    public virtual DbSet<TrackingInterview> TrackingInterviews { get; set; }
 
     public virtual DbSet<TurnOver> TurnOvers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
 
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server = RAS-FAUZI; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        //=> optionsBuilder.UseSqlServer("server = RAS-FAUZI; Database = Project_RASManagement; user id = sa; password = 5aPassword; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        //=> optionsBuilder.UseSqlServer("server = .\\SQLEXPRESS; Database = Project_RASManagement; user id = sa; password = b3rca!@#; Encrypt = false; TrustServerCertificate=Yes; MultipleActiveResultSets=True;");
+        if (!optionsBuilder.IsConfigured)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json")
+               .Build();
+            var connectionString = configuration.GetSection("ConnectionStrings:ProjectRasmanagementContext").Value;
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -106,11 +123,17 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Nickname)
                 .HasMaxLength(20)
                 .IsUnicode(false);
+            entity.Property(e => e.NIK)
+                .HasMaxLength(6)
+                .IsUnicode(false)
+                .HasColumnName("NIK");
             entity.Property(e => e.Password)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Phone)
                 .HasMaxLength(15)
+                .IsUnicode(false);
+            entity.Property(e => e.Position)
                 .IsUnicode(false);
             entity.Property(e => e.Religion)
                 .HasMaxLength(15)
@@ -122,16 +145,16 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.StartContract)
                 .HasColumnType("date")
                 .HasColumnName("Start_contract");
-            entity.Property(e => e.IsChangePassword)
-                .HasColumnName("IsChangePassword")
-                .HasColumnType("bit")
-                .HasDefaultValue(false);
-            entity.Property(e => e.NIK)
-                .HasMaxLength(6)
-                .HasColumnName("NIK");
+            entity.Property(e => e.Level)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.FinancialIndustry)
+                .HasMaxLength(5)
+                .IsUnicode(false)
+                .HasColumnName("Financial_Industry");
+
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Account_Role");
         });
 
@@ -146,6 +169,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
+            entity.Property(e => e.DateObtained).HasColumnType("date");
             entity.Property(e => e.Display).IsUnicode(false);
             entity.Property(e => e.GraphicCard)
                 .HasMaxLength(50)
@@ -187,14 +211,14 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.PublicationYear)
-                .HasMaxLength(25)
+                .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("Publication_year");
             entity.Property(e => e.Publisher)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.ValidUntil)
-                .HasMaxLength(25)
+                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Valid_until");
 
@@ -206,20 +230,29 @@ public partial class ProjectRasmanagementContext : DbContext
 
         modelBuilder.Entity<ClientName>(entity =>
         {
-            entity.HasKey(e => e.Id);
-
             entity.ToTable("Client_Name");
 
-            entity.Property(e => e.Id).HasColumnName("Id");
             entity.Property(e => e.NameOfClient)
+                .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.SalesName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SalesContact)
+            .HasMaxLength(50)
+            .IsUnicode(false);
+            entity.Property(e => e.ClientContact)
+          .HasMaxLength(50);
+            entity.Property(e => e.PicClient)
+          .HasMaxLength(50)
+          .IsUnicode(false);
         });
 
         modelBuilder.Entity<DataUniversita>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Data_uni__3213E83F43130231");
+            entity.HasKey(e => e.Id).HasName("PK__Data_uni__3213E83F19FE3B0C");
 
-            entity.ToTable("Data_Universitas");
+            entity.ToTable("Data_universitas");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.NamaUniversitas)
@@ -233,6 +266,8 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.HasKey(e => e.DeptId);
 
             entity.ToTable("Department");
+
+            entity.HasIndex(e => e.DeptId, "IX_Department");
 
             entity.Property(e => e.DeptId).HasColumnName("Dept_Id");
             entity.Property(e => e.NamaDept)
@@ -254,16 +289,17 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.CompanyName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Description).IsUnicode(false);
+            entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.Job)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Period)
-                .HasMaxLength(30)
+                .HasMaxLength(50)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.EmploymentHistories)
                 .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Employment_History_Account");
         });
 
@@ -291,6 +327,9 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Years)
                 .HasMaxLength(10)
                 .IsUnicode(false);
+            entity.Property(e => e.Ipk)
+                .HasMaxLength(5)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.FormalEdus)
                 .HasForeignKey(d => d.AccountId)
@@ -303,9 +342,10 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.ToTable("History_Log");
 
             entity.Property(e => e.AccountId).IsUnicode(false);
-            entity.Property(e => e.Name).IsUnicode(false);
             entity.Property(e => e.Activity).IsUnicode(false);
+            entity.Property(e => e.Name).IsUnicode(false);
             entity.Property(e => e.TimeStamp)
+                .HasColumnType("datetime")
                 .HasColumnName("Time_Stamp");
         });
 
@@ -339,12 +379,8 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
             entity.Property(e => e.Description).IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Organizer)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Name).IsUnicode(false);
+            entity.Property(e => e.Organizer).IsUnicode(false);
             entity.Property(e => e.Years)
                 .HasMaxLength(10)
                 .IsUnicode(false);
@@ -361,12 +397,9 @@ public partial class ProjectRasmanagementContext : DbContext
 
             entity.ToTable("NonRAS_Candidate");
 
-            entity.Property(e => e.NonRasId)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("NonRAS_Id");
+            entity.Property(e => e.NonRasId).HasColumnName("NonRAS_Id");
             entity.Property(e => e.Birthdate)
-                .HasMaxLength(50)
+                .HasMaxLength(30)
                 .IsUnicode(false);
             entity.Property(e => e.CurrentSalary)
                 .HasMaxLength(20)
@@ -409,19 +442,12 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Intw_ByRAS");
             entity.Property(e => e.IntwDateByRas)
-                .HasMaxLength(25)
+                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("IntwDate_ByRAS");
-            entity.Property(e => e.IntwDateUser)
-                .IsUnicode(false)
-                .HasColumnName("IntwDate_User");
-            entity.Property(e => e.IntwUser)
-                .IsUnicode(false)
-                .HasColumnName("Intw_User");
             entity.Property(e => e.Ipk)
                 .HasMaxLength(5)
-                .IsUnicode(false)
-                .HasColumnName("Ipk");
+                .IsUnicode(false);
             entity.Property(e => e.LastModified)
                 .HasColumnType("date")
                 .HasColumnName("Last_Modified");
@@ -432,9 +458,6 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(8)
                 .IsUnicode(false)
                 .HasColumnName("Level_Rekom");
-            entity.Property(e => e.NameOfUser)
-                .IsUnicode(false)
-                .HasColumnName("NameOf_User");
             entity.Property(e => e.Negotiable)
                 .HasMaxLength(5)
                 .IsUnicode(false);
@@ -451,7 +474,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasColumnName("Raw_CV");
             entity.Property(e => e.Skillset).IsUnicode(false);
             entity.Property(e => e.Status)
-                .HasMaxLength(50)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.TechTest)
                 .IsUnicode(false)
@@ -463,52 +486,13 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("Work_Status");
-        });
-
-        modelBuilder.Entity<OfferCandidate>(entity =>
-        {
-            entity.ToTable("Offer_Candidate");
-
-            entity.Property(e => e.OfferCandidateId).HasColumnName("OfferCandidate_Id");
-            entity.Property(e => e.IntwDateUser)
-                .HasColumnType("date")
-                .HasColumnName("IntwDate_User");
-            entity.Property(e => e.IntwUser)
-                .HasMaxLength(12)
-                .IsUnicode(false)
-                .HasColumnName("Intw_User");
-            entity.Property(e => e.NameOfUser)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("NameOf_User");
-            entity.Property(e => e.ShortlistId).HasColumnName("Shortlist_Id");
-
-            entity.HasOne(d => d.Shortlist).WithMany(p => p.OfferCandidates)
-                .HasForeignKey(d => d.ShortlistId)
-                .HasConstraintName("FK_Offer_Candidate_Offer_Shortlist");
-        });
-
-        modelBuilder.Entity<OfferingProcess>(entity =>
-        {
-            entity.ToTable("Offering_Process");
-
-            entity.Property(e => e.InterviewDateUser)
-                .HasColumnType("date")
-                .HasColumnName("InterviewDate_User");
-            entity.Property(e => e.InterviewUser)
-                .HasMaxLength(50)
+            entity.Property(e => e.isDeleted)
                 .IsUnicode(false);
-            entity.Property(e => e.NameOfUser)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.NonRasId)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("NonRAS_Id");
-            /*
-                        entity.HasOne(d => d.NonRas).WithMany(p => p.OfferingProcesses)
-                            .HasForeignKey(d => d.NonRasId)
-                            .HasConstraintName("FK_Offering_Process_Offering_Process");*/
+            /*entity.Property(e => e.Client_Id).HasColumnName("Client_Id");*/
+
+            /*   entity.HasOne(d => d.Client).WithMany(e => e.NonRasCandidates)
+                   .HasForeignKey(d => d.Client_Id)
+                   .HasConstraintName("FK_NonRas_Client");*/
         });
 
         modelBuilder.Entity<Placement>(entity =>
@@ -522,16 +506,18 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
-            entity.Property(e => e.CompanyName)
+            entity.Property(e => e.ClientId).HasColumnName("Client_Id");
+            entity.Property(e => e.Description).IsUnicode(false);
+            entity.Property(e => e.EndDate).HasColumnType("date");
+            entity.Property(e => e.PositionId).HasColumnName("Position_Id");
+            entity.Property(e => e.PicName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("Company_name");
-            entity.Property(e => e.Description)
-                .IsUnicode(false);
-            entity.Property(e => e.EndDate).HasColumnType("date");
-            entity.Property(e => e.JobRole)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+                .HasColumnName("PIC");
+            entity.Property(e => e.PicRas)
+               .HasMaxLength(50)
+               .IsUnicode(false)
+               .HasColumnName("PIC_Ras");
             entity.Property(e => e.PlacementStatus)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -542,6 +528,40 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Placement_Account");
+
+            entity.HasOne(d => d.Client).WithMany(p => p.Placements)
+                .HasForeignKey(d => d.ClientId)
+                .HasConstraintName("FK_Placement_Client");
+
+            entity.HasOne(d => d.Position).WithMany(p => p.Placements)
+                .HasForeignKey(d => d.PositionId)
+                .HasConstraintName("FK_Placement_Position");
+        });
+
+        modelBuilder.Entity<Position>(entity =>
+        {
+            entity.ToTable("Position");
+
+            //entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.ClientId).HasColumnName("Client_Id");
+            entity.Property(e => e.Level)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Notes).IsUnicode(false);
+            entity.Property(e => e.PositionClient)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Position");
+            entity.Property(e => e.Quantity)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Client).WithMany(p => p.Positions)
+                .HasForeignKey(d => d.ClientId)
+                .HasConstraintName("FK_Position_Client");
         });
 
         modelBuilder.Entity<ProjectHistory>(entity =>
@@ -581,19 +601,15 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
-            entity.Property(e => e.Framework)
-                .IsUnicode(false);
-            entity.Property(e => e.Others)
-                .IsUnicode(false);
+            entity.Property(e => e.Database).IsUnicode(false);
+            entity.Property(e => e.Others).IsUnicode(false);
             entity.Property(e => e.ProgrammingLanguage)
                 .IsUnicode(false)
                 .HasColumnName("Programming_language");
-            entity.Property(e => e.Tools)
-                .IsUnicode(false);
+            entity.Property(e => e.Tools).IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.Qualifications)
                 .HasForeignKey(d => d.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Qualification_Account");
         });
 
@@ -610,80 +626,130 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<ShortlistCandidate>(entity =>
+        modelBuilder.Entity<TimeSheet>(entity =>
         {
-            entity.HasKey(e => e.ShortlistId);
+            entity.ToTable("Time_Sheet");
 
-            entity.ToTable("Shortlist_Candidate");
-
-            entity.Property(e => e.ShortlistId).HasColumnName("Shortlist_Id");
             entity.Property(e => e.AccountId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Account_Id");
-            entity.Property(e => e.CurrentSalary)
+            entity.Property(e => e.Activity).IsUnicode(false);
+            entity.Property(e => e.Category)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Date).HasColumnType("date");
+            entity.Property(e => e.Flag)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.KnownBy)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Known_by");
+            entity.Property(e => e.PlacementStatusId).HasColumnName("Placement_status_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Account).WithMany(p => p.TimeSheets)
+                .HasForeignKey(d => d.AccountId)
+                .HasConstraintName("FK_Time_Sheet_Account");
+
+            entity.HasOne(d => d.PlacementStatus).WithMany(p => p.TimeSheets)
+                .HasForeignKey(d => d.PlacementStatusId)
+                .HasConstraintName("FK_Time_Sheet_Placement");
+        });
+
+        modelBuilder.Entity<Approval>(entity =>
+        {
+            entity.ToTable("Approval");
+
+            entity.Property(e => e.AccountId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Account_Id");
+            entity.Property(e => e.Activity).IsUnicode(false);
+            entity.Property(e => e.Category)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Date).HasColumnType("date");
+            entity.Property(e => e.Flag)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.KnownBy)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Known_by");
+            entity.Property(e => e.StatusApproval)
                 .HasMaxLength(20)
                 .IsUnicode(false)
-                .HasColumnName("Current_Salary");
-            entity.Property(e => e.CvBerca)
-                .IsUnicode(false)
-                .HasColumnName("CV_Berca");
-            entity.Property(e => e.Domisili)
-                .HasMaxLength(30)
-                .IsUnicode(false);
-            entity.Property(e => e.EnglishLevel)
-                .HasMaxLength(15)
-                .IsUnicode(false)
-                .HasColumnName("English_Level");
-            entity.Property(e => e.ExpectedSalary)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Expected_Salary");
-            entity.Property(e => e.ExperienceInYear).HasColumnName("Experience_In_Year");
-            entity.Property(e => e.FilteringBy)
-                .HasMaxLength(15)
-                .IsUnicode(false)
-                .HasColumnName("Filtering_By");
-            entity.Property(e => e.FinancialIndustry)
-                .HasMaxLength(5)
-                .IsUnicode(false)
-                .HasColumnName("Financial_Industry");
-            entity.Property(e => e.IntwByRas)
-                .HasMaxLength(12)
-                .IsUnicode(false)
-                .HasColumnName("Intw_ByRAS");
-            entity.Property(e => e.IntwDateByRas)
-                .HasColumnType("date")
-                .HasColumnName("IntwDate_ByRAS");
-            entity.Property(e => e.Level)
-                .HasMaxLength(30)
-                .IsUnicode(false);
-            entity.Property(e => e.LevelRekom)
-                .HasMaxLength(8)
-                .IsUnicode(false)
-                .HasColumnName("Level_Rekom");
-            entity.Property(e => e.Negotiable)
-                .HasMaxLength(5)
-                .IsUnicode(false);
-            entity.Property(e => e.Notes).IsUnicode(false);
-            entity.Property(e => e.NoticePeriode)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("Notice_Periode");
-            entity.Property(e => e.Position)
+                .HasColumnName("Status_approval");
+            entity.Property(e => e.PlacementStatusId).HasColumnName("Placement_status_id");
+            entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.RawCv)
-                .IsUnicode(false)
-                .HasColumnName("Raw_CV");
-            entity.Property(e => e.WorkStatus)
-                .HasMaxLength(5)
-                .IsUnicode(false)
-                .HasColumnName("Work_Status");
 
-            entity.HasOne(d => d.Account).WithMany(p => p.ShortlistCandidates)
+            entity.HasOne(d => d.Account).WithMany(p => p.Approvals)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK_Shortlist_Candidate_Account");
+                .HasConstraintName("FK_Approval_Account");
+
+            entity.HasOne(d => d.PlacementStatus).WithMany(p => p.Approvals)
+                .HasForeignKey(d => d.PlacementStatusId)
+                .HasConstraintName("FK_Approval_Placement");
+        });
+
+        modelBuilder.Entity<MasterHoliday>(entity =>
+        {
+            entity.HasKey(e => e.Holiday_Id);
+            entity.ToTable("MasterHoliday");
+
+           /* entity.Property(e => e.AccountId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Account_Id");*/
+            entity.Property(e => e.Name).IsUnicode(false);
+            entity.Property(e => e.Date).HasColumnType("date");
+            entity.Property(e => e.Description).IsUnicode(false);
+
+            /*entity.HasOne(d => d.Account).WithMany(p => p.MasterHolidays)
+                .HasForeignKey(d => d.AccountId)
+                .HasConstraintName("FK_MasterHoliday_Account");*/
+        });
+
+        modelBuilder.Entity<TrackingInterview>(entity =>
+        {
+            entity.ToTable("Tracking_interview");
+
+            entity.Property(e => e.AccountId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Account_Id");
+            entity.Property(e => e.ClientId).HasColumnName("Client_Id");
+            entity.Property(e => e.IntvwDate)
+                .IsUnicode(false)
+                .HasColumnName("Intvw_date");
+            entity.Property(e => e.IntvwStatus)
+                .IsUnicode(false)
+                .HasColumnName("Intvw_status");
+            entity.Property(e => e.NonRasId).HasColumnName("NonRAS_Id");
+            entity.Property(e => e.Notes).IsUnicode(false);
+            entity.Property(e => e.PositionId).HasColumnName("Position_Id");
+
+            entity.HasOne(d => d.Account).WithMany(p => p.TrackingInterviews)
+                .HasForeignKey(d => d.AccountId)
+                .HasConstraintName("FK_Tracking_interview_Account");
+
+            entity.HasOne(d => d.Client).WithMany(p => p.TrackingInterviews)
+                .HasForeignKey(d => d.ClientId)
+                .HasConstraintName("FK_Tracking_interview_Client");
+
+            entity.HasOne(d => d.NonRas).WithMany(p => p.TrackingInterviews)
+                .HasForeignKey(d => d.NonRasId)
+                .HasConstraintName("FK_Tracking_interview_NonRAS_Candidate");
+
+            entity.HasOne(d => d.Position).WithMany(p => p.TrackingInterviews)
+                .HasForeignKey(d => d.PositionId)
+                .HasConstraintName("FK_Tracking_interview_Position");
         });
 
         modelBuilder.Entity<TurnOver>(entity =>

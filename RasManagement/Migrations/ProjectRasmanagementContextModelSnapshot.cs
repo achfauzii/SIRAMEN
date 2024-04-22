@@ -74,7 +74,7 @@ namespace RasManagement.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<bool>("IsChangePassword")
+                    b.Property<bool?>("IsChangePassword")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("JoinDate")
@@ -85,6 +85,12 @@ namespace RasManagement.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("NIK")
+                        .HasMaxLength(6)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(6)")
+                        .HasColumnName("NIK");
 
                     b.Property<string>("Nationality")
                         .HasMaxLength(4)
@@ -106,6 +112,11 @@ namespace RasManagement.Migrations
                         .HasMaxLength(15)
                         .IsUnicode(false)
                         .HasColumnType("varchar(15)");
+
+                    b.Property<string>("Position")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Religion")
                         .HasMaxLength(15)
@@ -211,7 +222,6 @@ namespace RasManagement.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CertificateId"));
 
                     b.Property<string>("AccountId")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -248,6 +258,24 @@ namespace RasManagement.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("Certificate", (string)null);
+                });
+
+            modelBuilder.Entity("RasManagement.Models.ClientName", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("NameOfClient")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Client_Name", (string)null);
                 });
 
             modelBuilder.Entity("RasManagement.Models.DataUniversita", b =>
@@ -304,7 +332,6 @@ namespace RasManagement.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkExperienceId"));
 
                     b.Property<string>("AccountId")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -349,7 +376,6 @@ namespace RasManagement.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FormalEduId"));
 
                     b.Property<string>("AccountId")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -360,6 +386,11 @@ namespace RasManagement.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Ipk")
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -390,6 +421,35 @@ namespace RasManagement.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("Formal_Edu", (string)null);
+                });
+
+            modelBuilder.Entity("RasManagement.Models.HistoryLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccountId")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("Activity")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<DateTime?>("TimeStamp")
+                        .HasColumnType("datetime")
+                        .HasColumnName("Time_Stamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("History_Log", (string)null);
                 });
 
             modelBuilder.Entity("RasManagement.Models.LastModified", b =>
@@ -428,7 +488,6 @@ namespace RasManagement.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NonFormalId"));
 
                     b.Property<string>("AccountId")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -441,15 +500,13 @@ namespace RasManagement.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(max)");
 
                     b.Property<string>("Organizer")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(max)");
 
                     b.Property<string>("Years")
                         .IsRequired()
@@ -466,16 +523,21 @@ namespace RasManagement.Migrations
 
             modelBuilder.Entity("RasManagement.Models.NonRasCandidate", b =>
                 {
-                    b.Property<string>("NonRasId")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(20)")
+                    b.Property<int>("NonRasId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("NonRAS_Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NonRasId"));
 
                     b.Property<string>("Birthdate")
                         .HasMaxLength(30)
                         .IsUnicode(false)
                         .HasColumnType("varchar(30)");
+
+                    b.Property<int?>("Client_Id")
+                        .HasColumnType("int")
+                        .HasColumnName("Client_Id");
 
                     b.Property<string>("CurrentSalary")
                         .HasMaxLength(20)
@@ -555,6 +617,11 @@ namespace RasManagement.Migrations
                         .HasColumnType("varchar(max)")
                         .HasColumnName("Intw_User");
 
+                    b.Property<string>("Ipk")
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("date")
                         .HasColumnName("Last_Modified");
@@ -569,11 +636,6 @@ namespace RasManagement.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(8)")
                         .HasColumnName("Level_Rekom");
-
-                    b.Property<string>("NameOfUser")
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("NameOf_User");
 
                     b.Property<string>("Negotiable")
                         .HasMaxLength(5)
@@ -609,6 +671,11 @@ namespace RasManagement.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<string>("TechTest")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("Tech_Test");
+
                     b.Property<string>("University")
                         .HasMaxLength(100)
                         .IsUnicode(false)
@@ -623,42 +690,6 @@ namespace RasManagement.Migrations
                     b.HasKey("NonRasId");
 
                     b.ToTable("NonRAS_Candidate", (string)null);
-                });
-
-            modelBuilder.Entity("RasManagement.Models.OfferCandidate", b =>
-                {
-                    b.Property<int>("OfferCandidateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("OfferCandidate_Id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OfferCandidateId"));
-
-                    b.Property<DateTime?>("IntwDateUser")
-                        .HasColumnType("date")
-                        .HasColumnName("IntwDate_User");
-
-                    b.Property<string>("IntwUser")
-                        .HasMaxLength(12)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(12)")
-                        .HasColumnName("Intw_User");
-
-                    b.Property<string>("NameOfUser")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("NameOf_User");
-
-                    b.Property<int?>("ShortlistId")
-                        .HasColumnType("int")
-                        .HasColumnName("Shortlist_Id");
-
-                    b.HasKey("OfferCandidateId");
-
-                    b.HasIndex("ShortlistId");
-
-                    b.ToTable("Offer_Candidate", (string)null);
                 });
 
             modelBuilder.Entity("RasManagement.Models.Placement", b =>
@@ -685,9 +716,8 @@ namespace RasManagement.Migrations
                         .HasColumnName("Company_name");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(225)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(225)");
+                        .HasColumnType("varchar(max)");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("date");
@@ -696,6 +726,18 @@ namespace RasManagement.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("PicName")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("PIC");
+
+                    b.Property<string>("PicRas")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("PIC_Ras");
 
                     b.Property<string>("PlacementStatus")
                         .HasMaxLength(50)
@@ -713,6 +755,50 @@ namespace RasManagement.Migrations
                     b.ToTable("Placement", (string)null);
                 });
 
+            modelBuilder.Entity("RasManagement.Models.Position", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int")
+                        .HasColumnName("Client_Id");
+
+                    b.Property<string>("Level")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Notes")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)");
+
+                    b.Property<string>("PositionClient")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("Position");
+
+                    b.Property<string>("Quantity")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Position", (string)null);
+                });
+
             modelBuilder.Entity("RasManagement.Models.ProjectHistory", b =>
                 {
                     b.Property<int>("ProjectHistoryId")
@@ -723,7 +809,6 @@ namespace RasManagement.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectHistoryId"));
 
                     b.Property<string>("AccountId")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -770,36 +855,31 @@ namespace RasManagement.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QualificationId"));
 
                     b.Property<string>("AccountId")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("Account_Id");
 
                     b.Property<string>("Database")
-                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(max)");
 
                     b.Property<string>("Framework")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Others")
-                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(max)");
 
                     b.Property<string>("ProgrammingLanguage")
-                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("varchar(max)")
                         .HasColumnName("Programming_language");
 
                     b.Property<string>("Tools")
-                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(max)");
 
                     b.HasKey("QualificationId");
 
@@ -827,14 +907,13 @@ namespace RasManagement.Migrations
                     b.ToTable("Role", (string)null);
                 });
 
-            modelBuilder.Entity("RasManagement.Models.ShortlistCandidate", b =>
+            modelBuilder.Entity("RasManagement.Models.TimeSheet", b =>
                 {
-                    b.Property<int>("ShortlistId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Shortlist_Id");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShortlistId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AccountId")
                         .HasMaxLength(50)
@@ -842,107 +921,98 @@ namespace RasManagement.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("Account_Id");
 
-                    b.Property<string>("CurrentSalary")
-                        .HasMaxLength(20)
+                    b.Property<string>("Activity")
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("Current_Salary");
+                        .HasColumnType("varchar(max)");
 
-                    b.Property<string>("CvBerca")
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("CV_Berca");
-
-                    b.Property<string>("Domisili")
-                        .HasMaxLength(30)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<string>("EnglishLevel")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
-                        .HasColumnName("English_Level");
-
-                    b.Property<string>("ExpectedSalary")
+                    b.Property<string>("Category")
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("Expected_Salary");
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("ExperienceInYear")
-                        .HasColumnType("int")
-                        .HasColumnName("Experience_In_Year");
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("date");
 
-                    b.Property<string>("FilteringBy")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)")
-                        .HasColumnName("Filtering_By");
-
-                    b.Property<string>("FinancialIndustry")
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)")
-                        .HasColumnName("Financial_Industry");
-
-                    b.Property<string>("IntwByRas")
-                        .HasMaxLength(12)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(12)")
-                        .HasColumnName("Intw_ByRAS");
-
-                    b.Property<DateTime?>("IntwDateByRas")
-                        .HasColumnType("date")
-                        .HasColumnName("IntwDate_ByRAS");
-
-                    b.Property<string>("Level")
-                        .HasMaxLength(30)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<string>("LevelRekom")
-                        .HasMaxLength(8)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(8)")
-                        .HasColumnName("Level_Rekom");
-
-                    b.Property<string>("Negotiable")
+                    b.Property<string>("Flag")
                         .HasMaxLength(5)
                         .IsUnicode(false)
                         .HasColumnType("varchar(5)");
+
+                    b.Property<string>("KnownBy")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("Known_by");
+
+                    b.Property<int?>("PlacementStatusId")
+                        .HasColumnType("int")
+                        .HasColumnName("Placement_status_id");
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("PlacementStatusId");
+
+                    b.ToTable("Time_Sheet", (string)null);
+                });
+
+            modelBuilder.Entity("RasManagement.Models.TrackingInterview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccountId")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("Account_Id");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int")
+                        .HasColumnName("Client_Id");
+
+                    b.Property<string>("IntvwDate")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("Intvw_date");
+
+                    b.Property<string>("IntvwStatus")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("Intvw_status");
+
+                    b.Property<int?>("NonRasId")
+                        .HasColumnType("int")
+                        .HasColumnName("NonRAS_Id");
 
                     b.Property<string>("Notes")
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.Property<string>("NoticePeriode")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("Notice_Periode");
+                    b.Property<int?>("PositionId")
+                        .HasColumnType("int")
+                        .HasColumnName("Position_Id");
 
-                    b.Property<string>("Position")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("RawCv")
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("Raw_CV");
-
-                    b.Property<string>("WorkStatus")
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)")
-                        .HasColumnName("Work_Status");
-
-                    b.HasKey("ShortlistId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Shortlist_Candidate", (string)null);
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("NonRasId");
+
+                    b.HasIndex("PositionId");
+
+                    b.ToTable("Tracking_interview", (string)null);
                 });
 
             modelBuilder.Entity("RasManagement.Models.TurnOver", b =>
@@ -1014,7 +1084,6 @@ namespace RasManagement.Migrations
                     b.HasOne("RasManagement.Models.Account", "Account")
                         .WithMany("Certificates")
                         .HasForeignKey("AccountId")
-                        .IsRequired()
                         .HasConstraintName("FK_Certificate_Account");
 
                     b.Navigation("Account");
@@ -1025,7 +1094,6 @@ namespace RasManagement.Migrations
                     b.HasOne("RasManagement.Models.Account", "Account")
                         .WithMany("EmploymentHistories")
                         .HasForeignKey("AccountId")
-                        .IsRequired()
                         .HasConstraintName("FK_Employment_History_Account");
 
                     b.Navigation("Account");
@@ -1036,7 +1104,6 @@ namespace RasManagement.Migrations
                     b.HasOne("RasManagement.Models.Account", "Account")
                         .WithMany("FormalEdus")
                         .HasForeignKey("AccountId")
-                        .IsRequired()
                         .HasConstraintName("FK_Formal_Edu_Account");
 
                     b.Navigation("Account");
@@ -1057,20 +1124,9 @@ namespace RasManagement.Migrations
                     b.HasOne("RasManagement.Models.Account", "Account")
                         .WithMany("NonFormalEdus")
                         .HasForeignKey("AccountId")
-                        .IsRequired()
                         .HasConstraintName("FK_NonFormal_Edu_Account");
 
                     b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("RasManagement.Models.OfferCandidate", b =>
-                {
-                    b.HasOne("RasManagement.Models.ShortlistCandidate", "Shortlist")
-                        .WithMany("OfferCandidates")
-                        .HasForeignKey("ShortlistId")
-                        .HasConstraintName("FK_Offer_Candidate_Offer_Shortlist");
-
-                    b.Navigation("Shortlist");
                 });
 
             modelBuilder.Entity("RasManagement.Models.Placement", b =>
@@ -1084,12 +1140,21 @@ namespace RasManagement.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("RasManagement.Models.Position", b =>
+                {
+                    b.HasOne("RasManagement.Models.ClientName", "Client")
+                        .WithMany("Positions")
+                        .HasForeignKey("ClientId")
+                        .HasConstraintName("FK_Position_Client");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("RasManagement.Models.ProjectHistory", b =>
                 {
                     b.HasOne("RasManagement.Models.Account", "Account")
                         .WithMany("ProjectHistories")
                         .HasForeignKey("AccountId")
-                        .IsRequired()
                         .HasConstraintName("FK_Project_History_Account");
 
                     b.Navigation("Account");
@@ -1100,19 +1165,59 @@ namespace RasManagement.Migrations
                     b.HasOne("RasManagement.Models.Account", "Account")
                         .WithMany("Qualifications")
                         .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("FK_Qualification_Account");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("RasManagement.Models.ShortlistCandidate", b =>
+            modelBuilder.Entity("RasManagement.Models.TimeSheet", b =>
                 {
                     b.HasOne("RasManagement.Models.Account", "Account")
-                        .WithMany("ShortlistCandidates")
+                        .WithMany("TimeSheets")
                         .HasForeignKey("AccountId")
-                        .HasConstraintName("FK_Shortlist_Candidate_Account");
+                        .HasConstraintName("FK_Time_Sheet_Account");
+
+                    b.HasOne("RasManagement.Models.Placement", "PlacementStatus")
+                        .WithMany("TimeSheets")
+                        .HasForeignKey("PlacementStatusId")
+                        .HasConstraintName("FK_Time_Sheet_Placement");
 
                     b.Navigation("Account");
+
+                    b.Navigation("PlacementStatus");
+                });
+
+            modelBuilder.Entity("RasManagement.Models.TrackingInterview", b =>
+                {
+                    b.HasOne("RasManagement.Models.Account", "Account")
+                        .WithMany("TrackingInterviews")
+                        .HasForeignKey("AccountId")
+                        .HasConstraintName("FK_Tracking_interview_Account");
+
+                    b.HasOne("RasManagement.Models.ClientName", "Client")
+                        .WithMany("TrackingInterviews")
+                        .HasForeignKey("ClientId")
+                        .HasConstraintName("FK_Tracking_interview_Client");
+
+                    b.HasOne("RasManagement.Models.NonRasCandidate", "NonRas")
+                        .WithMany("TrackingInterviews")
+                        .HasForeignKey("NonRasId")
+                        .HasConstraintName("FK_Tracking_interview_NonRAS_Candidate");
+
+                    b.HasOne("RasManagement.Models.Position", "Position")
+                        .WithMany("TrackingInterviews")
+                        .HasForeignKey("PositionId")
+                        .HasConstraintName("FK_Tracking_interview_Position");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("NonRas");
+
+                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("RasManagement.Models.TurnOver", b =>
@@ -1153,9 +1258,18 @@ namespace RasManagement.Migrations
 
                     b.Navigation("Qualifications");
 
-                    b.Navigation("ShortlistCandidates");
+                    b.Navigation("TimeSheets");
+
+                    b.Navigation("TrackingInterviews");
 
                     b.Navigation("TurnOvers");
+                });
+
+            modelBuilder.Entity("RasManagement.Models.ClientName", b =>
+                {
+                    b.Navigation("Positions");
+
+                    b.Navigation("TrackingInterviews");
                 });
 
             modelBuilder.Entity("RasManagement.Models.Department", b =>
@@ -1163,14 +1277,24 @@ namespace RasManagement.Migrations
                     b.Navigation("TurnOvers");
                 });
 
+            modelBuilder.Entity("RasManagement.Models.NonRasCandidate", b =>
+                {
+                    b.Navigation("TrackingInterviews");
+                });
+
+            modelBuilder.Entity("RasManagement.Models.Placement", b =>
+                {
+                    b.Navigation("TimeSheets");
+                });
+
+            modelBuilder.Entity("RasManagement.Models.Position", b =>
+                {
+                    b.Navigation("TrackingInterviews");
+                });
+
             modelBuilder.Entity("RasManagement.Models.Role", b =>
                 {
                     b.Navigation("Accounts");
-                });
-
-            modelBuilder.Entity("RasManagement.Models.ShortlistCandidate", b =>
-                {
-                    b.Navigation("OfferCandidates");
                 });
 #pragma warning restore 612, 618
         }

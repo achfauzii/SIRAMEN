@@ -1,5 +1,17 @@
 var table = null;
 $(document).ready(function () {
+    $(
+        "input[required]"
+    ).each(function () {
+        $(this).prev("label").append('<span style="color: red;">*</span>');
+    });
+
+    var objDataToken = parseJwt(sessionStorage.getItem('Token'));
+
+    if (objDataToken.RoleId == 7) {
+        $('.btn-add-department').hide();
+    } 
+
   table = $("#TB_Department").DataTable({
     responsive: true,
 
@@ -43,29 +55,29 @@ $(document).ready(function () {
       },
     ],
 
-    order: [[1, "desc"]],
+    order: [[1, "asc"]],
     //"responsive": true,
     //Buat ngilangin order kolom No dan Action
     columnDefs: [
       {
         targets: [0, 2],
-        orderable: false,
+            orderable: false,
+            visible: objDataToken.RoleId != 7,
       },
     ],
     //Agar nomor tidak berubah
-    drawCallback: function (settings) {
-      var api = this.api();
-      var rows = api.rows({ page: "current" }).nodes();
-      api
-        .column(1, { page: "current" })
-        .data()
-        .each(function (group, i) {
-          $(rows)
-            .eq(i)
-            .find("td:first")
-            .html(i + 1);
-        });
-    },
+      drawCallback: function (settings) {
+          var api = this.api();
+          var rows = api.rows({ page: "current" }).nodes();
+          var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+          var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+          api.column(0, { page: "current" })
+              .nodes()
+              .each(function (cell, i) {
+                  cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+              });
+      },
   });
 });
 
@@ -134,6 +146,7 @@ function ClearScreen() {
   $("#NamaDept").val("");
   $("#UpdateDept").hide();
   $("#Save").show();
+  $(".error-message").hide();
 }
 
 function noHTML(input) {

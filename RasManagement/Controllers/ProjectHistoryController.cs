@@ -9,7 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class ProjectHistoryController : BaseController<ProjectHistory, ProjectHistoryRepository, int>
     {
         private readonly ProjectHistoryRepository projectHistoryRepository;
@@ -18,6 +18,7 @@ namespace RasManagement.Controllers
             this.projectHistoryRepository = projectHistoryRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetProjectByAccountId(string accountId)
         {

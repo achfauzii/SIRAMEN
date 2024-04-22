@@ -1,10 +1,26 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
     var employeeData = ViewData["EmployeeData"] as dynamic;
 }
 
+<!-- Custom styles for filter canvas page -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 <style>
+    .cards {
+        font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        color: #000000;
+        background-color: #fff;
+    }
+
+    .cards-header {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
     /* Gaya untuk teks dengan latar belakang warna */
     .color-bg {
         padding: 5px 6px;
@@ -15,6 +31,7 @@
         background-color: #1cc88a; /* Warna hijau */
         color: white;
     }
+
 
     .yellow-bg {
         background-color: #f6c23e; /* Warna kuning */
@@ -47,36 +64,197 @@
     .bullet-text {
         margin-left: 10px;
     }
+
+    label {
+        display: inline-block;
+        margin-bottom: .5rem;
+        font-size: 14px;
+        color: #858796;
+    }
+
+    .rounded-pill {
+        font-size: 10.5px;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF;
+    }
+
+    .dataTables_length {
+        font-size: 14px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    }
+
+   .dataTables_filter input[type="search"] {
+        font-size: 12px; /* Atur ukuran font sesuai kebutuhan */
+   }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 13px;
+    }
+    div.dataTables_wrapper div.dataTables_info {
+        font-size: 13.5px;
+    }
+
+    table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
+        font-size: 13px;
+    }
+    table.table-bordered.dataTable th, table.table-bordered.dataTable td{
+        font-size: 13px;
+    }
+
+    .btn-info-custom {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        box-shadow: none;
+        margin: 5px 5px;
+        padding: 6px 12px;
+    }
+
+    .btn-info-custom:hover {
+        color: #fff;
+        background-color: #138496;
+        border-color: #117a8b;
+    }
+
+    .btn-info-custom:focus,
+    .btn-info-custom.focus {
+        color: #fff;
+        background-color: #138496;
+        border-color: #117a8b;
+        box-shadow: 0 0 0 0 rgba(58, 176, 195, 0.5);
+    }
+
+    .btn-info-custom.disabled,
+    .btn-info-custom:disabled {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .btn-info-custom:not(:disabled):not(.disabled):active,
+    .btn-info-custom:not(:disabled):not(.disabled).active,
+    .show > .btn-info-custom.dropdown-toggle {
+        color: #fff;
+        background-color: #117a8b;
+        border-color: #10707f;
+    }
+
+    .btn-info-custom:not(:disabled):not(.disabled):active:focus,
+    .btn-info-custom:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-info-custom.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0 rgba(58, 176, 195, 0.5);
+    }
+
+    .btn-secondary-custom {
+        color: #6c757d;
+        background-color: #e5e4e4;
+        border-color: #e5e4e4;
+        box-shadow: none;
+        margin: 5px 5px;
+        padding: 6px 12px;
+    }
+
+    .btn-secondary-custom:hover {
+        color: #fff;
+        background-color: #cbcbcb;
+        border-color: #cbcbcb;
+    }
+
+    .btn-secondary-custom:focus,
+    .btn-secondary-custom.focus {
+        color: #fff;
+        background-color: #cbcbcb;
+        border-color: #cbcbcb;
+        box-shadow: 0 0 0 0 rgba(130, 138, 145, 0.5);
+    }
+
+    .btn-secondary-custom.disabled,
+    .btn-secondary-custom:disabled {
+        color: #fff;
+        background-color: #cbcbcb;
+        border-color: #cbcbcb;
+    }
+
+    .btn-secondary-custom:not(:disabled):not(.disabled):active,
+    .btn-secondary-custom:not(:disabled):not(.disabled).active,
+    .show > .btn-secondary-custom.dropdown-toggle {
+        color: #fff;
+        background-color: #cbcbcb;
+        border-color: #cbcbcb;
+    }
+
+    .btn-secondary-custom:not(:disabled):not(.disabled):active:focus,
+    .btn-secondary-custom:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-secondary-custom.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0 rgba(130, 138, 145, 0.5);
+    }
+
+    /* Only for demo */
+    body {
+        min-height: 100vh;
+    }
+
+    .sidebar-dark hr.sidebar-divider {
+        border-top:0px solid #fff;
+
+    }
+
+    .hr {
+        background-color: #fff;
+        border: 0;
+    }
 </style>
 
+
+@*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">*@
+
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+
+<!-- Main Content-->
 <h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
+<div class="cards shadow mb-4">
+    <div class="cards-header p-3">
         <h6 class="m-0 font-weight-bold text-primary">Employee Table</h6>
     </div>
-    <div class="card-body table-responsive">
+    <div class="card-body table-responsive mb-2 p-3">
         <div class="text-right mb-1 mt-0">
-            <!-- Tombol reset filter -->
-            <button id="resetFilters" class="btn btn-secondary btn-sm">Reset Filters</button>
+            <!-- Tombol filter data-->
+            <button id="filterData" type="button" class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filter Data</button>
+
+            @*<button class="btn btn-danger" type="button" data-toggle="canvas" data-target="#bs-canvas-right" aria-expanded="false" aria-controls="bs-canvas-right">&#9776;</button>*@
         </div>
+
         <table class="table table-striped table-bordered text-nowrap" id="dataTableEmployee" style="width:100%" cellspacing="0">
-            <thead>
+
+            <thead style="color: #858796;">
                 <tr>
                     <th>No</th>
                     <th>NIK</th>
                     <th>Name</th>
+                    <th>Position</th>
+                    <th>Level</th>
                     <th>Email</th>
                     <th>Gender</th>
                     <th>Address</th>
+                    <th>Financial Industry</th>
                     <th>Placement Status</th>
                     <th>Placement Location</th>
                     <th>Hired Status</th>
                     <th>Remaining Contract</th>
                     <th>Assets</th>
-                    <th>Action</th>
+                    <th style="min-width: 80px;">Action</th>
                 </tr>
             </thead>
 
+            <tbody></tbody>
         </table>
         <h6><strong>Notes</strong></h6>
         <div class="row ml-0">
@@ -85,15 +263,15 @@
                 <small>
                     <ul>
                         <li class="list-item">
-                            <span class="badge badge-success" style="font-size: 12px;">Green</span>
+                            <span class="badge badge-success" style="font-size: 10px;">Green</span>
                             <span class="bullet-text">: The remaining contract is more than 3 months</span>
                         </li>
                         <li class="list-item">
-                            <span class="badge badge-warning" style="font-size: 12px;">Yellow</span>
+                            <span class="badge badge-warning" style="font-size: 10px;">Yellow</span>
                             <span class="bullet-text">: The remaining contract is less than 3 months</span>
                         </li>
                         <li class="list-item">
-                            <span class="badge badge-danger" style="font-size: 12px;">Red</span>
+                            <span class="badge badge-danger" style="font-size: 10px;">Red</span>
                             <span class="bullet-text">: The remaining contract is less than 1 month</span>
                         </li>
                     </ul>
@@ -104,18 +282,18 @@
                 <small>
                     <ul>
                         <li class="list-item">
-                            <span class="badge badge-success rounded-pill" style="font-size: 12px;"> Green </span>
+                            <span class="badge badge-success rounded-pill" style="font-size: 10px;"> Green </span>
                             <span class="bullet-text">: Asset data exists</span>
                         </li>
                         <li class="list-item">
-                            <span class="badge badge-secondary rounded-pill" style="font-size: 12px;"> Grey </span>
+                            <span class="badge badge-secondary rounded-pill" style="font-size: 10px;"> Grey </span>
                             <span class="bullet-text">: Asset data is empty</span>
                         </li>
-                    </ul>    
+                    </ul>
                 </small>
             </div>
         </div>
-            
+
     </div>
 </div>
 
@@ -124,8 +302,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><span id="Fullname" class="badge badge-light"></span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="Fullname" class="badge text-secondary"></span></h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -134,8 +312,9 @@
                     <div class="form-group">
                         <input type="text" class="form-control" id="AccountId" hidden>
                         <label for="PlacementStatus">Change Status</label>
-                        <select id="Status" class="form-control PlacementStatus" placeholder="Select Turn Over Status" required>
+                        <select id="Status" class="form-select PlacementStatus" placeholder="Select Turn Over Status" required>
                             
+                            <option selected disabled>Choose Status</option>
                             <option value="Blacklist">Blacklist</option>
                             <option value="Resign">Resign</option>
                             <option value="Transfer">Transfer</option>
@@ -149,8 +328,8 @@
                         <label for="Description">Departments</label>
 
                         <p>
-                            <select id="deptId" class="selectDept form-control" required>
-                                <option></option>
+                            <select id="deptId" class="selectDept form-select form-control" required>
+                                <option value="" disabled selected>Select Department</option>
                             </select>
                         </p>
                         @*<input type="number" class="form-control" id="DeptId">*@
@@ -170,8 +349,39 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" id="Update" onclick="SaveTurnOver();">Update</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Info Level-->
+<div class="modal fade" id="modalLevel" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Level</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm">
+                    <input type="hidden" class="form-control" id="accountLevel" readonly>
+
+                    <label class="text-dark" for="levelchange">Level</label>
+                    <select id="levelchange" class="selectLevel form-select" name="state" required>
+                        <option selected disabled>Choose...</option>
+                    </select>
+                    <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="update" data-dismiss="modal" onclick="UpdateLevel()">Update</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" id="closemodal">Close</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -182,7 +392,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(31, 31, 31)">Assets Management</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -215,7 +425,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(31, 31, 31)">Assets Management</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -229,7 +439,139 @@
     </div>
 </div>
 
+<!-- Modal Filter Data-->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h6 class="offcanvas-title" id="offcanvasRightLabel">Data Filters</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row mx-1" style="font-size: 14px;">
+            Level
+            <div class="accordion-body p-2 ">
+                <input type="radio" class="btn-check" name="filter-level" id="option1" value="Fresh Graduate" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option1">Fresh Graduate</label>
+                <input type="radio" class="btn-check" name="filter-level" id="option2" value="Junior" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option2">Junior</label>
+                <input type="radio" class="btn-check" name="filter-level" id="option3" value="Junior to Middle" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option3">Junior to Middle</label>
+                <input type="radio" class="btn-check" name="filter-level" id="option4" value="Middle" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option4">Middle</label>
+                <input type="radio" class="btn-check" name="filter-level" id="option5" value="Middle to Senior" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option5">Middle to Senior</label>
+                <input type="radio" class="btn-check" name="filter-level" id="option6" value="Senior" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option6">Senior</label>
+            </div>
+        </div>
+        <div class="row mx-1" style="font-size: 14px;">
+            Financial Industry
+            <div class="accordion-body p-2">
+                <input type="radio" class="btn-check" name="filter-financi" id="option7" value="True" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option7">Ya</label>
+                <input type="radio" class="btn-check" name="filter-financi" id="option8" value="False" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option8">Tidak</label>
+            </div>
+        </div>
+        <div class="row mx-1" style="font-size: 14px;">
+            Placement Status
+            <div class="accordion-body p-2">
+                <input type="radio" class="btn-check" name="filter-placeStatus" id="option9" value="Onsite" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option9">Onsite</label>
+                <input type="radio" class="btn-check" name="filter-placeStatus" id="option10" value="Idle" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option10">Idle</label>
+            </div>
+        </div>
+        <div class="row mx-1" style="font-size: 14px;">
+            Hired Status
+            <div class="accordion-body p-2">
+                <input type="radio" class="btn-check" name="filter-Hired" id="option11" value="Prohire" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option11">Prohire</label>
+                <input type="radio" class="btn-check" name="filter-Hired" id="option12" value="Bootcamp" autocomplete="off">
+                <label class="btn btn-outline-primary" style="border-radius: 30px; font-size: 13px; line-height: 1.5;" for="option12">Bootcamp</label>
+            </div>
+        </div>
+        <div class="row mx-1" style="font-size: 14px;">
+            Position
+            <div class="accordion-body p-2">
+                <select class="form-select bg-light" id="selectPosition">
+                    <option selected disabled>Choose Position</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mx-1" style="font-size: 14px;">
+           Placement Location
+            <div class="accordion-body p-2">
+                <select class="form-select bg-light" id="selectPlacementLoc">
+                    <option selected disabled>Choose Placement</option>
+                </select>
+            </div>
+        </div>
+        <div class="row p-3" style="font-size: 14px;">
+            <button class="btn btn-sm btn-secondary-custom col text-dark" style="border-radius: 30px;" type="button" id="resetFilterData">Clear</button>
+            <button class="btn btn-sm btn-info-custom col" style="border-radius: 30px; "type="button" id="submitFilter">Apply all filters</button>
+        </div>
+    </div>
+</div>
 
+
+<!--coba canvas b-4-->
+@*<div id="bs-canvas-right" class="bs-canvas bs-canvas-right position-fixed bg-light h-100">
+	<header class="bs-canvas-header p-3 bg-danger overflow-auto">
+    	<button type="button" class="bs-canvas-close float-left close" aria-label="Close" aria-expanded="false"><span aria-hidden="true" class="text-light">&times;</span></button>
+        <h4 class="d-inline-block text-light mb-0 float-right">Canvas Header</h4>
+    </header>
+    <div class="bs-canvas-content px-3 py-5">
+    	<div class="list-group mb-5">
+          	<a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
+          	<a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+          	<a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+          	<a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+          	<a href="#" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+        </div>
+        <p class="text-muted small">Subscribe to our newsletter:</p>
+    	<div class="input-group flex-nowrap">
+  			<div class="input-group-prepend">
+    			<span class="input-group-text" id="addon-wrapping">tes</span>
+  			</div>
+  			<input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="addon-wrapping">
+		</div>
+        <p class="text-right my-5">
+        	<button type="button" class="btn btn-outline-dark">Subscribe</button>
+        </p>
+        <table class="table">
+          	<thead class="thead-light">
+            	<tr>
+              		<th scope="col">#</th>
+              		<th scope="col">Item</th>
+              		<th scope="col">Qty.</th>
+              		<th scope="col">Remove</th>
+            	</tr>
+          	</thead>
+          	<tbody>
+            	<tr>
+              		<th scope="row">1</th>
+              		<td>Quilt</td>
+              		<td>2</td>
+              		<td class="text-center"><a href="" class="text-decoration-none text-muted">&times;</a></td>
+            	</tr>
+            	<tr>
+              		<th scope="row">2</th>
+              		<td>Shawl</td>
+              		<td>1</td>
+              		<td class="text-center"><a href="" class="text-decoration-none text-muted">&times;</a></td>
+            	</tr>
+                <tr>
+              		<th scope="row">3</th>
+              		<td>Pillow</td>
+              		<td>5</td>
+              		<td class="text-center"><a href="" class="text-decoration-none text-muted">&times;</a></td>
+            	</tr>
+          	</tbody>
+        </table>
+        <p class="text-center"><button type="button" class="btn btn-primary">Checkout</button></p>
+    </div>    
+</div>
+*@
 <!-- Loader-->
 <div id="loader" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; position: fixed; top: 0; left: 0;">
     <div style="position: fixed; top: 50%; left: 50%;  text-align: center;">
@@ -253,3 +595,8 @@
 </div>
 
 <script src="~/js/ManageEmployee.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

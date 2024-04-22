@@ -1,83 +1,118 @@
-const ctx = document.getElementById('salaryChart').getContext('2d');
+$(document).ready(function () {
+  const ctx = document.getElementById("statisticChart").getContext("2d");
 
-// Data contoh
-const salaryRanges = ['1-2', '2-3', '3-4', '4-5', '5-6'];
-const skillData = [5, 8, 12, 10, 6];
-const positionData = [3, 6, 10, 8, 2];
-const levelData = [2, 4, 8, 5, 3];
-const skill2Data = [4, 7, 11, 9, 5];
-const skill3Data = [3, 8, 3, 8, 4];
+  $.ajax({
+    url: "https://localhost:7177/api/Shortlist/Statistic",
+    type: "GET",
+    datatype: "json",
+    contentType: "application/json; charset=utf-8",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    },
+    success: function (statistic) {
+      const topPosition = statistic.allLevel;
 
-// Konfigurasi grafik
-const salaryChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: salaryRanges,
+      // Creating two variables for 'position' and 'count'
+      const labelChart = topPosition.map((item) => item.level);
+      const countChart = topPosition.map((item) => item.count);
+      const positionChart = topPosition.map(
+        (item) => item.topThreePositionbyLevel
+      );
+      tableData = statistic.sortedSkills;
+
+      document.getElementById(
+        "topPosition"
+      ).innerHTML = `<a href='/ResourceReport/Index?position=${statistic.topThreePosition[0]["position"]}'>${statistic.topThreePosition[0]["position"]}</a>`;
+      console.log();
+      document.getElementById(
+        "topLevel"
+      ).innerHTML = `<a href='/ResourceReport/Index?level=${statistic.allLevel[0]["level"]}'>${statistic.allLevel[0]["level"]}</a>`;
+
+      document.getElementById(
+        "topSkill"
+      ).innerHTML = `<a href='/ResourceReport/Index?skill=${statistic.sortedSkills[0]["key"]}'>${statistic.sortedSkills[0]["key"]}</a>`;
+
+      // document.getElementById("skillsetTable").textContent= "Top 5 Skill Candidate "+statistic.allLevel[0]["level"]+ " Level"
+      document.getElementById("skillsetTable").textContent =
+        "Top 5 Skill Candidate " + "All" + " Level";
+      chart(labelChart, countChart, positionChart);
+      table();
+    },
+  });
+
+  const footer = (tooltipItems, data) => {
+    const positionData =
+      data.datasets[tooltipItems[0].datasetIndex].positions[
+        tooltipItems[0].index
+      ];
+    return `Position: ${positionData.position}, Count: ${positionData.count}`;
+  };
+  function chart(labelChart, countChart, positionChart) {
+    const salaryChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: labelChart,
         datasets: [
           {
-              label: 'Skill Tertinggi (JavaScript)',
-              borderColor: 'rgba(54, 162, 235, 1)',
-              data: skillData,
-              fill: false,
-          },
-          {
-              label: 'Posisi Terbanyak (Backend)',
-              borderColor: 'rgba(255, 99, 132, 1)',
-              data: positionData,
-              fill: false,
-          },
-          {
-              label: 'Level Terbanyak (Senior Developer)',
-              borderColor: 'rgba(255, 205, 86, 1)',
-              data: levelData,
-              fill: false,
-          },
-          {
-              label: 'Skill2',
-              borderColor: 'rgba(153, 102, 255, 1)',
-              data: skill2Data,
-              fill: false,
-              hidden: true,
-          },
-          {
-              label: 'Skill3',
-              borderColor: 'rgba(255, 159, 64, 1)',
-              data: skill3Data,
-              fill: false,
-              hidden: true,
+            label: "Total Candidate",
+            data: countChart,
+            backgroundColor: [
+              "#FF6384",
+              "#1261ff",
+              "#FFCE56",
+              "#4BC0C7",
+              "#9966FF",
+              "#FF9933",
+              "#669966",
+              "#FF6666",
+              "#3366CC",
+              "#FFCC66",
+            ],
+            hoverOffset: 10,
+            weight: 50,
+            borderColor: "#fff",
           },
         ],
-    },
-    options: {
-        responsive: true,
-        scales: {
-            x: {
-                type: 'category',
-                title: {
-                    display: true,
-                    text: 'Rentang Gaji (juta)'
-                }
-            },
-            y: {
-                type: 'linear',
-                title: {
-                    display: true,
-                    text: 'Jumlah Kandidat'
-                }
-            }
-        },
+      },
+      options: {
         plugins: {
-            legend: {
-                onClick: (e, legendItem) => {
-                    const index = legendItem.datasetIndex;
-                    const chart = e.chart;
-                    const meta = chart.getDatasetMeta(index);
+          tooltip: {
+            callbacks: {
+              footer: function (tooltipItems) {
+                const count = [10, 12, 15];
+                const datasetIndex = tooltipItems[0].dataIndex;
+                const positionData = positionChart[datasetIndex];
+                return `\nTop Position \n1. ${positionData[0].position}: ${positionData[0].count} \n2. ${positionData[1].position}: ${positionData[1].count} \n3. ${positionData[2].position}: ${positionData[2].count}`;
+              },
+            },
+          },
+        },
+      },
+    });
+  }
 
-                    // Toggle visibility saat legend di-klik
-                    meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null;
-                    chart.update();
-                }
-            }
-        }
-    },
+  function table() {
+    var data = tableData;
+
+    var table = $("#tableSkills").DataTable({
+      searching: false,
+      paging: false,
+      ordering: false,
+    });
+
+    function populateTable() {
+      table.clear();
+
+      data.forEach(function (entry, index) {
+        table.row
+          .add([
+            index + 1,
+            `<a class='font-weight-bold' href='/ResourceReport/Index?skill=${entry.key}'>${entry.key}</a>`,
+            entry.value,
+          ])
+          .draw();
+      });
+    }
+    populateTable();
+  }
 });

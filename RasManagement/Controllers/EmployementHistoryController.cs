@@ -10,7 +10,7 @@ namespace RasManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
-    [Authorize(Roles = "Employee,Admin,Super_Admin")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class EmploymentHistoryController : BaseController<EmploymentHistory, EmploymentHistoryRepository, int>
     {
         private readonly EmploymentHistoryRepository employmentHistoryRepository;
@@ -19,6 +19,7 @@ namespace RasManagement.Controllers
             this.employmentHistoryRepository = employmentHistoryRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("accountId")]
         public async Task<IActionResult> GetEmploymentByAccountId(string accountId)
         {

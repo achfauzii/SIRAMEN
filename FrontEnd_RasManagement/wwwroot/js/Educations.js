@@ -1,9 +1,22 @@
 var table = null;
+var initialFormalEdu = {};
+
+//Set Focus on Input Search component Select2
+$(document).on("select2:open", (e) => {
+  const selectId = e.target.id;
+
+  $(
+    ".select2-search__field[aria-controls='select2-" + selectId + "-results']"
+  ).each(function (key, value) {
+    value.focus();
+  });
+});
+
 $(document).ready(function () {
   Educations();
   formInputLocation();
   getUniversitasList();
-  
+
   const selectMajor = $("#Major");
   //Ini untuk tanpa display none jadi langsung di tampilkan ()
   $(selectMajor).select2({
@@ -11,6 +24,7 @@ $(document).ready(function () {
     width: "100%",
     allowClear: true,
     tags: true,
+    dropdownParent: $("#ModalFormal"),
   });
 });
 
@@ -31,7 +45,8 @@ function Educations() {
                       console.log(result)
                   }*/
     },
-
+      pageLength: 3,
+      pagingType: "full_numbers",
     columns: [
       {
         render: function (data, type, row, meta) {
@@ -59,10 +74,12 @@ function Educations() {
       },
       { data: "major" },
       { data: "degree" },
+      { data: "ipk" },
       { data: "years" },
       {
         // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
         data: null,
+        width: "10%",
         render: function (data, type, row) {
           var modalId = "modal-edit-" + data.formalEduId;
           var deleteId = "modal-delete-" + data.formalEduId;
@@ -79,12 +96,13 @@ function Educations() {
       },
     ],
 
-    order: [[5, "desc"]],
+    order: [[6, "desc"]],
+    lengthMenu: [3, 10, 25, 50],
     //"responsive": true,
     //Buat ngilangin order kolom No dan Action
     columnDefs: [
       {
-        targets: [0, 2, 3, 4, 5, 6],
+        targets: [0, 2, 3, 4, 5, 6, 7],
         orderable: false,
       },
     ],
@@ -92,14 +110,14 @@ function Educations() {
     drawCallback: function (settings) {
       var api = this.api();
       var rows = api.rows({ page: "current" }).nodes();
+      var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+      var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
       api
-        .column(1, { page: "current" })
-        .data()
-        .each(function (group, i) {
-          $(rows)
-            .eq(i)
-            .find("td:first")
-            .html(i + 1);
+        .column(0, { page: "current" })
+        .nodes()
+        .each(function (cell, i) {
+          cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
         });
     },
   });
@@ -118,6 +136,7 @@ function getUniversitasList() {
 
   $(selectUniversity).select2({
     placeholder: "Select your University",
+    dropdownParent: $("#ModalFormal"),
     width: "100%",
     allowClear: true,
     tags: true,
@@ -154,6 +173,7 @@ function formInputLocation() {
   $(selectRegencies).select2({
     placeholder: "Select City or County",
     width: "100%",
+    dropdownParent: $("#ModalFormal"),
   });
 
   fetch("../assets/file_json/provinces.json") //path ke file provinces.json
@@ -170,6 +190,7 @@ function formInputLocation() {
       $(selectProvinces).select2({
         placeholder: "Select Province",
         width: "100%",
+        dropdownParent: $("#ModalFormal"),
       });
 
       // Event listener ketika provinsi dipilih
@@ -227,6 +248,11 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
+function numeric(input) {
+  var numericValue = input.value.replace(/[^\d.,]/g, "");
+  input.value = numericValue;
+}
+
 function SaveFormal() {
   var isValid = true;
 
@@ -237,6 +263,35 @@ function SaveFormal() {
       isValid = false;
     } else {
       input.next(".error-message-formal").hide();
+    }
+
+    // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+    if (input.attr("id") === "Ipk") {
+      var ipk = input.val().trim();
+
+      // Mengubah tanda koma menjadi tanda titik
+      ipk = ipk.replace(/,/g, ".");
+
+      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+      if (!validIPK.test(ipk)) {
+        $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+        isValid = false;
+      } else {
+        // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+        if (ipk === "4") {
+          ipk = "4.00";
+        } else {
+          var ipkParts = ipk.split(".");
+          if (ipkParts.length === 1) {
+            ipk += ".00";
+          } else if (ipkParts[1].length === 1) {
+            ipk += "0";
+          }
+        }
+        input.val(ipk);
+        $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+      }
     }
   });
 
@@ -287,13 +342,14 @@ function SaveFormal() {
   FormalEdu.location = $("#selectRegencies").val();
   FormalEdu.major = $("#Major").val();
   FormalEdu.degree = $("#Degree").val();
+  FormalEdu.ipk = $("#Ipk").val();
   FormalEdu.years = $("#GraduationYears").val();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   FormalEdu.AccountId = accid;
   $.ajax({
     type: "POST",
-    url: "https://localhost:7177/api/Educations",
+      url: "https://localhost:7177/api/Educations/Insert",
     data: JSON.stringify(FormalEdu),
     contentType: "application/json; charset=utf-8",
     headers: {
@@ -314,7 +370,7 @@ function SaveFormal() {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Data Gagal dimasukkan!",
+        title: "Data failed to added!",
         showConfirmButtom: false,
         timer: 1500,
       });
@@ -331,13 +387,15 @@ function ClearScreenFormal() {
   //$('#Location').val('');
   $("#Major").val("").trigger("change");
   $("#Degree").val("");
+  $("#Ipk").val("");
   $("#GraduationYears").selectedindex = "0";
   $("#Update").hide();
   $("#Save").show();
   $("input[required]").each(function () {
     var input = $(this);
-
     input.next(".error-message-formal").hide();
+
+    $(".error-format-ipk").hide();
   });
   $(".selectRegencies").closest(".form-group").find(".error-message").hide();
   $(".selectUniversity")
@@ -406,11 +464,22 @@ function GetById(formalEduId) {
       $("#Major").val(obj.major);
       $("#Major").trigger("change");
       $("#Degree").val(obj.degree);
+      $("#Ipk").val(obj.ipk);
       $("#GraduationYears").val(obj.years);
       $("#AccountId").accid;
       $("#ModalFormal").modal("show");
       $("#Update").show();
       $("#Save").hide();
+
+      initialFormalEdu = {
+        UniversityName: obj.universityName,
+        Regencies: obj.location,
+        Major: obj.major,
+        Degree: obj.degree,
+        Ipk: obj.ipk,
+        Years: obj.years,
+        // Add more fields if needed
+      };
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
@@ -429,6 +498,35 @@ function UpdateFormal() {
     } else {
       input.next(".error-message-formal").hide();
     }
+
+    // Memeriksa format IPK jika input adalah elemen dengan ID 'ipk'
+    if (input.attr("id") === "Ipk") {
+      var ipk = input.val().trim();
+
+      // Mengubah tanda koma menjadi tanda titik
+      ipk = ipk.replace(/,/g, ".");
+
+      var validIPK = /^(?:[0-3](?:\.[0-9]{1,2})?|4(?:\.00?)?)$/;
+
+      if (!validIPK.test(ipk)) {
+        $(".error-format-ipk").show(); // Menampilkan pesan error format IPK
+        isValid = false;
+      } else {
+        // Jika IPK valid, format nilai IPK sesuai dengan kebutuhan
+        if (ipk === "4") {
+          ipk = "4.00";
+        } else {
+          var ipkParts = ipk.split(".");
+          if (ipkParts.length === 1) {
+            ipk += ".00";
+          } else if (ipkParts[1].length === 1) {
+            ipk += "0";
+          }
+        }
+        input.val(ipk);
+        $(".error-format-ipk").hide(); // Menyembunyikan pesan error format IPK
+      }
+    }
   });
 
   if (!isValid) {
@@ -442,14 +540,33 @@ function UpdateFormal() {
   FormalEdu.Location = $("#selectRegencies").val();
   FormalEdu.Major = $("#Major").val();
   FormalEdu.Degree = $("#Degree").val();
+  FormalEdu.ipk = $("#Ipk").val();
   FormalEdu.Years = $("#GraduationYears").val();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   FormalEdu.AccountId = accid;
 
+  if (
+    FormalEdu.UniversityName == initialFormalEdu.UniversityName &&
+    FormalEdu.Location == initialFormalEdu.Regencies &&
+    FormalEdu.Major == initialFormalEdu.Major &&
+    FormalEdu.Degree == initialFormalEdu.Degree &&
+    FormalEdu.Years == initialFormalEdu.Years &&
+    FormalEdu.ipk == initialFormalEdu.Ipk
+  ) {
+    Swal.fire({
+      icon: "info",
+      title: "No Changes Detected",
+      text: "No data has been modified.",
+      showConfirmButton: false,
+      timer: 2000,
+    });
+    $("#ModalFormal").modal("hide");
+    return;
+  }
   $.ajax({
     type: "PUT",
-    url: "https://localhost:7177/api/Educations",
+    url: "https://localhost:7177/api/Educations/Update",
     data: JSON.stringify(FormalEdu),
     contentType: "application/json; charset=utf-8",
     headers: {

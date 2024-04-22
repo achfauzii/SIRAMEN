@@ -79,7 +79,7 @@
     <div class="card text-dark  mb-3 w-50 w-sm-70">
         <div class="card-header text-light bg-secondary">
             Contract
-            <i class="fa fa-edit text-light pt-2 mr-3" style="font-size: 14px; float: right" data-toggle="modal" data-placement="top" data-target="#modalContract" data-tooltip="tooltip" title="Update Contract" onclick="GetContract('@employeeData.accountId');"></i>
+            <i class="fa fa-edit text-light pt-2 mr-3 edit-contract-emp" style="font-size: 14px; float: right" data-toggle="modal" data-placement="top" data-target="#modalContract" data-tooltip="tooltip" title="Update Contract" onclick="GetContract('@employeeData.accountId');"></i>
         </div>
         <div class="card-body">
             <div class="row">
@@ -93,6 +93,10 @@
             <div class="row">
                 <div class="col-6" style="color: black">End Contract</div>
                 <div class="col-6" style="color: black">: @employeeData.endContract.ToString("dd/MM/yyyy")</div>
+            </div>
+            <div class="row">
+                <div class="col-6" style="color: black">Position</div>
+                <div class="col-6" style="color: black">: @employeeData.position</div>
             </div>
             <div class="row  mt-3 ">
                 <div class="col-6" style="color: black"></div>
@@ -108,7 +112,7 @@
 </div>
 <div id="placement">
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-sm text-light mb-3" data-toggle="modal" data-target="#modalPlacement" style="background-color:#624DE3;  font-size: 12px;" onclick="ClearScreenPlacement();">
+    <button type="button" class="btn btn-sm text-light mb-3 add-new-placement" data-toggle="modal" data-target="#modalPlacement" style="background-color:#624DE3;  font-size: 12px;" onclick="ClearScreenPlacement();">
         + New Placement
     </button>
 
@@ -140,12 +144,19 @@
                         <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
                     </div>
 
-                    <div class="form-group mb-1">
+                    <div class="form-group mb-1 mt-3">
                         <label class="m-0" for="exampleInputEmail1">End Contract</label>
                         <input type="date" class="form-control " id="EndContract" name="EndContract" requiredContract>
                         <span class="error-message-contract" style="color: red; display: none;">This field is required!</span>
                     </div>
 
+                    <div class="form-group mb-1 mt-3">
+                            <label class="text-dark" for="exampleInputEmail1">Position</label>
+                            <select id="positionEmp" class="form-control col-12 positionEmp" name="state" requiredContract>
+                               <option selected disabled>Choose Position</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">Please select at least one Position.</span>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -176,13 +187,28 @@
                     <input type="hidden" id="placementStatusId">
                     <div class="form-group mb-1">
                         <label class="m-0" for="exampleInputEmail1">Company Name</label>
-                        <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="companyName_" name="companyName" required>
+                         <select class="form-control form-control-sm selectedCompany" id="companyName_" required>
+                            <option selected disabled>Choose Company</option>
+                        </select>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">Job </label>
+                        <select class="form-control form-control-sm" id="jobRole" required>
+                            <option selected disabled>Choose Job</option>
+                        </select>
+                        @* <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="jobRole" name="jobRole" required> *@
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+                    <div class="form-group mb-1">
+                        <label class="m-0" for="exampleInputEmail1">PIC Name User</label>
+                        <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="picName" name="picName" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
                     <div class="form-group mb-1">
-                        <label class="m-0" for="exampleInputEmail1">Job Role</label>
-                        <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="jobRole" name="jobRole" required>
+                        <label class="m-0" for="exampleInputEmail1">PIC Name RAS</label>
+                        <input type="text" class="form-control " oninput="handleInput(event, this);" onpaste="handleInput(event, this);" id="picNameRas" name="picNameRas" required>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
@@ -192,31 +218,32 @@
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
 
-                    <div class="form-group mb-1" id="showEndDate" style="display: none;">
+                    <div class="form-group mb-1" id="showEndDate">
                         <label class="m-0" for="exampleInputEmail1">End Date</label>
-                        <input type="date" class="form-control " id="endDate" name="endDate">
+                        <input type="date" class="form-control " id="endDate" name="endDate" required>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <div class="col-sm-6 mb-1 mb-sm-0">
+                            <label class="text-dark mb-0" for="exampleInputEmail1 ">Status
+                                <span style="color: red;">*</span>
+                            </label>
+                            <div class="form-check mx-2">
+                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite" requiredStatusplac>
+                                <label class="form-check-label" for="radio1">Onsite</label>
+                            </div>
+                            <div class="form-check mx-2">
+                                <input type="radio" class="form-check-input" id="idle" name="status" value="Idle" requiredStatusplac>
+                                <label class="form-check-label" for="radio2">Idle</label>
+                            </div>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
                     </div>
 
                     <div class="form-group mb-1">
                         <label for="exampleFormControlTextarea1" class=" m-0">Description</label>
                         <textarea class="form-control" id="description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" rows="2"></textarea>
-                    </div>
-
-
-                    <div class="form-group row mb-1">
-                        <div class="col-sm-6 mb-1 mb-sm-0">
-                            <label class="text-dark mb-0" for="exampleInputEmail1 ">Status</label>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="onsite" name="status" value="Onsite" required>
-                                <label class="form-check-label" for="radio1">Onsite</label>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="idle" name="status" value="Idle" required>
-                                <label class="form-check-label" for="radio2">Idle</label>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                            </div>
-                        </div>
                     </div>
                 </form>
             </div>
@@ -231,23 +258,8 @@
 
 </div>
 
+<script src="~/js/DetailEmployee.js"></script>
 <script src="~/js/ManageEmployee.js"></script>
-<script>
 
-    document.getElementById("backButton").addEventListener("click", function () {
-        history.back();
-    });
 
-    document.getElementById("startDate").min = new Date().toISOString().split("T")[0];
-    document.getElementById("endDate").addEventListener('change', function (e) {
-        if (e.target.value < $('#startDate').val()) {
-            $('#Update').addClass('disabled');
-            return;
-        } else {
-            $('#Update').removeClass('disabled');
-        }
-    });
-    document.getElementById('backButton').addEventListener('click', function(){
-        window.location.href = "/ManageEmployee/Index";
-    });
-</script>
+

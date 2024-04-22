@@ -1,5 +1,28 @@
 ﻿var table = null;
+var initialEmployementHis = {};
 $(document).ready(function () {
+    $("#StartYear").datepicker({
+        format: "yyyy-mm",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+
+    $("#EndYear").datepicker({
+        format: "yyyy-mm",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+
+    $('select[required],input[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+    $('input[required]').each(function () {
+        $(this).closest('.col pr-0 form-group').prev('label').append('<span style="color: red;">*</span>');
+    });
+    $('input[required]').each(function () {
+        $(this).closest('.col pl-0 form-group').prev('label').append('<span style="color: red;">*</span>');
+    });
+
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     table = $("#TB_EmploymentHistory").DataTable({
@@ -15,7 +38,7 @@ $(document).ready(function () {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
         },
-
+        pagingType: "full_numbers",
         columns: [
             {
                 data: null,
@@ -84,14 +107,13 @@ $(document).ready(function () {
         drawCallback: function (settings) {
             var api = this.api();
             var rows = api.rows({ page: "current" }).nodes();
-            api
-                .column(1, { page: "current" })
-                .data()
-                .each(function (group, i) {
-                    $(rows)
-                        .eq(i)
-                        .find("td:first")
-                        .html(i + 1);
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+            api.column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
                 });
         },
     });
@@ -157,11 +179,14 @@ function Save() {
 
     $("input[required]").each(function () {
         var input = $(this);
+        var errorMessage = input.closest('.input-group').find('.error-message-p');
         if (!input.val()) {
             input.next(".error-message").show();
+            errorMessage.show();
             isValid = false;
         } else {
             input.next(".error-message").hide();
+            errorMessage.hide();
         }
     });
 
@@ -234,6 +259,7 @@ function ClearScreen() {
     $("input[required]").each(function () {
         var input = $(this);
         input.next(".error-message").hide();
+        input.next(".error-message-p").hide();
     });
 }
 
@@ -248,16 +274,24 @@ function GetById(workExperienceId) {
         },
         success: function (result) {
             var obj = result.data; // Data yang diterima dari API
+            initialEmployementHis = {
+                WorkExperienceId: obj.workExperienceId,
+                CompanyName: obj.companyName,
+                Job: obj.job,
+                StartYear: obj.period.split(" - ")[0],
+                EndYear: obj.period.split(" - ")[1],
+                Description: obj.description,
+            };
             $("#WorkExperienceId").val(obj.workExperienceId);
-            $("#CompanyName").val(obj.companyName);
-            $("#Job").val(obj.job);
+            $("#CompanyName").val(obj.companyName).attr("data-initial", obj.companyName);
+            $("#Job").val(obj.job).attr("data-initial", obj.job);
 
             // Pisahkan Start Year dan End Year
             var periods = obj.period.split(" - ");
             $("#StartYear").val(periods[0]);
             $("#EndYear").val(periods[1]);
 
-            $("#Description").val(obj.description);
+            $("#Description").val(obj.description).attr("data-initial", obj.description);
             $("#Modal").modal("show");
             $("#Update").show();
             $("#Save").hide();
@@ -273,11 +307,14 @@ function Update() {
 
     $("input[required]").each(function () {
         var input = $(this);
+        var errorMessage = input.closest('.input-group').find('.error-message-p');
         if (!input.val()) {
             input.next(".error-message").show();
+            errorMessage.show();
             isValid = false;
         } else {
             input.next(".error-message").hide();
+            errorMessage.hide();
         }
     });
 
@@ -304,6 +341,22 @@ function Update() {
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
 
+    if (initialEmployementHis.CompanyName == EmploymentHistory.companyName &&
+        initialEmployementHis.Job == EmploymentHistory.job &&
+        initialEmployementHis.StartYear == startYear &&
+        initialEmployementHis.EndYear == endYear &&
+        initialEmployementHis.Description == EmploymentHistory.description
+    ) {
+        Swal.fire({
+            icon: "info",
+            title: "No Changes Detected",
+            text: "No data has been modified.",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        $("#Modal").modal("hide");
+        return;
+    }
     $.ajax({
         type: "PUT",
         url: "https://localhost:7177/api/EmploymentHistory",

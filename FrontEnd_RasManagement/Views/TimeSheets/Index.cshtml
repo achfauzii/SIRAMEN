@@ -1,0 +1,579 @@
+﻿﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Layout/LayoutAdmin.cshtml";
+}
+@model FrontEnd_RasManagement.Settings.TimeSheet
+
+<link href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/2.0.0/css/dataTables.jqueryui.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css">
+
+<style>
+
+    .badge {
+        font-size: 12px;
+    }
+
+    .cards {
+        font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        color: #858796;
+        background-color: #fff;
+    }
+
+    .cards-header {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #F7F6FE;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: #FFFFFF;
+    }
+
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #f2f2f2;
+    }
+
+    #resource_filter label {
+        font-size: 14px;
+    }
+
+    #resource_filter input[type="search"] {
+        font-size: 14px;
+        height: 26px;
+    }
+
+    #resource td {
+        font-size: 13px;
+    }
+
+    th {
+        font-size: 14px;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+
+    .dataTables_length {
+        font-size: 14px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+    }
+
+    .dataTables_filter input[type="search"] {
+        font-size: 12px; /* Atur ukuran font sesuai kebutuhan */
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 13px;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        font-size: 13.5px;
+    }
+
+    table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
+        font-size: 14px;
+    }
+
+    table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+        font-size: 14px;
+    }
+
+    /* Badge Styles with Pastel Colors and Black Text */
+
+    .form-control {
+        height: 31px;
+    }
+
+    select.form-control {
+        font-size: 14.5px;
+    }
+
+    .dataTables_info {
+        font-size: 14.5px;
+    }
+
+    .dataTables_filter {
+        margin-right: 18px;
+    }
+
+    .table.dataTable {
+        margin-top: 0 !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+        font-size: 14.5px;
+    }
+
+    .paginate_button {
+        font-size: 14px;
+        padding: 4px 8px;
+    }
+
+    .customWrap {
+        white-space: normal !important;
+        word-wrap: break-word;
+    }
+
+    .expand-content {
+        cursor: pointer;
+    }
+
+        .expand-content:hover {
+            color: darkblue !important;
+        }
+
+    @@media (min-width: 768px) {
+        .dataTables_filter {
+            margin-right: 10px;
+        }
+    }
+
+    .closeBtn:hover {
+        background-color: #e3e3e3;
+    }
+
+</style>
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<section id="time-sheet-page">
+
+    <div class="row mb-2">
+        <div class="col-xl-6 col-sm-6 col-2 text-left">
+            <button id="backButton" class="btn btn-secondary rounded-circle mr-3">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-xl-6 col-sm-6 col-10">
+            <div class="card shadow">
+                <div class="card-content">
+                    <div class="card-body m-0 pl-4 pt-3 pb-3 pr-3">
+                        <div class="media d-flex p-0">
+                            <div class="align-self-center">
+                                <i class="far fa-calendar-check fa-3x text-primary float-left"></i>
+                            </div>
+                            <div class="media-body text-left pt-0 pl-4">
+                                <div class="row">
+                                    <span style="font-size: 16px;" class="col-4 text-dark text-sm">Name</span>
+                                    <span style="font-size: 16px;" class="col-0 text-sm">:</span>
+                                    <span style="font-size: 16px;" id="fullName" class="col text-dark text-sm fullName"></span>
+                                </div>
+                                <div class="row">
+                                    <span style="font-size: 16px;" class="col-4 text-dark text-sm">Role</span>
+                                    <span style="font-size: 16px;" class="col-0 text-sm">:</span>
+                                    <span style="font-size: 16px;" class="col text-dark" id ="jobRole"></span>
+                                </div>
+                                <div class="row">
+                                    <span style="font-size: 15px;" class="col-4 text-dark text-sm">Project Name</span>
+                                    <span style="font-size: 15px;" class="col-0 text-sm">:</span>
+                                    <span style="font-size: 15px;" class="col text-dark text-sm companyName" id="companyName"></span>
+                                </div>
+                                <div class="row">
+                                    <span style="font-size: 16px;" class="col-4 text-dark text-sm">Month</span>
+                                    <span style="font-size: 16px;" class="col-0 text-sm">:</span>
+                                    <span style="font-size: 16px;" class="col text-dark text-sm month">
+
+                                        <input type="month" class="text-dark p-0 m-0" id="month" style="font-size: 16px; outline: none; border:none" onchange="submitMonth(this.value);">
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="text-center mt-5" id="badgeDisplay">
+
+    <span class="badge badge-warning p-2">Select Month to display the Time Sheet !</span>
+</div>
+
+<div class="card mt-2 mb-3" id="tableTimeSheet" hidden>
+    <div class="card-header">
+        <div class="row">
+            <div class="col"><h5 class="mb-2">Time Sheet</h5></div>
+            <div class="col">
+           @*     <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 float-right" id="exportPDF" onclick="exportPDF()">
+                    Export PDF
+                </button>*@
+                <a href="@Url.Action("GeneratePdf", "TimeSheetPdf", new { accountId = "", month = "", companyName="" })" style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 float-right" id="exportPDF">
+                    Export PDF
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="timeSheetTable" class="table table-bordered w-100 timeSheetTable" style="font-size:13px; color:black; font-weight: normal;">
+        <thead style="background-color:#FFFFFF;">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Activity Detail</th>
+                    <th scope="col">Flag</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Known By</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+@*PDF TIMESHEET*@
+@* <button id="download-button">Download as PDF</button> *@
+
+<div id="timeSheetPdf">
+    <style>
+        .pdf-body {
+            font-size: 0.75rem;
+            font-family: "Inter", sans-serif;
+            font-weight: 400;
+            color: #000000;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #pspdfkit-header {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 400;
+            color: #717885;
+            margin-top: 2.5rem;
+            margin-bottom: 2.5rem;
+            width: 100%;
+        }
+
+        .header-columns {
+            display: flex;
+            justify-content: space-between;
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
+        }
+
+        .logo {
+            height: 1.5rem;
+            width: auto;
+            margin-right: 1rem;
+        }
+
+        .logotype {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-family: "Space Mono", monospace;
+            font-size: 1.25rem;
+            font-weight: 400;
+        }
+
+        h4 {
+            font-family: "Space Mono", monospace;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .page {
+            margin-left: 5rem;
+            margin-right: 5rem;
+        }
+
+        .intro-table {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0 3rem 0;
+            border-top: 1px solid #000000;
+            border-bottom: 1px solid #000000;
+        }
+
+        .intro-form {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #000000;
+            width: 50%;
+        }
+
+            .intro-form:last-child {
+                border-right: none;
+            }
+
+        .intro-table-title {
+            font-size: 0.625rem;
+            margin: 0;
+        }
+
+        .intro-form-item {
+            padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+        }
+
+        .intro-form-item:first-child {
+            padding-left: 0;
+        }
+
+        .intro-form-item:last-child {
+            padding-right: 0;
+        }
+
+        .intro-form-item-border {
+            padding: 1.25rem 0 0.75rem 1.5rem;
+            border-bottom: 1px solid #000000;
+        }
+
+            .intro-form-item-border:last-child {
+                border-bottom: none;
+            }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 6rem;
+        }
+
+        .no-border {
+            border: none;
+        }
+
+        .border {
+            border: 1px solid #000000;
+        }
+
+        .border-bottom {
+            border: 1px solid #000000;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .signer {
+            display: flex;
+            justify-content: space-between;
+            gap: 2.5rem;
+            margin: 2rem 0 2rem 0;
+        }
+
+        .signer-item {
+            flex-grow: 1;
+        }
+
+
+        .intro-text {
+            width: 60%;
+        }
+
+        .table-box table,
+        .summary-box table {
+            width: 100%;
+            font-size: 0.625rem;
+        }
+
+        .table-box table {
+            padding-top: 2rem;
+        }
+
+        .table-box td:first-child,
+        .summary-box td:first-child {
+            width: 50%;
+        }
+
+        .table-box td:last-child,
+        .summary-box td:last-child {
+            text-align: right;
+        }
+
+        .table-box table tr.heading td {
+            border-top: 1px solid #000000;
+            border-bottom: 1px solid #000000;
+            height: 1.5rem;
+        }
+
+        .table-box table tr.item td,
+        .summary-box table tr.item td {
+            border-bottom: 1px solid #d7dce4;
+            height: 1.5rem;
+        }
+
+        .summary-box table tr.no-border-item td {
+            border-bottom: none;
+            height: 1.5rem;
+        }
+
+        .summary-box table tr.total td {
+            border-top: 1px solid #000000;
+            border-bottom: 1px solid #000000;
+            height: 1.5rem;
+        }
+
+            .summary-box table tr.item td:first-child,
+            .summary-box table tr.total td:first-child {
+                border: none;
+                height: 1.5rem;
+            }
+
+        #pspdfkit-footer {
+            font-size: 0.5rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+            color: #717885;
+            margin-top: 2.5rem;
+            bottom: 2.5rem;
+            display: none; 
+            width: 100%;
+        }
+
+        body:last-of-type #pspdfkit-footer {
+            display: block;
+            position:initial;
+        }
+
+        .footer-columns {
+            display: flex;
+            justify-content: space-between;
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
+        }
+
+        .badge {
+            border: none;
+        }
+
+        @@media print {
+    .bold-print {
+        font-weight: bold;
+        color:black;
+    }
+}
+    </style>
+    <div id="pspdfkit-header" class="pdf-body">
+
+        <div class="header-columns">
+            <div class="logotype">
+                <img class="logo" src="/img/logo_putih.png">
+                <p></p>
+
+            </div>
+
+            <div>
+                <p>Jl. Abdul Muis No.62, Kec. Gambir, Jakarta Pusat.</p>
+            </div>
+        </div>
+    </div>
+
+    @*Body*@
+    <div class="page" >
+        <div>
+            <h2>Time Sheet #</h2>
+        </div>
+
+        <div class="intro-table">
+            <div class="intro-form">
+                <table>
+                    <tr>
+                        <td width="35%">Name</td>
+                        <td>:</td>
+                        <td id="fullNamePreview" class="fullName font-weight-bold"></td>
+                    </tr>
+                    <tr>
+                        <td width="35%">Role</td>
+                        <td>:</td>
+                        <td>RAS</td>
+                    </tr>
+                    <tr>
+                        <td width="35%">Project Name</td>
+                        <td>:</td>
+                        <td class="companyName"></td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Month</td>
+                        <td>:</td>
+                        <td id="timeSheetMonth" class="month"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <table id="timeSheetTablePdf" class="table table-bordered  w-100 timeSheetTable" style="font-size:13px; color:black">
+            <thead style="background-color:#FFFFFF">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Activity Detail</th>
+                    <th scope="col">Flag</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Known By</th>
+                </tr>
+            </thead>
+        </table>
+
+        <br /><br />
+        <div class="row mt-4">
+            <div class="col-3"></div>
+            <div class="col-3 bold-print">TTD PEGAWAI</div>
+            <div class="col-3 bold-print">DIPERIKSA OLEH</div>
+            <div class="col-3 bold-print">DIKETAHUI OLEH</div>
+        </div>
+        <div class="row m-4"></div>
+        <div class="row m-4"></div>
+        <div class="row m-4"></div>
+        <div class="row mt-4">
+            <div class="col-3"></div>
+            <div id="fullnamePdf" class="col-3 fullName bold-print"></div>
+            <div class="col-3 bold-print">@Model.Examiner</div>
+            <div class="col-3 bold-print" id="picName"></div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-3 bold-print">DATE: </div>
+            <div class="col-3 bold-print">DATE: </div>
+            <div class="col-3 bold-print">DATE: </div>
+        </div>
+    </div>
+   @* <div id="pspdfkit-footer" class="footer-columns" style="page-break-after: always">
+
+        <h6 class="ml-0"><strong>Notes :</strong></h6>
+        <div class="row">
+            <div class="col color-bg bullet">
+                <span class="badge badge-warning" style="font-size: 12px;">Orange</span>
+                <span style="font-size: 12px;">: Overtime</span>
+            </div>
+            <div class="col color-bg bullet">
+                <span class="badge badge-danger" style="font-size: 12px;"> Red </span>
+                <span style="font-size: 12px;">: Weekend/Holiday</span>
+            </div>
+        </div>
+    </div>*@
+</div>
+
+
+@section script
+{
+    <script src="~/js/TimeSheet.js"></script>
+    <script src="https://cdn.datatables.net/2.0.1/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.jqueryui.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>  
+
+    @* <script src="https://cdn.datatables.net/rowgroup/1.5.0/js/dataTables.rowGroup.js"></script>  
+    <script src="https://cdn.datatables.net/rowgroup/1.5.0/js/rowGroup.dataTables.js"></script>   *@
+
+    <!-- html2pdf CDN link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+}

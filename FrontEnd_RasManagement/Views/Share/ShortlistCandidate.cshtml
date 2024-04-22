@@ -47,6 +47,19 @@
             font-size: 12px;
         }
 
+        .cards {
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+            color: #858796;
+            background-color: #fff;
+        }
+
+        .cards-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
+        }
+
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #F7F6FE;
         }
@@ -55,40 +68,64 @@
             background-color: #FFFFFF;
         }
 
-        #resource_length label {
-            font-size: 14px;
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #f2f2f2;
         }
-
 
         #resource_filter label {
             font-size: 14px;
         }
-
 
         #resource_filter input[type="search"] {
             font-size: 14px;
             height: 26px;
         }
 
-
         #resource td {
             font-size: 13px;
         }
 
         th {
+            font-size: 14px;
+        }
+
+        .table.dataTable {
+            margin-top: 0 !important;
+        }
+
+        .dataTables_length {
+            font-size: 14px; /* Sesuaikan dengan ukuran yang Anda inginkan */
+        }
+
+        .dataTables_filter input[type="search"] {
+            font-size: 12px; /* Atur ukuran font sesuai kebutuhan */
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
             font-size: 13px;
         }
 
+        div.dataTables_wrapper div.dataTables_info {
+            font-size: 13.5px;
+        }
+
+        table.dataTable > thead > tr > th, table.dataTable > thead > tr > td {
+            font-size: 14px;
+        }
+
+        table.table-bordered.dataTable th, table.table-bordered.dataTable td {
+            font-size: 14px;
+        }
+
+        /* Badge Styles with Pastel Colors and Black Text */
 
         .form-control {
             height: 31px;
         }
 
-
         select.form-control {
             font-size: 14.5px;
         }
-
 
         .dataTables_info {
             font-size: 14.5px;
@@ -96,6 +133,10 @@
 
         .dataTables_filter {
             margin-right: 18px;
+        }
+
+        .table.dataTable {
+            margin-top: 0 !important;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
@@ -109,9 +150,8 @@
         }
 
         .customWrap {
-            white-space: normal !important; 
+            white-space: normal !important;
             word-wrap: break-word;
-          
         }
 
         @@media (min-width: 768px) {
@@ -120,7 +160,6 @@
             }
         }
 
-
         .footer {
             left: 0;
             bottom: 0;
@@ -128,9 +167,6 @@
         }
 
     </style>
-
-
-
 </head>
 
 <body id="" class="bg-gray-100">
@@ -158,36 +194,27 @@
                 <div class="container-fluid">
 
                     <div class="card mb-3 rounded-bottom border-0">
-
                        <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
-
                         </nav>
-
-
-                        <div class="card-body pr-0 pb-1 pl-3">
-                            <table id="resource" class="table table-striped table-bordered text-nowrap" style="width:100%; color:black" cellspacing="0">
-                                <thead>
+                        <div class="card-body pr-0 pb-1 pl-3" style="color: #858796;">
+                            <table id="resource" class="table table-striped table-bordered text-nowrap w-100" id="dataTableEmployee" style="width:100%; color:black">
+                                <thead style="color: #858796;">
                                     <tr>
                                         <th>Fullname</th>
                                         <th>Position</th>
-                                        <th style="min-width: 300px;">Skillset</th>
-                                        <th>Level Recommendation</th>
+                                        <th style="min-width: 300px">Skillset</th>
+                                        @* <th>Level Recommendation</th> *@
                                         <th>Level</th>
-
                                         <th>Education</th>
                                         <th>GPA</th>
                                         <th>University</th>
-                                        <th>Domisili</th>
+                                        @* <th>Domisili</th> *@
                                         <th>Age</th>
-
                                         <th>Experience</th>
-
                                         <th>Work Status</th>
                                         <th>Notice Periode</th>
                                         <th>Financial Industry</th>
-
                                         <th>CV Berca</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>

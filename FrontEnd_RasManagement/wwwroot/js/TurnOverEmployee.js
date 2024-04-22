@@ -90,7 +90,7 @@
               $(cell).html("");
             }
           });
-      },
+        },
       columns: [
         //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
@@ -115,7 +115,7 @@
                     var placementStatus = row.placements.placementStatus;*/
             if (placementStatus === "Blacklist") {
               return (
-                '<span type="button" class="badge badge-pill badge-dark"  data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' +
+                '<span type="button" class="badge badge-pill badge-dark" data-toggle="modal" data-target="#infoTurnOver" onclick=" return showDescription(\'' +
                 row.deptName +
                 "', '" +
                 row.description +
@@ -155,6 +155,19 @@
           },
         },
       ],
+        order: [1, 'asc'],
+        drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+            api.column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },
     });
 
   $("#resetFilters").on("click", function () {

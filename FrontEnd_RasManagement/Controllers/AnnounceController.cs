@@ -125,16 +125,28 @@ namespace FrontEnd_RasManagement.Controllers
             }
         }
 
-
-
-
         [HttpPost]
         public async Task<IActionResult> SendEmailBirthDay([FromBody] BirthdayVM request)
         {
             try
             {
                 await mailService.SendEmailBirthday(request);
-                return Ok();
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Email Birthday has been sent" });
+            }
+            catch (Exception ex)
+            {
+                // Tangani kesalahan yang terjadi, kembalikan view yang diinginkan dengan pesan kesalahan
+                ViewBag.ErrorMessage = $"An error occurred: {ex.Message}";
+                return View("Error");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> SendEmailPengaduan([FromBody] PengaduanVM data)
+        {
+            try
+            {
+                await mailService.SendEmailPengaduan(data);
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Email has been sent" });
             }
             catch (Exception ex)
             {

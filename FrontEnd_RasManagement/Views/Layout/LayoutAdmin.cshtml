@@ -31,10 +31,15 @@
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
 
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet" />*@
+    <link href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css" rel="stylesheet" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Select2-->
+    @* <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.1/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.1/select2.min.js"></script> *@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -73,11 +78,11 @@
             display: none; /* Mulai dengan menyembunyikan loader */
         }
 
-            .loader-container.active {
-                display: flex; /* Tampilkan loader saat loader-container aktif */
-                justify-content: center;
-                align-items: center;
-            }
+        .loader-container.active {
+            display: flex; /* Tampilkan loader saat loader-container aktif */
+            justify-content: center;
+            align-items: center;
+        }
 
         .logo-container {
             background-color: white; /* Ganti warna latar belakang sesuai kebutuhan */
@@ -105,57 +110,57 @@
             margin-bottom: 1rem;
         }
 
-            .form-label-group > input,
-            .form-label-group > label {
-                padding: var(--input-padding-y) var(--input-padding-x);
-                height: 45px;
-            }
+        .form-label-group > input,
+        .form-label-group > label {
+            padding: var(--input-padding-y) var(--input-padding-x);
+            height: 45px;
+        }
 
-            .form-label-group > label {
-                position: absolute;
-                top: 0;
-                left: 0;
-                display: block;
-                width: 100%;
-                margin-bottom: 0; /* Override default `<label>` margin */
-                line-height: 1.5;
-                color: #495057;
-                border: 1px solid transparent;
-                border-radius: .25rem;
-                transition: all .1s ease-in-out;
-            }
+        .form-label-group > label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            margin-bottom: 0; /* Override default `<label>` margin */
+            line-height: 1.5;
+            color: #495057;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: all .1s ease-in-out;
+        }
 
-            .form-label-group input::-webkit-input-placeholder {
-                color: transparent;
-            }
+        .form-label-group input::-webkit-input-placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input:-ms-input-placeholder {
-                color: transparent;
-            }
+        .form-label-group input:-ms-input-placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input::-ms-input-placeholder {
-                color: transparent;
-            }
+        .form-label-group input::-ms-input-placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input::-moz-placeholder {
-                color: transparent;
-            }
+        .form-label-group input::-moz-placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input::placeholder {
-                color: transparent;
-            }
+        .form-label-group input::placeholder {
+            color: transparent;
+        }
 
-            .form-label-group input:not(:placeholder-shown) {
-                padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
-                padding-bottom: calc(var(--input-padding-y) / 3);
-            }
+        .form-label-group input:not(:placeholder-shown) {
+            padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+            padding-bottom: calc(var(--input-padding-y) / 3);
+        }
 
-                .form-label-group input:not(:placeholder-shown) ~ label {
-                    padding-top: calc(var(--input-padding-y) / 3);
-                    padding-bottom: calc(var(--input-padding-y) / 3);
-                    font-size: 12px;
-                    color: #777;
-                }
+        .form-label-group input:not(:placeholder-shown) ~ label {
+            padding-top: calc(var(--input-padding-y) / 3);
+            padding-bottom: calc(var(--input-padding-y) / 3);
+            font-size: 12px;
+            color: #777;
+        }
 
         .password-container {
             position: relative;
@@ -169,15 +174,34 @@
             cursor: pointer;
         }
 
+        .alertNotif::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        /* Track */
+        .alertNotif::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 2px grey;
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        .alertNotif::-webkit-scrollbar-thumb {
+            background: #c1c2c2;
+            border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        .alertNotif::-webkit-scrollbar-thumb:hover {
+            background: #c1c2c2;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
-
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.dataTables.min.css">
 </head>
 
 <body id="page-top" class="">
-
+    <script src="~/js/MenuAccess.js"></script>
     <!-- Page Wrapper -->
     <div id="wrapper" class="">
 
@@ -191,7 +215,7 @@
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider text-light my-0">
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item @(currentUrl == "/Dashboards/Dashboard_Admin" ? "active" : "")">
@@ -203,7 +227,7 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider text-light">
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -211,10 +235,10 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item  @(currentUrl == "/accounts/register_employee" ? "active" : "")">
+            <li class="nav-item  @(currentUrl == "/accounts/register_employee" ? "active" : "")" id="createAccountMenu">
                 <a class="nav-link collapsed menu" href="/accounts/register_employee"
                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-user-circle"></i>
+                    <i class="fas fa-fw fa-user-circle"></i>
                     <span>Create Account Employee</span>
                 </a>
 
@@ -231,69 +255,105 @@
             </li>*@
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item @(currentUrl == "/ManageEmployee/Index" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/ManageEmployee/Index" ? "active" : "")" id="manageEmployeeMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-tasks-alt"></i>
+                    <i class="fas fa-fw fa-tasks-alt"></i>
                     <span>Manage Resource</span>
+                </a>
+            </li>
+            <li class="nav-item @(currentUrl == "/ManageEmployee/ActivityCalendar" ? "active" : "")" id="activityCalendarMenu">
+                <a class="nav-link collapsed menu" href="/ManageEmployee/ActivityCalendar" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-calendar"></i>
+                    <span>Activity Calendar</span>
+                </a>
+            </li>
+            <li class="nav-item @(currentUrl == "/Approval/Overtime" ? "active" : "")" id="#">
+                <a class="nav-link collapsed menu" href="/Approval/Overtime" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-solid fa-house-laptop"></i>
+                    <span>Overtime Approval</span>
+                </a>
+            </li>
+            <li class="nav-item @(currentUrl == "/ManageEmployee/TimesheetReport" ? "active" : "")" id="activityCalendarMenu">
+                <a class="nav-link collapsed menu" href="/ManageEmployee/TimesheetReport" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-paste"></i>
+                    <span>Recap Timesheet Report</span>
+                </a>
+            </li>
+
+            <li class="nav-item @(currentUrl == "/ManageEmployee/TrackingInterview" ? "active" : "")" id="trackingInterviewMenu">
+                <a class="nav-link collapsed menu" href="/ManageEmployee/TrackingInterview" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-tasks"></i>
+                    <span>Tracking Interview</span>
                 </a>
             </li>
 
 
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider text-light">
             <div class="sidebar-heading">
                 Non Resource
             </div>
             <li class="nav-item @(currentUrl == "/ManageEmployee/TurnOverEmployee" ? "active" : "")">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/TurnOverEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-exchange"></i>
+                    <i class="fas fa-fw fa-exchange"></i>
                     <span>Turn Over Employee</span>
                 </a>
             </li>
 
-            <li class="nav-item @(currentUrl == "/ResourceReport/Index" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/ResourceReport/Index" ? "active" : "")" id="shortlistCandidateMenu">
                 <a class="nav-link collapsed menu" href="/ResourceReport/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-list-ul"></i>
+                    <i class="fas fa-fw fa-list-ul"></i>
                     <span>Shortlist Candidate</span>
                 </a>
             </li>
             <li class="nav-item @(currentUrl == "/ResourceReport/Statistic" ? "active" : "")">
                 <a class="nav-link collapsed menu" href="/ResourceReport/Statistic" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-table"></i>
+                    <i class="fas fa-fw fa-table"></i>
                     <span>Candidate Statistic</span>
                 </a>
             </li>
-
-            @*<li class="nav-item @(currentUrl == "/ResourceReport/ShorlistCandidate" ? "active" : "")">
-            <a class="nav-link collapsed" href="/ResourceReport/ShorlistCandidate" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-list-ul"></i>
-            <span>Shortlist Candidate</span>
-            </a>
+@*
+            <li class="nav-item @(currentUrl == "/ResourceReport/ShorlistCandidate" ? "active" : "")">
+                <a class="nav-link collapsed" href="/ResourceReport/ShorlistCandidate" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-list-ul"></i>
+                    <span>Shortlist Candidate</span>
+                </a>
             </li>*@
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider text-light">
             <div class="sidebar-heading">
-                Department & Client
+                Department, Client, & Holidays
             </div>
-            <li class="nav-item @(currentUrl == "/ManageEmployee/DepartmentEmployee" ? "active" : "")">
+            <li class="nav-item @(currentUrl == "/ManageEmployee/DepartmentEmployee" ? "active" : "")" id="manageDepartmentMenu">
                 <a class="nav-link collapsed menu" href="/ManageEmployee/DepartmentEmployee" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-building"></i>
+                    <i class="fas fa-fw fa-building"></i>
                     <span>Manage Department</span>
                 </a>
             </li>
 
-           
-            <li class="nav-item @(currentUrl == "/Client/Index" ? "active" : "")">
+
+            <li class="nav-item @(currentUrl == "/Client/Index" ? "active" : "")" id="manageClientMenu">
                 <a class="nav-link collapsed menu" href="/Client/Index" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fab fa-hive"></i>
+                    <i class="fab fa-fw fa-hive"></i>
                     <span>Manage Client Data</span>
+                </a>
+            </li>
+            <li class="nav-item @(currentUrl == "/Holiday/Index" ? "active" : "")">
+                <a class="nav-link collapsed menu" href="/Holiday/Index" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fa-solid fa-fw fa-mug-hot"></i>
+                    <span>Manage Holidays</span>
                 </a>
             </li>
         </ul>
@@ -315,7 +375,23 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow mx-1 btnBell" id="btnBell">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter" id="notifCount"></span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in alertNotif" style="max-height: 480px; overflow: auto" id="alertNotif" aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Notification
+                                </h6>
 
+                                <div class="m-0" id="notification">
+                                    <span class="dropdown-item text-center small text-dark-500" id="noNotif">No Notification</span>
+                                </div>
+                            </div>
+                        </li>
 
 
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -452,7 +528,7 @@
 
                             <input type="password" class="form-control form-control-user" id="repeatPassword" autocomplete="" placeholder="" req>
 
-                            <label for="repeatPassword">Repeat Password</label>
+                            <label for="repeatPassword">Confirm New Password</label>
                             <span id="icon" class="password-toggle-icon" onclick="togglePasswordVisibility('repeatPassword')">
                                 <i class="far fa-eye"></i>
                             </span>
@@ -490,13 +566,14 @@
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.13.6/api/fnFilterClear.js"></script>
-
     <script src="~/js/JwtUtils.js"></script>
-    @*<script src="~/js/DetailEmployee.js"></script>*@
+
+
     <script src="~/js/ChangePassword.js"></script>
     <script src="~/js/HistoryLog.js"></script>
+    <script src="~/js/Notification.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> *@
 
     <!-- Page specific script -->
     @RenderSection("script",required:false)

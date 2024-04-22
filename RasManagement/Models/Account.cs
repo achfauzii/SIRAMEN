@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace RasManagement.Models;
 
@@ -8,9 +7,13 @@ public partial class Account
 {
     public string AccountId { get; set; } = null!;
 
-    public string? Email { get; set; }
+    public string? NIK { get; set; }
 
-    public string? Password { get; set; }
+    public string Email { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
+
+    public string? Position { get; set; }
 
     public string? Nickname { get; set; }
 
@@ -42,10 +45,11 @@ public partial class Account
 
     public string? Image { get; set; }
 
-    public string RoleId { get; set; } = null!;
-
     public bool? IsChangePassword { get; set; }
-    public string? NIK { get; set; }
+
+    public string? RoleId { get; set; }
+    public string? Level { get; set; }
+    public string? FinancialIndustry { get; set; }
 
     public virtual ICollection<AssetsManagement> AssetsManagements { get; set; } = new List<AssetsManagement>();
 
@@ -60,13 +64,20 @@ public partial class Account
     public virtual ICollection<NonFormalEdu> NonFormalEdus { get; set; } = new List<NonFormalEdu>();
 
     public virtual ICollection<Placement> Placements { get; set; } = new List<Placement>();
+
+    public virtual ICollection<ProjectHistory> ProjectHistories { get; set; } = new List<ProjectHistory>();
+
     public virtual ICollection<Qualification> Qualifications { get; set; } = new List<Qualification>();
 
-    public virtual ICollection<ProjectHistory>ProjectHistories  { get; set; } = new List<ProjectHistory>();
+    public virtual Role? Role { get; set; }
 
-    public virtual Role? Role { get; set; } = null!;
+    public virtual ICollection<TimeSheet> TimeSheets { get; set; } = new List<TimeSheet>();
 
-    public virtual ICollection<ShortlistCandidate> ShortlistCandidates { get; set; } = new List<ShortlistCandidate>();
+    public virtual ICollection<Approval> Approvals { get; set; } = new List<Approval>();
+
+    //public virtual ICollection<MasterHoliday> MasterHolidays { get; set; } = new List<MasterHoliday>();
+
+    public virtual ICollection<TrackingInterview> TrackingInterviews { get; set; } = new List<TrackingInterview>();
 
     public virtual ICollection<TurnOver> TurnOvers { get; set; } = new List<TurnOver>();
 }
