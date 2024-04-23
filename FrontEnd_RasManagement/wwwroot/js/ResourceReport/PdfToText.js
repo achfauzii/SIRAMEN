@@ -373,4 +373,13 @@ document.getElementById('fileInput2').addEventListener('change', function (event
     };
 
     reader.readAsArrayBuffer(file);
+
+
+    Swal.fire({
+        title: "Check Befor Saving!",
+        icon: "warning",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ok"
+    })
 });
