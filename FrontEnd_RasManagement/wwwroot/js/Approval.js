@@ -18,6 +18,7 @@ $(document).ready(function () {
             headers: {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
+            
         },
         columns: [
             {
@@ -26,6 +27,31 @@ $(document).ready(function () {
                     return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 },
             },
+            {
+                data: "accountId",
+                render: function (data) {
+                    let name = null;
+                    $.ajax({
+                        url: "https://localhost:7177/api/Employees/accountId?accountId=" + data,
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                        },
+                        success: function (employeeResult) {
+                            name = employeeResult.data.result.fullname ?? ""
+                        },
+                        error: function (errormessage) {
+                            name = ""
+                        }
+                    })
+                    return name
+                }
+            },
+
+            
             {
                 data: "date",
                 render: function (data) {
@@ -94,15 +120,14 @@ $(document).ready(function () {
 
 function GetById(Id) {
     //debugger;
-
     $.ajax({
         url: "https://localhost:7177/api/Approval/" + Id,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        /*headers: {
+        headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },*/
+        },
         success: function (result) {
             //debugger;
             var obj = result.data;
@@ -123,6 +148,7 @@ function GetById(Id) {
                     Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 success: function (employeeResult) {
+                    console.log(employeeResult.data)
                     var employeeObj = employeeResult.data.result;
                     $("#fullName").val(employeeObj.fullname);
                 },
