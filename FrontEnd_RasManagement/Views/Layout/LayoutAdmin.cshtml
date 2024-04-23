@@ -46,15 +46,22 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
+           
+            sessionStorage.setItem("Token", localStorage.getItem("Token"));
+
+
             var token = sessionStorage.getItem("Token");
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
-            var role = getRole;
+            var role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
             var userNameElement = document.getElementById("name");
             var userRoleElement = document.getElementById("role");
             userNameElement.textContent = name;
             userRoleElement.textContent = role;
+            
+
+     
 
         });
     </script>
@@ -546,6 +553,7 @@
             </div>
         </div>
     </div>
+
 
 
     <script src="~/startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
