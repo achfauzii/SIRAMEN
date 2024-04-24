@@ -317,39 +317,55 @@ function Save() {
     Holiday.name = $("#HolidayName").val();
     Holiday.date = $("#HolidayDate").val();
     Holiday.description = $("#Description").val();
-
     $.ajax({
-        type: "POST",
-        url: "https://localhost:7177/api/MasterHoliday",
-        data: JSON.stringify(Holiday),
+        type: "GET",
+        url: "https://localhost:7177/api/MasterHoliday/getHolidayByDate?date=" + Holiday.date,
         contentType: "application/json; charset=utf-8",
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
-    }).then((result) => {
-        if (result.status == 200) {
-            Swal.fire({
-                icon: "success",
-                title: "Success...",
-                text: "Data has been added!",
-                showConfirmButtom: false,
-                timer: 2500,
+        success: function (data) {
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:7177/api/MasterHoliday",
+                data: JSON.stringify(Holiday),
+                contentType: "application/json; charset=utf-8",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+            }).then((result) => {
+                if (result.status == 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success...",
+                        text: "Data has been added!",
+                        showConfirmButtom: false,
+                        timer: 2500,
+                    });
+                    const logMessage = `Add holiday ${Holiday.name} date ${Holiday.date}`
+                    SaveLogUpdate(logMessage);
+                    $("#Modal").modal("hide");
+                    $("#tbDataHoliday").DataTable().ajax.reload();
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Data failed to added!",
+                        showConfirmButtom: false,
+                        timer: 1500,
+                    });
+                    $("#Modal").modal("hide");
+                    $("#tbDataHoliday").DataTable().ajax.reload();
+                }
             });
-            const logMessage = `Add holiday ${Holiday.name} date ${Holiday.date}`
-            SaveLogUpdate(logMessage);
-            $("#Modal").modal("hide");
-            $("#tbDataHoliday").DataTable().ajax.reload();
-        } else {
+        }, error: function (err) {
             Swal.fire({
                 icon: "warning",
-                title: "Data failed to added!",
+                title: "Date Existing!!",
                 showConfirmButtom: false,
                 timer: 1500,
             });
-            $("#Modal").modal("hide");
-            $("#tbDataHoliday").DataTable().ajax.reload();
         }
-    });
+    })
 }
 
 function ClearScreen() {
@@ -444,30 +460,50 @@ function Update() {
         return;
     }
     $.ajax({
-        type: "PUT",
-        url: "https://localhost:7177/api/MasterHoliday",
-        data: JSON.stringify(Holiday),
+        type: "GET",
+        url: "https://localhost:7177/api/MasterHoliday/getHolidayByDate?date=" + Holiday.date,
         contentType: "application/json; charset=utf-8",
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
-    }).then((result) => {
-        if (result.status == 200) {
-            Swal.fire({
-                icon: "success",
-                title: "Success...",
-                text: "Data has been update!",
-                showConfirmButtom: false,
-                timer: 2000,
+        success: function (data) {
+            $.ajax({
+                type: "PUT",
+                url: "https://localhost:7177/api/MasterHoliday",
+                data: JSON.stringify(Holiday),
+                contentType: "application/json; charset=utf-8",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+            }).then((result) => {
+                if (result.status == 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success...",
+                        text: "Data has been update!",
+                        showConfirmButtom: false,
+                        timer: 2000,
+                    });
+                    const logMessage = `Update holiday ${Holiday.name} date ${Holiday.date} ID:${Holiday.holiday_Id}`
+                    SaveLogUpdate(logMessage);
+                    $("#Modal").modal("hide");
+                    $("#tbDataHoliday").DataTable().ajax.reload();
+                } else {
+                    alert("Data Failed to Update");
+                }
             });
-            const logMessage = `Update holiday ${Holiday.name} date ${Holiday.date} ID:${Holiday.holiday_Id}`
-            SaveLogUpdate(logMessage);
-            $("#Modal").modal("hide");
-            $("#tbDataHoliday").DataTable().ajax.reload();
-        } else {
-            alert("Data Failed to Update");
+        },
+        error: function (err) {
+            Swal.fire({
+                icon: "warning",
+                title: "Date Existing!!",
+                showConfirmButtom: false,
+                timer: 1500,
+            });
         }
-    });
+
+    })
+    
 }
 
 function DeleteHoliday(holiday_Id,name) {
