@@ -52,13 +52,6 @@ $(document).ready(function () {
     loadDataA(); // Reload the data before opening the modal
     $("#myModal").modal("show"); // Show the modal after loading the data
   });
-  const selectReligion = $("#editReligion");
-  $(selectReligion).select2({
-    placeholder: "Select a religion",
-    width: "100%",
-    allowClear: true,
-    tags: true,
-  });
   $("#editName, #editNickName, #editBirthPlace").on("keyup", function () {
     var value = $(this).val();
     var maxLength = 50; // Default max length
@@ -126,7 +119,7 @@ function loadDataA() {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      var obj = result.data.result; // Data yang diterima dari API
+        var obj = result.data.result; // Data yang diterima dari API
         if (obj.birthdate != null ) {
             obj.birthdate = obj.birthdate.substring(0, 10)
         }
@@ -180,11 +173,11 @@ function loadDataA() {
       $("#accountId").val(obj.accountId);
       $("#editName").val(obj.fullname);
       $("#editNickName").val(obj.nickname);
-      $("#editBirthPlace").val(obj.birthplace);
-      $("#editGender").val(obj.gender);
-      $("#editReligion").val(obj.religion);
-      $("#editMartialStatus").val(obj.maritalstatus);
-      $("#editNationality").val(obj.nationality);
+        $("#editBirthPlace").val(obj.birthplace);
+        $("#editGender").find('option[value="' + obj.gender + '"]').attr("selected", true).trigger("change");
+        $("#editReligion").find('option[value="' + obj.religion + '"]').attr("selected", true).trigger("change");
+        $("#editMartialStatus").find('option[value="' + obj.maritalstatus + '"]').attr("selected", true).trigger("change");
+        $("#editNationality").find('option[value="' + obj.nationality + '"]').attr("selected", true).trigger("change");
       $("#editAddress").val(obj.address);
       if (obj.isChangePassword == 0) {
         $("#passwordAnnounce").show();
@@ -256,7 +249,8 @@ function GetById(accountId) {
       Authorization: "Bearer " + sessionStorage.getItem("Token"),
     },
     success: function (result) {
-      var obj = result.data.result;
+        var obj = result.data.result;
+      console.log(obj)
       $("#accountId").val(accountId);
       $("#editName").val(obj.fullname);
       $("#editNickName").val(obj.nickname);
@@ -341,15 +335,13 @@ function updateData() {
 
   var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
 
-  console.log("Has data changed:", hasChanged);
-  debugger;
   // Jika tidak ada perubahan, tampilkan pesan Sweet Alert dan berhenti
 
   // Lakukan validasi dan proses update jika ada perubahan
   var accountId = $("#accountId").val();
   var isValid = true;
-  $("input[required]").each(function () {
-    var input = $(this);
+  $("input[required] , select[required]").each(function () {
+      var input = $(this);
     if (!input.val()) {
       input.next(".error-message").text("This field is required!").show();
       isValid = false;
