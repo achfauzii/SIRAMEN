@@ -196,11 +196,12 @@ $(document).ready(function () {
             },*/
 
         // backgroud warna dengan flag holiday 
+        // Buat Holiday Row jadi Merah
         createdRow: function (row, data, dataIndex) {
-            if (data.flag === 'Holiday') {
-                $(row).css('background-color', '#FF8080');
-                $(row).find('.fa-edit').hide();
-            }
+            //if (data.flag === 'Holiday') {
+            //    $(row).css('background-color', '#FF8080');
+            //    $(row).find('.fa-edit').hide();
+            //}
             if (data.flag === 'Overtime') {
                 $(row).css('background-color', '#EADFB4');
                 $(row).find('.fa-edit').hide();
@@ -208,7 +209,7 @@ $(document).ready(function () {
         }
     });
   
-    addRowHoliday();
+    //addRowHoliday();
     addRowApproval();
 });
 

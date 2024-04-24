@@ -56,34 +56,35 @@
                
 
      *//*       var now = Date.now();
-            var end = new Date(item.endDate);
-            var timeDiff = end.getTime() - now; // Menghitung selisih dalam milidetik
-            var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
-            var monthsRemaining = Math.floor(daysremain / 30); // Menghitung bulan
-            var daysInMonth = daysremain % 30; // Menghitung sisa hari
+var end = new Date(item.endDate);
+var timeDiff = end.getTime() - now; // Menghitung selisih dalam milidetik
+var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
+var monthsRemaining = Math.floor(daysremain / 30); // Menghitung bulan
+var daysInMonth = daysremain % 30; // Menghitung sisa hari
 
-            if (monthsRemaining > 1) {
+if (monthsRemaining > 1) {
 
-                uniquePlacements[accountId] = {
+uniquePlacements[accountId] = {
 
-                    placementStatusId: item.placementStatusId,
-                    startDate: item.startDate,
-                    endDate: item.endDate
-                };
-            }*//*
-          
+placementStatusId: item.placementStatusId,
+startDate: item.startDate,
+endDate: item.endDate
+};
+}*//*
+ 
 
 
-        })
-        .catch(error => {
-            // Tangani error
-            console.error('There has been a problem with your fetch operation:', error);
-        });
+})
+.catch(error => {
+// Tangani error
+console.error('There has been a problem with your fetch operation:', error);
+});
 
 })*/
 
 $(document).ready(function () {
     fetchContractPlacement();
+    overtimeNotification();
 });
 
 
@@ -251,4 +252,75 @@ function checkOverviewEmployee() {
                 document.getElementById("notifCount").innerHTML = notifLength;
             }
         });
+}
+
+
+
+//Notifikasi Overtime (Lembur di hari libur atau cuti bersama)
+
+function overtimeNotification() {
+
+    fetch("https://localhost:7177/api/Approval", {
+        method: 'get',
+        datatype: 'json',
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }).then(result => {
+        var dataApproval = result.data;
+
+        dataApproval.forEach(function (data) {
+            if (data.statusApproval == "On Progress") {
+
+                fetch("https://localhost:7177/api/Employees/accountId?accountId=" + data.accountId, {
+                    method: 'GET',
+                    datatype: 'json',
+                    headers: {
+                        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                    }
+
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Netwotk response was not ok')
+                    }
+                    return response.json();
+                }).then(data => {
+                    const emp = data.data.result;
+               
+                    var notif = "Overtime Approval " + emp.fullname;
+                    notification.innerHTML += `
+                            <div class="dropdown-item d-flex align-items-center notification-item" onclick="openOvertimeApproval()">
+                              <div class="mr-3">
+                                <div class="icon-circle bg-primary">
+                                 <i class="fa-solid fa-business-time text-white"></i>
+                                </div>
+                              </div>
+                              <div>
+                              <div class="small text-gray-500">Overtime Approval</div>
+                                ${notif}
+                              </div>
+                            </div>`;
+
+                })
+                
+
+
+
+
+
+            }
+        });
+        //console.log(result);
+    })
+
+}
+
+function openOvertimeApproval() {
+    window.location.href = "https://localhost:7109/Approval/Overtime";
 }
