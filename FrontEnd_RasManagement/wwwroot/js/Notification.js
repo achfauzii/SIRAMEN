@@ -82,9 +82,14 @@ console.error('There has been a problem with your fetch operation:', error);
 
 })*/
 
+var notifLength = 0;
 $(document).ready(function () {
+
     fetchContractPlacement();
-    overtimeNotification();
+    //overtimeNotification();
+
+
+
 });
 
 
@@ -216,42 +221,12 @@ function checkOverviewEmployee() {
           </div>
         </div>`;
             });
-            var notifLength = dataEmployee.length + dataEmployeeCV.length;
+         
 
-            if (notifLength == 0) {
-                $("#noNotif").show();
-                $("#notifCount").hide();
-            }
-            // else if (notifLength > 3) {
-            //   $("#noNotif").hide();
-            //   document.getElementById("notifCount").innerHTML = "3+";
-            //   var notifItem = document.getElementsByClassName("notification-item");
-
-            //   notification.innerHTML += `<span
-            //     class="dropdown-item text-center small text-dark-500"
-            //     id="showAllNotif" onclick="showAllNotification()">
-            //     Show All Notifications
-            //   </span>`;
-
-            //   notification.innerHTML += `<span
-            //     class="dropdown-item text-center small text-dark-500"
-            //     id="hideAllNotif" onclick="hideAllNotification()">
-            //     Hide Notifications
-            //   </span>`;
-            //   $("#hideAllNotif").hide();
-
-            //   $("#showAllNotif").css("cursor", "pointer");
-            //   $("#hideAllNotif").css("cursor", "pointer");
-            //   for (let i = notifLength; i > 3; i--) {
-            //     notifItem[i - 1].classList.add("d-none");
-            //     notifItem[i - 1].classList.remove("d-flex");
-            //   }
-            // }
-            else {
-                $("#noNotif").hide();
-                document.getElementById("notifCount").innerHTML = notifLength;
-            }
-        });
+       
+        }).then(() => {
+            overtimeNotification();
+        })
 }
 
 
@@ -275,9 +250,12 @@ function overtimeNotification() {
     }).then(result => {
         var dataApproval = result.data;
 
+        var totalAppvropal = 0;
+
         dataApproval.forEach(function (data) {
             if (data.statusApproval == "On Progress") {
 
+                totalAppvropal++;
                 fetch("https://localhost:7177/api/Employees/accountId?accountId=" + data.accountId, {
                     method: 'GET',
                     datatype: 'json',
@@ -316,7 +294,43 @@ function overtimeNotification() {
 
             }
         });
-        //console.log(result);
+
+        var notifLength = dataEmployee.length + dataEmployeeCV.length + totalAppvropal;
+
+
+        if (notifLength == 0) {
+            $("#noNotif").show();
+            $("#notifCount").hide();
+        }
+        // else if (notifLength > 3) {
+        //   $("#noNotif").hide();
+        //   document.getElementById("notifCount").innerHTML = "3+";
+        //   var notifItem = document.getElementsByClassName("notification-item");
+
+        //   notification.innerHTML += `<span
+        //     class="dropdown-item text-center small text-dark-500"
+        //     id="showAllNotif" onclick="showAllNotification()">
+        //     Show All Notifications
+        //   </span>`;
+
+        //   notification.innerHTML += `<span
+        //     class="dropdown-item text-center small text-dark-500"
+        //     id="hideAllNotif" onclick="hideAllNotification()">
+        //     Hide Notifications
+        //   </span>`;
+        //   $("#hideAllNotif").hide();
+
+        //   $("#showAllNotif").css("cursor", "pointer");
+        //   $("#hideAllNotif").css("cursor", "pointer");
+        //   for (let i = notifLength; i > 3; i--) {
+        //     notifItem[i - 1].classList.add("d-none");
+        //     notifItem[i - 1].classList.remove("d-flex");
+        //   }
+        // }
+        else {
+            $("#noNotif").hide();
+            document.getElementById("notifCount").innerHTML = notifLength;
+        }
     })
 
 }
