@@ -53,13 +53,37 @@ function extractInformation(text) {
     var matchUniv = regexUniv.exec(text);
     if (matchUniv != null) {
         if (matchUniv && matchUniv.length > 1) {
-            $("#UniversityName").val(matchUniv[1]).trigger("change");
+            //$("#UniversityName").val(matchUniv[1]).trigger("change");
+
+            const univSelect = $("#UniversityName");
+
+
+            //const optionNotExists = univSelect.find("option[value='" + matchUniv[1] + "']").length === 0;
+
+            //    if (optionNotExists) {
+            //        const newOption = new Option(matchUniv[1], matchUniv[1], true, true);
+            //        univSelect.append(newOption).trigger("change");
+            //    }
+
+            univSelect.val(matchUniv[1]).trigger("change");
         }
     } else {
         regexUniv = /Degree\s+(\d{4})\s+([^\n]+)/;
         matchUniv = regexUniv.exec(text);
-        console.log(matchUniv[2]);
-        $("#UniversityName").val(matchUniv[2]).trigger("change");
+        
+        //$("#UniversityName").val(matchUniv[2]).trigger("change");
+
+        const univSelect = $("#UniversityName");
+
+        
+        //const optionNotExists = univSelect.find("option[value='" + matchUniv[2] + "']").length === 0;
+
+        //    if (optionNotExists) {
+        //        const newOption = new Option(matchUniv[2], matchUniv[2], true, true);
+        //        univSelect.append(newOption).trigger("change");
+        //    }
+   
+        univSelect.val(matchUniv[2]).trigger("change");
 
     }
 
@@ -349,4 +373,13 @@ document.getElementById('fileInput2').addEventListener('change', function (event
     };
 
     reader.readAsArrayBuffer(file);
+
+
+    Swal.fire({
+        title: "Check Befor Saving!",
+        icon: "warning",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ok"
+    })
 });
