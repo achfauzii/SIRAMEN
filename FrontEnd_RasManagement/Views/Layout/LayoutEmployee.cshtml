@@ -42,10 +42,12 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
+            sessionStorage.setItem("Token", localStorage.getItem("Token")); 
+
             var token = sessionStorage.getItem("Token");
             var decodedToken = parseJwt(token);
             var name = decodedToken.Name;
-            var role = getRole;
+            var role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
             var accountId = decodedToken.AccountId;
 
 
