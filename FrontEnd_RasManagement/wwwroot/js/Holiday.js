@@ -7,6 +7,8 @@ $(document).ready(function () {
     //debugger;
     var today = new Date();
     var dayOfWeek = today.getDay();
+    var year = today.getFullYear();
+    $("#generateHoliday").append(`(${year})`)
 
     // Cek jika hari ini adalah Sabtu (6) atau Minggu (0)
     if (dayOfWeek === 6 || dayOfWeek === 0) {
@@ -161,6 +163,111 @@ $(document).ready(function () {
         },*/
     });
 });
+/*document.addEventListener('DOMContentLoaded', function () {
+    $.ajax({
+        type: "GET",
+        url: "https://localhost:7177/api/MasterHoliday",
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (data) {
+            let dataEvents = []
+            data.data.forEach(function (res) {
+                let dataTOEvent = {
+                    title: res.name ?? "No Data",
+                    start: new Date(res.date),
+                    backgroundColor: '#f56954', //red
+                    borderColor: '#f56954', //red
+                    allDay: true
+                }
+                dataEvents.push(dataTOEvent);
+            })
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: dataEvents,
+            });
+            calendar.render();
+        }
+    });
+        
+    });*/
+
+async function generateHoliday() {
+    
+    $("#loader").show();
+    let arrData = [];
+    let today = new Date()
+    const fetchData = await fetch("https://www.googleapis.com/calendar/v3/calendars/id.indonesian%23holiday%40group.v.calendar.google.com/events?key=AIzaSyDJdgeHataUs0i9mzkx9bMgGDyMyGcsSZk");
+    const result = await fetchData.json();
+    const events = result.items;
+    events.forEach(function (data) {
+        let insideData = null;
+        let holidayDate = new Date(data.start.date);
+        let desc = data.description
+        if (holidayDate.getFullYear() === today.getFullYear() && !desc.includes("Perayaan")) {
+            insideData = {
+                name: data.summary,
+                date: data.start.date
+            }
+            arrData.push(insideData);
+        }
+    })
+    arrData.sort((a, b) => new Date(a.date) - new Date(b.date))
+    let dataToInsert = null
+
+    let existingDate = 0;
+    let successInsert = 0;
+    let failedInsert = 0;
+    arrData.forEach(function (saveData) {
+        dataToInsert = {
+            name: saveData.name,
+            date: saveData.date,
+            description: null
+        }
+        $.ajax({
+            type: "GET",
+            url: "https://localhost:7177/api/MasterHoliday/getHolidayByDate?date=" + dataToInsert.date,
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            async:false,
+            success: function (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: "https://localhost:7177/api/MasterHoliday",
+                        data: JSON.stringify(dataToInsert),
+                        contentType: "application/json; charset=utf-8",
+                        async:false,
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                        },
+                        success: function (succ) {
+                            successInsert += 1;
+                        },
+                        error: function (err) {
+                            failedInsert += 1;
+
+                        }
+                    });
+            }, error: function (err) {
+                existingDate += 1;
+            }
+        });
+        dataToInsert = null
+    })
+
+    $("#loader").hide();
+    Swal.fire({
+        title: "The Internet?",
+        html: `${successInsert} Berhasil, ${failedInsert} Gagal, ${existingDate} Telah Ada`,
+        icon: "info"
+    });
+    $("#tbDataHoliday").DataTable().ajax.reload();
+
+}
 
 function parseJwt(token) {
     var base64Url = token.split(".")[1];
