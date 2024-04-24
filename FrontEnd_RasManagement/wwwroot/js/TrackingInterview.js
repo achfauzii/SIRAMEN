@@ -448,7 +448,7 @@ function Save() {
     var selectedResource = $("#resource").val();
     var selectedClient = $("#client").val();
     var selectedIntStatus = $("#intStatus").val();
-
+ 
     if (!selectedResource) {
         $(".selectedResource").closest(".form-group").find(".error-message").show();
         isValid = false;
@@ -457,10 +457,10 @@ function Save() {
     }
 
     if (!selectedClient) {
-        $(".client").closest(".col").find(".error-message").show();
+        $(".selectedClient").closest(".col").find(".error-message").show();
         isValid = false;
     } else {
-        $(".client").closest(".col").find(".error-message").hide();
+        $(".selectedClient").closest(".col").find(".error-message").hide();
     }
 
     if (!selectedIntStatus) {

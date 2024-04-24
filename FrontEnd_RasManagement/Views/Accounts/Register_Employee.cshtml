@@ -478,6 +478,7 @@
                     var form = document.getElementById('createAccountForm');
                     form.reset(); // Reset form setelah pengiriman berhasil
                     $("#positionAcc").val();
+                    $("#positionAcc").val(null).trigger('change');
 
 
 
@@ -488,7 +489,7 @@
                         var errorMessage = data.errors
 
                         // Tampilkan pesan error menggunakan SweetAlert
-                        Swal.fire('Error', errorMessage, 'error');
+                        Swal.fire('Error', errorMessage, 'Email telah digunakan');
 
                     });
 

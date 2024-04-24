@@ -117,6 +117,16 @@ function submitReportTimesheet() {
                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
                });
        },
+       initComplete: function (settings, json) {
+           // Cek apakah tabel memiliki data
+           if (table.data().count() === 0) {
+               // Jika tidak ada data, sembunyikan tombol
+               $("#btn-report").hide();
+           } else {
+               // Jika ada data, tampilkan tombol
+               $("#btn-report").show();
+           }
+       }
 
        
       
