@@ -31,5 +31,17 @@ namespace RasManagement.Controllers
                 return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
             }
         }*/
+
+        [HttpGet("getHolidayByDate")]
+        public IActionResult getHolidayByDate(DateTime date)
+        {
+            var get = masterHolidayRepository.getHolidayByDate(date);
+
+            if (get.Count() == 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK});
+            }
+            return StatusCode(404, new { status = HttpStatusCode.NotFound , search = date});
+        }
     }
 }
