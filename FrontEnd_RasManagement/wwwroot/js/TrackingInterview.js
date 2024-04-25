@@ -621,11 +621,12 @@ function Update() {
 
   if (!isValid) {
     return;
-  }
+    }
+
 
   var intDateArray = document.getElementsByClassName("intDate");
   var intStatusArray = document.getElementsByClassName("intStatus");
-
+ 
   var intDate = "";
   var intStatus = "";
   for (var i = 0; i < intDateArray.length; i += 1) {
@@ -651,7 +652,7 @@ function Update() {
   TrackingInterview.intvwDate = intDate.substr(0, intDate.length - 4);
   TrackingInterview.intvwStatus = intStatus.substr(0, intStatus.length - 4);
   TrackingInterview.notes = $("#notes").val();
-
+    
   var candidateName = $("#resource option:selected").text();
   if (candidateName.substr(0, 3) == "RAS") {
     candidateName = candidateName.substr(6);
