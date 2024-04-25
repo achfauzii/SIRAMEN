@@ -1186,11 +1186,11 @@ function ClearScreenContract() {
   $("input[required], select[required]").each(function () {
     var input = $(this);
 
-    input.next(".error-message").hide();
+      input.next(".error-message-contract").hide();
   });
 
   // Menyembunyikan pesan kesalahan untuk kedua input
-  $(".error-message").hide();
+    $(".error-message-contract").hide();
 
   /*$('#accountId').val('');
         $('#StartContract').val('');
