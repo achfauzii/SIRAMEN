@@ -489,8 +489,13 @@
                         var errorMessage = data.errors
 
                         // Tampilkan pesan error menggunakan SweetAlert
-                        Swal.fire('Error', errorMessage, 'Email telah digunakan');
+                        //Swal.fire('Error', errorMessage, 'Email telah digunakan');
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: data.message,
 
+                        });
                     });
 
                 }
