@@ -224,12 +224,10 @@ function GetById(id) {
 }
 
 function Update() {
-    console.log(2)
     var isValid = true;
 
     $("#Modal input[required]").each(function () {
         var element = $(this);
-        console.log(element)
         if (!element.val()) {
             element.next(".error-message").show();
             isValid = false;
