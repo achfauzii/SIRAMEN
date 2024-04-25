@@ -606,7 +606,7 @@ function GetById(trackingId) {
 }
 
 function Update() {
-  debugger;
+
   var isValid = true;
 
   $("input[required],select[required],textarea[required]").each(function () {
@@ -674,7 +674,9 @@ function Update() {
       title: "No Changes Detected",
       text: "No data has been changed.",
     });
-    $("#trackingModal").modal("hide");
+      $("#trackingModal").modal("hide");
+      clearScreen();
+      
     return;
   }
   $.ajax({
@@ -687,13 +689,13 @@ function Update() {
     },
   }).then((result) => {
     if (result.status == 200) {
-      const logMessage = `Has added tracking interview for ${candidateName}`;
+      const logMessage = `Has update tracking interview for ${candidateName}`;
       SaveLogUpdate(logMessage);
 
       Swal.fire({
         icon: "success",
         title: "Success...",
-        text: "Data has been added!",
+        text: "Data has been change!",
         showConfirmButtom: false,
         timer: 1500,
       });

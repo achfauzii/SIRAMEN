@@ -81,7 +81,7 @@ function submitMonth(month) {
       success: function (response) {
         var data = response.data;
         var dataPdf = response.data;
-        addRowHoliday(month);
+        //addRowHoliday(month);
 
       
         table = $("#timeSheetTable").DataTable({
