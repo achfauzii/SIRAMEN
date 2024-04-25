@@ -231,12 +231,12 @@ function addRowHoliday(month) {
                 var year = parseInt(yearMonth[0]);
                 var monthNum = parseInt(yearMonth[1]);
                 var weekendsAndHolidays = getHolidaysAndWeekends(year, monthNum);
-           
+             
                 // Append weekends to the timeSheetTable
                 weekendsAndHolidays.weekends.forEach(function (weekend) {
                    
                     var formattedDateWeekend = weekend.toISOString().slice(0, 19);
-                
+               
 
                     var weekendInTimesheet = timesheets.some(function (timesheet) {
                         var formattedDate1 = timesheet.date.split("T")[0]; // Mengambil bagian tanggal saja
@@ -246,7 +246,7 @@ function addRowHoliday(month) {
                     });
               
                     if (!weekendInTimesheet) {
-                        console.log("A");
+                     
                         var rowData = {
                             date: weekend.toISOString().slice(0, 10),
                             activity: "Weekend",
@@ -280,26 +280,26 @@ function getHolidaysAndWeekends(year, month) {
     const weekends = [];
 
     // Get holidays
-    $.ajax({
-        url: "https://localhost:7177/api/MasterHoliday",
-        type: "GET",
-        contentType: "application/json",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        async: false, // Make the AJAX call synchronous
-        success: function (result) {
-            const allHolidays = result.data;
-            allHolidays.forEach(function (holiday) {
-                if (holiday.date.startsWith(year + "-" + month)) {
-                    holidays.push(new Date(holiday.date));
-                }
-            });
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        },
-    });
+    //$.ajax({
+    //    url: "https://localhost:7177/api/MasterHoliday",
+    //    type: "GET",
+    //    contentType: "application/json",
+    //    headers: {
+    //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    //    },
+    //    async: false, // Make the AJAX call synchronous
+    //    success: function (result) {
+    //        const allHolidays = result.data;
+    //        allHolidays.forEach(function (holiday) {
+    //            if (holiday.date.startsWith(year + "-" + month)) {
+    //                holidays.push(new Date(holiday.date));
+    //            }
+    //        });
+    //    },
+    //    error: function (errormessage) {
+    //        alert(errormessage.responseText);
+    //    },
+    //});
 
     // Get weekends
     const startDate = new Date(year, month - 1, 1); // First day of the month
