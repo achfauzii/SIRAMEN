@@ -235,7 +235,7 @@
 @*PDF TIMESHEET*@
 @* <button id="download-button">Download as PDF</button> *@
 
-@*<div id="timeSheetPdf">
+<div id="timeSheetPdf">
     <style>
         .pdf-body {
             font-size: 0.75rem;
@@ -458,7 +458,8 @@
     }
 }
     </style>
-    <div id="pspdfkit-header" class="pdf-body">
+
+   @* <div id="pspdfkit-header" class="pdf-body">
 
         <div class="header-columns">
             <div class="logotype">
@@ -471,10 +472,10 @@
                 <p>Jl. Abdul Muis No.62, Kec. Gambir, Jakarta Pusat.</p>
             </div>
         </div>
-    </div>
+    </div>*@
 
     @*Body*@
-    <div class="page" >
+    @*<div class="page" >
         <div>
             <h2>Time Sheet #</h2>
         </div>
@@ -541,7 +542,7 @@
             <div class="col-3 bold-print">DATE: </div>
             <div class="col-3 bold-print">DATE: </div>
         </div>
-    </div>
+    </div>*@
    @* <div id="pspdfkit-footer" class="footer-columns" style="page-break-after: always">
 
         <h6 class="ml-0"><strong>Notes :</strong></h6>
@@ -556,7 +557,7 @@
             </div>
         </div>
     </div>*@
-</div>*@
+</div>
 
 
 @section script
