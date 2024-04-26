@@ -25,12 +25,7 @@
 
         public bool CheckHolidayByDate(DateTime date)
         {
-            var day = context.MasterHolidays.Where(e => e.Date == date);
-            if (day != null)
-            {
-                return true;
-            }
-            return false;
+            return context.MasterHolidays.Any(e => e.Date == date);
         }
     }
 }
