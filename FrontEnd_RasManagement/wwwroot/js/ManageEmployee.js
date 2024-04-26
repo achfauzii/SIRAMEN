@@ -1181,16 +1181,19 @@ function ClearScreenContract() {
   $("#AccountId").val("");
   $("#StartContract").val("");
     $("#EndContract").val("");
-  $("positionEmp").val("");
+    $("positionEmp").val("");
+   
 
-  $("input[required], select[required]").each(function () {
+    $("input[required], select[required]").each(function () {
     var input = $(this);
 
-    input.next(".error-message").hide();
+        input.next(".error-message-contract").hide();
+       
   });
 
   // Menyembunyikan pesan kesalahan untuk kedua input
-  $(".error-message").hide();
+    $(".error-message-contract").hide();
+    $(".error-message").hide();
 
   /*$('#accountId').val('');
         $('#StartContract').val('');

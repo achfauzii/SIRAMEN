@@ -81,7 +81,7 @@ function submitMonth(month) {
       success: function (response) {
         var data = response.data;
         var dataPdf = response.data;
-        addRowHoliday(month);
+        //addRowHoliday(month);
 
       
         table = $("#timeSheetTable").DataTable({
@@ -110,7 +110,7 @@ function submitMonth(month) {
           order: [[0, "asc"]],
           // backgroud warna dengan flag holiday
           createdRow: function (row, data, dataIndex) {
-            if (data.flag === "Holiday") {
+            if (data.flag === "Holiday" || data.flag ==="Weekend") {
               $(row).css("background-color", "#fe6675");
               $(row).css("font-weight", "bold");
               $(row).find(".fa-edit").hide();
@@ -165,7 +165,7 @@ function submitMonth(month) {
 }
 
 function addRowHoliday(month) {
-  console.log(month);
+  
   //GET data from tbDataHoliday
   $.ajax({
     url: "https://localhost:7177/api/MasterHoliday",
@@ -184,26 +184,137 @@ function addRowHoliday(month) {
         return holiday.date.startsWith(month);
       });
 
-      // Loop through each filtered holiday object
-      filteredHolidays.forEach(function (holiday) {
-        // Append the holiday data to the timeSheetTable
-        var rowData = {
-          date: holiday.date,
-          activity: holiday.name,
-          flag: "Holiday", // Set flag as 'Holiday' for holidays
-          category: "", // You can set an appropriate category
-          status: "", // You can set an appropriate status
-          knownBy: "", // You can set an appropriate value for knownBy
-        };
-        // Add the holiday data to the timeSheetTable
-        table.row.add(rowData).draw();
-        tablePDF.row.add(rowData).draw();
-      });
+        // GET data from TimeSheet API
+        $.ajax({
+            url:
+                "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+                accountId +
+                "&month=" +
+                month,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            success: function (timesheetResult) {
+                // Assuming timesheetResult.data contains the array of timesheet objects
+                var timesheets = timesheetResult.data;
+
+                // Loop through each filtered holiday object
+                filteredHolidays.forEach(function (holiday) {
+                    // Check if the holiday date is already in timesheets
+                    var holidayExistsInTimesheet = timesheets.some(function (timesheet) {
+                        return timesheet.date === holiday.date;
+                    });
+
+                    // If holiday does not exist in timesheets, add it
+                    if (!holidayExistsInTimesheet) {
+                        var rowData = {
+                            date: holiday.date,
+                            activity: holiday.name,
+                            flag: "Holiday", // Set flag as 'Holiday' for holidays
+                            category: "", // You can set an appropriate category
+                            status: "", // You can set an appropriate status
+                            knownBy: "", // You can set an appropriate value for knownBy
+                        };
+                        // Add the holiday data to the timeSheetTable
+                        table.row.add(rowData).draw();
+                        tablePDF.row.add(rowData).draw();
+                    } else {
+
+                    }
+                });
+
+                // Get weekends and holidays for the given month and year
+                var yearMonth = month.split("-");
+                var year = parseInt(yearMonth[0]);
+                var monthNum = parseInt(yearMonth[1]);
+                var weekendsAndHolidays = getHolidaysAndWeekends(year, monthNum);
+             
+                // Append weekends to the timeSheetTable
+                weekendsAndHolidays.weekends.forEach(function (weekend) {
+                   
+                    var formattedDateWeekend = weekend.toISOString().slice(0, 19);
+               
+
+                    var weekendInTimesheet = timesheets.some(function (timesheet) {
+                        var formattedDate1 = timesheet.date.split("T")[0]; // Mengambil bagian tanggal saja
+                        var formattedDate2 = formattedDateWeekend.split("T")[0];
+                        return formattedDate1 == formattedDate2;
+                   
+                    });
+              
+                    if (!weekendInTimesheet) {
+                     
+                        var rowData = {
+                            date: weekend.toISOString().slice(0, 10),
+                            activity: "Weekend",
+                            flag: "Weekend",
+                            category: "",
+                            status: "",
+                            knownBy: "",
+                        };
+                        table.row.add(rowData).draw();
+                        tablePDF.row.add(rowData).draw();
+
+                    } 
+                
+                });
+            },
+            error: function (error) {
+                alert(error.responseText);
+            },
+        });
+       
     },
     error: function (errormessage) {
       alert(errormessage.responseText);
     },
   });
+}
+
+// Function to get holidays and weekends
+function getHolidaysAndWeekends(year, month) {
+    const holidays = [];
+    const weekends = [];
+
+    // Get holidays
+    //$.ajax({
+    //    url: "https://localhost:7177/api/MasterHoliday",
+    //    type: "GET",
+    //    contentType: "application/json",
+    //    headers: {
+    //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    //    },
+    //    async: false, // Make the AJAX call synchronous
+    //    success: function (result) {
+    //        const allHolidays = result.data;
+    //        allHolidays.forEach(function (holiday) {
+    //            if (holiday.date.startsWith(year + "-" + month)) {
+    //                holidays.push(new Date(holiday.date));
+    //            }
+    //        });
+    //    },
+    //    error: function (errormessage) {
+    //        alert(errormessage.responseText);
+    //    },
+    //});
+
+    // Get weekends
+    const startDate = new Date(year, month - 1, 1); // First day of the month
+    const endDate = new Date(year, month, 0); // Last day of the month
+
+    for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+        if (date.getDay() === 0 || date.getDay() === 6) {
+            weekends.push(new Date(date));
+        }
+    }
+
+    return {
+        holidays: holidays,
+        weekends: weekends,
+    };
 }
 
 function clearScreen() {

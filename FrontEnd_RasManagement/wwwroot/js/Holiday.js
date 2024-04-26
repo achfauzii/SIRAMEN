@@ -261,7 +261,7 @@ async function generateHoliday() {
 
     $("#loader").hide();
     Swal.fire({
-        title: "The Internet?",
+        title: "Holiday Generated!",
         html: `${successInsert} Berhasil, ${failedInsert} Gagal, ${existingDate} Telah Ada`,
         icon: "info"
     });
@@ -386,8 +386,6 @@ function ClearScreen() {
 }
 
 function GetById(holiday_Id) {
-    debugger;
-
     ClearScreen();
     $.ajax({
         url: "https://localhost:7177/api/MasterHoliday/" + holiday_Id,
@@ -443,8 +441,6 @@ function Update() {
     Holiday.date = $("#HolidayDate").val();
     Holiday.description = $("#Description").val();
 
-    //console.log(Holiday);
-    //console.log(initialHoliday);
     if (Holiday.name == initialHoliday.HolidayName &&
         Holiday.date == initialHoliday.HolidayDate &&
         Holiday.description == initialHoliday.Description){
@@ -459,50 +455,60 @@ function Update() {
         $("#tbDataHoliday").DataTable().ajax.reload();
         return;
     }
+    let cond = 0;
     $.ajax({
         type: "GET",
         url: "https://localhost:7177/api/MasterHoliday/getHolidayByDate?date=" + Holiday.date,
         contentType: "application/json; charset=utf-8",
+        async:false,
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (data) {
-            $.ajax({
-                type: "PUT",
-                url: "https://localhost:7177/api/MasterHoliday",
-                data: JSON.stringify(Holiday),
-                contentType: "application/json; charset=utf-8",
-                headers: {
-                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
-                },
-            }).then((result) => {
-                if (result.status == 200) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success...",
-                        text: "Data has been update!",
-                        showConfirmButtom: false,
-                        timer: 2000,
-                    });
-                    const logMessage = `Update holiday ${Holiday.name} date ${Holiday.date} ID:${Holiday.holiday_Id}`
-                    SaveLogUpdate(logMessage);
-                    $("#Modal").modal("hide");
-                    $("#tbDataHoliday").DataTable().ajax.reload();
-                } else {
-                    alert("Data Failed to Update");
-                }
-            });
+            cond+=1
         },
         error: function (err) {
-            Swal.fire({
-                icon: "warning",
-                title: "Date Existing!!",
-                showConfirmButtom: false,
-                timer: 1500,
-            });
+            if (err.responseJSON.search === 1 && Holiday.date === initialHoliday.HolidayDate) {
+                cond+=1
+            }
+            
         }
 
     })
+    if (cond > 0) {
+        $.ajax({
+            type: "PUT",
+            url: "https://localhost:7177/api/MasterHoliday",
+            data: JSON.stringify(Holiday),
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+        }).then((result) => {
+            if (result.status == 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success...",
+                    text: "Data has been update!",
+                    showConfirmButtom: false,
+                    timer: 2000,
+                });
+                const logMessage = `Update holiday ${Holiday.name} date ${Holiday.date} ID:${Holiday.holiday_Id}`
+                SaveLogUpdate(logMessage);
+                $("#Modal").modal("hide");
+                $("#tbDataHoliday").DataTable().ajax.reload();
+            } else {
+                alert("Data Failed to Update");
+            }
+        });
+    } else {
+        Swal.fire({
+            icon: "warning",
+            title: "Date Existing!!",
+            showConfirmButtom: false,
+            timer: 1500,
+        });
+    }
     
 }
 
