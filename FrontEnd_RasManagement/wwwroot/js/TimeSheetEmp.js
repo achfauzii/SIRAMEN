@@ -525,7 +525,7 @@ function save() {
     if (!isValid) {
         return;
     }
-
+    var check = true;
     var TimeSheet = new Object();
     TimeSheet.Date = $("#inputDate").val();
     TimeSheet.Flag = $("#flag").val();
@@ -585,7 +585,7 @@ function save() {
         TimeSheet.Status = $("#status").val();
     }
  
-  
+    console.log(isValid, check);    
     if (!check) {
   
         return;
