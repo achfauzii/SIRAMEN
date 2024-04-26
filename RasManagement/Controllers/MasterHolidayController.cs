@@ -41,7 +41,7 @@ namespace RasManagement.Controllers
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK});
             }
-            return StatusCode(404, new { status = HttpStatusCode.NotFound , search = date});
+            return StatusCode(404, new { status = HttpStatusCode.NotFound , search = get.Count()});
         }
 
         [HttpGet("checkHoliday")]
