@@ -32,7 +32,7 @@ $(document).ready(function () {
     // Condition untuk Flag Sick or Leave
     $("#flag").on("change", function () {
         var value = this.value;
-        if (value == "Sick" || value == "Leave") {
+        if (value == "Sick" || value == "Leave" || value == "On Leave") {
             $("#activity").attr("disabled", "true");
             $("#category").attr("disabled", "true");
             $("#status").attr("disabled", "true");
