@@ -563,7 +563,7 @@ function save() {
                     Swal.fire({
                         icon: "success",
                         title: "Data overtime has been added!",
-                        timer: 2500,
+                       
                         html:
                             TimeSheet.statusApproval = "On Progress"
                                 ? "Please wait for the admin to approve the overtime request"
