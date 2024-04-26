@@ -206,7 +206,8 @@ $(document).ready(function () {
                 $(row).css('background-color', '#EADFB4');
                 $(row).find('.fa-edit').hide();
             }
-        }
+        },
+      
     });
 
     //addRowHoliday();
@@ -498,6 +499,8 @@ function Update() {
     });
 }
 
+
+
 function save() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
@@ -552,6 +555,7 @@ function save() {
                 //$("#timeSheetModal").modal("hide");
                 if (data.isHoliday == true || dayOfWeek === 6 || dayOfWeek === 0) {
 
+                
 
                     Swal.fire({
                         icon: "warning",
@@ -609,20 +613,23 @@ function save() {
             },
             success: function (response) {
                 if (response.status === 200) {
-                    location.reload();
+                    var formattedDate = moment(TimeSheet.Dtae).format("MMMM D, YYYY");
+                    $("#timeSheetModal").modal("hide");
                     Swal.fire({
                         icon: "success",
                         title: "Data overtime has been added!",
-                        timer:5000,
+                        timer:8000,
                         html:
                             TimeSheet.statusApproval = "On Progress"
-                                ? "Please wait for the admin to approve the overtime request"
+                                ? `You fill in the overtime timesheet on ${formattedDate}`
                                 : "",
                         showConfirmButton: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
                     });
-                    $("#timeSheetModal").modal("hide");
-                    /*table.ajax.reload();*/
-                    location.reload;
+                  
                     addRowHoliday();
                     addRowApproval();
                 }
@@ -665,20 +672,22 @@ function save() {
                         },
                         success: function (response) {
                             if (response.status === 200) {
-                                location.reload();
+                                var formattedDate = moment(TimeSheet.Dtae).format("MMMM D, YYYY");
+                                $("#timeSheetModal").modal("hide");
                                 Swal.fire({
                                     icon: "success",
                                     title: "Data overtime has been added!",
-                                    timer: 4500,
+                                    timer: 8000,
                                     html:
                                         TimeSheet.statusApproval = "On Progress"
-                                            ? "Please wait for the admin to approve the overtime request"
+                                            ? `You fill in the overtime timesheet on ${formattedDate}`
                                             : "",
                                     showConfirmButton: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
                                 });
-                                $("#timeSheetModal").modal("hide");
-                                /*table.ajax.reload();*/
-                                location.reload;
                                 addRowHoliday();
                                 addRowApproval();
                             }
