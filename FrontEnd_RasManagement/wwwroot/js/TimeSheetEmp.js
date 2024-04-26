@@ -312,7 +312,7 @@ function getById(Id) {
 
             $(".required").remove();
             var value = obj.flag;
-            if (value == "Sick" || value == "Leave") {
+            if (value == "Sick" || value == "Leave" || value == "On Leave") {
                 $("#activity").attr("disabled", "true");
                 $("#category").attr("disabled", "true");
                 $("#status").attr("disabled", "true");
