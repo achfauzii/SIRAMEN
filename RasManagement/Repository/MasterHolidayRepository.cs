@@ -17,5 +17,15 @@
 
             return holidaysAccount;
         }*/
+
+        public IEnumerable<MasterHoliday> getHolidayByDate(DateTime date)
+        {
+            return context.MasterHolidays.Where(e => e.Date == date);
+        }
+
+        public bool CheckHolidayByDate(DateTime date)
+        {
+            return context.MasterHolidays.Any(e => e.Date == date);
+        }
     }
 }

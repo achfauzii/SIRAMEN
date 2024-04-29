@@ -256,6 +256,7 @@ function Update() {
             success: function (result) {
                 if (result.status == 200) {
                     // Jika berhasil, lanjutkan dengan update data Approval
+                 
                     updateApproval(Approval);
                 } else {
                     // Tampilkan pesan error jika gagal

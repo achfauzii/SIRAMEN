@@ -7,9 +7,17 @@ namespace FrontEnd_RasManagement.Services
     {
         public static void SetToken(HttpContext httpContext, string token)
         {
-            if (httpContext.Session.GetString("Token") == null)
+            if (string.IsNullOrEmpty(httpContext.Session.GetString("Token")))
             {
-                httpContext.Session.SetString("Token", token);
+                var tokenFromLocalStorage = httpContext.Request.Cookies["Token"];
+                if (!string.IsNullOrEmpty(tokenFromLocalStorage))
+                {
+                    httpContext.Session.SetString("Token", tokenFromLocalStorage);
+                }
+                else
+                {
+                    httpContext.Session.SetString("Token", token);
+                }
             }
         }
 

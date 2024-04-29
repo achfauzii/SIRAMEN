@@ -311,37 +311,40 @@
                                     <div class="form-group">
                                         <label for="gender">Gender:</label>
                                         <select type="text" class="form-control" id="editGender" name="gender" required>
-                                            <option>Male</option>
-                                            <option>Female</option>
+                                            <option disabled selected value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
                                         </select>
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="religion">Religion:</label>
-                                        <select type="text" class="form-control" id="editReligion" placeholder="Type Religion" name="religion" required>
-                                            <option disabled>Select Religion</option>
-                                            <option>Islam</option>
-                                            <option>Protestan</option>
-                                            <option>Katolik</option>
-                                            <option>Hindu</option>
-                                            <option>Buddha</option>
-                                            <option>Khonghucu</option>
+                                        <select type="text" class="form-control" id="editReligion" name="religion" required>
+                                            <option disabled selected value="">Select Religion</option>
+                                            <option value="Islam">Islam</option>
+                                            <option value="">Protestan</option>
+                                            <option value="Protestan">Katolik</option>
+                                            <option value="Hindu">Hindu</option>
+                                            <option value="Buddha">Buddha</option>
+                                            <option value="Khonghucu">Khonghucu</option>
                                         </select>
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="martialStatus">Marital Status:</label>
                                         <select type="text" class="form-control" id="editMartialStatus" name="martialStatus" required>
-                                            <option>Single</option>
-                                            <option>Married</option>
-                                            <option>Widow</option>
-                                            <option>Widower</option>
+                                            <option disabled selected value="">Select Status</option>
+                                            <option value="Single">Single</option>
+                                            <option value="Married">Married</option>
+                                            <option value="Widow">Widow</option>
+                                            <option value="Widower">Widower</option>
                                         </select>
                                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="nationality">Nationality:</label>
                                         <select type="text" class="form-control" id="editNationality" name="nationality" required>
+                                            <option disabled selected value="">Select Nationality</option>
                                             <option value="WNI">WNI (Warga Negara Indonesia)</option>
                                             <option value="WNA">WNA (Warga Negara Asing)</option>
                                         </select>

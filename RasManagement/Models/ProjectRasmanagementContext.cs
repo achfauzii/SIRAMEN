@@ -640,7 +640,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.Flag)
-                .HasMaxLength(5)
+                .HasMaxLength(25)
                 .IsUnicode(false);
             entity.Property(e => e.KnownBy)
                 .HasMaxLength(50)

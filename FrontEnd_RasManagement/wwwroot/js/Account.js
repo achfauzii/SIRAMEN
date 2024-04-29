@@ -27,7 +27,8 @@
       const json = await response.json();
 
       if (response.ok) {
-        var token = json.data;
+          var token = json.data;
+        localStorage.setItem("Token", token);
         sessionStorage.setItem("Token", token);
         var decodedToken = parseJwt(token);
 
@@ -183,6 +184,7 @@ function Logout() {
     }
 
     sessionStorage.removeItem("Token"); //Remove Session
+    localStorage.removeItem("Token");
     window.location.href = "https://localhost:7109/"; //Kembali Ke halaman Awal
 }
 

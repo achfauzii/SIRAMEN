@@ -448,7 +448,7 @@ function Save() {
     var selectedResource = $("#resource").val();
     var selectedClient = $("#client").val();
     var selectedIntStatus = $("#intStatus").val();
-
+ 
     if (!selectedResource) {
         $(".selectedResource").closest(".form-group").find(".error-message").show();
         isValid = false;
@@ -457,10 +457,10 @@ function Save() {
     }
 
     if (!selectedClient) {
-        $(".client").closest(".col").find(".error-message").show();
+        $(".selectedClient").closest(".col").find(".error-message").show();
         isValid = false;
     } else {
-        $(".client").closest(".col").find(".error-message").hide();
+        $(".selectedClient").closest(".col").find(".error-message").hide();
     }
 
     if (!selectedIntStatus) {
@@ -606,7 +606,7 @@ function GetById(trackingId) {
 }
 
 function Update() {
-  debugger;
+
   var isValid = true;
 
   $("input[required],select[required],textarea[required]").each(function () {
@@ -621,11 +621,12 @@ function Update() {
 
   if (!isValid) {
     return;
-  }
+    }
+
 
   var intDateArray = document.getElementsByClassName("intDate");
   var intStatusArray = document.getElementsByClassName("intStatus");
-
+ 
   var intDate = "";
   var intStatus = "";
   for (var i = 0; i < intDateArray.length; i += 1) {
@@ -651,7 +652,7 @@ function Update() {
   TrackingInterview.intvwDate = intDate.substr(0, intDate.length - 4);
   TrackingInterview.intvwStatus = intStatus.substr(0, intStatus.length - 4);
   TrackingInterview.notes = $("#notes").val();
-
+    
   var candidateName = $("#resource option:selected").text();
   if (candidateName.substr(0, 3) == "RAS") {
     candidateName = candidateName.substr(6);
@@ -674,7 +675,9 @@ function Update() {
       title: "No Changes Detected",
       text: "No data has been changed.",
     });
-    $("#trackingModal").modal("hide");
+      $("#trackingModal").modal("hide");
+      clearScreen();
+      
     return;
   }
   $.ajax({
@@ -687,13 +690,13 @@ function Update() {
     },
   }).then((result) => {
     if (result.status == 200) {
-      const logMessage = `Has added tracking interview for ${candidateName}`;
+      const logMessage = `Has update tracking interview for ${candidateName}`;
       SaveLogUpdate(logMessage);
 
       Swal.fire({
         icon: "success",
         title: "Success...",
-        text: "Data has been added!",
+        text: "Data has been change!",
         showConfirmButtom: false,
         timer: 1500,
       });

@@ -197,6 +197,10 @@ function handleInput(event, input) {
 //}
 
 function GetById(id) {
+    $("#Modal input[required-client]").each(function () {
+        var element = $(this);
+            element.next(".error-message").hide();
+    });
     $.ajax({
         url: "https://localhost:7177/api/ClientName/" + id,
         type: "GET",
@@ -226,7 +230,7 @@ function GetById(id) {
 function Update() {
     var isValid = true;
 
-    $("input[required]").each(function () {
+    $("#Modal input[required-client]").each(function () {
         var element = $(this);
         if (!element.val()) {
             element.next(".error-message").show();
@@ -237,6 +241,7 @@ function Update() {
     });
 
     if (!isValid) {
+        console.log(isValid)
         return;
     }
 
