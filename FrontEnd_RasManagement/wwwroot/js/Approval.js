@@ -4,7 +4,9 @@ var accountId;
 var table;
 
 $(document).ready(function () {
+
     tableApproval();
+
 });
 
 function GetById(Id) {
@@ -89,7 +91,7 @@ function GetById(Id) {
             $("#statusApproval").val(obj.statusApproval).attr(obj.statusApproval);
             $("#ApprovalModal").modal("show");
             $("#Update").show();
-     
+
             $(".required").remove();
 
             $("#ApprovalModal").modal("show");
@@ -103,19 +105,24 @@ function GetById(Id) {
 }
 
 function Update() {
+    debugger;
     var placementStatusId = $("#lastPlacementId").val();
     var Approval = new Object();
+    var flag = $("#flag").val();
+    var OT = "Overtime ";
+    var newValue = OT + flag;
     Approval.Id = $("#approvalId").val();
     Approval.Date = $("#inputDate").val();
     Approval.Activity = $("#activity").val();
-    Approval.Flag = $("#flag").val();
+    Approval.Flag = newValue;
+    /*Approval.Flag = $("#flag").val();*/
     Approval.Category = $("#category").val();
     Approval.Status = $("#status").val();
     Approval.KnownBy = $("#knownBy").val();
     Approval.StatusApproval = $("#statusApproval").val();
     Approval.placementStatusId = placementStatusId;
     Approval.accountId = $("#accountId").val()
- 
+
 
     //console.log(Approval);
     // Check apakah Status Approval berubah dari On Progress menjadi Approve
@@ -133,6 +140,7 @@ function Update() {
             accountId: Approval.accountId
         };
 
+
         // Kirim data ke endpoint API TimeSheet
         $.ajax({
             url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
@@ -143,13 +151,15 @@ function Update() {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
             success: function (result) {
+                console.log(result);
                 if (result.status == 200) {
                     // Jika berhasil, lanjutkan dengan update data Approval
-                 
+
                     updateApproval(Approval);
                 } else {
                     // Tampilkan pesan error jika gagal
                     Swal.fire("Error!", "Failed to add timesheet", "error");
+
                 }
             },
             error: function () {
@@ -165,7 +175,7 @@ function Update() {
 
 // Fungsi untuk mengirim data Approval ke endpoint API Approval untuk diupdate
 function updateApproval(Approval) {
-
+    console.log(Approval);
     $.ajax({
         url: "https://localhost:7177/api/Approval",
         type: "PUT",
