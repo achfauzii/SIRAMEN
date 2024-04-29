@@ -674,7 +674,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.Flag)
-                .HasMaxLength(5)
+                .HasMaxLength(25)
                 .IsUnicode(false);
             entity.Property(e => e.KnownBy)
                 .HasMaxLength(50)
@@ -703,10 +703,10 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.HasKey(e => e.Holiday_Id);
             entity.ToTable("MasterHoliday");
 
-           /* entity.Property(e => e.AccountId)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Account_Id");*/
+            /* entity.Property(e => e.AccountId)
+                 .HasMaxLength(50)
+                 .IsUnicode(false)
+                 .HasColumnName("Account_Id");*/
             entity.Property(e => e.Name).IsUnicode(false);
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.Description).IsUnicode(false);
