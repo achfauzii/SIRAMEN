@@ -389,26 +389,26 @@ document.getElementById("historyApproval").onclick = function (event) {
             { data: "status" },
             { data: "knownBy" },
             { data: "statusApproval" },
-            {
-                // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
-                data: null,
-                render: function (data, type, row) {
-                    var modalId = "modal-edit-" + data.id;
+            //{
+            //    // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
+            //    data: null,
+            //    render: function (data, type, row) {
+            //        var modalId = "modal-edit-" + data.id;
 
-                    return (
-                        '<a class="text-warning ' +
-                        '" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-                        row.id +
-                        ')"><i class="fa fa-edit edit-client"></i></a>' +
-                        "&nbsp;"
-                    );
-                },
-            },
+            //        return (
+            //            '<a class="text-warning ' +
+            //            '" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+            //            row.id +
+            //            ')"><i class="fa fa-edit edit-client"></i></a>' +
+            //            "&nbsp;"
+            //        );
+            //    },
+            //},
         ],
-        order: [[1, "asc"]],
+        order: [[2, "desc"]],
         columnDefs: [
             {
-                targets: [0, 2, 3, 4, 5, 6, 7, 8, 9],
+                targets: [0, 3, 4, 5, 6, 7, 8],
                 orderable: false,
             },
         ],
@@ -443,7 +443,7 @@ function tableApproval() {
 
     table = $("#ApprovalTable").DataTable({
         scrollX: true,
-        order: [1, "asc"],
+        order: [2, "desc"],
         ajax: {
             url:
                 "https://localhost:7177/api/Approval",
@@ -525,10 +525,10 @@ function tableApproval() {
                 },
             },
         ],
-        order: [[1, "asc"]],
+   
         columnDefs: [
             {
-                targets: [0, 2, 3, 4, 5, 6, 7, 8],
+                targets: [0, 3, 4, 5, 6, 7, 8],
                 orderable: false,
             },
         ],
@@ -542,18 +542,18 @@ function tableApproval() {
         //        $(row).hide();
         //    }
         //},
-        //drawCallback: function (settings) {
-        //    var api = this.api();
-        //    var rows = api.rows({ page: "current" }).nodes();
-        //    var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-        //    var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+        drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
 
-        //    api
-        //        .column(0, { page: "current" })
-        //        .nodes()
-        //        .each(function (cell, i) {
-        //            cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-        //        });
-        //},
+            api
+                .column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },
     });
 };
