@@ -69,6 +69,7 @@ $(document).ready(function () {
             { data: "status" },
             { data: "knownBy" },
             { data: "statusApproval" },
+            { data: "notes" },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 data: null,
@@ -198,6 +199,8 @@ function GetById(Id) {
             $("#knownBy").val(obj.knownBy).attr(obj.knownBy);
             $("#knownBy").prop('disabled', true);
             $("#statusApproval").val(obj.statusApproval).attr(obj.statusApproval);
+            $("#notes").val(obj.notes);
+            $("#notes").prop('disabled', false);
             $("#ApprovalModal").modal("show");
             $("#Update").show();
      
@@ -226,6 +229,7 @@ function Update() {
     Approval.StatusApproval = $("#statusApproval").val();
     Approval.placementStatusId = placementStatusId;
     Approval.accountId = $("#accountId").val()
+    Approval.notes = $('#notes').val()
  
 
     //console.log(Approval);
@@ -373,7 +377,6 @@ function clearScreen() {
     document.getElementById("category").selectedIndex = 0;
     document.getElementById("status").selectedIndex = 0;
     $("#knownBy").val("");
-
     $("#Update").hide();
     $("#Save").show();
 }
