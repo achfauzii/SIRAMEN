@@ -4,119 +4,8 @@ var accountId;
 var table;
 
 $(document).ready(function () {
-    var urlParams = new URLSearchParams(window.location.search);
-    accountId = urlParams.get("accountId");
 
-    table = $("#ApprovalTable").DataTable({
-        scrollX: true,
-        order: [1, "asc"],
-        ajax: {
-            url:
-                "https://localhost:7177/api/Approval",
-            type: "GET",
-            contentType: "application/json",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            
-        },
-        columns: [
-            {
-                data: null,
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
-                },
-            },
-            {
-                data: "accountId",
-                render: function (data) {
-                    let name = null;
-                    $.ajax({
-                        url: "https://localhost:7177/api/Employees/accountId?accountId=" + data,
-                        type: "GET",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        async: false,
-                        headers: {
-                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-                        },
-                        success: function (employeeResult) {
-                            name = employeeResult.data.result.fullname ?? ""
-                        },
-                        error: function (errormessage) {
-                            name = ""
-                        }
-                    })
-                    return name
-                }
-            },
-
-            
-            {
-                data: "date",
-                render: function (data) {
-                    var dateObj = new Date(data);
-                    var day = dateObj.getDate();
-                    var month = dateObj.getMonth() + 1;
-                    var year = dateObj.getFullYear();
-                    var formatDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
-                    return formatDate;
-                }
-            },
-            { data: "activity" },
-            { data: "flag" },
-            { data: "category" },
-            { data: "status" },
-            { data: "knownBy" },
-            { data: "statusApproval" },
-            { data: "notes" },
-            {
-                // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
-                data: null,
-                render: function (data, type, row) {
-                    var modalId = "modal-edit-" + data.id;
-
-                    return (
-                        '<a class="text-warning ' +
-                        '" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-                        row.id +
-                        ')"><i class="fa fa-edit edit-client"></i></a>' +
-                        "&nbsp;"
-                    );
-                },
-            },
-        ],
-        order: [[1, "asc"]],
-        columnDefs: [
-            {
-                targets: [0, 2, 3, 4, 5, 6, 7, 8],
-                orderable: false,
-            },
-        ],
-        createdRow: function (row, data, dataIndex) {
-            if (data.statusApproval === 'Reject') {
-                $(row).css('background-color', '#FF8080');
-                $(row).find('.fa-edit').hide();
-            }
-
-            if (data.statusApproval === 'Approve') {
-                $(row).hide();
-            }
-        },
-        drawCallback: function (settings) {
-            var api = this.api();
-            var rows = api.rows({ page: "current" }).nodes();
-            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
-
-            api
-                .column(0, { page: "current" })
-                .nodes()
-                .each(function (cell, i) {
-                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
-                });
-        },
-    });
+    tableApproval();
 });
 
 function GetById(Id) {
@@ -203,7 +92,7 @@ function GetById(Id) {
             $("#notes").prop('disabled', false);
             $("#ApprovalModal").modal("show");
             $("#Update").show();
-     
+
             $(".required").remove();
 
             $("#ApprovalModal").modal("show");
@@ -219,18 +108,24 @@ function GetById(Id) {
 function Update() {
     var placementStatusId = $("#lastPlacementId").val();
     var Approval = new Object();
+    var flag = $("#flag").val();
+    var OT = "Overtime ";
+    var newValue = OT + flag;
     Approval.Id = $("#approvalId").val();
     Approval.Date = $("#inputDate").val();
     Approval.Activity = $("#activity").val();
-    Approval.Flag = $("#flag").val();
+    Approval.Flag = newValue;
+    /*Approval.Flag = $("#flag").val();*/
     Approval.Category = $("#category").val();
     Approval.Status = $("#status").val();
     Approval.KnownBy = $("#knownBy").val();
     Approval.StatusApproval = $("#statusApproval").val();
     Approval.placementStatusId = placementStatusId;
     Approval.accountId = $("#accountId").val()
+
     Approval.notes = $('#notes').val()
  
+
 
     //console.log(Approval);
     // Check apakah Status Approval berubah dari On Progress menjadi Approve
@@ -248,6 +143,7 @@ function Update() {
             accountId: Approval.accountId
         };
 
+
         // Kirim data ke endpoint API TimeSheet
         $.ajax({
             url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
@@ -258,13 +154,15 @@ function Update() {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
             success: function (result) {
+                console.log(result);
                 if (result.status == 200) {
                     // Jika berhasil, lanjutkan dengan update data Approval
-                 
+
                     updateApproval(Approval);
                 } else {
                     // Tampilkan pesan error jika gagal
                     Swal.fire("Error!", "Failed to add timesheet", "error");
+
                 }
             },
             error: function () {
@@ -280,7 +178,7 @@ function Update() {
 
 // Fungsi untuk mengirim data Approval ke endpoint API Approval untuk diupdate
 function updateApproval(Approval) {
-
+    console.log(Approval);
     $.ajax({
         url: "https://localhost:7177/api/Approval",
         type: "PUT",
@@ -396,3 +294,289 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 }
+
+
+
+document.getElementById("needApproval").onclick = function (event) {
+
+    var needApprov = document.getElementById("needApproval");
+    var historyApprov = document.getElementById("historyApproval");
+
+    needApprov.classList.add("active");
+    historyApprov.classList.remove("active");
+    event.preventDefault(); // Mencegah perpindahan halaman ketika tautan diklik
+
+    tableApproval();
+
+
+
+};
+
+
+document.getElementById("historyApproval").onclick = function (event) {
+
+    var needApprov = document.getElementById("needApproval");
+    var historyApprov = document.getElementById("historyApproval");
+
+    needApprov.classList.remove("active");
+    historyApprov.classList.add("active");
+    event.preventDefault(); // Mencegah perpindahan halaman ketika tautan diklik
+
+
+
+    var urlParams = new URLSearchParams(window.location.search);
+    accountId = urlParams.get("accountId");
+
+    // Hancurkan atau bersihkan tabel sebelum menginisialisasi kembali
+    if ($.fn.DataTable.isDataTable('#ApprovalTable')) {
+        $('#ApprovalTable').DataTable().destroy();
+    }
+
+    table = $("#ApprovalTable").DataTable({
+        scrollX: true,
+        order: [1, "asc"],
+        ajax: {
+            url:
+                "https://localhost:7177/api/Approval",
+            type: "GET",
+            contentType: "application/json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            dataSrc: function (json) {
+                // Menghapus data dengan status "On Progress"
+                return json.data.filter(function (item) {
+                    return item.statusApproval !== "On Progress";
+                });
+            },
+
+        },
+
+        columns: [
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                },
+            },
+            {
+                data: "accountId",
+                render: function (data) {
+                    let name = null;
+                    $.ajax({
+                        url: "https://localhost:7177/api/Employees/accountId?accountId=" + data,
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                        },
+                        success: function (employeeResult) {
+                            name = employeeResult.data.result.fullname ?? ""
+                        },
+                        error: function (errormessage) {
+                            name = ""
+                        }
+                    })
+                    return name
+                }
+            },
+
+
+            {
+                data: "date",
+                render: function (data) {
+                    var dateObj = new Date(data);
+                    var day = dateObj.getDate();
+                    var month = dateObj.getMonth() + 1;
+                    var year = dateObj.getFullYear();
+                    var formatDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+                    return formatDate;
+                }
+            },
+            { data: "activity" },
+            { data: "flag" },
+            { data: "category" },
+            { data: "status" },
+            { data: "knownBy" },
+            { data: "statusApproval" },
+            { data: "notes" },
+            { data: null}
+           
+            //{
+            //    // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
+            //    data: null,
+            //    render: function (data, type, row) {
+            //        var modalId = "modal-edit-" + data.id;
+
+            //        return (
+            //            '<a class="text-warning ' +
+            //            '" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+            //            row.id +
+            //            ')"><i class="fa fa-edit edit-client"></i></a>' +
+            //            "&nbsp;"
+            //        );
+            //    },
+            //},
+        ],
+        order: [[2, "desc"]],
+        columnDefs: [
+            {
+                targets: [0, 3, 4, 5, 6, 7, 8,9],
+                orderable: false,
+            },
+            {
+                target: 10,
+                visible: false,
+                searchable: false
+            },
+        ],
+        createdRow: function (row, data, dataIndex) {
+
+        },
+        drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+            api
+                .column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },
+    });
+
+    table.column(10).visible(false);
+};
+
+
+function tableApproval() {
+    var urlParams = new URLSearchParams(window.location.search);
+    accountId = urlParams.get("accountId");
+
+    // Hancurkan atau bersihkan tabel sebelum menginisialisasi kembali
+    if ($.fn.DataTable.isDataTable('#ApprovalTable')) {
+        $('#ApprovalTable').DataTable().destroy();
+    }
+
+    table = $("#ApprovalTable").DataTable({
+        scrollX: true,
+        order: [2, "desc"],
+        ajax: {
+            url:
+                "https://localhost:7177/api/Approval",
+            type: "GET",
+            contentType: "application/json",
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("Token"),
+            },
+            dataSrc: function (json) {
+                // Menghapus data dengan status "On Progress"
+                return json.data.filter(function (item) {
+                    return item.statusApproval == "On Progress";
+                });
+            },
+
+        },
+        columns: [
+            {
+                data: null,
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                },
+            },
+            {
+                data: "accountId",
+                render: function (data) {
+                    let name = null;
+                    $.ajax({
+                        url: "https://localhost:7177/api/Employees/accountId?accountId=" + data,
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        async: false,
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                        },
+                        success: function (employeeResult) {
+                            name = employeeResult.data.result.fullname ?? ""
+                        },
+                        error: function (errormessage) {
+                            name = ""
+                        }
+                    })
+                    return name
+                }
+            },
+
+
+            {
+                data: "date",
+                render: function (data) {
+                    var dateObj = new Date(data);
+                    var day = dateObj.getDate();
+                    var month = dateObj.getMonth() + 1;
+                    var year = dateObj.getFullYear();
+                    var formatDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+                    return formatDate;
+                }
+            },
+            { data: "activity" },
+            { data: "flag" },
+            { data: "category" },
+            { data: "status" },
+            { data: "knownBy" },
+            { data: "statusApproval" },
+            { data: "notes" },
+            {
+                // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
+                data: null,
+                render: function (data, type, row) {
+                    var modalId = "modal-edit-" + data.id;
+
+                    return (
+                        '<a class="text-warning ' +
+                        '" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+                        row.id +
+                        ')"><i class="fa fa-edit edit-client"></i></a>' +
+                        "&nbsp;"
+                    );
+                },
+            },
+        ],
+
+        columnDefs: [
+            {
+                targets: [0, 3, 4, 5, 6, 7, 8, 9, 10],
+                orderable: false,
+            },
+        ],
+        //createdRow: function (row, data, dataIndex) {
+        //    if (data.statusApproval === 'Reject') {
+        //        $(row).css('background-color', '#FF8080');
+        //        $(row).find('.fa-edit').hide();
+        //    }
+
+        //    if (data.statusApproval === 'Approve') {
+        //        $(row).hide();
+        //    }
+        //},
+        drawCallback: function (settings) {
+            var api = this.api();
+            var rows = api.rows({ page: "current" }).nodes();
+            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
+            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+
+            api
+                .column(0, { page: "current" })
+                .nodes()
+                .each(function (cell, i) {
+                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                });
+        },
+    });
+};
