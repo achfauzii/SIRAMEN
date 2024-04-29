@@ -78,7 +78,7 @@ namespace RasManagement.Repository
                                .Where(p => p.Id == group.First().PlacementStatus.PositionId)
                                .Select(p => p.PositionClient)
                                .FirstOrDefault(),
-                        TimeSheets = group .OrderBy(ts => ts.Date)
+                        TimeSheets = group.OrderBy(ts => ts.Date)
                         .Select(ts => new
                         {
                             TimeSheetId = ts.Id,
@@ -87,19 +87,19 @@ namespace RasManagement.Repository
                             Status = ts.Status,
                             Date = ts.Date,
                             Flag = ts.Flag,
-                            KnownBy= ts.KnownBy,
-                      /*      IsHoliday = false, // Initialize as false by default
-                            HolidayName = ""*/
+                            KnownBy = ts.KnownBy,
+                            /*      IsHoliday = false, // Initialize as false by default
+                                  HolidayName = ""*/
                         }),
 
                     })
                     .ToListAsync();
 
                 // Step 3: Get holidays for the target month
-      /*          var holidays = await context.MasterHolidays
-                    .Where(h => h.Date.Value.Month == targetDate.Month && h.Date.Value.Year == targetDate.Year)
-                    .Select(h => h.Date)
-                    .ToListAsync();*/
+                /*          var holidays = await context.MasterHolidays
+                              .Where(h => h.Date.Value.Month == targetDate.Month && h.Date.Value.Year == targetDate.Year)
+                              .Select(h => h.Date)
+                              .ToListAsync();*/
                 return result;
             }
             catch (Exception ex)
@@ -362,6 +362,10 @@ namespace RasManagement.Repository
                     return "#f56954"; // Red
                 case "Leave":
                     return "#6c757d"; // Grey
+                case "Overtime WFO":
+                    return "#CB0DFE"; // Purple
+                case "Overtime WFH":
+                    return "#11B24C"; // Drak Green
                 default:
                     return "#ffffff"; // White
             }
@@ -525,7 +529,7 @@ namespace RasManagement.Repository
                         Pic_RAS = group.First().PlacementStatus.PicRas,
                         WFHCount = group.Where(ts => ts.Flag == "WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFH
                         WFOCount = group.Where(ts => ts.Flag == "WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFO
-                      
+
                         Position = context.Positions
                                .Where(p => p.Id == group.First().PlacementStatus.PositionId)
                                .Select(p => p.PositionClient)
