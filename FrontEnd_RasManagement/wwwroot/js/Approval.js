@@ -389,6 +389,8 @@ document.getElementById("historyApproval").onclick = function (event) {
             { data: "status" },
             { data: "knownBy" },
             { data: "statusApproval" },
+            { data: null}
+           
             //{
             //    // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
             //    data: null,
@@ -411,6 +413,11 @@ document.getElementById("historyApproval").onclick = function (event) {
                 targets: [0, 3, 4, 5, 6, 7, 8],
                 orderable: false,
             },
+            {
+                target: 9,
+                visible: false,
+                searchable: false
+            },
         ],
         createdRow: function (row, data, dataIndex) {
           
@@ -429,6 +436,8 @@ document.getElementById("historyApproval").onclick = function (event) {
                 });
         },
     });
+
+    table.column(9).visible(false);
 };
 
 
