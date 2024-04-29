@@ -310,7 +310,7 @@ namespace FrontEnd_RasManagement.Controllers
                 }
 
                 document.Close(); // Tutup dokumen di sini setelah selesai menghasilkan konten
-                return File(memoryStream.ToArray(), "application/pdf", $"Recaptimesheet_{companyName}.pdf");
+                return File(memoryStream.ToArray(), "application/pdf", $"Recaptimesheet_{companyName}_{month}.pdf");
             }
             else
             {
@@ -624,7 +624,7 @@ namespace FrontEnd_RasManagement.Controllers
                 }
 
                 document.Close(); // Tutup dokumen di sini setelah selesai menghasilkan konten
-                return File(memoryStream.ToArray(), "application/pdf", $"{name}_TimeSheet({companyName}).pdf");
+                return File(memoryStream.ToArray(), "application/pdf", $"{name}_TimeSheet({companyName}_{month}).pdf");
             }
             else
             {
