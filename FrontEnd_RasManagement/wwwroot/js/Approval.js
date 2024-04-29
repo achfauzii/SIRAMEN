@@ -6,7 +6,6 @@ var table;
 $(document).ready(function () {
 
     tableApproval();
-
 });
 
 function GetById(Id) {
@@ -89,6 +88,8 @@ function GetById(Id) {
             $("#knownBy").val(obj.knownBy).attr(obj.knownBy);
             $("#knownBy").prop('disabled', true);
             $("#statusApproval").val(obj.statusApproval).attr(obj.statusApproval);
+            $("#notes").val(obj.notes);
+            $("#notes").prop('disabled', false);
             $("#ApprovalModal").modal("show");
             $("#Update").show();
 
@@ -105,7 +106,6 @@ function GetById(Id) {
 }
 
 function Update() {
-    debugger;
     var placementStatusId = $("#lastPlacementId").val();
     var Approval = new Object();
     var flag = $("#flag").val();
@@ -122,6 +122,9 @@ function Update() {
     Approval.StatusApproval = $("#statusApproval").val();
     Approval.placementStatusId = placementStatusId;
     Approval.accountId = $("#accountId").val()
+
+    Approval.notes = $('#notes').val()
+ 
 
 
     //console.log(Approval);
@@ -272,7 +275,6 @@ function clearScreen() {
     document.getElementById("category").selectedIndex = 0;
     document.getElementById("status").selectedIndex = 0;
     $("#knownBy").val("");
-
     $("#Update").hide();
     $("#Save").show();
 }
@@ -399,6 +401,7 @@ document.getElementById("historyApproval").onclick = function (event) {
             { data: "status" },
             { data: "knownBy" },
             { data: "statusApproval" },
+            { data: "notes" },
             { data: null}
            
             //{
@@ -420,11 +423,11 @@ document.getElementById("historyApproval").onclick = function (event) {
         order: [[2, "desc"]],
         columnDefs: [
             {
-                targets: [0, 3, 4, 5, 6, 7, 8],
+                targets: [0, 3, 4, 5, 6, 7, 8,9],
                 orderable: false,
             },
             {
-                target: 9,
+                target: 10,
                 visible: false,
                 searchable: false
             },
@@ -447,7 +450,7 @@ document.getElementById("historyApproval").onclick = function (event) {
         },
     });
 
-    table.column(9).visible(false);
+    table.column(10).visible(false);
 };
 
 
@@ -528,6 +531,7 @@ function tableApproval() {
             { data: "status" },
             { data: "knownBy" },
             { data: "statusApproval" },
+            { data: "notes" },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 data: null,
@@ -547,7 +551,7 @@ function tableApproval() {
 
         columnDefs: [
             {
-                targets: [0, 3, 4, 5, 6, 7, 8],
+                targets: [0, 3, 4, 5, 6, 7, 8, 9, 10],
                 orderable: false,
             },
         ],

@@ -688,6 +688,9 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Notes)
+             .HasMaxLength(255)
+             .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.Approvals)
                 .HasForeignKey(d => d.AccountId)
