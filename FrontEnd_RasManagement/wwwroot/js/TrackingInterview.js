@@ -619,14 +619,24 @@ function Update() {
     }
   });
 
-  if (!isValid) {
-    return;
-    }
+
 
 
   var intDateArray = document.getElementsByClassName("intDate");
   var intStatusArray = document.getElementsByClassName("intStatus");
- 
+
+
+    var lastStatus = intStatusArray[intStatusArray.length - 1].value;
+    var lastArrayInput = lastStatus;
+
+    if (lastArrayInput == "Choose...") {
+        isValid = false;
+        $("#errorIntStatus").show();
+    }
+
+    if (!isValid) {
+        return;
+    }
   var intDate = "";
   var intStatus = "";
   for (var i = 0; i < intDateArray.length; i += 1) {
@@ -732,7 +742,7 @@ function newProcess() {
                                         <option value="Done">Done</option>
                                         <option value="Reject">Reject</option>
                                     </select>
-                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                                <span class="error-message" id="errorIntStatus" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>`);
 }

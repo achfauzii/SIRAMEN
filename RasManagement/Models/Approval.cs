@@ -21,6 +21,7 @@ public partial class Approval
     public string? KnownBy { get; set; }
 
     public string? StatusApproval { get; set; }
+    public string? Notes { get; set; }
 
     public int? PlacementStatusId { get; set; }
 
