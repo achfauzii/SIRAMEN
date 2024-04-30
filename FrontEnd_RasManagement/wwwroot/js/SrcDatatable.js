@@ -979,7 +979,7 @@ function ClearScreenSave() {
 
         $(".error-format-ipk").hide();
     });
-
+    $("#experience_error").hide();
 
     $(".position").closest(".form-group").find(".error-message").hide();
     $(".skillset").closest(".form-group").find(".error-message").hide();
