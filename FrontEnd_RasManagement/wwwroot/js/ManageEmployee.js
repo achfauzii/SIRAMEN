@@ -881,8 +881,18 @@ function SaveTurnOver() {
   var isValid = true;
 
   // Validasi select options
-  var status = $("#Status").val();
-
+    var status = $("#Status").val();
+    var deptId = $("#deptId").val();
+    if (status == "Transfer") {
+        if (deptId == null || deptId == "") {
+            $(".selectDept")
+                .closest(".form-group")
+                .find(".error-message-dept")
+                .show();
+            isValid = false;
+        }
+ 
+    }
   if (!status) {
     $(".PlacementStatus")
       .closest(".form-group")
@@ -1232,12 +1242,15 @@ function ClearScreenPlacement() {
 }
 
 function ClearScreenChangeStatus() {
-  $("#AccountId").val("");
-  $("#Status").selectedIndex = "0";
-  $("#date").val("");
+    $("#AccountId").val("");
+
+    $("#Status").selectedIndex = "0";
+    $("#Status").val("");
+    $("#date").val("");
+   
   $("#Description").val("");
 
-  $(".error-message, .error-message-turnOver").hide();
+    $(".error-message, .error-message-turnOver, .error-message-dept").hide();
 }
 
 function Save(accountId) {
