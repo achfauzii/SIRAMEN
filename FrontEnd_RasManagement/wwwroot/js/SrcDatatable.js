@@ -993,7 +993,7 @@ function ClearScreenSave() {
     saveButton.disabled = false;
 
     // Menambahkan pesan jika diperlukan
-    saveButton.innerHTML = "Save"; // Optional: Change button text
+    saveButton.innerHTML = "Save";
 }
 
 function ClearScreenUpt() {
@@ -1332,9 +1332,15 @@ function Save() {
             }*/
     });
 
-    if (!$("#experience_year").val()) {
+    if ($("#experience_year").val() == "" || $("#experience_year").val() == null) {
         $("#experience_error").show();
+       
         isValid = false;
+        var saveButton = document.getElementById("Save");
+        saveButton.disabled = false;
+        saveButton.innerHTML = "Save";
+    } else {
+        $("#experience_error").hide();
     }
     // Validasi select options
     //var selectedRegencies = $('#selectRegencies').val();
