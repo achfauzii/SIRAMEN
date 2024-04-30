@@ -314,7 +314,7 @@
                         <label for="PlacementStatus">Change Status</label>
                         <select id="Status" class="form-select PlacementStatus" placeholder="Select Turn Over Status" required>
                             
-                            <option selected disabled>Choose Status</option>
+                            <option value="" selected disabled>Choose Status</option>
                             <option value="Blacklist">Blacklist</option>
                             <option value="Resign">Resign</option>
                             <option value="Transfer">Transfer</option>
@@ -331,6 +331,7 @@
                             <select id="deptId" class="selectDept form-select form-control" required>
                                 <option value="" disabled selected>Select Department</option>
                             </select>
+                              <span class="error-message-dept" style="color: red; display: none;">This field is required!</span>
                         </p>
                         @*<input type="number" class="form-control" id="DeptId">*@
 
