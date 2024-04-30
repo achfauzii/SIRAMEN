@@ -946,6 +946,7 @@ function Delete(NonRasId, FullName) {
 }
 
 function ClearScreenSave() {
+   
     $("#nonrasid").val("");
     $("#Name").val(""); //value insert dari id pada input
 
@@ -974,9 +975,11 @@ function ClearScreenSave() {
     $("input[required_],select[required_]").each(function () {
         var input = $(this);
         input.next(".error-message_").hide();
+        input.next(".error-message").hide();
 
         $(".error-format-ipk").hide();
     });
+    $("#experience_error").hide();
 
     $(".position").closest(".form-group").find(".error-message").hide();
     $(".skillset").closest(".form-group").find(".error-message").hide();
