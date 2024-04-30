@@ -332,7 +332,7 @@ function updateData() {
   };
 
   // Data awal
-
+    console.log(existingData.Address);
   var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
 
   // Jika tidak ada perubahan, tampilkan pesan Sweet Alert dan berhenti
@@ -349,6 +349,10 @@ function updateData() {
       input.next(".error-message").hide();
     }
   });
+    if (existingData.Address == null || existingData.Address == "") {
+        $(".error-message").show();
+        isValid = false;
+    }
   if (!validName) {
     $("#editName")
       .next(".error-message")
