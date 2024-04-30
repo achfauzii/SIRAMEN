@@ -296,54 +296,54 @@ function formatedToEnDate(tanggalIndonesia) {
 }
 
 
-function ClearScreenSave() {
-    $("#nonrasid").val("");
-    $("#Name").val(""); //value insert dari id pada input
+//function ClearScreenSave() {
+//    $("#nonrasid").val("");
+//    $("#Name").val(""); //value insert dari id pada input
 
-    $("#position").val(null).trigger("change");
-    $("#skillset").val(null).trigger("change");
-    $("#birthdate").val("");
-    $("#degree").val("");
-    $("#ipk").val("");
-    $("#UniversityName").val("");
-    $("#domicile").val("");
-    $("#age1").val("");
-    $("#level").val("");
-    $("#experience_year").val("");
-    $("#experience_month").val("");
-    $("#filteringby").val("");
-    $('input[name="nego"]').prop("checked", false);
-    $("#notice").val("");
-    $("#negotiable").prop("checked", false);
-    $("#financial").prop("checked", false);
-    $("#rawcv").val("");
-    $("#bercacv").val("");
-    $("#english").val("");
-    $("#current").val("");
-    $("#expected").val("");
-    $("#selectProvinces").val(null).trigger("change"); // Kosongkan pilihan select
-    $("#UniversityName").val("").trigger("change");
-    $("input[required_],select[required_]").each(function () {
-        var input = $(this);
-        input.next(".error-message_").hide();
+//    $("#position").val(null).trigger("change");
+//    $("#skillset").val(null).trigger("change");
+//    $("#birthdate").val("");
+//    $("#degree").val("");
+//    $("#ipk").val("");
+//    $("#UniversityName").val("");
+//    $("#domicile").val("");
+//    $("#age1").val("");
+//    $("#level").val("");
+//    $("#experience_year").val("");
+//    $("#experience_month").val("");
+//    $("#filteringby").val("");
+//    $('input[name="nego"]').prop("checked", false);
+//    $("#notice").val("");
+//    $("#negotiable").prop("checked", false);
+//    $("#financial").prop("checked", false);
+//    $("#rawcv").val("");
+//    $("#bercacv").val("");
+//    $("#english").val("");
+//    $("#current").val("");
+//    $("#expected").val("");
+//    $("#selectProvinces").val(null).trigger("change"); // Kosongkan pilihan select
+//    $("#UniversityName").val("").trigger("change");
+//    $("input[required_],select[required_]").each(function () {
+//        var input = $(this);
+//        input.next(".error-message_").hide();
 
-        $(".error-format-ipk").hide();
-    });
+//        $(".error-format-ipk").hide();
+//    });
 
-    $(".position").closest(".form-group").find(".error-message").hide();
-    $(".skillset").closest(".form-group").find(".error-message").hide();
-    //$('.selectRegencies').closest('.form-group').find('.error-message').hide();
+//    $(".position").closest(".form-group").find(".error-message").hide();
+//    $(".skillset").closest(".form-group").find(".error-message").hide();
+//    //$('.selectRegencies').closest('.form-group').find('.error-message').hide();
 
-    $(".selectUniversity").closest(".form-group").find(".error-message-u").hide();
+//    $(".selectUniversity").closest(".form-group").find(".error-message-u").hide();
 
-    var saveButton = document.getElementById("Save");
+//    var saveButton = document.getElementById("Save");
 
-    // Menonaktifkan tombol
-    saveButton.disabled = false;
+//    // Menonaktifkan tombol
+//    saveButton.disabled = false;
 
-    // Menambahkan pesan jika diperlukan
-    saveButton.innerHTML = "Save"; // Optional: Change button text
-}
+//    // Menambahkan pesan jika diperlukan
+//    saveButton.innerHTML = "Save"; // Optional: Change button text
+//}
 
 
 
@@ -376,7 +376,8 @@ document.getElementById('fileInput2').addEventListener('change', function (event
 
 
     Swal.fire({
-        title: "Check Befor Saving!",
+        title: "",
+        text:"Please verify and update any missing or incorrect data",
         icon: "warning",
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
