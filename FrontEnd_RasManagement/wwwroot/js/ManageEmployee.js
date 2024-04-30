@@ -821,6 +821,7 @@ function parseJwt(token) {
 }
 
 function GetByIdPlacement(accountId, placementStatus) {
+   ClearScreenPlacement();
   ClearScreenChangeStatus();
 
   //debugger;
@@ -881,8 +882,18 @@ function SaveTurnOver() {
   var isValid = true;
 
   // Validasi select options
-  var status = $("#Status").val();
-
+    var status = $("#Status").val();
+    var deptId = $("#deptId").val();
+    if (status == "Transfer") {
+        if (deptId == null || deptId == "") {
+            $(".selectDept")
+                .closest(".form-group")
+                .find(".error-message-dept")
+                .show();
+            isValid = false;
+        }
+ 
+    }
   if (!status) {
     $(".PlacementStatus")
       .closest(".form-group")
@@ -1232,12 +1243,15 @@ function ClearScreenPlacement() {
 }
 
 function ClearScreenChangeStatus() {
-  $("#AccountId").val("");
-  $("#Status").selectedIndex = "0";
-  $("#date").val("");
+    $("#AccountId").val("");
+
+    $("#Status").selectedIndex = "0";
+    $("#Status").val("");
+    $("#date").val("");
+   
   $("#Description").val("");
 
-  $(".error-message, .error-message-turnOver").hide();
+    $(".error-message, .error-message-turnOver, .error-message-dept").hide();
 }
 
 function Save(accountId) {
@@ -1325,7 +1339,48 @@ function Save(accountId) {
 }
 
 function Update() {
-  var placement = new Object();
+  
+    var isValid = true;
+
+    $("input[required]").each(function () {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message").show();
+            isValid = false;
+        } else {
+            input.next(".error-message").hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
+    //validasi selectedPosition
+    var selectedCompanyName = $("#companyName_").val();
+
+    if (!selectedCompanyName) {
+        $(".selectedCompany").closest(".form-group").find(".error-message").show();
+        isValid = false;
+    } else {
+        $(".selectedCompany").closest(".form-group").find(".error-message").hide();
+    }
+
+    //validasi status 
+    var isCheckedStatus = $('input[type="radio"][name="status"]:checked').length > 0;
+
+    if (!isCheckedStatus) {
+        $('.error-message').show();
+        isInvalid = false;
+    } else {
+        $('.error-message').hide();
+    }
+
+
+
+
+    var placement = new Object();
+
+
 
   placement.placementStatusId = $("#placementStatusId").val();
   placement.clientId = $("#companyName_").val();

@@ -215,7 +215,8 @@ function handleInput(event, input) {
   noHTML(input);
 }
 function clearMessage() {
-  $(".error-message").hide();
+    $(".error-message").hide();
+    $(".error-message-address").hide();
 }
 function ClearScreen() {
   alert("coba");
@@ -286,7 +287,8 @@ function GetById(accountId) {
   });
 }
 function clear() {
-  $(".error-message").hide();
+    $(".error-message").hide();
+    $(".error-message-address").hide();
 }
 function formatDate(dateString) {
   var parts = dateString.split(" ");
@@ -349,6 +351,10 @@ function updateData() {
       input.next(".error-message").hide();
     }
   });
+    if (existingData.Address == null || existingData.Address == "") {
+        $(".error-message-address").show();
+        isValid = false;
+    }
   if (!validName) {
     $("#editName")
       .next(".error-message")
