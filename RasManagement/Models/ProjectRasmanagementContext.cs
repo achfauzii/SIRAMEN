@@ -42,6 +42,7 @@ public partial class ProjectRasmanagementContext : DbContext
     public virtual DbSet<Placement> Placements { get; set; }
 
     public virtual DbSet<Position> Positions { get; set; }
+    public virtual DbSet<SalesProjection> SalesProjections { get; set; }
 
     public virtual DbSet<ProjectHistory> ProjectHistories { get; set; }
 
@@ -246,6 +247,16 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.PicClient)
           .HasMaxLength(50)
           .IsUnicode(false);
+            entity.Property(e => e.CompanyOrigin)
+             .HasMaxLength(50)
+             .IsUnicode(false);
+            entity.Property(e => e.Authority)
+                 .HasMaxLength(50)
+                 .IsUnicode(false);
+            entity.Property(e => e.Industry)
+             .HasMaxLength(20)
+             .IsUnicode(false);
+
         });
 
         modelBuilder.Entity<DataUniversita>(entity =>
@@ -562,6 +573,68 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.HasOne(d => d.Client).WithMany(p => p.Positions)
                 .HasForeignKey(d => d.ClientId)
                 .HasConstraintName("FK_Position_Client");
+        });
+
+        modelBuilder.Entity<SalesProjection>(entity =>
+        {
+            entity.ToTable("Sales_Projection");
+
+            entity.Property(e => e.EntryDate).HasColumnType("date");
+
+            entity.Property(e => e.ProjectStatus)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+         
+            entity.Property(e => e.Attendees)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.Property(e => e.RequestBy)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+
+            entity.Property(e => e.HiringNeeds)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.Property(e => e.Timeline)
+               .HasMaxLength(50)
+               .IsUnicode(false);
+
+            entity.Property(e => e.HiringProcess)
+             .HasMaxLength(50)
+             .IsUnicode(false);
+
+            entity.Property(e => e.WorkLocation)
+           .HasMaxLength(50)
+           .IsUnicode(false);
+
+          entity.Property(e => e.Notes)
+         .HasMaxLength(255)
+         .IsUnicode(false);
+
+            entity.Property(e => e.Priority)
+              .HasMaxLength(10)
+              .IsUnicode(false);
+
+            entity.Property(e => e.Status)
+              .HasMaxLength(20)
+              .IsUnicode(false);
+
+            entity.Property(e => e.ContractPeriode)
+              .HasMaxLength(50)
+              .IsUnicode(false);
+
+            entity.Property(e => e.RateCard)
+           .HasMaxLength(50)
+           .IsUnicode(false);
+
+            entity.HasOne(d => d.Client).WithMany(p => p.SalesProjections)
+            .HasForeignKey(d => d.ClientId)
+            .HasConstraintName("FK_Sales_Projection_Client_Name");
+
+
         });
 
         modelBuilder.Entity<ProjectHistory>(entity =>
