@@ -14,8 +14,17 @@ public partial class ClientName
     public string? ClientContact { get; set; }
     public string? PicClient { get; set; }
 
+    public string? CompanyOrigin { get; set; }
+    public string? Authority { get; set; }
+    public string? Industry { get; set; }
+
+
+
     [JsonIgnore]
     public virtual ICollection<Position>? Positions { get; set; } = new List<Position>();
+    [JsonIgnore]
+
+    public virtual ICollection<SalesProjection>? SalesProjections { get; set; } = new List<SalesProjection>();
     [JsonIgnore]
     public virtual ICollection<TrackingInterview>? TrackingInterviews { get; set; } = new List<TrackingInterview>();
     [JsonIgnore]
