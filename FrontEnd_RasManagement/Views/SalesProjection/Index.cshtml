@@ -9,24 +9,35 @@
 <div class="card mt-2 mb-3">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="#" id="needApproval">Approval</a>
+            <a class="nav-link active" href="#" id="oppurtunity">Oppurtunity</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" id="historyApproval">History</a>
+            <a class="nav-link" href="#" id="momSales">MOM Sales</a>
         </li>
-       </ul>
+        <li class="nav-item">
+            <a class="nav-link" href="#" id="reOpen">Re Open</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" id="bestView">Best view</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" id="goals">Goals</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" id="loss">Loss / Unclear </a>
+        </li>
+    </ul>
     <div class="card-header">
         <div class="row">
             <div class="col"><h5 class="mb-2 font-weight-bold text-primary" id="text-show">Timesheet Approval</h5></div>
         </div>
     </div>
     <div class="card-body">
-   
-        <table id="ApprovalTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
+        <table id="salesProjectionTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Nama</th>
+                    <th scope="col">Client</th>
                     <th scope="col">Date</th>
                     <th scope="col">Activity Detail</th>
                     <th scope="col">Flag</th>
@@ -43,7 +54,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="ApprovalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@* <div class="modal fade" id="ApprovalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#90d6e8">
@@ -150,5 +161,5 @@
         </div>
     </div>
 </div>
-
-<script src="~/js/approval.js"></script>
+ *@
+<script src="~/js/salesProjection.js"></script>
