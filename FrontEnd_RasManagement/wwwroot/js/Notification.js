@@ -188,11 +188,10 @@ function overtimeNotification() {
                     <div class="medium text-gray-700 triggerAllert mx-3" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Employee Overtime<span class="badge badge-danger ml-2" id="eovCount"></span></div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample3">
                         <div class="accordion-body">`;
-
-            const fetchPromises = dataApproval.map(data => {
-                if (data.statusApproval == "On Progress") {
+            const fetchPromises = dataApproval.map(dataApp => {
+                if (dataApp.statusApproval == "On Progress") {
                     totalAppvropal++;
-                    return fetch("https://localhost:7177/api/Employees/accountId?accountId=" + data.accountId, {
+                    return fetch("https://localhost:7177/api/Employees/accountId?accountId=" + dataApp.accountId, {
                         method: 'GET',
                         datatype: 'json',
                         headers: {
@@ -207,7 +206,14 @@ function overtimeNotification() {
                         })
                         .then(data => {
                             const emp = data.data.result;
-                            var notif = "Overtime Approval " + emp.fullname;
+                            let waktu
+                                = new Intl.DateTimeFormat('id-ID', {
+                                    year:
+                                        'numeric', month: '2-digit', day: '2-digit'
+                                })
+                                    .format(new Date(dataApp.date));
+                            ;
+                            var notif = `Overtime Approval ${emp.fullname} at ${waktu}`;
                             accordionHtml += `
                                 <div class="dropdown-item d-flex align-items-center notification-item" onclick="openOvertimeApproval()">
                                     <div class="mr-3">
