@@ -553,13 +553,19 @@ function save() {
             success: function (data) {
                 var dayOfWeek = new Date(TimeSheet.Date).getDay();
                 //$("#timeSheetModal").modal("hide");
+                var textMessage;
+                if (TimeSheet.Flag == "Sick") {
+                    textMessage = "Sick Leave";
+                } else {
+                    textMessage= "On Leave"
+                }
                 if (data.isHoliday == true || dayOfWeek === 6 || dayOfWeek === 0) {
 
                 
 
                     Swal.fire({
                         icon: "warning",
-                        text: `You cannot enter a ${TimeSheet.Flag} timesheet on holidays!`,
+                        text: `Kindly avoid requesting ${textMessage} on weekends/holidays`,
 
                         showConfirmButton: true,
                     })
