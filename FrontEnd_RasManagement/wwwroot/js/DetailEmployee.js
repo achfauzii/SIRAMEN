@@ -57,14 +57,14 @@ $(document).ready(function () {
       .split("T")[0];
   });
 
-  document.getElementById("endDate").addEventListener("change", function (e) {
-    if (e.target.value < $("#startDate").val()) {
-      $("#Update").addClass("disabled");
-      return;
-    } else {
-      $("#Update").removeClass("disabled");
-    }
-  });
+  //document.getElementById("endDate").addEventListener("change", function (e) {
+  //  if (e.target.value < $("#startDate").val()) {
+  //    $("#Update").addClass("disabled");
+  //    return;
+  //  } else {
+  //    $("#Update").removeClass("disabled");
+  //  }
+  //});
 
   placement();
   getClient();
@@ -179,6 +179,7 @@ function placement() {
 
 function GetById(accountId, placementStatusId) {
   //debugger;
+    ClearScreenPlacement();
   const startDate = document.getElementById("showStartDate");
   const endDate = document.getElementById("showEndDate");
   startDate.style.display = "none";
