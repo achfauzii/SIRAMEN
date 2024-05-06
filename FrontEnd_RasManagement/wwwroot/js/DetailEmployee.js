@@ -57,14 +57,14 @@ $(document).ready(function () {
       .split("T")[0];
   });
 
-  document.getElementById("endDate").addEventListener("change", function (e) {
-    if (e.target.value < $("#startDate").val()) {
-      $("#Update").addClass("disabled");
-      return;
-    } else {
-      $("#Update").removeClass("disabled");
-    }
-  });
+  //document.getElementById("endDate").addEventListener("change", function (e) {
+  //  if (e.target.value < $("#startDate").val()) {
+  //    $("#Update").addClass("disabled");
+  //    return;
+  //  } else {
+  //    $("#Update").removeClass("disabled");
+  //  }
+  //});
 
   placement();
   getClient();
