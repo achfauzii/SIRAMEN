@@ -33,6 +33,9 @@ $(document).ready(function () {
                 },
             },
             { data: "nameOfClient" },
+            { data: "companyOrigin" },
+            { data: "authority" },
+            { data: "industry" },
             {
                 // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
                 data: null,
@@ -44,24 +47,26 @@ $(document).ready(function () {
                     var hideIcons = objDataToken.RoleId == 7 ? "d-none" : "";
 
                     return (
+                        '<div class="text-center">' +
                         '<a class="text-warning ' +
                         hideIcons +
-                        '" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
+                        '" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
                         row.id +
                         ')"><i class="fa fa-edit edit-client"></i></a>' +
                         "&nbsp;" +
                         '<a class="text-info" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return detailPosition(' +
                         row.id +
-                        ')"><i class="fas fa-info-circle"></i></i></a>' +
+                        ')"><i class="fas fa-info-circle"></i></a>' +
                         "&nbsp;" +
                         '<a class="text-danger ' +
                         hideIcons +
-                        '" data-placement="right" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
+                        '" data-placement="right" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Delete" onclick="return Delete(\'' +
                         row.id +
                         "', '" +
                         row.nameOfClient +
                         "'" +
-                        ')"><i class="fa fa-trash delete-client"></i></a>'
+                        ')"><i class="fa fa-trash delete-client"></i></a>' +
+                        "</div>"
                     );
                 },
             },
@@ -113,13 +118,17 @@ function Save() {
     }
 
     var Client = {
-        nameOfClient : $("#clientName").val(), //value insert dari id pada input
-        salesName : $('#salesName').val(),
-        salesContact : $('#salesContact').val(),
-        picClient : $('#picClient').val(),
-        clientContact : $('#clientContact').val(),
-}
-    
+        nameOfClient: $("#clientName").val(), //value insert dari id pada input
+        salesName: $("#salesName1").val() + ($("#salesName2").val() ? ', ' + $("#salesName2").val() : ''), // Menggabungkan salesName1 dan salesName2 dengan tanda koma jika salesName2 diisi
+        salesContact: $('#salesContact').val(),
+        companyOrigin: $('#companyOrigin').val(),
+        picClient: $('#picClient').val(),
+        clientContact: $('#clientContact').val(),
+        Authority: $('#Authority').val(),
+        Industry: $('#Industry').val(),
+
+    }
+
     console.log(Client);
     $.ajax({
         type: "POST",
@@ -166,10 +175,14 @@ function ClearScreen() {
     $("#clientName").val("");
     $("#salesName").val("");
     $("#salesContact").val("");
+    $('#companyOrigin').val("");
     $("#picClient").val("");
     $("#clientContact").val("");
+    $("#Authority").val("");
+    $("#Industry").val("");
     $("#Update").hide();
     $("#Save").show();
+
     $("input[required], input[required-client]").each(function () {
         var input = $(this);
 
@@ -197,9 +210,10 @@ function handleInput(event, input) {
 //}
 
 function GetById(id) {
+
     $("#Modal input[required-client]").each(function () {
         var element = $(this);
-            element.next(".error-message").hide();
+        element.next(".error-message").hide();
     });
     $.ajax({
         url: "https://localhost:7177/api/ClientName/" + id,
@@ -211,12 +225,33 @@ function GetById(id) {
         },
         success: function (result) {
             var obj = result.data;
+
             $("#clientId").val(obj.id);
             $("#clientName").val(obj.nameOfClient);
-            $("#salesName").val(obj.salesName);
+
+            // Memisahkan nilai salesName ke salesName1 dan salesName2 jika keduanya terisi
+
+            if (obj.salesName) {
+                var salesNames = obj.salesName.split(',');
+                $("#salesName1").val(salesNames[0].trim());
+                $("#salesName2").val(salesNames[1] ? salesNames[1].trim() : '');
+            } else {
+                $("#salesName1").val('');
+                $("#salesName2").val('');
+            }
+
+            //var salesNames = obj.salesName.split(', ');
+            //$("#salesName1").val(salesNames[0] || ''); // Menggunakan nilai pertama atau string kosong jika tidak ada
+            //$("#salesName2").val(salesNames[1] || ''); // Menggunakan nilai kedua atau string kosong jika tidak ada
+
             $("#salesContact").val(obj.salesContact);
-            $("#clientContact").val(obj.clientContact);
+            $("#companyOrigin").val(obj.companyOrigin);
             $("#picClient").val(obj.picClient);
+            $("#clientContact").val(obj.clientContact);
+            $("#Authority").val(obj.authority);
+            $("#Industry").val(obj.industry);
+
+
             $("#Modal").modal("show");
             $("#Update").show();
             $("#Save").hide();
@@ -245,14 +280,31 @@ function Update() {
         return;
     }
 
+
+
     var ClientName = new Object(); //object baru
+    //ClientName.id = $("#clientId").val();
+    //ClientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
+    //ClientName.salesName = $("#salesName").val();
+    //ClientName.salesContact = $("#salesContact").val();
+    //ClientName.clientContact = $("#clientContact").val();
+    //ClientName.picClient = $("#picClient").val();
+
     ClientName.id = $("#clientId").val();
-    ClientName.nameOfClient = $("#clientName").val(); //value insert dari id pada input
-    ClientName.salesName = $("#salesName").val();
+    ClientName.nameOfClient = $("#clientName").val();
+
+    // Memisahkan nilai salesName ke salesName1 dan salesName2 jika keduanya terisi
+    ClientName.salesName = $("#salesName1").val() + ($("#salesName2").val() ? ', ' + $("#salesName2").val() : '');
+
     ClientName.salesContact = $("#salesContact").val();
-    ClientName.clientContact = $("#clientContact").val();
+    ClientName.companyOrigin = $('#companyOrigin').val();
     ClientName.picClient = $("#picClient").val();
- 
+    ClientName.clientContact = $("#clientContact").val();
+    ClientName.Authority = $('#Authority').val();
+    ClientName.Industry = $('#Industry').val();
+
+
+
     $.ajax({
         url: "https://localhost:7177/api/ClientName",
         type: "PUT",
@@ -355,7 +407,7 @@ function detailPosition(id) {
         .then((data) => {
             // Lakukan sesuatu dengan data yang diterima dari API
             var clientName = data.data.nameOfClient;
-            
+
             $("#modalTitle").text("Position List " + clientName);
             $("#salesName_").text(data.data.salesName);
             $("#salesContact_").text(data.data.salesContact);
