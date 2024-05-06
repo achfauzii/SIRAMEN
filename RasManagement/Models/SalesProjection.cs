@@ -28,10 +28,11 @@ public partial class SalesProjection
     public string? Status { get; set; }
     public string? ContractPeriode { get; set; }
     public string? RateCard { get; set; }
+    public string? CurrentNews { get; set; }
 
     public int? ClientId { get; set; }
 
-    [JsonIgnore]
+    //[JsonIgnore]
     public virtual ClientName? Client { get; set; }
     
 
