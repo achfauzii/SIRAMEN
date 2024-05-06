@@ -66,7 +66,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="Modal-addSalesProjection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#90d6e8">
                 <h5 class="modal-title white-text w-100 font-weight-bold" style="color:black">Sales Projection</h5>
@@ -81,7 +81,7 @@
                         <div class="col form-group">
                             <label for="message-text" class="col-form-label">Client</label>
                             <select class="form-control form-control-sm selectedResource" id="clientId" focus required>
-                                <option selected disabled>Select Client</option>
+                                <option value="" selected disabled>Select Client</option>
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
@@ -230,7 +230,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="Save" onclick="Save();">Save</button>
-                @* <button type="button" class="btn btn-warning" id="Update" onclick="Update();">Update</button> *@
+                <button type="button" class="btn btn-warning" id="Update" onclick="Update();" style="display:none">Update</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" onclick=" ClearScreen()">Close</button>
             </div>
         </div>

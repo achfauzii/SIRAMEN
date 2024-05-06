@@ -10,6 +10,30 @@ $(document).ready(function () {
     })
     $('.nav-tabs .nav-item').find('a')[0].click()
 
+    clientOption()
+    $("#clientId").select2({
+        placeholder: "Choose Client",
+        dropdownParent: $("#Modal-addSalesProjection"),
+        width: "100%",
+        height: "100%",
+        allowClear: false,
+        tags: true,
+    });
+
+    $("#RequestBy,#Priority,#Status").select2({
+        placeholder: "Choose ",
+        dropdownParent: $("#Modal-addSalesProjection"),
+        width: "100%",
+        height: "100%",
+        allowClear: false,
+        tags: true,
+    });
+    
+})
+$('#clientId').change(function (e) {
+    e.preventDefault();
+    const selected = $(this).val()
+    clientOption(selected)
 })
 function generateData(id) {
     $('#salesProjectionTable').DataTable().destroy();
@@ -113,22 +137,41 @@ function generateData(id) {
     });
 }
 
-async function dataClient(id) {
+function clientOption(selected) {
+    $('#clientId').find('option:not(:disabled)').remove();
+
     $.ajax({
-        url: 'https://localhost:7177/api/ClientName/'+id,
+        url: 'https://localhost:7177/api/ClientName',
         type: 'GET',
         dataType: 'json',
         headers: {
-            Authorization: "Beare " + sessionStorage.getItem("Token")
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (data) {
-            console.log(data)
-            $('#clientId').children('option:not(:disabled)').remove();
-            data.data.forEach(function (option) {
 
-                let optionElement = `<option>`;
-                optionElement.attr('value', option);
-                optionElement.text(option);
+            let salesName
+            let idSales1 = $('#sales1')
+            let idSales2 = $('#sales2')
+
+            idSales1.val("");
+            idSales2.val("")
+            data.data.forEach(function (option) {
+                let optionElement = $(`<option>`);
+                optionElement.attr('value', option.id);
+                optionElement.text(option.nameOfClient);
+                if (parseInt(selected) === parseInt(option.id)) {
+                    optionElement.attr('selected', true)
+
+                    salesName = option.salesName
+                    idSales1.val(salesName??'No Data')
+                    idSales2.val('No Data')
+                    if (salesName && salesName.includes(',')) {
+                        let splitName = salesName.split(',');
+                        idSales1.val(splitName[0])
+                        idSales2.val(splitName[1])
+                    }
+                }
+                $('#clientId').append(optionElement);
 
             })
         },
@@ -137,8 +180,12 @@ async function dataClient(id) {
         }
     })
 }
+
+
 async function GetById(id) {
-    ClearScreen()
+    ClearScreen();
+    $('#Update').show()
+    $('#Save').hide()
     const url = 'https://localhost:7177/api/SalesProjection/' + id;
     const fetchingData = await fetch(url, {
         headers: {
@@ -157,11 +204,30 @@ function ClearScreen() {
     formModal.find('select').each(function (e) {
         $(this).val("").trigger("change");
     })
+    $(".error-message").hide();
 }
 
 function Update() {
     var isValid = true;
     //$('#id).find('option[value="'+data+'"]').attr('selected',true).trigger('change')
+
+    formModal.find('input[required] ,select[required]').each(function (e) {
+        var input = $(this);
+        if (!input.val()) {
+            input.next(".error-message").show();
+            isValid = false;
+        } else {
+            input.next(".error-message").hide();
+        }
+    });
+
+    if (!isValid) {
+        return;
+    }
+}
+
+function Save() {
+    var isValid = true;
 
     formModal.find('input[required] ,select[required]').each(function (e) {
         var input = $(this);
