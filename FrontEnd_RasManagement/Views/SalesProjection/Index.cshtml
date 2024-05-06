@@ -143,8 +143,8 @@
                             <input type="text" class="form-control form-control-sm" placeholder="Enter Attendees" id="Attendees" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        <div class="col">
-                            <label for="message-text" class="col-form-label">Request By</label>
+                        <div class="col" id="colRequestBy">
+                            <label for="message-text" class="col-form-label" id="labelRequestBy">Request By</label>
                             <select class="form-control form-control-sm" id="RequestBy" required>
                                 <option selected disabled>Choose status</option>
                                 <option value="Internal">Internal</option>
@@ -185,7 +185,7 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col">
+                        <div class="col" id="colPriority">
                             <label for="message-text" class="col-form-label">Priority</label>
                             <select class="form-control form-control-sm" id="Priority" required>
                                 <option selected disabled>Choose Priority</option>
@@ -195,7 +195,7 @@
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        <div class="col">
+                        <div class="col" id="colStatus">
                             <label for="message-text" class="col-form-label">Status</label>
                             <select class="form-control form-control-sm" id="Status" required>
                                 <option selected disabled>Choose Status</option>
