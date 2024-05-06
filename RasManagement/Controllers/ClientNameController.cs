@@ -70,12 +70,16 @@ namespace RasManagement.Controllers
     public class ClientNameInputModel
     {
         public string? NameOfClient { get; set; }
-      
+
         public string? SalesName { get; set; }
         public string? SalesContact { get; set; }
         public string? ClientContact { get; set; }
         public string? PicClient { get; set; }
         public int Id { get; set; }
+
+        public string? CompanyOrigin { get; set; }
+        public string? Authority { get; set; }
+        public string? Industry { get; set; }
     }
 }
 
