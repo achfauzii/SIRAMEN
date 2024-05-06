@@ -821,7 +821,8 @@ function parseJwt(token) {
 }
 
 function GetByIdPlacement(accountId, placementStatus) {
-   ClearScreenPlacement();
+
+   //ClearScreenPlacement();
   ClearScreenChangeStatus();
 
   //debugger;
@@ -1005,6 +1006,7 @@ function handlePlacementStatusChange() {
 
 
 function GetContract(accountId) {
+    ClearScreenContract();
   $.ajax({
     url: "https://localhost:7177/api/Accounts/AccountId?accountId=" + accountId,
     type: "GET",
