@@ -179,6 +179,7 @@ function placement() {
 
 function GetById(accountId, placementStatusId) {
   //debugger;
+    ClearScreenPlacement();
   const startDate = document.getElementById("showStartDate");
   const endDate = document.getElementById("showEndDate");
   startDate.style.display = "none";
