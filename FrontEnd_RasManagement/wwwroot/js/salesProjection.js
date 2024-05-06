@@ -84,7 +84,7 @@ function generateData(id) {
             { data:"priority"},
             { data:"attendees"},
             { data:"requestBy"},
-            { data:"requestBy"},
+            { data:"currentNews"},
             { data:"hiringNeeds"},
             { data:"timeline"},
             { data:"hiringProcess"},
