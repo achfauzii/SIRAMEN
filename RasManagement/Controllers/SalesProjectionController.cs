@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RasManagement.BaseController;
 using RasManagement.Repository;
+using System.Net;
 
 namespace RasManagement.Controllers
 {
@@ -16,6 +17,20 @@ namespace RasManagement.Controllers
         public SalesProjectionController(SalesProjectionRepository salesProjectionRepository) : base(salesProjectionRepository)
         {
             this.salesProjectionRepository = salesProjectionRepository; ;
+        }
+
+        [HttpGet("byStatus")]
+        public async Task<IActionResult> GetSalesProjectionByStatus(string status)
+        {
+            var get = await salesProjectionRepository.GetByStatus(status);
+            if (get.Count != 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
         }
     }
 }

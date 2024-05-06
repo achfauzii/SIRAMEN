@@ -8,5 +8,14 @@
         {
             this.context = context;
         }
+
+        public async Task<List<SalesProjection>> GetByStatus(string status)
+        {
+            var data = await context.SalesProjections
+                .Where(e => e.Status == status)
+                .ToListAsync();
+
+            return data;
+        }
     }
 }
