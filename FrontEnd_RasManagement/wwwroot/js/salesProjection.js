@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('.nav-tabs .nav-item').find('a').each(function () {
-            console.table($(this).attr('id'))
         $(this).on('click', function (e) {
             e.preventDefault();
             $('.nav-tabs .nav-item a').removeClass('active');
@@ -16,46 +15,40 @@ function generateData(id) {
     $('#addSalesProjection').hide();
     switch (id.toLowerCase()) {
         case "momsales":
-            endpointApi = "";
+            endpointApi = "open";
             break;
         case "reopen":
-            endpointApi = "";
+            endpointApi = "re open";
             break;
         case "bestview":
-            endpointApi = "";
+            endpointApi = "best view";
             break;
         case "goals":
-            endpointApi = "";
+            endpointApi = "close win";
             break;
-        case "loss":
-            endpointApi = "";
+        case "lose":
+            endpointApi = "close lose";
             break;
         default:
-            endpointApi = "";
+            endpointApi = "hold";
             $('#addSalesProjection').show();
             break;
     }
-
-    table = $("#salesProjectionTable").DataTable({
+    $("#salesProjectionTable").DataTable({
         scrollX: true,
         order: [1, "asc"],
         ajax: {
             url:
-                "https://localhost:7177/api/" + endpointApi,
+                "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
             type: "GET",
             contentType: "application/json",
             headers: {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
             dataSrc: function (json) {
-                // Menghapus data dengan status "On Progress"
-                /*return json.data.filter(function (item) {
-                    return item.statusApproval !== "On Progress";
-                });*/
+                return json.data
             },
-
         },
-
         columns: [
             {
                 data: null,
@@ -63,36 +56,47 @@ function generateData(id) {
                     return meta.row + meta.settings._iDisplayStart + 1 + ".";
                 },
             },
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            {data:1},
-            { data: 1 },
-        ],
-        order: [[2, "desc"]],
-        columnDefs: [
-            /*{
-                targets: [0, 3, 4, 5, 6, 7, 8, 9],
-                orderable: false,
-            },*/
             {
-                target: 10,
-                visible: false,
-                searchable: false
+                data: "client",
+                render: function (data) {
+                    return data.nameOfClient;
+                }
             },
+            {
+                data: "client",
+                render: function (data) {
+                    return data.companyOrigin;
+                }
+            },
+            { data: "entryDate" },
+            {
+                data: "client",
+                render: function (data) {
+                    return data.industry;
+                }
+            },
+            {
+                data: "client",
+                render: function (data) {
+                    return data.picClient;
+                }
+            },
+            { data:"priority"},
+            { data:"attendees"},
+            { data:"requestBy"},
+            { data:"requestBy"},
+            { data:"hiringNeeds"},
+            { data:"timeline"},
+            { data:"hiringProcess"},
+            { data:"workLocation"},
+            { data:"notes"},
+            { data:"contractPeriode"},
+            { data:"rateCard"},
+            { data:"projectStatus"},
+            { data: "requestBy" },
+        ],
+        columnDefs: [
+            
         ],
         createdRow: function (row, data, dataIndex) {
 

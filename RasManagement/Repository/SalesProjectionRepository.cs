@@ -12,7 +12,8 @@
         public async Task<List<SalesProjection>> GetByProjectionStatus(string status)
         {
             var data = await context.SalesProjections
-                .Where(e => e.ProjectStatus == status)
+                .Where(e => e.ProjectStatus.ToLower() == status)
+                .Include(e => e.Client)
                 .ToListAsync();
 
             return data;
