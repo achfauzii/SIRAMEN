@@ -29,23 +29,34 @@
     </ul>
     <div class="card-header">
         <div class="row">
-            <div class="col"><h5 class="mb-2 font-weight-bold text-primary" id="text-show">Timesheet Approval</h5></div>
+            <div class="col"><h5 class="mb-2 font-weight-bold text-primary" id="text-show">Sales Projection</h5></div>
         </div>
     </div>
     <div class="card-body">
+        <button style="background-color:#624DE3; font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" id="addSalesProjection" data-toggle="modal" data-target="#Modal-addSalesProjection" onclick="ClearScreen();">
+            + Add Sales Projection
+        </button>
         <table id="salesProjectionTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Client</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Activity Detail</th>
-                    <th scope="col">Flag</th>
-                    <th scope="col">Category</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Company Origin</th>
+                    <th scope="col">Entry Date</th>
+                    <th scope="col">Industry</th>
+                    <th scope="col">PIC</th>
+                    <th scope="col">Autority</th>
+                    <th scope="col">Attendees</th>
+                    <th scope="col">Request By</th>
+                    <th scope="col">Current news</th>
+                    <th scope="col">hiring needs</th>
+                    <th scope="col">Timeline</th>
+                    <th scope="col">Hiring Process</th>
+                    <th scope="col">Work location</th>
+                    <th scope="col">notes</th>
+                    <th scope="col">Contract Periode</th>
+                    <th scope="col">Ratecard</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Known By</th>
-                    <th scope="col">Status Approval</th>
-                    <th scope="col">Notes</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -54,8 +65,8 @@
 </div>
 
 <!-- Modal -->
-@* <div class="modal fade" id="ApprovalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="Modal-addSalesProjection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#90d6e8">
                 <h5 class="modal-title white-text w-100 font-weight-bold" style="color:black">Approval</h5>
@@ -65,14 +76,22 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <input class="form-control form-control-sm" type="hidden" id="idProjection">
                     <div class="row mb-2">
-                        <div class="col">
-                            <label for="fullName" class="col-form-label">Fullname:</label>
-                            <input type="text" class="form-control" id="fullName" readonly>
+                        <div class="col form-group">
+                            <label for="message-text" class="col-form-label">Client</label>
+                            <select class="form-control form-control-sm selectedResource" id="clientId" focus required>
+                                <option selected disabled>Select Client</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        <div class="col">
-                            <label for="compName" class="col-form-label">Client Name:</label>
-                            <input type="text" class="form-control" id="compName" readonly>
+                        <div class="col form-group">
+                            <label for="fullName" class="col-form-label">Sales 1:</label>
+                            <input type="text" class="form-control" id="sales1" readonly disabled>
+                        </div>
+                        <div class="col form-group">
+                            <label for="compName" class="col-form-label">Sales 2:</label>
+                            <input type="text" class="form-control" id="sales2" readonly disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -161,5 +180,5 @@
         </div>
     </div>
 </div>
- *@
+
 <script src="~/js/salesProjection.js"></script>
