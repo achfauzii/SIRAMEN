@@ -31,9 +31,9 @@ public partial class SalesProjection
 
     public int? ClientId { get; set; }
 
-
+    [JsonIgnore]
     public virtual ClientName? Client { get; set; }
-        
+    
 
 }
 
