@@ -83,7 +83,6 @@ $(document).ready(function () {
 
 function Save() {
   table = $("#TB_Department").DataTable();
-  console.log("Save function - table:", table);
   var isValid = true;
 
   $("input[required]").each(function () {
@@ -169,6 +168,7 @@ function ClearScreenDept() {
 }
 
 function GetByIdDept(deptId) {
+    $(".error-message").hide();
   $.ajax({
     url: "https://localhost:7177/api/Department/" + deptId,
     type: "GET",

@@ -20,9 +20,9 @@ namespace RasManagement.Controllers
         }
 
         [HttpGet("byStatus")]
-        public async Task<IActionResult> GetSalesProjectionByStatus(string status)
+        public async Task<IActionResult> GetSalesProjectionByProjectionStatus(string status)
         {
-            var get = await salesProjectionRepository.GetByStatus(status);
+            var get = await salesProjectionRepository.GetByProjectionStatus(status);
             if (get.Count != 0)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });

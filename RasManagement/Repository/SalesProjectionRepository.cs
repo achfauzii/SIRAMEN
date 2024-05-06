@@ -9,10 +9,11 @@
             this.context = context;
         }
 
-        public async Task<List<SalesProjection>> GetByStatus(string status)
+        public async Task<List<SalesProjection>> GetByProjectionStatus(string status)
         {
             var data = await context.SalesProjections
-                .Where(e => e.Status == status)
+                .Where(e => e.ProjectStatus.ToLower() == status)
+                .Include(e => e.Client)
                 .ToListAsync();
 
             return data;
