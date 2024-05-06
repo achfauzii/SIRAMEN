@@ -295,7 +295,7 @@ function getById(Id) {
         success: function (result) {
             //debugger;
             var obj = result.data; //data yg dapet dr id
-
+            console.log(obj);
             $("#timeSheetId").val(obj.id); //ngambil data dr api
             $("#lastPlacementId").val(obj.placementStatusId);
             $("#activity").val(obj.activity).attr("data-initial", obj.activity);
@@ -426,6 +426,7 @@ function Update() {
 
     var TimeSheet = new Object();
     TimeSheet.Id = $("#timeSheetId").val();
+    TimeSheet.placementStatusId = $("#lastPlacementId").val();
     TimeSheet.Date = $("#inputDate").val();
     TimeSheet.Activity = $("#activity").val();
     TimeSheet.Flag = $("#flag").val();
@@ -436,7 +437,7 @@ function Update() {
     const accid = decodedtoken.AccountId;
     TimeSheet.accountId = accid;
 
-    console.log(TimeSheet);
+
     // debugger;
     $.ajax({
         url:
@@ -482,7 +483,7 @@ function Update() {
             });
             $("#timeSheetModal").modal("hide");
             table.ajax.reload();
-            addRowHoliday();
+            //addRowHoliday();
             addRowApproval();
         } else if (result.status == 400) {
             Swal.fire({
@@ -553,13 +554,19 @@ function save() {
             success: function (data) {
                 var dayOfWeek = new Date(TimeSheet.Date).getDay();
                 //$("#timeSheetModal").modal("hide");
+                var textMessage;
+                if (TimeSheet.Flag == "Sick") {
+                    textMessage = "Sick Leave";
+                } else {
+                    textMessage= "On Leave"
+                }
                 if (data.isHoliday == true || dayOfWeek === 6 || dayOfWeek === 0) {
 
                 
 
                     Swal.fire({
                         icon: "warning",
-                        text: `You cannot enter a ${TimeSheet.Flag} timesheet on holidays!`,
+                        text: `Kindly avoid requesting ${textMessage} on weekends/holidays`,
 
                         showConfirmButton: true,
                     })
@@ -630,7 +637,7 @@ function save() {
                         }
                     });
                   
-                    addRowHoliday();
+                    //addRowHoliday();
                     addRowApproval();
                 }
             },
@@ -643,7 +650,7 @@ function save() {
                 });
                 $("#timeSheetModal").modal("hide");
                 table.ajax.reload();
-                addRowHoliday();
+                //addRowHoliday();
             },
         });
     } else {
@@ -688,7 +695,7 @@ function save() {
                                         location.reload();
                                     }
                                 });
-                                addRowHoliday();
+                               // addRowHoliday();
                                 addRowApproval();
                             }
                         },
@@ -701,7 +708,7 @@ function save() {
                             });
                             $("#timeSheetModal").modal("hide");
                             table.ajax.reload();
-                            addRowHoliday();
+                            //addRowHoliday();
                         },
                     });
                 }
@@ -729,7 +736,7 @@ function save() {
                                 });
                                 $("#timeSheetModal").modal("hide");
                                 table.ajax.reload();
-                                addRowHoliday();
+                                //addRowHoliday();
                                 addRowApproval();
                                 location.reload();
                              

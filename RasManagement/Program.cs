@@ -73,6 +73,7 @@ builder.Services.AddScoped<TrackingRepository>();
 builder.Services.AddScoped<PositionRepository>();
 builder.Services.AddScoped<MasterHolidayRepository>();
 builder.Services.AddScoped<ApprovalRepository>();
+builder.Services.AddScoped<SalesProjectionRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 
