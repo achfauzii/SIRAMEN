@@ -637,7 +637,7 @@ function save() {
                         }
                     });
                   
-                    addRowHoliday();
+                    //addRowHoliday();
                     addRowApproval();
                 }
             },
@@ -650,7 +650,7 @@ function save() {
                 });
                 $("#timeSheetModal").modal("hide");
                 table.ajax.reload();
-                addRowHoliday();
+                //addRowHoliday();
             },
         });
     } else {
@@ -695,7 +695,7 @@ function save() {
                                         location.reload();
                                     }
                                 });
-                                addRowHoliday();
+                               // addRowHoliday();
                                 addRowApproval();
                             }
                         },
@@ -708,7 +708,7 @@ function save() {
                             });
                             $("#timeSheetModal").modal("hide");
                             table.ajax.reload();
-                            addRowHoliday();
+                            //addRowHoliday();
                         },
                     });
                 }
@@ -736,7 +736,7 @@ function save() {
                                 });
                                 $("#timeSheetModal").modal("hide");
                                 table.ajax.reload();
-                                addRowHoliday();
+                                //addRowHoliday();
                                 addRowApproval();
                                 location.reload();
                              

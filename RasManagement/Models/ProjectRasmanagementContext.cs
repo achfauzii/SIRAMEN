@@ -584,7 +584,7 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.ProjectStatus)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-         
+
             entity.Property(e => e.Attendees)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -610,9 +610,9 @@ public partial class ProjectRasmanagementContext : DbContext
            .HasMaxLength(50)
            .IsUnicode(false);
 
-          entity.Property(e => e.Notes)
-         .HasMaxLength(255)
-         .IsUnicode(false);
+            entity.Property(e => e.Notes)
+           .HasMaxLength(255)
+           .IsUnicode(false);
 
             entity.Property(e => e.Priority)
               .HasMaxLength(10)
@@ -629,6 +629,10 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.RateCard)
            .HasMaxLength(50)
            .IsUnicode(false);
+
+            entity.Property(e => e.CurrentNews)
+              .HasMaxLength(200)
+              .IsUnicode(false);
 
             entity.HasOne(d => d.Client).WithMany(p => p.SalesProjections)
             .HasForeignKey(d => d.ClientId)
