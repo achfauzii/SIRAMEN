@@ -152,9 +152,26 @@ function clientOption(selected) {
             let salesName
             let idSales1 = $('#sales1')
             let idSales2 = $('#sales2')
+            let salesContact = $('#salesContact')
+            let nameOfClient = $('#nameOfClient')
+            let companyOrigin = $('#companyOrigin')
+            let picClient = $('#picClient')
+            let authority = $('#authority')
+            let clientContact = $('#clientContact')
+            let industry = $('#industry')
+
 
             idSales1.val("");
-            idSales2.val("")
+            idSales2.val("");
+            salesContact.val("");
+            nameOfClient.val("");
+            companyOrigin.val("");
+            picClient.val("");
+            authority.val("");
+            clientContact.val("");
+            industry.val("");
+
+            
             data.data.forEach(function (option) {
                 let optionElement = $(`<option>`);
                 optionElement.attr('value', option.id);
@@ -162,14 +179,23 @@ function clientOption(selected) {
                 if (parseInt(selected) === parseInt(option.id)) {
                     optionElement.attr('selected', true)
 
+                    //salesName
                     salesName = option.salesName
-                    idSales1.val(salesName??'No Data')
-                    idSales2.val('No Data')
+                    idSales1.val(salesName??' ')
+                    idSales2.val(' ')
                     if (salesName && salesName.includes(',')) {
                         let splitName = salesName.split(',');
                         idSales1.val(splitName[0])
                         idSales2.val(splitName[1])
                     }
+                    salesContact.val(option.salesContact ?? " ");
+                    nameOfClient.val(option.nameOfClient ?? " ");
+                    companyOrigin.val(option.companyOrigin ??" ");
+                    picClient.val(option.picClient ?? " ");
+                    authority.val(option.authority ?? " ");
+                    clientContact.val(option.clientContact ?? " ");
+                    industry.val(option.industry ?? " ");
+
                 }
                 $('#clientId').append(optionElement);
 
@@ -193,7 +219,36 @@ async function GetById(id) {
         }
     })
     const response = await fetchingData.json()
-    dataClient(response.data.clientId)
+
+    const urlClient = 'https://localhost:7177/api/ClientName/' + response.data.clientId;
+    const fetchingDataClient = await fetch(urlClient, {
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        }
+    })
+    const responseClient = await fetchingDataClient.json()
+
+    clientOption(response.data.clientId)
+    $('#Modal-addSalesProjection form').find('input, textarea').each(function () {
+        const idForm = $(this).attr('id');
+        let fieldValue = response.data[idForm];
+
+        if (fieldValue === undefined ) {
+            fieldValue = responseClient.data[idForm]
+        }
+
+        if (fieldValue !== undefined) {
+            $(this).val(fieldValue);
+        }
+    });
+    $('#Modal-addSalesProjection form').find('select').each(function () {
+        const idForm = $(this).attr('id');
+        const fieldValue = response.data[idForm];
+
+        if (fieldValue !== undefined) {
+            $(this).val(fieldValue);
+        }
+    });
 }
 
 function ClearScreen() {
@@ -209,8 +264,6 @@ function ClearScreen() {
 
 function Update() {
     var isValid = true;
-    //$('#id).find('option[value="'+data+'"]').attr('selected',true).trigger('change')
-
     formModal.find('input[required] ,select[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
@@ -224,6 +277,24 @@ function Update() {
     if (!isValid) {
         return;
     }
+    const dataToUpdate = {
+
+    }
+    $.ajax({
+        url: 'https://localhost:7177/api/SalesProjection',
+        type: 'PUT',
+        dataType: 'json',
+        data: dataToUpdate,
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (data) {
+
+        },
+        error: function (err) {
+            console.error("error fetching data:" + err)
+        }
+    })
 }
 
 function Save() {
@@ -242,4 +313,24 @@ function Save() {
     if (!isValid) {
         return;
     }
+
+    const dataToUpdate = {
+
+    }
+    $.ajax({
+        url: 'https://localhost:7177/api/SalesProjection',
+        type: 'POST',
+        dataType: 'json',
+        data: dataToUpdate,
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (data) {
+
+        },
+        error: function (err) {
+            console.error("error fetching data:" + err)
+        }
+    })
+
 }
