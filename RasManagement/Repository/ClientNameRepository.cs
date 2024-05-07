@@ -24,11 +24,14 @@ namespace RasManagement.Repository
         {
             var client = new ClientName
             {
-              NameOfClient = inputModel.NameOfClient,
-              SalesName = inputModel.SalesName,
-              SalesContact = inputModel.SalesContact,
-              ClientContact = inputModel.ClientContact,
-              PicClient = inputModel.PicClient
+                NameOfClient = inputModel.NameOfClient,
+                SalesName = inputModel.SalesName,
+                SalesContact = inputModel.SalesContact,
+                ClientContact = inputModel.ClientContact,
+                PicClient = inputModel.PicClient,
+                CompanyOrigin = inputModel.CompanyOrigin,
+                Authority = inputModel.Authority,
+                Industry = inputModel.Industry,
             };
             context.ClientNames.Add(client);
             var insert = context.SaveChanges();
