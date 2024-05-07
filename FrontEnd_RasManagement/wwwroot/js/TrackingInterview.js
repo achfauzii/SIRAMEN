@@ -534,6 +534,7 @@ function Save() {
 }
 
 function GetById(trackingId) {
+    clearScreen();
   $("#btnNewProcess").show();
 
   $.ajax({
