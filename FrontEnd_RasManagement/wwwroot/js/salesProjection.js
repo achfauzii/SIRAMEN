@@ -75,6 +75,9 @@ function generateData(id) {
                 return json.data
             },
         },
+        language: {
+            emptyTable: "No data available in table"
+        },
         columns: [
             {
                 data: null,
@@ -108,6 +111,7 @@ function generateData(id) {
                 }
             },
             { data:"priority"},
+            { data: "client.authority" },
             { data:"attendees"},
             { data:"requestBy"},
             { data:"currentNews"},
@@ -253,7 +257,7 @@ async function GetById(id) {
 
 function ClearScreen() {
     $('#Modal-addSalesProjection').modal('show')
-    formModal.find('input').each(function (e) {
+    formModal.find('input, textarea').each(function (e) {
         $(this).val("");
     })
     formModal.find('select').each(function (e) {
@@ -278,21 +282,47 @@ function Update() {
         return;
     }
     const dataToUpdate = {
-
+        id: parseInt($('#id').val()),
+        entryDate: $('#entryDate').val(),
+        projectStatus: "Open",
+        /*projectStatus: $('#projectStatus').val(),*/
+        attendees: $('#attendees').val(),
+        requestBy: $('#requestBy').find(":selected").val(),
+        hiringNeeds: $('#hiringNeeds').val(),
+        timeline: $('#timeline').val(),
+        hiringProcess: $('#hiringProcess').val(),
+        workLocation: $('#workLocation').val(),
+        notes: $('#notes').val(),
+        priority: $('#priority').find(":selected").val(),
+        status: $('#status').find(":selected").val(),
+        contractPeriode: $('#contractPeriode').val(),
+        rateCard: $('#rateCard').val(),
+        currentNews: $('#currentNews').val(),
+        clientId: parseInt($('#clientId').find(":selected").val())
     }
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'PUT',
-        dataType: 'json',
-        data: dataToUpdate,
+        contentType: "application/json",
+        data: JSON.stringify(dataToUpdate),
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (data) {
-
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: `Data Sales Projection Moved to ${isValid}!`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            $("#Modal-addSalesProjection").modal("hide");
+            $("#salesProjectionTable").DataTable().ajax.reload();
         },
         error: function (err) {
-            console.error("error fetching data:" + err)
+            console.error(err)
+            Swal.fire("Error!", "Failed to Update", "error");
+
         }
     })
 }
@@ -314,22 +344,45 @@ function Save() {
         return;
     }
 
-    const dataToUpdate = {
-
+    const dataToInsert = {
+        entryDate: new Date(),
+        projectStatus: "Hold",
+        attendees: $('#attendees').val(),
+        requestBy: $('#requestBy').find(":selected").val(),
+        hiringNeeds: $('#hiringNeeds').val(),
+        timeline: $('#timeline').val(),
+        hiringProcess: $('#hiringProcess').val(),
+        workLocation: $('#workLocation').val(),
+        notes: $('#notes').val(),
+        priority: $('#priority').find(":selected").val(),
+        status: $('#status').find(":selected").val(),
+        contractPeriode: $('#contractPeriode').val(),
+        rateCard: $('#rateCard').val(),
+        currentNews: $('#currentNews').val(),
+        clientId: parseInt($('#clientId').find(":selected").val())
     }
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'POST',
-        dataType: 'json',
-        data: dataToUpdate,
+        contentType: "application/json",
+        data: JSON.stringify(dataToInsert),
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (data) {
-
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: `Data Sales Projection Inserted!`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            $("#Modal-addSalesProjection").modal("hide");
+            $("#salesProjectionTable").DataTable().ajax.reload();
         },
         error: function (err) {
-            console.error("error fetching data:" + err)
+            console.error(err)
+            Swal.fire("Error!", "Failed to Insert Data", "error");
         }
     })
 
