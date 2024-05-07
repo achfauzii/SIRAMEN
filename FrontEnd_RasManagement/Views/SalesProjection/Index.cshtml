@@ -76,7 +76,7 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <input class="form-control form-control-sm" type="hidden" id="idProjection">
+                    <input class="form-control form-control-sm" type="hidden" id="id">
                     <div class="row mb-2">
                         <div class="col form-group">
                             <label for="message-text" class="col-form-label">Client</label>
@@ -97,55 +97,49 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Sales Contact</label>
-                            <input type="text" oninput="this.value = this.value.replace(/\D/g, '');" class="form-control" id="phone" maxlength="13" minlength="10" placeholder="Enter Sales Contact" pattern="0\d{0,13}" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <input type="text" oninput="this.value = this.value.replace(/\D/g, '');" class="form-control" id="salesContact" maxlength="13" minlength="10" placeholder="Enter Sales Contact" pattern="0\d{0,13}" readonly disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Company Name</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Company Name" id="CompanyName" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Company Name" id="nameOfClient" readonly disabled>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Company Origin</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Company Origin" id="CompanyOrigin" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Company Origin" id="companyOrigin" readonly disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">PIC Client</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter PIC Client" id="picClient" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter PIC Client" id="picClient" readonly disabled>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Authority</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Authority" id="authority" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Authority" id="authority" readonly disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">PIC Client Contact</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter PIC Client Contact" id="picContact" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter PIC Client Contact" id="clientContact" readonly disabled>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Industry</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Industry" id="industry" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Industry" id="industry" readonly disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Attendees</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Attendees" id="Attendees" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Attendees" id="attendees" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+
                         <div class="col" id="colRequestBy">
-                            <label for="message-text" class="col-form-label" id="labelRequestBy">Request By</label>
-                            <select class="form-control form-control-sm" id="RequestBy" required>
+                            <label for="message-text" class="col-form-label">Request By</label>
+                            <select class="form-control form-control-sm" id="requestBy" required>
                                 <option selected disabled>Choose status</option>
                                 <option value="Internal">Internal</option>
                                 <option value="External">External</option>
@@ -156,48 +150,48 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Current News</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Current News" id="CurrentNews" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Current News" id="currentNews" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Hiring Needs</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Needs" id="HiringNeeds" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Needs" id="hiringNeeds" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Timeline</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Timeline" id="Timeline" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Timeline" id="timeline" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Hiring Process</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Process" id="HiringProcess" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Process" id="hiringProcess" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Work location</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Work location" id="WorkLocation" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Work location" id="workLocation" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col" id="colPriority">
                             <label for="message-text" class="col-form-label">Priority</label>
-                            <select class="form-control form-control-sm" id="Priority" required>
+                            <select class="form-control form-control-sm" id="priority" required>
                                 <option selected disabled>Choose Priority</option>
-                                <option value="In Progress">High</option>
-                                <option value="Pending">Medium</option>
-                                <option value="Done">Low</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col" id="colStatus">
                             <label for="message-text" class="col-form-label">Status</label>
-                            <select class="form-control form-control-sm" id="Status" required>
+                            <select class="form-control form-control-sm" id="status" required>
                                 <option selected disabled>Choose Status</option>
                                 <option value="SchedulingMeeting">Scheduling Meeting</option>
                                 <option value="MeetingDone">Meeting Done</option>
@@ -210,19 +204,19 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Contract Periode</label>
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" id="ContractPeriode" required>
+                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" id="contractPeriode" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Ratecard</label>
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="RateCard" required>
+                            <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="rateCard" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Notes</label>
-                            <textarea class="form-control" id="Notes" rows="3" placeholder="Enter Notes" required></textarea>
+                            <textarea class="form-control" id="notes" rows="3" placeholder="Enter Notes" required></textarea>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
