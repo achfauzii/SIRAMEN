@@ -9,7 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
+    [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class SalesProjectionController : BaseController<SalesProjection, SalesProjectionRepository,int>
     {
 
@@ -29,7 +29,7 @@ namespace RasManagement.Controllers
             }
             else
             {
-                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+                return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
             }
         }
     }
