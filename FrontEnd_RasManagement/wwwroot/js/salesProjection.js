@@ -93,6 +93,9 @@ function generateData(id) {
                 return json.data
             },
         },
+        language: {
+            emptyTable: "No data available in table"
+        },
         columns: [
             {
                 data: null,
@@ -126,6 +129,7 @@ function generateData(id) {
                 }
             },
             { data:"priority"},
+            { data: "client.authority" },
             { data:"attendees"},
             { data:"requestBy"},
             { data:"currentNews"},
@@ -170,9 +174,26 @@ function clientOption(selected) {
             let salesName
             let idSales1 = $('#sales1')
             let idSales2 = $('#sales2')
+            let salesContact = $('#salesContact')
+            let nameOfClient = $('#nameOfClient')
+            let companyOrigin = $('#companyOrigin')
+            let picClient = $('#picClient')
+            let authority = $('#authority')
+            let clientContact = $('#clientContact')
+            let industry = $('#industry')
+
 
             idSales1.val("");
-            idSales2.val("")
+            idSales2.val("");
+            salesContact.val("");
+            nameOfClient.val("");
+            companyOrigin.val("");
+            picClient.val("");
+            authority.val("");
+            clientContact.val("");
+            industry.val("");
+
+            
             data.data.forEach(function (option) {
                 let optionElement = $(`<option>`);
                 optionElement.attr('value', option.id);
@@ -180,14 +201,23 @@ function clientOption(selected) {
                 if (parseInt(selected) === parseInt(option.id)) {
                     optionElement.attr('selected', true)
 
+                    //salesName
                     salesName = option.salesName
-                    idSales1.val(salesName??'No Data')
-                    idSales2.val('No Data')
+                    idSales1.val(salesName??' ')
+                    idSales2.val(' ')
                     if (salesName && salesName.includes(',')) {
                         let splitName = salesName.split(',');
                         idSales1.val(splitName[0])
                         idSales2.val(splitName[1])
                     }
+                    salesContact.val(option.salesContact ?? " ");
+                    nameOfClient.val(option.nameOfClient ?? " ");
+                    companyOrigin.val(option.companyOrigin ??" ");
+                    picClient.val(option.picClient ?? " ");
+                    authority.val(option.authority ?? " ");
+                    clientContact.val(option.clientContact ?? " ");
+                    industry.val(option.industry ?? " ");
+
                 }
                 $('#clientId').append(optionElement);
 
@@ -211,12 +241,41 @@ async function GetById(id) {
         }
     })
     const response = await fetchingData.json()
-    dataClient(response.data.clientId)
+
+    const urlClient = 'https://localhost:7177/api/ClientName/' + response.data.clientId;
+    const fetchingDataClient = await fetch(urlClient, {
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        }
+    })
+    const responseClient = await fetchingDataClient.json()
+
+    clientOption(response.data.clientId)
+    $('#Modal-addSalesProjection form').find('input, textarea').each(function () {
+        const idForm = $(this).attr('id');
+        let fieldValue = response.data[idForm];
+
+        if (fieldValue === undefined ) {
+            fieldValue = responseClient.data[idForm]
+        }
+
+        if (fieldValue !== undefined) {
+            $(this).val(fieldValue);
+        }
+    });
+    $('#Modal-addSalesProjection form').find('select').each(function () {
+        const idForm = $(this).attr('id');
+        const fieldValue = response.data[idForm];
+
+        if (fieldValue !== undefined) {
+            $(this).val(fieldValue);
+        }
+    });
 }
 
 function ClearScreen() {
     $('#Modal-addSalesProjection').modal('show')
-    formModal.find('input').each(function (e) {
+    formModal.find('input, textarea').each(function (e) {
         $(this).val("");
     })
     formModal.find('select').each(function (e) {
@@ -227,8 +286,6 @@ function ClearScreen() {
 
 function Update() {
     var isValid = true;
-    //$('#id).find('option[value="'+data+'"]').attr('selected',true).trigger('change')
-
     formModal.find('input[required] ,select[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
@@ -242,6 +299,50 @@ function Update() {
     if (!isValid) {
         return;
     }
+    const dataToUpdate = {
+        id: parseInt($('#id').val()),
+        entryDate: $('#entryDate').val(),
+        projectStatus: "Open",
+        /*projectStatus: $('#projectStatus').val(),*/
+        attendees: $('#attendees').val(),
+        requestBy: $('#requestBy').find(":selected").val(),
+        hiringNeeds: $('#hiringNeeds').val(),
+        timeline: $('#timeline').val(),
+        hiringProcess: $('#hiringProcess').val(),
+        workLocation: $('#workLocation').val(),
+        notes: $('#notes').val(),
+        priority: $('#priority').find(":selected").val(),
+        status: $('#status').find(":selected").val(),
+        contractPeriode: $('#contractPeriode').val(),
+        rateCard: $('#rateCard').val(),
+        currentNews: $('#currentNews').val(),
+        clientId: parseInt($('#clientId').find(":selected").val())
+    }
+    $.ajax({
+        url: 'https://localhost:7177/api/SalesProjection',
+        type: 'PUT',
+        contentType: "application/json",
+        data: JSON.stringify(dataToUpdate),
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (data) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: `Data Sales Projection Moved to ${isValid}!`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            $("#Modal-addSalesProjection").modal("hide");
+            $("#salesProjectionTable").DataTable().ajax.reload();
+        },
+        error: function (err) {
+            console.error(err)
+            Swal.fire("Error!", "Failed to Update", "error");
+
+        }
+    })
 }
 
 function Save() {
@@ -260,4 +361,47 @@ function Save() {
     if (!isValid) {
         return;
     }
+
+    const dataToInsert = {
+        entryDate: new Date(),
+        projectStatus: "Hold",
+        attendees: $('#attendees').val(),
+        requestBy: $('#requestBy').find(":selected").val(),
+        hiringNeeds: $('#hiringNeeds').val(),
+        timeline: $('#timeline').val(),
+        hiringProcess: $('#hiringProcess').val(),
+        workLocation: $('#workLocation').val(),
+        notes: $('#notes').val(),
+        priority: $('#priority').find(":selected").val(),
+        status: $('#status').find(":selected").val(),
+        contractPeriode: $('#contractPeriode').val(),
+        rateCard: $('#rateCard').val(),
+        currentNews: $('#currentNews').val(),
+        clientId: parseInt($('#clientId').find(":selected").val())
+    }
+    $.ajax({
+        url: 'https://localhost:7177/api/SalesProjection',
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify(dataToInsert),
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (data) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: `Data Sales Projection Inserted!`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            $("#Modal-addSalesProjection").modal("hide");
+            $("#salesProjectionTable").DataTable().ajax.reload();
+        },
+        error: function (err) {
+            console.error(err)
+            Swal.fire("Error!", "Failed to Insert Data", "error");
+        }
+    })
+
 }
