@@ -20,6 +20,7 @@ $(document).ready(function () {
         tags: true,
     });
 
+
     //$("#RequestBy").select2({
     //    placeholder: "Choose ",
     //    dropdownParent: $("#colRequestBy"),
@@ -149,6 +150,7 @@ function generateData(id) {
                             `
                         <div class="d-flex flex-row">
                             <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id})"><i class="far fa-edit"></i></a>
+                            <a href="#" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity" onclick = ""><i class="fas fa-calendar-plus"></i></a>
                         </div>
                         `
                     );
@@ -234,6 +236,8 @@ async function GetById(id) {
     ClearScreen();
     $('#Update').show()
     $('#Save').hide()
+    $('#colStatusPro').show()
+    $('#projectStatus').attr('required',true)
     const url = 'https://localhost:7177/api/SalesProjection/' + id;
     const fetchingData = await fetch(url, {
         headers: {
@@ -275,6 +279,10 @@ async function GetById(id) {
 
 function ClearScreen() {
     $('#Modal-addSalesProjection').modal('show')
+    $('#Update').hide()
+    $('#Save').show()
+    $('#colStatusPro').hide()
+    $('#projectStatus').attr('required', false)
     formModal.find('input, textarea').each(function (e) {
         $(this).val("");
     })
@@ -348,7 +356,7 @@ function Update() {
 function Save() {
     var isValid = true;
 
-    formModal.find('input[required] ,select[required]').each(function (e) {
+    formModal.find('input[required] ,select[required], textarea[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
             input.next(".error-message").show();
