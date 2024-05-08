@@ -47,7 +47,7 @@ $(document).ready(function () {
     //    allowClear: false,
     //    tags: true,
     //});
-    
+
 })
 $('#clientId').change(function (e) {
     e.preventDefault();
@@ -129,28 +129,28 @@ function generateData(id) {
                     return data.picClient;
                 }
             },
-            { data:"priority"},
+            { data: "priority" },
             { data: "client.authority" },
-            { data:"attendees"},
-            { data:"requestBy"},
-            { data:"currentNews"},
-            { data:"hiringNeeds"},
-            { data:"timeline"},
-            { data:"hiringProcess"},
-            { data:"workLocation"},
-            { data:"notes"},
-            { data:"contractPeriode"},
-            { data:"rateCard"},
+            { data: "attendees" },
+            { data: "requestBy" },
+            { data: "currentNews" },
+            { data: "hiringNeeds" },
+            { data: "timeline" },
+            { data: "hiringProcess" },
+            { data: "workLocation" },
+            { data: "notes" },
+            { data: "contractPeriode" },
+            { data: "rateCard" },
             { data: "projectStatus" },
             {
                 data: null,
                 orderable: false,
                 render: function (data, type, row) {
                     return (
-                            `
+                        `
                         <div class="d-flex flex-row">
                             <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id})"><i class="far fa-edit"></i></a>
-                            <a href="#" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity" onclick = ""><i class="fas fa-calendar-plus"></i></a>
+                            <a href="" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity"  data-toggle="modal" data-target="#activityModal" onclick="setIdformActivity(${row.id})"><i class="fas fa-calendar-plus"></i></a>
                         </div>
                         `
                     );
@@ -195,7 +195,7 @@ function clientOption(selected) {
             clientContact.val("");
             industry.val("");
 
-            
+
             data.data.forEach(function (option) {
                 let optionElement = $(`<option>`);
                 optionElement.attr('value', option.id);
@@ -205,7 +205,7 @@ function clientOption(selected) {
 
                     //salesName
                     salesName = option.salesName
-                    idSales1.val(salesName??' ')
+                    idSales1.val(salesName ?? ' ')
                     idSales2.val(' ')
                     if (salesName && salesName.includes(',')) {
                         let splitName = salesName.split(',');
@@ -214,7 +214,7 @@ function clientOption(selected) {
                     }
                     salesContact.val(option.salesContact ?? " ");
                     nameOfClient.val(option.nameOfClient ?? " ");
-                    companyOrigin.val(option.companyOrigin ??" ");
+                    companyOrigin.val(option.companyOrigin ?? " ");
                     picClient.val(option.picClient ?? " ");
                     authority.val(option.authority ?? " ");
                     clientContact.val(option.clientContact ?? " ");
@@ -237,7 +237,7 @@ async function GetById(id) {
     $('#Update').show()
     $('#Save').hide()
     $('#colStatusPro').show()
-    $('#projectStatus').attr('required',true)
+    $('#projectStatus').attr('required', true)
     const url = 'https://localhost:7177/api/SalesProjection/' + id;
     const fetchingData = await fetch(url, {
         headers: {
@@ -259,7 +259,7 @@ async function GetById(id) {
         const idForm = $(this).attr('id');
         let fieldValue = response.data[idForm];
 
-        if (fieldValue === undefined ) {
+        if (fieldValue === undefined) {
             fieldValue = responseClient.data[idForm]
         }
 
@@ -411,5 +411,69 @@ function Save() {
             Swal.fire("Error!", "Failed to Insert Data", "error");
         }
     })
+
+}
+
+
+function clearScreenModalActivity() {
+
+    var form = document.getElementById('formActivity');
+    form.reset();
+    form.classList.remove("was-validated");
+}
+
+function setIdformActivity(spId) {
+    clearScreenModalActivity();
+    $("#spId").val(spId);
+}
+
+function saveActivity() {
+
+
+    var form = document.getElementById('formActivity');
+   
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add('was-validated');
+        return;
+    } 
+
+
+    const dataActivity = {
+        "spId": parseInt($("#spId").val()),
+        "activity": $("#inputActivity").val(),
+        "date": $("#dateActivity").val()
+    }
+    console.log(dataActivity);
+    $.ajax({
+        url: 'https://localhost:7177/api/ActivitySalesProjection',
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify(dataActivity),
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (data) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: `Activity Inserted!`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            $("#activityModal").modal("hide");
+            $("#salesProjectionTable").DataTable().ajax.reload();
+        },
+        error: function (err) {
+            console.error(err)
+            Swal.fire("Error!", "Failed to Insert Data", "error");
+        }
+    })
+
+
+
+
+
 
 }

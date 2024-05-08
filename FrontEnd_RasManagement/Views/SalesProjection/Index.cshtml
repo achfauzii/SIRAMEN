@@ -245,4 +245,50 @@
     </div>
 </div>
 
+
+<!-- Modal Activity -->
+<div class="modal fade" id="activityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sales Activity</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" id="formActivity" novalidate>
+                    <div class="form-row">
+                       
+                            <label for="validationCustom01">Date</label>
+                            <input id="activityId" hidden>
+                            <input id="spId" hidden>
+                            <input type="date" class="form-control" id="dateActivity"  required>
+                            <div class="invalid-feedback">
+                                This field is required!
+                            </div>
+                      
+                        
+                    </div>
+                    <div class="form-row mt-3">
+                  
+                            <label for="validationCustom02">Activity</label>
+                            <textarea type="text" class="form-control" id="inputActivity" required></textarea>
+                            <div class="invalid-feedback">
+                                This field is required!
+                            </div>
+                   
+                    </div>
+               
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveActivity()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/js/salesProjection.js"></script>
