@@ -74,6 +74,7 @@ builder.Services.AddScoped<PositionRepository>();
 builder.Services.AddScoped<MasterHolidayRepository>();
 builder.Services.AddScoped<ApprovalRepository>();
 builder.Services.AddScoped<SalesProjectionRepository>();
+builder.Services.AddScoped<ActivitySalesProjectionRepository>();
 
 //builder.Services.AddTransient<EducationRepository>();
 

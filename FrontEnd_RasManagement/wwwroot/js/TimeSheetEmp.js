@@ -628,7 +628,7 @@ function save() {
                         timer:8000,
                         html:
                             TimeSheet.statusApproval = "On Progress"
-                                ? `You fill in the overtime timesheet on ${formattedDate}`
+                                ? `You fill in the overtime timesheet on <b>${formattedDate}<b>`
                                 : "",
                         showConfirmButton: true,
                     }).then((result) => {
