@@ -20,32 +20,32 @@ $(document).ready(function () {
         tags: true,
     });
 
-    $("#RequestBy").select2({
-        placeholder: "Choose ",
-        dropdownParent: $("#colRequestBy"),
-        width: "100%",
-        height: "100%",
-        allowClear: false,
-        tags: true,
-    });
+    //$("#RequestBy").select2({
+    //    placeholder: "Choose ",
+    //    dropdownParent: $("#colRequestBy"),
+    //    width: "100%",
+    //    height: "100%",
+    //    allowClear: false,
+    //    tags: false,
+    //});
 
-    $("#Priority").select2({
-        placeholder: "Choose ",
-        dropdownParent: $("#colPriority"),
-        width: "100%",
-        height: "100%",
-        allowClear: false,
-        tags: true,
-    });
+    //$("#Priority").select2({
+    //    placeholder: "Choose ",
+    //    dropdownParent: $("#colPriority"),
+    //    width: "100%",
+    //    height: "100%",
+    //    allowClear: false,
+    //    tags: true,
+    //});
 
-    $("#Status").select2({
-        placeholder: "Choose ",
-        dropdownParent: $("#colStatus"),
-        width: "100%",
-        height: "100%",
-        allowClear: false,
-        tags: true,
-    });
+    //$("#Status").select2({
+    //    placeholder: "Choose ",
+    //    dropdownParent: $("#colStatus"),
+    //    width: "100%",
+    //    height: "100%",
+    //    allowClear: false,
+    //    tags: true,
+    //});
     
 })
 $('#clientId').change(function (e) {
