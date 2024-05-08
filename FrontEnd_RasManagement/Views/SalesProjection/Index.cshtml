@@ -142,7 +142,7 @@
                         <div class="col" id="colRequestBy">
                             <label for="message-text" class="col-form-label">Request By</label>
                             <select class="form-control form-control-sm" id="requestBy" required>
-                                <option selected disabled>Choose status</option>
+                                <option value="" selected disabled>Choose status</option>
                                 <option value="Internal">Internal</option>
                                 <option value="External">External</option>
                             </select>
@@ -179,12 +179,17 @@
                             <input type="text" class="form-control form-control-sm" placeholder="Enter Work location" id="workLocation" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Contract Periode</label>
+                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" id="contractPeriode" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col" id="colPriority">
                             <label for="message-text" class="col-form-label">Priority</label>
                             <select class="form-control form-control-sm" id="priority" required>
-                                <option selected disabled>Choose Priority</option>
+                                <option value="" selected disabled>Choose Priority</option>
                                 <option value="High">High</option>
                                 <option value="Medium">Medium</option>
                                 <option value="Low">Low</option>
@@ -194,7 +199,7 @@
                         <div class="col" id="colStatus">
                             <label for="message-text" class="col-form-label">Status</label>
                             <select class="form-control form-control-sm" id="status" required>
-                                <option selected disabled>Choose Status</option>
+                                <option value="" selected disabled>Choose Status</option>
                                 <option value="SchedulingMeeting">Scheduling Meeting</option>
                                 <option value="MeetingDone">Meeting Done</option>
                                 <option value="Ratecardsent">Ratecardsent</option>
@@ -205,13 +210,20 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col">
-                            <label for="message-text" class="col-form-label">Contract Periode</label>
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" id="contractPeriode" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                        <div class="col">
                             <label for="message-text" class="col-form-label">Ratecard</label>
                             <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="rateCard" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                        <div class="col" id="colStatusPro">
+                            <label for="message-text" class="col-form-label">Status Projection</label>
+                            <select class="form-control form-control-sm" id="projectStatus">
+                                <option value="" selected disabled>Choose Status Projection</option>
+                                <option value="Open">MOM Sales</option>
+                                <option value="Re Open">Re Open</option>
+                                <option value="Best View">Best View</option>
+                                <option value="CLose Win">Close Win</option>
+                                <option value="Close Lose">Close Lose</option>
+                            </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
