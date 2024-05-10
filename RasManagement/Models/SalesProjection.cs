@@ -34,7 +34,9 @@ public partial class SalesProjection
 
     //[JsonIgnore]
     public virtual ClientName? Client { get; set; }
-    
+
+    [JsonIgnore]
+    public virtual ICollection<ActivitySalesProjection>? ActivitySalesProjections { get; set; } = new List<ActivitySalesProjection>();
 
 }
 
