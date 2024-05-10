@@ -57,7 +57,7 @@ function generateData(id) {
     }
 
 
-    if (endpointApi == "best view") {
+    if (endpointApi == "best view" || endpointApi =="close win") {
         $('#salesProjectionTable').DataTable().destroy();
         $('#salesProjectionTableBestViews').DataTable().destroy();
         $("#salesProjectionTable").hide();
@@ -152,6 +152,22 @@ function generateData(id) {
                 { data: "rateCard" },
 
                 { data: "salesProject" },
+                {
+                    data: "cogs",
+                    visible: (endpointApi == "best view") ? false : true
+                },
+                {
+                    data: "gpm",
+                    visible: (endpointApi == "best view") ? false : true
+                },
+                {
+                    data: "soNumber",
+                    visible: (endpointApi == "best view") ? false : true
+                },
+                {
+                    data: "notes",
+                    visible: (endpointApi == "best view") ? false : true
+                },
             
                 {
                     data: null,
@@ -171,6 +187,7 @@ function generateData(id) {
                     //visible: objDataToken.RoleId != 7,
                 },
             ],
+           
         });
 
     } else {
