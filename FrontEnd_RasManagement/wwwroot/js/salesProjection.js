@@ -238,7 +238,13 @@ function generateData(id) {
                         return data.companyOrigin;
                     }
                 },
-                { data: "entryDate" },
+                {
+                    data: "entryDate",
+                    render: function (data) {
+                        let date = moment.utc(data);
+                        return date.format('ddd, D MMMM YYYY');
+                    }
+                },
                 {
                     data: "client",
                     render: function (data) {
@@ -263,7 +269,12 @@ function generateData(id) {
                 { data: "notes" },
                 { data: "contractPeriode" },
                 { data: "rateCard" },
-                { data: "projectStatus" },
+                {
+                    data: "projectStatus",
+                    render: function (data) {
+                        return `<button class="btn btn-block btn-${color}" style="font-size: 12px; pointer-events: none;">${data}</button>`
+                    }
+                },
                 {
                     data: null,
                     orderable: false,
@@ -408,7 +419,9 @@ async function GetById(id, tableName) {
             $(this).val(fieldValue);
         }
     });
-
+    $('#fieldBestView').find('input, select').each(function (e) {
+        $(this).attr('required', true)
+    })
     const fieldStatusPro = document.getElementById('projectStatus');
 
     fieldStatusPro.addEventListener('change', function () {
@@ -438,6 +451,9 @@ function ClearScreen() {
     $('#colStatusPro').hide()
     $('#projectStatus').attr('required', false)
     document.getElementById('fieldBestView').style.display = 'none';
+    $('#fieldBestView').find('input, select').each(function (e) {
+        $(this).attr('required',false)
+    })
     formModal.find('input, textarea').each(function (e) {
         $(this).val("");
     })
