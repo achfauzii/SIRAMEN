@@ -1,5 +1,7 @@
 const formModal = $('#Modal-addSalesProjection form');
 $(document).ready(function () {
+
+
     $('.nav-tabs .nav-item').find('a').each(function () {
         $(this).on('click', function (e) {
             e.preventDefault();
@@ -21,34 +23,8 @@ $(document).ready(function () {
     });
 
 
-    //$("#RequestBy").select2({
-    //    placeholder: "Choose ",
-    //    dropdownParent: $("#colRequestBy"),
-    //    width: "100%",
-    //    height: "100%",
-    //    allowClear: false,
-    //    tags: false,
-    //});
-
-    //$("#Priority").select2({
-    //    placeholder: "Choose ",
-    //    dropdownParent: $("#colPriority"),
-    //    width: "100%",
-    //    height: "100%",
-    //    allowClear: false,
-    //    tags: true,
-    //});
-
-    //$("#Status").select2({
-    //    placeholder: "Choose ",
-    //    dropdownParent: $("#colStatus"),
-    //    width: "100%",
-    //    height: "100%",
-    //    allowClear: false,
-    //    tags: true,
-    //});
-
 })
+
 $('#clientId').change(function (e) {
     e.preventDefault();
     const selected = $(this).val()
@@ -79,86 +55,224 @@ function generateData(id) {
             $('#addSalesProjection').show();
             break;
     }
-    $("#salesProjectionTable").DataTable({
-        scrollX: true,
-        order: [1, "asc"],
-        ajax: {
-            url:
-                "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
-            type: "GET",
-            contentType: "application/json",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            dataSrc: function (json) {
-                return json.data
-            },
-        },
-        language: {
-            emptyTable: "No data available in table"
-        },
-        columns: [
-            {
-                data: null,
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+
+
+    if (endpointApi == "best view") {
+        $('#salesProjectionTable').DataTable().destroy();
+        $('#salesProjectionTableBestViews').DataTable().destroy();
+        $("#salesProjectionTable").hide();
+        $("#salesProjectionTableBestViews").show();
+
+        $("#salesProjectionTableBestViews").DataTable({
+            scrollX: true,
+            order: [1, "asc"],
+            ajax: {
+                url:
+                    "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
-            },
-            {
-                data: "client",
-                render: function (data) {
-                    return data.nameOfClient;
+                dataSrc: function (json) {
+                    return json.data.map(function (item) {
+                        const urlPosition = 'https://localhost:7177/api/Position/ByClientIdAndStatus?clientId=' + item.clientId + '&status=Fullfill';
+                        $.ajax({
+                            url: urlPosition,
+                            type: 'GET',
+                            dataType: 'json',
+                            headers: {
+                                Authorization: "Bearer " + sessionStorage.getItem("Token")
+                            },
+                            success: function (data) {
+                                if (data.data && data.data.length > 0) {
+                                  
+                                    if (data.data.length > 1) {
+                                        item.quantity = data.data.map(function (pos) {
+                                            return pos.quantity;
+                                        }).join(', ');
+
+                                        item.position = data.data.map(function (pos) {
+                                            return pos.positionClient;
+                                        }).join(', ');
+
+                                    } else {
+                                        item.quantity = data.data[0].quantity; 
+                                        item.position = data.data[0].positionClient;
+                                    }
+                                } else {
+                                    item.quantity = null;
+                                    item.position = null;
+                                }
+                            },
+                            error: function (err) {
+                                console.error("error fetching data:" + err);
+                                item.quantity = null;
+                                item.position = null;
+                            },
+                            async: false
+                        });
+                        return item;
+                    });
                 }
             },
-            {
-                data: "client",
-                render: function (data) {
-                    return data.companyOrigin;
-                }
+            language: {
+                emptyTable: "No data available in table"
             },
-            { data: "entryDate" },
-            {
-                data: "client",
-                render: function (data) {
-                    return data.industry;
-                }
-            },
-            {
-                data: "client",
-                render: function (data) {
-                    return data.picClient;
-                }
-            },
-            { data: "priority" },
-            { data: "client.authority" },
-            { data: "attendees" },
-            { data: "requestBy" },
-            { data: "currentNews" },
-            { data: "hiringNeeds" },
-            { data: "timeline" },
-            { data: "hiringProcess" },
-            { data: "workLocation" },
-            { data: "notes" },
-            { data: "contractPeriode" },
-            { data: "rateCard" },
-            { data: "projectStatus" },
-            {
-                data: null,
-                orderable: false,
-                render: function (data, type, row) {
-                    return (
-                        `
+            columns: [
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                    },
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.nameOfClient;
+                    }
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.industry;
+                    }
+                },
+                {
+                    data: "quantity"             
+                },
+
+                { data: "position" },
+                { data: "startedYear"},
+                {
+                    data: null,
+                    render: function (data) {
+                        return "A";
+                    }
+                },
+                {
+                    data: null,
+                    render: function (data) {
+                        return "A";
+                    }
+                },
+                {
+                    data: null,
+                    render: function (data) {
+                        return "A";
+                    }
+                },
+                {
+                    data: null,
+                    render: function (data) {
+                        return "A";
+                    }
+                },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return (
+                            `
                         <div class="d-flex flex-row">
                             <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id})"><i class="far fa-edit"></i></a>
                             <a href="" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity"  data-toggle="modal" data-target="#activityModal" onclick="setIdformActivity(${row.id})"><i class="fas fa-calendar-plus"></i></a>
                         </div>
                         `
-                    );
+                        );
+                    },
+                    //visible: objDataToken.RoleId != 7,
                 },
-                //visible: objDataToken.RoleId != 7,
+            ],
+        });
+
+    } else {
+        $('#salesProjectionTableBestViews').DataTable().destroy();
+        $('#salesProjectionTableBestViews').hide();
+        $("#salesProjectionTable").show();
+        $("#salesProjectionTable").DataTable({
+            scrollX: true,
+            order: [1, "asc"],
+            ajax: {
+                url:
+                    "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+                dataSrc: function (json) {
+                    return json.data
+                },
             },
-        ],
-    });
+            language: {
+                emptyTable: "No data available in table"
+            },
+            columns: [
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                    },
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.nameOfClient;
+                    }
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.companyOrigin;
+                    }
+                },
+                { data: "entryDate" },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.industry;
+                    }
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.picClient;
+                    }
+                },
+                { data: "priority" },
+                { data: "client.authority" },
+                { data: "attendees" },
+                { data: "requestBy" },
+                { data: "currentNews" },
+                { data: "hiringNeeds" },
+                { data: "timeline" },
+                { data: "hiringProcess" },
+                { data: "workLocation" },
+                { data: "notes" },
+                { data: "contractPeriode" },
+                { data: "rateCard" },
+                { data: "projectStatus" },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return (
+                            `
+                        <div class="d-flex flex-row">
+                            <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id})"><i class="far fa-edit"></i></a>
+                            <a href="" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity"  data-toggle="modal" data-target="#activityModal" onclick="setIdformActivity(${row.id})"><i class="fas fa-calendar-plus"></i></a>
+                        </div>
+                        `
+                        );
+                    },
+                    //visible: objDataToken.RoleId != 7,
+                },
+            ],
+        });
+
+    }
+
 }
 
 function clientOption(selected) {
@@ -275,6 +389,27 @@ async function GetById(id) {
             $(this).val(fieldValue);
         }
     });
+
+    const fieldStatusPro = document.getElementById('projectStatus');
+
+    fieldStatusPro.addEventListener('change', function () {
+        const valStatusPro = $("#projectStatus").val();
+
+
+        if (valStatusPro == "Best View") {
+            document.getElementById("fieldBestView").style.display = "block";
+
+
+
+            $('#yearStarted').attr('required', true);
+            $('#projectType').attr('required', true);
+            $('#salesPro').attr('required', true)
+
+        } else {
+            return;
+        }
+
+    })
 }
 
 function ClearScreen() {
@@ -283,6 +418,7 @@ function ClearScreen() {
     $('#Save').show()
     $('#colStatusPro').hide()
     $('#projectStatus').attr('required', false)
+    document.getElementById('fieldBestView').style.display = 'none';
     formModal.find('input, textarea').each(function (e) {
         $(this).val("");
     })
@@ -310,7 +446,7 @@ function Update() {
     const dataToUpdate = {
         id: parseInt($('#id').val()),
         entryDate: $('#entryDate').val(),
-        projectStatus: "Open",
+        projectStatus: $('#projectStatus').val(),
         /*projectStatus: $('#projectStatus').val(),*/
         attendees: $('#attendees').val(),
         requestBy: $('#requestBy').find(":selected").val(),
@@ -324,8 +460,12 @@ function Update() {
         contractPeriode: $('#contractPeriode').val(),
         rateCard: $('#rateCard').val(),
         currentNews: $('#currentNews').val(),
-        clientId: parseInt($('#clientId').find(":selected").val())
+        clientId: parseInt($('#clientId').find(":selected").val()),
+        startedYear: $('#yearStarted').val(),
+        projectType: $('#projectType').val(),
+        salesProject: $('#salesPro').val(),
     }
+ 
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'PUT',
@@ -385,8 +525,11 @@ function Save() {
         contractPeriode: $('#contractPeriode').val(),
         rateCard: $('#rateCard').val(),
         currentNews: $('#currentNews').val(),
-        clientId: parseInt($('#clientId').find(":selected").val())
+        clientId: parseInt($('#clientId').find(":selected").val()),
+ 
     }
+
+  
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'POST',
@@ -431,13 +574,13 @@ function saveActivity() {
 
 
     var form = document.getElementById('formActivity');
-   
+
     if (form.checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
         form.classList.add('was-validated');
         return;
-    } 
+    }
 
 
     const dataActivity = {

@@ -32,6 +32,27 @@ namespace RasManagement.Repository
             return positionClient;
         }
 
+        public async Task<List<PositionByClient>> GetPositionByClientIdAndStatus(int clientId, string status)
+        {
+            var positionClient = await context.Positions
+                .Include(c => c.Client)
+                .Where(e => e.ClientId == clientId && e.Status == status)
+                .Select(d => new PositionByClient
+                {
+                    Id = d.Id,
+                    PositionClient = d.PositionClient,
+                    Level = d.Level,
+                    Quantity = d.Quantity,
+                    Status = d.Status,
+                    Notes = d.Notes,
+                    ClientId = d.ClientId,
+                    ClientName = d.Client.NameOfClient
+                })
+                .ToListAsync();
+
+            return positionClient;
+        }
+
         public async Task<bool> PositionNameIsExist(string name, int? clientId = null, string? level = null)
         {
             // Use AnyAsync to check if any department with the given name exists
