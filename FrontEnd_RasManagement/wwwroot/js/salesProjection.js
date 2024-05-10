@@ -1,4 +1,5 @@
 const formModal = $('#Modal-addSalesProjection form');
+let savedLocation;
 $(document).ready(function () {
 
 
@@ -22,7 +23,6 @@ $(document).ready(function () {
         tags: true,
     });
 
-
 })
 
 $('#clientId').change(function (e) {
@@ -32,26 +32,32 @@ $('#clientId').change(function (e) {
 })
 function generateData(id) {
     $('#salesProjectionTable').DataTable().destroy();
-    let endpointApi;
+    let endpointApi,color;
     $('#addSalesProjection').hide();
     switch (id.toLowerCase()) {
         case "momsales":
             endpointApi = "open";
+            color = "secondary";
             break;
         case "reopen":
             endpointApi = "re open";
+            color = "info";
             break;
         case "bestview":
             endpointApi = "best view";
+            color = "light";
             break;
         case "goals":
             endpointApi = "close win";
+            color = "success";
             break;
         case "lose":
             endpointApi = "close lose";
+            color = "danger";
             break;
         default:
             endpointApi = "hold";
+            color = "warning";
             $('#addSalesProjection').show();
             break;
     }
@@ -119,6 +125,7 @@ function generateData(id) {
             language: {
                 emptyTable: "No data available in table"
             },
+
             columns: [
                 {
                     data: null,
@@ -396,7 +403,7 @@ async function GetById(id, tableName) {
     $('#Modal-addSalesProjection form').find('select').each(function () {
         const idForm = $(this).attr('id');
         const fieldValue = response.data[idForm];
-
+        console.log(fieldValue)
         if (fieldValue !== undefined) {
             $(this).val(fieldValue);
         }
@@ -447,10 +454,10 @@ function Update() {
     formModal.find('input[required] ,select[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
-            input.next(".error-message").show();
+            input.closest('div .col').find('.error-message').show()
             isValid = false;
         } else {
-            input.next(".error-message").hide();
+            input.closest('div .col').find('.error-message').hide()
         }
     });
 
@@ -460,8 +467,9 @@ function Update() {
     const dataToUpdate = {
         id: parseInt($('#id').val()),
         entryDate: $('#entryDate').val(),
-        projectStatus: $('#projectStatus').val(),
-        /*projectStatus: $('#projectStatus').val(),*/
+
+        projectStatus: $('#projectStatus').find(":selected").val(),
+
         attendees: $('#attendees').val(),
         requestBy: $('#requestBy').find(":selected").val(),
         hiringNeeds: $('#hiringNeeds').val(),
@@ -492,7 +500,7 @@ function Update() {
             Swal.fire({
                 icon: "success",
                 title: "Success...",
-                text: `Data Sales Projection Moved to ${isValid}!`,
+                text: `Data Sales Projection Moved to ${dataToUpdate.projectStatus}!`,
                 showConfirmButton: false,
                 timer: 1500,
             });
@@ -520,10 +528,10 @@ function Save() {
     formModal.find('input[required] ,select[required], textarea[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
-            input.next(".error-message").show();
+            input.closest('div .col').find('.error-message').show()
             isValid = false;
         } else {
-            input.next(".error-message").hide();
+            input.closest('div .col').find('.error-message').hide()
         }
     });
 
