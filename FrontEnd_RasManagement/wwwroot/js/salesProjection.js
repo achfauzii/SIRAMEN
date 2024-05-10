@@ -221,7 +221,13 @@ function generateData(id) {
                         return data.companyOrigin;
                     }
                 },
-                { data: "entryDate" },
+                {
+                    data: "entryDate",
+                    render: function (data) {
+                        let date = moment.utc(data);
+                        return date.format('ddd, D MMMM YYYY');
+                    }
+                },
                 {
                     data: "client",
                     render: function (data) {
@@ -246,7 +252,12 @@ function generateData(id) {
                 { data: "notes" },
                 { data: "contractPeriode" },
                 { data: "rateCard" },
-                { data: "projectStatus" },
+                {
+                    data: "projectStatus",
+                    render: function (data) {
+                        return `<button class="btn btn-block btn-${color}" style="font-size: 12px; pointer-events: none;">${data}</button>`
+                    }
+                },
                 {
                     data: null,
                     orderable: false,
