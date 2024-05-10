@@ -106,7 +106,7 @@ function generateData(id) {
                                 }
                             },
                             error: function (err) {
-                                console.error("error fetching data:" + err);
+                               /* console.error("error fetching data:" + err);*/
                                 item.quantity = null;
                                 item.position = null;
                             },
@@ -143,42 +143,29 @@ function generateData(id) {
                 },
 
                 { data: "position" },
-                { data: "startedYear"},
-                {
-                    data: null,
-                    render: function (data) {
-                        return "A";
-                    }
-                },
-                {
-                    data: null,
-                    render: function (data) {
-                        return "A";
-                    }
-                },
-                {
-                    data: null,
-                    render: function (data) {
-                        return "A";
-                    }
-                },
-                {
-                    data: null,
-                    render: function (data) {
-                        return "A";
-                    }
-                },
+                { data: "startedYear" },
+
+                { data: "projectType" },
+
+                { data: "contractPeriode" },
+
+                { data: "rateCard" },
+
+                { data: "salesProject" },
+            
                 {
                     data: null,
                     orderable: false,
                     render: function (data, type, row) {
+                   
                         return (
                             `
                         <div class="d-flex flex-row">
-                            <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id})"><i class="far fa-edit"></i></a>
+                            <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id},'${endpointApi}')"><i class="far fa-edit"></i></a>
                             <a href="" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity"  data-toggle="modal" data-target="#activityModal" onclick="setIdformActivity(${row.id})"><i class="fas fa-calendar-plus"></i></a>
                         </div>
                         `
+                            
                         );
                     },
                     //visible: objDataToken.RoleId != 7,
@@ -260,7 +247,7 @@ function generateData(id) {
                         return (
                             `
                         <div class="d-flex flex-row">
-                            <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id})"><i class="far fa-edit"></i></a>
+                            <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id},'${endpointApi}')"><i class="far fa-edit"></i></a>
                             <a href="" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity"  data-toggle="modal" data-target="#activityModal" onclick="setIdformActivity(${row.id})"><i class="fas fa-calendar-plus"></i></a>
                         </div>
                         `
@@ -346,12 +333,15 @@ function clientOption(selected) {
 }
 
 
-async function GetById(id) {
+async function GetById(id, tableName) {
     ClearScreen();
     $('#Update').show()
     $('#Save').hide()
     $('#colStatusPro').show()
     $('#projectStatus').attr('required', true)
+  
+    $('#tableName').val(tableName);
+
     const url = 'https://localhost:7177/api/SalesProjection/' + id;
     const fetchingData = await fetch(url, {
         headers: {
@@ -360,6 +350,11 @@ async function GetById(id) {
     })
     const response = await fetchingData.json()
 
+    if (response.data.projectStatus === "Best View") {
+        document.getElementById("fieldBestView").style.display = "block";
+    }
+
+ 
     const urlClient = 'https://localhost:7177/api/ClientName/' + response.data.clientId;
     const fetchingDataClient = await fetch(urlClient, {
         headers: {
@@ -372,7 +367,7 @@ async function GetById(id) {
     $('#Modal-addSalesProjection form').find('input, textarea').each(function () {
         const idForm = $(this).attr('id');
         let fieldValue = response.data[idForm];
-
+    
         if (fieldValue === undefined) {
             fieldValue = responseClient.data[idForm]
         }
@@ -430,6 +425,8 @@ function ClearScreen() {
 
 function Update() {
     var isValid = true;
+    const tableName = $('#tableName').val();
+   
     formModal.find('input[required] ,select[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
@@ -483,7 +480,14 @@ function Update() {
                 timer: 1500,
             });
             $("#Modal-addSalesProjection").modal("hide");
-            $("#salesProjectionTable").DataTable().ajax.reload();
+
+            if (tableName === "best view") {
+                $("#salesProjectionTableBestViews").DataTable().ajax.reload();
+            } else {
+                $("#salesProjectionTable").DataTable().ajax.reload();
+            }
+         
+         
         },
         error: function (err) {
             console.error(err)
@@ -588,7 +592,7 @@ function saveActivity() {
         "activity": $("#inputActivity").val(),
         "date": $("#dateActivity").val()
     }
-    console.log(dataActivity);
+   
     $.ajax({
         url: 'https://localhost:7177/api/ActivitySalesProjection',
         type: 'POST',
