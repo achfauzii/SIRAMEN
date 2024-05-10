@@ -396,9 +396,9 @@ async function GetById(id, tableName) {
 
 
 
-            $('#yearStarted').attr('required', true);
+            $('#startedYear').attr('required', true);
             $('#projectType').attr('required', true);
-            $('#salesPro').attr('required', true)
+            $('#salesProject').attr('required', true)
 
         } else {
             return;
@@ -458,9 +458,9 @@ function Update() {
         rateCard: $('#rateCard').val(),
         currentNews: $('#currentNews').val(),
         clientId: parseInt($('#clientId').find(":selected").val()),
-        startedYear: $('#yearStarted').val(),
+        startedYear: $('#startedYear').val(),
         projectType: $('#projectType').val(),
-        salesProject: $('#salesPro').val(),
+        salesProject: $('#salesProject').val(),
     }
  
     $.ajax({
