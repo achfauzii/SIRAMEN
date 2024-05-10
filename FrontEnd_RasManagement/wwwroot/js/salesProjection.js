@@ -391,7 +391,9 @@ async function GetById(id, tableName) {
             $(this).val(fieldValue);
         }
     });
-
+    $('#fieldBestView').find('input, select').each(function (e) {
+        $(this).attr('required', true)
+    })
     const fieldStatusPro = document.getElementById('projectStatus');
 
     fieldStatusPro.addEventListener('change', function () {
@@ -421,6 +423,9 @@ function ClearScreen() {
     $('#colStatusPro').hide()
     $('#projectStatus').attr('required', false)
     document.getElementById('fieldBestView').style.display = 'none';
+    $('#fieldBestView').find('input, select').each(function (e) {
+        $(this).attr('required',false)
+    })
     formModal.find('input, textarea').each(function (e) {
         $(this).val("");
     })
