@@ -1,6 +1,8 @@
 const formModal = $('#Modal-addSalesProjection form');
 let savedLocation;
 $(document).ready(function () {
+
+
     $('.nav-tabs .nav-item').find('a').each(function () {
         $(this).on('click', function (e) {
             e.preventDefault();
@@ -20,6 +22,7 @@ $(document).ready(function () {
         allowClear: false,
         tags: true,
     });
+
 })
 
 $('#clientId').change(function (e) {
@@ -58,97 +61,212 @@ function generateData(id) {
             $('#addSalesProjection').show();
             break;
     }
-    $("#salesProjectionTable").DataTable({
-        scrollX: true,
-        order: [1, "asc"],
-        ajax: {
-            url:
-                "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
-            type: "GET",
-            contentType: "application/json",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            dataSrc: function (json) {
-                return json.data
-            },
-        },
-        language: {
-            emptyTable: "No data available in table"
-        },
-        columns: [
-            {
-                data: null,
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+
+
+    if (endpointApi == "best view") {
+        $('#salesProjectionTable').DataTable().destroy();
+        $('#salesProjectionTableBestViews').DataTable().destroy();
+        $("#salesProjectionTable").hide();
+        $("#salesProjectionTableBestViews").show();
+
+        $("#salesProjectionTableBestViews").DataTable({
+            scrollX: true,
+            order: [1, "asc"],
+            ajax: {
+                url:
+                    "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
-            },
-            {
-                data: "client",
-                render: function (data) {
-                    return data.nameOfClient;
+                dataSrc: function (json) {
+                    return json.data.map(function (item) {
+                        const urlPosition = 'https://localhost:7177/api/Position/ByClientIdAndStatus?clientId=' + item.clientId + '&status=Fullfill';
+                        $.ajax({
+                            url: urlPosition,
+                            type: 'GET',
+                            dataType: 'json',
+                            headers: {
+                                Authorization: "Bearer " + sessionStorage.getItem("Token")
+                            },
+                            success: function (data) {
+                                if (data.data && data.data.length > 0) {
+                                  
+                                    if (data.data.length > 1) {
+                                        item.quantity = data.data.map(function (pos) {
+                                            return pos.quantity;
+                                        }).join(', ');
+
+                                        item.position = data.data.map(function (pos) {
+                                            return pos.positionClient;
+                                        }).join(', ');
+
+                                    } else {
+                                        item.quantity = data.data[0].quantity; 
+                                        item.position = data.data[0].positionClient;
+                                    }
+                                } else {
+                                    item.quantity = null;
+                                    item.position = null;
+                                }
+                            },
+                            error: function (err) {
+                               /* console.error("error fetching data:" + err);*/
+                                item.quantity = null;
+                                item.position = null;
+                            },
+                            async: false
+                        });
+                        return item;
+                    });
                 }
             },
-            {
-                data: "client",
-                render: function (data) {
-                    return data.companyOrigin;
-                }
+            language: {
+                emptyTable: "No data available in table"
             },
-            {
-                data: "entryDate",
-                render: function (data) {
-                    let date = moment.utc(data);
-                    return date.format('ddd, D MMMM YYYY');
-                }
-            },
-            {
-                data: "client",
-                render: function (data) {
-                    return data.industry;
-                }
-            },
-            {
-                data: "client",
-                render: function (data) {
-                    return data.picClient;
-                }
-            },
-            { data:"priority"},
-            { data: "client.authority" },
-            { data:"attendees"},
-            { data:"requestBy"},
-            { data:"currentNews"},
-            { data:"hiringNeeds"},
-            { data:"timeline"},
-            { data:"hiringProcess"},
-            { data:"workLocation"},
-            { data:"notes"},
-            { data:"contractPeriode"},
-            { data:"rateCard"},
-            {
-                data: "projectStatus",
-                render: function (data) {
-                    return `<button class="btn btn-block btn-${color}" style="font-size: 12px; pointer-events: none;">${data}</button>`
-                }
-            },
-            {
-                data: null,
-                orderable: false,
-                render: function (data, type, row) {
-                    return (
+
+            columns: [
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                    },
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.nameOfClient;
+                    }
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.industry;
+                    }
+                },
+                {
+                    data: "quantity"             
+                },
+
+                { data: "position" },
+                { data: "startedYear" },
+
+                { data: "projectType" },
+
+                { data: "contractPeriode" },
+
+                { data: "rateCard" },
+
+                { data: "salesProject" },
+            
+                {
+                    data: null,
+                    orderable: false,
+                    render: function (data, type, row) {
+                   
+                        return (
                             `
                         <div class="d-flex flex-row">
-                            <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id})"><i class="far fa-edit"></i></a>
-                            <a href="#" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity" onclick = ""><i class="fas fa-calendar-plus"></i></a>
+                            <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id},'${endpointApi}')"><i class="far fa-edit"></i></a>
+                            <a href="" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity"  data-toggle="modal" data-target="#activityModal" onclick="setIdformActivity(${row.id})"><i class="fas fa-calendar-plus"></i></a>
                         </div>
                         `
-                    );
+                            
+                        );
+                    },
+                    //visible: objDataToken.RoleId != 7,
                 },
-                //visible: objDataToken.RoleId != 7,
+            ],
+        });
+
+    } else {
+        $('#salesProjectionTableBestViews').DataTable().destroy();
+        $('#salesProjectionTableBestViews').hide();
+        $("#salesProjectionTable").show();
+        $("#salesProjectionTable").DataTable({
+            scrollX: true,
+            order: [1, "asc"],
+            ajax: {
+                url:
+                    "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    Authorization: "Bearer " + sessionStorage.getItem("Token"),
+                },
+                dataSrc: function (json) {
+                    return json.data
+                },
             },
-        ],
-    });
+            language: {
+                emptyTable: "No data available in table"
+            },
+            columns: [
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                    },
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.nameOfClient;
+                    }
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.companyOrigin;
+                    }
+                },
+                { data: "entryDate" },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.industry;
+                    }
+                },
+                {
+                    data: "client",
+                    render: function (data) {
+                        return data.picClient;
+                    }
+                },
+                { data: "priority" },
+                { data: "client.authority" },
+                { data: "attendees" },
+                { data: "requestBy" },
+                { data: "currentNews" },
+                { data: "hiringNeeds" },
+                { data: "timeline" },
+                { data: "hiringProcess" },
+                { data: "workLocation" },
+                { data: "notes" },
+                { data: "contractPeriode" },
+                { data: "rateCard" },
+                { data: "projectStatus" },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return (
+                            `
+                        <div class="d-flex flex-row">
+                            <a href="#" class="btn  ml-1 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Edit Status" onclick = "return GetById(${row.id},'${endpointApi}')"><i class="far fa-edit"></i></a>
+                            <a href="" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity"  data-toggle="modal" data-target="#activityModal" onclick="setIdformActivity(${row.id})"><i class="fas fa-calendar-plus"></i></a>
+                        </div>
+                        `
+                        );
+                    },
+                    //visible: objDataToken.RoleId != 7,
+                },
+            ],
+        });
+
+    }
+
 }
 
 function clientOption(selected) {
@@ -185,7 +303,7 @@ function clientOption(selected) {
             clientContact.val("");
             industry.val("");
 
-            
+
             data.data.forEach(function (option) {
                 let optionElement = $(`<option>`);
                 optionElement.attr('value', option.id);
@@ -195,7 +313,7 @@ function clientOption(selected) {
 
                     //salesName
                     salesName = option.salesName
-                    idSales1.val(salesName??' ')
+                    idSales1.val(salesName ?? ' ')
                     idSales2.val(' ')
                     if (salesName && salesName.includes(',')) {
                         let splitName = salesName.split(',');
@@ -204,7 +322,7 @@ function clientOption(selected) {
                     }
                     salesContact.val(option.salesContact ?? " ");
                     nameOfClient.val(option.nameOfClient ?? " ");
-                    companyOrigin.val(option.companyOrigin ??" ");
+                    companyOrigin.val(option.companyOrigin ?? " ");
                     picClient.val(option.picClient ?? " ");
                     authority.val(option.authority ?? " ");
                     clientContact.val(option.clientContact ?? " ");
@@ -222,12 +340,15 @@ function clientOption(selected) {
 }
 
 
-async function GetById(id) {
+async function GetById(id, tableName) {
     ClearScreen();
     $('#Update').show()
     $('#Save').hide()
     $('#colStatusPro').show()
-    $('#projectStatus').attr('required',true)
+    $('#projectStatus').attr('required', true)
+  
+    $('#tableName').val(tableName);
+
     const url = 'https://localhost:7177/api/SalesProjection/' + id;
     const fetchingData = await fetch(url, {
         headers: {
@@ -236,6 +357,11 @@ async function GetById(id) {
     })
     const response = await fetchingData.json()
 
+    if (response.data.projectStatus === "Best View") {
+        document.getElementById("fieldBestView").style.display = "block";
+    }
+
+ 
     const urlClient = 'https://localhost:7177/api/ClientName/' + response.data.clientId;
     const fetchingDataClient = await fetch(urlClient, {
         headers: {
@@ -248,8 +374,8 @@ async function GetById(id) {
     $('#Modal-addSalesProjection form').find('input, textarea').each(function () {
         const idForm = $(this).attr('id');
         let fieldValue = response.data[idForm];
-
-        if (fieldValue === undefined ) {
+    
+        if (fieldValue === undefined) {
             fieldValue = responseClient.data[idForm]
         }
 
@@ -265,6 +391,27 @@ async function GetById(id) {
             $(this).val(fieldValue);
         }
     });
+
+    const fieldStatusPro = document.getElementById('projectStatus');
+
+    fieldStatusPro.addEventListener('change', function () {
+        const valStatusPro = $("#projectStatus").val();
+
+
+        if (valStatusPro == "Best View") {
+            document.getElementById("fieldBestView").style.display = "block";
+
+
+
+            $('#startedYear').attr('required', true);
+            $('#projectType').attr('required', true);
+            $('#salesProject').attr('required', true)
+
+        } else {
+            return;
+        }
+
+    })
 }
 
 function ClearScreen() {
@@ -273,6 +420,7 @@ function ClearScreen() {
     $('#Save').show()
     $('#colStatusPro').hide()
     $('#projectStatus').attr('required', false)
+    document.getElementById('fieldBestView').style.display = 'none';
     formModal.find('input, textarea').each(function (e) {
         $(this).val("");
     })
@@ -284,6 +432,8 @@ function ClearScreen() {
 
 function Update() {
     var isValid = true;
+    const tableName = $('#tableName').val();
+   
     formModal.find('input[required] ,select[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
@@ -300,7 +450,9 @@ function Update() {
     const dataToUpdate = {
         id: parseInt($('#id').val()),
         entryDate: $('#entryDate').val(),
+
         projectStatus: $('#projectStatus').find(":selected").val(),
+
         attendees: $('#attendees').val(),
         requestBy: $('#requestBy').find(":selected").val(),
         hiringNeeds: $('#hiringNeeds').val(),
@@ -313,8 +465,12 @@ function Update() {
         contractPeriode: $('#contractPeriode').val(),
         rateCard: $('#rateCard').val(),
         currentNews: $('#currentNews').val(),
-        clientId: parseInt($('#clientId').find(":selected").val())
+        clientId: parseInt($('#clientId').find(":selected").val()),
+        startedYear: $('#startedYear').val(),
+        projectType: $('#projectType').val(),
+        salesProject: $('#salesProject').val(),
     }
+ 
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'PUT',
@@ -332,7 +488,14 @@ function Update() {
                 timer: 1500,
             });
             $("#Modal-addSalesProjection").modal("hide");
-            $("#salesProjectionTable").DataTable().ajax.reload();
+
+            if (tableName === "best view") {
+                $("#salesProjectionTableBestViews").DataTable().ajax.reload();
+            } else {
+                $("#salesProjectionTable").DataTable().ajax.reload();
+            }
+         
+         
         },
         error: function (err) {
             console.error(err)
@@ -374,8 +537,11 @@ function Save() {
         contractPeriode: $('#contractPeriode').val(),
         rateCard: $('#rateCard').val(),
         currentNews: $('#currentNews').val(),
-        clientId: parseInt($('#clientId').find(":selected").val())
+        clientId: parseInt($('#clientId').find(":selected").val()),
+ 
     }
+
+  
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'POST',
@@ -400,5 +566,69 @@ function Save() {
             Swal.fire("Error!", "Failed to Insert Data", "error");
         }
     })
+
+}
+
+
+function clearScreenModalActivity() {
+
+    var form = document.getElementById('formActivity');
+    form.reset();
+    form.classList.remove("was-validated");
+}
+
+function setIdformActivity(spId) {
+    clearScreenModalActivity();
+    $("#spId").val(spId);
+}
+
+function saveActivity() {
+
+
+    var form = document.getElementById('formActivity');
+
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add('was-validated');
+        return;
+    }
+
+
+    const dataActivity = {
+        "spId": parseInt($("#spId").val()),
+        "activity": $("#inputActivity").val(),
+        "date": $("#dateActivity").val()
+    }
+   
+    $.ajax({
+        url: 'https://localhost:7177/api/ActivitySalesProjection',
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify(dataActivity),
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (data) {
+            Swal.fire({
+                icon: "success",
+                title: "Success...",
+                text: `Activity Inserted!`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            $("#activityModal").modal("hide");
+            $("#salesProjectionTable").DataTable().ajax.reload();
+        },
+        error: function (err) {
+            console.error(err)
+            Swal.fire("Error!", "Failed to Insert Data", "error");
+        }
+    })
+
+
+
+
+
 
 }
