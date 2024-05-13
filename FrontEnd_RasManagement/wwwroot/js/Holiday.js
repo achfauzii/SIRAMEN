@@ -1,4 +1,5 @@
-﻿var table = null;
+﻿
+var table = null;
 var initialHoliday = {};
 $(document).ready(function () {
     $('input[required]').each(function () {
@@ -79,9 +80,15 @@ $(document).ready(function () {
         });
     }
 
+    $.fn.dataTable.moment('D MMMM YYYY')
     table = $("#tbDataHoliday").DataTable({
         responsive: true,
-
+        columnDefs: [
+            {
+                targets: [0, 1, 3, 4],
+                orderable: false,
+            },
+        ],
         ajax: {
             url: "https://localhost:7177/api/MasterHoliday",
             type: "GET",
@@ -103,14 +110,9 @@ $(document).ready(function () {
             {
                 data: "date",
                 render: function (data) {
-                    var dateObj = new Date(data);
-                    var day = dateObj.getDate();
-                    var month = dateObj.getMonth() + 1;
-                    var year = dateObj.getFullYear();
-                    var formatDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
-                    return formatDate;
-                }
-
+                    let date = moment.utc(data);
+                    return date.format('D MMMM YYYY');
+                },
             },
             { data: "description" },
             {
@@ -138,13 +140,8 @@ $(document).ready(function () {
             },
         ],
 
-        order: [[2, "desc"]],
-        columnDefs: [
-            {
-                targets: [0, 1, 3],
-                orderable: false,
-            },
-        ],
+        order: [[2, "asc"]],
+        
         drawCallback: function (settings) {
             var api = this.api();
             var rows = api.rows({ page: "current" }).nodes();
