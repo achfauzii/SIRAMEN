@@ -227,6 +227,7 @@ function GetById(id) {
         var element = $(this);
         element.next(".error-message").hide();
     });
+
     $.ajax({
         url: "https://localhost:7177/api/ClientName/" + id,
         type: "GET",
