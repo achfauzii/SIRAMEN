@@ -151,23 +151,19 @@ function parseJwt(token) {
 }
 
 function ClearScreen() {
-    $("#CertificateId").val("");
-    $("#Name").val("");
-    $("#Publisher").val("");
-    $("#PublicationYear").val("");
-    $("#ValidUntil").val("");
-    $(".error-message").hide();
     $("#Update").hide();
     $("#Save").show();
-    $("input[required]").each(function () {
-        var input = $(this);
-
-        input.next(".error-message").hide();
-        input.next(".error-message-p").hide();
-    });
+    $('#Modal').find('input, select').each(function (e) {
+        $(this).val('');
+        $(this).val("").trigger("change");
+    })
+    $(".err").hide();
 }
 
 function GetById(CertificateId) {
+    ClearScreen()
+    $("#Update").show();
+    $("#Save").hide();
     //debugger;
     $.ajax({
         url: "https://localhost:7177/api/Certificate/" + CertificateId,

@@ -635,6 +635,28 @@ public partial class ProjectRasmanagementContext : DbContext
               .HasMaxLength(200)
               .IsUnicode(false);
 
+              entity.Property(e => e.ProjectType)
+             .HasMaxLength(50)
+             .IsUnicode(false);
+
+            entity.Property(e => e.StartedYear)
+           .HasMaxLength(50)
+           .IsUnicode(false);
+
+            entity.Property(e => e.SalesProject)
+            .HasColumnName("SalesProjection")
+            .IsUnicode(false);
+
+            entity.Property(e => e.COGS)
+            .IsUnicode(false);
+
+            entity.Property(e => e.GPM)
+          .IsUnicode(false);
+
+            entity.Property(e => e.SoNumber)
+             .IsUnicode(false);
+
+
             entity.HasOne(d => d.Client).WithMany(p => p.SalesProjections)
             .HasForeignKey(d => d.ClientId)
             .HasConstraintName("FK_Sales_Projection_Client_Name");

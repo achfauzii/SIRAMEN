@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label for="Year">Year</label>
                         <select id="Year" class="form-control" required>
-                            <option selected disabled>Select year</option>
+                            <option value="" selected disabled>Select year</option>
                         </select>
                         @*<input type="number" class="form-control" id="Year" placeholder="Enter year" maxlength="4"
                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>*@
@@ -106,19 +106,7 @@
     });
 
     // Get the select element
-    const yearSelect = document.getElementById("Year");
-
-    // Set the range of years (you can adjust the range as needed)
-    const startYear = 2000;
-    const endYear = new Date().getFullYear(); // Current year
-
-    // Generate options dynamically
-    for (let year = startYear; year <= endYear; year++) {
-        const option = document.createElement("option");
-        option.value = year;
-        option.text = year;
-        yearSelect.appendChild(option);
-    }
+    
 </script>
 
 

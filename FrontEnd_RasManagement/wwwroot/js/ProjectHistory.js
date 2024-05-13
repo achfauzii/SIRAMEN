@@ -84,6 +84,24 @@ $(document).ready(function () {
   });
 });
 
+function generateYear(cYear) {
+    const yearSelect = document.getElementById("Year");
+
+    // Set the range of years (you can adjust the range as needed)
+    const startYear = 2000;
+    const endYear = new Date().getFullYear(); // Current year
+
+    // Generate options dynamically
+    for (let year = startYear; year <= endYear; year++) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.text = year;
+        if (parseInt(cYear) === year) {
+            option.setAttribute('selected', true)
+        }
+        yearSelect.appendChild(option);
+    }
+}
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -251,23 +269,19 @@ function Save() {
 }
 
 function ClearScreen() {
-  $("#ProjectHistoryId").val("");
-  $("#ProjectName").val("");
-  $("#JobSpec").val("");
-  $("#Year").selectedindex = "0";
-  $("#CompanyName").val("");
   $("#Update").hide();
   $("#Save").show();
-    $("input[required],textarea[required],select[required]").each(function () {
-    var input = $(this);
-    var textarea = $(this);
-
-    input.next(".error-message").hide();
-    textarea.next(".error-message").hide();
-  });
+    
+    generateYear(0)
+    $('#Modal').find('input, select, textarea').each(function (e) {
+        $(this).val('');
+        $(this).val("").trigger("change");
+    })
+    $(".error-message").hide()
 }
 
 function GetById(projectHistoryId) {
+    ClearScreen()
   $.ajax({
     url: "https://localhost:7177/api/ProjectHistory/" + projectHistoryId,
     type: "GET",
@@ -281,7 +295,7 @@ function GetById(projectHistoryId) {
         $("#ProjectHistoryId").val(obj.projectHistoryId);
         $("#ProjectName").val(obj.projectName).attr("data-initial", obj.projectName);
         $("#JobSpec").val(obj.jobSpec).attr("data-initial", obj.jobSpec);
-        $("#Year").val(obj.year).attr("data-initial", obj.year);
+        $("#Year").val(obj.year).trigger('change').attr("data-initial", obj.year);
         $("#CompanyName").val(obj.companyName).attr("data-initial", obj.companyName);
       $("#Modal").modal("show");
       $("#Update").show();

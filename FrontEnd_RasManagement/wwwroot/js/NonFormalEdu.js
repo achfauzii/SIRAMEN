@@ -80,20 +80,20 @@ function parseJwt(token) {
 
 function ClearScreen() {
   //debugger;
-  $("#Name").val("");
-  $("#Organizer").val("");
-  $("#Years").selectedIndex = "0";
-  $("#Description").val("");
   $("#UpdateNonFormal").hide();
   $("#SaveNonFormal").show();
-  $("input[required-nonformal],select[required-nonformal]").each(function () {
-    var input = $(this);
-
-    input.next(".error-message").hide();
-  });
+  
+    $('#ModalNonFormal').find('input, select,textarea').each(function (e) {
+        $(this).val('');
+        $(this).val("").trigger("change");
+    })
+    $(".error-message").hide();
 }
 
 function getbyID(NonFormalId) {
+    ClearScreen()
+    $("#UpdateNonFormal").show();
+    $("#SaveNonFormal").hide();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
   $.ajax({

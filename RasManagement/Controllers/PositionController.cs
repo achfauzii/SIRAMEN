@@ -31,6 +31,20 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpGet("ByClientIdAndStatus")]
+        public async Task<IActionResult> GetPositionbyClientIdAndStatus(int clientId, string status)
+        {
+            var get = await positionRepository.GetPositionByClientIdAndStatus(clientId, status);
+            if (get.Count>0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
         [HttpPost("Insert")]
         public async Task<ActionResult> ClientName([FromBody] Position position)
         {

@@ -13,10 +13,10 @@ namespace RasManagement.Repository
         {
             this.context = context;
         }
-        public async Task<bool> ClientNameIsExist(string name, int? id = null)
+        public async Task<bool> ClientNameIsExist(string nameClient, string salesName)
         {
-            // Use AnyAsync to check if any department with the given name exists
-            var clientnameExists = await context.ClientNames.AnyAsync(a => a.NameOfClient == name && (id == null || a.Id != id));
+            
+            var clientnameExists = await context.ClientNames.AnyAsync(a => a.NameOfClient == nameClient && a.SalesName == salesName);
 
             return clientnameExists;
         }
@@ -40,7 +40,7 @@ namespace RasManagement.Repository
 
         public async Task<ClientName> ChangeName(string clientname, int id)
         {
-            // Assuming you have a Department model and DbSet<Department> in your context
+            
             var newClient = new ClientName
             {
                 NameOfClient = clientname,
