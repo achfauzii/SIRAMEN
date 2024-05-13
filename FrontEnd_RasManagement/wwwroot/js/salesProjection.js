@@ -202,8 +202,7 @@ function generateData(id) {
                     visible: (endpointApi == "best view") ? false : true
                 },
                 {
-                    data: "notes",
-                    visible: (endpointApi == "best view") ? false : true
+                    data: "notes"
                 },
             
                 {
