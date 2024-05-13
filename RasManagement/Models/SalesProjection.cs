@@ -30,11 +30,22 @@ public partial class SalesProjection
     public string? RateCard { get; set; }
     public string? CurrentNews { get; set; }
 
+
+    public string? ProjectType { get; set; }
+    public string? StartedYear { get; set; }
+    public int? SalesProject { get; set; }
+    public int? COGS { get; set; }
+    public int? GPM { get; set; }
+
+    public int? SoNumber { get; set; }
+
     public int? ClientId { get; set; }
 
     //[JsonIgnore]
     public virtual ClientName? Client { get; set; }
-    
+
+    [JsonIgnore]
+    public virtual ICollection<ActivitySalesProjection>? ActivitySalesProjections { get; set; } = new List<ActivitySalesProjection>();
 
 }
 

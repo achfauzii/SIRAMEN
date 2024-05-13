@@ -48,13 +48,13 @@ $(document).ready(function () {
 
                     return (
                         '<div class="text-center">' +
-                        '<a class="text-warning ' +
+                        '<a class=" text-warning' +
                         hideIcons +
                         '" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
                         row.id +
-                        ')"><i class="fa fa-edit edit-client"></i></a>' +
+                        ')"><i class="fas fa-pencil-alt edit-client"></i></a>' +
                         "&nbsp;" +
-                        '<a class="text-info" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return detailPosition(' +
+                        '<a class="text-primary" data-placement="left" style="font-size: 14pt" data-toggle="modal" data-animation="false" title="Edit" onclick="return detailPosition(' +
                         row.id +
                         ')"><i class="fas fa-info-circle"></i></a>' +
                         "&nbsp;" +
@@ -65,7 +65,7 @@ $(document).ready(function () {
                         "', '" +
                         row.nameOfClient +
                         "'" +
-                        ')"><i class="fa fa-trash delete-client"></i></a>' +
+                        ')"><i class="fas fa-trash delete-client"></i></a>' +
                         "</div>"
                     );
                 },
@@ -103,6 +103,15 @@ function hideButtonAndActionForManager() {
 function Save() {
     var isValid = true;
 
+    // Validasi select Industry
+    var industrySelect = $("#Industry").val();
+    if (!industrySelect) {
+        $("#Industry").next(".error-message").show();
+        isValid = false;
+    } else {
+        $("#Industry").next(".error-message").hide();
+    }
+
     $("input[required-client]").each(function () {
         var element = $(this);
         if (!element.val()) {
@@ -120,12 +129,11 @@ function Save() {
     var Client = {
         nameOfClient: $("#clientName").val(), //value insert dari id pada input
         salesName: $("#salesName1").val() + ($("#salesName2").val() ? ', ' + $("#salesName2").val() : ''), // Menggabungkan salesName1 dan salesName2 dengan tanda koma jika salesName2 diisi
-        salesContact: $('#salesContact').val(),
+        salesContact: $("#salesContact1").val() + ($("#salesContact2").val() ? ', ' + $("#salesContact2").val() : ''), //Menggabungkan salesContact1 dan salesContact2 dengan tanda koma jika salesContac2 diisi
         companyOrigin: $('#companyOrigin').val(),
         picClient: $('#picClient').val(),
         clientContact: $('#clientContact').val(),
-        Authority: $('#Authority').val(),
-        Industry: $('#Industry').val(),
+        Authority: $('#Authority').val()
 
     }
 
@@ -173,13 +181,16 @@ function Save() {
 function ClearScreen() {
     $("#clientId").val("");
     $("#clientName").val("");
-    $("#salesName").val("");
-    $("#salesContact").val("");
+    $("#salesName1").val("");
+    $("#salesName2").val("");
+    $("#salesContact1").val("");
+    $("#salesContact2").val("");
     $('#companyOrigin').val("");
     $("#picClient").val("");
     $("#clientContact").val("");
     $("#Authority").val("");
     $("#Industry").val("");
+
     $("#Update").hide();
     $("#Save").show();
 
@@ -188,6 +199,7 @@ function ClearScreen() {
 
         input.next(".error-message").hide();
     });
+
 }
 
 function noHTML(input) {
@@ -215,6 +227,7 @@ function GetById(id) {
         var element = $(this);
         element.next(".error-message").hide();
     });
+
     $.ajax({
         url: "https://localhost:7177/api/ClientName/" + id,
         type: "GET",
@@ -230,7 +243,6 @@ function GetById(id) {
             $("#clientName").val(obj.nameOfClient);
 
             // Memisahkan nilai salesName ke salesName1 dan salesName2 jika keduanya terisi
-
             if (obj.salesName) {
                 var salesNames = obj.salesName.split(',');
                 $("#salesName1").val(salesNames[0].trim());
@@ -240,11 +252,16 @@ function GetById(id) {
                 $("#salesName2").val('');
             }
 
-            //var salesNames = obj.salesName.split(', ');
-            //$("#salesName1").val(salesNames[0] || ''); // Menggunakan nilai pertama atau string kosong jika tidak ada
-            //$("#salesName2").val(salesNames[1] || ''); // Menggunakan nilai kedua atau string kosong jika tidak ada
+            // Memisahkan nilai salesContact ke salesContact dan salesContact jika keduanya terisi
+            if (obj.salesContact) {
+                var salesContacts = obj.salesContact.split(',');
+                $("#salesContact1").val(salesContacts[0].trim());
+                $("#salesContact2").val(salesContacts[1] ? salesContacts[1].trim() : '');
+            } else {
+                $("#salesContact1").val('');
+                $("#salesContact2").val('');
+            }
 
-            $("#salesContact").val(obj.salesContact);
             $("#companyOrigin").val(obj.companyOrigin);
             $("#picClient").val(obj.picClient);
             $("#clientContact").val(obj.clientContact);
@@ -295,8 +312,7 @@ function Update() {
 
     // Memisahkan nilai salesName ke salesName1 dan salesName2 jika keduanya terisi
     ClientName.salesName = $("#salesName1").val() + ($("#salesName2").val() ? ', ' + $("#salesName2").val() : '');
-
-    ClientName.salesContact = $("#salesContact").val();
+    ClientName.salesContact = $("#salesContact1").val() + ($("#salesContact2").val() ? ', ' + $("#salesContact2").val() : '');
     ClientName.companyOrigin = $('#companyOrigin').val();
     ClientName.picClient = $("#picClient").val();
     ClientName.clientContact = $("#clientContact").val();

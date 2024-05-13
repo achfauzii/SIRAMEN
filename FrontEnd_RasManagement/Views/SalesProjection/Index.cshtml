@@ -36,7 +36,7 @@
         <button style="background-color:#624DE3; font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" id="addSalesProjection" data-toggle="modal" data-target="#Modal-addSalesProjection" onclick="ClearScreen();">
             + Add Sales Projection
         </button>
-        <table id="salesProjectionTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black">
+        <table id="salesProjectionTable" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black; display: none ">
             <thead style="background-color:#FFFFFF">
                 <tr>
                     <th scope="col">No</th>
@@ -62,6 +62,24 @@
                 </tr>
             </thead>
         </table>
+
+        <table id="salesProjectionTableBestViews" class="table table-striped table-bordered text-nowrap w-100 timeSheetTable" style="font-size:13px; color:black; display:none">
+            <thead style="background-color:#FFFFFF">
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Industry</th>
+                    <th scope="col">HeadCount</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Year Started</th>
+                    <th scope="col">Status Project</th>
+                    <th scope="col">Contract Periode</th>
+                    <th scope="col">Ratecard</th>
+                    <th scope="col">Sales Projection</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -77,6 +95,7 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <input class="form-control form-control-sm" type="hidden" id="tableName">
                     <input class="form-control form-control-sm" type="hidden" id="id">
                     <input class="form-control form-control-sm" type="hidden" id="entryDate">
                     <div class="row mb-2">
@@ -142,7 +161,7 @@
                         <div class="col" id="colRequestBy">
                             <label for="message-text" class="col-form-label">Request By</label>
                             <select class="form-control form-control-sm" id="requestBy" required>
-                                <option selected disabled>Choose status</option>
+                                <option value="" selected disabled>Choose status</option>
                                 <option value="Internal">Internal</option>
                                 <option value="External">External</option>
                             </select>
@@ -179,12 +198,17 @@
                             <input type="text" class="form-control form-control-sm" placeholder="Enter Work location" id="workLocation" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Contract Periode</label>
+                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" id="contractPeriode" required>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col" id="colPriority">
                             <label for="message-text" class="col-form-label">Priority</label>
                             <select class="form-control form-control-sm" id="priority" required>
-                                <option selected disabled>Choose Priority</option>
+                                <option value="" selected disabled>Choose Priority</option>
                                 <option value="High">High</option>
                                 <option value="Medium">Medium</option>
                                 <option value="Low">Low</option>
@@ -194,7 +218,7 @@
                         <div class="col" id="colStatus">
                             <label for="message-text" class="col-form-label">Status</label>
                             <select class="form-control form-control-sm" id="status" required>
-                                <option selected disabled>Choose Status</option>
+                                <option value="" selected disabled>Choose Status</option>
                                 <option value="SchedulingMeeting">Scheduling Meeting</option>
                                 <option value="MeetingDone">Meeting Done</option>
                                 <option value="Ratecardsent">Ratecardsent</option>
@@ -205,16 +229,52 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col">
-                            <label for="message-text" class="col-form-label">Contract Periode</label>
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" id="contractPeriode" required>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                        <div class="col">
                             <label for="message-text" class="col-form-label">Ratecard</label>
                             <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="rateCard" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+                        <div class="col" id="colStatusPro">
+                            <label for="message-text" class="col-form-label">Status Projection</label>
+                            <select class="form-control form-control-sm" id="projectStatus">
+                                <option value="" selected disabled>Choose Status Projection</option>
+                                <option value="Hold">Oppurtunity</option>
+                                <option value="Open">MOM Sales</option>
+                                <option value="Re Open">Re Open</option>
+                                <option value="Best View">Best View</option>
+                                <option value="CLose Win">Close Win</option>
+                                <option value="Close Lose">Close Lose</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
                     </div>
+                    <section id="fieldBestView" style="display:none">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label for="message-text" class="col-form-label">Year Started</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Enter Year Started" id="startedYear">
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="col" id="colStatusPro">
+                                <label for="message-text" class="col-form-label">Project Type</label>
+                                <select class="form-control form-control-sm" id="projectType">
+                                    <option value="" selected disabled>Choose Type</option>
+                                    <option value="Tender">Tender</option>
+                                    <option value="Direct">Direct</option>
+
+                                </select>
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label for="message-text" class="col-form-label">Sales Projection</label>
+                                <input class="form-control form-control-sm" type="number" placeholder="Enter Sales Projection" id="salesProject">
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>
+                    </section>
+
+
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Notes</label>
@@ -233,4 +293,53 @@
     </div>
 </div>
 
+
+
+<!-- Modal Activity -->
+<div class="modal fade" id="activityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sales Activity</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" id="formActivity" novalidate>
+                    <div class="form-row">
+
+                        <label for="validationCustom01">Date</label>
+                        <input id="activityId" hidden>
+                        <input id="spId" hidden>
+                        <input type="date" class="form-control" id="dateActivity" required>
+                        <div class="invalid-feedback">
+                            This field is required!
+                        </div>
+
+
+                    </div>
+                    <div class="form-row mt-3">
+
+                        <label for="validationCustom02">Activity</label>
+                        <textarea type="text" class="form-control" id="inputActivity" required></textarea>
+                        <div class="invalid-feedback">
+                            This field is required!
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveActivity()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/ManageEmployee/moment.min.js"></script>
 <script src="~/js/salesProjection.js"></script>

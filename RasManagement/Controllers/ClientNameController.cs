@@ -26,8 +26,8 @@ namespace RasManagement.Controllers
             {
                 return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Data Kosong atau Mengandung Spasi", Data = inputModel });
             }
-
-            bool clientExists = await clientNameRepository.ClientNameIsExist(inputModel.NameOfClient);
+            //Validasi Jika Nama Client dan Nama sales sama
+            bool clientExists = await clientNameRepository.ClientNameIsExist(inputModel.NameOfClient, inputModel.SalesName);
 
             if (clientExists)
             {
@@ -46,8 +46,8 @@ namespace RasManagement.Controllers
             {
                 return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Data Kosong atau Mengandung Spasi", Data = inputModel });
             }
-
-            bool clientExists = await clientNameRepository.ClientNameIsExist(inputModel.NameOfClient);
+            //Validasi Jika Nama Client dan Nama sales sama
+            bool clientExists = await clientNameRepository.ClientNameIsExist(inputModel.NameOfClient, inputModel.SalesName);
 
             if (clientExists)
             {
