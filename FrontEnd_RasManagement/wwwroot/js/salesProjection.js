@@ -30,6 +30,36 @@ $('#clientId').change(function (e) {
     const selected = $(this).val()
     clientOption(selected)
 })
+
+$('#projectStatus').change(function (e) {
+    switch ($(this).val()) {
+        case "Best View":
+            $('#fieldBestView').show()
+            $('#startedYear').attr('required', true);
+            $('#projectType').attr('required', true);
+            $('#salesProject').attr('required', true);
+            break;
+        case "Close Win":
+            $('#fieldBestView').show()
+            $('#fieldGoals').show()
+            $('#startedYear').attr('required', true);
+            $('#projectType').attr('required', true);
+            $('#salesProject').attr('required', true)
+            $('#cogs').attr('required', true);
+            $('#soNumber').attr('required', true);
+            break;
+        default:
+            $('#fieldGoals').hide()
+            $('#fieldBestView').hide()
+            $('#startedYear').attr('required', false);
+            $('#projectType').attr('required', false);
+            $('#salesProject').attr('required', false)
+            $('#cogs').attr('required', false);
+            $('#soNumber').attr('required', false);
+            break;
+    }
+})
+
 function generateData(id) {
     $('#salesProjectionTable').DataTable().destroy();
     let endpointApi,color;
@@ -71,7 +101,7 @@ function generateData(id) {
 
         $("#salesProjectionTableBestViews").DataTable({
             scrollX: true,
-            order: [1, "asc"],
+            order: [0, "asc"],
             ajax: {
                 url:
                     "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
@@ -172,8 +202,7 @@ function generateData(id) {
                     visible: (endpointApi == "best view") ? false : true
                 },
                 {
-                    data: "notes",
-                    visible: (endpointApi == "best view") ? false : true
+                    data: "notes"
                 },
             
                 {
@@ -203,7 +232,7 @@ function generateData(id) {
         $("#salesProjectionTable").show();
         $("#salesProjectionTable").DataTable({
             scrollX: true,
-            order: [1, "asc"],
+            order: [0, "asc"],
             ajax: {
                 url:
                     "https://localhost:7177/api/SalesProjection/byStatus?status=" + endpointApi.toLowerCase(),
@@ -368,6 +397,7 @@ function clientOption(selected) {
 }
 
 
+
 async function GetById(id, tableName) {
     ClearScreen();
     $('#Update').show()
@@ -386,7 +416,10 @@ async function GetById(id, tableName) {
     const response = await fetchingData.json()
 
     if (response.data.projectStatus === "Best View") {
-        document.getElementById("fieldBestView").style.display = "block";
+        $('#fieldBestView').show()
+    }
+    if (response.data.projectStatus === "Close Win") {
+        $('#fieldGoals').show()
     }
 
  
@@ -414,7 +447,6 @@ async function GetById(id, tableName) {
     $('#Modal-addSalesProjection form').find('select').each(function () {
         const idForm = $(this).attr('id');
         const fieldValue = response.data[idForm];
-        console.log(fieldValue)
         if (fieldValue !== undefined) {
             $(this).val(fieldValue);
         }
@@ -422,26 +454,7 @@ async function GetById(id, tableName) {
     $('#fieldBestView').find('input, select').each(function (e) {
         $(this).attr('required', true)
     })
-    const fieldStatusPro = document.getElementById('projectStatus');
-
-    fieldStatusPro.addEventListener('change', function () {
-        const valStatusPro = $("#projectStatus").val();
-
-
-        if (valStatusPro == "Best View") {
-            document.getElementById("fieldBestView").style.display = "block";
-
-
-
-            $('#startedYear').attr('required', true);
-            $('#projectType').attr('required', true);
-            $('#salesProject').attr('required', true)
-
-        } else {
-            return;
-        }
-
-    })
+    
 }
 
 function ClearScreen() {
@@ -449,10 +462,13 @@ function ClearScreen() {
     $('#Update').hide()
     $('#Save').show()
     $('#colStatusPro').hide()
-    $('#projectStatus').attr('required', false)
-    document.getElementById('fieldBestView').style.display = 'none';
+    $('#fieldBestView').hide()
+    $('#fieldGoals').hide()
     $('#fieldBestView').find('input, select').each(function (e) {
         $(this).attr('required',false)
+    })
+    $('#fieldGoals').find('input').each(function (e) {
+        $(this).attr('required', false)
     })
     formModal.find('input, textarea').each(function (e) {
         $(this).val("");
@@ -483,9 +499,7 @@ function Update() {
     const dataToUpdate = {
         id: parseInt($('#id').val()),
         entryDate: $('#entryDate').val(),
-
         projectStatus: $('#projectStatus').find(":selected").val(),
-
         attendees: $('#attendees').val(),
         requestBy: $('#requestBy').find(":selected").val(),
         hiringNeeds: $('#hiringNeeds').val(),
@@ -501,9 +515,11 @@ function Update() {
         clientId: parseInt($('#clientId').find(":selected").val()),
         startedYear: $('#startedYear').val(),
         projectType: $('#projectType').val(),
-        salesProject: $('#salesProject').val(),
+        salesProject: parseInt($('#salesProject').val()),
+        cogs: parseInt($('#cogs').val()),
+        gpm: parseInt($('#salesProject').val()) - parseInt($('#cogs').val()),
+        soNumber: parseInt($('#soNumber').val()),
     }
- 
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'PUT',

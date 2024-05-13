@@ -79,12 +79,12 @@
                     <div class="form-group">
                         <label for="CompanyName">Enter the company name</label>
                         <input type="text" class="form-control" id="CompanyName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the company name" required>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-message err" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group">
                         <label for="Job">Job Title</label>
                         <input type="text" class="form-control" id="Job" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter job title" required>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-message err" style="color: red; display: none;">This field is required!</span>
                     </div>
                     @*<div class="form-group">
                     <label for="Period">Period</label>
@@ -96,7 +96,7 @@
                             <label for="StartYear">Start Date<span style="color: red;">*</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="StartYear" placeholder="Choose month..." required readonly>
-                                <span class="error-message-p" style="color: red; display: none;">This field is required!</span>
+                                <span class="error-message-p err" style="color: red; display: none;">This field is required!</span>
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="dateMonth"><i class="fas fa-calendar"></i></span>
                                 </div>
@@ -118,8 +118,7 @@
 
                     <div class="form-group">
                         <label for="Description">Description</label>
-                        <textarea class="form-control" id="Description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the description" required></textarea>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <textarea class="form-control" id="Description" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the description"></textarea>
                     </div>
 
                     @*<div class="form-group">

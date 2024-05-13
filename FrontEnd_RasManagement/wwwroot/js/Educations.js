@@ -381,33 +381,13 @@ function SaveFormal() {
 }
 
 function ClearScreenFormal() {
-  $("#selectProvinces").val(null).trigger("change"); // Kosongkan pilihan select
-  $("#FormalEduId").val("");
-  $("#UniversityName").val("").trigger("change");
-  //$('#Location').val('');
-  $("#Major").val("").trigger("change");
-  $("#Degree").val("");
-  $("#Ipk").val("");
-  $("#GraduationYears").selectedindex = "0";
   $("#Update").hide();
   $("#Save").show();
-  $("input[required]").each(function () {
-    var input = $(this);
-    input.next(".error-message-formal").hide();
-
-    $(".error-format-ipk").hide();
-  });
-  $(".selectRegencies").closest(".form-group").find(".error-message").hide();
-  $(".selectUniversity")
-    .closest(".form-group")
-    .find(".error-message-university")
-    .hide();
-  $(".selectRegencies").closest(".form-group").find(".error-message").hide();
-  $(".selectMajor").closest(".form-group").find(".error-message-major").hide();
-  $(".selectDegree")
-    .closest(".form-group")
-    .find(".error-message-formal")
-    .hide();
+    $('#ModalFormal').find('input, select').each(function (e) {
+        $(this).val('');
+        $(this).val("").trigger("change");
+    })
+    $(".err").hide();
 }
 
 function GetById(formalEduId) {
@@ -457,7 +437,7 @@ function GetById(formalEduId) {
       /*   universities.forEach(function (university) {
                          selectUniversity.append('<option value="' + university.namaUniversitas + '">' + university.namaUniversitas + '</option>');
                      });*/
-
+        console.table(obj)
       $("#FormalEduId").val(obj.formalEduId);
       $("#UniversityName").val(obj.universityName);
       $("#selectRegencies").val(obj.location);
@@ -620,9 +600,3 @@ function DeleteFormal(formalEduId) {
   });
 }
 
-const closeButton = document.querySelector(
-  '.btn.btn-danger[data-dismiss="modal"]'
-);
-closeButton.addEventListener("click", function () {
-  // kode untuk menutup modal
-});

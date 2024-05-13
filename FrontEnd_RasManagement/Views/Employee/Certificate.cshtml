@@ -74,18 +74,18 @@
                     <div class="form-group">
                         <label for="Name">Certificate Name</label>
                         <input type="text" class="form-control" id="Name" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter certificate name" required>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-message err" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group">
                         <label for="Publisher">Issuing Organization</label>
                         <input type="text" class="form-control" id="Publisher" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter the publisher" required>
-                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-message err" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group">
                         <label for="PublicationYear">Publication Years<span style="color: red;">*</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="PublicationYear" placeholder="Choose month and year..." required readonly>
-                            <span class="error-message-p" style="color: red; display: none;">This field is required!</span>
+                            <span class="error-message-p err" style="color: red; display: none;">This field is required!</span>
                             <div class="input-group-append">
                                 <span class="input-group-text" id="dateMonth"><i class="fas fa-calendar"></i></span>
                             </div>

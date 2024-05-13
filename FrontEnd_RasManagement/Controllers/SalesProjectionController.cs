@@ -25,5 +25,23 @@ namespace FrontEnd_RasManagement.Controllers
 
             return View();
         }
+
+        public IActionResult activity()
+        {
+            //Validate Role
+            if (!JwtHelper.IsAuthenticated(HttpContext))
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            var role = JwtHelper.GetRoleFromJwt(HttpContext);
+
+            if (role != "Admin")
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            return View();
+        }
     }
 }

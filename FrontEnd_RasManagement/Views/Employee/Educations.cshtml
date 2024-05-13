@@ -84,11 +84,11 @@
                         <span style="color: red;">*</span>
                         <p>
                             <select id="UniversityName" class="selectUniversity form-control" required>
-                                <option></option>
+                                <option value="" selected disabled></option>
                             </select>
                         </p>
 
-                        <span class="error-message-university" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-message-university err" style="color: red; display: none;">This field is required!</span>
                     </div>
 
                     @*<div class="form-group">
@@ -101,14 +101,14 @@
                         <span style="color: red;">*</span>
                         <p>
                             <select class="selectProvinces form-control" style="width:100%" id="selectProvinces" placeholder="Select Provinces" name="state">
-                                <option></option>
+                                <option value="" selected disabled></option>
                             </select>
                         </p>
                         <p>
                             <select class="selectRegencies form-control" style="width:100%;" id="selectRegencies" placeholder="City ​​or County" name="state">
-                                <option></option>
+                                <option value="" disabled selected></option>
                             </select>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            <span class="error-message err" style="color: red; display: none;">This field is required!</span>
                         </p>
                         @*          <input type="text" class="form-control" id="Location" placeholder="Enter Location" required>
                         <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>*@
@@ -118,7 +118,7 @@
                         <span style="color: red;">*</span>
                         <p>
                             <select id="Major" class="selectMajor form-control" placeholder="Select your major" name="state" required>
-                                <option></option>
+                                <option value="" selected disabled></option>
                                 <option value="Teknik Informatika">Teknik Informatika</option>
                                 <option value="Ilmu Komputer">Ilmu Komputer</option>
                                 <option value="Manajemen Informatika">Manajemen Informatika</option>
@@ -128,7 +128,7 @@
                                 <option value="Sistem Informasi">Sistem Informasi</option>
                                 <option value="Informatika">Informatika</option>
                             </select>
-                            <span class="error-message-major" style="color: red; display: none;">This field is required!</span>
+                            <span class="error-message-major err" style="color: red; display: none;">This field is required!</span>
                         </p>
 
 
@@ -142,23 +142,23 @@
                             <option value="S1">S1</option>
                             <option value="S2">S2</option>
                         </select>
-                        <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-message-formal err" style="color: red; display: none;">This field is required!</span>
                     </div>
                     <div class="form-group">
                         <label for="Ipk">IPK</label>
                         <span style="color: red;">*</span>
                         <input type="text" class="form-control" id="Ipk" oninput="numeric(this);"  onpaste="numeric(this);" placeholder="Enter Your IPK/GPA (Ex : 3.51)" required>
-                        <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
-                        <span class="error-format-ipk" style="color: red; display: none;">Enter the correct GPA!</span>
+                        <span class="error-message-formal err" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-format-ipk err" style="color: red; display: none;">Enter the correct GPA!</span>
                     </div>
                     <div class="form-group">
                         <label for="GraduationYears">Graduation Year</label>
                         <select id="GraduationYears" class="form-control" required>
-                            <option selected disabled>Select graduation year</option>
+                            <option value="" selected disabled>Select graduation year</option>
                         </select>
                         @*<input type="number" class="form-control" id="GraduationYears" placeholder="Enter your graduation year" maxlength="4"
                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>*@
-                        <span class="error-message-formal" style="color: red; display: none;">This field is required!</span>
+                        <span class="error-message-formal err" style="color: red; display: none;">This field is required!</span>
                     </div>
                 </form>
             </div>
@@ -196,7 +196,7 @@
                     <div class="form-group">
                         <label for="Years">Years</label>
                         <select id="Years" class="form-control" required-nonformal>
-                            <option selected disabled>Select year</option>
+                            <option value="" selected disabled>Select year</option>
                         </select>
                         @*<input type="number" class="form-control" id="Years" placeholder="Enter the year" maxlength="4"
                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required-nonformal>*@
