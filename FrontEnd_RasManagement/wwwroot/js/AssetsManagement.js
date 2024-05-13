@@ -288,6 +288,12 @@ function formatDate(date) {
 }
 
 function GetById(assetsManagementId) {
+
+    $("#ModalAssets input[required]").each(function () {
+        var element = $(this);
+        element.next(".error-message").hide();
+    });
+
     $.ajax({
         url: "https://localhost:7177/api/Assets/" + assetsManagementId,
         type: "GET",
@@ -307,8 +313,8 @@ function GetById(assetsManagementId) {
                 Display: obj.display,
                 DateObtained: formatDate(obj.dateObtained),
                 OperatingSystem: obj.operatingSystem,
-                RAM: obj.ram ,
-                SSD: obj.ssd ,
+                RAM: obj.ram,
+                SSD: obj.ssd,
                 HDD: obj.hdd,
                 GraphicCard: obj.graphicCard,
                 Charger: obj.charger,
@@ -355,7 +361,7 @@ function Delete(assetsManagementId) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: "https://localhost:7177/api/Assets?assetId="+ assetsManagementId,
+                url: "https://localhost:7177/api/Assets?assetId=" + assetsManagementId,
                 type: "DELETE",
                 dataType: "json",
                 headers: {
