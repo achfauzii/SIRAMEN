@@ -200,10 +200,7 @@ function ClearScreen() {
         input.next(".error-message").hide();
     });
 
-    if (document.getElementById("intStatus").selectedIndex = "0") {
-        $(".error-message").hide();
-        $("#Industry").removeClass("error-message");
-    }
+
 
 }
 
