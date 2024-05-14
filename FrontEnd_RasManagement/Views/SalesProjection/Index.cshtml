@@ -76,6 +76,11 @@
                     <th scope="col">Contract Periode</th>
                     <th scope="col">Ratecard</th>
                     <th scope="col">Sales Projection</th>
+                    <th scope="col">COGS</th>
+                    <th scope="col">GPM</th>
+                    <th scope="col">SO Number</th>
+                    <th scope="col">Notes</th>
+
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -176,7 +181,7 @@
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Hiring Needs</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Needs" id="hiringNeeds" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Needs" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="hiringNeeds" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
@@ -241,7 +246,7 @@
                                 <option value="Open">MOM Sales</option>
                                 <option value="Re Open">Re Open</option>
                                 <option value="Best View">Best View</option>
-                                <option value="CLose Win">Close Win</option>
+                                <option value="Close Win">Close Win</option>
                                 <option value="Close Lose">Close Lose</option>
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
@@ -251,7 +256,7 @@
                         <div class="row mb-2">
                             <div class="col">
                                 <label for="message-text" class="col-form-label">Year Started</label>
-                                <input class="form-control form-control-sm" type="text" placeholder="Enter Year Started" id="startedYear">
+                                <input class="form-control form-control-sm" type="text" placeholder="Enter Year Started" id="startedYear" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="col" id="colStatusPro">
@@ -268,13 +273,25 @@
                         <div class="row mb-2">
                             <div class="col">
                                 <label for="message-text" class="col-form-label">Sales Projection</label>
-                                <input class="form-control form-control-sm" type="number" placeholder="Enter Sales Projection" id="salesProject">
+                                <input class="form-control form-control-sm" type="number" placeholder="Enter Sales Projection" id="salesProject" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                         </div>
                     </section>
-
-
+                    <section id="fieldGoals" style="display:none">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label for="message-text" class="col-form-label">COGS</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Enter COGS" id="cogs" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                            <div class="col">
+                                <label for="message-text" class="col-form-label">SO Number</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Enter SO Number" id="soNumber" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                            </div>
+                        </div>
+                    </section>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Notes</label>
