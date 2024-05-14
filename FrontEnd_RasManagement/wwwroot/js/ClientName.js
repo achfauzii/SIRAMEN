@@ -194,11 +194,13 @@ function ClearScreen() {
     $("#Update").hide();
     $("#Save").show();
 
-    $("input[required], input[required-client]").each(function () {
+    $("input[required-client], select[required-client]").each(function () {
         var input = $(this);
 
         input.next(".error-message").hide();
     });
+
+
 
 }
 
