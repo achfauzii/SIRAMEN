@@ -188,14 +188,25 @@ function generateData(id) {
 
                 { data: "rateCard" },
 
-                { data: "salesProject" },
+                {
+                    data: "salesProject",
+                    render: function (data, type, row) {
+                        return "Rp " + data;
+                    }
+                },
                 {
                     data: "cogs",
-                    visible: (endpointApi == "best view") ? false : true
+                    visible: (endpointApi == "best view") ? false : true,
+                     render: function (data, type, row) {
+                        return "Rp " + data;
+                    }
                 },
                 {
                     data: "gpm",
-                    visible: (endpointApi == "best view") ? false : true
+                    visible: (endpointApi == "best view") ? false : true,
+                    render: function (data, type, row) {
+                        return "Rp " + data;
+                    }
                 },
                 {
                     data: "soNumber",
