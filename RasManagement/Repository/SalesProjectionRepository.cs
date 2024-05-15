@@ -18,5 +18,13 @@
 
             return data;
         }
+
+        public async Task<List<SalesProjection>> getFullData()
+        {
+            var data = await context.SalesProjections
+                .Include(e => e.Client)
+                .ToListAsync();
+            return data;
+        }
     }
 }

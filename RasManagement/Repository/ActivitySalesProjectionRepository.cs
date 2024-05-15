@@ -13,6 +13,7 @@
         {
             var data = await context.ActivitySalesProjections
                 .Where(e => e.SPId == id)     
+                .OrderBy(e => e.Date)
                 .ToListAsync();
 
             return data;
