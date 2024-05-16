@@ -105,7 +105,8 @@ function getSalesProjectionData() {
             data.data.forEach(function (option) {
                 let optionElement = $(`<option>`);
                 optionElement.attr('value', option.id);
-                optionElement.text(option.client.nameOfClient + " (" + option.projectStatus + ")");
+                optionElement.text(option.client.nameOfClient + " (" + option.client.salesName + ", Status: " + option.projectStatus + ")");
+               
             $('#search').append(optionElement);
             })
         },
