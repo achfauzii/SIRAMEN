@@ -24,6 +24,17 @@ $(document).ready(function () {
     <div class="error__close"><svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20" height="20"><path fill="#393a37" d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"></path></svg></div>
 </div>
     `)
+
+    $('#buttonFilter').click(function (e) {
+        let text = $(this).text();
+        if (text.toLowerCase() === "vertical") {
+            text = "Horizontal"
+        } else {
+            text = "Vertical"
+        }
+        $(this).text(text)
+        getActivity($('#search').val())
+    })
 })
 
 function getActivity(id) {
@@ -37,6 +48,10 @@ function getActivity(id) {
         success: function (data) {
             const timelineWrap = $('.timeline__items');
             const timelineItemsHtml = [];
+            const divFilter = document.getElementById('divFilter');
+            const buttonFilter = document.getElementById('buttonFilter');
+            
+            data !== null ? divFilter.style.display = "block" : divFilter.style.display = "none";
 
             data.data.forEach((timelineItem) => {
                 const date = moment.utc(timelineItem.date);
@@ -62,9 +77,10 @@ function getActivity(id) {
     <div class="error__close"><svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20" height="20"><path fill="#393a37" d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"></path></svg></div>
 </div>
     `
+            console.log(buttonFilter.innerText);
             const noData = data.data.length === 0;
             timelineWrap.empty().append(noData ? noDataView : timelineItemsHtml.join(''));
-            const selectedMode = $('#mode').val() ?? "vertical";
+            const selectedMode = buttonFilter.innerText.toLowerCase() ?? "vertical";
             const selectedItem = $('#item').val() ?? 3;
             jQuery(".timeline").timeline({
                 mode: selectedMode, //default:vertical
