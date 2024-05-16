@@ -238,8 +238,47 @@ function generateData(id) {
                     //visible: objDataToken.RoleId != 7,
                 },
             ],
-           
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Change to int
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                totalGpm = api
+                    .column(11)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total over this page
+                pageTotalGpm = api
+                    .column(11, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+
+                // Text Total
+                (endpointApi == "close win") ?
+                    $(api.column(0).footer()).html(
+                        'Total'
+                    ) : "";
+
+                // Update footer for GPM
+                $(api.column(11).footer()).html(
+                    'Rp ' + pageTotalGpm 
+                );
+            }
         });
+    
 
     } else {
         $('#salesProjectionTableBestViews').DataTable().destroy();
