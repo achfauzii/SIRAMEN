@@ -37,7 +37,7 @@ function getActivity(id) {
         success: function (data) {
             const timelineWrap = $('.timeline__items');
             const timelineItemsHtml = [];
-
+            
             data.data.forEach((timelineItem) => {
                 const date = moment.utc(timelineItem.date);
                 const displayDate = date.format('ddd, D MMMM YYYY');
@@ -64,7 +64,7 @@ function getActivity(id) {
     `
             const noData = data.data.length === 0;
             timelineWrap.empty().append(noData ? noDataView : timelineItemsHtml.join(''));
-            const selectedMode = $('#mode').val() ?? "vertical";
+            const selectedMode = $('#mode').val() ?? "horizontal";
             const selectedItem = $('#item').val() ?? 3;
             jQuery(".timeline").timeline({
                 mode: selectedMode, //default:vertical
@@ -89,7 +89,8 @@ function getSalesProjectionData() {
             data.data.forEach(function (option) {
                 let optionElement = $(`<option>`);
                 optionElement.attr('value', option.id);
-                optionElement.text(option.client.nameOfClient + " (" + option.projectStatus + ")");
+                optionElement.text(option.client.nameOfClient + " (" + option.client.salesName + ", Status: " + option.projectStatus + ")");
+               
             $('#search').append(optionElement);
             })
         },
