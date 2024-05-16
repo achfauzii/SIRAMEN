@@ -133,11 +133,13 @@ function Save() {
         companyOrigin: $('#companyOrigin').val(),
         picClient: $('#picClient').val(),
         clientContact: $('#clientContact').val(),
+        Industry: $('#Industry').val(),
         Authority: $('#Authority').val()
 
     }
 
     console.log(Client);
+    console.log(Client.Industry);
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/ClientName/AddValidasi",
