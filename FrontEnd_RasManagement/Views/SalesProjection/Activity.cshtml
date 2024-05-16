@@ -4,17 +4,38 @@
 }
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-
+<link href="~/lib/timeline/timeline.min.css"
+      rel="stylesheet" />
 
 <div class="card mt-2 mb-3">
-    <div class="card-header">
-        <div class="row">
-            <div class="col"><h5 class="mb-2 font-weight-bold text-primary" id="text-show">Sales Projection Activity</h5></div>
-        </div>
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <h5 class="mb-2 font-weight-bold text-primary" id="text-show">
+          Sales Projection Activity
+        </h5>
+      </div>
     </div>
+  </div>
+  <div class="card-body">
+    <div class="input-group row gx-5 mb-3">
+      <select class="form-control col-10" id="search" autofocus required>
+        <option value="" selected disabled>Select Client</option>
+      </select>
+    </div>
+    <hr />
+        <div class="timeline">
+            <div class="timeline__wrap">
+                <div class="timeline__items">
+                </div>
+            </div>
+        </div>
+  </div>
+        
 </div>
 
 
 
+<script src="~/lib/timeline/timeline.min.js"></script>
 <script src="~/js/ManageEmployee/moment.min.js"></script>
-<script src="~/js/salesProjection.js"></script>
+<script src="~/js/SalesProjectionActivity.js"></script>
