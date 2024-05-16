@@ -32,5 +32,16 @@ namespace RasManagement.Controllers
                 return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
             }
         }
+
+        [HttpGet("allData")]
+        public async Task<IActionResult> getFullData()
+        {
+            var get = await salesProjectionRepository.getFullData();
+            if(get.Count != 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+        }
     }
 }
