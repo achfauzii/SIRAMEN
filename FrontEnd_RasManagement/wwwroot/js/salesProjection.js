@@ -270,7 +270,9 @@ function generateData(id) {
                 (endpointApi == "close win") ?
                     $(api.column(0).footer()).html(
                         'Total'
-                    ) : "";
+                    ) : $(api.column(0).footer()).html(
+                        ''
+                    );
 
                 // Update footer for GPM
                 $(api.column(11).footer()).html(
@@ -592,7 +594,7 @@ function Update() {
             });
             $("#Modal-addSalesProjection").modal("hide");
 
-            if (tableName === "best view") {
+            if (tableName === "best view" || tableName === "close win") {
                 $("#salesProjectionTableBestViews").DataTable().ajax.reload();
             } else {
                 $("#salesProjectionTable").DataTable().ajax.reload();
@@ -721,7 +723,8 @@ function saveActivity() {
                 timer: 1500,
             });
             $("#activityModal").modal("hide");
-            $("#salesProjectionTable").DataTable().ajax.reload();
+            //$("#salesProjectionTable").DataTable().ajax.reload();
+            //$("#salesProjectionTableBestViews").DataTable().ajax.reload();
         },
         error: function (err) {
             console.error(err)
