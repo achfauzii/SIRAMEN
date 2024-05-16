@@ -23,6 +23,10 @@ $(document).ready(function () {
         tags: true,
     });
 
+    $('input[required], textarea[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+
 })
 
 $('#clientId').change(function (e) {
