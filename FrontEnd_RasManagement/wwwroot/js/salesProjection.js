@@ -592,7 +592,7 @@ function Update() {
             });
             $("#Modal-addSalesProjection").modal("hide");
 
-            if (tableName === "best view") {
+            if (tableName === "best view" || tableName === "close win") {
                 $("#salesProjectionTableBestViews").DataTable().ajax.reload();
             } else {
                 $("#salesProjectionTable").DataTable().ajax.reload();
