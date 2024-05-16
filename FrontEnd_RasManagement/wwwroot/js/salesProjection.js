@@ -23,6 +23,10 @@ $(document).ready(function () {
         tags: true,
     });
 
+    $('input[required], textarea[required]').each(function () {
+        $(this).prev('label').append('<span style="color: red;">*</span>');
+    });
+
 })
 
 $('#clientId').change(function (e) {
@@ -188,14 +192,25 @@ function generateData(id) {
 
                 { data: "rateCard" },
 
-                { data: "salesProject" },
+                {
+                    data: "salesProject",
+                    render: function (data, type, row) {
+                        return "Rp " + data;
+                    }
+                },
                 {
                     data: "cogs",
-                    visible: (endpointApi == "best view") ? false : true
+                    visible: (endpointApi == "best view") ? false : true,
+                     render: function (data, type, row) {
+                        return "Rp " + data;
+                    }
                 },
                 {
                     data: "gpm",
-                    visible: (endpointApi == "best view") ? false : true
+                    visible: (endpointApi == "best view") ? false : true,
+                    render: function (data, type, row) {
+                        return "Rp " + data;
+                    }
                 },
                 {
                     data: "soNumber",
@@ -223,8 +238,49 @@ function generateData(id) {
                     //visible: objDataToken.RoleId != 7,
                 },
             ],
-           
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Change to int
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                totalGpm = api
+                    .column(11)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total over this page
+                pageTotalGpm = api
+                    .column(11, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+
+                // Text Total
+                (endpointApi == "close win") ?
+                    $(api.column(0).footer()).html(
+                        'Total'
+                    ) : $(api.column(0).footer()).html(
+                        ''
+                    );
+
+                // Update footer for GPM
+                $(api.column(11).footer()).html(
+                    'Rp ' + pageTotalGpm 
+                );
+            }
         });
+    
 
     } else {
         $('#salesProjectionTableBestViews').DataTable().destroy();
@@ -667,7 +723,8 @@ function saveActivity() {
                 timer: 1500,
             });
             $("#activityModal").modal("hide");
-            $("#salesProjectionTable").DataTable().ajax.reload();
+            //$("#salesProjectionTable").DataTable().ajax.reload();
+            //$("#salesProjectionTableBestViews").DataTable().ajax.reload();
         },
         error: function (err) {
             console.error(err)
