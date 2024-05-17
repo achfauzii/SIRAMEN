@@ -2,7 +2,7 @@
 var table;
 $(document).ready(function () {
     $.ajax({
-        url: "https://localhost:7177/api/ClientName", // Replace with your API endpoint
+        url: "https://localhost:7177/api/ClientName/ClientNameWithStatusOnsite", 
         method: "GET",
         dataType: "json",
         headers: {
