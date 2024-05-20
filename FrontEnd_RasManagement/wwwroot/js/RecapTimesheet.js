@@ -95,6 +95,20 @@ function submitReportTimesheet() {
             { data: 'accountName' },
             { data: 'wfoCount' },
             { data: 'wfhCount' },
+               {
+                   data: null,
+                   orderable: false, // menonaktifkan order
+                   width: "7%",
+                   render: function (data, type, row) {
+                       return (
+                           '<div class="d-flex flex-row">' +
+                           '<a href="#" class="ml-1 pt-0 text-primary" data-toggle="tooltip" style="font-size: 14pt" data-placement="left" data-tooltip="tooltip" title="Detail" onclick = "detailRecap(\'' +
+                           row.accountId + '\', \'' + month + '\', \'' + row.accountName +
+                           '\')"><i class="fas fa-info-circle"></i></a>'+
+                           "</div>"
+                       );
+                   },
+               },
   
        ],
        order: [1, 'asc'],
@@ -134,3 +148,67 @@ function submitReportTimesheet() {
 
 
 }
+
+function detailRecap(accountId, month, name) {
+    $("#informationAccountModal").modal("show");
+    document.getElementById('nameEmp').textContent = name;
+    document.getElementById("tableTimeSheet").hidden = false;
+    if ($.fn.DataTable.isDataTable("#timeSheetTable")) {
+        $("#timeSheetTable").DataTable().destroy();
+    }
+    $.ajax({
+        url:
+            "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
+            accountId +
+            "&month=" +
+            month,
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (response) {
+            var data = response.data;
+            table = $("#timeSheetTable").DataTable({
+                data: data,
+                responsive: true,
+                columns: [
+                    {
+                        name: "one",
+                        data: "date",
+                        render: function (data, type, row) {
+                            if (type === "display" || type === "filter") {
+                                // Format tanggal dalam format yang diinginkan
+                                return moment(data).format("DD MMMM YYYY");
+                            }
+                            // Untuk tipe data lain, kembalikan data aslinya
+
+                            return data;
+                        },
+                    },
+                    { data: "activity" },
+                    { name: "two", data: "flag" },
+                    { data: "category" },
+                    { data: "status" },
+                    { data: "knownBy" },
+                ],
+                rowsGroup: ["one:name", "two:name"],
+                order: [[0, "asc"]],
+                // backgroud warna dengan flag holiday
+                createdRow: function (row, data, dataIndex) {
+                    if (data.flag === "Holiday" || data.flag === "Weekend") {
+                        $(row).css("background-color", "#fe6675");
+                        $(row).css("font-weight", "bold");
+                        $(row).find(".fa-edit").hide();
+                    }
+                },
+            });
+
+        },
+    });
+}
+
+
+
+
