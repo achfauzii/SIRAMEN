@@ -2,7 +2,7 @@ var table = null;
 var compare = {};
 $(document).ready(function () {
     var objDataToken = parseJwt(sessionStorage.getItem("Token"));
-
+   
     if (objDataToken.RoleId == 7) {
         $(".btn-add-client").hide();
         $(".btn-new-position").hide();
@@ -417,6 +417,8 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
+
+    //Detail
     $("#informationClientModal").modal("show");
     $("#clientId").val(id);
     const showCheckbox = document.getElementById("showArchive");
@@ -512,8 +514,12 @@ function detailPosition(id) {
                                                                
                                                         
                                                        </div>
+                                                        <div class="row ">
+                                                                       <div class="col-md-3 ml-1">Sales Projection</div>
+                                                                      <div class="col-md-0">:</div>
+                                                                      <div class="col-md-8">${data.sP_Id ?? 'Not Found'}
                                                                                         
-                
+                                                         </div>
                                                     
                                          </div>
                                 </div>
@@ -685,6 +691,12 @@ function detailPosition(id) {
             // Tangani kesalahan yang mungkin terjadi selama permintaan
             console.error("Fetch error:", error);
         });
+
+
+
+    //Form New Position
+    salesProjection(id);
+
 }
 
 function GetByIdPosition(id) {
@@ -914,4 +926,33 @@ closeButton.addEventListener("click", function () {
 function clearData() {
     var dataContainer = document.getElementById("dataPositionContainer");
     dataContainer.innerHTML = "";
+}
+
+
+
+function salesProjection(id) {
+   
+    $.ajax({
+        url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId='+id,
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (projectData) {
+            
+            const select = document.getElementById('salesProject');
+            const sp = projectData.data;
+            sp.forEach(project => {
+                
+                const option = document.createElement('option');
+                option.value = project.id;
+                option.text = `${project.client.nameOfClient} - ${project.projectStatus}`;
+                select.app(option);
+            });
+        },
+        error: function (err) {
+            console.error("error fetching data:" + err)
+        }
+    })
 }
