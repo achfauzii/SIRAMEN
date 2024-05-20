@@ -461,6 +461,7 @@ function detailPosition(id) {
                 .then((data) => {
                     var dataContainer = document.getElementById("dataPositionContainer");
                     statusIndicator_.textContent = "Show Archive Position";
+              
                     data.data.forEach(function (data) {
                         if (data.status != "Archive") {
                             dataContainer.innerHTML += `
@@ -703,6 +704,8 @@ function detailPosition(id) {
         allowClear: false,
         tags: true,
     });
+    $('#salseProject').find('option:not(:disabled)').remove();
+
     salesProjection(id);
 
 }
@@ -728,6 +731,7 @@ function GetByIdPosition(id) {
             $("#positionStatus").val(obj.status);
             $("#positionLevel").val(obj.level);
             $("#positionNotes").val(obj.notes);
+            
             $("#positionModal").modal("show");
             $("#updatePosition").show();
             $("#savePosition").hide();
@@ -765,6 +769,7 @@ function updatePosition() {
     const positionQuantity = document.getElementById("positionQuantity").value;
     const positionStatus = document.getElementById("positionStatus").value;
     const positionNotes = document.getElementById("positionNotes").value;
+    const sP_Id = document.getElementById("salesProject").value;
 
     const position = {
         id: positionId,
@@ -774,6 +779,7 @@ function updatePosition() {
         status: positionStatus,
         notes: positionNotes,
         clientId: clientId,
+        sP_Id:sP_Id,
     };
 
     if (position.positionClient == compare.PositionName &&
@@ -858,6 +864,8 @@ function savePosition() {
     const positionQuantity = document.getElementById("positionQuantity").value;
     const positionStatus = document.getElementById("positionStatus").value;
     const positionNotes = document.getElementById("positionNotes").value;
+    const sP_Id = document.getElementById("salseProject").value;
+
 
     // Loop over them and prevent submission
     var form = document.querySelector("#positionModal .needs-validation");
@@ -878,9 +886,11 @@ function savePosition() {
         status: positionStatus,
         notes: positionNotes,
         clientId: clientId,
+        sP_Id : sP_Id,
     };
-
     console.log(newPositionData);
+
+
     fetch("https://localhost:7177/api/Position/Insert", {
         method: "POST",
         headers: {
@@ -966,6 +976,7 @@ function salesProjection(id) {
                 option.value = project.id;
                 option.text = `${project.client.nameOfClient} - ${project.projectStatus} (${project.id})`;
                 select.add(option);
+        
             });
         },
         error: function (err) {
