@@ -232,6 +232,11 @@ function GetById(id) {
         element.next(".error-message").hide();
     });
 
+    if (document.getElementById("Industry").selectedIndex = "0") {
+        $(".error-message").hide();
+        $("#Industry").removeClass("error-message");
+    }
+
     $.ajax({
         url: "https://localhost:7177/api/ClientName/" + id,
         type: "GET",
@@ -379,6 +384,7 @@ function Delete(id, nameOfClient) {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
+
         if (result.value) {
             $.ajax({
                 url: "https://localhost:7177/api/ClientName/" + id,
@@ -389,6 +395,7 @@ function Delete(id, nameOfClient) {
                     Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 success: function (result) {
+
                     const logMessage = `Has deleted client ${nameOfClient}`;
                     SaveLogUpdate(logMessage);
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
@@ -398,10 +405,12 @@ function Delete(id, nameOfClient) {
 
                     // Setel kembali halaman tabel ke indeks yang disimpan
                     $("#tbDataCleint").DataTable().page(currentPageIndex).draw(false);
+
                 },
                 error: function (errormessage) {
                     Swal.fire("Error!", "Cant Delete, client Is Not Empty", "error");
                 },
+
             });
         }
     });
@@ -691,6 +700,9 @@ function detailPosition(id) {
 }
 
 function GetByIdPosition(id) {
+
+
+
     $.ajax({
         url: "https://localhost:7177/api/Position/" + id,
         type: "GET",
