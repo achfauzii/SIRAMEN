@@ -47,6 +47,9 @@ public partial class SalesProjection
     [JsonIgnore]
     public virtual ICollection<ActivitySalesProjection>? ActivitySalesProjections { get; set; } = new List<ActivitySalesProjection>();
 
+    [JsonIgnore]
+    public virtual ICollection<Position>? Positions { get; set; } = new List<Position>();
+
 }
 
 

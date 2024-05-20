@@ -574,6 +574,10 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.HasOne(d => d.Client).WithMany(p => p.Positions)
                 .HasForeignKey(d => d.ClientId)
                 .HasConstraintName("FK_Position_Client");
+
+            entity.HasOne(d => d.SalesProjection).WithMany(p => p.Positions)
+          .HasForeignKey(d => d.SP_Id)
+          .HasConstraintName("FK_Position_Sales_Projection");
         });
 
         modelBuilder.Entity<SalesProjection>(entity =>
@@ -635,9 +639,9 @@ public partial class ProjectRasmanagementContext : DbContext
               .HasMaxLength(200)
               .IsUnicode(false);
 
-              entity.Property(e => e.ProjectType)
-             .HasMaxLength(50)
-             .IsUnicode(false);
+            entity.Property(e => e.ProjectType)
+           .HasMaxLength(50)
+           .IsUnicode(false);
 
             entity.Property(e => e.StartedYear)
            .HasMaxLength(50)

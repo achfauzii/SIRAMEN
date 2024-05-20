@@ -9,7 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
+   [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
     public class ClientNameController : BaseController<ClientName, ClientNameRepository, int>
     {
         private readonly ClientNameRepository clientNameRepository;
@@ -58,6 +58,15 @@ namespace RasManagement.Controllers
 
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = result });
         }
+
+
+        [HttpGet("ClientNameWithStatusOnsite")]
+        public async Task<IActionResult> GetClientStatusOnsite()
+        {
+            var result = await clientNameRepository.GetClientStatusOnsite();
+            return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Temukan", Data = result });
+        }
+
         [AllowAnonymous]
         [HttpGet("Requirement")]
         public async Task<IActionResult> GetClientRequirement()
