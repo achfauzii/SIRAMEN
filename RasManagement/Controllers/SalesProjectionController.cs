@@ -33,6 +33,20 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpGet("byClientId")]
+        public async Task<IActionResult> GetSalesProjectionByClientId(int clientId)
+        {
+            var get = await salesProjectionRepository.GetByClientId(clientId);
+            if (get.Count != 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
         [HttpGet("allData")]
         public async Task<IActionResult> getFullData()
         {
