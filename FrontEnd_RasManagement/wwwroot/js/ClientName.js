@@ -695,6 +695,14 @@ function detailPosition(id) {
 
 
     //Form New Position
+    $("#salseProject").select2({
+        placeholder: "Choose...",
+        dropdownParent: $("#row-select-project"),
+        width: "100%",
+        height: "100%",
+        allowClear: false,
+        tags: true,
+    });
     salesProjection(id);
 
 }
@@ -833,6 +841,11 @@ function clearScreenPosition() {
     var form = document.querySelector("#positionModal .needs-validation");
     $("#updatePosition").hide();
     $("#savePosition").show();
+    $("#salseProject").val("").trigger("change");
+    
+
+
+
 
     form.classList.remove("was-validated");
     form.reset();
@@ -941,14 +954,18 @@ function salesProjection(id) {
         },
         success: function (projectData) {
             
-            const select = document.getElementById('salesProject');
+            const select = document.getElementById('salseProject');
+            if (!select) {
+                console.error('Dropdown element not found');
+                return;
+            }
             const sp = projectData.data;
             sp.forEach(project => {
                 
                 const option = document.createElement('option');
                 option.value = project.id;
-                option.text = `${project.client.nameOfClient} - ${project.projectStatus}`;
-                select.app(option);
+                option.text = `${project.client.nameOfClient} - ${project.projectStatus} (${project.id})`;
+                select.add(option);
             });
         },
         error: function (err) {
