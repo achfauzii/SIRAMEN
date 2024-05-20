@@ -15,7 +15,7 @@ namespace RasManagement.Repository
         }
         public async Task<bool> ClientNameIsExist(string nameClient, string salesName)
         {
-            
+
             var clientnameExists = await context.ClientNames.AnyAsync(a => a.NameOfClient == nameClient && a.SalesName == salesName);
 
             return clientnameExists;
@@ -40,7 +40,7 @@ namespace RasManagement.Repository
 
         public async Task<ClientName> ChangeName(string clientname, int id)
         {
-            
+
             var newClient = new ClientName
             {
                 NameOfClient = clientname,
@@ -53,7 +53,30 @@ namespace RasManagement.Repository
 
             return newClient;
         }
+        public async Task<List<ClientContainsOnsite>> GetClientStatusOnsite()
+        {
+            
+          
+            var uniqueClientIds = await context.Placements
+                .Where(p => p.PlacementStatus == "Onsite")
+                .Select(p => p.ClientId)
+                .Distinct()
+                .ToListAsync();
 
+          
+           var result =
+                await context.ClientNames
+                 .Where(c => uniqueClientIds.Contains(c.Id))
+              .Select(c => new ClientContainsOnsite
+              {
+                  Id = c.Id,
+                  NameOfClient = c.NameOfClient,
+              
+              })
+                .ToListAsync();
+
+            return result;
+        }
         public async Task<object> GetClientRequirement()
         {
             //Get Data by Status Position is Open
@@ -117,5 +140,12 @@ namespace RasManagement.Repository
             return combinedData;
         }
 
+    }
+
+  public class ClientContainsOnsite
+    {
+
+        public int Id { get; set; }
+        public string NameOfClient { get; set; }
     }
 }
