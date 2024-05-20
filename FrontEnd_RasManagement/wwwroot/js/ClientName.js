@@ -731,7 +731,7 @@ function GetByIdPosition(id) {
             $("#positionStatus").val(obj.status);
             $("#positionLevel").val(obj.level);
             $("#positionNotes").val(obj.notes);
-            
+            salesProjection(obj.clientId, obj.sP_Id)
             $("#positionModal").modal("show");
             $("#updatePosition").show();
             $("#savePosition").hide();
@@ -953,7 +953,7 @@ function clearData() {
 
 
 
-function salesProjection(id) {
+function salesProjection(id,selected) {
    
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId='+id,
@@ -974,6 +974,9 @@ function salesProjection(id) {
                 
                 const option = document.createElement('option');
                 option.value = project.id;
+                if (parseInt(selected) === parseInt(project.id)) {
+                option.selected = true
+                }
                 option.text = `${project.client.nameOfClient} - ${project.projectStatus} (${project.id})`;
                 select.add(option);
         
