@@ -184,7 +184,7 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Current News</label>
-                            <textarea class="form-control" id="notes" rows="3" placeholder="Enter Current News" id="currentNews" required></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Enter Current News" id="currentNews" required></textarea>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         
@@ -271,7 +271,7 @@
                                 <input class="form-control form-control-sm" type="text" placeholder="Enter Year Started" id="startedYear" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
-                            <div class="col" id="colStatusPro">
+                            <div class="col">
                                 <label for="message-text" class="col-form-label">Project Type</label>
                                 <select class="form-control form-control-sm" id="projectType">
                                     <option value="" selected disabled>Choose Type</option>

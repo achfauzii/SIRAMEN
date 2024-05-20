@@ -400,7 +400,16 @@ document.getElementById("historyApproval").onclick = function (event) {
             { data: "category" },
             { data: "status" },
             { data: "knownBy" },
-            { data: "statusApproval" },
+            {
+                data: "statusApproval",
+                render: function (data) {
+                    if (data === "Approve") {
+                        return `${data}d`
+                    }
+                    return `${data}ed`
+                }
+
+            },
             { data: "notes" },
             { data: null}
            

@@ -486,6 +486,7 @@ async function GetById(id, tableName) {
         }
     })
     const responseClient = await fetchingDataClient.json()
+    sessionStorage.setItem('prevStatus', response.data.projectStatus)
 
     clientOption(response.data.clientId)
     $('#Modal-addSalesProjection form').find('input, textarea').each(function () {
@@ -507,9 +508,7 @@ async function GetById(id, tableName) {
             $(this).val(fieldValue);
         }
     });
-    $('#fieldBestView').find('input, select').each(function (e) {
-        $(this).attr('required', true)
-    })
+    
     
 }
 
@@ -521,9 +520,11 @@ function ClearScreen() {
     $('#fieldBestView').hide()
     $('#fieldGoals').hide()
     $('#fieldBestView').find('input, select').each(function (e) {
-        $(this).attr('required',false)
+        $(this).val("")
+        $(this).attr('required', false)
     })
     $('#fieldGoals').find('input').each(function (e) {
+        $(this).val("")
         $(this).attr('required', false)
     })
     formModal.find('input, textarea').each(function (e) {
@@ -536,10 +537,11 @@ function ClearScreen() {
 }
 
 function Update() {
+    const prevStat = sessionStorage.getItem('prevStatus')
     var isValid = true;
     const tableName = $('#tableName').val();
    
-    formModal.find('input[required] ,select[required]').each(function (e) {
+    formModal.find('input[required] ,select[required], textarea[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
             input.closest('div .col').find('.error-message').show()
@@ -576,6 +578,7 @@ function Update() {
         gpm: parseInt($('#salesProject').val()) - parseInt($('#cogs').val()),
         soNumber: parseInt($('#soNumber').val()),
     }
+
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'PUT',
@@ -585,10 +588,13 @@ function Update() {
             Authorization: "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (data) {
+            let movedTo = dataToUpdate.projectStatus === "Open" ? "MOM Sales" : dataToUpdate.projectStatus
+            let mess = prevStat !== dataToUpdate.projectStatus ? `Data Sales Projection Moved to ${movedTo}!` : `Data has been updated`
+
             Swal.fire({
                 icon: "success",
                 title: "Success...",
-                text: `Data Sales Projection Moved to ${dataToUpdate.projectStatus}!`,
+                text: mess,
                 showConfirmButton: false,
                 timer: 1500,
             });
