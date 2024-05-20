@@ -19,6 +19,16 @@
             return data;
         }
 
+        public async Task<List<SalesProjection>> GetByClientId(int clientId)
+        {
+            var data = await context.SalesProjections
+                .Where(e => e.ClientId == clientId)
+                .Include(e => e.Client)
+                .ToListAsync();
+
+            return data;
+        }
+
         public async Task<List<SalesProjection>> getFullData()
         {
             var data = await context.SalesProjections

@@ -10,5 +10,6 @@ namespace RasManagement.ViewModel
         public string? Notes { get; set; }
         public int? ClientId { get; set; }
         public string? ClientName { get; set; }
+        public int? SP_Id { get; set; }
     }
 }
