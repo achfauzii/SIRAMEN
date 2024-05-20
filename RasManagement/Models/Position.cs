@@ -19,8 +19,15 @@ public partial class Position
     public string? Notes { get; set; }
 
     public int? ClientId { get; set; }
+
+    public int? SP_Id { get; set; }
+
+
     [JsonIgnore]
     public virtual ClientName? Client { get; set; }
+
+    [JsonIgnore]
+    public virtual SalesProjection? SalesProjection { get; set; }
     [JsonIgnore]
     public virtual ICollection<TrackingInterview>? TrackingInterviews { get; set; } = new List<TrackingInterview>();
     [JsonIgnore]
