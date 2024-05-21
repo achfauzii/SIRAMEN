@@ -704,7 +704,7 @@ function detailPosition(id) {
 
 
     //Form New Position
-    $("#salseProject").select2({
+    $("#salesProject").select2({
         placeholder: "Choose...",
         dropdownParent: $("#row-select-project"),
         width: "100%",
@@ -712,7 +712,7 @@ function detailPosition(id) {
         allowClear: false,
         tags: true,
     });
-    $('#salseProject').find('option:not(:disabled)').remove();
+    $('#salesProject').find('option:not(:disabled)').remove();
 
     salesProjection(id);
 
@@ -749,8 +749,8 @@ function GetByIdPosition(id) {
                 Quantity: obj.quantity,
                 Status: obj.status,
                 Level: obj.level,
-                Notes: obj.notes
-
+                Notes: obj.notes,
+                sP_Id : obj.sP_Id
             };
 
         },
@@ -779,6 +779,7 @@ function updatePosition() {
     const positionNotes = document.getElementById("positionNotes").value;
     const sP_Id = document.getElementById("salesProject").value;
 
+
     const position = {
         id: positionId,
         positionClient: positionName,
@@ -794,7 +795,8 @@ function updatePosition() {
         position.level == compare.Level &&
         position.quantity == compare.Quantity &&
         position.status == compare.Status &&
-        position.notes == compare.Notes
+        position.notes == compare.Notes &&
+        position.sP_Id == compare.sP_Id
     ) {
         const logMessage = `Updated Position data with no changes detected, ${position.positionClient} in Client Id ${position.clientId}`;
         SaveLogUpdate(logMessage);
@@ -855,7 +857,7 @@ function clearScreenPosition() {
     var form = document.querySelector("#positionModal .needs-validation");
     $("#updatePosition").hide();
     $("#savePosition").show();
-    $("#salseProject").val("").trigger("change");
+    $("#salesProject").val("").trigger("change");
     
 
 
@@ -872,7 +874,7 @@ function savePosition() {
     const positionQuantity = document.getElementById("positionQuantity").value;
     const positionStatus = document.getElementById("positionStatus").value;
     const positionNotes = document.getElementById("positionNotes").value;
-    const sP_Id = document.getElementById("salseProject").value;
+    const sP_Id = document.getElementById("salesProject").value;
 
 
     // Loop over them and prevent submission
@@ -972,7 +974,7 @@ function salesProjection(id,selected) {
         },
         success: function (projectData) {
             
-            const select = document.getElementById('salseProject');
+            const select = document.getElementById('salesProject');
             if (!select) {
                 console.error('Dropdown element not found');
                 return;
