@@ -469,6 +469,7 @@ function detailPosition(id) {
                 .then((data) => {
                     var dataContainer = document.getElementById("dataPositionContainer");
                     statusIndicator_.textContent = "Show Archive Position";
+              
                     data.data.forEach(function (data) {
                         if (data.status != "Archive") {
                             dataContainer.innerHTML += `
@@ -703,6 +704,16 @@ function detailPosition(id) {
 
 
     //Form New Position
+    $("#salseProject").select2({
+        placeholder: "Choose...",
+        dropdownParent: $("#row-select-project"),
+        width: "100%",
+        height: "100%",
+        allowClear: false,
+        tags: true,
+    });
+    $('#salseProject').find('option:not(:disabled)').remove();
+
     salesProjection(id);
 
 }
@@ -728,6 +739,7 @@ function GetByIdPosition(id) {
             $("#positionStatus").val(obj.status);
             $("#positionLevel").val(obj.level);
             $("#positionNotes").val(obj.notes);
+            salesProjection(obj.clientId, obj.sP_Id)
             $("#positionModal").modal("show");
             $("#updatePosition").show();
             $("#savePosition").hide();
@@ -765,6 +777,7 @@ function updatePosition() {
     const positionQuantity = document.getElementById("positionQuantity").value;
     const positionStatus = document.getElementById("positionStatus").value;
     const positionNotes = document.getElementById("positionNotes").value;
+    const sP_Id = document.getElementById("salesProject").value;
 
     const position = {
         id: positionId,
@@ -774,6 +787,7 @@ function updatePosition() {
         status: positionStatus,
         notes: positionNotes,
         clientId: clientId,
+        sP_Id:sP_Id,
     };
 
     if (position.positionClient == compare.PositionName &&
@@ -841,6 +855,11 @@ function clearScreenPosition() {
     var form = document.querySelector("#positionModal .needs-validation");
     $("#updatePosition").hide();
     $("#savePosition").show();
+    $("#salseProject").val("").trigger("change");
+    
+
+
+
 
     form.classList.remove("was-validated");
     form.reset();
@@ -853,6 +872,8 @@ function savePosition() {
     const positionQuantity = document.getElementById("positionQuantity").value;
     const positionStatus = document.getElementById("positionStatus").value;
     const positionNotes = document.getElementById("positionNotes").value;
+    const sP_Id = document.getElementById("salseProject").value;
+
 
     // Loop over them and prevent submission
     var form = document.querySelector("#positionModal .needs-validation");
@@ -873,9 +894,11 @@ function savePosition() {
         status: positionStatus,
         notes: positionNotes,
         clientId: clientId,
+        sP_Id : sP_Id,
     };
-
     console.log(newPositionData);
+
+
     fetch("https://localhost:7177/api/Position/Insert", {
         method: "POST",
         headers: {
@@ -938,7 +961,7 @@ function clearData() {
 
 
 
-function salesProjection(id) {
+function salesProjection(id,selected) {
    
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId='+id,
@@ -949,14 +972,22 @@ function salesProjection(id) {
         },
         success: function (projectData) {
             
-            const select = document.getElementById('salesProject');
+            const select = document.getElementById('salseProject');
+            if (!select) {
+                console.error('Dropdown element not found');
+                return;
+            }
             const sp = projectData.data;
             sp.forEach(project => {
                 
                 const option = document.createElement('option');
                 option.value = project.id;
-                option.text = `${project.client.nameOfClient} - ${project.projectStatus}`;
-                select.app(option);
+                if (parseInt(selected) === parseInt(project.id)) {
+                option.selected = true
+                }
+                option.text = `${project.client.nameOfClient} - ${project.projectStatus} (${project.id})`;
+                select.add(option);
+        
             });
         },
         error: function (err) {
