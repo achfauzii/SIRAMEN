@@ -71,8 +71,8 @@ namespace RasManagement.Repository
                         AccountName = group.First().Account.Fullname,
                         Pic = group.First().PlacementStatus.PicName,
                         Pic_RAS = group.First().PlacementStatus.PicRas,
-                        WFHCount = group.Where(ts => ts.Flag == "WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFH
-                        WFOCount = group.Where(ts => ts.Flag == "WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFO
+                        WFHCount = group.Where(ts => ts.Flag == "WFH" || ts.Flag =="Overtime WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFH
+                        WFOCount = group.Where(ts => ts.Flag == "WFO" || ts.Flag == "Overtime WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFO
                         ClientSite = companyName,
                         Position = context.Positions
                                .Where(p => p.Id == group.First().PlacementStatus.PositionId)
