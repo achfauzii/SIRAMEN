@@ -25,7 +25,8 @@ namespace RasManagement.Repository
                     Status = d.Status,
                     Notes = d.Notes,
                     ClientId = d.ClientId,
-                    ClientName = d.Client.NameOfClient
+                    ClientName = d.Client.NameOfClient,
+                    SP_Id = d.SP_Id
                 })
                 .ToListAsync();
 
