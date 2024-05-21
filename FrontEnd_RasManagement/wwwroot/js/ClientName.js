@@ -741,8 +741,8 @@ function GetByIdPosition(id) {
                 Quantity: obj.quantity,
                 Status: obj.status,
                 Level: obj.level,
-                Notes: obj.notes
-
+                Notes: obj.notes,
+                sP_Id : obj.sP_Id
             };
 
         },
@@ -787,7 +787,8 @@ function updatePosition() {
         position.level == compare.Level &&
         position.quantity == compare.Quantity &&
         position.status == compare.Status &&
-        position.notes == compare.Notes
+        position.notes == compare.Notes &&
+        position.sP_Id == compare.sP_Id
     ) {
         const logMessage = `Updated Position data with no changes detected, ${position.positionClient} in Client Id ${position.clientId}`;
         SaveLogUpdate(logMessage);
