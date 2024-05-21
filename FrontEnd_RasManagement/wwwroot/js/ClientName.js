@@ -291,6 +291,14 @@ function GetById(id) {
 function Update() {
     var isValid = true;
 
+    var industrySelect = $("#Industry").val();
+    if (!industrySelect) {
+        $("#Industry").next(".error-message").show();
+        isValid = false;
+    } else {
+        $("#Industry").next(".error-message").hide();
+    }
+
     $("#Modal input[required-client]").each(function () {
         var element = $(this);
         if (!element.val()) {
