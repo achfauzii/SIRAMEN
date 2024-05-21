@@ -857,7 +857,8 @@ function clearScreenPosition() {
     var form = document.querySelector("#positionModal .needs-validation");
     $("#updatePosition").hide();
     $("#savePosition").show();
-    document.getElementById('row-info').style.display("none");
+    $("#row-info").hide();
+    
 
 
 
