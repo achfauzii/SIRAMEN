@@ -8,7 +8,7 @@ $(document).ready(function () {
         $(".btn-new-position").hide();
     }
 
-    $('input[required], input[required-client]').each(function () {
+    $('input[required], input[required-client], select[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
 
