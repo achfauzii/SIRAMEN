@@ -91,9 +91,9 @@
         cursor: pointer;
     }
 
-    .expand-content:hover {
-        color: darkblue !important;
-    }
+        .expand-content:hover {
+            color: darkblue !important;
+        }
 
     .modal.positionModal:nth-of-type(odd) {
         z-index: 1052 !important;
@@ -118,7 +118,6 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
-
 
 </style>
 
@@ -163,9 +162,9 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                           
-                                <input type="text" class="form-control" id="clientId" hidden>
-                            
+
+                            <input type="text" class="form-control" id="clientId" hidden>
+
                             <div class="form-group">
                                 <label for="ClientName">Client Name</label>
                                 <input type="text" class="form-control form-control-sm" id="clientName" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Client Name" required-client>
@@ -187,7 +186,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
@@ -198,12 +197,12 @@
                                 </div>
 
                                 <div class="col">
-                                <div class="form-group">
-                                    <label for="ClientName">Sales Contact 2</label>
-                                    <input type="number" class="form-control form-control-sm" id="salesContact2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Sales Contact" aria-label="Sales Contact" aria-describedby="basic-addon1" >
-                                    
+                                    <div class="form-group">
+                                        <label for="ClientName">Sales Contact 2</label>
+                                        <input type="number" class="form-control form-control-sm" id="salesContact2" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Sales Contact" aria-label="Sales Contact" aria-describedby="basic-addon1">
+
+                                    </div>
                                 </div>
-                            </div>
 
                             </div>
                             <div class="form-group">
@@ -211,7 +210,7 @@
                                 <input type="text" class="form-control form-control-sm" id="companyOrigin" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Company Origin" required-client>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
-                               <div class="form-group">
+                            <div class="form-group">
                                 <label for="ClientName">PIC Client</label>
                                 <input type="text" class="form-control form-control-sm" id="picClient" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter PIC Name" required-client>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
@@ -222,10 +221,10 @@
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
 
-                            <div class="form-group">                               
+                            <div class="form-group">
                                 <label for="Industry" class="col-form-label">Industry<span class="text-danger">*</span></label>
                                 <select class="form-control form-control-sm selectIndustry" id="Industry" onchange="handleInput(event, this);" required-client>
-                                    <option value="" selected disabled >Select Industry</option>
+                                    <option value="" selected disabled>Select Industry</option>
                                     <option value="Health Care">Health Care</option>
                                     <option value="Energy & Mining">Energy & Mining</option>
                                     <option value="IT">IT</option>
@@ -243,9 +242,9 @@
                                 <input type="text" class="form-control form-control-sm" id="Authority" oninput="handleInput(event, this);" onpaste="handleInput(event, this);" placeholder="Enter Authority" required-client>
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
-                            
 
-                            
+
+
 
 
                         </form>
@@ -280,7 +279,7 @@
                                 <div class="col-3">
                                     <p><strong>Sales Name</strong></p>
                                 </div>
-                                  <div class="col-0">
+                                <div class="col-0">
                                     <p><strong>:</strong></p>
                                 </div>
                                 <div class="col-7">
@@ -323,7 +322,7 @@
                         </div>
                     </div>
                 </div>
-           
+
                 <div class="row justify-content-between mt-2">
                     <span class="col-4 text-left">
                         <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 btn-new-position" data-toggle="modal" data-target="#positionModal" onclick="clearScreenPosition();">
@@ -334,13 +333,13 @@
                         <input type="checkbox" class="form-check-input" id="showArchive" name="showArchive" value="False">
                         <span class="status-indicator_" style="font-size: smaller">Show Archive Position</span>
                     </span>
-                 
+
                 </div>
                 <div class="row" id="dataPositionContainer">
 
-                
-                        @*Content Position in JS*@
-                 
+
+                    @*Content Position in JS*@
+
 
                 </div>
 
@@ -366,7 +365,7 @@
             </div>
             <div class="modal-body">
                 <form class="needs-validation">
-                        
+
                     <input type="text" class="form-control" id="client_Id" hidden>
                     <input type="text" class="form-control" id="positionId" hidden>
 
@@ -377,10 +376,21 @@
                             <select class="custom-select custom-select-sm" id="salesProject" required>
 
                                 <option selected disabled value="">Choose...</option>
-                              
+
                             </select>
                             <div class="invalid-feedback">
                                 This field is required.
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2" id="row-info" style="display:none"> 
+                        <div class="col">
+                            <div class="card bg-info">
+                                <div class="card-body p-2 text-white" id="cardInfo">
+                                    This is some text within a card body.
+                                </div>
                             </div>
                         </div>
 
@@ -399,7 +409,7 @@
                     <div class="row">
                         <div class="col">
 
-                             <label for="message-text" class="col-form-label">Level</label>
+                            <label for="message-text" class="col-form-label">Level</label>
 
                             <select class="custom-select custom-select-sm" id="positionLevel" required>
                                 <option selected disabled value="">Choose...</option>

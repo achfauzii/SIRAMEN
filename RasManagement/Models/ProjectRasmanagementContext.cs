@@ -255,7 +255,7 @@ public partial class ProjectRasmanagementContext : DbContext
                  .HasMaxLength(50)
                  .IsUnicode(false);
             entity.Property(e => e.Industry)
-             .HasMaxLength(20)
+             .HasMaxLength(255)
              .IsUnicode(false);
 
         });

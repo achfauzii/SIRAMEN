@@ -2,7 +2,7 @@ var table = null;
 var compare = {};
 $(document).ready(function () {
     var objDataToken = parseJwt(sessionStorage.getItem("Token"));
-   
+
     if (objDataToken.RoleId == 7) {
         $(".btn-add-client").hide();
         $(".btn-new-position").hide();
@@ -469,7 +469,7 @@ function detailPosition(id) {
                 .then((data) => {
                     var dataContainer = document.getElementById("dataPositionContainer");
                     statusIndicator_.textContent = "Show Archive Position";
-              
+
                     data.data.forEach(function (data) {
                         if (data.status != "Archive") {
                             dataContainer.innerHTML += `
@@ -750,7 +750,7 @@ function GetByIdPosition(id) {
                 Status: obj.status,
                 Level: obj.level,
                 Notes: obj.notes,
-                sP_Id : obj.sP_Id
+                sP_Id: obj.sP_Id
             };
 
         },
@@ -761,7 +761,7 @@ function GetByIdPosition(id) {
 }
 
 function updatePosition() {
-    debugger;
+
     var form = document.querySelector("#positionModal .needs-validation");
 
     if (form.checkValidity() === false) {
@@ -788,7 +788,7 @@ function updatePosition() {
         status: positionStatus,
         notes: positionNotes,
         clientId: clientId,
-        sP_Id:sP_Id,
+        sP_Id: sP_Id,
     };
 
     if (position.positionClient == compare.PositionName &&
@@ -857,8 +857,7 @@ function clearScreenPosition() {
     var form = document.querySelector("#positionModal .needs-validation");
     $("#updatePosition").hide();
     $("#savePosition").show();
-    $("#salesProject").val("").trigger("change");
-    
+    document.getElementById('row-info').style.display("none");
 
 
 
@@ -896,9 +895,9 @@ function savePosition() {
         status: positionStatus,
         notes: positionNotes,
         clientId: clientId,
-        sP_Id : sP_Id,
+        sP_Id: sP_Id,
     };
-    console.log(newPositionData);
+
 
 
     fetch("https://localhost:7177/api/Position/Insert", {
@@ -963,17 +962,17 @@ function clearData() {
 
 
 
-function salesProjection(id,selected) {
-   
+function salesProjection(id, selected) {
+
     $.ajax({
-        url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId='+id,
+        url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId=' + id,
         type: 'GET',
         dataType: 'json',
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (projectData) {
-            
+
             const select = document.getElementById('salesProject');
             if (!select) {
                 console.error('Dropdown element not found');
@@ -981,19 +980,61 @@ function salesProjection(id,selected) {
             }
             const sp = projectData.data;
             sp.forEach(project => {
-                
+
                 const option = document.createElement('option');
                 option.value = project.id;
                 if (parseInt(selected) === parseInt(project.id)) {
-                option.selected = true
+                    option.selected = true
                 }
                 option.text = `${project.client.nameOfClient} - ${project.projectStatus} (${project.id})`;
                 select.add(option);
-        
+
             });
+
+
         },
         error: function (err) {
             console.error("error fetching data:" + err)
         }
     })
 }
+
+// View Info
+$('#salesProject').change(function (e) {
+    
+    const rowInfo = document.getElementById('row-info')
+    const cardInfo = document.getElementById('cardInfo');
+    const value = this.value;
+    rowInfo.style.display = "block";
+    $.ajax({
+        url: 'https://localhost:7177/api/SalesProjection/' + value,
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (obj) {
+
+            const data = obj.data;
+            
+            if (data.hiringNeeds !== null || data.hiringNeeds !== "") {
+            
+                rowInfo.style.display = "block";
+             
+                cardInfo.innerText = data.hiringNeeds;
+
+            }
+
+
+        },
+        error: function (err) {
+            console.error("error fetching data:" + err)
+            rowInfo.style.display = "none";
+        }
+    })
+    
+    // cardInfo.innerText =
+})
+
+
+
