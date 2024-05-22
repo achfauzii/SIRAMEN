@@ -600,7 +600,7 @@ public partial class ProjectRasmanagementContext : DbContext
 
 
             entity.Property(e => e.HiringNeeds)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
             entity.Property(e => e.Timeline)
