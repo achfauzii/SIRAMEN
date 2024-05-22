@@ -66,7 +66,7 @@ $('#projectStatus').change(function (e) {
 
 function generateData(id) {
     $('#salesProjectionTable').DataTable().destroy();
-    let endpointApi,color;
+    let endpointApi, color;
     $('#addSalesProjection').hide();
     switch (id.toLowerCase()) {
         case "momsales":
@@ -97,7 +97,7 @@ function generateData(id) {
     }
 
 
-    if (endpointApi == "best view" || endpointApi =="close win") {
+    if (endpointApi == "best view" || endpointApi == "close win") {
         $('#salesProjectionTable').DataTable().destroy();
         $('#salesProjectionTableBestViews').DataTable().destroy();
         $("#salesProjectionTable").hide();
@@ -126,7 +126,7 @@ function generateData(id) {
                             },
                             success: function (data) {
                                 if (data.data && data.data.length > 0) {
-                                  
+
                                     if (data.data.length > 1) {
                                         item.quantity = data.data.map(function (pos) {
                                             return pos.quantity;
@@ -137,7 +137,7 @@ function generateData(id) {
                                         }).join(', ');
 
                                     } else {
-                                        item.quantity = data.data[0].quantity; 
+                                        item.quantity = data.data[0].quantity;
                                         item.position = data.data[0].positionClient;
                                     }
                                 } else {
@@ -146,7 +146,7 @@ function generateData(id) {
                                 }
                             },
                             error: function (err) {
-                               /* console.error("error fetching data:" + err);*/
+                                /* console.error("error fetching data:" + err);*/
                                 item.quantity = null;
                                 item.position = null;
                             },
@@ -180,10 +180,35 @@ function generateData(id) {
                     }
                 },
                 {
-                    data: "quantity"             
+                    data: "position",
+                    render: function (data) {
+                        if (typeof data === 'string') {
+                            var positions = data.split(',');
+                            return positions.map(function (position, index) {
+                                var badgeClass = index % 2 === 0 ? 'bg-dark text-light' : 'bg-warning text-dark';
+                                return '<span class="badge ' + badgeClass + '">' + position.trim() + '</span><br>';
+                            }).join(' ');
+                        } else {
+                            return '<span class="badge bg-dark text-light">' + data + '</span>';
+                        }
+                    }
                 },
 
-                { data: "position" },
+                {
+                    data: "quantity",
+                    render: function (data) {
+                        if (typeof data === 'string') {
+                            var quantity = data.split(',');
+                            return quantity.map(function (quantity, index) {
+                                var badgeClass = index % 2 === 0 ? 'bg-dark text-light' : 'bg-warning text-dark';
+                                return '<span class="badge ' + badgeClass + '">' + quantity.trim() + '</span><br>';
+                            }).join(' ');
+                        } else {
+                            return '<span class="badge bg-dark text-light">' + data + '</span>';
+                        }
+                    }
+
+                },
                 { data: "startedYear" },
 
                 { data: "projectType" },
@@ -201,7 +226,7 @@ function generateData(id) {
                 {
                     data: "cogs",
                     visible: (endpointApi == "best view") ? false : true,
-                     render: function (data, type, row) {
+                    render: function (data, type, row) {
                         return "Rp " + data;
                     }
                 },
@@ -219,12 +244,12 @@ function generateData(id) {
                 {
                     data: "notes"
                 },
-            
+
                 {
                     data: null,
                     orderable: false,
                     render: function (data, type, row) {
-                   
+
                         return (
                             `
                         <div class="d-flex flex-row">
@@ -232,7 +257,7 @@ function generateData(id) {
                             <a href="" class="btn  ml-1 btn-sm p-0 text-primary"  style="font-size: 14pt" data-bs-toggle="modal" data-placement="left" data-tooltip="tooltip" title="Add Activity"  data-toggle="modal" data-target="#activityModal" onclick="setIdformActivity(${row.id})"><i class="fas fa-calendar-plus"></i></a>
                         </div>
                         `
-                            
+
                         );
                     },
                     //visible: objDataToken.RoleId != 7,
@@ -276,11 +301,11 @@ function generateData(id) {
 
                 // Update footer for GPM
                 $(api.column(11).footer()).html(
-                    'Rp ' + pageTotalGpm 
+                    'Rp ' + pageTotalGpm
                 );
             }
         });
-    
+
 
     } else {
         $('#salesProjectionTableBestViews').DataTable().destroy();
@@ -472,7 +497,7 @@ async function GetById(id, tableName) {
     $('#Save').hide()
     $('#colStatusPro').show()
     $('#projectStatus').attr('required', true)
-  
+
     $('#tableName').val(tableName);
 
     const url = 'https://localhost:7177/api/SalesProjection/' + id;
@@ -490,7 +515,7 @@ async function GetById(id, tableName) {
         $('#fieldGoals').show()
     }
 
- 
+
     const urlClient = 'https://localhost:7177/api/ClientName/' + response.data.clientId;
     const fetchingDataClient = await fetch(urlClient, {
         headers: {
@@ -504,7 +529,7 @@ async function GetById(id, tableName) {
     $('#Modal-addSalesProjection form').find('input, textarea').each(function () {
         const idForm = $(this).attr('id');
         let fieldValue = response.data[idForm];
-    
+
         if (fieldValue === undefined) {
             fieldValue = responseClient.data[idForm]
         }
@@ -520,8 +545,8 @@ async function GetById(id, tableName) {
             $(this).val(fieldValue);
         }
     });
-    
-    
+
+
 }
 
 function ClearScreen() {
@@ -552,7 +577,7 @@ function Update() {
     const prevStat = sessionStorage.getItem('prevStatus')
     var isValid = true;
     const tableName = $('#tableName').val();
-   
+
     formModal.find('input[required] ,select[required], textarea[required]').each(function (e) {
         var input = $(this);
         if (!input.val()) {
@@ -617,8 +642,8 @@ function Update() {
             } else {
                 $("#salesProjectionTable").DataTable().ajax.reload();
             }
-         
-         
+
+
         },
         error: function (err) {
             console.error(err)
@@ -661,10 +686,10 @@ function Save() {
         rateCard: $('#rateCard').val(),
         currentNews: $('#currentNews').val(),
         clientId: parseInt($('#clientId').find(":selected").val()),
- 
+
     }
 
-  
+
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'POST',
@@ -723,7 +748,7 @@ function saveActivity() {
         "activity": $("#inputActivity").val(),
         "date": $("#dateActivity").val()
     }
-   
+
     $.ajax({
         url: 'https://localhost:7177/api/ActivitySalesProjection',
         type: 'POST',
