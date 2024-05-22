@@ -271,7 +271,7 @@ $(document).ready(function () {
     setInterviewStatus()
 });
 $("#salesProjection").on("change", function () {
-    $("#position").removeAttr("disabled");
+
     const dataClient = $(this).find(`option[value="${$(this).val()}"]`).data('client')
     getClient(dataClient)
     getPosition($(this).val())
@@ -339,7 +339,7 @@ function getSalesProjection(selected) {
     })
     $("#salesProjection").select2({
         placeholder: "Choose Sales Projection",
-        dropdownParent: $("#trackingModal"),
+        dropdownParent: $("#form-sp"),
         width: "100%",
         height: "100%",
         allowClear: false,
@@ -447,7 +447,8 @@ function getPosition(spId) {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     }).then((result) => {
-      if (result != null) {
+        if (result != null) {
+           $("#position").removeAttr("disabled");
         $("#position").empty();
         $("#position").append(`<option selected disabled>
         Choose Position
@@ -464,7 +465,9 @@ function getPosition(spId) {
 function clearScreen() {
   position = null;
   $(".process").remove();
-  clearProcess();
+
+    clearProcess();
+    $("intStatus").val("").trigger('change');
     $("#btnNewProcess").hide();
 
     $('#position').attr('disabled',true)
@@ -765,7 +768,7 @@ function newProcess() {
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="col">
-                                <select class=" form-control form-control-sm intStatus" id="intStatus" >
+                                <select class=" form-control form-control-sm intStatus"id="intStatus" >
                                         <option selected disabled>Choose...</option>
                                         <option value="Submitted CV">Submitted CV</option>
                                         <option value="Hold">Hold</option>
@@ -811,9 +814,9 @@ function clearProcess() {
                             </div>
                             <div class="col">
                                 <label for="message-text" class="col-form-label">Interview Status<span style="color: red;">*</span></label>
-                                <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newProcess();">+ New </button>
+                                <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" placeholder="choose..." style="height: 45%;" onclick="newProcess();">+ New </button>
                                 <select class=" form-control form-control-sm intStatus" id="intStatus" >
-                                        <option selected disabled>Choose...</option>
+                                        <option selected value ="" disabled>Choose...</option>
                                         <option value="Submitted CV">Submitted CV</option>
                                         <option value="Hold">Hold</option>
                                         <option value="Scheduling">Scheduling</option>

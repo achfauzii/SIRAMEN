@@ -2,13 +2,13 @@ var table = null;
 var compare = {};
 $(document).ready(function () {
     var objDataToken = parseJwt(sessionStorage.getItem("Token"));
-   
+
     if (objDataToken.RoleId == 7) {
         $(".btn-add-client").hide();
         $(".btn-new-position").hide();
     }
 
-    $('input[required], input[required-client]').each(function () {
+    $('input[required], input[required-client], select[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
 
@@ -469,72 +469,52 @@ function detailPosition(id) {
                 .then((data) => {
                     var dataContainer = document.getElementById("dataPositionContainer");
                     statusIndicator_.textContent = "Show Archive Position";
-              
+
                     data.data.forEach(function (data) {
                         if (data.status != "Archive") {
                             dataContainer.innerHTML += `
                             <div class="col-sm-6">
                                 <div class="card mb-4" id="dataCardPosition">
-                                         <div class="card-header p-1 pl-2 text-dark">
-                                                Status :
-                                            
-                                                           <span id="status" class="${getStatusColorClass(
-                                data.status
-                            )}">${data.status
-                                }</span>
-                                            
-                                               
-                                         </div>
-                                         <div class="card-body text-dark pt-3 pb-3">
-                                             
-                                                       <div class="row">
-                                                                <div class="col-9 ml-1">
-                                                                           <h6 class="mb-0 font-weight-bolder">${data.positionClient
-                                }</h5>
-                                                                </div>
-                                                                <div class="col text-right">
-                                                                    ${objDataToken.RoleId !=
-                                    7
-                                    ? `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>`
-                                    : ""
-                                }
-                                                                </div>
-                                                              
-                                                       </div>
-                                                        <div class="row ml-1">
-                                                                 <h6>${data.level
-                                }</h6>
-                                                       </div>
-
-                                                       <div class="row">
-                                                           
-                                                                      <div class="col-md-3 ml-1">Quantity</div>
-                                                                      <div class="col-md-0">: </div>
-                                                                      <div class="col-md-8">${data.quantity
-                                }</div>
-
-                                                       </div>
-                                                       <div class="row ">
-                                                           
-                                                                      <div class="col-md-3 ml-1">Notes</div>
-                                                                      <div class="col-md-0">:</div>
-                                                                      <div class="col-md-8">${data.notes
-                                }</div>
-                                                               
-                                                        
-                                                       </div>
-                                                        <div class="row ">
-                                                                       <div class="col-md-3 ml-1">Sales Projection</div>
-                                                                      <div class="col-md-0">:</div>
-                                                                      <div class="col-md-8">${data.sP_Id ?? 'Not Found'}
-                                                                                        
-                                                         </div>
-                                                    
-                                         </div>
+                                    <div class="card-header p-1 pl-2 text-dark">
+                                        Status : <span id="status" class="${getStatusColorClass(data.status)}">${data.status}</span>
+                                    </div>
+                                    <div class="card-body text-dark pt-3 pb-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-4">
+                                                <h6 class="mb-0 font-weight-bolder">${data.positionClient}</h5>
+                                            </div>
+                                            <div class="col-4">
+                                                <h6 class="mb-0">${data.level
+                                                            }</h6>
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                ${objDataToken.RoleId !=
+                                                                7
+                                                                ? `<a href="#" class="btn ml-2 btn-sm p-0 text-info" style="font-size: 14pt" data-bs-toggle="modal"
+                                                    data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i
+                                                        class="far fa-edit"></i></a>`
+                                                                : ""
+                                                            }
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Quantity</div>
+                                            <div class="col-4 text-left">: ${data.quantity
+                                                            }</div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-4">Notes</div>
+                                            <div class="col-4 text-left">: ${data.notes
+                                                            }</div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-4">Sales Projection</div>
+                                            <div class="col-4 text-left">: ${data.sP_Id ?? 'Not Found'}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                                
-                                 
                             `;
                         }
                     });
@@ -721,7 +701,6 @@ function detailPosition(id) {
 function GetByIdPosition(id) {
 
 
-
     $.ajax({
         url: "https://localhost:7177/api/Position/" + id,
         type: "GET",
@@ -739,7 +718,8 @@ function GetByIdPosition(id) {
             $("#positionStatus").val(obj.status);
             $("#positionLevel").val(obj.level);
             $("#positionNotes").val(obj.notes);
-            salesProjection(obj.clientId, obj.sP_Id)
+            //salesProjection(obj.clientId, obj.sP_Id)
+            $("#salesProject").val(obj.sP_Id).trigger('change');
             $("#positionModal").modal("show");
             $("#updatePosition").show();
             $("#savePosition").hide();
@@ -750,7 +730,7 @@ function GetByIdPosition(id) {
                 Status: obj.status,
                 Level: obj.level,
                 Notes: obj.notes,
-                sP_Id : obj.sP_Id
+                sP_Id: obj.sP_Id
             };
 
         },
@@ -761,7 +741,7 @@ function GetByIdPosition(id) {
 }
 
 function updatePosition() {
-    debugger;
+
     var form = document.querySelector("#positionModal .needs-validation");
 
     if (form.checkValidity() === false) {
@@ -788,7 +768,7 @@ function updatePosition() {
         status: positionStatus,
         notes: positionNotes,
         clientId: clientId,
-        sP_Id:sP_Id,
+        sP_Id: sP_Id,
     };
 
     if (position.positionClient == compare.PositionName &&
@@ -857,6 +837,7 @@ function clearScreenPosition() {
     var form = document.querySelector("#positionModal .needs-validation");
     $("#updatePosition").hide();
     $("#savePosition").show();
+    $("#row-info").hide();
     $("#salesProject").val("").trigger("change");
     
 
@@ -896,9 +877,9 @@ function savePosition() {
         status: positionStatus,
         notes: positionNotes,
         clientId: clientId,
-        sP_Id : sP_Id,
+        sP_Id: sP_Id,
     };
-    console.log(newPositionData);
+
 
 
     fetch("https://localhost:7177/api/Position/Insert", {
@@ -963,17 +944,16 @@ function clearData() {
 
 
 
-function salesProjection(id,selected) {
-   
+function salesProjection(id, selected) {
     $.ajax({
-        url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId='+id,
+        url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId=' + id,
         type: 'GET',
         dataType: 'json',
         headers: {
             Authorization: "Bearer " + sessionStorage.getItem("Token")
         },
         success: function (projectData) {
-            
+
             const select = document.getElementById('salesProject');
             if (!select) {
                 console.error('Dropdown element not found');
@@ -981,19 +961,64 @@ function salesProjection(id,selected) {
             }
             const sp = projectData.data;
             sp.forEach(project => {
-                
+
                 const option = document.createElement('option');
                 option.value = project.id;
                 if (parseInt(selected) === parseInt(project.id)) {
-                option.selected = true
+                    option.selected = true
                 }
                 option.text = `${project.client.nameOfClient} - ${project.projectStatus} (${project.id})`;
                 select.add(option);
-        
+
             });
+
+
         },
         error: function (err) {
             console.error("error fetching data:" + err)
         }
     })
 }
+
+// View Info
+$('#salesProject').change(function (e) {
+    
+    const rowInfo = document.getElementById('row-info')
+    const cardInfo = document.getElementById('cardInfo');
+    const value = this.value;
+    if (value == "" || value == null) {
+        return;
+    }
+    rowInfo.style.display = "block";
+    $.ajax({
+        url: 'https://localhost:7177/api/SalesProjection/' + value,
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token")
+        },
+        success: function (obj) {
+
+            const data = obj.data;
+            
+            if (data.hiringNeeds !== null || data.hiringNeeds !== "") {
+            
+                rowInfo.style.display = "block";
+             
+                cardInfo.innerText = data.hiringNeeds;
+
+            }
+
+
+        },
+        error: function (err) {
+            console.error("error fetching data:" + err)
+            rowInfo.style.display = "none";
+        }
+    })
+    
+    // cardInfo.innerText =
+})
+
+
+

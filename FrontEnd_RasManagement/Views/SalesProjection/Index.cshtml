@@ -69,8 +69,8 @@
                     <th scope="col">No</th>
                     <th scope="col">Company Name</th>
                     <th scope="col">Industry</th>
-                    <th scope="col">HeadCount</th>
                     <th scope="col">Position</th>
+                    <th scope="col">HeadCount</th>
                     <th scope="col">Year Started</th>
                     <th scope="col">Status Project</th>
                     <th scope="col">Contract Periode</th>
@@ -112,8 +112,9 @@
                     <input class="form-control form-control-sm" type="hidden" id="id">
                     <input class="form-control form-control-sm" type="hidden" id="entryDate">
                     <div class="row mb-2">
-                        <div class="col form-group">
+                        <div class="col form-group" id="col-select-client">
                             <label for="message-text" class="col-form-label">Client</label>
+                            <span class="text-danger">*</span>
                             <select class="form-control form-control-sm selectedResource" id="clientId" focus required>
                                 <option value="" selected disabled>Select Client</option>
                             </select>
@@ -128,10 +129,14 @@
                             <input type="text" class="form-control" id="sales2" readonly disabled>
                         </div>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col">
+                    <div class="row mb-2 justify-content-end">
+                        <div class="col-4">
                             <label for="message-text" class="col-form-label">Sales Contact</label>
-                            <input type="text" oninput="this.value = this.value.replace(/\D/g, '');" class="form-control" id="salesContact" maxlength="13" minlength="10" placeholder="Enter Sales Contact" pattern="0\d{0,13}" readonly disabled>
+                            <input type="text" oninput="this.value = this.value.replace(/\D/g, '');" class="form-control" id="salesContact1" maxlength="13" minlength="10" placeholder="Enter Sales Contact" pattern="0\d{0,13}" readonly disabled>
+                        </div>
+                        <div class="col-4">
+                            <label for="message-text" class="col-form-label">Sales Contact</label>
+                            <input type="text" oninput="this.value = this.value.replace(/\D/g, '');" class="form-control" id="salesContact2" maxlength="13" minlength="10" placeholder="Enter Sales Contact" pattern="0\d{0,13}" readonly disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -167,12 +172,13 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Attendees</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Attendees" id="attendees" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Attendees" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="attendees" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
 
                         <div class="col" id="colRequestBy">
                             <label for="message-text" class="col-form-label">Request By</label>
+                            <span class="text-danger">*</span>
                             <select class="form-control form-control-sm" id="requestBy" required>
                                 <option value="" selected disabled>Choose status</option>
                                 <option value="Internal">Internal</option>
@@ -184,27 +190,29 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Current News</label>
-                            <textarea class="form-control" rows="3" placeholder="Enter Current News" id="currentNews" required></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Enter Current News" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="currentNews" required></textarea>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Hiring Needs</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Needs" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="hiringNeeds" required>
+                            <textarea class="form-control" rows="3" placeholder="Enter Hiring Needs" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="hiringNeeds" required></textarea>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+                    </div>
+                    <div class="row mb-2">
+                        
                         <div class="col">
                             <label for="message-text" class="col-form-label">Hiring Process</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Process" id="hiringProcess" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Process" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="hiringProcess" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Timeline</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Timeline" id="timeline" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Timeline" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="timeline" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         
@@ -212,18 +220,19 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Work location</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Work location" id="workLocation" required>
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Work location" id="workLocation" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Contract Periode</label>
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" id="contractPeriode" required>
+                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="contractPeriode" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col" id="colPriority">
                             <label for="message-text" class="col-form-label">Priority</label>
+                            <span class="text-danger">*</span>
                             <select class="form-control form-control-sm" id="priority" required>
                                 <option value="" selected disabled>Choose Priority</option>
                                 <option value="High">High</option>
@@ -234,6 +243,7 @@
                         </div>
                         <div class="col" id="colStatus">
                             <label for="message-text" class="col-form-label">Status</label>
+                            <span class="text-danger">*</span>
                             <select class="form-control form-control-sm" id="status" required>
                                 <option value="" selected disabled>Choose Status</option>
                                 <option value="SchedulingMeeting">Scheduling Meeting</option>
@@ -247,7 +257,7 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Ratecard</label>
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="rateCard" required>
+                            <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="rateCard" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" required>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col" id="colStatusPro">
