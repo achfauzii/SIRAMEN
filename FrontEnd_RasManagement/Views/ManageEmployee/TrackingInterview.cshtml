@@ -169,19 +169,25 @@
                         </select>
                         <span class="error-message" style="color: red; display: none;">This field is required!</span>
                     </div>
-                    
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Sales Projection</label>
+                        <select class="form-control form-control-sm selectedProjection" id="salesProjection" required>
+                            <option value="" selected disabled>Select Resource</option>
+                        </select>
+                        <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                    </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Client</label>
-                            <select class="form-control form-control-sm selectedClient" id="client" required>
-                                <option selected disabled>Choose Client</option>
+                            <select class="form-control form-control-sm selectedClient" id="client" required disabled>
+                                <option value="" selected disabled>Choose Client</option>
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Position</label>
                             <select class="form-control form-control-sm" id="position" required disabled>
-                                <option selected disabled>Choose Position</option>
+                                <option value="" selected disabled>Choose Position</option>
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
@@ -201,17 +207,12 @@
                                 <label for="intStatus" class="col-form-label">Interview Status<span style="color: red;">*</span></label>
                                 <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 35%;" onclick="newProcess();">+ New</button>
                                 <p>
-                                    
-                                    <select class="form-control form-control-sm intStatus" id="intStatus" required>
-                                        <option selected disabled>Choose...</option>
-                                        <option value="Submitted CV">Submitted CV</option>
-                                        <option value="Hold">Hold</option>
-                                        <option value="Scheduling">Scheduling</option>
-                                        <option value="Technical Test">Technical Test</option>
-                                        <option value="Done">Done</option>
-                                        <option value="Reject">Reject</option>
+                                    <div class="form-group">
+                                        <select class="form-control form-control-sm intStatus" id="intStatus" required>
+                                        <option value="" selected disabled>Choose...</option>
                                     </select>
                                     <span class="error-message"  style="color: red; display: none;">This field is required!</span>
+                                    </div>
                                 </p>
                              
                                 
