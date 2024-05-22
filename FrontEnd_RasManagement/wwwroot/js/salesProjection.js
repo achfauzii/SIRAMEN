@@ -184,11 +184,13 @@ function generateData(id) {
                 {
                     data: "position",
                     render: function (data) {
+
                         if (!data) {
                             return '';
                         }
 
                         //bagde warna untuk posisi
+
                         if (typeof data === 'string') {
                             var positions = data.split(',');
                             return positions.map(function (position, index) {
@@ -204,10 +206,12 @@ function generateData(id) {
                 {
                     data: "quantity",
                     render: function (data) {
+
                         if (!data) {
                             return '';
                         }
                         //badge warna untuk 
+
                         if (typeof data === 'string') {
                             var quantity = data.split(',');
                             return quantity.map(function (quantity, index) {
