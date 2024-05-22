@@ -701,7 +701,6 @@ function detailPosition(id) {
 function GetByIdPosition(id) {
 
 
-
     $.ajax({
         url: "https://localhost:7177/api/Position/" + id,
         type: "GET",
@@ -719,7 +718,8 @@ function GetByIdPosition(id) {
             $("#positionStatus").val(obj.status);
             $("#positionLevel").val(obj.level);
             $("#positionNotes").val(obj.notes);
-            salesProjection(obj.clientId, obj.sP_Id)
+            //salesProjection(obj.clientId, obj.sP_Id)
+            $("#salesProject").val(obj.sP_Id).trigger('change');
             $("#positionModal").modal("show");
             $("#updatePosition").show();
             $("#savePosition").hide();
@@ -945,7 +945,6 @@ function clearData() {
 
 
 function salesProjection(id, selected) {
-
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId=' + id,
         type: 'GET',
