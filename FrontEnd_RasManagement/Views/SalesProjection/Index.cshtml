@@ -3,6 +3,19 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
 
+<style>
+    /* Menghilangkan panah di input number pada Webkit browsers (Chrome, Safari, Opera) */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Menghilangkan panah di input number pada Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
 
