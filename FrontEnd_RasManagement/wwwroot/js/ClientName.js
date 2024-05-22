@@ -858,6 +858,7 @@ function clearScreenPosition() {
     $("#updatePosition").hide();
     $("#savePosition").show();
     $("#row-info").hide();
+    $("#salesProject").val("").trigger("change");
     
 
 
@@ -1006,6 +1007,9 @@ $('#salesProject').change(function (e) {
     const rowInfo = document.getElementById('row-info')
     const cardInfo = document.getElementById('cardInfo');
     const value = this.value;
+    if (value == "" || value == null) {
+        return;
+    }
     rowInfo.style.display = "block";
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection/' + value,
