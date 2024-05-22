@@ -129,10 +129,14 @@
                             <input type="text" class="form-control" id="sales2" readonly disabled>
                         </div>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col">
+                    <div class="row mb-2 justify-content-end">
+                        <div class="col-4">
                             <label for="message-text" class="col-form-label">Sales Contact</label>
-                            <input type="text" oninput="this.value = this.value.replace(/\D/g, '');" class="form-control" id="salesContact" maxlength="13" minlength="10" placeholder="Enter Sales Contact" pattern="0\d{0,13}" readonly disabled>
+                            <input type="text" oninput="this.value = this.value.replace(/\D/g, '');" class="form-control" id="salesContact1" maxlength="13" minlength="10" placeholder="Enter Sales Contact" pattern="0\d{0,13}" readonly disabled>
+                        </div>
+                        <div class="col-4">
+                            <label for="message-text" class="col-form-label">Sales Contact</label>
+                            <input type="text" oninput="this.value = this.value.replace(/\D/g, '');" class="form-control" id="salesContact2" maxlength="13" minlength="10" placeholder="Enter Sales Contact" pattern="0\d{0,13}" readonly disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
