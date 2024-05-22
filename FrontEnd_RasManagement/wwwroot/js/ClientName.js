@@ -475,66 +475,46 @@ function detailPosition(id) {
                             dataContainer.innerHTML += `
                             <div class="col-sm-6">
                                 <div class="card mb-4" id="dataCardPosition">
-                                         <div class="card-header p-1 pl-2 text-dark">
-                                                Status :
-                                            
-                                                           <span id="status" class="${getStatusColorClass(
-                                data.status
-                            )}">${data.status
-                                }</span>
-                                            
-                                               
-                                         </div>
-                                         <div class="card-body text-dark pt-3 pb-3">
-                                             
-                                                       <div class="row">
-                                                                <div class="col-9 ml-1">
-                                                                           <h6 class="mb-0 font-weight-bolder">${data.positionClient
-                                }</h5>
-                                                                </div>
-                                                                <div class="col text-right">
-                                                                    ${objDataToken.RoleId !=
-                                    7
-                                    ? `<a href="#" class="btn  ml-2 btn-sm p-0 text-info"  style="font-size: 14pt" data-bs-toggle="modal" data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i class="far fa-edit"></i></a>`
-                                    : ""
-                                }
-                                                                </div>
-                                                              
-                                                       </div>
-                                                        <div class="row ml-1">
-                                                                 <h6>${data.level
-                                }</h6>
-                                                       </div>
-
-                                                       <div class="row">
-                                                           
-                                                                      <div class="col-md-3 ml-1">Quantity</div>
-                                                                      <div class="col-md-0">: </div>
-                                                                      <div class="col-md-8">${data.quantity
-                                }</div>
-
-                                                       </div>
-                                                       <div class="row ">
-                                                           
-                                                                      <div class="col-md-3 ml-1">Notes</div>
-                                                                      <div class="col-md-0">:</div>
-                                                                      <div class="col-md-8">${data.notes
-                                }</div>
-                                                               
-                                                        
-                                                       </div>
-                                                        <div class="row ">
-                                                                       <div class="col-md-3 ml-1">Sales Projection</div>
-                                                                      <div class="col-md-0">:</div>
-                                                                      <div class="col-md-8">${data.sP_Id ?? 'Not Found'}
-                                                                                        
-                                                         </div>
-                                                    
-                                         </div>
+                                    <div class="card-header p-1 pl-2 text-dark">
+                                        Status : <span id="status" class="${getStatusColorClass(data.status)}">${data.status}</span>
+                                    </div>
+                                    <div class="card-body text-dark pt-3 pb-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-4">
+                                                <h6 class="mb-0 font-weight-bolder">${data.positionClient}</h5>
+                                            </div>
+                                            <div class="col-4">
+                                                <h6 class="mb-0">${data.level
+                                                            }</h6>
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                ${objDataToken.RoleId !=
+                                                                7
+                                                                ? `<a href="#" class="btn ml-2 btn-sm p-0 text-info" style="font-size: 14pt" data-bs-toggle="modal"
+                                                    data-tooltip="tooltip" onclick="GetByIdPosition(${data.id})" title="Detail Employee"><i
+                                                        class="far fa-edit"></i></a>`
+                                                                : ""
+                                                            }
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Quantity</div>
+                                            <div class="col-4 text-left">: ${data.quantity
+                                                            }</div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-4">Notes</div>
+                                            <div class="col-4 text-left">: ${data.notes
+                                                            }</div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-4">Sales Projection</div>
+                                            <div class="col-4 text-left">: ${data.sP_Id ?? 'Not Found'}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                                
-                                 
                             `;
                         }
                     });

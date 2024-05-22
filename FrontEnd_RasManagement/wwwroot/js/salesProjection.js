@@ -397,7 +397,9 @@ function clientOption(selected) {
             let salesName
             let idSales1 = $('#sales1')
             let idSales2 = $('#sales2')
-            let salesContact = $('#salesContact')
+            let salesContact 
+            let salesContact1 = $('#salesContact1')
+            let salesContact2 = $('#salesContact2')
             let nameOfClient = $('#nameOfClient')
             let companyOrigin = $('#companyOrigin')
             let picClient = $('#picClient')
@@ -408,7 +410,8 @@ function clientOption(selected) {
 
             idSales1.val("");
             idSales2.val("");
-            salesContact.val("");
+            salesContact1.val("");
+            salesContact2.val("");
             nameOfClient.val("");
             companyOrigin.val("");
             picClient.val("");
@@ -433,7 +436,16 @@ function clientOption(selected) {
                         idSales1.val(splitName[0])
                         idSales2.val(splitName[1])
                     }
-                    salesContact.val(option.salesContact ?? " ");
+                    //salesContact
+                    salesContact = option.salesContact
+                    salesContact1.val(salesContact ?? ' ')
+                    salesContact2.val(' ')
+                    if (salesContact && salesContact.includes(',')) {
+                        let splitName = salesContact.split(',');
+                        salesContact1.val(splitName[0])
+                        salesContact2.val(splitName[1])
+                    }
+                    //salesContact.val(option.salesContact ?? " ");
                     nameOfClient.val(option.nameOfClient ?? " ");
                     companyOrigin.val(option.companyOrigin ?? " ");
                     picClient.val(option.picClient ?? " ");
