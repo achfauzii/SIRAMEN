@@ -16,7 +16,7 @@ $(document).ready(function () {
     clientOption()
     $("#clientId").select2({
         placeholder: "Choose Client",
-        dropdownParent: $("#Modal-addSalesProjection"),
+        dropdownParent: $("#col-select-client"),
         width: "100%",
         height: "100%",
         allowClear: false,
