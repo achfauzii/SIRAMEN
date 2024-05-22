@@ -216,9 +216,17 @@ $(document).ready(function () {
           }
 
           // Menampilkan data terakhir
-          const lastDate = userData.DateArray[userData.DateArray.length - 1];
-
-          return lastDate;
+            const lastDate = userData.DateArray[userData.DateArray.length - 1];
+            
+            const disDate = new Date(lastDate)
+            let options = {
+                weekday: "short",
+                year: "numeric",
+                month: "long",
+                day:"numeric"
+            }
+            return new Intl.DateTimeFormat("en-US", options).format(disDate)
+            
         },
       },
       {
@@ -247,15 +255,96 @@ $(document).ready(function () {
   });
 
   getResource();
-  getClient();
-  fetchCategories();
+    fetchCategories();
+    getSalesProjection()
+   
 
-  $("#client").on("change", function () {
-    $("#position").removeAttr("disabled");
-    getPosition(this.value);
-  });
+    $("#position").select2({
+        placeholder: "Choose position",
+        dropdownParent: $("#trackingModal"),
+        width: "100%",
+        height: "100%",
+        allowClear: false,
+        minimumResultsForSearch: -1
+    });
+
+    setInterviewStatus()
+});
+$("#salesProjection").on("change", function () {
+
+    const dataClient = $(this).find(`option[value="${$(this).val()}"]`).data('client')
+    getClient(dataClient)
+    getPosition($(this).val())
 });
 
+function setInterviewStatus() {
+    const opt = `
+            <option value="Submitted CV">Submitted CV</option>
+            <option value="Hold">Hold</option>
+            <option value="Scheduling">Scheduling</option>
+            <option value="Technical Test">Technical Test</option>
+            <option value="Done">Done</option>
+            <option value="Reject">Reject</option>`
+
+    $('#intStatus').append(opt)
+}
+function setPosition(id) {
+    $('#position').attr('disabled', true)
+    $.ajax({
+        type: "GET",
+        url: "https://localhost:7177/api/Position/"+id,
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        }
+    }).then((result) => {
+        if (result.data) {
+            $("#position").empty();
+            $("#position").append(`<option value="${result.data.id}" selected>
+        ${result.data.positionClient}
+      </option>`);
+            getSalesProjection(result.data.sP_Id)
+        }
+    })
+}
+function getSalesProjection(selected) {
+    $('#salesProjection').find('option:not(:disabled)').remove();
+    $.ajax({
+        type: "GET",
+        url: "https://localhost:7177/api/SalesProjection/spForTrackingInterview",
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("Token"),
+        },
+        success: function (data) {
+            const dataSales = data.data
+            if (data.data.length < 1) {
+                $('#salesProjection').find('option:disabled').text('No Open/Re Open Sales Projection can be Found!');
+                return 
+            }
+            dataSales.forEach(function (option) {
+                let optionElement = $(`<option>`);
+                optionElement.attr('value', option.id);
+                optionElement.attr('data-client', option.clientId);
+                optionElement.text(`${option.client.nameOfClient} (${option.client.salesName})`);
+                if (parseInt(selected) === parseInt(option.id)) {
+                    optionElement.attr('selected', true)
+                }
+                $('#salesProjection').append(optionElement);
+            })
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    })
+    $("#salesProjection").select2({
+        placeholder: "Choose Sales Projection",
+        dropdownParent: $("#form-sp"),
+        width: "100%",
+        height: "100%",
+        allowClear: false,
+    });
+}
 function getResource() {
   var selectResource = document.getElementById("resource");
 
@@ -310,8 +399,9 @@ function getResource() {
   });
 }
 
-function getClient() {
+function getClient(selected) {
   var selectClient = document.getElementById("client");
+    $('#client').find('option:not(:disabled)').remove();
 
   $.ajax({
     type: "GET",
@@ -322,12 +412,12 @@ function getClient() {
     },
   }).then((result) => {
     if (result != null) {
-      result.data.forEach((item) => {
+        result.data.forEach((item) => {
         var option = new Option(
-          item.nameOfClient + " ( " + item.salesName + " )",
+          item.nameOfClient,
           item.id,
-          true,
-          false
+            true,
+            parseInt(selected) === parseInt(item.id)
         );
         selectClient.add(option);
       });
@@ -340,49 +430,25 @@ function getClient() {
     width: "100%",
     height: "100%",
     allowClear: false,
-    tags: true,
   });
 }
 
-function getPosition(idClient) {
+function getPosition(spId) {
   var selectPosition = document.getElementById("position");
-    if (idClient == null || idClient=="") {
+    if (spId == null || spId =="") {
         return;
     }
-  if (position == null) {
     $.ajax({
       type: "GET",
       url:
-        "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
+          "https://localhost:7177/api/Position/BySPId?spId=" + spId,
       contentType: "application/json; charset=utf-8",
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("Token"),
       },
     }).then((result) => {
-      if (result != null) {
-        $("#position").empty();
-        $("#position").append(`<option selected disabled>
-        Choose Position
-      </option>`);
-
-        var data = result.data.filter((element) => element.status == "Open");
-        data.forEach((item) => {
-          var option = new Option(item.positionClient, item.id, true, false);
-          selectPosition.add(option);
-        });
-      }
-    });
-  } else {
-    $.ajax({
-      type: "GET",
-      url:
-        "https://localhost:7177/api/Position/byClientId?clientId=" + idClient,
-      contentType: "application/json; charset=utf-8",
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-      },
-    }).then((result) => {
-      if (result != null) {
+        if (result != null) {
+           $("#position").removeAttr("disabled");
         $("#position").empty();
         $("#position").append(`<option selected disabled>
         Choose Position
@@ -394,34 +460,30 @@ function getPosition(idClient) {
         $("#position").val(position).trigger("change");
       }
     });
-  }
 }
 
 function clearScreen() {
   position = null;
   $(".process").remove();
-  $("#position").empty();
-  $("#position").append(`<option selected disabled>Choose Position</option>`);
-  clearProcess();
 
-  $("#resource").select2("val", $("#resource option:eq(0)").val());
-  $("#client").select2("val", $("#client option:eq(0)").val());
+    clearProcess();
+    $("intStatus").val("").trigger('change');
+    $("#btnNewProcess").hide();
 
-  document.getElementById("position").selectedIndex = "0";
-    document.getElementById("intStatus").selectedIndex = "0";
-
-    $("input[required], select[required]").each(function () {
+    $('#position').attr('disabled',true)
+    $("input, textarea").each(function () {
         var input = $(this);
-
-        input.next(".error-message").hide();
+        input.val("");
     });
+    $('#trackingModal').find('select').each(function () {
+        $(this).val("").trigger("change");
+
+    })
 
     // Menyembunyikan pesan kesalahan untuk kedua input
     $(".error-message").hide();
 
 
-  $("#intDate").val("");
-  $("#notes").val("");
 
   $("#Save").show();
   $("#Update").hide();
@@ -432,45 +494,18 @@ function Save() {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
 
-  var isValid = true;
-
-  $("input[required],select[required],textarea[required]").each(function () {
-    var input = $(this);
-    if (!input.val()) {
-      input.next(".error-message").show();
+    var isValid = true;
+    
+  $("input[required],select,textarea[required]").each(function () {
+      var input = $(this);
+      if (!input.val()) {
+          input.siblings('.error-message').show()
       isValid = false;
     } else {
-      input.next(".error-message").hide();
+          input.siblings('.error-message').hide()
     }
   });
-
-    //validasi selected
-    var selectedResource = $("#resource").val();
-    var selectedClient = $("#client").val();
-    var selectedIntStatus = $("#intStatus").val();
- 
-    if (!selectedResource) {
-        $(".selectedResource").closest(".form-group").find(".error-message").show();
-        isValid = false;
-    } else {
-        $(".selectedResource").closest(".form-group").find(".error-message").hide();
-    }
-
-    if (!selectedClient) {
-        $(".selectedClient").closest(".col").find(".error-message").show();
-        isValid = false;
-    } else {
-        $(".selectedClient").closest(".col").find(".error-message").hide();
-    }
-
-    if (!selectedIntStatus) {
-        $(".intStatus").closest(".col").find(".error-message").show();
-        isValid = false;
-    } else {
-        $(".intStatus").closest(".col").find(".error-message").hide();
-    }
-
-
+  
     if (!isValid) {
         return;
     }
@@ -548,7 +583,6 @@ function GetById(trackingId) {
     success: function (result) {
       //debugger;
       var obj = result.data; //data yg dapet dr id
-
       $("#trackingId").val(obj.id);
       if (obj.accountId != null) {
         $("#resource")
@@ -559,9 +593,9 @@ function GetById(trackingId) {
           .val("NON," + obj.nonRasId)
           .trigger("change");
       }
-      $("#client").val(obj.clientId).trigger("change");
-      position = obj.positionId;
-      getPosition(obj.clientId);
+
+        getClient(obj.clientId)
+        setPosition(obj.positionId)
 
       const intDateArray = obj.intvwDate.split("<br>");
       const intStatusArray = obj.intvwStatus.split("<br>");
@@ -734,7 +768,7 @@ function newProcess() {
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="col">
-                                <select class=" form-control form-control-sm intStatus" id="intStatus" >
+                                <select class=" form-control form-control-sm intStatus"id="intStatus" >
                                         <option selected disabled>Choose...</option>
                                         <option value="Submitted CV">Submitted CV</option>
                                         <option value="Hold">Hold</option>
@@ -780,9 +814,9 @@ function clearProcess() {
                             </div>
                             <div class="col">
                                 <label for="message-text" class="col-form-label">Interview Status<span style="color: red;">*</span></label>
-                                <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" style="height: 45%;" onclick="newProcess();">+ New </button>
+                                <button type="button" id="btnNewProcess" class="btn btn-sm btn-outline-info float-right" placeholder="choose..." style="height: 45%;" onclick="newProcess();">+ New </button>
                                 <select class=" form-control form-control-sm intStatus" id="intStatus" >
-                                        <option selected disabled>Choose...</option>
+                                        <option selected value ="" disabled>Choose...</option>
                                         <option value="Submitted CV">Submitted CV</option>
                                         <option value="Hold">Hold</option>
                                         <option value="Scheduling">Scheduling</option>

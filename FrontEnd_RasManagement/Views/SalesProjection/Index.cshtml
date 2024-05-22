@@ -3,6 +3,19 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
 
+<style>
+    /* Menghilangkan panah di input number pada Webkit browsers (Chrome, Safari, Opera) */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Menghilangkan panah di input number pada Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
 
@@ -172,7 +185,9 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Attendees</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Attendees" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '');" id="attendees" required>
+
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Attendees" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="attendees" required>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
 
@@ -190,27 +205,37 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Current News</label>
-                            <textarea class="form-control" rows="3" placeholder="Enter Current News" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '');" id="currentNews" required></textarea>
+
+                            <textarea class="form-control" rows="3" placeholder="Enter Current News" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="currentNews" required></textarea>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
-                        
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Hiring Needs</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Needs" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '');" id="hiringNeeds" required>
+
+                            <textarea class="form-control" rows="3" placeholder="Enter Hiring Needs" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="hiringNeeds" required></textarea>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+                    </div>
+                    <div class="row mb-2">
+                        
                         <div class="col">
                             <label for="message-text" class="col-form-label">Hiring Process</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Process" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '');" id="hiringProcess" required>
+
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Hiring Process" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="hiringProcess" required>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Timeline</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Timeline" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '');" id="timeline" required>
+
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Timeline" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="timeline" required>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         
@@ -218,12 +243,16 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Work location</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Enter Work location" id="workLocation" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '');" required>
+
+                            <input type="text" class="form-control form-control-sm" placeholder="Enter Work location" id="workLocation" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" required>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col">
                             <label for="message-text" class="col-form-label">Contract Periode</label>
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '');" id="contractPeriode" required>
+
+                            <input class="form-control form-control-sm" type="text" placeholder="Enter Contract Periode" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" id="contractPeriode" required>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                     </div>
@@ -255,7 +284,9 @@
                     <div class="row mb-2">
                         <div class="col">
                             <label for="message-text" class="col-form-label">Ratecard</label>
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="rateCard" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '');" required>
+
+                            <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="rateCard" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '');" required>
+
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
                         <div class="col" id="colStatusPro">

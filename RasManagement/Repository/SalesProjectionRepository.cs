@@ -29,11 +29,22 @@
             return data;
         }
 
+
         public async Task<List<SalesProjection>> getFullData()
         {
             var data = await context.SalesProjections
                 .Include(e => e.Client)
                 .ToListAsync();
+            return data;
+        }
+
+        public async Task<List<SalesProjection>> salesProjectionForTrackingInterview()
+        {
+            var data = await context.SalesProjections
+                .Where(e => e.ProjectStatus.ToLower() == "open" || e.ProjectStatus.ToLower() == "re open")
+                .Include(e => e.Client)
+                .ToListAsync();
+
             return data;
         }
     }

@@ -33,6 +33,28 @@ namespace RasManagement.Repository
             return positionClient;
         }
 
+        public async Task<List<PositionByClient>> GetPositionBySPId(int spId)
+        {
+            var positionClient = await context.Positions
+                .Include(c => c.Client)
+                .Where(e => e.SP_Id == spId)
+                .Select(d => new PositionByClient
+                {
+                    Id = d.Id,
+                    PositionClient = d.PositionClient,
+                    Level = d.Level,
+                    Quantity = d.Quantity,
+                    Status = d.Status,
+                    Notes = d.Notes,
+                    ClientId = d.ClientId,
+                    ClientName = d.Client.NameOfClient,
+                    SP_Id = d.SP_Id
+                })
+                .ToListAsync();
+
+            return positionClient;
+        }
+
         public async Task<List<PositionByClient>> GetPositionByClientIdAndStatus(int clientId, string status)
         {
             var positionClient = await context.Positions
