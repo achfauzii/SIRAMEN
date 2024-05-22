@@ -16,7 +16,7 @@ $(document).ready(function () {
     clientOption()
     $("#clientId").select2({
         placeholder: "Choose Client",
-        dropdownParent: $("#Modal-addSalesProjection"),
+        dropdownParent: $("#col-select-client"),
         width: "100%",
         height: "100%",
         allowClear: false,
@@ -182,6 +182,11 @@ function generateData(id) {
                 {
                     data: "position",
                     render: function (data) {
+                        if (!data) {
+                            return '';
+                        }
+
+                        //bagde warna untuk posisi
                         if (typeof data === 'string') {
                             var positions = data.split(',');
                             return positions.map(function (position, index) {
@@ -197,6 +202,10 @@ function generateData(id) {
                 {
                     data: "quantity",
                     render: function (data) {
+                        if (!data) {
+                            return '';
+                        }
+                        //badge warna untuk 
                         if (typeof data === 'string') {
                             var quantity = data.split(',');
                             return quantity.map(function (quantity, index) {
@@ -480,6 +489,7 @@ function clientOption(selected) {
 
 
 async function GetById(id, tableName) {
+
     ClearScreen();
     $('#Update').show()
     $('#Save').hide()
