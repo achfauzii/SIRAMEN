@@ -303,11 +303,13 @@
                         <div class="row mb-2">
                             <div class="col">
                                 <label for="message-text" class="col-form-label">Year Started</label>
+                                <span class="text-danger">*</span>
                                 <input class="form-control form-control-sm" type="text" placeholder="Enter Year Started" id="startedYear" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="col">
                                 <label for="message-text" class="col-form-label">Project Type</label>
+                                <span class="text-danger">*</span>
                                 <select class="form-control form-control-sm" id="projectType">
                                     <option value="" selected disabled>Choose Type</option>
                                     <option value="Tender">Tender</option>
@@ -320,6 +322,7 @@
                         <div class="row mb-2">
                             <div class="col">
                                 <label for="message-text" class="col-form-label">Sales Projection</label>
+                                <span class="text-danger">*</span>
                                 <input class="form-control form-control-sm" type="number" placeholder="Enter Sales Projection" id="salesProject" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
@@ -329,11 +332,13 @@
                         <div class="row mb-2">
                             <div class="col">
                                 <label for="message-text" class="col-form-label">COGS</label>
+                                <span class="text-danger">*</span>
                                 <input class="form-control form-control-sm" type="text" placeholder="Enter COGS" id="cogs" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
                             <div class="col">
                                 <label for="message-text" class="col-form-label">SO Number</label>
+                                <span class="text-danger">*</span>
                                 <input class="form-control form-control-sm" type="text" placeholder="Enter SO Number" id="soNumber" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 <span class="error-message" style="color: red; display: none;">This field is required!</span>
                             </div>
