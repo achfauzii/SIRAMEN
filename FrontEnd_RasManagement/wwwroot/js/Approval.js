@@ -196,7 +196,7 @@ function updateApproval(Approval) {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                const logMessage = `Has ${Approval.statusApproval},Timesheet Date ${Approval.Date}, Account Id: ${Approval.accountId}`;
+                const logMessage = `Has ${Approval.StatusApproval},Timesheet Date ${Approval.Date}, Account Id: ${Approval.accountId}`;
                 SaveLogUpdate(logMessage);
                 $("#ApprovalModal").modal("hide");
                 $("#ApprovalTable").DataTable().ajax.reload();
