@@ -658,6 +658,8 @@ function Update() {
             } else {
                 $("#salesProjectionTable").DataTable().ajax.reload();
             }
+            const logMessage = `Has Update Sales Pojection, Sp_Id : ${dataToUpdate.id}`;
+            SaveLogUpdate(logMessage);
 
 
         },
@@ -724,6 +726,8 @@ function Save() {
             });
             $("#Modal-addSalesProjection").modal("hide");
             $("#salesProjectionTable").DataTable().ajax.reload();
+            const logMessage = `Has added Sales Pojection, Hiring Needs ${dataToInsert.hiringNeeds}, to Client Id: ${dataToInsert.clientId}`;
+            SaveLogUpdate(logMessage);
         },
         error: function (err) {
             console.error(err)
