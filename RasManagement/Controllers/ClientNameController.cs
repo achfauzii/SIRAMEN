@@ -74,6 +74,14 @@ namespace RasManagement.Controllers
             var result = await clientNameRepository.GetClientRequirement();
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Temukan", Data = result });
         }
+
+        [AllowAnonymous]
+        [HttpGet("FilterByMostClients")]
+        public async Task<IActionResult> GetByMostClients()
+        {
+            var result = await clientNameRepository.GetByMostClients();
+            return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Temukan", Data = result });
+        }
     }
 
     public class ClientNameInputModel
