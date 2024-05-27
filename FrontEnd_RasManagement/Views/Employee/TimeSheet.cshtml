@@ -142,8 +142,8 @@
 <div class="modal fade" id="timeSheetModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#90d6e8">
-                <h5 class="modal-title white-text w-100 font-weight-bold" style="color:black">Time Sheet</h5>
+            <div class="modal-header">
+                <h5 class="modal-title">Time Sheet</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearScreen();">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -154,6 +154,7 @@
                         <div class="col">
                             <label for="message-text" class="col-form-label">Flag</label>
                             <select class="form-control form-control-sm" id="flag" required>
+                                <option selected disabled value="">Choose The Flag</option>
                                 <option value="WFO">WFO</option>
                                 <option value="WFH">WFH</option>
                                 <option value="Sick">Sick</option>
