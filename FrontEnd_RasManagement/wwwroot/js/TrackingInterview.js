@@ -851,8 +851,8 @@ function fetchCategories() {
       return response.json();
     })
     .then((result) => {
-      // Memanggil fungsi untuk membuat navigasi berdasarkan data yang diterima
-
+        // Memanggil fungsi untuk membuat navigasi berdasarkan data yang diterima
+        console.log(result.data)
       createNavigation(result.data);
     })
     .catch((error) => {

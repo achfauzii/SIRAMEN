@@ -77,6 +77,11 @@ namespace RasManagement.Repository
 
             return result;
         }
+
+        public async Task<object> ggg()
+        {
+            return context.Positions.Include(e => e.Client).Where(e=> e.Status == "Open").ToList().GroupBy(e=> e.Client.NameOfClient);
+        }
         public async Task<object> GetClientRequirement()
         {
             //Get Data by Status Position is Open

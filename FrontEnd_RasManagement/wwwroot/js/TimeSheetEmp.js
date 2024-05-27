@@ -149,7 +149,7 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     if (type === "display" || type === "filter") {
                         // Format tanggal dalam format yang diinginkan
-                        return moment(data).format("DD MMM YYYY");
+                        return moment(data).format("DD/MM/YYYY");
                     }
                     // Untuk tipe data lain, kembalikan data aslinya
 
