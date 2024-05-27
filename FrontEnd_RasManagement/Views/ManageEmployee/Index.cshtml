@@ -219,11 +219,16 @@
 <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
 
 <!-- Main Content-->
-<h5 style="font-family:comfortaa; color: black" class="font-weight-bold">Manage Resource</h5>
-<div class="cards shadow mb-4">
-    <div class="cards-header p-3">
-        <h6 class="m-0 font-weight-bold text-primary">Employee Table</h6>
+@*<h6 style="font-family:comfortaa" class="font-weight-bold">Manage Resource</h6>*@
+<div class="card mt-2 mb-3">
+    
+    <div class="card-header">
+        <div class="row">
+            <div class="col"><h5 style="font-family:comfortaa;" class="mt-2 font-weight-bold text-primary" id="text-show">Employee Table</h5></div>
+        </div>
     </div>
+
+
     <div class="card-body table-responsive mb-2 p-3">
         <div class="text-right mb-1 mt-0">
             <!-- Tombol filter data-->
@@ -292,10 +297,10 @@
                     </ul>
                 </small>
             </div>
+            </div>
         </div>
-
-    </div>
 </div>
+
 
 @*Modal*@
 <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

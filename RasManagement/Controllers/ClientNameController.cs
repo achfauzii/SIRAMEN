@@ -71,7 +71,7 @@ namespace RasManagement.Controllers
         [HttpGet("Requirement")]
         public async Task<IActionResult> GetClientRequirement()
         {
-            var result = await clientNameRepository.GetClientRequirement();
+            var result = await clientNameRepository.ggg();
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Temukan", Data = result });
         }
 

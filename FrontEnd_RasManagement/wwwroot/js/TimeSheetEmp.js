@@ -149,7 +149,7 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     if (type === "display" || type === "filter") {
                         // Format tanggal dalam format yang diinginkan
-                        return moment(data).format("DD MMM YYYY");
+                        return moment(data).format("DD/MM/YYYY");
                     }
                     // Untuk tipe data lain, kembalikan data aslinya
 
@@ -207,7 +207,7 @@ $(document).ready(function () {
                 $(row).find('.fa-edit').hide();
             }
         },
-      
+
     });
 
     //addRowHoliday();
@@ -293,6 +293,9 @@ function getById(Id) {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
+
+
+
             //debugger;
             var obj = result.data; //data yg dapet dr id
             console.log(obj);
@@ -312,6 +315,16 @@ function getById(Id) {
             $("#Update").show();
 
             $(".required").remove();
+
+            //Cek Jika activity tidak null, maka error message tidak aktif 
+            if (obj.activity && obj.activity.trim() !== "") {
+                $(".error-message").hide();
+            } else {
+                $(".error-message").show();
+            }
+
+
+
             var value = obj.flag;
             if (value == "Sick" || value == "Leave" || value == "On Leave") {
                 $("#activity").attr("disabled", "true");
@@ -351,6 +364,8 @@ function getById(Id) {
                     }
                 );
             }
+
+
 
             $("#timeSheetModal").modal("show");
             $("#Save").hide();
@@ -505,10 +520,10 @@ function Update() {
 function save() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
-    
+
     var isValid = true;
     var check;
- 
+
     if (!validateName) {
         $("#knownBy").focus();
         $("#knownBy").next(".error-message").show();
@@ -536,7 +551,7 @@ function save() {
     TimeSheet.AccountId = accid;
     TimeSheet.PlacementStatusId = $("#lastPlacementId").val();
     TimeSheet.KnownBy = $("#knownBy").val();
-    
+
     if ($("#flag").val() == "Sick" || $("#flag").val() == "Leave" || $("#flag").val() == "On Leave") {
         TimeSheet.Activity = "";
         TimeSheet.Category = "";
@@ -558,11 +573,11 @@ function save() {
                 if (TimeSheet.Flag == "Sick") {
                     textMessage = "Sick Leave";
                 } else {
-                    textMessage= "On Leave"
+                    textMessage = "On Leave"
                 }
                 if (data.isHoliday == true || dayOfWeek === 6 || dayOfWeek === 0) {
 
-                
+
 
                     Swal.fire({
                         icon: "warning",
@@ -581,7 +596,7 @@ function save() {
                 } else {
                     check = true;
                 }
-              
+
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -589,19 +604,19 @@ function save() {
         });
 
 
-        
+
     } else {
         TimeSheet.Activity = $("#activity").val();
         TimeSheet.Category = $("#category").val();
         TimeSheet.Status = $("#status").val();
     }
- 
-    console.log(isValid, check);    
+
+    console.log(isValid, check);
     if (!check) {
-  
+
         return;
     }
-  
+
     // Checking if the day is Saturday or Sunday
     var dayOfWeek = new Date(TimeSheet.Date).getDay();
     // Cek jika hari ini adalah Sabtu (6) atau Minggu (0)
@@ -625,7 +640,7 @@ function save() {
                     Swal.fire({
                         icon: "success",
                         title: "Data overtime has been added!",
-                        timer:8000,
+                        timer: 8000,
                         html:
                             TimeSheet.statusApproval = "On Progress"
                                 ? `You fill in the overtime timesheet on <b>${formattedDate}<b>`
@@ -636,7 +651,7 @@ function save() {
                             location.reload();
                         }
                     });
-                  
+
                     //addRowHoliday();
                     addRowApproval();
                 }
@@ -695,7 +710,7 @@ function save() {
                                         location.reload();
                                     }
                                 });
-                               // addRowHoliday();
+                                // addRowHoliday();
                                 addRowApproval();
                             }
                         },
@@ -739,7 +754,7 @@ function save() {
                                 //addRowHoliday();
                                 addRowApproval();
                                 location.reload();
-                             
+
                             } else if (response.status === 400) {
                                 Swal.fire({
                                     icon: "warning",
@@ -768,7 +783,7 @@ function save() {
                                 $("#timeSheetModal").modal("hide");
                                 table.ajax.reload();
                             }
-                       
+
                         },
                         error: function (error) {
                             Swal.fire({
@@ -803,7 +818,8 @@ function clearScreen() {
     $("#inputDate").prop("disabled", false);
     $("#flag").prop("disabled", false);
 
-    $("#flag").val("WFO").trigger("change");
+    $("#flag").val("").trigger("change");
+    /*$("#flag").val("").trigger("change");*/
     document.getElementById("category").selectedIndex = 0;
     document.getElementById("status").selectedIndex = 0;
     document.getElementById("inputDate").value = new Date()
