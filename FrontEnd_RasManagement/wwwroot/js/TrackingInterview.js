@@ -644,7 +644,7 @@ function Update() {
 
   var isValid = true;
 
-  $("input[required],select[required],textarea[required]").each(function () {
+  $("input[required],select,textarea[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
       input.next(".error-message").show();
