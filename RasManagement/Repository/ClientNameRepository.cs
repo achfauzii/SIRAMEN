@@ -55,25 +55,25 @@ namespace RasManagement.Repository
         }
         public async Task<List<ClientContainsOnsite>> GetClientStatusOnsite()
         {
-            
-          
+
+
             var uniqueClientIds = await context.Placements
                 .Where(p => p.PlacementStatus == "Onsite")
                 .Select(p => p.ClientId)
                 .Distinct()
                 .ToListAsync();
 
-          
-           var result =
-                await context.ClientNames
-                 .Where(c => uniqueClientIds.Contains(c.Id))
-              .Select(c => new ClientContainsOnsite
-              {
-                  Id = c.Id,
-                  NameOfClient = c.NameOfClient,
-              
-              })
-                .ToListAsync();
+
+            var result =
+                 await context.ClientNames
+                  .Where(c => uniqueClientIds.Contains(c.Id))
+               .Select(c => new ClientContainsOnsite
+               {
+                   Id = c.Id,
+                   NameOfClient = c.NameOfClient,
+
+               })
+                 .ToListAsync();
 
             return result;
         }
@@ -84,10 +84,19 @@ namespace RasManagement.Repository
         }
         public async Task<object> GetClientRequirement()
         {
-            //Get Data by Status Position is Open
-            var data = context.Positions.Include(c => c.Client)
-                            .Where(p => p.Status == "Open")
-                            .ToList() // Fetch the data from the database
+            // Fetch data and include related Client objects
+            var positions = await context.Positions
+                                .Include(c => c.Client)
+                                .ToListAsync();
+
+            if (positions == null)
+            {
+                throw new InvalidOperationException("Positions collection is null.");
+            }
+
+            // Process positions with status "Open"
+            var openData = positions
+                            .Where(p => p.Status == "Open" && p.Client != null && p.Client.NameOfClient != null)
                             .GroupBy(p => new { clientName = p.Client.NameOfClient })
                             .Select(group => new
                             {
@@ -102,10 +111,9 @@ namespace RasManagement.Repository
                             .OrderByDescending(item => item.quantity)
                             .ToList();
 
-            //Get Data by Status Position is not Open
-            var otherData = context.Positions.Include(c => c.Client)
-                            .Where(p => p.Status != "Open")
-                            .ToList() // Fetch the data from the database
+            // Process positions with status not "Open"
+            var otherData = positions
+                            .Where(p => p.Status != "Open" && p.Client != null && p.Client.NameOfClient != null)
                             .GroupBy(p => new { clientName = p.Client.NameOfClient })
                             .Select(group => new
                             {
@@ -120,34 +128,62 @@ namespace RasManagement.Repository
                             .OrderByDescending(item => item.quantity)
                             .ToList();
 
-            data.AddRange(otherData);
-
-            // Combine the two lists
-            var combinedData = data.Concat(otherData)
-                        .GroupBy(item => item.nameOfClient)
-                        .Select(group =>
-                        {
-                            var openEntry = group.FirstOrDefault(item => item.status == "Open");
-                            if (openEntry != null)
+            // Combine and group the data
+            var combinedData = openData.Concat(otherData)
+                            .GroupBy(item => item.nameOfClient)
+                            .Select(group =>
                             {
-                                // If there is an 'Open' entry for this client, return it
-                                return openEntry;
-                            }
-                            else
-                            {
-                                // If there is no 'Open' entry, return the first 'Not Open' entry
-                                return group.First();
-                            }
-                        })
-                        .OrderByDescending(item => item.status).ThenByDescending(item => item.quantity)
-                        .ToList();
+                                var openEntry = group.FirstOrDefault(item => item.status == "Open");
+                                if (openEntry != null)
+                                {
+                                    return openEntry;
+                                }
+                                else
+                                {
+                                    return group.First();
+                                }
+                            })
+                            .OrderByDescending(item => item.status)
+                            .ThenByDescending(item => item.quantity)
+                            .ToList();
 
             return combinedData;
         }
 
+        public async Task<object> GetByMostClients()
+        {
+            // Fetch Tracking Interview Most Clients
+            var clientsId = await context.TrackingInterviews
+                        .Select(ti => ti.ClientId)
+                        .ToListAsync();
+
+            var clientFrequency = clientsId
+                         .GroupBy(id => id)
+                         .Select(group => new
+                         {
+                             ClientId = group.Key,
+                             Count = group.Count()
+                         })
+                         .OrderByDescending(item => item.Count)
+                         .ToList();
+
+            var result = from cf in clientFrequency
+                         join client in context.ClientNames
+                         on cf.ClientId equals client.Id
+                         select new
+                         {
+                             client.Id,
+                             client.NameOfClient,
+                             cf.Count
+                         };
+
+            return result.ToList();
+
+
+        }
     }
 
-  public class ClientContainsOnsite
+        public class ClientContainsOnsite
     {
 
         public int Id { get; set; }

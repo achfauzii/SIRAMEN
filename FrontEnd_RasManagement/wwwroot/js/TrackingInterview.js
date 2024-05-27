@@ -644,7 +644,7 @@ function Update() {
 
   var isValid = true;
 
-  $("input[required],select,textarea[required]").each(function () {
+  $("input[required],select[required],textarea[required]").each(function () {
     var input = $(this);
     if (!input.val()) {
       input.next(".error-message").show();
@@ -837,7 +837,7 @@ function clearProcess() {
 }
 
 function fetchCategories() {
-  fetch("https://localhost:7177/api/ClientName/Requirement", {
+    fetch("https://localhost:7177/api/ClientName/FilterByMostClients", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -870,10 +870,10 @@ function createNavigation(categories) {
   navList.className = "nav nav-tabs";
   navList.setAttribute("id", "nav-menu");
 
-  var data = categories.filter((element) => element.status == "Open");
-  if (data.length <= 2) {
-    maxVisibleCategories = data.length + 1;
-  }
+  //var data = categories.filter((element) => element.status == "Open");
+  //if (data.length <= 2) {
+  //  maxVisibleCategories = data.length + 1;
+  //}
 
   // Loop untuk menambahkan item navigasi sampai index 6 (item ke-7)
   for (let i = 0; i < Math.min(categories.length, maxVisibleCategories); i++) {
