@@ -67,20 +67,37 @@
         margin-left: 12px;
     }
 
+    /* CSS untuk membuat placeholder terlihat abu-abu */
+    select option[value=""][disabled] {
+        display: none;
+    }
+
+    select option[disabled] {
+        color: #888;
+    }
+
+
+
+
 
 </style>
 
-<h6 style="color:black">Recap Timesheet Report</h6>
-<div class="card shadow no-border mb-3" style="width: 30rem;">
+@*<h6 style="color:black">Recap Timesheet Report</h6>*@
+<div class="card">
+    <div class="row">
+        <div class="col"><h6 style="font-family:comfortaa; color:#0D6EFD;" class="ml-3 mt-2 font-weight-bold" id="text-show">Recap Timesheet report</h6></div>
+    </div>
+
+
+<div class="card shadow no-border mx-3 mb-3" style="width: 30rem;">
     <div class="card-body p-2">
-       
             <div class="media-body text-left pt-0 m-0 pl-1">
                 <form>
                      <div class="row p-0 m-0">
                         <span style="font-size: 15px;" class="col-4 text-dark text-sm">Company Name</span>
                         <span style="font-size: 15px;" class="col-0 text-sm">:</span>
-                        <select style="font-size: 15px;" class="col p-0 pl-1 ml-2 mb-1 custom-select custom-select-sm pl-" id="companySelect">
-                            <option selected >Choose...</option>
+                        <select style="font-size: 15px; color: #888;" class="col p-0 pl-1 ml-2 mb-1 custom-select custom-select-sm pl-" id="companySelect">
+                        <option value="" selected disabled hidden >Choose...</option>
                         </select>
                      </div>
                     <div class="row p-0 m-0">
@@ -93,15 +110,14 @@
                         </span>
                     </div>
                     <div class="d-flex flex-row-reverse" >
-                    <button class="btn btn-sm text-light" style="background-color:#8049d1" id="submitBtn"> Submit </button>
+                    <button class="btn btn-sm text-light" style="background-color:#0D6EFD" id="submitBtn"> Submit </button>
                     </div>
                 </form>
                
             </div>
-        
     </div>
 </div>
-
+</div>
 <div class="alert alert-warning" role="alert" id="nullInput">
     Submit company name and period to see the report
 </div>
@@ -111,7 +127,8 @@
 <div class="card mt-2 mb-3" id="reportTimesheet">
     <div class="card-header">
         <div class="row justify-content-between">
-            <div class="col"><h6 class="mb-0 pb-0">Time Sheet Report</h6></div>
+            @*<div class="col"><h6 class="mb-0 pb-0">Time Sheet Report</h6></div>*@
+            <div class="col"><h6 style="font-family:comfortaa; color:#0D6EFD;" class="mt-2 mr-2 font-weight-bold" id="text-show">Recap Timesheet report</h6></div>
              <div class="col-auto" >
                 <a href="@Url.Action("GeneratePdf", "TimeSheetPdf", new { companyName = "", month = "" })" class="btn btn-sm btn-success" id="btn-report"style="display:none">
                     <i class="fa fa-download"></i> Download Report
@@ -155,7 +172,7 @@
                         </div> 
                     </div>
                     <div class="card-body">
-                        <table id="timeSheetTable" class="table table-bordered timeSheetTable">
+                        <table id="timeSheetTable" class="table table-bordered timeSheetTable" style="width:100%">
                             <thead style="background-color:#FFFFFF;">
                                 <tr>
                                     <th scope="col">Date</th>

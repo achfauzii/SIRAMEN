@@ -1,6 +1,13 @@
 ﻿// A $( document ).ready() block.
 var table;
 $(document).ready(function () {
+    
+    $("#companySelect").select2({
+        placeholder: "Choose...",
+
+        allowClear: false,
+       
+    });
     $.ajax({
         url: "https://localhost:7177/api/ClientName/ClientNameWithStatusOnsite", 
         method: "GET",
@@ -23,7 +30,7 @@ $(document).ready(function () {
                 var option = $("<option>")
                     .val(placement.nameOfClient)  // Set the value attribute
                     .text(placement.nameOfClient);
-                $("#companySelect").append(option).select2();
+                $("#companySelect").append(option);
             });
         },
         error: function (error) {
@@ -39,6 +46,8 @@ $(document).ready(function () {
     $(document).on('select2:open', () => {
         document.querySelector('.select2-search__field').focus();
     });
+
+
 });
    
    
