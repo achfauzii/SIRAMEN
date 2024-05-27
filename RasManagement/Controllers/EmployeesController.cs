@@ -171,7 +171,7 @@ namespace RasManagement.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
+       // [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
         [HttpGet("GetEmployeeFilter")]
         public async Task<IActionResult> GetEmployeeFilter([FromQuery] string? position, [FromQuery] string? hiredStatus, [FromQuery] string? level, [FromQuery] string? financialIndustry, [FromQuery] string? placementStatus, [FromQuery] string? placementLocation)
         {
