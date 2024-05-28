@@ -22,15 +22,52 @@
 
 <!-- /.card-header -->
 <div class="card">
+
+    <div class="card-header">
+        
+        <div class="row">
+            <div class="col">
+                <h5 style="color:#0D6EFD" class="m-1 font-weight-bold ">Assets Management</h5>    
+                <br />
+            </div>
+    
+            <div class="col">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button style="background-color:#0D6EFD;  font-size: 12px;" type="button" class="btn btn-md text-light" data-toggle="modal" data-target="#ModalAssets" onclick="ClearScreenAsset();" id="add-asset">
+                        + Add Asset
+                    </button>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h6 class="mx-1" id="date_h6"></h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h6 class="mx-1" id="rfid_h6"></h6>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+
+
+
     <div class="card-body">
-        <h5 class="mb-3">Assets Management</h5>
+        @*<h5 class="mb-3">Assets Management</h5>
         <h6 class="mb-3 " id="rfid_h6">
             <h6 class="mb-3 " id="date_h6">
                 </h5>
                 <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalAssets" onclick="ClearScreenAsset();" id="add-asset">
                     + Add Asset
                 </button>
-
+*@
                 <table id="TB_Assets" class="table table-striped" style="font-size:14px; color:black">
                     <thead style="background-color:#FFFFFF">
                         <tr>
@@ -99,6 +136,7 @@
                     <div class="row form-group">
                         <div class="col">
                             <label for="ssd">SSD</label>
+                            <span class="text-danger">*</span>
                             <div class="input-group">
                                 <input type="text" class="form-control italic-placeholder" id="ssd" placeholder="256 / 512 / 1024" oninput="numeric(this);" required>
                                 <div class="input-group-append">
@@ -109,6 +147,7 @@
                         </div>
                         <div class="col">
                             <label for="hdd">HDD</label>
+                            <span class="text-danger">*</span>
                             <div class="input-group">
                                 <input type="text" class="form-control italic-placeholder" id="hdd" placeholder="256 / 512 / 1024" oninput="numeric(this);">
                                 <div class="input-group-append">

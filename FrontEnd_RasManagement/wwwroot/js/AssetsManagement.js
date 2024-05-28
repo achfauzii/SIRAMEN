@@ -105,10 +105,10 @@ $(document).ready(function () {
             var rows = api.rows({ page: "current" }).nodes();
 
             if (rows.length > 0) {
-                $("#rfid_h6").text("RFID : " + settings.json.data[0].rfid);
-                $("#rfid_h6").show();
+                $("#rfid_h6").text("RFID: " + settings.json.data[0].rfid);
+                $("#rfid_h6").show("");
                 $("#date_h6").text(
-                    "Date Obtained : " +
+                    "Date Obtained: " +
                     moment(settings.json.data[0].dateObtained).format("DD MMMM YYYY")
                 );
                 $("#date_h6").show();
