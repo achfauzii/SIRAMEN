@@ -161,10 +161,7 @@
 
     </div>
 </div>
-
-
 <script>
-
     $(document).ready(function () {
         $('input[required]').each(function () {
             $(this).prev('label').append('<span style="color: red;">*</span>');
@@ -310,28 +307,10 @@
 
         // Validate selected positions
         var selectedPositions = $("#positionAcc").val();
-        //if (selectedPositions.length === 0) {
-        //    $('#positionError').show();
-        //    return;
-        //} else {
-        //    $('#positionError').hide();
-        //}
-
-
         var roleId = document.getElementById('roleId').value;
         var hiredStatus = document.querySelector('input[name="hiredStatus"]:checked').value;
         var level = document.getElementById('levelAcc').value;
         var financialIndustryAcc = financial;
-        // ...
-        // Melakukan validasi repeat password
-        //if (password !== repeatPassword) {
-        // Password dan repeat password tidak sama, tampilkan pesan error
-        //alert('Password and Repeat Password do not match.');
-        // return; // Hentikan eksekusi lebih lanjut
-        // }
-        // Menggabungkan data input menjadi objek yang akan dikirim ke API
-
-        // Generate a random UUID
 
         //Validasi Nama
         if (!validateName) {
@@ -346,7 +325,7 @@
             $('#email').focus();
             return;
         }
-
+        
         const password = uuidv4();
 
         // Print the UUID

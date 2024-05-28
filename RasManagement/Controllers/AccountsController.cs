@@ -52,7 +52,7 @@ namespace RasManagement.Controllers
         {
             bool emailExists = await accountRepository.AccountIsExist(registerVM.Email, null);
             bool accountIdExists = await accountRepository.AccountIsExist(null, registerVM.AccountId);
-
+            bool nikExist = accountRepository.CheckNIK(registerVM.NIK);
 
             if (string.IsNullOrWhiteSpace(registerVM.Email))
             {
@@ -69,6 +69,10 @@ namespace RasManagement.Controllers
             else if (emailExists)
             {
                 return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Email Already exist." });
+            }
+            else if (nikExist)
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "NIK Already exist." });
             }
 
             var result = await accountRepository.Register(registerVM);
