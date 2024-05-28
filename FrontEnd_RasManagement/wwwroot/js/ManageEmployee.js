@@ -1259,6 +1259,7 @@ function ClearScreenChangeStatus() {
 }
 
 function Save(accountId) {
+    debugger;
     table = $("#dataTableEmployee").DataTable();
     var isValid = true;
 
@@ -1283,18 +1284,18 @@ function Save(accountId) {
     }
 
     //validasi status 
-    var isCheckedStatus = $('input[type="radio"][name="status"]:checked').length > 0;
+    //var isCheckedStatus = $('input[type="radio"][name="status"]:checked').length > 0;
 
-    if (!isCheckedStatus) {
-        $('.error-message').show();
-        isInvalid = false;
-    } else {
-        $('.error-message').hide();
-    }
+    //if (!isCheckedStatus) {
+    //    $('.error-message').show();
+    //    isInvalid = false;
+    //} else {
+    //    $('.error-message').hide();
+    //}
 
-    if (!isValid) {
-        return;
-    }
+    //if (!isValid) {
+    //    return;
+    //}
 
     var placement = new Object(); //object baru
     placement.clientId = $("#companyName_").val();
