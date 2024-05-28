@@ -119,14 +119,26 @@
     }
 </style>
 
-<div>
-    <button style="background-color:#0D6EFD;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2 btn-add-nonras" data-toggle="modal" data-target="#Modal" onclick="ClearScreenSave()">
-        Add New
-    </button>
-    <button style="background-color:#008f4c;  font-size: 12px; float: right" type="button" class="btn btn-sm text-light mb-2 btn-export-nonras" id="export_excel">
-        Export Excel
-    </button>
+
+<div class="card-header rounded">
+    <div class="row">
+        <h5 style="color:#0D6EFD" class="m-1 font-weight-bold ">Shortlist Candidate</h5>
+        <div class="col">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                <button style="background-color:#0D6EFD;  font-size: 12px; margin-right: 8px;" type="button" class="btn btn-md text-light mb-2  btn-add-nonras" data-toggle="modal" data-target="#Modal" onclick="ClearScreenSave()">
+                    Add New
+                </button>
+                <button style="background-color:#008f4c;  font-size: 12px;" type="button" class="btn btn-md text-light mb-2 btn-export-nonras" id="export_excel">
+                    Export Excel
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
 <div class="card mb-3 rounded-bottom border-0">
 
     <nav id="filterNavigation" class="navbar-light navbar-expand-sm" style="background-color: #e3f2fd;">
