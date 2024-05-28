@@ -291,8 +291,16 @@ namespace RasManagement.Repository
             }
 
         }
-
-        public async Task<int> UpdateNIK(NikVM nikVM)
+        public bool CheckNIK(string nik)
+        {
+            var account = _context.Accounts.Count(e=>e.NIK == nik);
+            if (account > 0)
+            {
+                return true;
+            }
+                return false;
+        }
+            public async Task<int> UpdateNIK(NikVM nikVM)
         {
             var account = await _context.Accounts.FindAsync(nikVM.AccountId);
 

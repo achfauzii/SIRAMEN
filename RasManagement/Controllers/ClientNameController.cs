@@ -83,7 +83,6 @@ namespace RasManagement.Controllers
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Temukan", Data = result });
         }
 
-        
     }
 
     public class ClientNameInputModel
