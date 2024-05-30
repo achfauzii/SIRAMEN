@@ -217,15 +217,7 @@ $(document).ready(function () {
 
           // Menampilkan data terakhir
             const lastDate = userData.DateArray[userData.DateArray.length - 1];
-            
-            const disDate = new Date(lastDate)
-            let options = {
-                weekday: "short",
-                year: "numeric",
-                month: "long",
-                day:"numeric"
-            }
-            return new Intl.DateTimeFormat("en-US", options).format(disDate)
+            return moment(lastDate).format('DD/MM/YYYY')
             
         },
       },

@@ -1259,10 +1259,11 @@ function ClearScreenChangeStatus() {
 }
 
 function Save(accountId) {
+    debugger;
     table = $("#dataTableEmployee").DataTable();
     var isValid = true;
 
-    $("input[required]").each(function () {
+    $("input[required], select[required]").each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next(".error-message").show();
@@ -1286,10 +1287,10 @@ function Save(accountId) {
     var isCheckedStatus = $('input[type="radio"][name="status"]:checked').length > 0;
 
     if (!isCheckedStatus) {
-        $('.error-message').show();
+        $('#err-status').show();
         isInvalid = false;
     } else {
-        $('.error-message').hide();
+        $('#err-status').hide();
     }
 
     if (!isValid) {

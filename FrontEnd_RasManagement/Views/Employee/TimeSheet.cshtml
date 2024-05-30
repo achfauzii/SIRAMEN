@@ -98,11 +98,29 @@
 </section>
 
 <div class="card mt-3 mb-4">
+
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h5 style="color:#0D6EFD" class="m-1 font-weight-bold ">Time Sheet</h5>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                    <button style="background-color:#0D6EFD;  font-size: 12px;" type="button" class="btn btn-md text-light" id="newActivity" data-toggle="modal" data-target="#timeSheetModal" onclick="clearScreen();">
+                        + Add Activity
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <div class="card-body">
-        <h5 class="mb-2">Time Sheet</h5>
-        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" id="newActivity" data-toggle="modal" data-target="#timeSheetModal" onclick="clearScreen();">
-            + Add Activity
-        </button>
+        
         <table id="timeSheetTable" class="table table-bordered w-100" style="font-size:13px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
