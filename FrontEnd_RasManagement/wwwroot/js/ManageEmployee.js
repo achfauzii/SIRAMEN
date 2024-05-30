@@ -1263,7 +1263,7 @@ function Save(accountId) {
     table = $("#dataTableEmployee").DataTable();
     var isValid = true;
 
-    $("input[required]").each(function () {
+    $("input[required], select[required]").each(function () {
         var input = $(this);
         if (!input.val()) {
             input.next(".error-message").show();
@@ -1284,18 +1284,18 @@ function Save(accountId) {
     }
 
     //validasi status 
-    //var isCheckedStatus = $('input[type="radio"][name="status"]:checked').length > 0;
+    var isCheckedStatus = $('input[type="radio"][name="status"]:checked').length > 0;
 
-    //if (!isCheckedStatus) {
-    //    $('.error-message').show();
-    //    isInvalid = false;
-    //} else {
-    //    $('.error-message').hide();
-    //}
+    if (!isCheckedStatus) {
+        $('#err-status').show();
+        isInvalid = false;
+    } else {
+        $('#err-status').hide();
+    }
 
-    //if (!isValid) {
-    //    return;
-    //}
+    if (!isValid) {
+        return;
+    }
 
     var placement = new Object(); //object baru
     placement.clientId = $("#companyName_").val();

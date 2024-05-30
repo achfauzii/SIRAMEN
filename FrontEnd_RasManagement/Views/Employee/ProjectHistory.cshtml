@@ -18,12 +18,29 @@
 
 <!-- /.card-header -->
 <div class="card">
-    <div class="card-body">
-        <h5 class="mb-3">Project History</h5>
-        <button style="background-color:#624DE3; font-size: 12px; type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
-            + Add Project History
-        </button>
 
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h5 style="color:#0D6EFD" class="m-1 font-weight-bold ">Project History</h5>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                    <button style="background-color:#0D6EFD; font-size: 12px; type="button" class="btn btn-md text-light " data-toggle="modal" data-target="#Modal" onclick="ClearScreen();">
+                        + Add Project History
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="card-body">
+        
         <table id="TB_ProjectHistory" class="table table-striped w-100" style="font-size:14px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>

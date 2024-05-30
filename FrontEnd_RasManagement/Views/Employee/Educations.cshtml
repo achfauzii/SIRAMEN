@@ -19,12 +19,24 @@
 
 <!-- /.card-header -->
 <div class="card">
-    <div class="card-body">
-        <h5 class="mb-3">Formal Educations</h5>
-        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" id="BtnFormal" data-toggle="modal" data-target="#ModalFormal" onclick="ClearScreenFormal();">
-            + Add Education
-        </button>
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h5 style="color:#0D6EFD" class="m-1 font-weight-bold ">Formal Education</h5>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
+                    <button style="background-color:#0D6EFD;  font-size: 12px;" type="button" class="btn btn-md text-light" id="BtnFormal" data-toggle="modal" data-target="#ModalFormal" onclick="ClearScreenFormal();">
+                        + Add Education
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+     </div>
+
+    <div class="card-body">
         <table id="TB_FormalEdu" class="table table-striped w-100" style="font-size:14px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
@@ -39,15 +51,29 @@
                 </tr>
             </thead>
         </table>
-     </div>
+    </div>
+
 </div>
 
+
+
 <div class="card mt-4">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h5 style="color:#0D6EFD" class="m-1 font-weight-bold ">Non Formal Educations</h5>
+            </div>
+            <div class="col">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button style="background-color:#0D6EFD;  font-size: 12px;" type="button" class="btn btn-md text-light" data-toggle="modal" data-target="#ModalNonFormal" onclick="ClearScreen();">
+                        + Add Non Formal Education
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card-body">
-        <h5 class="mb-3">Non Formal Educations</h5>
-        <button style="background-color:#624DE3;  font-size: 12px;" type="button" class="btn btn-sm text-light mb-2" data-toggle="modal" data-target="#ModalNonFormal" onclick="ClearScreen();">
-            + Add Non Formal Education
-        </button>
         <table id="NonFormalEdu" class="table table-striped w-100" style="font-size:14px; color:black">
             <thead style="background-color:#FFFFFF">
                 <tr>
@@ -60,7 +86,6 @@
                 </tr>
             </thead>
         </table>
-
     </div>
 </div>
 
