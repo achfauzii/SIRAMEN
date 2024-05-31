@@ -454,7 +454,28 @@ namespace RasManagement.Repository
             }
             return 404;
         }
-    }
 
+        public async Task<IEnumerable<FilterEmpVM>> GetFilteredEmp()
+        {
+            var accounts = await _context.Accounts.ToListAsync();
+
+           
+
+            // Mapping Account entities to AccountVM view models
+            var accountViewModels = accounts.Select(a => new FilterEmpVM
+            {
+                AccountId = a.AccountId,
+                JoinDate = a.JoinDate,
+                RoleId = a.RoleId,
+                
+            }).Where (a => a.RoleId != "1");
+
+            return accountViewModels;
+        }
+
+
+
+
+    }
 
 }

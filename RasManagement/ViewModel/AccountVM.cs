@@ -44,4 +44,14 @@
         public string? Level { get; set; }
         public string? FinancialIndustry { get; set; }
     }
+
+
+    public class FilterEmpVM
+    {
+        public string AccountId { get; set; } = null!;
+        public DateTime? JoinDate { get; set; }
+        public string? RoleId { get; set; }
+        
+    }
+
 }
