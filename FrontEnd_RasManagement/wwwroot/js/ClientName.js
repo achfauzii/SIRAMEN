@@ -1,6 +1,11 @@
 var table = null;
 var compare = {};
 $(document).ready(function () {
+
+    $(".skillset").select2({
+        dropdownParent: $("#col-skillset"),
+        tags: true,
+    });
     var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
     if (objDataToken.RoleId == 7) {
@@ -713,6 +718,19 @@ function GetByIdPosition(id) {
             var obj = result.data;
             $("#client_Id").val(obj.clientId);
             $("#positionId").val(obj.id);
+
+            const skillSelect = $("#skillset");
+            const selectedSkillset = obj.skillSet.split(", ");
+            selectedSkillset.forEach((value) => {
+                const optionNotExists =
+                    skillSelect.find("option[value='" + value + "']").length === 0;
+
+                if (optionNotExists) {
+                    const newOption = new Option(value, value, true, true);
+                    skillSelect.append(newOption).trigger("change");
+                }
+            });
+            skillSelect.val(selectedSkillset).trigger("change");
             $("#positionName").val(obj.positionClient);
             $("#positionQuantity").val(obj.quantity);
             $("#positionStatus").val(obj.status);
@@ -730,7 +748,8 @@ function GetByIdPosition(id) {
                 Status: obj.status,
                 Level: obj.level,
                 Notes: obj.notes,
-                sP_Id: obj.sP_Id
+                sP_Id: obj.sP_Id,
+                skillSet: obj.skillSet
             };
 
         },
@@ -752,6 +771,7 @@ function updatePosition() {
     }
     const clientId = document.getElementById("client_Id").value;
     const positionId = document.getElementById("positionId").value;
+    const skillSet = $("#skillset").val().join(", ");
     const positionName = document.getElementById("positionName").value;
     const positionLevel = document.getElementById("positionLevel").value;
     const positionQuantity = document.getElementById("positionQuantity").value;
@@ -769,14 +789,16 @@ function updatePosition() {
         notes: positionNotes,
         clientId: clientId,
         sP_Id: sP_Id,
+        skillSet: skillSet
     };
-
+    console.log(position);
     if (position.positionClient == compare.PositionName &&
         position.level == compare.Level &&
         position.quantity == compare.Quantity &&
         position.status == compare.Status &&
         position.notes == compare.Notes &&
-        position.sP_Id == compare.sP_Id
+        position.sP_Id == compare.sP_Id &&
+        position.skillSet == compare.skillSet
     ) {
         const logMessage = `Updated Position data with no changes detected, ${position.positionClient} in Client Id ${position.clientId}`;
         SaveLogUpdate(logMessage);
@@ -851,6 +873,7 @@ function clearScreenPosition() {
 function savePosition() {
     const clientId = document.getElementById("clientId").value;
     const positionName = document.getElementById("positionName").value;
+    const skillSet = $("#skillset").val().join(", ");
     const positionLevel = document.getElementById("positionLevel").value;
     const positionQuantity = document.getElementById("positionQuantity").value;
     const positionStatus = document.getElementById("positionStatus").value;
@@ -872,6 +895,7 @@ function savePosition() {
 
     const newPositionData = {
         positionClient: positionName,
+        skillSet: skillSet,
         level: positionLevel,
         quantity: positionQuantity,
         status: positionStatus,
@@ -879,8 +903,7 @@ function savePosition() {
         clientId: clientId,
         sP_Id: sP_Id,
     };
-
-
+    console.log(newPositionData);
 
     fetch("https://localhost:7177/api/Position/Insert", {
         method: "POST",

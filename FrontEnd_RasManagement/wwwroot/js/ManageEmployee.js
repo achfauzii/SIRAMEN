@@ -998,6 +998,7 @@ function handlePlacementStatusChange() {
 
     // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
     if (selectedOption === "Transfer") {
+        $("#deptId").val("");
         inputCompany.style.display = "block";
     } else {
         inputCompany.style.display = "none";

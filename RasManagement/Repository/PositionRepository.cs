@@ -20,6 +20,7 @@ namespace RasManagement.Repository
                 {
                     Id = d.Id,
                     PositionClient = d.PositionClient,
+                    SkillSet = d.SkillSet,
                     Level = d.Level,
                     Quantity = d.Quantity,
                     Status = d.Status,

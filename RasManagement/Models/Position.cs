@@ -9,6 +9,7 @@ public partial class Position
     public int Id { get; set; }
 
     public string? PositionClient { get; set; }
+    public string? SkillSet { get; set; }
 
     public string? Level { get; set; }
 

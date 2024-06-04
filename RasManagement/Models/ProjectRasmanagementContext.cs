@@ -238,7 +238,7 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.SalesName)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.SalesContact)
             .HasMaxLength(50)
@@ -564,6 +564,10 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Position");
+            entity.Property(e => e.SkillSet)
+               .HasColumnType("VARCHAR(MAX)")
+              .IsUnicode(false);
+          
             entity.Property(e => e.Quantity)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -600,11 +604,11 @@ public partial class ProjectRasmanagementContext : DbContext
 
 
             entity.Property(e => e.HiringNeeds)
-                .HasMaxLength(100)
+               .HasColumnType("VARCHAR(MAX)")
                 .IsUnicode(false);
 
             entity.Property(e => e.Timeline)
-               .HasMaxLength(50)
+               .HasMaxLength(100)
                .IsUnicode(false);
 
             entity.Property(e => e.HiringProcess)
@@ -612,7 +616,7 @@ public partial class ProjectRasmanagementContext : DbContext
              .IsUnicode(false);
 
             entity.Property(e => e.WorkLocation)
-           .HasMaxLength(50)
+           .HasMaxLength(200)
            .IsUnicode(false);
 
             entity.Property(e => e.Notes)
@@ -632,11 +636,11 @@ public partial class ProjectRasmanagementContext : DbContext
               .IsUnicode(false);
 
             entity.Property(e => e.RateCard)
-           .HasMaxLength(50)
+        .HasColumnType("VARCHAR(MAX)")
            .IsUnicode(false);
 
             entity.Property(e => e.CurrentNews)
-              .HasMaxLength(200)
+              .HasColumnType("VARCHAR(MAX)")
               .IsUnicode(false);
 
             entity.Property(e => e.ProjectType)

@@ -410,6 +410,25 @@ namespace RasManagement.Controllers
                 return StatusCode(500, new { status = HttpStatusCode.InternalServerError, message = "Terjadi Kesalahan", Data = delete });
             }
         }
+
+
+        //Filter Employee
+        [HttpGet("FilteredEmp_ExceptSuperAdmin")]
+        public IActionResult GetFilteredEmp()
+        {
+            var dataEmp = accountRepository.GetFilteredEmp();
+            if (dataEmp != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data berhasil ditemukan", Data = dataEmp });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data tidak dapat ditemukan", Data = dataEmp });
+            }
+        }
+
+
+
     }
 
 }

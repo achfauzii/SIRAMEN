@@ -707,7 +707,6 @@ function Save() {
 
     }
 
-
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
         type: 'POST',
