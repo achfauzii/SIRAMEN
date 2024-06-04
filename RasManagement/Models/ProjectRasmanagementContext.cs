@@ -564,6 +564,10 @@ public partial class ProjectRasmanagementContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Position");
+            entity.Property(e => e.SkillSet)
+               .HasColumnType("VARCHAR(MAX)")
+              .IsUnicode(false);
+          
             entity.Property(e => e.Quantity)
                 .HasMaxLength(50)
                 .IsUnicode(false);
