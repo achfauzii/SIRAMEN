@@ -237,7 +237,9 @@ $(document).ready(function () {
         return employeeCountByMonth;
     }
 
+    
     function countStatus(data, key) {
+        debugger;
         const statusCountByMonth = {};
 
         data.forEach(function (item) {
@@ -350,8 +352,9 @@ $(document).ready(function () {
 
     // Fetch data, process, and create chart
     $.when(getEmployeeData(), getHiredStatus(), getStatusEmp()).done(function (response1, response2, response3) {
+        debugger;
         const employees = response1[0].data.result;
-        const hiredStatus = response2[0].data.result;
+        const hiredStatus = response2[0].data;
         const statusEmp = response3[0].data;
 
         populateYearDropdown(employees);
