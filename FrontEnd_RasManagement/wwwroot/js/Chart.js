@@ -114,65 +114,65 @@ $(document).ready(function () {
     var onsiteCount = 0;
     // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
 
-    $.ajax({
-        url: "https://localhost:7177/api/Employees",
-        type: "GET",
-        datatype: "json",
-        async: false,
-        dataSrc: "data",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (employees) {
-            var result = employees.data;
-            for (var i = 0; i < result.length; i++) {
-                var accountId = result[i].accountId;
-                var roleId = result[i].roleId; // Ambil roleId dari data saat ini
-                if (roleId === "3") {
-                    $.ajax({
-                        url:
-                            "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
-                            accountId,
-                        type: "GET",
-                        datatype: "json",
-                        async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
-                        headers: {
-                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-                        },
-                        success: function (placementData) {
-                            if (placementData.data && placementData.data.length > 0) {
-                                var placementStatus = placementData.data[0].placementStatus; // Ambil data yang pertama dari array data
-                                if (placementStatus == "Idle") {
-                                    idleCount++;
-                                } else if (placementStatus == "Onsite") {
-                                    onsiteCount++;
-                                }
-                            } else {
-                                idleCount++;
-                            }
-                        },
-                        error: function () {},
-                        complete: function () {
-                            // Sembunyikan loader setelah permintaan selesai
-                            $("#loader").hide();
-                        },
-                    });
-                }
-            }
-            // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
-            document.getElementById("countIdle").textContent = idleCount;
-            document.getElementById("countOnsite").textContent = onsiteCount;
+    //$.ajax({
+    //    url: "https://localhost:7177/api/Employees",
+    //    type: "GET",
+    //    datatype: "json",
+    //    async: false,
+    //    dataSrc: "data",
+    //    headers: {
+    //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    //    },
+    //    success: function (employees) {
+    //        var result = employees.data;
+    //        for (var i = 0; i < result.length; i++) {
+    //            var accountId = result[i].accountId;
+    //            var roleId = result[i].roleId; // Ambil roleId dari data saat ini
+    //            if (roleId === "3") {
+    //                $.ajax({
+    //                    url:
+    //                        "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
+    //                        accountId,
+    //                    type: "GET",
+    //                    datatype: "json",
+    //                    async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
+    //                    headers: {
+    //                        Authorization: "Bearer " + sessionStorage.getItem("Token"),
+    //                    },
+    //                    success: function (placementData) {
+    //                        if (placementData.data && placementData.data.length > 0) {
+    //                            var placementStatus = placementData.data[0].placementStatus; // Ambil data yang pertama dari array data
+    //                            if (placementStatus == "Idle") {
+    //                                idleCount++;
+    //                            } else if (placementStatus == "Onsite") {
+    //                                onsiteCount++;
+    //                            }
+    //                        } else {
+    //                            idleCount++;
+    //                        }
+    //                    },
+    //                    error: function () {},
+    //                    complete: function () {
+    //                        // Sembunyikan loader setelah permintaan selesai
+    //                        $("#loader").hide();
+    //                    },
+    //                });
+    //            }
+    //        }
+    //        // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
+    //        document.getElementById("countIdle").textContent = idleCount;
+    //        document.getElementById("countOnsite").textContent = onsiteCount;
 
-            // Sembunyikan loader setelah semua permintaan selesai
-            $("#loader").hide();
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
+    //        // Sembunyikan loader setelah semua permintaan selesai
+    //        $("#loader").hide();
+    //    },
+    //    error: function (errormessage) {
+    //        alert(errormessage.responseText);
 
-            // Sembunyikan loader jika ada kesalahan dalam permintaan
-            $("#loader").hide();
-        },
-    });
+    //        // Sembunyikan loader jika ada kesalahan dalam permintaan
+    //        $("#loader").hide();
+    //    },
+    //});
 });
 
 //Table

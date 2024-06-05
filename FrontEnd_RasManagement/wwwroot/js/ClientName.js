@@ -430,7 +430,7 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
-
+    clearData();
     //Detail
     $("#informationClientModal").modal("show");
     $("#clientId").val(id);
@@ -501,6 +501,11 @@ function detailPosition(id) {
                                                                 : ""
                                                             }
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Requirement</div>
+                                            <div class="col-8 text-left">: ${data.skillSet
+                                                            }</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4">Quantity</div>
