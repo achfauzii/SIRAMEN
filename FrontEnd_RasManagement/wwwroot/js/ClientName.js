@@ -503,6 +503,11 @@ function detailPosition(id) {
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col-4">Requirement</div>
+                                            <div class="col-8 text-left">: ${data.skillSet
+                                                            }</div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-4">Quantity</div>
                                             <div class="col-4 text-left">: ${data.quantity
                                                             }</div>
