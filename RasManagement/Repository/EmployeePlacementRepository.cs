@@ -9,6 +9,7 @@ namespace RasManagement.Repository
     public class EmployeePlacementRepository : GeneralRepository<ProjectRasmanagementContext, Placement, int>
     {
         private readonly ProjectRasmanagementContext _context;
+        
         public EmployeePlacementRepository(ProjectRasmanagementContext _context) : base(_context)
         {
             this._context = _context;
@@ -152,6 +153,31 @@ namespace RasManagement.Repository
              var insert = _context.SaveChanges();
              return insert;
          }*/
+        }
+
+
+        //Detail Emp for Pie Chart
+
+        public async Task<IEnumerable<StatusEmpVM>> GetStatusEmp()
+        {
+            // Mengambil data Placement dengan PlacementStatus == "Onsite" dan termasuk data Account
+            var status = await _context.Placements
+                                       .Include(p => p.Account) // Include Account entity
+                                       .Where(p => p.PlacementStatus == "OnSite")
+                                       .ToListAsync();
+
+            // Mengelompokkan data berdasarkan AccountId dan memilih PlacementStatus pertama yang sesuai
+            var statusViewModels = status
+                .GroupBy(p => p.AccountId)
+                .Select(g => new StatusEmpVM
+                {
+                    AccountId = g.Key,
+                    PlacementStatus = g.First().PlacementStatus,
+                    JoinDate = g.First().Account?.JoinDate // Mengambil JoinDate dari Account yang terkait
+                })
+                .ToList();
+
+            return statusViewModels;
         }
     }
 }

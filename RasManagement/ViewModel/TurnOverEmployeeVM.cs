@@ -12,4 +12,12 @@
         public DateTime? ExitDate{ get; set; }
         public string Description { get; set; } = null!;
     }
+
+    public class HiredStatusVM
+    {
+        public string AccountId { get; set; } = null!;
+        public string Status { get; set; } = null!;
+
+        public DateTime? JoinDate { get; set; }
+    }
 }
