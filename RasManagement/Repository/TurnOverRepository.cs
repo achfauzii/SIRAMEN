@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+using RasManagement.ViewModel;
+
 namespace RasManagement.Repository
 {
     public class TurnOverRepository : GeneralRepository<ProjectRasmanagementContext, TurnOver, int>
@@ -34,6 +37,24 @@ namespace RasManagement.Repository
 
 
         }
+
+        public async Task<IEnumerable<HiredStatusVM>> GetStatusHiredEmp()
+        {
+            var statusHired = await (from turnOver in context.TurnOvers
+                                     join account in context.Accounts on turnOver.AccountId equals account.AccountId
+                                     select new HiredStatusVM
+                                     {
+                                         AccountId = turnOver.AccountId,
+                                         Status = turnOver.Status,
+                                         JoinDate = account.JoinDate
+                                     }).ToListAsync();
+
+            return statusHired;
+        }
+
+
+        
+
 
     }
 }

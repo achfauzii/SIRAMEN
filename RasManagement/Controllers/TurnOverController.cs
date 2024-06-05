@@ -33,6 +33,25 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpGet("GetHiredStatus")]
+        public async Task<IActionResult> GetStatusHiredEmp()
+        {
+            var dataHiredStatus = await turnOverRepository.GetStatusHiredEmp();
+            if (dataHiredStatus != null)
+            {
+                return StatusCode(200, new { 
+                    status = HttpStatusCode.OK, 
+                    message = "Data Ditemukan", 
+                    Data = dataHiredStatus });
+            }
+            else
+            {
+                return StatusCode(404, new { 
+                    status = HttpStatusCode.NotFound, 
+                    message = "Not Found",
+                    Data = dataHiredStatus });
+            }
+        }
     }
 
 }

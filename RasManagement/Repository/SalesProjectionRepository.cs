@@ -47,5 +47,36 @@
 
             return data;
         }
+
+        public async Task<Object> ChartSalesPositions(int year)
+        {
+            var spIds = await context.SalesProjections
+        .Where(sp => sp.EntryDate.Value.Year == year)
+        .Select(sp => sp.Id)
+        .ToListAsync();
+
+
+            var positions = await context.Positions
+                .Where(p => spIds.Contains((int)p.SP_Id))
+                .ToListAsync();
+
+           
+            var groupedPositions = positions
+                .GroupBy(p => p.PositionClient)
+                .Select(g => new { PositionType = g.Key, Count = g.Count() })
+                .ToList();
+
+            return groupedPositions;
+        }
+    }
+
+    public class chartSalesPosition
+    {
+        public string position { get; set; }
+        public int count { get; set; }
+        public int year { get; set; }
+        public int id { get; set; }
+
+        public int totalPosition { get; set; }
     }
 }

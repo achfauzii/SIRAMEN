@@ -30,6 +30,7 @@ namespace RasManagement.Controllers
         }
 
         [HttpGet]
+        
         public async Task<ActionResult> Get()
         {
 
@@ -140,5 +141,33 @@ namespace RasManagement.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpGet("GetStatusEmp")]
+        
+        public async Task<ActionResult> GetStatusEmp()
+        {
+
+            var data = await employeePlacementRepository.GetStatusEmp();
+
+            if (data != null)
+            {
+
+                return StatusCode(200, new { 
+                    status = HttpStatusCode.OK, 
+                    message = "Data ditemukan ", 
+                    Data = data });
+
+            }
+            else
+            {
+                return StatusCode(404, new { 
+                    status = HttpStatusCode.NotFound, 
+                    message = "Not Found" });
+            }
+
+
+        }
+
+
     }
 }
