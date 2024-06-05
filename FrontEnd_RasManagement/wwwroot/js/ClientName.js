@@ -430,7 +430,7 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
-
+    clearData();
     //Detail
     $("#informationClientModal").modal("show");
     $("#clientId").val(id);
