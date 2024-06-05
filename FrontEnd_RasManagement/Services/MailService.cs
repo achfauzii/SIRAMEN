@@ -344,7 +344,9 @@ namespace FrontEnd_RasManagement.Services
 
       using var smtp = new SmtpClient();
       System.Net.ServicePointManager.ServerCertificateValidationCallback = (s, ce, ca, p) => true;
-      smtp.Connect(_mailSettings.Host, _mailSettings.Port, false);
+      smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.SslOnConnect);
+            //SecureSocketOptions.StartTls -> gmail
+               //false -> outlook
       smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
       smtp.Send(_email);
       smtp.Disconnect(true);
