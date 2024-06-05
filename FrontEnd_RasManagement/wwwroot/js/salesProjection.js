@@ -1,4 +1,4 @@
-const formModal = $('#Modal-addSalesProjection form');
+﻿const formModal = $('#Modal-addSalesProjection form');
 let savedLocation;
 $(document).ready(function () {
 
@@ -65,6 +65,30 @@ $('#projectStatus').change(function (e) {
             break;
     }
 })
+$("#rateCard").on("input", function () {
+    var jobSpecValue = $(this).val();
+    var lines = jobSpecValue.split("\n");
+    for (var i = 0; i < lines.length; i++) {
+        lines[i] = lines[i].replace(/^•\s*/, "");
+        if (lines[i].trim() !== "" && !lines[i].startsWith("• ")) {
+            lines[i] = "• " + lines[i];
+        }
+    }
+
+    var formattedJobSpec = lines.join("\n");
+    $(this).val(formattedJobSpec);
+});
+
+$("#rateCard").on("keypress", function (e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        var currentValue = $(this).val();
+        if (currentValue.trim() !== "") {
+            currentValue += "\n";
+            $(this).val(currentValue);
+        }
+    }
+});
 
 function generateData(id) {
     $('#salesProjectionTable').DataTable().destroy();
@@ -230,7 +254,19 @@ function generateData(id) {
 
                 { data: "contractPeriode" },
 
-                { data: "rateCard" },
+                {
+                    data: "rateCard",
+                    render: function (data) {
+                        var items = data.split("• ");
+                        var list = "<ul>";
+                        for (var i = 1; i < items.length; i++) {
+                            list += "<li>" + items[i] + "</li>";
+                        }
+                        list += "</ul>";
+
+                        return list;
+                    },
+                },
 
                 {
                     data: "salesProject",
@@ -393,7 +429,19 @@ function generateData(id) {
                 { data: "workLocation" },
                 { data: "notes" },
                 { data: "contractPeriode" },
-                { data: "rateCard" },
+                {
+                    data: "rateCard",
+                    render: function (data) {
+                        var items = data.split("• ");
+                        var list = "<ul>";
+                        for (var i = 1; i < items.length; i++) {
+                            list += "<li>" + items[i] + "</li>";
+                        }
+                        list += "</ul>";
+
+                        return list;
+                    },
+                },
                 {
                     data: "projectStatus",
                     render: function (data) {
@@ -687,7 +735,12 @@ function Save() {
     if (!isValid) {
         return;
     }
-
+    var rateCard = $("#rateCard").val();
+    var rateCardd = rateCard.split('\n').map(function (line) {
+        return line.trim();
+    }).filter(function (line) {
+        return line !== '';
+    }).join('\n');
     const dataToInsert = {
         entryDate: new Date(),
         projectStatus: "Hold",
@@ -701,7 +754,7 @@ function Save() {
         priority: $('#priority').find(":selected").val(),
         status: $('#status').find(":selected").val(),
         contractPeriode: $('#contractPeriode').val(),
-        rateCard: $('#rateCard').val(),
+        rateCard: rateCardd,
         currentNews: $('#currentNews').val(),
         clientId: parseInt($('#clientId').find(":selected").val()),
 
