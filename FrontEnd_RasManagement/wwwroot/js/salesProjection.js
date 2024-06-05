@@ -720,8 +720,6 @@ function Update() {
 }
 
 function Save() {
-    console.log($("#rateCard").val())
-    return
     var isValid = true;
 
     formModal.find('input[required] ,select[required], textarea[required]').each(function (e) {
