@@ -1,13 +1,12 @@
 ﻿// A $( document ).ready() block.
 $(document).ready(function () {
 
-    getDataSalesPro().then(data => {
-        if (data) {
-            document.getElementById('totalSalesPro').textContent = data.total;
-        } else {
-            console.log('Failed to fetch sales projection data.');
-        }
-    });
+//Card Total SalesPro
+    viewCardSalesPro();
+
+//LineChart SalesPro
+    lineChartSalesPro();
+   
 
 
     $("#selectYear").datepicker({
@@ -16,7 +15,6 @@ $(document).ready(function () {
         minViewMode: "years" 
     }).change(function () {
 
-      
         viewChart(this.value);
     });
 
@@ -59,7 +57,7 @@ var positionName;
 var count;
 
 
-
+//Bar Chart Position
 function viewChart(year) {
 
     $.ajax({
@@ -177,9 +175,39 @@ function viewChart(year) {
 
 }
 
+
+//Card Total Sales Projection
+async function viewCardSalesPro() {
+    await getDataSalesPro().then(data => {
+        if (data) {
+            let total = data.message.split(' ');
+           
+            document.getElementById('totalSalesPro').textContent = total[0];
+        } else {
+            console.log('Failed to fetch sales projection data.');
+        }
+    });
+}
+
+
+//Line Chart Sales Projection
+async function lineChartSalesPro() {
+    getDataSalesPro().then(data => {
+        if (data) {
+            // data = seluruh data dari sales project
+            console.log(data);
+
+        } else {
+            console.log('Failed to fetch sales projection data.');
+        }
+    });
+}
+
+
+// GET Sales Projection DATA
 async function getDataSalesPro() {
 
-    const apiUrl = 'https://localhost:7177/api/SalesProjection/allData';
+    const apiUrl = 'https://localhost:7177/api/SalesProjection';
 
     try {
         const response = await fetch(apiUrl, {
