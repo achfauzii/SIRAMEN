@@ -853,27 +853,3 @@ function saveActivity() {
 
 }
 
-async function getDataSalesPro() {
-
-    const apiUrl = 'https://localhost:7177/api/SalesProjection/allData';
-
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                 Authorization: "Bearer " + sessionStorage.getItem("Token")
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return null;
-    }
-}
