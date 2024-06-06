@@ -51,10 +51,7 @@ $(document).ready(function () {
 });
 
 
-
-
 function submitReportTimesheet() {
-
     var companyName = $('#companySelect').val();
     var month = $('#month').val();
     $("#nullInput").hide();
@@ -64,8 +61,6 @@ function submitReportTimesheet() {
     if (!companyName || !month) {
         // Show the warning alert
         $("#nullInput").show();
-
-
         report.hide();
         return;
     }
@@ -73,18 +68,17 @@ function submitReportTimesheet() {
 
     var downloadUrl = "/TimeSheetPdf/GeneratePdf?companyName=" + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
 
-    // Memperbarui atribut href tautan unduhan dengan URL yang baru
+    // Update the download button's href attribute with the new URL
     $("#btn-report").attr("href", downloadUrl);
 
-    // Menampilkan tombol unduh
+    // Show the download button
     $("#btn-report").show();
-
-
 
     if ($.fn.DataTable.isDataTable('#reportTimesheetTable')) {
         $('#reportTimesheetTable').DataTable().destroy();
     }
-    table = new $('#reportTimesheetTable').DataTable({
+
+    var table = new $('#reportTimesheetTable').DataTable({
         ajax: {
             url: 'https://localhost:7177/api/TimeSheet/GetTimeSheetByCompanyNameAndMonth?companyName=' + companyName + '&month=' + month,
             type: "GET",
@@ -92,8 +86,21 @@ function submitReportTimesheet() {
             headers: {
                 Authorization: "Bearer " + sessionStorage.getItem("Token"),
             },
+            dataSrc: function (json) {
+                // Populate the accountName filter dropdown with unique names
+                var accountNameFilter = document.getElementById("accountNameFilter");
+                console.log(accountNameFilter);
+                var uniqueNames = [...new Set(json.data.map(item => item.accountName))];
+                accountNameFilter.innerHTML = '<option value="">Select Account Name</option>'; // Reset options
+                uniqueNames.forEach(function (name) {
+                    var option = document.createElement("option");
+                    option.value = name;
+                    option.textContent = name;
+                    accountNameFilter.appendChild(option);
+                });
+                return json.data;
+            }
         },
-
         columns: [
             {
                 data: null,
@@ -106,7 +113,7 @@ function submitReportTimesheet() {
             { data: 'wfhCount' },
             {
                 data: null,
-                orderable: false, // menonaktifkan order
+                orderable: false, // Disable ordering
                 width: "7%",
                 render: function (data, type, row) {
                     return (
@@ -118,7 +125,6 @@ function submitReportTimesheet() {
                     );
                 },
             },
-
         ],
         order: [1, 'asc'],
         columnDefs: [
@@ -127,96 +133,59 @@ function submitReportTimesheet() {
                 orderable: false,
             },
         ],
-        //Agar nomor tidak berubah
+        // Ensure row numbering does not change
         drawCallback: function (settings) {
             var api = this.api();
             var rows = api.rows({ page: "current" }).nodes();
-            var currentPage = api.page.info().page; // Mendapatkan nomor halaman saat ini
-            var startNumber = currentPage * api.page.info().length + 1; // Menghitung nomor awal baris pada halaman saat ini
+            var currentPage = api.page.info().page; // Get current page number
+            var startNumber = currentPage * api.page.info().length + 1; // Calculate start row number on current page
 
             api.column(0, { page: "current" })
                 .nodes()
                 .each(function (cell, i) {
-                    cell.innerHTML = startNumber + i; // Mengupdate nomor baris pada setiap halaman
+                    cell.innerHTML = startNumber + i; // Update row number on each page
                 });
         },
         initComplete: function (settings, json) {
-            // Cek apakah tabel memiliki data
+            // Check if the table has data
             if (table.data().count() === 0) {
-                // Jika tidak ada data, sembunyikan tombol
+                // Hide the button if no data
                 $("#btn-report").hide();
             } else {
-                // Jika ada data, tampilkan tombol
+                // Show the button if there is data
                 $("#btn-report").show();
             }
         }
-
-
-
     });
 
-
+    // Event listener for the account name filter dropdown
+    $('#accountNameFilter').on('change', function () {
+        var selectedName = this.value;
+        table.column(1).search(selectedName).draw();
+    });
 }
+
+
+
+
 
 function detailRecap(accountId, month, name) {
     debugger;
     $("#informationAccountModal").modal("show");
-    document.getElementById('name').textContent = name;
+    document.getElementById('namaPegawai').textContent = name;
+
+    if (name) {
+        name.textContent = name;
+        console.log("Name element found and set:", name); // Debugging line
+    } else {
+        console.error("Name element not found"); // Debugging line
+    }
+
     document.getElementById("tableTimeSheet").hidden = false;
     if ($.fn.DataTable.isDataTable("#timeSheetTable")) {
         $("#timeSheetTable").DataTable().destroy();
     }
-    //$.ajax({
-    //    url:
-    //        "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
-    //        accountId +
-    //        "&month=" +
-    //        month,
-    //    type: "GET",
-    //    contentType: "application/json;charset=utf-8",
-    //    dataType: "json",
-    //    headers: {
-    //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    //    },
-    //    success: function (response) {
-    //        var data = response.data;
-    //        console.log(data);
-    //        table = $("#timeSheetTable").DataTable({
-    //            data: data,
-    //            responsive: true,
-    //            columns: [
-    //                {
-    //                    name: "one",
-    //                    data: "date",
-    //                    render: function (data, type, row) {
-    //                        if (type === "display" || type === "filter") {
-    //                            // Format tanggal dalam format yang diinginkan
-    //                            return moment(data).format("DD MMMM YYYY");
-    //                        }
-    //                        // Untuk tipe data lain, kembalikan data aslinya
-
-    //                        return data;
-    //                    },
-    //                },
-    //                { data: "activity" },
-    //                { name: "two", data: "flag" },
-    //                { data: "category" },
-    //                { data: "status" },
-    //                { data: "knownBy" },
-    //            ],
-    //            rowsGroup: ["one:name", "two:name"],
-    //            order: [[0, "asc"]],
-    //            // backgroud warna dengan flag holiday
-    //            createdRow: function (row, data, dataIndex) {
-    //                if (data.flag === "Holiday" || data.flag === "Weekend") {
-    //                    $(row).css("background-color", "#fe6675");
-    //                    $(row).css("font-weight", "bold");
-    //                    $(row).find(".fa-edit").hide();
-    //                }
-    //            },
-    //        });
-
-    //    },
+    
     $.ajax({
         url: "https://localhost:7177/api/TimeSheet/TimeSheetByAccountIdAndMonth?accountId=" +
             accountId + "&month=" + month,
