@@ -441,10 +441,11 @@ function generateData(id) {
                         return list;
                     },
                 },
+                {data : "status"},
                 {
                     data: "projectStatus",
                     render: function (data) {
-                        return `<button class="btn btn-block btn-${color}" style="font-size: 12px; pointer-events: none;">${data}</button>`
+                        return `<button class="btn btn-block btn-${color} btn-sm pl-0 pr-0" style="font-size: 12px; pointer-events: none;">${data}</button>`
                     }
                 },
                 {
