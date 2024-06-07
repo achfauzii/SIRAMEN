@@ -134,7 +134,7 @@ function loadData() {
                         return b.years - a.years;
                     });
                     const listElement = document.getElementById("listNonEdu");
-
+                    console.log(nonFormalEduObj);
                     // Bersihkan isi list sebelumnya (jika ada)
                     listElement.innerHTML = "";
 
@@ -149,10 +149,10 @@ function loadData() {
                             " (" +
                             item.years +
                             ") : " +
-                            item.description; // Jika item adalah teks biasa
+                        shuffleArray(item.description);
                         li.style.color = "black";
 
-                        // Jika item adalah objek dan Anda ingin mengambil properti tertentu, contohnya: li.textContent = item.nama;
+             
                         listElement.appendChild(li);
                     });
                 },
@@ -446,4 +446,16 @@ function getUserRole() {
     }
 
     return null;
+}
+
+
+function shuffleArray(array) {
+
+    const text = array.split(',');
+    
+    for (let i = text.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [text[i], text[j]] = [text[j], text[i]];
+    }
+    return text;
 }
