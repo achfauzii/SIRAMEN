@@ -2,7 +2,6 @@
 let savedLocation;
 $(document).ready(function () {
 
-
     $('.nav-tabs .nav-item').find('a').each(function () {
         $(this).on('click', function (e) {
             e.preventDefault();
@@ -853,3 +852,4 @@ function saveActivity() {
 
 
 }
+

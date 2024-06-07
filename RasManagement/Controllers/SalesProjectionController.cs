@@ -53,7 +53,7 @@ namespace RasManagement.Controllers
             var get = await salesProjectionRepository.getFullData();
             if(get.Count != 0)
             {
-                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", total = get.Count() ,Data = get });
             }
             return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
         }
