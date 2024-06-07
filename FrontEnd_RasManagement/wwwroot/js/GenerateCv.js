@@ -134,7 +134,7 @@ function loadData() {
                         return b.years - a.years;
                     });
                     const listElement = document.getElementById("listNonEdu");
-                    console.log(nonFormalEduObj);
+
                     // Bersihkan isi list sebelumnya (jika ada)
                     listElement.innerHTML = "";
 
@@ -149,7 +149,8 @@ function loadData() {
                             " (" +
                             item.years +
                             ") : " +
-                        shuffleArray(item.description);
+                       
+                          shuffleArray(item.description, item.organizer);  
                         li.style.color = "black";
 
              
@@ -449,13 +450,42 @@ function getUserRole() {
 }
 
 
-function shuffleArray(array) {
+function shuffleArray(array, organizer) {
+    console.log(organizer);
+    if (organizer != "PT. Berca Hardayaperkasa") {
+     
+        return array;
+    } else {
 
-    const text = array.split(',');
+        const regexWebTemplate = /, Web Template \(CSS, Bootstrap\)/;
+        const match = regexWebTemplate.exec(array);
+        let webTemp = match[0].replace(',', ''); 
+
+        const regexPattern = /, Pattern \(MVC, MVVM, N-Layered Architecture\)/;
+        const matchPattern = regexPattern.exec(array);
+        let pattern = matchPattern[0].replace(',', ''); 
+
+        const updatedData = array.replace(regexWebTemplate, "").replace(regexPattern, "");
     
-    for (let i = text.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [text[i], text[j]] = [text[j], text[i]];
+      
+
+        const text = updatedData.split(',');
+
+    
+
+        for (let i = text.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [text[i], text[j]] = [text[j], text[i]];
+        }
+
+        const additionalItems = [webTemp, pattern];
+        additionalItems.forEach(item => {
+            const randomIndex = Math.floor(Math.random() * (text.length + 1));
+            text.splice(randomIndex, 0, item);
+        });
+       
+        return text;
     }
-    return text;
+    
+
 }
