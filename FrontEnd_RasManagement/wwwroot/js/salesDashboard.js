@@ -3,25 +3,34 @@ $(document).ready(function () {
 
 //Card Total SalesPro
     viewCardSalesPro();
-
-//LineChart SalesPro
-    lineChartSalesPro();
    
-
 
     $("#selectYear").datepicker({
         format: "yyyy", 
         viewMode: "years", 
         minViewMode: "years" 
     }).change(function () {
-
         viewChart(this.value);
+    });
+
+    $("#selectYearChartSales").datepicker({
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years"
+    }).change(function () {
+        lineChartSalesPro(this.value);
+ 
     });
 
     $("#selectYear").val(new Date().getFullYear())
     viewChart(new Date().getFullYear());
 
+    //LineChart SalesPro
+    $("#selectYearChartSales").val(new Date().getFullYear())
+    lineChartSalesPro(new Date().getFullYear());
+
 });
+
 
 document.getElementById('selectYear').addEventListener('change', function () {
     console.log("Year changed to:", this.value);
@@ -302,18 +311,25 @@ async function viewCardSalesPro() {
 //}
 
 //Perbulan
-async function lineChartSalesPro() {
-
+ function lineChartSalesPro(yearFilter) {
 
     getDataSalesPro().then(data => {
+       
         if (data) {
-            const projects = data.data;
-            const projectCountByDateAndStatus = {};
+            const allProjects = data.data;
+     
 
+            const projects = allProjects.filter(project => {
+                const projectYear = new Date(project.entryDate).getFullYear();
+                return projectYear == yearFilter;
+            });
+            console.log(projects);
+        
+            const projectCountByDateAndStatus = {};
        
             const getMonthYearString = (dateString) => {
                 const date = new Date(dateString);
-                const month = date.getMonth() + 1; // Karena bulan dimulai dari 0
+                const month = date.getMonth() + 1;
                 const year = date.getFullYear();
                 return `${year}-${month < 10 ? '0' + month : month}`;
             };
@@ -444,7 +460,7 @@ function countProjectsByDateAndStatus(data) {
 }
 
 
-// GET Sales Projection DATA
+// GET Sales Projection DATA 
 async function getDataSalesPro() {
 
     const apiUrl = 'https://localhost:7177/api/SalesProjection';
