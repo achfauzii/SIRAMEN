@@ -15,6 +15,7 @@ namespace FrontEnd_RasManagement.Services
         Task SendEmailBeritaDukaCita(DukaCitaVM dataVM);
         Task SendEmailBirthday(BirthdayVM birthday);
         Task SendEmailPengaduan(PengaduanVM pengaduanVM);
+        Task SendEmailNotifTimesheet(EmployeeData employeeData);
 
     }
 }
