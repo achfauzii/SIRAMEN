@@ -108,6 +108,71 @@ namespace RasManagement.Repository
                 throw ex;
             }
         }
+        public async Task<object> GetTimeSheetByCompanyNameAndMonth2(string companyName, DateTime targetDate) //KHUSUS UNTUK OVERTIME (ALL) 
+        {
+            try
+            {
+                // Step 1: Get PlacementStatusId from Placement table
+                var placementStatusIds = await context.Placements
+                    .Where(p => p.Client.NameOfClient == companyName)
+                    .Select(p => p.PlacementStatusId)
+                    .ToListAsync();
+
+                if (placementStatusIds == null || !placementStatusIds.Any())
+                {
+                    return new List<TimeSheet>();
+                }
+
+                // Step 2: Get TimeSheet data based on PlacementStatusIds and month
+                var result = await context.TimeSheets
+                    .Where(ts => placementStatusIds.Contains((int)ts.PlacementStatusId)
+                        && ts.Date.HasValue
+                        && ts.Date.Value.Month == targetDate.Month
+                        && ts.Date.Value.Year == targetDate.Year)
+                    .GroupBy(ts => ts.AccountId)  // Group by AccountId
+                    .Select(group => new
+                    {
+                        AccountId = group.Key,
+                        AccountName = group.First().Account.Fullname,
+                        Pic = group.First().PlacementStatus.PicName,
+                        Pic_RAS = group.First().PlacementStatus.PicRas,
+                        WFHCount = group.Where(ts => ts.Flag == "Overtime WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFH
+                        WFOCount = group.Where(ts => ts.Flag == "Overtime WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for WFO
+                        ClientSite = companyName,
+                        Position = context.Positions
+                               .Where(p => p.Id == group.First().PlacementStatus.PositionId)
+                               .Select(p => p.PositionClient)
+                               .FirstOrDefault(),
+                        TimeSheets = group.OrderBy(ts => ts.Date)
+                        .Select(ts => new
+                        {
+                            TimeSheetId = ts.Id,
+                            Activity = ts.Activity,
+                            Category = ts.Category,
+                            Status = ts.Status,
+                            Date = ts.Date,
+                            Flag = ts.Flag,
+                            KnownBy = ts.KnownBy,
+                            /*      IsHoliday = false, // Initialize as false by default
+                                  HolidayName = ""*/
+                        }),
+
+                    })
+                    .ToListAsync();
+
+                // Step 3: Get holidays for the target month
+                /*          var holidays = await context.MasterHolidays
+                              .Where(h => h.Date.Value.Month == targetDate.Month && h.Date.Value.Year == targetDate.Year)
+                              .Select(h => h.Date)
+                              .ToListAsync();*/
+                return result;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log errors
+                throw ex;
+            }
+        } 
 
         public async Task<object> GetTimeSheetsByMonth(DateTime start, DateTime end, string flag, string search, string categories, string status, string placement)
         {
@@ -494,6 +559,72 @@ namespace RasManagement.Repository
                 timesheet.PlacementStatusId = data.PlacementStatusId;
                 Console.WriteLine("null");
                 return context.SaveChanges();
+            }
+        }
+
+        
+        public async Task<object> GetTimeSheetByAccountIdAndMonth2(string accountId, DateTime targetDate) //KHUSUS UNTUK OVERTIME 
+        {
+            try
+            {
+                // Step 1: Get PlacementStatusId from Placement table
+                //var placementStatusIds = await context.Placements
+                //    .Where(p => p.Client.NameOfClient == companyName)
+                //    .Select(p => p.PlacementStatusId)
+                //    .ToListAsync();
+
+                //if (placementStatusIds == null || !placementStatusIds.Any())
+                //{
+                //    return new List<TimeSheet>();
+                //}
+
+                var result = await context.TimeSheets
+                    .Where(ts => accountId.Contains(ts.AccountId)
+                        && ts.Date.HasValue
+                        && ts.Date.Value.Month == targetDate.Month
+                        && ts.Date.Value.Year == targetDate.Year)
+                    .GroupBy(ts => ts.AccountId)  // Group by AccountId
+                    .Select(group => new
+                    {
+                        AccountId = group.Key,
+                        AccountName = group.First().Account.Fullname,
+                        Pic = group.First().PlacementStatus.PicName,
+                        Pic_RAS = group.First().PlacementStatus.PicRas,
+                        WFHCount = group.Where(ts => ts.Flag == "Overtime WFH").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for Overtime WFH
+                        WFOCount = group.Where(ts => ts.Flag == "Overtime WFO").Select(ts => ts.Date).Distinct().Count(), // Count unique dates for Overtime WFO
+
+                        Position = context.Positions
+                               .Where(p => p.Id == group.First().PlacementStatus.PositionId)
+                               .Select(p => p.PositionClient)
+                               .FirstOrDefault(),
+                        TimeSheets = group.OrderBy(ts => ts.Date)
+                        .Select(ts => new
+                        {
+                            TimeSheetId = ts.Id,
+                            Activity = ts.Activity,
+                            Category = ts.Category,
+                            Status = ts.Status,
+                            Date = ts.Date,
+                            Flag = ts.Flag,
+                            KnownBy = ts.KnownBy,
+                            /*      IsHoliday = false, // Initialize as false by default
+                                  HolidayName = ""*/
+                        }),
+
+                    })
+                    .ToListAsync();
+
+                // Step 3: Get holidays for the target month
+                /*          var holidays = await context.MasterHolidays
+                              .Where(h => h.Date.Value.Month == targetDate.Month && h.Date.Value.Year == targetDate.Year)
+                              .Select(h => h.Date)
+                              .ToListAsync();*/
+                return result;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log errors
+                throw ex;
             }
         }
 
