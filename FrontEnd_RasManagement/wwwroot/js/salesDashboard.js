@@ -191,118 +191,118 @@ async function viewCardSalesPro() {
 
 
 //Line Chart Sales Projection
-async function lineChartSalesPro() {
+//async function lineChartSalesPro() {
    
    
-    getDataSalesPro().then(data => {
-        if (data) {
-            const projects = data.data;
-            const projectCountByDateAndStatus = {};
+//    getDataSalesPro().then(data => {
+//        if (data) {
+//            const projects = data.data;
+//            const projectCountByDateAndStatus = {};
 
            
-            projects.forEach(project => {
-                const date = project.entryDate.split("T")[0];
-                const status = project.projectStatus;
+//            projects.forEach(project => {
+//                const date = project.entryDate.split("T")[0];
+//                const status = project.projectStatus;
 
-                if (projectCountByDateAndStatus[date]) {
-                    if (projectCountByDateAndStatus[date][status]) {
-                        projectCountByDateAndStatus[date][status]++;
-                    } else {
-                        projectCountByDateAndStatus[date][status] = 1;
-                    }
-                } else {
-                    projectCountByDateAndStatus[date] = { [status]: 1 };
-                }
-            });
+//                if (projectCountByDateAndStatus[date]) {
+//                    if (projectCountByDateAndStatus[date][status]) {
+//                        projectCountByDateAndStatus[date][status]++;
+//                    } else {
+//                        projectCountByDateAndStatus[date][status] = 1;
+//                    }
+//                } else {
+//                    projectCountByDateAndStatus[date] = { [status]: 1 };
+//                }
+//            });
 
          
-            const labels = Object.keys(projectCountByDateAndStatus);
+//            const labels = Object.keys(projectCountByDateAndStatus);
 
           
-            const statusColors = {
-                "string": "rgba(78, 115, 223, 1)",
-                "Close Win": "rgba(28, 200, 138, 1)",
-                "Best View": "rgba(54, 185, 204, 1)",
-                "Open": "rgba(246, 194, 62, 1)",
-                "Hold": "rgba(231, 74, 59, 1)",
-                "Close Lose": "rgba(133, 135, 150, 1)"
-            };
+//            const statusColors = {
+//                "string": "rgba(78, 115, 223, 1)",
+//                "Close Win": "rgba(28, 200, 138, 1)",
+//                "Best View": "rgba(54, 185, 204, 1)",
+//                "Open": "rgba(246, 194, 62, 1)",
+//                "Hold": "rgba(231, 74, 59, 1)",
+//                "Close Lose": "rgba(133, 135, 150, 1)"
+//            };
 
         
-            const projectStatusDatasets = {};
+//            const projectStatusDatasets = {};
 
-            labels.forEach(date => {
-                const statuses = projectCountByDateAndStatus[date];
-                for (const status in statuses) {
-                    if (!projectStatusDatasets[status]) {
-                        projectStatusDatasets[status] = {
-                            label: status,
-                            data: [],
-                            backgroundColor: statusColors[status],
-                            borderColor: statusColors[status],
-                            lineTension: 0.3,
-                            fill: false
-                        };
-                    }
-                    projectStatusDatasets[status].data.push(statuses[status]);
-                }
-            });
+//            labels.forEach(date => {
+//                const statuses = projectCountByDateAndStatus[date];
+//                for (const status in statuses) {
+//                    if (!projectStatusDatasets[status]) {
+//                        projectStatusDatasets[status] = {
+//                            label: status,
+//                            data: [],
+//                            backgroundColor: statusColors[status],
+//                            borderColor: statusColors[status],
+//                            lineTension: 0.3,
+//                            fill: false
+//                        };
+//                    }
+//                    projectStatusDatasets[status].data.push(statuses[status]);
+//                }
+//            });
 
           
-            for (const status in projectStatusDatasets) {
-                projectStatusDatasets[status].data = labels.map(date => projectCountByDateAndStatus[date][status] || 0);
-            }
+//            for (const status in projectStatusDatasets) {
+//                projectStatusDatasets[status].data = labels.map(date => projectCountByDateAndStatus[date][status] || 0);
+//            }
 
             
-            const datasets = Object.values(projectStatusDatasets);
+//            const datasets = Object.values(projectStatusDatasets);
 
-            // Konfigurasi chart
-            var ctx = document.getElementById("lineChartSales");
-            var myLineChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            left: 10,
-                            right: 25,
-                            top: 0,
-                            bottom: 0
-                        }
-                    },
-                    scales: {
-                        xAxes: [{
-                            time: {
-                                unit: 'date'
-                            },
-                            gridLines: {
-                                display: false,
-                                drawBorder: false
-                            },
-                            ticks: {
-                                maxTicksLimit: 7
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                maxTicksLimit: 10,
-                                padding: 10
-                            }
-                        }]
-                    }
-                }
-            });
-        }
-    });
+//            // Konfigurasi chart
+//            var ctx = document.getElementById("lineChartSales");
+//            var myLineChart = new Chart(ctx, {
+//                type: 'line',
+//                data: {
+//                    labels: labels,
+//                    datasets: datasets
+//                },
+//                options: {
+//                    maintainAspectRatio: false,
+//                    layout: {
+//                        padding: {
+//                            left: 10,
+//                            right: 25,
+//                            top: 0,
+//                            bottom: 0
+//                        }
+//                    },
+//                    scales: {
+//                        xAxes: [{
+//                            time: {
+//                                unit: 'date'
+//                            },
+//                            gridLines: {
+//                                display: false,
+//                                drawBorder: false
+//                            },
+//                            ticks: {
+//                                maxTicksLimit: 7
+//                            }
+//                        }],
+//                        yAxes: [{
+//                            ticks: {
+//                                maxTicksLimit: 10,
+//                                padding: 10
+//                            }
+//                        }]
+//                    }
+//                }
+//            });
+//        }
+//    });
 
-}
+//}
 
 //Perbulan
-/*async function lineChartSalesPro()*/ {
+async function lineChartSalesPro() {
 
 
     getDataSalesPro().then(data => {
@@ -310,20 +310,19 @@ async function lineChartSalesPro() {
             const projects = data.data;
             const projectCountByDateAndStatus = {};
 
-            // Fungsi untuk mendapatkan string bulan dan tahun dari tanggal
+       
             const getMonthYearString = (dateString) => {
                 const date = new Date(dateString);
                 const month = date.getMonth() + 1; // Karena bulan dimulai dari 0
                 const year = date.getFullYear();
                 return `${year}-${month < 10 ? '0' + month : month}`;
             };
-
-            // Iterasi melalui setiap proyek
+            
             projects.forEach(project => {
                 const monthYear = getMonthYearString(project.entryDate);
                 const status = project.projectStatus;
 
-                // Perbarui jumlah proyek untuk bulan dan status yang sesuai
+                
                 if (projectCountByDateAndStatus[monthYear]) {
                     if (projectCountByDateAndStatus[monthYear][status]) {
                         projectCountByDateAndStatus[monthYear][status]++;
@@ -335,12 +334,12 @@ async function lineChartSalesPro() {
                 }
             });
 
-            // Mendapatkan label (bulan)
-            const labels = Object.keys(projectCountByDateAndStatus);
+             
+            const labels = Object.keys(projectCountByDateAndStatus).sort();
 
-            // Warna tetap untuk setiap status proyek
+
             const statusColors = {
-                "string": "rgba(78, 115, 223, 1)",
+          
                 "Close Win": "rgba(28, 200, 138, 1)",
                 "Best View": "rgba(54, 185, 204, 1)",
                 "Open": "rgba(246, 194, 62, 1)",
@@ -348,7 +347,6 @@ async function lineChartSalesPro() {
                 "Close Lose": "rgba(133, 135, 150, 1)"
             };
 
-            // Mengumpulkan data berdasarkan status proyek
             const projectStatusDatasets = {};
 
             labels.forEach(monthYear => {
@@ -368,15 +366,12 @@ async function lineChartSalesPro() {
                 }
             });
 
-            // Pastikan setiap dataset memiliki nilai 0 untuk bulan yang tidak ada data
             for (const status in projectStatusDatasets) {
                 projectStatusDatasets[status].data = labels.map(monthYear => projectCountByDateAndStatus[monthYear][status] || 0);
             }
 
-            // Konversi objek dataset menjadi array
             const datasets = Object.values(projectStatusDatasets);
 
-            // Konfigurasi chart
             var ctx = document.getElementById("lineChartSales");
             var myLineChart = new Chart(ctx, {
                 type: 'line',
@@ -390,7 +385,7 @@ async function lineChartSalesPro() {
                         padding: {
                             left: 10,
                             right: 25,
-                            top: 25,
+                            top: 7,
                             bottom: 0
                         }
                     },
