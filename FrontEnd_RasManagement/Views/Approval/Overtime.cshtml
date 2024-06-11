@@ -3,6 +3,8 @@
     Layout = "~/Views/Layout/LayoutAdmin.cshtml";
 }
 
+
+
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
@@ -22,14 +24,14 @@
         <div class="card-body p-2">
             <div class="media-body text-left pt-0 m-0 pl-1">
                 <form>
-                    <div class="row p-0 m-0">
+                    <div class="row p-2 m-0">
                         <span style="font-size: 15px;" class="col-4 text-dark text-sm">Company Name</span>
                         <span style="font-size: 15px;" class="col-0 text-sm">:</span>
-                        <select style="font-size: 15px; color: #888;" class="col p-0 pl-1 ml-2 mb-1 custom-select custom-select-sm pl-" id="companySelect">
+                        <select style="font-size: 15px; color: #888;" class="col p-1 pl-1 ml-2 mb-1 custom-select custom-select-sm pl-" id="companySelect">
                             <option value="" selected disabled hidden>Choose...</option>
                         </select>
                     </div>
-                    <div class="row p-0 m-0">
+                    <div class="row p-2 m-0">
                         <span style="font-size: 16px;" class="col-4 text-dark text-sm">Month</span>
                         <span style="font-size: 16px;" class="col-0 text-sm">:</span>
                         <span style="font-size: 16px;" class="col text-dark text-sm month">
@@ -38,6 +40,16 @@
 
                         </span>
                     </div>
+                    <div class="row p-2 m-0" style="display:none">
+                        <span style="font-size: 15px;" class="col-4 text-dark text-sm">Select Name</span>
+                        <span style="font-size: 15px;" class="col-0 text-sm">:</span>
+                        <select style="font-size: 15px; color: #888;" class="col p-0 pl-1 ml-2 mb-1 custom-select custom-select-sm pl-" id="accountNameFilter">
+                            <option value="" selected disabled hidden>Choose...</option>
+                        </select>
+                    </div>
+
+                    
+
                     <div class="d-flex flex-row-reverse">
                         <button class="btn btn-sm text-light" style="background-color:#0D6EFD" id="submitBtn"> Submit </button>
                     </div>
@@ -59,7 +71,7 @@
             @*<div class="col"><h6 class="mb-0 pb-0">Time Sheet Report</h6></div>*@
             <div class="col"><h6 style="font-family:comfortaa; color:#0D6EFD;" class="mt-2 mr-2 font-weight-bold" id="text-show">Recap Overtime report</h6></div>
             <div class="col-auto">
-                <a href="@Url.Action("GeneratePdf", "TimeSheetPdf", new { companyName = "", month = "" })" class="btn btn-sm btn-success" id="btn-report" style="display:none">
+                <a href="@Url.Action("GeneratePdfperEmployee", "TimeSheetPdf", new { accountId = "", month = "", companyName = "", })" class="btn btn-sm btn-success" id="btn-report" style="display:none">
                     <i class="fa fa-download"></i> Download Report
                 </a>
 
@@ -96,8 +108,9 @@
             <div class="modal-body">
                 <div class="card" id="tableTimeSheet">
                     <div class="card-header">
-                        <div class="row justify-content-between">
-                            <div class="col"><h5 id="nameEmp"></h5></div>
+                        <div class="row p-2">
+                            <h5 id="namaPegawai"></h5>
+                            <button onclick="detailRecap()" >Download</button>
                         </div>
                     </div>
                     <div class="card-body">
