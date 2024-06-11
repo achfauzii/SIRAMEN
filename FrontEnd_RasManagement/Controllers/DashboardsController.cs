@@ -79,8 +79,12 @@ namespace FrontEnd_RasManagement.Controllers
 
             var date = await GetTimeNow();
             int totalEmployee = await GetTotalEmployeeByRoleId(3);
+            int idleEmp = await GetTotalIdleOnsiteEmp("idle");
+            int onsiteEmp = await GetTotalIdleOnsiteEmp("onsite");
             ViewBag.FormattedDate = date;
             ViewBag.TotalEmployee = totalEmployee;
+            ViewBag.IdleEmployee = idleEmp;
+            ViewBag.OnsiteEmployee = onsiteEmp;
             return View();
         }
 
