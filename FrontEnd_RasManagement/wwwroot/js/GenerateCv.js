@@ -384,19 +384,41 @@ function loadData() {
                         // Memisahkan data jobSpec dengan baris baru (enter)
                         var jobSpecItems = project.jobSpec.split("\n");
 
-                        // Membuat elemen ul untuk menampilkan jobSpec
+
+                        // Create ul element to display jobSpec
                         var ul = document.createElement("ul");
                         ul.className = "list-unstyled custom-ul";
-                        //console.log(jobSpecItems);
                         ul.classList.add("pl-3");
+
                         if (jobSpecItems != "") {
-                            // Mengisi elemen ul dengan item-item jobSpec
+                            // Populate ul with jobSpec items
                             jobSpecItems.forEach(function (item) {
                                 var li = document.createElement("li");
+                                if (item.includes("github.com")) {
+                                    var url = item.match(/https?:\/\/github\.com\/[^\s]+/g);
+                                    if (url) {
+                                        var projectLink = `<a href="${url[0]}" target="_blank" style="color: blue;">${project.projectName} Project</a>`;
+                                        item = item.replace(url[0], projectLink);
+                                    }
+                                }
                                 li.innerHTML = item;
                                 ul.appendChild(li);
                             });
-                        } 
+                        }
+
+                        //// Membuat elemen ul untuk menampilkan jobSpec
+                        //var ul = document.createElement("ul");
+                        //ul.className = "list-unstyled custom-ul";
+                        ////console.log(jobSpecItems);
+                        //ul.classList.add("pl-3");
+                        //if (jobSpecItems != "") {
+                        //    // Mengisi elemen ul dengan item-item jobSpec
+                        //    jobSpecItems.forEach(function (item) {
+                        //        var li = document.createElement("li");
+                        //        li.innerHTML = item;
+                        //        ul.appendChild(li);
+                        //    });
+                        //} 
                         row.innerHTML =
                             "<td>" +
                             project.projectName +

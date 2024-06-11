@@ -9,10 +9,7 @@ $(document).ready(function () {
 
     });
 
-    $('#downloadBtn').click(function () {
-
-        downloadRecap(accountId, month, name)
-    });
+    
 
     $.ajax({
         url: "https://localhost:7177/api/ClientName/ClientNameWithStatusOnsite",
@@ -60,8 +57,6 @@ $(document).ready(function () {
 
 
 
-
-
 function submitReportTimesheet() {
 
     var companyName = $('#companySelect').val();
@@ -79,7 +74,7 @@ function submitReportTimesheet() {
     }
     report.show();
 
-    var downloadUrl = "/TimeSheetPdf/GeneratePdf?companyName=" + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
+    var downloadUrl = "/TimeSheetPdf/GeneratePdfAllOvertime?companyName=" + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
     //var downloadUrl = "/TimeSheetPdf/GeneratePdfperEmployee?accountId=" + encodeURIComponent(accountId) + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
 
 
@@ -280,10 +275,11 @@ function downloadRecap(accountId, month, name) {
             var data = response.data;
             console.log(data);
 
-            //// Filter data to only include rows where flag contains "Overtime"
-            //var filteredData = data.filter(function (item) {
-            //    return item.flag.includes("Overtime");
-            //});
+            // Filter data to only include rows where flag contains "Overtime"
+            var filteredData = data.filter(function (item) {
+                return item.flag.includes("Overtime");
+            });
+            console.log(filteredData);
 
             var downloadUrl = "/TimeSheetPdf/GeneratePdfOvertime?accountId=" + encodeURIComponent(accountId) + "&companyName=" + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
 
@@ -300,10 +296,9 @@ function downloadRecap(accountId, month, name) {
             // Trigger the download
             tempAnchor.click();
 
-
             // Initialize DataTable with filtered data
             table = $("#timeSheetTable").DataTable({
-                data: data,
+                data: filteredData,
                 responsive: true,
                 columns: [
                     {
@@ -341,5 +336,3 @@ function downloadRecap(accountId, month, name) {
         }
     });
 }
-
-// Assuming you have a function that updates the currentAccountId, currentMonth, and currentAccountName variables

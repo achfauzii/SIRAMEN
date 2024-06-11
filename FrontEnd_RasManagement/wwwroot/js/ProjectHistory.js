@@ -1,4 +1,5 @@
-﻿var table = null;
+﻿
+var table = null;
 $(document).ready(function () {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
@@ -27,18 +28,40 @@ $(document).ready(function () {
       /*{ "data": "jobSpec" },*/
       {
         data: "jobSpec",
-        render: function (data) {
-          // Split data menjadi item-item dalam daftar
-          var items = data.split("• ");
+          render: function (data, type, row) {
+              if (!data) {
+                  return " ";
+              }
+              // Split data menjadi item-item dalam daftar
+              const items = data.split("• ");
+              // Buat daftar HTML
+              let list = "<ul>";
+              for (let i = 1; i < items.length; i++) {
+                  let item = items[i];
+                  if (item.includes("github.com")) {
+                      const url = item.match(/https?:\/\/github\.com\/[^\s]+/g);
+                      if (url) {
+                          const projectLink = `<a href="${url[0]}" target="_blank" style="color: blue;">${row.projectName} Project</a>`;
+                          item = item.replace(url[0], projectLink);
+                      }
+                  }
+                  list += `<li>${item}</li>`;
+              }
+              list += "</ul>";
 
-          // Buat daftar HTML
-          var list = "<ul>";
-          for (var i = 1; i < items.length; i++) {
-            list += "<li>" + items[i] + "</li>";
-          }
-          list += "</ul>";
+              return list;
+          //// Split data menjadi item-item dalam daftar
+          //var items = data.split("• ");
 
-          return list;
+          //// Buat daftar HTML
+          //var list = "<ul>";
+          //    for (var i = 1; i < items.length; i++) {
+
+          //  list += "<li>" + items[i] + "</li>";
+          //}
+          //list += "</ul>";
+
+          //return list;
         },
       },
       { data: "year" },

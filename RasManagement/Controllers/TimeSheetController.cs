@@ -85,6 +85,7 @@ namespace RasManagement.Controllers
 
         }
 
+
         [AllowAnonymous]
         [HttpGet("GetTimeSheetsByMonthDefault")]
         public async Task<IActionResult> GetTimeSheetsByMonthDefault([FromQuery] DateTime start, [FromQuery] DateTime end)
@@ -178,6 +179,29 @@ namespace RasManagement.Controllers
             }
         }
 
+        [HttpGet("GetTimeSheetByCompanyNameAndMonth2")] //KHUSUS UNTUK OVERTIME (ALL)
+        public async Task<IActionResult> GetTimeSheetByCompanyNameAndMonth2([FromQuery] string companyName, [FromQuery] string month)
+        {
+            // Menerjemahkan string bulan menjadi objek DateTime untuk memperoleh bulan yang sesuai
+            DateTime targetDate;
+            if (!DateTime.TryParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out targetDate))
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Month Not Valid" });
+            }
+
+            var get = await timeSheetRepository.GetTimeSheetByCompanyNameAndMonth2(companyName, targetDate);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
+
+
         [HttpGet("GetTimeSheetByAccountIdAndMonthPDF")]
         public async Task<IActionResult> GetTimeSheetByAccountIdAndMonthPDF([FromQuery] string accountId, [FromQuery] string month)
         {
@@ -198,6 +222,29 @@ namespace RasManagement.Controllers
                 return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
             }
         }
+
+        [HttpGet("GetTimeSheetByAccountIdAndMonthPDF2")] //KHUSUS UNTUK OVERTIME 
+        public async Task<IActionResult> GetTimeSheetByAccountIdAndMonthPDF2([FromQuery] string accountId, [FromQuery] string month)
+        {
+            // Menerjemahkan string bulan menjadi objek DateTime untuk memperoleh bulan yang sesuai
+            DateTime targetDate;
+            if (!DateTime.TryParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out targetDate))
+            {
+                return StatusCode(400, new { status = HttpStatusCode.BadRequest, message = "Month Not Valid" });
+            }
+
+            var get = await timeSheetRepository.GetTimeSheetByAccountIdAndMonth2(accountId, targetDate);
+            if (get != null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            else
+            {
+                return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+            }
+        }
+
+
 
         /*[HttpGet("ByCurrentMonth")]
         public async Task<IActionResult> GetTimeSheetsByAccountAndCurrentMonth(string accountId)
