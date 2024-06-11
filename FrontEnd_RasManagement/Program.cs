@@ -35,6 +35,7 @@ builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailS
 var timeSheetSettings = builder.Services.Configure<TimeSheet>(builder.Configuration.GetSection("TimeSheet"));
 builder.Services.AddTransient<IMailService, MailService>();
 builder.Services.AddHostedService<MyBackground>();
+builder.Services.AddHostedService<TimesheetBackgroundSendEmail>();
 
 var app = builder.Build();
 

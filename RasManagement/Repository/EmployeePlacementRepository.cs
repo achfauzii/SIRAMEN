@@ -3,16 +3,20 @@ using RasManagement.Models;
 using RasManagement.Interface;
 using RasManagement.ViewModel;
 using Org.BouncyCastle.Pqc.Crypto.Lms;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace RasManagement.Repository
 {
     public class EmployeePlacementRepository : GeneralRepository<ProjectRasmanagementContext, Placement, int>
     {
         private readonly ProjectRasmanagementContext _context;
-        
+        private readonly IConfiguration configuration;
         public EmployeePlacementRepository(ProjectRasmanagementContext _context) : base(_context)
         {
             this._context = _context;
+            this.configuration = configuration;
         }
 
         public async Task<bool> AccountIsExist(string accountId)
@@ -179,5 +183,23 @@ namespace RasManagement.Repository
 
             return statusViewModels;
         }
+        public async Task<IEnumerable<object>> GetEmployeeOnsite()
+        {
+            var employees = _context.Accounts
+                .FromSqlRaw("EXEC GetEmpOnsite")
+                .AsEnumerable()
+                .Select(a => new { Email = a.Email, Fullname = a.Fullname })
+                .ToList();
+
+            return employees;
+        }
+
+
+
+
     }
+
+
+
+
 }
