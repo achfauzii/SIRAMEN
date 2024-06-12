@@ -284,6 +284,28 @@
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+                        <div class="col" id="colStatusPro">
+                            <label for="message-text" class="col-form-label">Status Projection</label>
+                            <select class="form-control form-control-sm" id="projectStatus">
+                                <option value="" selected disabled>Choose Status Projection</option>
+                                <option value="Hold">Oppurtunity</option>
+                                <option value="Open">MOM Sales</option>
+                                <option value="Re Open">Re Open</option>
+                                <option value="Best View">Best View</option>
+                                <option value="Close Win">Close Win</option>
+                                <option value="Close Lose">Close Lose</option>
+                                <option value="Reject">Reject</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                        
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Ratecard</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter Ratecard" id="rateCard" required></textarea>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
                         <div class="col" id="colStatus">
                             <label for="message-text" class="col-form-label">Activity Status</label>
                             <span class="text-danger">*</span>
@@ -306,23 +328,14 @@
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <label for="message-text" class="col-form-label">Ratecard</label>
-                            <textarea class="form-control" rows="3" placeholder="Enter Ratecard" id="rateCard" required></textarea>
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                        <div class="col" id="colStatusPro">
-                            <label for="message-text" class="col-form-label">Status Projection</label>
-                            <select class="form-control form-control-sm" id="projectStatus">
-                                <option value="" selected disabled>Choose Status Projection</option>
-                                <option value="Hold">Oppurtunity</option>
-                                <option value="Open">MOM Sales</option>
-                                <option value="Re Open">Re Open</option>
-                                <option value="Best View">Best View</option>
-                                <option value="Close Win">Close Win</option>
-                                <option value="Close Lose">Close Lose</option>
+                        <div class="col" id="colLastUpdate">
+                            <label for="message-text" class="col-form-label">Last Update</label>
+                            <span class="text-danger">*</span>
+                            <select class="form-control form-control-sm" id="lastUpdate" required>
+                                <option value="" selected disabled>Choose Status</option>
+                                <option value="LastUpdate1">Last Update1</option>
+                                <option value="LastUpdate2">Last Update2</option>
+                                <option value="LastUpdate3">Last Update3</option>
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>

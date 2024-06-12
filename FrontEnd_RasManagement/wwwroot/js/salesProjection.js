@@ -561,8 +561,24 @@ async function GetById(id, tableName) {
     $('#Save').hide()
     $('#colStatusPro').show()
     $('#projectStatus').attr('required', true)
-
+    $('#lastUpdate').attr('required', true);
     $('#tableName').val(tableName);
+
+    $('#projectStatus').change(function () {
+        var selectedStatus = $(this).val();
+        if (selectedStatus === "Close Lose" || selectedStatus === "Reject") {
+            $('#colStatus').hide();
+            $('#colStatus').removeAttr('required')
+            $('#status').removeAttr('required')
+            $('#colLastUpdate').show();
+        } else {
+            $('#colStatus').show();
+            $('#colLastUpdate').hide();
+            $('#lastUpdate').val("");
+            $('#lastUpdate').removeAttr('required')
+
+        }
+    });
 
     const url = 'https://localhost:7177/api/SalesProjection/' + id;
     const fetchingData = await fetch(url, {
@@ -578,7 +594,15 @@ async function GetById(id, tableName) {
     if (response.data.projectStatus === "Close Win") {
         $('#fieldGoals').show()
     }
+    if (response.data.projectStatus == "Close Lose" || response.data.projectStatus == "Reject") {
+        $('#colStatus').hide();
+        $('#colStatus').removeAttr('required')
+        $('#colLastUpdate').show();
+        $('#lastUpdate').val(response.data.lastUpdate);
+    }
 
+    console.log(response);
+    
 
     const urlClient = 'https://localhost:7177/api/ClientName/' + response.data.clientId;
     const fetchingDataClient = await fetch(urlClient, {
@@ -620,6 +644,10 @@ function ClearScreen() {
     $('#colStatusPro').hide()
     $('#fieldBestView').hide()
     $('#fieldGoals').hide()
+    $('#lastUpdate').attr('required', false);
+    $('#colLastUpdate').hide()
+    $('#lastUpdate').val("")
+
     $('#fieldBestView').find('input, select').each(function (e) {
         $(this).val("")
         $(this).attr('required', false)
@@ -678,7 +706,10 @@ function Update() {
         cogs: parseInt($('#cogs').val()),
         gpm: parseInt($('#salesProject').val()) - parseInt($('#cogs').val()),
         soNumber: parseInt($('#soNumber').val()),
+        lastUpdate: $('#lastUpdate').val()
+
     }
+    console.log(dataToUpdate);
 
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',

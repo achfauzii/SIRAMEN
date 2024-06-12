@@ -664,6 +664,10 @@ public partial class ProjectRasmanagementContext : DbContext
             entity.Property(e => e.SoNumber)
              .IsUnicode(false);
 
+            entity.Property(e => e.LastUpdate)
+           .HasColumnType("VARCHAR(MAX)")
+              .IsUnicode(false);
+
 
             entity.HasOne(d => d.Client).WithMany(p => p.SalesProjections)
             .HasForeignKey(d => d.ClientId)
