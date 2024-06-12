@@ -430,7 +430,7 @@ function Delete(id, nameOfClient) {
 }
 
 function detailPosition(id) {
-
+    clearData();
     //Detail
     $("#informationClientModal").modal("show");
     $("#clientId").val(id);
@@ -501,6 +501,11 @@ function detailPosition(id) {
                                                                 : ""
                                                             }
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">Requirement</div>
+                                            <div class="col-8 text-left">: ${data.skillSet
+                                                            }</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4">Quantity</div>
@@ -720,16 +725,32 @@ function GetByIdPosition(id) {
             $("#positionId").val(obj.id);
 
             const skillSelect = $("#skillset");
-            const selectedSkillset = obj.skillSet.split(", ");
-            selectedSkillset.forEach((value) => {
-                const optionNotExists =
-                    skillSelect.find("option[value='" + value + "']").length === 0;
+           
+            let selectedSkillset;
+            if (obj.skillSet && obj.skillSet.includes(",")) {
 
-                if (optionNotExists) {
-                    const newOption = new Option(value, value, true, true);
-                    skillSelect.append(newOption).trigger("change");
+                if (obj.skillSet.includes(",")) {
+
+                    selectedSkillset = obj.skillSet.split(", ");
+                    selectedSkillset.forEach((value) => {
+                        const optionNotExists =
+                            skillSelect.find("option[value='" + value + "']").length === 0;
+
+                        if (optionNotExists) {
+                            const newOption = new Option(value, value, true, true);
+                            skillSelect.append(newOption).trigger("change");
+                        }
+                    });
+                } else {
+                    selectedSkillset = [obj.skillSet];
                 }
-            });
+             
+            } else {
+           
+                selectedSkillset = [obj.skillSet];
+            }
+           
+           
             skillSelect.val(selectedSkillset).trigger("change");
             $("#positionName").val(obj.positionClient);
             $("#positionQuantity").val(obj.quantity);

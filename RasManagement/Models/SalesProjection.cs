@@ -30,6 +30,8 @@ public partial class SalesProjection
     public string? RateCard { get; set; }
     public string? CurrentNews { get; set; }
 
+    public string? LastUpdate { get; set; }
+
 
     public string? ProjectType { get; set; }
     public string? StartedYear { get; set; }

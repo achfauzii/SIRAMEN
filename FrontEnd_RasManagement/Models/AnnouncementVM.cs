@@ -37,4 +37,11 @@
         public List<string> email { get; set; }
         public List<string> name { get; set; }
     }
+
+    public class EmployeeData
+    {
+        public List<string> Email { get; set; }
+        public List<string> Fullname { get; set; }
+    }
+
 }

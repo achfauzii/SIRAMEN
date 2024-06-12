@@ -30,6 +30,7 @@ namespace RasManagement.Controllers
         }
 
         [HttpGet]
+        
         public async Task<ActionResult> Get()
         {
 
@@ -119,6 +120,30 @@ namespace RasManagement.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPost("EmpOnsite")]
+        public IActionResult GetEmployeesOnsite( string kode)
+        {
+
+            if (kode == "RasMgmt2024")
+            {
+                var get = employeePlacementRepository.GetEmployeeOnsite();
+                if (get != null)
+                {
+                    return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+                }
+                else
+                {
+                    return StatusCode(404, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+                }
+            }
+            else
+            {
+                return StatusCode(403, new { status = HttpStatusCode.Forbidden, message = "Failed to Access" });
+            }
+           
+        }
+
 
 
         [HttpPut]
@@ -140,5 +165,38 @@ namespace RasManagement.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpGet("GetStatusEmp")]
+        
+        public async Task<ActionResult> GetStatusEmp()
+        {
+            
+                var data = await employeePlacementRepository.GetStatusEmp();
+
+                if (data != null)
+                {
+
+                    return StatusCode(200, new
+                    {
+                        status = HttpStatusCode.OK,
+                        message = "Data ditemukan ",
+                        Data = data
+                    });
+
+                }
+                else
+                {
+                    return StatusCode(404, new
+                    {
+                        status = HttpStatusCode.NotFound,
+                        message = "Not Found"
+                    });
+                }
+            
+            
+          
+        }
+
+
     }
 }

@@ -1,7 +1,6 @@
-const formModal = $('#Modal-addSalesProjection form');
+﻿const formModal = $('#Modal-addSalesProjection form');
 let savedLocation;
 $(document).ready(function () {
-
 
     $('.nav-tabs .nav-item').find('a').each(function () {
         $(this).on('click', function (e) {
@@ -65,6 +64,30 @@ $('#projectStatus').change(function (e) {
             break;
     }
 })
+$("#rateCard").on("input", function () {
+    var jobSpecValue = $(this).val();
+    var lines = jobSpecValue.split("\n");
+    for (var i = 0; i < lines.length; i++) {
+        lines[i] = lines[i].replace(/^•\s*/, "");
+        if (lines[i].trim() !== "" && !lines[i].startsWith("• ")) {
+            lines[i] = "• " + lines[i];
+        }
+    }
+
+    var formattedJobSpec = lines.join("\n");
+    $(this).val(formattedJobSpec);
+});
+
+$("#rateCard").on("keypress", function (e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        var currentValue = $(this).val();
+        if (currentValue.trim() !== "") {
+            currentValue += "\n";
+            $(this).val(currentValue);
+        }
+    }
+});
 
 function generateData(id) {
     $('#salesProjectionTable').DataTable().destroy();
@@ -230,7 +253,19 @@ function generateData(id) {
 
                 { data: "contractPeriode" },
 
-                { data: "rateCard" },
+                {
+                    data: "rateCard",
+                    render: function (data) {
+                        var items = data.split("• ");
+                        var list = "<ul>";
+                        for (var i = 1; i < items.length; i++) {
+                            list += "<li>" + items[i] + "</li>";
+                        }
+                        list += "</ul>";
+
+                        return list;
+                    },
+                },
 
                 {
                     data: "salesProject",
@@ -393,11 +428,24 @@ function generateData(id) {
                 { data: "workLocation" },
                 { data: "notes" },
                 { data: "contractPeriode" },
-                { data: "rateCard" },
+                {
+                    data: "rateCard",
+                    render: function (data) {
+                        var items = data.split("• ");
+                        var list = "<ul>";
+                        for (var i = 1; i < items.length; i++) {
+                            list += "<li>" + items[i] + "</li>";
+                        }
+                        list += "</ul>";
+
+                        return list;
+                    },
+                },
+                {data : "status"},
                 {
                     data: "projectStatus",
                     render: function (data) {
-                        return `<button class="btn btn-block btn-${color}" style="font-size: 12px; pointer-events: none;">${data}</button>`
+                        return `<button class="btn btn-block btn-${color} btn-sm pl-0 pr-0" style="font-size: 12px; pointer-events: none;">${data}</button>`
                     }
                 },
                 {
@@ -513,8 +561,24 @@ async function GetById(id, tableName) {
     $('#Save').hide()
     $('#colStatusPro').show()
     $('#projectStatus').attr('required', true)
-
+    $('#lastUpdate').attr('required', true);
     $('#tableName').val(tableName);
+
+    $('#projectStatus').change(function () {
+        var selectedStatus = $(this).val();
+        if (selectedStatus === "Close Lose" || selectedStatus === "Reject") {
+            $('#colStatus').hide();
+            $('#colStatus').removeAttr('required')
+            $('#status').removeAttr('required')
+            $('#colLastUpdate').show();
+        } else {
+            $('#colStatus').show();
+            $('#colLastUpdate').hide();
+            $('#lastUpdate').val("");
+            $('#lastUpdate').removeAttr('required')
+
+        }
+    });
 
     const url = 'https://localhost:7177/api/SalesProjection/' + id;
     const fetchingData = await fetch(url, {
@@ -530,7 +594,15 @@ async function GetById(id, tableName) {
     if (response.data.projectStatus === "Close Win") {
         $('#fieldGoals').show()
     }
+    if (response.data.projectStatus == "Close Lose" || response.data.projectStatus == "Reject") {
+        $('#colStatus').hide();
+        $('#colStatus').removeAttr('required')
+        $('#colLastUpdate').show();
+        $('#lastUpdate').val(response.data.lastUpdate);
+    }
 
+    console.log(response);
+    
 
     const urlClient = 'https://localhost:7177/api/ClientName/' + response.data.clientId;
     const fetchingDataClient = await fetch(urlClient, {
@@ -572,6 +644,10 @@ function ClearScreen() {
     $('#colStatusPro').hide()
     $('#fieldBestView').hide()
     $('#fieldGoals').hide()
+    $('#lastUpdate').attr('required', false);
+    $('#colLastUpdate').hide()
+    $('#lastUpdate').val("")
+
     $('#fieldBestView').find('input, select').each(function (e) {
         $(this).val("")
         $(this).attr('required', false)
@@ -630,7 +706,10 @@ function Update() {
         cogs: parseInt($('#cogs').val()),
         gpm: parseInt($('#salesProject').val()) - parseInt($('#cogs').val()),
         soNumber: parseInt($('#soNumber').val()),
+        lastUpdate: $('#lastUpdate').val()
+
     }
+    console.log(dataToUpdate);
 
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection',
@@ -687,7 +766,12 @@ function Save() {
     if (!isValid) {
         return;
     }
-
+    var rateCard = $("#rateCard").val();
+    var rateCardd = rateCard.split('\n').map(function (line) {
+        return line.trim();
+    }).filter(function (line) {
+        return line !== '';
+    }).join('\n');
     const dataToInsert = {
         entryDate: new Date(),
         projectStatus: "Hold",
@@ -701,7 +785,7 @@ function Save() {
         priority: $('#priority').find(":selected").val(),
         status: $('#status').find(":selected").val(),
         contractPeriode: $('#contractPeriode').val(),
-        rateCard: $('#rateCard').val(),
+        rateCard: rateCardd,
         currentNews: $('#currentNews').val(),
         clientId: parseInt($('#clientId').find(":selected").val()),
 
@@ -800,3 +884,4 @@ function saveActivity() {
 
 
 }
+

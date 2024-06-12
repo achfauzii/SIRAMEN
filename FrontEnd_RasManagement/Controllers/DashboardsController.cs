@@ -52,8 +52,12 @@ namespace FrontEnd_RasManagement.Controllers
 
             var date = await GetTimeNow();
             int totalEmployee = await GetTotalEmployeeByRoleId(3);
+            int idleEmp = await GetTotalIdleOnsiteEmp("idle");
+            int onsiteEmp = await GetTotalIdleOnsiteEmp("onsite");
             ViewBag.FormattedDate = date;
             ViewBag.TotalEmployee = totalEmployee;
+            ViewBag.IdleEmployee = idleEmp;
+            ViewBag.OnsiteEmployee = onsiteEmp;
             return View();
         }
 
@@ -75,8 +79,12 @@ namespace FrontEnd_RasManagement.Controllers
 
             var date = await GetTimeNow();
             int totalEmployee = await GetTotalEmployeeByRoleId(3);
+            int idleEmp = await GetTotalIdleOnsiteEmp("idle");
+            int onsiteEmp = await GetTotalIdleOnsiteEmp("onsite");
             ViewBag.FormattedDate = date;
             ViewBag.TotalEmployee = totalEmployee;
+            ViewBag.IdleEmployee = idleEmp;
+            ViewBag.OnsiteEmployee = onsiteEmp;
             return View();
         }
 
@@ -130,7 +138,20 @@ namespace FrontEnd_RasManagement.Controllers
             return totalEmployee;
         }
 
-       
+        public async Task<int> GetTotalIdleOnsiteEmp(string status)
+        {
+            var accessToken = HttpContext.Session.GetString("Token");
+            var url = "https://localhost:7177/api/Employees/GetEmployeeFilter?placementStatus="+status;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string jsonResponse = await client.GetStringAsync(url);
+
+            dynamic data = JsonConvert.DeserializeObject(jsonResponse);
+
+            return data.totalData;
+        }
+
+
 
 
     }

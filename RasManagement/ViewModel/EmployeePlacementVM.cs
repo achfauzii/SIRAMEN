@@ -17,4 +17,14 @@ namespace RasManagement.ViewModel
         public virtual ClientName? Client { get; set; }
         public virtual Position? Position { get; set; }
     }
+
+    public class StatusEmpVM
+    {
+        public string AccountId { get; set; } = null!;
+
+        public string PlacementStatus { get; set; } = null!;
+
+        public DateTime? JoinDate { get; set; }
+
+    }
 }

@@ -149,10 +149,11 @@ function loadData() {
                             " (" +
                             item.years +
                             ") : " +
-                            item.description; // Jika item adalah teks biasa
+                       
+                          shuffleArray(item.description, item.organizer);  
                         li.style.color = "black";
 
-                        // Jika item adalah objek dan Anda ingin mengambil properti tertentu, contohnya: li.textContent = item.nama;
+             
                         listElement.appendChild(li);
                     });
                 },
@@ -383,19 +384,41 @@ function loadData() {
                         // Memisahkan data jobSpec dengan baris baru (enter)
                         var jobSpecItems = project.jobSpec.split("\n");
 
-                        // Membuat elemen ul untuk menampilkan jobSpec
+
+                        // Create ul element to display jobSpec
                         var ul = document.createElement("ul");
                         ul.className = "list-unstyled custom-ul";
-                        //console.log(jobSpecItems);
                         ul.classList.add("pl-3");
+
                         if (jobSpecItems != "") {
-                            // Mengisi elemen ul dengan item-item jobSpec
+                            // Populate ul with jobSpec items
                             jobSpecItems.forEach(function (item) {
                                 var li = document.createElement("li");
+                                if (item.includes("github.com")) {
+                                    var url = item.match(/https?:\/\/github\.com\/[^\s]+/g);
+                                    if (url) {
+                                        var projectLink = `<a href="${url[0]}" target="_blank" style="color: blue;">${project.projectName} Project</a>`;
+                                        item = item.replace(url[0], projectLink);
+                                    }
+                                }
                                 li.innerHTML = item;
                                 ul.appendChild(li);
                             });
-                        } 
+                        }
+
+                        //// Membuat elemen ul untuk menampilkan jobSpec
+                        //var ul = document.createElement("ul");
+                        //ul.className = "list-unstyled custom-ul";
+                        ////console.log(jobSpecItems);
+                        //ul.classList.add("pl-3");
+                        //if (jobSpecItems != "") {
+                        //    // Mengisi elemen ul dengan item-item jobSpec
+                        //    jobSpecItems.forEach(function (item) {
+                        //        var li = document.createElement("li");
+                        //        li.innerHTML = item;
+                        //        ul.appendChild(li);
+                        //    });
+                        //} 
                         row.innerHTML =
                             "<td>" +
                             project.projectName +
@@ -446,4 +469,45 @@ function getUserRole() {
     }
 
     return null;
+}
+
+
+function shuffleArray(array, organizer) {
+    console.log(organizer);
+    if (organizer != "PT. Berca Hardayaperkasa") {
+     
+        return array;
+    } else {
+
+        const regexWebTemplate = /, Web Template \(CSS, Bootstrap\)/;
+        const match = regexWebTemplate.exec(array);
+        let webTemp = match[0].replace(',', ''); 
+
+        const regexPattern = /, Pattern \(MVC, MVVM, N-Layered Architecture\)/;
+        const matchPattern = regexPattern.exec(array);
+        let pattern = matchPattern[0].replace(',', ''); 
+
+        const updatedData = array.replace(regexWebTemplate, "").replace(regexPattern, "");
+    
+      
+
+        const text = updatedData.split(',');
+
+    
+
+        for (let i = text.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [text[i], text[j]] = [text[j], text[i]];
+        }
+
+        const additionalItems = [webTemp, pattern];
+        additionalItems.forEach(item => {
+            const randomIndex = Math.floor(Math.random() * (text.length + 1));
+            text.splice(randomIndex, 0, item);
+        });
+       
+        return text;
+    }
+    
+
 }

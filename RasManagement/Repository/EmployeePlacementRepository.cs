@@ -3,15 +3,20 @@ using RasManagement.Models;
 using RasManagement.Interface;
 using RasManagement.ViewModel;
 using Org.BouncyCastle.Pqc.Crypto.Lms;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace RasManagement.Repository
 {
     public class EmployeePlacementRepository : GeneralRepository<ProjectRasmanagementContext, Placement, int>
     {
         private readonly ProjectRasmanagementContext _context;
+        private readonly IConfiguration configuration;
         public EmployeePlacementRepository(ProjectRasmanagementContext _context) : base(_context)
         {
             this._context = _context;
+            this.configuration = configuration;
         }
 
         public async Task<bool> AccountIsExist(string accountId)
@@ -153,5 +158,48 @@ namespace RasManagement.Repository
              return insert;
          }*/
         }
+
+
+        //Detail Emp for Pie Chart
+
+        public async Task<IEnumerable<StatusEmpVM>> GetStatusEmp()
+        {
+            // Mengambil data Placement dengan PlacementStatus == "Onsite" dan termasuk data Account
+            var status = await _context.Placements
+                                       .Include(p => p.Account) // Include Account entity
+                                       .Where(p => p.PlacementStatus == "OnSite")
+                                       .ToListAsync();
+
+            // Mengelompokkan data berdasarkan AccountId dan memilih PlacementStatus pertama yang sesuai
+            var statusViewModels = status
+                .GroupBy(p => p.AccountId)
+                .Select(g => new StatusEmpVM
+                {
+                    AccountId = g.Key,
+                    PlacementStatus = g.First().PlacementStatus,
+                    JoinDate = g.First().Account?.JoinDate // Mengambil JoinDate dari Account yang terkait
+                })
+                .ToList();
+
+            return statusViewModels;
+        }
+        public async Task<IEnumerable<object>> GetEmployeeOnsite()
+        {
+            var employees = _context.Accounts
+                .FromSqlRaw("EXEC GetEmpOnsite")
+                .AsEnumerable()
+                .Select(a => new { Email = a.Email, Fullname = a.Fullname })
+                .ToList();
+
+            return employees;
+        }
+
+
+
+
     }
+
+
+
+
 }

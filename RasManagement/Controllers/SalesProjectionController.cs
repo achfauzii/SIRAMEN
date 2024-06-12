@@ -53,7 +53,7 @@ namespace RasManagement.Controllers
             var get = await salesProjectionRepository.getFullData();
             if(get.Count != 0)
             {
-                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", total = get.Count() ,Data = get });
             }
             return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
         }
@@ -63,6 +63,17 @@ namespace RasManagement.Controllers
         {
             var get = await salesProjectionRepository.salesProjectionForTrackingInterview();
             if (get.Count != 0)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+        }
+
+        [HttpPost("chartSalesPosition")]
+        public async Task<IActionResult> chartSalesPosition(int year)
+        {
+            var get = await salesProjectionRepository.ChartSalesPositions(year);
+            if (get!= null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
             }

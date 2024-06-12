@@ -85,7 +85,8 @@
                             <th scope="col">notes</th>
                             <th scope="col">Contract Periode</th>
                             <th scope="col">Ratecard</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Activity Status</th>
+                            <th scope="col">Status Projection</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -130,7 +131,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="Modal-addSalesProjection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Sales Projection</h5>
@@ -283,8 +284,30 @@
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
+                        <div class="col" id="colStatusPro">
+                            <label for="message-text" class="col-form-label">Status Projection</label>
+                            <select class="form-control form-control-sm" id="projectStatus">
+                                <option value="" selected disabled>Choose Status Projection</option>
+                                <option value="Hold">Oppurtunity</option>
+                                <option value="Open">MOM Sales</option>
+                                <option value="Re Open">Re Open</option>
+                                <option value="Best View">Best View</option>
+                                <option value="Close Win">Close Win</option>
+                                <option value="Close Lose">Close Lose</option>
+                                <option value="Reject">Reject</option>
+                            </select>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
+                        
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="message-text" class="col-form-label">Ratecard</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter Ratecard" id="rateCard" required></textarea>
+                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
+                        </div>
                         <div class="col" id="colStatus">
-                            <label for="message-text" class="col-form-label">Status</label>
+                            <label for="message-text" class="col-form-label">Activity Status</label>
                             <span class="text-danger">*</span>
                             <select class="form-control form-control-sm" id="status" required>
                                 <option value="" selected disabled>Choose Status</option>
@@ -305,25 +328,14 @@
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <label for="message-text" class="col-form-label">Ratecard</label>
-
-                            <input class="form-control form-control-sm" type="text" placeholder="Enter Ratecard" id="rateCard" required>
-
-                            <span class="error-message" style="color: red; display: none;">This field is required!</span>
-                        </div>
-                        <div class="col" id="colStatusPro">
-                            <label for="message-text" class="col-form-label">Status Projection</label>
-                            <select class="form-control form-control-sm" id="projectStatus">
-                                <option value="" selected disabled>Choose Status Projection</option>
-                                <option value="Hold">Oppurtunity</option>
-                                <option value="Open">MOM Sales</option>
-                                <option value="Re Open">Re Open</option>
-                                <option value="Best View">Best View</option>
-                                <option value="Close Win">Close Win</option>
-                                <option value="Close Lose">Close Lose</option>
+                        <div class="col" id="colLastUpdate">
+                            <label for="message-text" class="col-form-label">Last Update</label>
+                            <span class="text-danger">*</span>
+                            <select class="form-control form-control-sm" id="lastUpdate" required>
+                                <option value="" selected disabled>Choose Status</option>
+                                <option value="LastUpdate1">Last Update1</option>
+                                <option value="LastUpdate2">Last Update2</option>
+                                <option value="LastUpdate3">Last Update3</option>
                             </select>
                             <span class="error-message" style="color: red; display: none;">This field is required!</span>
                         </div>
