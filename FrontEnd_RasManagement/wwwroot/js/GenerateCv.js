@@ -397,7 +397,7 @@ function loadData() {
                                 if (item.includes("github.com")) {
                                     var url = item.match(/https?:\/\/github\.com\/[^\s]+/g);
                                     if (url) {
-                                        var projectLink = `<a href="${url[0]}" target="_blank" style="color: blue;">${project.projectName} Project</a>`;
+                                        var projectLink = `<a href="${url[0]}" target="_blank" style="color: blue;">${project.projectName} (Github)</a>`;
                                         item = item.replace(url[0], projectLink);
                                     }
                                 }
