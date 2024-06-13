@@ -263,11 +263,11 @@ function generateData(id) {
                     data: "rateCard",
                     render: function (data) {
                         var items = data.split("• ");
-                        var list = "<ul>";
+                        var list = "";
                         for (var i = 1; i < items.length; i++) {
                             list += "<li>" + items[i] + "</li>";
                         }
-                        list += "</ul>";
+                
 
                         return list;
                     },
@@ -439,11 +439,11 @@ function generateData(id) {
                     data: "rateCard",
                     render: function (data) {
                         var items = data.split("• ");
-                        var list = "<ul>";
+                        var list = "";
                         for (var i = 1; i < items.length; i++) {
                             list += "<li>" + items[i] + "</li>";
                         }
-                        list += "</ul>";
+                      
 
                         return list;
                     },
