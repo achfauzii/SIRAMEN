@@ -41,7 +41,7 @@ $(document).ready(function () {
                   if (item.includes("github.com")) {
                       const url = item.match(/https?:\/\/github\.com\/[^\s]+/g);
                       if (url) {
-                          const projectLink = `<a href="${url[0]}" target="_blank" style="color: blue;">${row.projectName} Project</a>`;
+                          const projectLink = `<a href="${url[0]}" target="_blank" style="color: blue;">${row.projectName} (Github)</a>`;
                           item = item.replace(url[0], projectLink);
                       }
                   }
