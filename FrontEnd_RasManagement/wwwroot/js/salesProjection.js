@@ -8,6 +8,7 @@ $(document).ready(function () {
             $('.nav-tabs .nav-item a').removeClass('active');
             $(this).addClass('active');
             generateData($(this).attr('id'))
+            
         });
     })
     $('.nav-tabs .nav-item').find('a')[0].click()
@@ -93,6 +94,7 @@ function generateData(id) {
     $('#salesProjectionTable').DataTable().destroy();
     let endpointApi, color;
     $('#addSalesProjection').hide();
+
     switch (id.toLowerCase()) {
         case "momsales":
             endpointApi = "open";
@@ -114,6 +116,10 @@ function generateData(id) {
             endpointApi = "close lose";
             color = "danger";
             break;
+        case "reject":
+            endpointApi = "reject";
+            color = "danger";
+            break;
         default:
             endpointApi = "hold";
             color = "warning";
@@ -127,7 +133,7 @@ function generateData(id) {
         $('#salesProjectionTableBestViews').DataTable().destroy();
         $("#salesProjectionTable").hide();
         $("#salesProjectionTableBestViews").show();
-
+        
         $("#salesProjectionTableBestViews").DataTable({
             scrollX: true,
             order: [0, "asc"],
@@ -361,6 +367,7 @@ function generateData(id) {
         $('#salesProjectionTableBestViews').DataTable().destroy();
         $('#salesProjectionTableBestViews').hide();
         $("#salesProjectionTable").show();
+        
         $("#salesProjectionTable").DataTable({
             scrollX: true,
             order: [0, "asc"],
@@ -731,8 +738,10 @@ function Update() {
                 timer: 1500,
             });
             $("#Modal-addSalesProjection").modal("hide");
-
-            if (tableName === "best view" || tableName === "close win") {
+            if (dataToUpdate.projectStatus === "Reject") {
+                $("salesProjectionTable").DataTable().ajax.reload();
+            }
+            else if (tableName === "best view" || tableName === "close win") {
                 $("#salesProjectionTableBestViews").DataTable().ajax.reload();
             } else {
                 $("#salesProjectionTable").DataTable().ajax.reload();
