@@ -1,10 +1,12 @@
 ﻿// A $( document ).ready() block.
 $(document).ready(function () {
 
+    
+
+
 //Card Total SalesPro
     viewCardSalesPro();
-   
-
+    countProjectStatus();
     $("#selectYear").datepicker({
         format: "yyyy", 
         viewMode: "years", 
@@ -528,6 +530,42 @@ async function getDataSalesPro() {
         return null;
     }
 }
+
+async function countProjectStatus() {
+    const data = await getDataSalesPro();
+
+    if (data && data.data) {
+        let opportunityCount = 0;
+        let bestViewCount = 0;
+        let closeWinCount = 0;
+
+        data.data.forEach(item => {
+            switch (item.projectStatus) {
+                case "Opportunity":
+                    opportunityCount++;
+                    break;
+                case "Best View":
+                    bestViewCount++;
+                    break;
+                case "Close Win":
+                    closeWinCount++;
+                    break;
+            }
+        });
+
+        // Display the counts in HTML elements
+        $('#opportunityCount').text(opportunityCount);
+        $('#bestViewCount').text(bestViewCount);
+        $('#closeWinCount').text(closeWinCount);
+        
+    } else {
+        console.error('No data available to count project statuses.');
+    }
+}
+
+
+
+
 
 // Get Data Sales Project Group By Last Update
 async function getDataSalesProjectGroupByLastUpdate() {
