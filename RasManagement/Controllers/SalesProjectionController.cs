@@ -9,7 +9,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
+   [Authorize(Roles = "Employee,Admin,Super_Admin,Sales,Manager,Trainer")]
     public class SalesProjectionController : BaseController<SalesProjection, SalesProjectionRepository,int>
     {
 
@@ -73,6 +73,18 @@ namespace RasManagement.Controllers
         public async Task<IActionResult> chartSalesPosition(int year)
         {
             var get = await salesProjectionRepository.ChartSalesPositions(year);
+            if (get!= null)
+            {
+                return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
+            }
+            return StatusCode(200, new { status = HttpStatusCode.NotFound, message = "Data not found", Data = get });
+        }
+
+
+        [HttpGet("GetSalesProjectGroupByLastUpdate")]
+        public async Task<IActionResult> GetSalesProjectGroupByLastUpdate()
+        {
+            var get = await salesProjectionRepository.GetSalesProjectionGroupByLastUpdate();
             if (get!= null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });
