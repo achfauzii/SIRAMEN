@@ -22,12 +22,17 @@ $(document).ready(function () {
  
     });
 
+    //BarChart Positions
     $("#selectYear").val(new Date().getFullYear())
     viewChart(new Date().getFullYear());
 
     //LineChart SalesPro
     $("#selectYearChartSales").val(new Date().getFullYear())
     lineChartSalesPro(new Date().getFullYear());
+
+
+    //View Close Lose Last Update
+    viewCloseLoseLastUpdate();
 
 });
 
@@ -310,10 +315,10 @@ async function viewCardSalesPro() {
 
 //}
 
-//Perbulan
- function lineChartSalesPro(yearFilter) {
+// Line Chart Perbulan
+ async function lineChartSalesPro(yearFilter) {
 
-    getDataSalesPro().then(data => {
+     getDataSalesPro().then(data => {
        
         if (data) {
             const allProjects = data.data;
@@ -433,6 +438,22 @@ async function viewCardSalesPro() {
 
 }
 
+
+//View Close Lose Last Update
+function viewCloseLoseLastUpdate() {
+
+     getDataSalesPro().then(data => {
+
+        if (data) {
+            const tableBody = document.getElementById('closeLose').getElementsByTagName('tbody')[0];
+            console.log(tableBody);
+
+        } else {
+            console.log("Error");
+        }
+    });
+}
+
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -464,6 +485,32 @@ function countProjectsByDateAndStatus(data) {
 async function getDataSalesPro() {
 
     const apiUrl = 'https://localhost:7177/api/SalesProjection';
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + sessionStorage.getItem("Token")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
+}
+
+// Get Data Sales Project Group By Last Update
+async function getDataSalesProjectGroupByLastUpdate() {
+    const status=reject
+    const apiUrl = 'https://localhost:7177/api/SalesProjection/GetSalesProjectGroupByLastUpdate';
 
     try {
         const response = await fetch(apiUrl, {
