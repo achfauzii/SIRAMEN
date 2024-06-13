@@ -82,9 +82,9 @@ namespace RasManagement.Controllers
 
 
         [HttpGet("GetSalesProjectGroupByLastUpdate")]
-        public async Task<IActionResult> GetSalesProjectGroupByLastUpdate()
+        public async Task<IActionResult> GetSalesProjectGroupByLastUpdate(string status)
         {
-            var get = await salesProjectionRepository.GetSalesProjectionGroupByLastUpdate();
+            var get = await salesProjectionRepository.GetSalesProjectionGroupByLastUpdate(status);
             if (get!= null)
             {
                 return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data ditemukan", Data = get });

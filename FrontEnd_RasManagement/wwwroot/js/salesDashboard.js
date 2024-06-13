@@ -36,6 +36,9 @@ $(document).ready(function () {
     //View Close Lose Last Update
     viewCloseLoseLastUpdate();
 
+    //View Close Lose Last Update
+    viewRejectLastUpdate();
+
 });
 
 
@@ -441,14 +444,14 @@ async function viewCardSalesPro() {
 }
 
 
-//View Close Lose Last Update
+//View Close Lose Last Update Table
 function viewCloseLoseLastUpdate() {
 
-     getDataSalesProjectGroupByLastUpdate().then(data => {
+     getDataSalesProjectGroupByLastUpdate("Close Lose").then(data => {
         
          if (data) {
              const data_ = data.data;
-             console.log(data_);
+         
             const tableBody = document.getElementById('closeLose').getElementsByTagName('tbody')[0];
 
           
@@ -471,6 +474,43 @@ function viewCloseLoseLastUpdate() {
                  tr.append(no, lastUpdate, total);
                  tableBody.append(tr);
              })
+
+        } else {
+            console.log("Error");
+        }
+    });
+}
+
+//View Reject Last Update Table
+function viewRejectLastUpdate() {
+
+    getDataSalesProjectGroupByLastUpdate("Reject").then(data => {
+
+        if (data) {
+            const data_ = data.data;
+           
+            const tableBody = document.getElementById('reject').getElementsByTagName('tbody')[0];
+
+
+            const total = document.createElement("td");
+            let number = 1;
+            data_.forEach(function (item) {
+                if (item.lastUpdate == null || item.lastUpdate == "") {
+                    item.lastUpdate = "Kosong";
+                }
+                const no = document.createElement("td");
+                const lastUpdate = document.createElement("td");
+                const total = document.createElement("td");
+                const tr = document.createElement("tr");
+                no.style.color = "black";
+                no.style.fontWeight = "bold";
+
+                no.innerText = number++
+                lastUpdate.textContent = item.lastUpdate;
+                total.innerText = item.total;
+                tr.append(no, lastUpdate, total);
+                tableBody.append(tr);
+            })
 
         } else {
             console.log("Error");
@@ -568,9 +608,9 @@ async function countProjectStatus() {
 
 
 // Get Data Sales Project Group By Last Update
-async function getDataSalesProjectGroupByLastUpdate() {
+async function getDataSalesProjectGroupByLastUpdate(status) {
 
-    const apiUrl = 'https://localhost:7177/api/SalesProjection/GetSalesProjectGroupByLastUpdate';
+    const apiUrl = 'https://localhost:7177/api/SalesProjection/GetSalesProjectGroupByLastUpdate?status='+status;
 
     try {
         const response = await fetch(apiUrl, {

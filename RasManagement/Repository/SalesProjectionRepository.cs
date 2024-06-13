@@ -69,9 +69,10 @@
             return groupedPositions;
         }
 
-        public async Task<IEnumerable<dynamic>> GetSalesProjectionGroupByLastUpdate()
+        public async Task<IEnumerable<dynamic>> GetSalesProjectionGroupByLastUpdate(string status)
         {
             var data = await context.SalesProjections
+          .Where(sp => sp.ProjectStatus == status)
          .GroupBy(sp => sp.LastUpdate)
          .Select(g => new
          {
