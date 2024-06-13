@@ -581,7 +581,7 @@ async function countProjectStatus() {
 
         data.data.forEach(item => {
             switch (item.projectStatus) {
-                case "Opportunity":
+                case "Hold":
                     opportunityCount++;
                     break;
                 case "Best View":
