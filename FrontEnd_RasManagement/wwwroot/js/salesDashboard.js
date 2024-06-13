@@ -328,7 +328,7 @@ async function viewCardSalesPro() {
                 const projectYear = new Date(project.entryDate).getFullYear();
                 return projectYear == yearFilter;
             });
-            console.log(projects);
+    
         
             const projectCountByDateAndStatus = {};
        
@@ -442,11 +442,33 @@ async function viewCardSalesPro() {
 //View Close Lose Last Update
 function viewCloseLoseLastUpdate() {
 
-     getDataSalesPro().then(data => {
-
-        if (data) {
+     getDataSalesProjectGroupByLastUpdate().then(data => {
+        
+         if (data) {
+             const data_ = data.data;
+             console.log(data_);
             const tableBody = document.getElementById('closeLose').getElementsByTagName('tbody')[0];
-            console.log(tableBody);
+
+          
+             const total = document.createElement("td");
+             let number = 1;
+             data_.forEach(function (item) {
+                 if (item.lastUpdate == null || item.lastUpdate== "") {
+                     item.lastUpdate = "Kosong";
+                 }
+                 const no = document.createElement("td");
+                 const lastUpdate = document.createElement("td");
+                 const total = document.createElement("td");
+                 const tr = document.createElement("tr");
+                 no.style.color = "black";
+                 no.style.fontWeight = "bold";
+
+                 no.innerText = number ++
+                 lastUpdate.textContent = item.lastUpdate;
+                 total.innerText = item.total;
+                 tr.append(no, lastUpdate, total);
+                 tableBody.append(tr);
+             })
 
         } else {
             console.log("Error");
@@ -464,7 +486,7 @@ function getRandomColor() {
 }
 
 function countProjectsByDateAndStatus(data) {
-    console.log(data);
+ 
     const counts = {};
     data.forEach(project => {
         const entryDate = project.entryDate.split('T')[0]; // Ambil bagian tanggal saja
@@ -509,7 +531,7 @@ async function getDataSalesPro() {
 
 // Get Data Sales Project Group By Last Update
 async function getDataSalesProjectGroupByLastUpdate() {
-    const status=reject
+
     const apiUrl = 'https://localhost:7177/api/SalesProjection/GetSalesProjectGroupByLastUpdate';
 
     try {
