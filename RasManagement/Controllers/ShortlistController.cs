@@ -13,7 +13,7 @@ namespace RasManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
+    [Authorize(Roles = "Admin,Super_Admin,Sales,Manager,Trainer")]
     public class ShortlistController : BaseController<NonRasCandidate, ShortlistRepository, int>
     {
         private readonly ShortlistRepository shortlistRepository;
