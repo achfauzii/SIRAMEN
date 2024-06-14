@@ -11,7 +11,7 @@ $(document).ready(function () {
             
         });
     })
-    $('.nav-tabs .nav-item').find('a')[0].click()
+  
 
     clientOption()
     $("#clientId").select2({
@@ -28,6 +28,36 @@ $(document).ready(function () {
     $('input[required], textarea[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
+
+
+    // Get URL parameter yang di kirim saat klik card pada sales dashboard
+    var urlParams = new URLSearchParams(window.location.search);
+    var statusProjection = urlParams.get("Status");
+
+
+    if (statusProjection != null && statusProjection != "") {
+        
+        if (statusProjection == "Close Win") {
+
+            $('.nav-tabs .nav-item a').removeClass('active'); // Remove active class from all tabs
+            $('#goals').addClass('active'); // Add active class to Goals tab
+
+            // Optionally trigger the function associated with the tab
+            generateData($('#goals').attr('id'));
+
+        } else if (statusProjection == "Best View") {
+            $('.nav-tabs .nav-item a').removeClass('active'); // Remove active class from all tabs
+            $('#bestView').addClass('active'); // Add active class to Best View tab
+
+            // Trigger untuk menampilkan table best view
+            generateData($('#bestView').attr('id'));
+        }
+
+    } else {
+
+        // Jika Parameter kosong maka tampilkand defaut (Opportunity / Hold), termasuk saat membuka halaman sales projection pertama kali
+        $('.nav-tabs .nav-item').find('a')[0].click()
+    }
 
 })
 
@@ -263,11 +293,11 @@ function generateData(id) {
                     data: "rateCard",
                     render: function (data) {
                         var items = data.split("• ");
-                        var list = "<ul>";
+                        var list = "";
                         for (var i = 1; i < items.length; i++) {
                             list += "<li>" + items[i] + "</li>";
                         }
-                        list += "</ul>";
+                
 
                         return list;
                     },
@@ -439,11 +469,11 @@ function generateData(id) {
                     data: "rateCard",
                     render: function (data) {
                         var items = data.split("• ");
-                        var list = "<ul>";
+                        var list = "";
                         for (var i = 1; i < items.length; i++) {
                             list += "<li>" + items[i] + "</li>";
                         }
-                        list += "</ul>";
+                      
 
                         return list;
                     },

@@ -299,6 +299,9 @@ namespace FrontEnd_RasManagement.Controllers
                     signatureTable.SpacingBefore = 40f; // Spasi sebelum tempat tanda tangan
                     signatureTable.HorizontalAlignment = Element.ALIGN_RIGHT;
 
+                    //Agar Table TTD tidak terpisah
+                    signatureTable.KeepTogether = true;
+
                     // Kolom pertama untuk tanda tangan pegawai
                     PdfPCell employeeSignatureCell = new PdfPCell(new Phrase("TTD Pegawai", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));
                     employeeSignatureCell.Border = PdfPCell.NO_BORDER;
@@ -622,6 +625,8 @@ namespace FrontEnd_RasManagement.Controllers
                     signatureTable.WidthPercentage = 60;
                     signatureTable.SpacingBefore = 40f; // Spasi sebelum tempat tanda tangan
                     signatureTable.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    //Agar Table TTD tidak terpisah
+                    signatureTable.KeepTogether = true;
 
                     // Kolom pertama untuk tanda tangan pegawai
                     PdfPCell employeeSignatureCell = new PdfPCell(new Phrase("TTD Pegawai", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f)));

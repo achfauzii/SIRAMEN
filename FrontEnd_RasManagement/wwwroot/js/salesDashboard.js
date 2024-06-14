@@ -36,6 +36,9 @@ $(document).ready(function () {
     //View Close Lose Last Update
     viewCloseLoseLastUpdate();
 
+    //View Close Lose Last Update
+    viewRejectLastUpdate();
+
 });
 
 
@@ -330,7 +333,7 @@ async function viewCardSalesPro() {
                 const projectYear = new Date(project.entryDate).getFullYear();
                 return projectYear == yearFilter;
             });
-            console.log(projects);
+    
         
             const projectCountByDateAndStatus = {};
        
@@ -441,14 +444,73 @@ async function viewCardSalesPro() {
 }
 
 
-//View Close Lose Last Update
+//View Close Lose Last Update Table
 function viewCloseLoseLastUpdate() {
 
-     getDataSalesPro().then(data => {
+     getDataSalesProjectGroupByLastUpdate("Close Lose").then(data => {
+        
+         if (data) {
+             const data_ = data.data;
+         
+            const tableBody = document.getElementById('closeLose').getElementsByTagName('tbody')[0];
+
+          
+             const total = document.createElement("td");
+             let number = 1;
+             data_.forEach(function (item) {
+                 if (item.lastUpdate == null || item.lastUpdate== "") {
+                     item.lastUpdate = "Kosong";
+                 }
+                 const no = document.createElement("td");
+                 const lastUpdate = document.createElement("td");
+                 const total = document.createElement("td");
+                 const tr = document.createElement("tr");
+                 no.style.color = "black";
+                 no.style.fontWeight = "bold";
+
+                 no.innerText = number ++
+                 lastUpdate.textContent = item.lastUpdate;
+                 total.innerText = item.total;
+                 tr.append(no, lastUpdate, total);
+                 tableBody.append(tr);
+             })
+
+        } else {
+            console.log("Error");
+        }
+    });
+}
+
+//View Reject Last Update Table
+function viewRejectLastUpdate() {
+
+    getDataSalesProjectGroupByLastUpdate("Reject").then(data => {
 
         if (data) {
-            const tableBody = document.getElementById('closeLose').getElementsByTagName('tbody')[0];
-            console.log(tableBody);
+            const data_ = data.data;
+           
+            const tableBody = document.getElementById('reject').getElementsByTagName('tbody')[0];
+
+
+            const total = document.createElement("td");
+            let number = 1;
+            data_.forEach(function (item) {
+                if (item.lastUpdate == null || item.lastUpdate == "") {
+                    item.lastUpdate = "Kosong";
+                }
+                const no = document.createElement("td");
+                const lastUpdate = document.createElement("td");
+                const total = document.createElement("td");
+                const tr = document.createElement("tr");
+                no.style.color = "black";
+                no.style.fontWeight = "bold";
+
+                no.innerText = number++
+                lastUpdate.textContent = item.lastUpdate;
+                total.innerText = item.total;
+                tr.append(no, lastUpdate, total);
+                tableBody.append(tr);
+            })
 
         } else {
             console.log("Error");
@@ -466,7 +528,7 @@ function getRandomColor() {
 }
 
 function countProjectsByDateAndStatus(data) {
-    console.log(data);
+ 
     const counts = {};
     data.forEach(project => {
         const entryDate = project.entryDate.split('T')[0]; // Ambil bagian tanggal saja
@@ -546,9 +608,9 @@ async function countProjectStatus() {
 
 
 // Get Data Sales Project Group By Last Update
-async function getDataSalesProjectGroupByLastUpdate() {
-    const status=reject
-    const apiUrl = 'https://localhost:7177/api/SalesProjection/GetSalesProjectGroupByLastUpdate';
+async function getDataSalesProjectGroupByLastUpdate(status) {
+
+    const apiUrl = 'https://localhost:7177/api/SalesProjection/GetSalesProjectGroupByLastUpdate?status='+status;
 
     try {
         const response = await fetch(apiUrl, {
