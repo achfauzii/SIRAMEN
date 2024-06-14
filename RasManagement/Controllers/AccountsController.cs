@@ -46,6 +46,8 @@ namespace RasManagement.Controllers
             return Ok(await _context.Accounts.ToListAsync());
         }
 
+
+        // Untuk Register
         [Authorize(Roles = "Admin,Super_Admin,Trainer,Sales,Manager")]
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterVM registerVM)
@@ -79,7 +81,7 @@ namespace RasManagement.Controllers
             return StatusCode(200, new { status = HttpStatusCode.OK, message = "Data Berhasil Di Tambahkan", Data = result });
         }
 
-        // Add Login POST api/<AccountController>
+        // Untuk Login
         [HttpPost]
         [AllowAnonymous]
         public IActionResult Post(VMLogin viewLogin)
@@ -142,28 +144,8 @@ namespace RasManagement.Controllers
             return string.Empty;
         }
 
-        /*  [HttpPost("ForgotPassword")]
-          public async Task<IActionResult> ForgotPassword(string email)
-          {
-              // Validate and verify the email address
-              var user = await accountRepository.GetByEmail(email);
-              if (user == null)
-              {
-                  return NotFound("Email address not found.");
-              }
-              // Generate a password reset token
-              string resetToken = GeneratePasswordResetToken(email);
-
-
-
-
-              // Send the password reset email
-              string resetUrl = $"https://example.com/resetpassword?token={resetToken}";
-              await _emailService.SendPasswordResetEmail(email, resetUrl);
-
-              return Ok("Password reset email has been sent.");
-          }*/
-
+ 
+        // Funtion unutk generate Reset PasswordToken Retutnya adalah sebuah token
         private async Task<string> GeneratePasswordResetToken(string email)
         {
 
@@ -194,6 +176,7 @@ namespace RasManagement.Controllers
             }
         }
 
+        // API untuk melakukan lupa passwordnya returnnya adalah Token
         [HttpPost("ForgotPassword")]
         [AllowAnonymous]
         public async Task<IActionResult> SendMail(/*[FromForm] MailRequest request*/ string email)
@@ -220,7 +203,7 @@ namespace RasManagement.Controllers
 
 
 
-        //Forgot Password Update
+    
         [HttpPut("UpdatePassword")]
         [AllowAnonymous]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordVM updatePassword)

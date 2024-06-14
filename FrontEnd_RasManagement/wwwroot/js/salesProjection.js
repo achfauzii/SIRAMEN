@@ -8,9 +8,10 @@ $(document).ready(function () {
             $('.nav-tabs .nav-item a').removeClass('active');
             $(this).addClass('active');
             generateData($(this).attr('id'))
+            
         });
     })
-    $('.nav-tabs .nav-item').find('a')[0].click()
+  
 
     clientOption()
     $("#clientId").select2({
@@ -27,6 +28,36 @@ $(document).ready(function () {
     $('input[required], textarea[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
+
+
+    // Get URL parameter yang di kirim saat klik card pada sales dashboard
+    var urlParams = new URLSearchParams(window.location.search);
+    var statusProjection = urlParams.get("Status");
+
+
+    if (statusProjection != null && statusProjection != "") {
+        
+        if (statusProjection == "Close Win") {
+
+            $('.nav-tabs .nav-item a').removeClass('active'); // Remove active class from all tabs
+            $('#goals').addClass('active'); // Add active class to Goals tab
+
+            // Optionally trigger the function associated with the tab
+            generateData($('#goals').attr('id'));
+
+        } else if (statusProjection == "Best View") {
+            $('.nav-tabs .nav-item a').removeClass('active'); // Remove active class from all tabs
+            $('#bestView').addClass('active'); // Add active class to Best View tab
+
+            // Trigger untuk menampilkan table best view
+            generateData($('#bestView').attr('id'));
+        }
+
+    } else {
+
+        // Jika Parameter kosong maka tampilkand defaut (Opportunity / Hold), termasuk saat membuka halaman sales projection pertama kali
+        $('.nav-tabs .nav-item').find('a')[0].click()
+    }
 
 })
 
@@ -93,6 +124,7 @@ function generateData(id) {
     $('#salesProjectionTable').DataTable().destroy();
     let endpointApi, color;
     $('#addSalesProjection').hide();
+
     switch (id.toLowerCase()) {
         case "momsales":
             endpointApi = "open";
@@ -114,6 +146,10 @@ function generateData(id) {
             endpointApi = "close lose";
             color = "danger";
             break;
+        case "reject":
+            endpointApi = "reject";
+            color = "danger";
+            break;
         default:
             endpointApi = "hold";
             color = "warning";
@@ -127,7 +163,7 @@ function generateData(id) {
         $('#salesProjectionTableBestViews').DataTable().destroy();
         $("#salesProjectionTable").hide();
         $("#salesProjectionTableBestViews").show();
-
+        
         $("#salesProjectionTableBestViews").DataTable({
             scrollX: true,
             order: [0, "asc"],
@@ -257,11 +293,11 @@ function generateData(id) {
                     data: "rateCard",
                     render: function (data) {
                         var items = data.split("• ");
-                        var list = "<ul>";
+                        var list = "";
                         for (var i = 1; i < items.length; i++) {
                             list += "<li>" + items[i] + "</li>";
                         }
-                        list += "</ul>";
+                
 
                         return list;
                     },
@@ -361,6 +397,7 @@ function generateData(id) {
         $('#salesProjectionTableBestViews').DataTable().destroy();
         $('#salesProjectionTableBestViews').hide();
         $("#salesProjectionTable").show();
+        
         $("#salesProjectionTable").DataTable({
             scrollX: true,
             order: [0, "asc"],
@@ -432,11 +469,11 @@ function generateData(id) {
                     data: "rateCard",
                     render: function (data) {
                         var items = data.split("• ");
-                        var list = "<ul>";
+                        var list = "";
                         for (var i = 1; i < items.length; i++) {
                             list += "<li>" + items[i] + "</li>";
                         }
-                        list += "</ul>";
+                      
 
                         return list;
                     },
@@ -731,8 +768,10 @@ function Update() {
                 timer: 1500,
             });
             $("#Modal-addSalesProjection").modal("hide");
-
-            if (tableName === "best view" || tableName === "close win") {
+            if (dataToUpdate.projectStatus === "Reject") {
+                $("salesProjectionTable").DataTable().ajax.reload();
+            }
+            else if (tableName === "best view" || tableName === "close win") {
                 $("#salesProjectionTableBestViews").DataTable().ajax.reload();
             } else {
                 $("#salesProjectionTable").DataTable().ajax.reload();

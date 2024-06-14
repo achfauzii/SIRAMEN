@@ -1,10 +1,12 @@
 ﻿// A $( document ).ready() block.
 $(document).ready(function () {
 
+    
+
+
 //Card Total SalesPro
     viewCardSalesPro();
-   
-
+    countProjectStatus();
     $("#selectYear").datepicker({
         format: "yyyy", 
         viewMode: "years", 
@@ -22,12 +24,20 @@ $(document).ready(function () {
  
     });
 
+    //BarChart Positions
     $("#selectYear").val(new Date().getFullYear())
     viewChart(new Date().getFullYear());
 
     //LineChart SalesPro
     $("#selectYearChartSales").val(new Date().getFullYear())
     lineChartSalesPro(new Date().getFullYear());
+
+
+    //View Close Lose Last Update
+    viewCloseLoseLastUpdate();
+
+    //View Close Lose Last Update
+    viewRejectLastUpdate();
 
 });
 
@@ -310,10 +320,10 @@ async function viewCardSalesPro() {
 
 //}
 
-//Perbulan
- function lineChartSalesPro(yearFilter) {
+// Line Chart Perbulan
+ async function lineChartSalesPro(yearFilter) {
 
-    getDataSalesPro().then(data => {
+     getDataSalesPro().then(data => {
        
         if (data) {
             const allProjects = data.data;
@@ -323,7 +333,7 @@ async function viewCardSalesPro() {
                 const projectYear = new Date(project.entryDate).getFullYear();
                 return projectYear == yearFilter;
             });
-            console.log(projects);
+    
         
             const projectCountByDateAndStatus = {};
        
@@ -433,6 +443,81 @@ async function viewCardSalesPro() {
 
 }
 
+
+//View Close Lose Last Update Table
+function viewCloseLoseLastUpdate() {
+
+     getDataSalesProjectGroupByLastUpdate("Close Lose").then(data => {
+        
+         if (data) {
+             const data_ = data.data;
+         
+            const tableBody = document.getElementById('closeLose').getElementsByTagName('tbody')[0];
+
+          
+             const total = document.createElement("td");
+             let number = 1;
+             data_.forEach(function (item) {
+                 if (item.lastUpdate == null || item.lastUpdate== "") {
+                     item.lastUpdate = "Kosong";
+                 }
+                 const no = document.createElement("td");
+                 const lastUpdate = document.createElement("td");
+                 const total = document.createElement("td");
+                 const tr = document.createElement("tr");
+                 no.style.color = "black";
+                 no.style.fontWeight = "bold";
+
+                 no.innerText = number ++
+                 lastUpdate.textContent = item.lastUpdate;
+                 total.innerText = item.total;
+                 tr.append(no, lastUpdate, total);
+                 tableBody.append(tr);
+             })
+
+        } else {
+            console.log("Error");
+        }
+    });
+}
+
+//View Reject Last Update Table
+function viewRejectLastUpdate() {
+
+    getDataSalesProjectGroupByLastUpdate("Reject").then(data => {
+
+        if (data) {
+            const data_ = data.data;
+           
+            const tableBody = document.getElementById('reject').getElementsByTagName('tbody')[0];
+
+
+            const total = document.createElement("td");
+            let number = 1;
+            data_.forEach(function (item) {
+                if (item.lastUpdate == null || item.lastUpdate == "") {
+                    item.lastUpdate = "Kosong";
+                }
+                const no = document.createElement("td");
+                const lastUpdate = document.createElement("td");
+                const total = document.createElement("td");
+                const tr = document.createElement("tr");
+                no.style.color = "black";
+                no.style.fontWeight = "bold";
+
+                no.innerText = number++
+                lastUpdate.textContent = item.lastUpdate;
+                total.innerText = item.total;
+                tr.append(no, lastUpdate, total);
+                tableBody.append(tr);
+            })
+
+        } else {
+            console.log("Error");
+        }
+    });
+}
+
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -443,7 +528,7 @@ function getRandomColor() {
 }
 
 function countProjectsByDateAndStatus(data) {
-    console.log(data);
+ 
     const counts = {};
     data.forEach(project => {
         const entryDate = project.entryDate.split('T')[0]; // Ambil bagian tanggal saja
@@ -464,6 +549,68 @@ function countProjectsByDateAndStatus(data) {
 async function getDataSalesPro() {
 
     const apiUrl = 'https://localhost:7177/api/SalesProjection';
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + sessionStorage.getItem("Token")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
+}
+
+async function countProjectStatus() {
+    const data = await getDataSalesPro();
+
+    if (data && data.data) {
+        let opportunityCount = 0;
+        let bestViewCount = 0;
+        let closeWinCount = 0;
+
+        data.data.forEach(item => {
+            switch (item.projectStatus) {
+                case "Hold":
+                    opportunityCount++;
+                    break;
+                case "Best View":
+                    bestViewCount++;
+                    break;
+                case "Close Win":
+                    closeWinCount++;
+                    break;
+            }
+        });
+
+        // Display the counts in HTML elements
+        $('#opportunityCount').text(opportunityCount);
+        $('#bestViewCount').text(bestViewCount);
+        $('#closeWinCount').text(closeWinCount);
+        
+    } else {
+        console.error('No data available to count project statuses.');
+    }
+}
+
+
+
+
+
+// Get Data Sales Project Group By Last Update
+async function getDataSalesProjectGroupByLastUpdate(status) {
+
+    const apiUrl = 'https://localhost:7177/api/SalesProjection/GetSalesProjectGroupByLastUpdate?status='+status;
 
     try {
         const response = await fetch(apiUrl, {

@@ -60,13 +60,30 @@
                 .Where(p => spIds.Contains((int)p.SP_Id))
                 .ToListAsync();
 
-           
+
             var groupedPositions = positions
                 .GroupBy(p => p.PositionClient)
                 .Select(g => new { PositionType = g.Key, Count = g.Count() })
                 .ToList();
 
             return groupedPositions;
+        }
+
+        public async Task<IEnumerable<dynamic>> GetSalesProjectionGroupByLastUpdate(string status)
+        {
+            var data = await context.SalesProjections
+          .Where(sp => sp.ProjectStatus == status)
+         .GroupBy(sp => sp.LastUpdate)
+         .Select(g => new
+         {
+             LastUpdate = g.Key,
+             Total = g.Count()
+         })
+         .ToListAsync();
+
+            return data ;
+
+
         }
     }
 
