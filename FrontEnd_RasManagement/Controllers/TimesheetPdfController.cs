@@ -16,6 +16,49 @@ namespace FrontEnd_RasManagement.Controllers
         {
             _hostingEnvironment = hostingEnvironment;
         }
+
+        //FORMAT PAGE NUMBER DI PDF
+        public class PageEventHelper : PdfPageEventHelper
+        {
+            PdfTemplate totalPages;
+            BaseFont bf = null;
+
+            public override void OnOpenDocument(PdfWriter writer, Document document)
+            {
+                totalPages = writer.DirectContent.CreateTemplate(50, 50);
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            }
+
+            public override void OnEndPage(PdfWriter writer, Document document)
+            {
+                int pageN = writer.PageNumber;
+                String text = "Page " + pageN + " of ";
+                float len = bf.GetWidthPoint(text, 10);
+                Rectangle pageSize = document.PageSize;
+                PdfContentByte cb = writer.DirectContent;
+                cb.SetRGBColorFill(0, 0, 0);
+                cb.BeginText();
+                cb.SetFontAndSize(bf, 10);
+                cb.SetTextMatrix(pageSize.GetLeft(100) - len, pageSize.GetBottom(30));
+                cb.ShowText(text);
+                cb.EndText();
+                cb.AddTemplate(totalPages, pageSize.GetLeft(100), pageSize.GetBottom(30));
+            }
+
+            public override void OnCloseDocument(PdfWriter writer, Document document)
+            {
+                int total = writer.PageNumber - 1;
+                String text = total.ToString();
+                float len = bf.GetWidthPoint(text, 10);
+                totalPages.BeginText();
+                totalPages.SetFontAndSize(bf, 10);
+                totalPages.SetTextMatrix(0, 0);
+                totalPages.ShowText(text);
+                totalPages.EndText();
+            }
+        }
+
+
         public ActionResult GeneratePdf(string companyName, string month)
         {
 
@@ -63,8 +106,11 @@ namespace FrontEnd_RasManagement.Controllers
 
                 Document document = new Document(PageSize.A4);
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                writer.PageEvent = new PageEventHelper(); // Set PageEventHelper
+
                 document.Open(); // Buka dokumen di sini
                 int count = 1;
+
 
 
                 foreach (var entry in timeSheetEntries)
@@ -80,6 +126,7 @@ namespace FrontEnd_RasManagement.Controllers
                     headerCell.HorizontalAlignment = Element.ALIGN_CENTER;
                     headerCell.PaddingBottom = 5f;
                     table.AddCell(headerCell);
+
 
                     headerCell = new PdfPCell(new Phrase("Activity", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10.2f)));
                     headerCell.BackgroundColor = new BaseColor(173, 216, 230);
@@ -114,6 +161,7 @@ namespace FrontEnd_RasManagement.Controllers
 
                     string previousDate = null; // Menyimpan tanggal sebelumnya
                     string previousDateFlag = null;
+
                     // Mengisi data ke dalam tabel
                     foreach (var timeSheet in entry.TimeSheets)
                     {
@@ -138,22 +186,7 @@ namespace FrontEnd_RasManagement.Controllers
                             // Tetapkan tanggal saat ini sebagai tanggal sebelumnya
                             previousDate = currentDate;
                         }
-                        /* var holiday = holidays.FirstOrDefault(h => h.date.Date == timeSheet.Date.Date);
-                         var addHoliady = holidays.FirstOrDefault(h => h.date.Date != timeSheet.Date.Date);
 
-                         if (holiday != null)
-                         {
-                             // Jika ada libur pada tanggal tersebut, gunakan aktivitas dari timesheet
-                             timeSheet.Activity = timeSheet.Activity;
-                         }
-                         else
-                         {
-                             PdfPTable holidayTable = new PdfPTable(1);
-                             PdfPCell holidayCell = new PdfPCell(new Phrase(holiday.name, new Font(Font.FontFamily.HELVETICA, 10f)));
-                             holidayCell.PaddingBottom = 6.6f;
-                             holidayTable.AddCell(holidayCell); 
-                             document.Add(holidayTable); // Tambahkan tabel libur ke dalam dokumen
-                         }*/
 
                         PdfPCell activityCell = new PdfPCell(new Phrase(timeSheet.Activity, new Font(Font.FontFamily.HELVETICA, 10f)));
                         activityCell.PaddingBottom = 6.6f;
@@ -310,6 +343,24 @@ namespace FrontEnd_RasManagement.Controllers
                 }
 
                 document.Close(); // Tutup dokumen di sini setelah selesai menghasilkan konten
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+
+                using (MemoryStream output = new MemoryStream())
+                {
+                    using (PdfReader reader = new PdfReader(bytes))
+                    {
+                        using (PdfStamper stamper = new PdfStamper(reader, output))
+                        {
+                            int totalPageCount = reader.NumberOfPages;
+                            for (int i = 1; i <= totalPageCount; i++)
+                            {
+                                ColumnText.ShowTextAligned(stamper.GetOverContent(i), Element.ALIGN_RIGHT, new Phrase($"Page {i} of {totalPageCount}"), 568f, 15f, 0);
+                            }
+                        }
+                    }
+                    bytes = output.ToArray();
+                }
                 return File(memoryStream.ToArray(), "application/pdf", $"Recaptimesheet_{companyName}_{month}.pdf");
             }
             else
@@ -366,6 +417,7 @@ namespace FrontEnd_RasManagement.Controllers
 
                 Document document = new Document(PageSize.A4);
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                writer.PageEvent = new PageEventHelper(); // Set PageEventHelper
                 document.Open(); // Buka dokumen di sini
                 int count = 1;
 
@@ -615,6 +667,24 @@ namespace FrontEnd_RasManagement.Controllers
                 }
 
                 document.Close(); // Tutup dokumen di sini setelah selesai menghasilkan konten
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+
+                using (MemoryStream output = new MemoryStream())
+                {
+                    using (PdfReader reader = new PdfReader(bytes))
+                    {
+                        using (PdfStamper stamper = new PdfStamper(reader, output))
+                        {
+                            int totalPageCount = reader.NumberOfPages;
+                            for (int i = 1; i <= totalPageCount; i++)
+                            {
+                                ColumnText.ShowTextAligned(stamper.GetOverContent(i), Element.ALIGN_RIGHT, new Phrase($"Page {i} of {totalPageCount}"), 568f, 15f, 0);
+                            }
+                        }
+                    }
+                    bytes = output.ToArray();
+                }
                 return File(memoryStream.ToArray(), "application/pdf", $"{name}_TimeSheet({companyName}_{month}).pdf");
             }
             else
@@ -678,6 +748,7 @@ namespace FrontEnd_RasManagement.Controllers
 
                 Document document = new Document(PageSize.A4);
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                writer.PageEvent = new PageEventHelper(); // Set PageEventHelper
                 document.Open(); // Buka dokumen di sini
                 int count = 1;
 
@@ -925,7 +996,26 @@ namespace FrontEnd_RasManagement.Controllers
                     document.NewPage(); // Pindah ke halaman baru untuk entri selanjutnya
                 }
 
+
                 document.Close(); // Tutup dokumen di sini setelah selesai menghasilkan konten
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+
+                using (MemoryStream output = new MemoryStream())
+                {
+                    using (PdfReader reader = new PdfReader(bytes))
+                    {
+                        using (PdfStamper stamper = new PdfStamper(reader, output))
+                        {
+                            int totalPageCount = reader.NumberOfPages;
+                            for (int i = 1; i <= totalPageCount; i++)
+                            {
+                                ColumnText.ShowTextAligned(stamper.GetOverContent(i), Element.ALIGN_RIGHT, new Phrase($"Page {i} of {totalPageCount}"), 568f, 15f, 0);
+                            }
+                        }
+                    }
+                    bytes = output.ToArray();
+                }
                 return File(memoryStream.ToArray(), "application/pdf", $"{name}_TimeSheet({companyName}_{month}).pdf");
             }
             else
@@ -987,6 +1077,7 @@ namespace FrontEnd_RasManagement.Controllers
 
                 Document document = new Document(PageSize.A4);
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                writer.PageEvent = new PageEventHelper(); // Set PageEventHelper
                 document.Open(); // Buka dokumen di sini
                 int count = 1;
 
@@ -1234,6 +1325,24 @@ namespace FrontEnd_RasManagement.Controllers
                 }
 
                 document.Close(); // Tutup dokumen di sini setelah selesai menghasilkan konten
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+
+                using (MemoryStream output = new MemoryStream())
+                {
+                    using (PdfReader reader = new PdfReader(bytes))
+                    {
+                        using (PdfStamper stamper = new PdfStamper(reader, output))
+                        {
+                            int totalPageCount = reader.NumberOfPages;
+                            for (int i = 1; i <= totalPageCount; i++)
+                            {
+                                ColumnText.ShowTextAligned(stamper.GetOverContent(i), Element.ALIGN_RIGHT, new Phrase($"Page {i} of {totalPageCount}"), 568f, 15f, 0);
+                            }
+                        }
+                    }
+                    bytes = output.ToArray();
+                }
                 return File(memoryStream.ToArray(), "application/pdf", $"Recaptimesheet_{companyName}_{month}.pdf");
             }
             else
