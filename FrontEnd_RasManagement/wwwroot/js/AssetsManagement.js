@@ -1,11 +1,21 @@
+// AssetsManagement.js ini menangai interaksi dari menu Assets Management pada sisi Employee (Role Id = 3)
+// Digunakan untuk melakukan CURD assets yang dimiliki oleh employee
+
 var table = null;
 var initialAssetData = {};
+
 $(document).ready(function () {
+    
     $("input[required], select[required]").each(function () {
         $(this).prev("label").append('<span style="color: red;">*</span>');
     });
+
+    // Mendapatkan Jwt yang telah di pisah untuk digunakan sesuai kebutuhan seperti email, account id dan role
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
+    const accid = decodedtoken.AccountId
+
+    // Dari variabel decodetoken tersebut didapat account id yang digunankan untuk menampilkan data assets yang dimiliki employee
+    // Berikut adalah code yang digunakan menggunakan datatable javascript
     table = $("#TB_Assets").DataTable({
         ajax: {
             url: "https://localhost:7177/api/Assets/accountId?accountId=" + accid,
@@ -89,7 +99,7 @@ $(document).ready(function () {
             },
         ],
 
-        //"responsive": true,
+      
         //Buat ngilangin order kolom No dan Action
         columnDefs: [
             {
@@ -134,6 +144,8 @@ function numeric(input) {
     input.value = numericValue;
 }
 
+
+// Function untuk melakukan parse Token JWT yang digunakan untuk menadpat kan email, account id, dan role
 function parseJwt(token) {
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -172,8 +184,12 @@ function ClearScreenAsset() {
         input.next(".error-message").hide();
     });
 }
+
+
+// Functuion ini digunakan dalam form ketika menambahkan assets pada menu asstest management yang ada di employee
+// Assets akan di simpan apda table Assets
 function SaveAsset() {
-    // debugger;
+    
     var isValid = true;
 
     $("input[required]").each(function () {
@@ -287,6 +303,10 @@ function formatDate(date) {
     return [year, month, day].join("-");
 }
 
+
+// Function ini digunakan untuk mendapatkan data Aseets berdasarkan Id, digunakan pada form edit di halaman Assets Management (Employee)
+// Ketika dilakukan klik edit akan memanggil function GetById ini dan function ini menerima Id Aseets, yang akan digunakan untuk mendapatkan data aseets employee
+// Returnya adalah data asets employe berdasarkan Assets Id untuk ditampilkan pada form edit assets (Halaman Assetes Management)
 function GetById(assetsManagementId) {
 
     $("#ModalAssets input[required]").each(function () {
@@ -347,8 +367,11 @@ function GetById(assetsManagementId) {
     });
 }
 
+// Function ini digunakan untuk menghapus assetes berdasarkan id aseets.
+// Jika employee ingin menghapusnya pada halaman Assets Management
+// Ketika di klik button Hapus maka akan memanggil function ini yang menerima assets id untuk dilaukan penghapusan data.
 function Delete(assetsManagementId) {
-
+    // Tetapi sebelum dihapus akan menampilkan sebuah alert dari swal alert
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -380,6 +403,10 @@ function Delete(assetsManagementId) {
     });
 }
 
+
+// Function update assets ini digunakan untuk mengupdate assets employee
+// Function ini di panggil ketika employee klik tombo update pada form edit Assests management
+// Value nya sendiri didapat dari function GetById yang di input kedalam field2 pada form edit
 function UpdateAsset() {
     var isValid = true;
 
@@ -398,6 +425,7 @@ function UpdateAsset() {
     var hddValue = $("#hdd").val().replace(/^0+/, "");
     var displayValue = $("#Display").val().replace(/^0+/, "");
 
+    // Validasi untuk penginputan update data pada form edit Assets management
     var validRam, validHDD, validDisplay;
     if ($("#ram").val() === "") {
         $("#ram-error").show();
@@ -468,8 +496,9 @@ function UpdateAsset() {
         $("#ModalAssets").modal("hide");
         return;
     }
-    /*console.log(initialAssetData);
-    console.log(Assets);*/
+
+
+    // Setelah melewati tahap validasi akan menjalan kan post ke api Update Assetes
     $.ajax({
         url: "https://localhost:7177/api/Assets/Update",
         type: "PUT",
@@ -479,7 +508,7 @@ function UpdateAsset() {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
     }).then((result) => {
-        // debugger;
+     
         if (result.status == 200) {
             Swal.fire({
                 icon: "success",

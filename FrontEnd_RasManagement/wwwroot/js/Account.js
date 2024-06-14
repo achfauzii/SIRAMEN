@@ -1,11 +1,16 @@
-﻿$(document).ready(function () {
-  
+﻿// Account.js ini secara garis besar menangani berbagai macam interaksi yang ada pada halaman login
+// Melakukan Login, dan mengirim pengaduan yang ada pada form pengaduan
+
+$(document).ready(function () {
+
+    // Handle Button Report pada halaman login
     $("#reportbutton").on("click", function () {
 
         $("#to-show").toggleClass("d-none");
         $("#help-text").toggleClass("d-none");
   })
 
+  //Form login Submit dan redirect ke halaman dashboard berdasarkan role
   $("#loginForm").on("submit", async function (event) {
     event.preventDefault();
     $("#loader").show();
@@ -28,12 +33,16 @@
 
       if (response.ok) {
           var token = json.data;
+        // Jika berhasil login token di disimpan ke dalam local storage, dan dapat digunakan dengan menggunakan getItem Token tersebut
         localStorage.setItem("Token", token);
         sessionStorage.setItem("Token", token);
+
+        //variabel decode token, yang berisi sebuah token JWT yang sudah di pisah, dengan menggunakan function pasreJwt(token)
         var decodedToken = parseJwt(token);
 
-        //loaderContainer.innerHTML = "";
-
+        
+        // Jika berhasil login, akan mengirim token ke controller AccountsController function Auth pada FE
+        // Tujuannya untuk menyimpan token ke dalam Session controller pada .NET
         $.post("/Accounts/Auth", { token }).done(function () {
           const Toast = Swal.mixin({
             toast: true,
@@ -43,7 +52,9 @@
             timerProgressBar: true,
           });
 
-          const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
+         // Mengambil Role pada token yang didapat
+            const getValueByIndex = (obj, index) => obj[Object.keys(obj)[index]];
+         // Dengan memanggil function getValueByIndex untuk mendapatkan role yang ada pada array ke 8 yang berisi Role tersebut
           var Role = getValueByIndex(decodedToken, 8);
           if (Role === "Admin" || Role=="Trainer" || Role=="Manager" || Role=="Sales") {
             SaveLog(decodedToken);
@@ -91,7 +102,6 @@
           showConfirmButtom: false,
         });
       } else {
-        // loaderContainer.innerHTML = "";
 
         Toastify({
           text: "Incorrect email or password !",
@@ -103,8 +113,6 @@
         }).showToast();
       }
     } catch (error) {
-      //loaderContainer.innerHTML = "";
-
       Toastify({
         text: "Incorrect email or password !",
 
@@ -118,6 +126,8 @@
   });
 });
 
+
+// Function untuk handel show password pada form login 
 function showPassword() {
     let temp = document.getElementById("exampleInputPassword");
 
@@ -128,6 +138,7 @@ function showPassword() {
     }
 }
 
+// Function untuk melakukan parse pada Token JWT, memisah token menjadi beberapa bagian untuk di gunakan di function lainnya
 function parseJwt(token) {
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -143,6 +154,8 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 }
+
+// Function untuk menyimpan activity yang dilakukan kedalam tabel History Log Login
 function SaveLog(logData) {
     var timeNow = new Date().toISOString();
     var timeStamp = getTime();
@@ -162,6 +175,9 @@ function SaveLog(logData) {
         body: JSON.stringify(data),
     });
 }
+
+
+// Function untuk logout
 function Logout() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const timeStamp = getTime();
@@ -200,6 +216,7 @@ function getTime() {
     return timeStamp;
 }
 
+// Function ini untuk menangani form pengaduan yang ada pada halaman login
 function kirimPengaduan() {
   const Toast = Swal.mixin({
     toast: true,
@@ -238,8 +255,8 @@ function kirimPengaduan() {
     message: $("#description").val(),
   };
 
-  
-
+ // Jika telah melwati validasi di atas dan di set data nya,
+ // kemudian akan emngirim ke controller 'Announce Controller' function SendEmailPengaduan untuk proses pengiriman email
   $.ajax({
     type: "POST",
     url: "/Announce/SendEmailPengaduan",
@@ -268,11 +285,15 @@ function kirimPengaduan() {
     },
   });
 }
+
+// functionn checking email valid
 function isValidEmail(email) {
   // Use a regular expression for basic email validation
   var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email) && email.endsWith("@berca.co.id");
 }
+
+// Function unutk mendapatkan username dan email
 function getUserNameEmail() {
   var token = sessionStorage.getItem("Token");
   if (token) {

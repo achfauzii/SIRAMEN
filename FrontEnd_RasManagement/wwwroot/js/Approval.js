@@ -1,15 +1,21 @@
-//var table = null;
+// Approval.js ini secara garis besar berhubungan dengan manage approval pada menu Admin. ( Halaman Manage Approval)
+// Digunakan admin untuk approve ataupun reject timesheet overtime
+// Ketika admin melakukan approve overtime timesheet employee tersebut data akan di input ke dalam table timesheet employee
+// Jika Reject maka data tidak akan diteruskan ke dalam table timesheet, dan hanya berada di table approval dengan status reject
+
 var month;
 var accountId;
 var table;
 
-$(document).ready(function () {
 
+$(document).ready(function () {
+    // Load Table Approval, memanggil function tableApproval.
     tableApproval();
 });
 
+// Function get by id ini digunaka, untuk menagmbil data Approval berdasarkan Id, data Employee dan data placement berdasarkan Account Id
+// Digunakan untuk mengisi form timesheet Approval di button edit pada menu Overtime Approval
 function GetById(Id) {
-    //debugger;
     $.ajax({
         url: "https://localhost:7177/api/Approval/" + Id,
         type: "GET",
@@ -19,7 +25,7 @@ function GetById(Id) {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-            //debugger;
+            
             var obj = result.data;
 
             // Set previous status approval
@@ -28,7 +34,8 @@ function GetById(Id) {
             // Mengambil accountId dari data Approval
             var accountId = obj.accountId;
 
-            // Mengambil data Employee berdasarkan accountId
+            // Mengambil data Employee berdasarkan accountId, parameter yang diterima adalah account id
+            // Account Id tersebut di dapat dari object data Approval
             $.ajax({
                 url: "https://localhost:7177/api/Employees/accountId?accountId=" + accountId,
                 type: "GET",
@@ -38,7 +45,7 @@ function GetById(Id) {
                     Authorization: "Bearer " + sessionStorage.getItem("Token"),
                 },
                 success: function (employeeResult) {
-                    console.log(employeeResult.data)
+                 
                     var employeeObj = employeeResult.data.result;
                     $("#fullName").val(employeeObj.fullname);
                 },
@@ -47,7 +54,8 @@ function GetById(Id) {
                 }
             });
 
-            //Get CompanyName (Placement)
+            //Get CompanyName (Placement) berdasarkan account Id, data yang didapat adalah data placement.
+            //Kemudian digunakan untuk mengisi value company name dan lastPlacementId pada form Overtime Approval
             $.ajax({
                 url:
                     "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" + accountId,
@@ -72,7 +80,7 @@ function GetById(Id) {
                 },
             });
 
-            $("#approvalId").val(obj.id); //ngambil data dr api
+            $("#approvalId").val(obj.id); 
             $("#lastPlacementId").val(obj.placementStatusId);
             $("#accountId").val(obj.accountId);
             $("#activity").val(obj.activity).attr(obj.activity);
@@ -105,6 +113,8 @@ function GetById(Id) {
     });
 }
 
+// Functuon ini digunakan untuk mengupdate atau melakukan aksi perubahan pada form Timesheet Approval
+// Data approval yang disetujui akan diteruskan atau di masukan kedalam table timesheet
 function Update() {
     var placementStatusId = $("#lastPlacementId").val();
     var Approval = new Object();
@@ -127,7 +137,6 @@ function Update() {
  
 
 
-    //console.log(Approval);
     // Check apakah Status Approval berubah dari On Progress menjadi Approve
     var prevStatusApproval = $("#prevStatusApproval").val();
     if (prevStatusApproval == "On Progress" && Approval.StatusApproval == "Approve") {
@@ -143,8 +152,8 @@ function Update() {
             accountId: Approval.accountId
         };
 
-
-        // Kirim data ke endpoint API TimeSheet
+        // Jika status timesheet pada table approval berubah menjadi approve maka akan di input kealam table Timesheet
+        // Kemudian Timesheet tersebut akan berstatus Overtime WFH / WFO
         $.ajax({
             url: "https://localhost:7177/api/TimeSheet/AddTimeSheet",
             type: "POST",
@@ -156,8 +165,7 @@ function Update() {
             success: function (result) {
                 console.log(result);
                 if (result.status == 200) {
-                    // Jika berhasil, lanjutkan dengan update data Approval
-
+                    // Jika berhasil, lanjutkan dengan update data Approval untuk melakukan perubaha status pada approval
                     updateApproval(Approval);
                 } else {
                     // Tampilkan pesan error jika gagal
@@ -197,6 +205,10 @@ function updateApproval(Approval) {
                     timer: 1500,
                 });
                 const logMessage = `Has ${Approval.StatusApproval},Timesheet Date ${Approval.Date}, Account Id: ${Approval.accountId}`;
+
+                // Save Log Update ini dugunakan untuk menyimpan log aktivitas sesuai pesan yang di definisikan
+                // Function SavelogUpdate berada pada file HistoryLog.js
+                // log message akan dikirim ke function tersebut kemudian dilakukan penyimpanan ke dalam table history log
                 SaveLogUpdate(logMessage);
                 $("#ApprovalModal").modal("hide");
                 $("#ApprovalTable").DataTable().ajax.reload();
@@ -218,57 +230,7 @@ function updateApproval(Approval) {
     });
 }
 
-/*function Update() {
-    //debugger;
 
-    var Approval = new Object();
-    Approval.Id = $("#approvalId").val();
-    Approval.Date = $("#inputDate").val();
-    Approval.Activity = $("#activity").val();
-    Approval.Flag = $("#flag").val();
-    Approval.Category = $("#category").val();
-    Approval.Status = $("#status").val();
-    Approval.KnownBy = $("#knownBy").val();
-    Approval.statusApproval = $("#statusApproval").val();
-    const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-    const accid = decodedtoken.AccountId;
-    Approval.accountId = accid;
-    
-    $.ajax({
-        url: "https://localhost:7177/api/Approval",
-        type: "PUT",
-        data: JSON.stringify(Approval),
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-    }).then((result) => {
-        // debugger;
-        if (result.status == 200) {
-            Swal.fire({
-                icon: "success",
-                title: "Success...",
-                text: "Data has been update!",
-                showConfirmButton: false,
-                timer: 1500,
-            });
-            $("#ApprovalModal").modal("hide");
-            $("#ApprovalTable").DataTable().ajax.reload();
-        } else if (result.status == 400) {
-            Swal.fire({
-                icon: "warning",
-                title: "Failed",
-                text: "Flag with the same date can't be the same!",
-                showConfirmButton: true,
-            });
-        } else {
-            Swal.fire("Error!", "Your failed to update", "error");
-            table.ajax.reload();
-        }
-        table.columns.adjust().draw();
-    });
-}
-*/
 function clearScreen() {
     $("#activity").val("");
     document.getElementById("flag").selectedIndex = 0;
@@ -279,6 +241,7 @@ function clearScreen() {
     $("#Save").show();
 }
 
+// Function ini digunakan untuk mem parse token JWT untuk digunakan sesuai kebutuhan seperti mendapatkan email atau role dll
 function parseJwt(token) {
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -296,7 +259,7 @@ function parseJwt(token) {
 }
 
 
-
+// Event click ini digunakan untuk mentriger perpindahan navigasi di halaman Overtime Approval pada Navigasi Table "Approval"
 document.getElementById("needApproval").onclick = function (event) {
 
     var needApprov = document.getElementById("needApproval");
@@ -308,11 +271,12 @@ document.getElementById("needApproval").onclick = function (event) {
 
     tableApproval();
 
-
-
 };
 
-
+// Event click ini digunakan untuk mentriger perpindahan navigasi History Approval
+// Berada pada halaman Approval Overtime, ketika ingin melakukan perpindahan navigasi history approval
+// untuk memunculkan data seluruh data approval
+// Berisi juga get data employee yang digunakan untuk memunculkan nama pada table
 document.getElementById("historyApproval").onclick = function (event) {
 
     var needApprov = document.getElementById("needApproval");
@@ -382,8 +346,6 @@ document.getElementById("historyApproval").onclick = function (event) {
                     return name
                 }
             },
-
-
             {
                 data: "date",
                 render: function (data) {
@@ -412,22 +374,6 @@ document.getElementById("historyApproval").onclick = function (event) {
             },
             { data: "notes" },
             { data: null}
-           
-            //{
-            //    // Menambahkan kolom "Action" berisi tombol "Edit" dan "Delete" dengan Bootstrap
-            //    data: null,
-            //    render: function (data, type, row) {
-            //        var modalId = "modal-edit-" + data.id;
-
-            //        return (
-            //            '<a class="text-warning ' +
-            //            '" data-placement="left" style="font-size: 14pt"data-toggle="modal" data-animation="false" title="Edit" onclick="return GetById(' +
-            //            row.id +
-            //            ')"><i class="fa fa-edit edit-client"></i></a>' +
-            //            "&nbsp;"
-            //        );
-            //    },
-            //},
         ],
         order: [[2, "desc"]],
         columnDefs: [
@@ -462,10 +408,8 @@ document.getElementById("historyApproval").onclick = function (event) {
     table.column(10).visible(false);
 };
 
-
+// Function untuk view table approval yang berstatus OnProgress untuk ditampilkan ketika halaman Approval Overtime dimuat
 function tableApproval() {
-    var urlParams = new URLSearchParams(window.location.search);
-    accountId = urlParams.get("accountId");
 
     // Hancurkan atau bersihkan tabel sebelum menginisialisasi kembali
     if ($.fn.DataTable.isDataTable('#ApprovalTable')) {
@@ -564,16 +508,6 @@ function tableApproval() {
                 orderable: false,
             },
         ],
-        //createdRow: function (row, data, dataIndex) {
-        //    if (data.statusApproval === 'Reject') {
-        //        $(row).css('background-color', '#FF8080');
-        //        $(row).find('.fa-edit').hide();
-        //    }
-
-        //    if (data.statusApproval === 'Approve') {
-        //        $(row).hide();
-        //    }
-        //},
         drawCallback: function (settings) {
             var api = this.api();
             var rows = api.rows({ page: "current" }).nodes();
