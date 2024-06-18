@@ -1,14 +1,19 @@
-﻿var table = null;
-var initialCertificateData = {};
-$(document).ready(function () {
-    //debugger;
-    
+﻿// Certificate.js ini di menangani CRUD yang ada pada menu Data for CV -> Achivement/Certificate yang ada pada bagian Employee
+// Terdapat beberapa function untuk menangani view data table, Add Certificate, Update Ceriticate, Get By Id Ceritificate, dan Delete Certificate
+// Digunakan di sisi Employee
 
+var table = null;
+var initialCertificateData = {};
+
+$(document).ready(function () {
+    // Untuk date picker Form modal field Publication Year 
     $("#PublicationYear").datepicker({
         format: "MM yyyy",
         viewMode: "months",
         minViewMode: "months"
     });
+
+    // Untuk date picker Form modal field Valid Until
     $("#ValidUntil").datepicker({
         format: "MM yyyy",
         viewMode: "months",
@@ -18,9 +23,13 @@ $(document).ready(function () {
     $('input[required]').each(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
-    
+
+    // Sama seprti pada file lain, ini digunakan untuk mendapatkan data yang ada pada token JWT seperti email, account, id dll
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
+    // Seperti ini misalnya ada beberapa data yang ada pada token yaitu accountId
     const accid = decodedtoken.AccountId;
+
+    //Kemudian digunakan untuk menampilkan data pada table berdasarkan account id seperti berikut
     table = $("#TB_Certificate").DataTable({
         responsive: true,
         ajax: {
@@ -123,6 +132,7 @@ $(document).ready(function () {
     });
 });
 
+
 function noHTML(input) {
     var value = input.value.replace(/<[^>]*>/g, "");
     var nohtml = value.replace(/[<>?/]/g, "");
@@ -134,6 +144,7 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
+// Function untuk melakukan parse Token JWT yang digunakan untuk menadpat kan email, account id, dan role
 function parseJwt(token) {
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -150,6 +161,7 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+// Melakukan clearscreen pada form Data for Cv -> Certificate yang ada di employee
 function ClearScreen() {
     $("#Update").hide();
     $("#Save").show();
@@ -160,11 +172,14 @@ function ClearScreen() {
     $(".err").hide();
 }
 
+// Function ini digunakan untuk Get data Certificate berdasarkan certificate Id
+// Function akan dipanggil saat employee klik tombol edit pada halaman certificate
+// Kemduain functuon akan menerima Id certifivate untuk di get berdasarkan id tersebut
 function GetById(CertificateId) {
     ClearScreen()
     $("#Update").show();
     $("#Save").hide();
-    //debugger;
+    
     $.ajax({
         url: "https://localhost:7177/api/Certificate/" + CertificateId,
         type: "GET",
@@ -174,7 +189,7 @@ function GetById(CertificateId) {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
         success: function (result) {
-            //debugger;
+            
             var obj = result.data; //data yg dapet dr id
             initialCertificateData = {
    
@@ -183,8 +198,9 @@ function GetById(CertificateId) {
                 PublicationYear: obj.publicationYear,
                 ValidUntil: obj.validUntil
             };
-        
-            $("#CertificateId").val(obj.certificateId); //ngambil data dr api
+ // Berikut adalah data2 yang di tampilkan ke dalam value input pada form edit certificate
+
+            $("#CertificateId").val(obj.certificateId); 
             $("#Name").val(obj.name);
             $("#Publisher").val(obj.publisher);
             $("#PublicationYear").val(obj.publicationYear);
@@ -210,6 +226,8 @@ $("#ValidUntil").on('input', function () {
     validateDateInputs();
 });
 
+// Function ini untuk menangani validasi input jika tanggal publikasi certificate lebih besar dari tanggal masa berlaku
+// Kemudian akan meenampiilkan pesan error dan menonaktifkan tombol save jika terkena validasi
 function validateDateInputs() {
     var publicationYear = new Date($("#PublicationYear").val());
     var validUntil = new Date($("#ValidUntil").val());
@@ -227,10 +245,13 @@ function validateDateInputs() {
     }
 }
 
-function Save() {
-    //debugger;
-    var isValid = true;
 
+// Function save ini untuk menyimpan data certificate yang baru ditambahkan
+// Function di panggil ketika employee klik button save ingin menambahkan dan menyimpan certificate yag baru ditambhakan
+function Save() {
+    
+    var isValid = true;
+    // Ini merupakan validasi yang ditriger dengan required pada form input certificate
     $("input[required]").each(function () {
         var input = $(this);
         var errorMessage = input.closest('.input-group').find('.error-message-p');
@@ -256,6 +277,9 @@ function Save() {
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     Certificate.accountId = accid;
+
+    // Setelah melewati tahap validasi akan mengirimkan data ke dalam server melaui api berikut dengan ajax
+   
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/Certificate",
@@ -265,13 +289,13 @@ function Save() {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
     }).then((result) => {
-        // debugger;
+        
         if (
             (result.status == result.status) == 201 ||
             result.status == 204 ||
             result.status == 200
         ) {
-            //alert("Data Berhasil Dimasukkan");
+        
             Swal.fire({
                 icon: "success",
                 title: "Success...",
@@ -294,8 +318,12 @@ function Save() {
     });
 }
 
+
+// Function delete ini digunakan untuk menghapus certificate yang ingin dihapus oleh employee
+// Function di aktifkan ketika employee klik tombol delete pada halaman certificate
+// Function ini menerima Id Certificate yang didapat dari row datatable yang ada pada tombol delete tersebut
 function Delete(CertificateId) {
-    // debugger;
+    
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -327,8 +355,11 @@ function Delete(CertificateId) {
     });
 }
 
+
+// Function Update ini akan di jalankan ketika employee klik tombol update ketika employee berada di from edit Certificate
+// Function akan mengupdate data yang diubah pada form edit certificate.
 function Update() {
-    // debugger;
+    
     var isValid = true;
 
     $("input[required]").each(function () {
@@ -348,6 +379,8 @@ function Update() {
         return;
     }
 
+    // Data-data ini diterima dari form edit certificate
+    // dan dikirimkan ke server ketika employee klik tombol update
     var Certificate = new Object();
     Certificate.certificateId = $("#CertificateId").val();
     Certificate.name = $("#Name").val();
@@ -381,7 +414,7 @@ function Update() {
             Authorization: "Bearer " + sessionStorage.getItem("Token"),
         },
     }).then((result) => {
-        // debugger;
+        
         if (result.status == 200) {
             Swal.fire({
                 icon: "success",

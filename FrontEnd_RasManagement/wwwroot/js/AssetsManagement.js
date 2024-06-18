@@ -1,4 +1,4 @@
-// AssetsManagement.js ini menangai interaksi dari menu Assets Management pada sisi Employee (Role Id = 3)
+// AssetsManagement.js ini menangani interaksi dari menu Assets Management pada sisi Employee (Role Id = 3)
 // Digunakan untuk melakukan CURD assets yang dimiliki oleh employee
 
 var table = null;

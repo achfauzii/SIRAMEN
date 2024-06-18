@@ -1,3 +1,7 @@
+// ClientName.js ini berisi code yang digunakan dalam menangani Manage Client data pada bagian Admin
+// Digunakan dalam menangani view table Client, Edit Clietn, information client yang berisi beberapa position yang ditambahkan tambahkan setelah add sales projection
+// Selanjutnya di file ini juga menangani Manage position yang ada di Manage Client data view, add, dan edit
+
 var table = null;
 var compare = {};
 $(document).ready(function () {
@@ -17,6 +21,9 @@ $(document).ready(function () {
         $(this).prev('label').append('<span style="color: red;">*</span>');
     });
 
+
+    // View Table Client, untuk menampilkan table manage client
+    // disiini juga digunakan dalam memanggil function detailPosition untuk melihat detail position.
     table = $("#tbDataCleint").DataTable({
         responsive: true,
 
@@ -105,6 +112,9 @@ function hideButtonAndActionForManager() {
     $(".btn-add-client").hide();
 }
 
+
+// Function berikut digunakan untuk menyimpan client, saat menambahkan client
+// Terdapat beberapa validasi juga seperti required dan validasi pengecekan client
 function Save() {
     var isValid = true;
 
@@ -143,8 +153,7 @@ function Save() {
 
     }
 
-    console.log(Client);
-    console.log(Client.Industry);
+
     $.ajax({
         type: "POST",
         url: "https://localhost:7177/api/ClientName/AddValidasi",
@@ -222,14 +231,9 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
-//function ClearScreen() {
-//    $("#clientId").val("");
-//    $("#clientName").val("");
-//    $(".error-message").hide();
-//    $("#Update").hide();
-//    $("#Save").show();
-//}
-
+// Function ini digunakan untuk mendapatkan data client berdasarkan id
+// Yang digunakan ketika ingin melakukan edit pada table client
+// Kemudian akan di tampilkan value yang di dapat ke dalam form edit tersebut
 function GetById(id) {
 
     $("#Modal input[required-client]").each(function () {
@@ -293,6 +297,9 @@ function GetById(id) {
     });
 }
 
+
+// Function ini digunakan dalam mengedit client
+// Function akan berjalan ketika user klik tombol edit pada modal form edit client
 function Update() {
     var isValid = true;
 
@@ -383,6 +390,9 @@ function Update() {
     });
 }
 
+// Function ini digunakan dalam menangani delete client
+// Karena client ini terdapat FK pada table lainnya, jadi terdapat infromation Client tidak dapat dihapus ketika sudah terhubung ke table lain
+// Parameter yang diterima dalam fucntioon ini adalah Id Client, dan nama dari client untuk di simpan ke dalam save log
 function Delete(id, nameOfClient) {
 
     // cek index pagination
@@ -409,11 +419,14 @@ function Delete(id, nameOfClient) {
                 },
                 success: function (result) {
 
+
+                    // Functuion ini digunakan untuk melakukan penyimpana History Log kedalam server
+                    // untuk menyimpan aktivitas admin
+                    // untuk file utamanya ada di dalam historyLog.js
                     const logMessage = `Has deleted client ${nameOfClient}`;
                     SaveLogUpdate(logMessage);
                     Swal.fire("Deleted!", "Your data has been deleted.", "success");
-                    //$("#tbDataCleint").DataTable().ajax.reload();
-                    // Reload data tabel
+              
                     $("#tbDataCleint").DataTable().ajax.reload(null, false);
 
                     // Setel kembali halaman tabel ke indeks yang disimpan
@@ -429,6 +442,12 @@ function Delete(id, nameOfClient) {
     });
 }
 
+
+// Berikut adalah function untuk menangani detail information yang ada pada manage client data yang kemudian akan menampilkan position
+// Function berjalan ketika admin klik button info yang ada pada manage client data
+// Function ini menerima parameter client id, yang digunakan untuk mendapatkan client berdasarkan id client
+// Kemudian cleint id tersebut juga digunakan dalam mendapatkan position berdasarkan id client
+// Terdapat 2 menu untuk menampilkan yaitu Show all dan Hide position yang di archive ( status position archive)
 function detailPosition(id) {
     clearData();
     //Detail
@@ -475,6 +494,7 @@ function detailPosition(id) {
                     var dataContainer = document.getElementById("dataPositionContainer");
                     statusIndicator_.textContent = "Show Archive Position";
 
+                    // Code berikut menangani view position yang status nya != Archive 
                     data.data.forEach(function (data) {
                         if (data.status != "Archive") {
                             dataContainer.innerHTML += `
@@ -529,6 +549,9 @@ function detailPosition(id) {
                         }
                     });
 
+                    // Code ini digunakan untuk menampilkan position yang ber status Archive
+                    // Seluruh Position akan tampil
+                    // Dijalankan ketika admin klik check box show archive positon
                     showCheckbox.addEventListener("change", function () {
                         if (this.checked) {
                             statusIndicator_.textContent = "Hide Archive Position";
@@ -708,8 +731,11 @@ function detailPosition(id) {
 
 }
 
-function GetByIdPosition(id) {
 
+// Function ini digunakan untuk mendapatkan position berdasarkan id kemudian di tampilkan dalam form edit position
+// Function ini menerima parameter id position dan berjalan ketika admin klik tombol edit position yang akan
+// Kemudian akan menampilkan data yang di dapat pada form edit position
+function GetByIdPosition(id) {
 
     $.ajax({
         url: "https://localhost:7177/api/Position/" + id,
@@ -780,6 +806,10 @@ function GetByIdPosition(id) {
     });
 }
 
+
+// Function ini digunakan dalam mengirim update ke server
+// Function berjalan ketika admin edit data position kemudian klik tombol edit
+// Di dalam function ini juga terdapat save log message untuk menyimpan history log
 function updatePosition() {
 
     var form = document.querySelector("#positionModal .needs-validation");
@@ -874,6 +904,7 @@ function updatePosition() {
     console.log("clientId before calling detailPosition:", clientId);
 }
 
+// Function unutk melakukan clear screen position
 function clearScreenPosition() {
     // $("#clientId").val("");
     //$("#clientName").val("");
@@ -891,6 +922,9 @@ function clearScreenPosition() {
     form.reset();
 }
 
+
+// Function ini digunakan untuk menyimpan position baru, dan mengirim data ke server
+// Function ini juga terdapat save log history ketika berhasil menyimpan data position baru
 function savePosition() {
     const clientId = document.getElementById("clientId").value;
     const positionName = document.getElementById("positionName").value;
@@ -912,7 +946,6 @@ function savePosition() {
         form.classList.add("was-validated");
         return;
     }
-
 
     const newPositionData = {
         positionClient: positionName,
@@ -981,13 +1014,19 @@ closeButton.addEventListener("click", function () {
     // kode untuk menutup modal
 });
 
+
+// Function yang digunakan untuk melakukan clear html pada detail cilent atau saat view position
+// Bertujuan untuk me reset tampilan ketika mengclose modal atau digunakan dalam kondisi2 tertentu
+// agar view html tampilan position ter reset.
 function clearData() {
     var dataContainer = document.getElementById("dataPositionContainer");
     dataContainer.innerHTML = "";
 }
 
 
-
+// Function berikut digunakan untuk mendapatkan data sales projection berdasarkan client id
+// Ditampilkan saat menambahkan atau mengedit position
+// Form tersebut menampilkan sales projection yang ada berdasarkan client yang dipilih
 function salesProjection(id, selected) {
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection/byClientId?clientId=' + id,
@@ -1024,7 +1063,8 @@ function salesProjection(id, selected) {
     })
 }
 
-// View Info
+// Function berikut aktif ketika admin sedang memilih sales projection
+// Digunakan dalam menampilkan info yang berbentuk card pada form add new position
 $('#salesProject').change(function (e) {
     
     const rowInfo = document.getElementById('row-info')

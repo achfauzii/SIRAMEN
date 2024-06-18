@@ -1,6 +1,11 @@
-﻿var compare = {};
+﻿// DeatilEmployee.js ini menangani view halaman detail employee
+// Untuk mengakses halaman tersebut berada pada halaman manage employee, kemudian klik buttond detail
+// Terdapat beberapa function untuk get placement, get placement berdasarkan account id, get data client, dan get position by client id
+// Function2 tersebut digunakan untuk menangani halaman detail employee, yang ada pada bagian Manage Employee admin
+
+var compare = {};
 var position = null;
-//Set Focus on Input Search component Select2
+//Set Focus on Input Search component Select
 $(document).on("select2:open", (e) => {
   const selectId = e.target.id;
 
@@ -12,14 +17,18 @@ $(document).on("select2:open", (e) => {
 });
 
 $(document).ready(function () {
+
+  // Untuk mendapatkan data yang ada pada token
+  // Disimpan kedalam objDataToken
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
-  // document.getElementById("jobRole").selectedindex = "0";
-    //function position
+ 
 
     $(document).on('select2:open', () => {
         document.querySelector('.select2-search__field').focus();
     });
 
+ //Definition Select 2 untuk positionEmp 
+ //Select ini berada di halaman detail employee (Edit Contract)
     $("#positionEmp").select2({
         placeholder: "Choose Position",
         tags: true,
@@ -28,6 +37,7 @@ $(document).ready(function () {
         height: "100%",
     });
 
+// Hide data untuk roleId==7
   if (objDataToken.RoleId == 7) {
     $(".add-new-placement").hide();
     $(".editemp-placement").hide();
@@ -57,15 +67,7 @@ $(document).ready(function () {
       .split("T")[0];
   });
 
-  //document.getElementById("endDate").addEventListener("change", function (e) {
-  //  if (e.target.value < $("#startDate").val()) {
-  //    $("#Update").addClass("disabled");
-  //    return;
-  //  } else {
-  //    $("#Update").removeClass("disabled");
-  //  }
-  //});
-
+// Memanggil function untuk ditampilkan di dalam document ready untuk di tampilkan datanya
   placement();
   getClient();
 
@@ -77,14 +79,23 @@ $(document).ready(function () {
   });
 });
 
+
+// Function ini menangani view placement pada detail employee (Placement Setiap employee)
+// Mendapatkan dari Employee Placement berdasarkan id
+// Placement disini adalah employee yang onsite ke client
+// Parameter di terima dari URL kemudian di get ke server bedasarkan account Id
+// Function ini jalan di doucment ready ketika halaman di muat
 function placement() {
   var objDataToken = parseJwt(sessionStorage.getItem("Token"));
 
   var hideEditIcon = objDataToken.RoleId == 7; // true if RoleId is 7 (Manager)
 
+ // Get Account Id dari parameter URL
+ // yang akan digunakan untuk mendapatkan placement berdasarkan account Id
   var urlParams = new URLSearchParams(window.location.search);
     var accountId = urlParams.get("accountId");
-
+ // Berikut adalah code get data placement berdasarkan account id
+ // kemudian data yang didapat ditampilkan.
   $.ajax({
     url:
       "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
@@ -177,6 +188,11 @@ function placement() {
   // getCompany();
 }
 
+
+// Function berikut untuk get data employee placement berdasarkan account id
+// digunakan dalam form edit placement pada halaman detail employee
+// Function ini berjalan ketika admin klik tombol edit 
+// Kemduain akan form edit placement akan terisi value yang di dapat.
 function GetById(accountId, placementStatusId) {
   //debugger;
     ClearScreenPlacement();
@@ -263,6 +279,10 @@ function GetById(accountId, placementStatusId) {
   });
 }
 
+
+
+// Function berikut digunakn untuk get data client yang nantinya akan digunakan dalam form add new placement
+// Function ini digunakan untuk mengisi data select company name saat menambahkan placement baru untuk employee
 function getClient() {
   var selectClient = document.getElementById("companyName_");
 
@@ -297,7 +317,10 @@ function getClient() {
   });
 }
 
-
+//Function ini untuk mendapakan position berdasarkan client id yang di dapat sebelumnya
+//Function digunakan pada form placement dengan field Job yang ada pada halaman detail employee
+//Function ini menerima parameter Client id, dijalankan setelah admin memilih client 
+//Kemudian akan di tampilkan kedalam form select position/Job berdasarkan client yang dipilih
 function getPositionByClient(idClient) {
 
   var selectPosition = document.getElementById("jobRole");

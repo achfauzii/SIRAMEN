@@ -1,3 +1,7 @@
+// File Department.js ini digunakan dalam menangani Manage Department pada bagian Admin
+// Digunakan dalam view table department, add department, edit department , dan delete department.
+// Secara keseluruhan department.js ini menangani halaman Manage Department di admin
+
 var table = null;
 $(document).ready(function () {
     $(
@@ -10,8 +14,11 @@ $(document).ready(function () {
 
     if (objDataToken.RoleId == 7) {
         $('.btn-add-department').hide();
-    } 
+    }
 
+
+// Code berikut digunakan dalam menampilkan data department dalam bentuk data table
+// Ada pada halaman Manage department pada bagian admin
   table = $("#TB_Department").DataTable({
     responsive: true,
 
@@ -56,7 +63,7 @@ $(document).ready(function () {
     ],
 
     order: [[1, "asc"]],
-    //"responsive": true,
+
     //Buat ngilangin order kolom No dan Action
     columnDefs: [
       {
@@ -81,6 +88,9 @@ $(document).ready(function () {
   });
 });
 
+
+// Function berikut digunakan untuk menyimpan data department baru dengan mengirim data ke server
+// Function berjalan ketika admin klik save pada form Add new Department
 function Save() {
   table = $("#TB_Department").DataTable();
   var isValid = true;
@@ -140,6 +150,7 @@ function Save() {
   });
 }
 
+// Clearscreen department
 function ClearScreen() {
   $("#DeptId").val("");
   $("#NamaDept").val("");
@@ -167,6 +178,10 @@ function ClearScreenDept() {
   $("#Save").show();
 }
 
+
+// Function ini digunakan untuk mendapatkan data department
+// Menerima parameter department id, dijakankan ketika admin kelik tombol edit
+// Data yang didapat ditampilkan di dalam form edit tersebut
 function GetByIdDept(deptId) {
     $(".error-message").hide();
   $.ajax({
@@ -191,6 +206,9 @@ function GetByIdDept(deptId) {
   });
 }
 
+
+// Function berikut digunakan untuk mengupdate dan mengirimkan data update ke server
+// Function berjalan ketika admin klik update pada form edit department
 function UpdateDept() {
   table = $("#TB_Department").DataTable();
   var isValid = true;
@@ -256,6 +274,11 @@ function UpdateDept() {
   });
 }
 
+
+// Function ini digunakan untuk menangani delete data department
+// Delete department tidak dapat dilakukan jika data department terhubung ke table lain atau ada FK di tabel lain
+// Function ini menerima parameter deparemnt id untuk delete data berdasarkan id, dan department name untuk menghapus berdasarkan id
+// Function berjalan ketika admin klik tombol delete
 function Delete(deptId, deptName) {
   table = $("#TB_Department").DataTable();
   Swal.fire({

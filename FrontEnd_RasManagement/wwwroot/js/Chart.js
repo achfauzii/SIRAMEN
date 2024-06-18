@@ -1,8 +1,13 @@
+// Chart.js ini digunakan untuk menangani chart yang ada pada dashboard Admin
+// View yang di tampilkan pada chart.js ini diantaranya :
+// Top University By Employee (Table), Turn Over Employee (Pie Chart), Top 10 University By Employee (Bar Chart)
+
 $(document).ready(function () {
-    //debugger;
+    
     $("#loader").show();
 
-    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
+    // Berikut adalah sebuah ajax yang digunakan dalam mendapatkan Educations untuk menampilkan data TOP University
+    // Dan berisi pemanggilan fungsi untuk menampilkan data dalam bentuk table, dan chart setelah data education didapatkan
     $.ajax({
         url: "https://localhost:7177/api/Educations",
         type: "GET",
@@ -52,6 +57,8 @@ $(document).ready(function () {
                 };
             });
 
+            // Kemudian ini adalah pemanggilan function untuk menampilkan table dan chart nya
+            // Mengirim data Universitas yang telah di filter berdasarkan seberapa banyak employee yang berada di univ tersebut
             tableUniv(sortedUniversitiesData);
             chartUniv(sortedUniversitiesData);
 
@@ -65,7 +72,9 @@ $(document).ready(function () {
             $("#loader").hide();
         },
     });
-    //hit api turnover
+
+
+    // Berikut adalah sebuah ajax untuk mendapatkaan data dari API yang digunakan utnuk menampilkan Data Turn Over
     $.ajax({
         url: "https://localhost:7177/api/TurnOver/TurnOverEmployee",
         type: "GET",
@@ -90,13 +99,13 @@ $(document).ready(function () {
                     transfer++;
                 }
             });
-            // var data = [resign, blacklist, transfer];
             var data = [
                 { label: "Resign", count: resign },
                 { label: "Blacklist", count: blacklist },
                 { label: "Transfer", count: transfer },
             ];
 
+            // Pemanggilan function Pie Chart untuk menampilkan data Turn Over dengan Pie Chart
             myPieChart(data);
 
             // Sembunyikan loader setelah permintaan selesai
@@ -110,72 +119,13 @@ $(document).ready(function () {
         },
     });
 
-    var idleCount = 0;
-    var onsiteCount = 0;
-    // Lakukan permintaan AJAX untuk mendapatkan data placement berdasarkan accountId
-
-    //$.ajax({
-    //    url: "https://localhost:7177/api/Employees",
-    //    type: "GET",
-    //    datatype: "json",
-    //    async: false,
-    //    dataSrc: "data",
-    //    headers: {
-    //        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    //    },
-    //    success: function (employees) {
-    //        var result = employees.data;
-    //        for (var i = 0; i < result.length; i++) {
-    //            var accountId = result[i].accountId;
-    //            var roleId = result[i].roleId; // Ambil roleId dari data saat ini
-    //            if (roleId === "3") {
-    //                $.ajax({
-    //                    url:
-    //                        "https://localhost:7177/api/EmployeePlacements/accountId?accountId=" +
-    //                        accountId,
-    //                    type: "GET",
-    //                    datatype: "json",
-    //                    async: false, // Set async menjadi false agar tindakan ini menunggu respons dari permintaan AJAX sebelum melanjutkan
-    //                    headers: {
-    //                        Authorization: "Bearer " + sessionStorage.getItem("Token"),
-    //                    },
-    //                    success: function (placementData) {
-    //                        if (placementData.data && placementData.data.length > 0) {
-    //                            var placementStatus = placementData.data[0].placementStatus; // Ambil data yang pertama dari array data
-    //                            if (placementStatus == "Idle") {
-    //                                idleCount++;
-    //                            } else if (placementStatus == "Onsite") {
-    //                                onsiteCount++;
-    //                            }
-    //                        } else {
-    //                            idleCount++;
-    //                        }
-    //                    },
-    //                    error: function () {},
-    //                    complete: function () {
-    //                        // Sembunyikan loader setelah permintaan selesai
-    //                        $("#loader").hide();
-    //                    },
-    //                });
-    //            }
-    //        }
-    //        // Setelah selesai menghitung, Anda dapat menggunakan nilai idleCount dan onsiteCount
-    //        document.getElementById("countIdle").textContent = idleCount;
-    //        document.getElementById("countOnsite").textContent = onsiteCount;
-
-    //        // Sembunyikan loader setelah semua permintaan selesai
-    //        $("#loader").hide();
-    //    },
-    //    error: function (errormessage) {
-    //        alert(errormessage.responseText);
-
-    //        // Sembunyikan loader jika ada kesalahan dalam permintaan
-    //        $("#loader").hide();
-    //    },
-    //});
+  
 });
 
 //Table
+// Function ini digunakan untuk menampilkan Top University By Employee dengan DataTable Javascript
+// Function menerima Data Universitas yang telah dilakukan proses filter dari pemanggilan data universitas
+// Kemudian data tersebut ditampilkan dalam bentuk table
 function tableUniv(universitiesData) {
 
     var table = $("#tableUniv").DataTable({
@@ -211,7 +161,10 @@ function tableUniv(universitiesData) {
     }
 }
 
+
 //Chart
+// Function ini digunakan untuk membuat Bar Chart dari data yang di terima yaitu data Univeristas yang telah dilakukan proses pada ajax sebelumnya
+// Selanjutnya data tersebut diolah lagi didalam function ini untuk ditampilkan dalam bentuk Bar Chart
 function chartUniv(universitiesData) {
     (Chart.defaults.global.defaultFontFamily = "Nunito"),
         '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -245,6 +198,8 @@ function chartUniv(universitiesData) {
     var totalAccounts = [];
     var count = 0;
 
+    // Berikut adalah baris code untuk mendapatkan Nama Univeritas dari universies data kemudian di simpan kedalam univName dan totalAccounts
+    // Tujuannya adalah untuk digunakan pada lables tampilan bar chart
     for (const universityName in universitiesData) {
         if (count < 10) {
             univName.push(universityName);
@@ -255,54 +210,10 @@ function chartUniv(universitiesData) {
         }
     }
 
-    // Bar Chart Example
-    var univName = [];
-    var totalAccounts = [];
-    var count = 0;
-
-    for (const universityName in universitiesData) {
-        if (count < 10) {
-            univName.push(universityName);
-            totalAccounts.push(universitiesData[universityName].totalAccounts);
-            count++;
-        } else {
-            break; // Stop iteration after the first 10 data
-        }
-    }
-
-    // Bar Chart Example
-    var univName = [];
-    var totalAccounts = [];
-    var count = 0;
-
-    for (const universityName in universitiesData) {
-        if (count < 10) {
-            univName.push(universityName);
-            totalAccounts.push(universitiesData[universityName].totalAccounts);
-            count++;
-        } else {
-            break; // Stop iteration after the first 10 data
-        }
-    }
-
-    // Bar Chart Example
-    var univName = [];
-    var totalAccounts = [];
-    var count = 0;
-
-    for (const universityName in universitiesData) {
-        if (count < 10) {
-            univName.push(universityName);
-            totalAccounts.push(universitiesData[universityName].totalAccounts);
-            count++;
-        } else {
-            break; // Stop iteration after the first 10 data
-        }
-    }
-
-    // Calculate height based on the number of bars
-
-    // Bar Chart Example
+    
+  // Berikut adalah baris code untuk membuat sebuah bar chart Top 10 University By Employee
+  // var UnivName tadi digunakan di dalam sini sebagai lables dari bar chart
+  // Kemudian untuk datasetnya menggunakan variable data 'totalAccounts'
     var ctx = document.getElementById("myBarChart").getContext("2d");
     var myBarChart = new Chart(ctx, {
         type: "horizontalBar",
@@ -424,12 +335,19 @@ function chartUniv(universitiesData) {
     });
 }
 
+
+// Function berikut digunakan untuk menampilkan Pie Chart dari data Turn Over
+// Data tersebut berisi berapa jum Jumlah employe yang reign, blacklist, dan transfer
+// Data didapat dari ajax sebelumnya tempat dimana function ini dipanggil
 function myPieChart(data) {
     Chart.defaults.global.defaultFontFamily =
         'Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
     Chart.defaults.global.defaultFontColor = "#858796";
 
-    // Pie Chart Example
+    // Baris code berikut adalah code yang digunakan untuk menampilkan Piechart
+    // labels berisi status turn over Reisgn, Blacklist,dan Transfer bseserta jumlah nya
+    // kemudian unuk data di dalam dataset berisi jumlah dari setiap status tersebut
+    // Unutk melihat tampilannya ada di dashboard admin
     var ctx = document.getElementById("ChartTurnOver");
     var data = {
         labels: data.map((item) => `${item.label} (${item.count})`),
@@ -462,14 +380,14 @@ function myPieChart(data) {
         options: options,
     });
 
-    // Add a function to toggle dataset visibility
+  
     function toggleDataset(index) {
         var meta = myPieChart.getDatasetMeta(0);
         meta.data[index].hidden = !meta.data[index].hidden;
         myPieChart.update();
     }
 
-    // Append legend to a container
+   
     var legendContainer = document.getElementById("legendContainer");
     if (legendContainer) {
         legendContainer.innerHTML = myPieChart.generateLegend();

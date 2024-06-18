@@ -1,4 +1,7 @@
-﻿var dataEmployee = [];
+﻿// ChangePassord.js ini menangani seluruh sisi dari admin hingga employee dalam mengganti password
+// dan terdapat function save log untuk menyimpan log pergantian password hanya untuk admin
+// Untuk melakukan change password ini tombol ada ketika di klik nama pada bagian navbar kemudian muncul change password
+var dataEmployee = [];
 var dataEmployeeCV = [];
 
 var roleId = getUserRole();
@@ -6,12 +9,14 @@ var notification = document.getElementById("notification");
 var element = document.getElementById("btnBell");
 var elementAlert = document.getElementById("alertNotif");
 
+// Kondisi untuk hide tombol lonceng yang ada pada navbar yang roleId == 1 (Super Admin) atau roleId == 3 (Employee)
 if (roleId == 1 || roleId == 3) {
+    debugger;
   $("#btnBell").hide();
 }
 
 
-
+// Function ini digunakan untuk membersihkan value inputan password saat melakukan penggantian password
 function clearScreen() {
   $("#accountId").val("");
   $("#currentPassword").val("");
@@ -26,6 +31,9 @@ function clearScreen() {
   });
 }
 
+// Function ini akan di jalankan ketika pengguna mengklik tombol Save Changes pada form Change Password
+// Terdapat validasi minimal 6 karakter, dan validasi required.
+// Function ini mengandung api yang dilakukan untuk update password, dengan data yang dibutuhkan adalah
 function updatePassword() {
   var isValid = true;
 
@@ -43,6 +51,8 @@ function updatePassword() {
     return;
   }
 
+// Untuk data yang diperlukan adalah sebagi berikut
+// Email dan account Id yang di dapat dari token dari setiap user yang telah melakukan login
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accountId = decodedtoken.AccountId;
   const email = decodedtoken.Email;
@@ -62,6 +72,8 @@ function updatePassword() {
     return; // Hentikan eksekusi lebih lanjut
   }
   //End Validasi 6 Karakter
+
+// Pengecekan newPassword dan repeat password
   if (newPassword != repeatPassword) {
     // Password dan repeat password tidak sama, tampilkan pesan error
 
@@ -113,6 +125,8 @@ function updatePassword() {
     });
 }
 
+
+// Function untuk melakukan parse Token JWT yang digunakan untuk menadpat kan email, account id, dan role
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -129,6 +143,7 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
+// Function ini untuk menangani show dan hide password saat melakukan pergantian password
 function togglePasswordVisibility(inputId) {
   var icon = $("#" + inputId)
     .nextAll(".password-toggle-icon")
@@ -144,9 +159,10 @@ function togglePasswordVisibility(inputId) {
   }
 }
 
-function SaveLog_(logData) {
-  //debugger;
 
+// Functuion ini digunakan untuk melakukan penyimpana History Log kedalam server 
+// untuk menyimoan aktivitas pergantian password Admin
+function SaveLog_(logData) {
   const data_ = {
     id: 0,
     accountId: logData.AccountId,
@@ -159,178 +175,12 @@ function SaveLog_(logData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      //'Authorization': 'Bearer access_token_here'
+
     },
     body: JSON.stringify(data_),
   });
 }
 
-//function fetchContractPlacement() {
-//  fetch("https://localhost:7177/api/Employees", {
-//    method: "GET",
-//    datatype: "json",
-//    dataSrc: "data",
-//    headers: {
-//      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-//    },
-//  })
-//    .then((response) => response.json())
-//    .then((result) => {
-//      var notificationDate = [];
-//      result.data.forEach(function (emp) {
-//        if (emp.placements.length > 0) {
-//          var endContract = new Date(emp.endContract);
-//          var endPlacement = new Date(
-//            emp.placements[emp.placements.length - 1].endDate
-//          );
-
-//          var today = new Date();
-//          var timeDiff = today.getTime() - endPlacement; // Menghitung selisih dalam milidetik
-//          var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
-//          var daysremainPositive = Math.abs(daysremain);
-//          if (daysremainPositive <= 30) {
-//            endPlacement.setDate(endPlacement.getDate() - 30);
-//            notificationDate.push(endPlacement);
-
-//            fetch(
-//              "https://localhost:7177/api/ClientName/" +
-//                emp.placements[emp.placements.length - 1].clientId,
-//              {
-//                method: "GET",
-//                datatype: "json",
-//                dataSrc: "data",
-//                headers: {
-//                  Authorization: "Bearer " + sessionStorage.getItem("Token"),
-//                },
-//              }
-//            )
-//              .then((response) => response.json())
-//              .then((result) => {
-//                var data = {
-//                  accountId: emp.accountId,
-//                  fullname: emp.fullname,
-//                  placement: result.data.nameOfClient,
-//                  days: daysremain,
-//                  date: endPlacement.toLocaleDateString(),
-//                };
-//                dataEmployee.push(data);
-
-//                notification.innerHTML += `
-//                  <a class="dropdown-item d-flex align-items-center notification-item" href="/ManageEmployee/DetailEmployee?accountId=${data.accountId}">
-//                        <div class="mr-3">
-//                          <div class="icon-circle bg-primary">
-//                          <i class="fas fa-file-alt text-white"></i>
-//                          </div>
-//                        </div>
-//                        <div>
-//                        <div class="small text-gray-500">Reminder &nbsp;<span class="badge-lg badge-pill badge-success">${data.date}</span></div>
-//                          <b>${data.fullname}</b> contract at <b>${data.placement}</b> is less than a month.
-//                        </div>
-//                      </a>`;
-//              });
-//          }
-//        }
-//      });
-//    })
-//    .then(() => {
-//      checkOverviewEmployee();
-//    });
-//}
-
-//function checkOverviewEmployee() {
-//  fetch("https://localhost:7177/api/Employees/CheckOverviewEmployee", {
-//    method: "GET",
-//    datatype: "json",
-//    dataSrc: "data",
-//    headers: {
-//      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-//    },
-//  })
-//    .then((response) => response.json())
-//    .then((result) => {
-//      result.data.forEach(function (emp) {
-//        if (
-//          //Check Personal Detail
-//          emp.fullname == null ||
-//          emp.nickname == null ||
-//          emp.birthplace == null ||
-//          emp.birthdate == null ||
-//          emp.religion == null ||
-//          emp.gender == null ||
-//          emp.maritalstatus == null ||
-//          emp.nationality == null ||
-//          emp.address == null ||
-//          //Check Education
-//          emp.formalEdus.length == 0 ||
-//          emp.nonFormalEdus.length == 0 ||
-//          //Check Qualifications
-//          // emp.qualifications.length == 0 ||
-//          // emp.qualifications.framework == "" ||
-//          // emp.qualifications.programmingLanguage == "" ||
-//          // emp.qualifications.database == "" ||
-//          //Check Certificate
-//          emp.certificates.length == 0 ||
-//          //Check Employeement History
-//          emp.employmentHistories.length == 0 ||
-//          //Check Project History
-//          emp.projectHistories.length == 0
-//        ) {
-//          dataEmployeeCV.push(`${emp.fullname} data is still incomplete.`);
-//        }
-//        // console.log(dataEmployee);
-//      });
-
-//      dataEmployeeCV.forEach(function (notif) {
-//        notification.innerHTML += `
-//        <div class="dropdown-item d-flex align-items-center notification-item">
-//          <div class="mr-3">
-//            <div class="icon-circle bg-warning">
-//              <i class="fas fa-user text-white"></i>
-//            </div>
-//          </div>
-//          <div>
-//          <div class="small text-gray-500">CV Employee</div>
-//            ${notif}
-//          </div>
-//        </div>`;
-//      });
-//      var notifLength = dataEmployee.length + dataEmployeeCV.length;
-
-//      if (notifLength == 0) {
-//        $("#noNotif").show();
-//        $("#notifCount").hide();
-//      }
-//      // else if (notifLength > 3) {
-//      //   $("#noNotif").hide();
-//      //   document.getElementById("notifCount").innerHTML = "3+";
-//      //   var notifItem = document.getElementsByClassName("notification-item");
-
-//      //   notification.innerHTML += `<span
-//      //     class="dropdown-item text-center small text-dark-500"
-//      //     id="showAllNotif" onclick="showAllNotification()">
-//      //     Show All Notifications
-//      //   </span>`;
-
-//      //   notification.innerHTML += `<span
-//      //     class="dropdown-item text-center small text-dark-500"
-//      //     id="hideAllNotif" onclick="hideAllNotification()">
-//      //     Hide Notifications
-//      //   </span>`;
-//      //   $("#hideAllNotif").hide();
-
-//      //   $("#showAllNotif").css("cursor", "pointer");
-//      //   $("#hideAllNotif").css("cursor", "pointer");
-//      //   for (let i = notifLength; i > 3; i--) {
-//      //     notifItem[i - 1].classList.add("d-none");
-//      //     notifItem[i - 1].classList.remove("d-flex");
-//      //   }
-//      // }
-//      else {
-//        $("#noNotif").hide();
-//        document.getElementById("notifCount").innerHTML = notifLength;
-//      }
-//    });
-//}
 
 function showAllNotification() {
   var notifLength = dataEmployee.length + dataEmployeeCV.length;
@@ -340,7 +190,7 @@ function showAllNotification() {
 
   for (let i = notifLength; i > 3; i--) {
     notifItem[i - 1].classList.add("d-flex");
-    // notifItem[i - 1].style.display = "block";
+ 
   }
 
   $("#btnBell").trigger("click");
@@ -363,6 +213,8 @@ function hideAllNotification() {
   $("#btnBell").classList.add("show");
   $("#alertNotif").classList.add("show");
 }
+
+
 function getUserRole() {
   var token = sessionStorage.getItem("Token");
   if (token) {
