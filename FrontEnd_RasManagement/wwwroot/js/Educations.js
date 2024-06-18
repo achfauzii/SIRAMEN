@@ -1,3 +1,7 @@
+//Education.js ini digunakan untuk menangani halaman Education pada bagian Employee Data For CV ->Education
+//Education disini juga terdapat 2 Jenis yaitu  Formal dan Non Formal, tetapi untuk file ini menangani Formal Education
+//Secara garis besar digunakan untuk menampilkan data, add data, edit data , dan delete data Formal Education
+
 var table = null;
 var initialFormalEdu = {};
 
@@ -13,12 +17,14 @@ $(document).on("select2:open", (e) => {
 });
 
 $(document).ready(function () {
+
+// Memanggil beberapa function untuk di jalankan ketika halaman di muat
   Educations();
   formInputLocation();
   getUniversitasList();
 
   const selectMajor = $("#Major");
-  //Ini untuk tanpa display none jadi langsung di tampilkan ()
+//Inisialisasi select 2 untuk memilih jurusan pada modal Formal Education
   $(selectMajor).select2({
     placeholder: "Select your major",
     width: "100%",
@@ -28,6 +34,9 @@ $(document).ready(function () {
   });
 });
 
+
+//Function ini untuk menampilkan data Formal Education Employee dalam bentuk datatable
+//Dijalankan saat memuat halaman education
 function Educations() {
   //debugger;
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
@@ -122,15 +131,11 @@ function Educations() {
     },
   });
 }
-function matchCustom(params, data) {
-  // If there are no search terms, return all of the data
-  if ($.trim(params.term) === "") {
-    return null;
-  }
-  // Implement your custom matching logic here
-  // For example, you can use data.text.includes(params.term)
-  return null;
-}
+
+
+//Function berikut digunakan untuk mendapatkan Universitas
+//Digunakan dalam form Formal Education pada employee pada select University Name
+//Data Universitas ada pada /assets/file_json/loadpt.json
 function getUniversitasList() {
   const selectUniversity = $("#UniversityName");
 
@@ -142,6 +147,9 @@ function getUniversitasList() {
     tags: true,
     minimumInputLength: 3,
   });
+
+  //Get data universitas pada file /assets/file_json/loadpt.json
+  //Kemudian tampilkan dalam bentuk select pada modal Formal Education
   $.ajax({
     url: "../assets/file_json/loadpt.json",
     type: "GET",
@@ -166,6 +174,10 @@ function getUniversitasList() {
   });
 }
 
+//Function untuk menghandle form input education pada field Lokasi Provinsi dan Kota
+//Data Provinsi ada pada assets/file_json/provinces.json
+//Kemudian data Kota ada pada assets/file_json/regencies.json
+//Di function berikut pengguna memilih Provinsi terlebih dahulu baru memanggil data Kota nya
 function formInputLocation() {
   const selectProvinces = document.getElementById("selectProvinces");
   const selectRegencies = document.getElementById("selectRegencies");
@@ -248,11 +260,15 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
+
+//Validasi Numeric
 function numeric(input) {
   var numericValue = input.value.replace(/[^\d.,]/g, "");
   input.value = numericValue;
 }
 
+// Function berikut untu menyimpan formal education yang ada pada halaman education di employee
+// Terdapat validasi dan jika berhasil maka data akan dikirim ke server
 function SaveFormal() {
   var isValid = true;
 
@@ -380,6 +396,7 @@ function SaveFormal() {
   });
 }
 
+// Clear Screen form Formal Education
 function ClearScreenFormal() {
   $("#Update").hide();
   $("#Save").show();
@@ -390,9 +407,9 @@ function ClearScreenFormal() {
     $(".err").hide();
 }
 
+//Function berikut untuk get data Formal Education berdasarkan Id
+//Digunakan untuk mengisi value pada form edit formal education
 function GetById(formalEduId) {
-  //debugger;
-  //GET SEMUA Kota atau kabupaten untuk di tampilkan berdasarkan Get By Id
 
   ClearScreenFormal();
   const selectUniversity = document.getElementById("UniversityName");
@@ -467,6 +484,8 @@ function GetById(formalEduId) {
   });
 }
 
+// Function berikut digunakan untuk Melakukan Update Formal dan mengirim data keserver setelah berhasil melakukan update
+// Untuk menyimpan update form education pada halaman education employee
 function UpdateFormal() {
   var isValid = true;
 
