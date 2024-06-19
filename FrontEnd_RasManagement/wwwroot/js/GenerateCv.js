@@ -1,3 +1,9 @@
+//GenerateCV.js ini digunakan untuk Generate CV Employee
+//Halaman yang menggunakan file GenerateCV.js yaitu pada Generate CV Employee dan Table Manage Resource -> icon Pdf pada Admin
+//GenerateCV.js ini dijalankan ketika admin atau employee mengklik tombol generate CV
+//Kemudian akan menampilkan data2 Employee dalam bentuk CV Berca dan dapat di download
+//File CSHTML yang digunakan adalah GenerateCV -> Index untuk admin, untuk employee generateCV -> generateCVEmployee
+
 $(document).ready(function () {
     // Mendapatkan nilai parameter accountId dari URL
     $("#backButton").on("click", function () {
@@ -6,6 +12,10 @@ $(document).ready(function () {
     loadData();
 });
 
+// Function loadData ini digunakan untk load dan menampilan Data CV yang didapat dari server berdasarkan Account Id
+// Terdapat beberapa data yang di get yaitu Data Account, FormalEducation, Non Formal Edu, Qualifiaction, Employeement History, Certificate, dan project History
+// Pada Function ini juga memanggil function Shufle Array yang digunakan untuk mengacak nilai Non Formal Education untuk employee bootcamp
+// Masing2 data ditampilkan dalam format cv berca disini
 function loadData() {
     $("#loader").show();
 
@@ -18,7 +28,9 @@ function loadData() {
         var urlParams = new URLSearchParams(window.location.search);
         accountId = urlParams.get("accountId");
     }
-  
+
+    //Get data Employee berdasarkan Account Id
+    //Kemudian ditampilkan dalam bentuk Format CV Berca dengan mengisi text content pada cshtml 
     $.ajax({
         url:
             "https://localhost:7177/api/Employees/accountId?accountId=" +
@@ -41,7 +53,7 @@ function loadData() {
             } else {
                 date_ = "";
             }
-
+            //Mengisi content2 Cshtml berdasarkan ID
             document.getElementById("fullName").textContent = obj.fullname;
             document.getElementById("nickName").textContent = obj.nickname;
             document.getElementById("birthPlace").textContent = obj.birthplace + ", ";
@@ -51,7 +63,9 @@ function loadData() {
             document.getElementById("martialStatus").textContent = obj.maritalstatus;
             document.getElementById("nationality").textContent = obj.nationality;
 
-            // API GET (Education By AccountId)
+
+            //Get data Education berdasarkan Account Id
+            //Kemudian ditampilkan dalam bentuk Format CV Berca dengan mengisi text content pada cshtml 
             $.ajax({
                 url:
                     "https://localhost:7177/api/Educations/accountId?accountId=" +
@@ -115,7 +129,11 @@ function loadData() {
                 },
             });
 
-            // API GET (NonFromalEdu By AccountId)
+
+            //Get data Non Formal Education berdasarkan Account Id
+            //Kemudian ditampilkan dalam bentuk Format CV Berca dengan mengisi text content pada cshtml
+            // Pada code berikut terdapat juga memanggil function shuffleArray(item.description, item.organizer)
+            // Tujuann function shuffleArray untuk mengacak data Non Formal Edu Bootcamp
             $.ajax({
                 url:
                     "https://localhost:7177/api/NonFormalEdu/accountId?accountId=" +
@@ -162,7 +180,9 @@ function loadData() {
                 },
             });
 
-            // API GET (Qualification By AccountId)
+
+            //Get data Qualification berdasarkan Account Id
+            //Kemudian ditampilkan dalam bentuk Format CV Berca dengan mengisi text content pada cshtml
             $.ajax({
                 url:
                     "https://localhost:7177/api/Qualification/accountId?accountId=" +
@@ -225,7 +245,9 @@ function loadData() {
                 },
             });
 
-            // API GET (Certificate By AccountId)
+
+            //Get data Certificate berdasarkan Account Id
+            //Kemudian ditampilkan dalam bentuk Format CV Berca dengan mengisi text content pada cshtml
             $.ajax({
                 url:
                     "https://localhost:7177/api/Certificate/accountId?accountId=" +
@@ -272,7 +294,9 @@ function loadData() {
                 },
             });
 
-            // API GET (Employeement History By AccountId)
+
+            //Get data Employement History berdasarkan Account Id
+            //Kemudian ditampilkan dalam bentuk Format CV Berca dengan mengisi text content pada cshtml
             $.ajax({
                 url:
                     "https://localhost:7177/api/EmploymentHistory/accountId?accountId=" +
@@ -352,7 +376,9 @@ function loadData() {
                 },
             });
 
-            // API GET (ProjectHistory By AccountId)
+
+            //Get data Project History berdasarkan Account Id
+            //Kemudian ditampilkan dalam bentuk Format CV Berca dengan mengisi text content pada cshtml
             $.ajax({
                 url:
                     "https://localhost:7177/api/ProjectHistory/accountId?accountId=" +
@@ -406,19 +432,7 @@ function loadData() {
                             });
                         }
 
-                        //// Membuat elemen ul untuk menampilkan jobSpec
-                        //var ul = document.createElement("ul");
-                        //ul.className = "list-unstyled custom-ul";
-                        ////console.log(jobSpecItems);
-                        //ul.classList.add("pl-3");
-                        //if (jobSpecItems != "") {
-                        //    // Mengisi elemen ul dengan item-item jobSpec
-                        //    jobSpecItems.forEach(function (item) {
-                        //        var li = document.createElement("li");
-                        //        li.innerHTML = item;
-                        //        ul.appendChild(li);
-                        //    });
-                        //} 
+                
                         row.innerHTML =
                             "<td>" +
                             project.projectName +
@@ -446,6 +460,8 @@ function loadData() {
     });
     $("#loader").hide();
 }
+
+
 function getAccountIdFromToken() {
     var token = sessionStorage.getItem("Token");
     if (token) {
@@ -471,35 +487,40 @@ function getUserRole() {
     return null;
 }
 
-
+// Function ini bertujuan untuk mengacak data Non Formal education employee dengan kondisi organizer = PT. Berca Hardayaperkasa
+// Function ini menerima 2 parameter yaitu parameter array dari data Non Formal Edu dan organizer
 function shuffleArray(array, organizer) {
-    console.log(organizer);
+    
     if (organizer != "PT. Berca Hardayaperkasa") {
      
         return array;
     } else {
 
+        // Memisahkan data "Web Template (CSS, Bootstrap)"" sebelum displit berdasarkan ","
+        // Bertujuan agar satu kesatuan kalimat tersebut tidak ikut terpisah
         const regexWebTemplate = /, Web Template \(CSS, Bootstrap\)/;
         const match = regexWebTemplate.exec(array);
         let webTemp = match[0].replace(',', ''); 
 
+         // Memisahkan data "Pattern (MVC, MVVM, N-Layered Architecture) sebelum displit berdasarkan ","
+        // Bertujuan agar satu kesatuan kalimat tersebut tidak ikut terpisah kareba terdapat ","
         const regexPattern = /, Pattern \(MVC, MVVM, N-Layered Architecture\)/;
         const matchPattern = regexPattern.exec(array);
         let pattern = matchPattern[0].replace(',', ''); 
 
+        //Mengahpus data Regex web temp dan pattern
         const updatedData = array.replace(regexWebTemplate, "").replace(regexPattern, "");
     
       
 
         const text = updatedData.split(',');
-
-    
-
+        // Pengacakan data
         for (let i = text.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [text[i], text[j]] = [text[j], text[i]];
         }
 
+        //Menggabungkan kembali data yang dipisah tadi dengan data acak, lalu di acaj lagi
         const additionalItems = [webTemp, pattern];
         additionalItems.forEach(item => {
             const randomIndex = Math.floor(Math.random() * (text.length + 1));

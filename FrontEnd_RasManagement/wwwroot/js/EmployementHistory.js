@@ -1,12 +1,16 @@
-﻿var table = null;
+﻿//EmployementHistory.js ini menangani halaman Data For CV -> EmployementHistory pada bagian employee
+//Sebagian besar berisi dalam menangani view table EmployementHistory, Add new, Edit data dan Delete Data
+
+var table = null;
 var initialEmployementHis = {};
 $(document).ready(function () {
+    //Date Picker untul form modal EmployementHistory
     $("#StartYear").datepicker({
         format: "yyyy-mm",
         viewMode: "months",
         minViewMode: "months"
     });
-
+    //Date Picker untul form modal EmployementHistory
     $("#EndYear").datepicker({
         format: "yyyy-mm",
         viewMode: "months",
@@ -23,8 +27,13 @@ $(document).ready(function () {
         $(this).closest('.col pl-0 form-group').prev('label').append('<span style="color: red;">*</span>');
     });
 
+    // Get Account id dari hasril Parse JWT
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
+
+    // Menampilkan Table dalam bentuk datatable
+    // Dari account id diatas atau accid digunakan untuk mendapatkan employement History berdasarkan account id
+    // Table berikut berisi data employement history berdasarkan account Id
     table = $("#TB_EmploymentHistory").DataTable({
         responsive: true,
         ajax: {
@@ -119,6 +128,7 @@ $(document).ready(function () {
     });
 });
 
+// Function untuk melakukan parse pada Token JWT, memisah token menjadi beberapa bagian untuk di gunakan di function lainnya
 function parseJwt(token) {
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -156,27 +166,10 @@ $("#EndYear").on('input', function () {
     validateDateInputs();
 });
 
-function validateDateInputs() {
-    var startYear = new Date($("#StartYear").val());
-    var endYear = new Date($("#EndYear").val());
-    var errorMessageDateValid = "End year must be greater than start year";
 
-    if (startYear > endYear) {
-        $("#EndYear").next(".error-message").text(errorMessageDateValid);
-        $("#EndYear").next(".error-message").show();
-        $("#Save").prop('disabled', true); // Menonaktifkan tombol "Save"
-        $("#Update").prop('disabled', true); // Menonaktifkan tombol "Save"
-    } else {
-        $("#EndYear").next(".error-message").hide();
-        $("#Save").prop('disabled', false); // Mengaktifkan tombol "Save"
-        $("#Update").prop('disabled', false); // Mengaktifkan tombol Update
-    }
-}
-
-
+// Function berikut digunakan untuk menyimpan data baru Employement History ke server
 function Save() {
     var isValid = true;
-
     $("input[required]").each(function () {
         var input = $(this);
         var errorMessage = input.closest('.input-group').find('.error-message-p');
@@ -207,7 +200,9 @@ function Save() {
         period: period,
         description: $("#Description").val(),
     };
-
+    
+    // Account id didapatkan dari hasil parseJwt
+    // Kemudiab disimpan kedalam   EmploymentHistory.AccountId untuk dikirim ke server
     const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
     const accid = decodedtoken.AccountId;
     EmploymentHistory.AccountId = accid;
@@ -257,6 +252,9 @@ function ClearScreen() {
 
 }
 
+// Function GetById berikut digunakan untuk mendapatkan data employement history dari server
+// Function ini menerima parameter workExperienceId yang dijalankan saat employee klik button edit
+// Kemudian akan menampilkan value pada form employement History
 function GetById(workExperienceId) {
     ClearScreen()
     $("#Update").show();
@@ -299,6 +297,8 @@ function GetById(workExperienceId) {
     });
 }
 
+// Function Update berikut digunakan ketika ingin menyimpan perubahan pada Employement History
+// Dijalankan saat employee klik tombol update pada form edit Employement History
 function Update() {
     var isValid = true;
 
@@ -379,6 +379,10 @@ function Update() {
     });
 }
 
+
+// Function Delete berikut digunakan untuk menghapus data
+// Menerima parameter workExperienceId untuk di delte berdasarkan id tersebut
+// Function ini berjalan saat employee klik tombol delete pada halaman Employement History
 function Delete(workExperienceId) {
     Swal.fire({
         title: "Are you sure?",

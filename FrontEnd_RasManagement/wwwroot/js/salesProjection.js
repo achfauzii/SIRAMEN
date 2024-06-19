@@ -884,10 +884,13 @@ function saveActivity() {
         return;
     }
 
+    // Hasil Input textarea agar ter input spasi menyesuaikan inputan textarea
+    // Hasil input jika new line berupa \n kemudian diganti menjadi <bt>/
+    var activity = $("#inputActivity").val().replace(/\n/g, "<br />");
 
     const dataActivity = {
         "spId": parseInt($("#spId").val()),
-        "activity": $("#inputActivity").val(),
+        "activity": activity,
         "date": $("#dateActivity").val()
     }
 
