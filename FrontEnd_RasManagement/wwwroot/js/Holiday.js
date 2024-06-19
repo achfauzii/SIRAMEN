@@ -1,4 +1,8 @@
-﻿
+﻿//Holiday.js diguakn untuk menangani Hari Libur ataupun cuti bersama berada pada halaman manage holiday pada bagian admin
+//Holiay.js digunakan untuk menampilkan table holiday, CRUD, dan generate data holiday dari api public holiday untuk disimpan ke server
+//Generate Holiday berfungsi dalam menambahkan Hari Libur dengan API Public kemudian disimpan ke dalam database 
+//File Csthml nya Holiday -> Index
+
 var table = null;
 var initialHoliday = {};
 $(document).ready(function () {
@@ -8,78 +12,12 @@ $(document).ready(function () {
     //debugger;
     var today = new Date();
     var dayOfWeek = today.getDay();
+
+    //Get Year untuk digunakan dalam generate Holiday
     var year = today.getFullYear();
     $("#generateHoliday").append(`(${year})`)
 
-    // Cek jika hari ini adalah Sabtu (6) atau Minggu (0)
-    if (dayOfWeek === 6 || dayOfWeek === 0) {
-
-        var month = ("0" + (today.getMonth() + 1)).slice(-2); // Tambahkan "0" di depan jika bulan < 10
-        var day = ("0" + today.getDate()).slice(-2); // Tambahkan "0" di depan jika hari < 10
-        var formattedDate = today.getFullYear() + "-" + month + "-" + day;
-
-        var weekendData = {
-            name: "Weekend",
-            date: formattedDate,
-            description: "Weekend Activity",
-        };
-
-        //console.log(weekendData);
-        //debugger;
-        // Lakukan GET request untuk memeriksa apakah data sudah ada sebelumnya
-        $.ajax({
-            url: "https://localhost:7177/api/MasterHoliday",
-            type: "GET",
-            dataType: "json",
-            headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("Token"),
-            },
-            success: function (response) {
-                // Cek apakah data sudah ada
-                var isDataExist = false;
-                response.data.forEach(function (item) {
-                    // Format tanggal dari data response menjadi "YYYY-MM-DD"
-                    var dateObj = new Date(item.date);
-                    var year = dateObj.getFullYear();
-                    var month = ("0" + (dateObj.getMonth() + 1)).slice(-2); // Tambahkan "0" di depan jika bulan < 10
-                    var day = ("0" + dateObj.getDate()).slice(-2); // Tambahkan "0" di depan jika hari < 10
-                    var formattedResponseDate = year + "-" + month + "-" + day;
-
-                    // Bandingkan tanggal yang diformat dengan formattedDate
-                    if (formattedResponseDate === formattedDate) {
-                        isDataExist = true;
-                        return false; // Keluar dari loop jika data sudah ditemukan
-                    }
-                });
-
-                // Jika data belum ada, lakukan POST
-                if (!isDataExist) {
-                    // Menambahkan data ke tabel tbDataHoliday
-                    $.ajax({
-                        url: "https://localhost:7177/api/MasterHoliday",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(weekendData),
-                        headers: {
-                            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-                        },
-                        success: function (response) {
-                            // Reload tabel setelah menambahkan data
-                            table.ajax.reload();
-                        },
-                        error: function (err) {
-                            console.error("Error adding weekend data:", err);
-                        },
-                    });
-                }
-            },
-
-            error: function (err) {
-                console.error("Error checking existing data:", err);
-            },
-        });
-    }
-
+    // Menampilkan Table Holiday
     $.fn.dataTable.moment('D MMMM YYYY')
     table = $("#tbDataHoliday").DataTable({
         responsive: true,
@@ -160,37 +98,10 @@ $(document).ready(function () {
         },*/
     });
 });
-/*document.addEventListener('DOMContentLoaded', function () {
-    $.ajax({
-        type: "GET",
-        url: "https://localhost:7177/api/MasterHoliday",
-        contentType: "application/json; charset=utf-8",
-        headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Token"),
-        },
-        success: function (data) {
-            let dataEvents = []
-            data.data.forEach(function (res) {
-                let dataTOEvent = {
-                    title: res.name ?? "No Data",
-                    start: new Date(res.date),
-                    backgroundColor: '#f56954', //red
-                    borderColor: '#f56954', //red
-                    allDay: true
-                }
-                dataEvents.push(dataTOEvent);
-            })
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: dataEvents,
-            });
-            calendar.render();
-        }
-    });
-        
-    });*/
 
+// Function GenerateFoliday ini berjalan ketika admin klik tombol Generate Holiday pada halaman manage holiday
+// Kemudian akan menyimpan data holiday yang di dapay dari api google calendar ke dalam database
+// Terdapat juga validasi jika tanngal sudah ada pada dalam database maka tidak ditambahkan
 async function generateHoliday() {
     
     $("#loader").show();
@@ -293,6 +204,10 @@ function handleInput(event, input) {
     noHTML(input);
 }
 
+
+// Menyimpan data holiday ke server ketika admin klik tombol save pada form add Holiday
+// Terdapat validasi pada backend pengecekan tanggal
+// Jika tanggal yang sudah ada di input kembali maka muncul alert Date Existing!!
 function Save() {
     var isValid = true;
 
@@ -382,6 +297,8 @@ function ClearScreen() {
     });
 }
 
+//Function berikut digunakan untuk mendapatkan data holiday berdasarkan holiday id
+//Digunakan untuk mengisi value ketika admin klik tombol edit pada manage holiday
 function GetById(holiday_Id) {
     ClearScreen();
     $.ajax({
@@ -414,6 +331,8 @@ function GetById(holiday_Id) {
     });
 }
 
+// Function Update untuk update data holiday, berjalan ketika admin klik tombol update pada form edit holiday
+// Terdapat validasi juga jika data sudah ada di dalam database muncul alert Data Existing
 function Update() {
     //debugger;
     var isValid = true;

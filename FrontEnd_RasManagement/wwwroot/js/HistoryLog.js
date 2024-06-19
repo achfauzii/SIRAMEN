@@ -1,4 +1,7 @@
-﻿var table = null;
+﻿//HistoryLog.js ini digunakan untuk menangani penyimpanan History Log, dan View History Log
+//Untuk menggunakan history log di function lain dapat menggunakan SaveLog(logMessage) dan jangan lupa tambah tag script HistoryLog pada cshtmlnya
+//LogMessage tersebut adalah pesan yang ingin di simpan ke dalam table History Log
+var table = null;
 $(document).ready(function () {
   table = $("#TB_HistoryLog").DataTable({
     responsive: true,
@@ -87,6 +90,8 @@ $(document).ready(function () {
   });
 });
 
+// Menyimpan Log Data
+// Menerima parameter logData yang berupa pesan ataua aktivitas yang ingin di simpan ke dalam  History Log
 function SaveLog(logData) {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
 

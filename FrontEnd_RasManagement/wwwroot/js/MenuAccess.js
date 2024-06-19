@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿//MenuAccess.js ini digunakan untuk menghandle Menu Access (Akses yang bisa diakses beebrapa role)
+$(document).ready(function () {
 
     var objDataToken = parseJwt(sessionStorage.getItem('Token'));
     if (objDataToken.RoleId == 5) {

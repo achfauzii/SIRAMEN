@@ -1,7 +1,10 @@
-$(document).ready(function () {
-    /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-        const accid = decodedtoken.AccountId;*/
+//Manage Account.js ini digunakan untuk menangani Manage Account pada bagian Super Admin
+//Digunakan unutk menampilkan data account dalam bentuk table
+//Terdapat beberapa function untuk melakukan edit NIK dan mengubah Role
 
+$(document).ready(function () {
+
+    // Menampilkan data account dalam bentuk table
     $("#dataTableAccounts").DataTable({
         responsive: true,
         ajax: {
@@ -24,6 +27,7 @@ $(document).ready(function () {
             { data: "email" },
             { data: "gender" },
             { data: "hiredstatus" },
+            // View data NIK karyawan
             {
                 data: "nik",
                 render: function (data, type, row) {
@@ -44,6 +48,7 @@ $(document).ready(function () {
                     return data;
                 },
             },
+            // View data Role
             {
                 data: null,
                 render: function (data, type, row) {
@@ -105,9 +110,9 @@ function ClearScreen() {
     });
 }
 
+//Function getById ini digunakan untuk menampilkan nama dan role
+//Berjalan ketika super admin klik Role kemudian akan menampilkan modal dan funcitn ini mengisi value nya
 function GetById(accountId) {
-    /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-        const accid = decodedtoken.AccountId;*/
     $.ajax({
         url: "https://localhost:7177/api/Accounts/AccountId?accountId=" + accountId,
         type: "GET",
@@ -131,9 +136,10 @@ function GetById(accountId) {
     });
 }
 
+
+//Function getByIdNIK ini digunakan untuk menampilkan nama dan NIK
+//Berjalan ketika super admin klik NIK di pada row table kemudian akan menampilkan modal dan funcitn ini mengisi value nya
 function GetByIdNIK(accountId) {
-    /*const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-        const accid = decodedtoken.AccountId;*/
     $.ajax({
         url: "https://localhost:7177/api/Accounts/AccountId?accountId=" + accountId,
         type: "GET",
@@ -157,6 +163,8 @@ function GetByIdNIK(accountId) {
     });
 }
 
+// Function ini untuk mengupdate Role
+// Berjalan saat super admin klik tombol update pada Form Edit Role
 function UpdateRole() {
     var Account = new Object();
     Account.accountId = $("#AccountId").val();
@@ -188,6 +196,9 @@ function UpdateRole() {
     });
 }
 
+
+// Function ini untuk mengupdate NIK
+// Berjalan saat super admin klik tombol update pada Form Edit NIK
 function UpdateNIK() {
     var isValid = true;
 

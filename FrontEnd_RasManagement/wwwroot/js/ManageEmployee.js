@@ -1,8 +1,14 @@
-// Simpan warna berdasarkan kata yang sama di objek
+//ManageEmployee.js ini digunakan dalam menghandle halaman Manage Resource dan View Detail Employee pada bagian admin
+//File Cshtml Manage Employee -> index dan detail emplooye 
+//Sebagian besar code digunakan untuk menampilkan data employee, Turn Over Employee, dan menghandel datatable
+//Menghandle placement status idle atau onsite untuk ditampilkan di table dan menghandul action button GeneratePDF,TimeSheet, Detail Employee
+// dan menghandle button Filter Data
 var table = null;
 var colorsByWord = {};
 var colorByPosition = {};
 var compareLevel = {};
+
+//Variabel color digunakan untuk pengacakan color positions
 var softlColors = [
     "#B7E4C7", // Mint Green
     "#FFD8B1", // Soft Peach
@@ -37,13 +43,6 @@ var pastelColors = [
     "#F7F5EB",
 ];
 
-// Filter data
-//var filterPosition = "";
-//var filterLevel = "";
-//var filterHiredStatus = "";
-//var filterFinanIn = "";
-//var filterplacLoc = "";
-//var filterplacStatus = "";
 
 $(document).ajaxComplete(function () {
     $('[data-tooltip="tooltip"]').tooltip({
@@ -56,6 +55,7 @@ $(document).ready(function () {
     getPlacementLoc();
     getPosition();
 
+    //Mendapatkan placementStatus
     var urlParams = new URLSearchParams(window.location.search);
     var placementStatus_ = urlParams.get("placementStatus");
 
@@ -100,17 +100,6 @@ $(document).ready(function () {
         handlePlacementStatusChange();
     });
 
-    // document
-    //   .getElementById("submitFilter")
-    //   .addEventListener("click", handleFilterSubmission);
-
-    // document
-    //   .getElementById("resetFilterData")
-    //   .addEventListener("click", function () {
-    //     resetFilter();
-    //   });
-
-
 
 
 
@@ -123,24 +112,7 @@ $(document).ready(function () {
         resetFilter();
     });
 
-    // $("#dataTableEmployee thead tr")
-    //   .clone(true)
-    //   .addClass("filters")
-    //   .attr("id", "filterRow")
-    //   .appendTo("#dataTableEmployee thead");
-
-    // $('#loader').show();
-
-    // $("#dataTableEmployee tfoot th").each(function (i) {
-    //   var title = $("#dataTableEmployee thead th").eq($(this).index()).text();
-    //   $(this).html(
-    //     '<input type="text" class="form-control form-control-sm pt-0 pb-0" placeholder="Search ' +
-    //       title +
-    //       '" data-index="' +
-    //       i +
-    //       '" />'
-    //   );
-    // });
+  
 
     var urlParams = new URLSearchParams(window.location.search);
     var placementStatus_ = urlParams.get("placementStatus");
@@ -154,6 +126,7 @@ $(document).ready(function () {
             handleFilterSubmission()
         }
     } else {
+        //Menampilkan View Table Employee
         table = $("#dataTableEmployee")
             .on("processing.dt", function (e, settings, processing) {
                 $("#loader").css("display", processing ? "block" : "none");
@@ -183,31 +156,7 @@ $(document).ready(function () {
                     },
                 },
 
-                /* initComplete: function () {
-                  this.api()
-                    .columns()
-                    .every(function () {
-                      let column = this;
-                      let title = column.footer().textContent;
-          
-                      if (title !== "No" && title !== "Action" && title !== "Assets") {
-                        // Create input element
-                        let input = document.createElement("input");
-                        input.classList.add("form-control");
-                        input.placeholder = title;
-                        column.footer().replaceChildren(input);
-          
-                        // Event listener for user input
-                        input.addEventListener("keyup", () => {
-                          if (column.search() !== this.value) {
-                            column.search(input.value).draw();
-                          }
-                        });
-                      } else {
-                        column.footer().replaceChildren("");
-                      }
-                    });
-                },*/
+             
                 columns: [
                     //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
@@ -437,18 +386,6 @@ $(document).ready(function () {
                             //console.log(daysInMonth)
                             var result = "";
 
-                            /*if (monthsRemaining > 0) {
-                                                                result += monthsRemaining + " months ";
-                                                            }
-                                        
-                                                            if (daysInMonth > 0) {
-                                                                if (monthsRemaining > 0) {
-                                                                    result += daysInMonth + " days";
-                                                                } else {
-                                                                    result = '<span class="badge rounded-pill badge-danger">' + daysInMonth + ' days' + '</span > '
-                                                                }                     
-                                                            }*/
-
                             if (monthsRemaining > 2) {
                                 // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
                                 result =
@@ -642,6 +579,8 @@ $(document).ready(function () {
 function Detail(id) {
     window.location.href = "/ManageEmployee/DetailEmployee?accountId=" + id;
 }
+
+//Melakukan parse JWT token untuk mendapatkan data yang ada pada token
 function parseJwt(token) {
     var base64Url = token.split(".")[1];
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -660,7 +599,6 @@ function parseJwt(token) {
 
 function noHTML(input) {
     var value = input.value.replace(/<[^>]*>/g, "");
-    //var nohtml = value.replace(/[<>?/]/g, '');
     input.value = value;
 }
 
@@ -706,99 +644,6 @@ function fetchDepartments() {
     });
 }
 
-//function SaveTurnOver() {
-//  table = $("#dataTableEmployee").DataTable();
-//  var isValid = true;
-
-//  // Validasi select options
-//  var status = $("#Status").val();
-
-//  if (!status) {
-//    $(".PlacementStatus")
-//      .closest(".form-group")
-//      .find(".error-message-status")
-//      .show();
-//    isValid = false;
-//  } else {
-//    $(".PlacementStatus")
-//      .closest(".form-group")
-//      .find(".error-message-status")
-//      .hide();
-//  }
-
-//  if (!isValid) {
-//    return;
-//  }
-//  var deptIdValue = $("#deptId").val();
-//  var TurnOver = new Object(); //object baru
-
-//  TurnOver.status = $("#Status").val();
-//  // TurnOver.deptId = $('#DeptId').val();
-//  TurnOver.deptId = deptIdValue ? deptIdValue : null;
-
-//  TurnOver.description = $("#Description").val();
-//  TurnOver.accountId = $("#AccountId").val();
-//  TurnOver.exitDate = $("#date").val();
-
-//  var updateRole = new Object();
-//  updateRole.accountId = $("#AccountId").val();
-//  updateRole.roleId = "4";
-
-//  $.ajax({
-//    type: "POST",
-
-//    url: "https://localhost:7177/api/TurnOver",
-//    data: JSON.stringify(TurnOver),
-
-//    contentType: "application/json; charset=utf-8",
-//    headers: {
-//      Authorization: "Bearer " + sessionStorage.getItem("Token"),
-//    },
-//  }).then((result) => {
-//    if (
-//      (result.status == result.status) == 201 ||
-//      result.status == 204 ||
-//      result.status == 200
-//    ) {
-//      // debugger;
-//      //$('#modal-add').modal('hide'); // hanya hide modal tetapi tidak menutup DOM nya
-
-//      Swal.fire({
-//        title: "Success!",
-//        text: "Turn Over Status has Updated",
-//        icon: "success",
-//        showConfirmButton: false,
-//        timer: 1500,
-//      }).then(() => {
-//        if (
-//          TurnOver.status == "Blacklist" ||
-//          TurnOver.status == "Resign" ||
-//          TurnOver.status == "Transfer"
-//        ) {
-//          $.ajax({
-//            url: "https://localhost:7177/api/Accounts/UpdateRole",
-//            type: "PUT",
-//            data: JSON.stringify(updateRole),
-//            contentType: "application/json; charset=utf-8",
-//            headers: {
-//              Authorization: "Bearer " + sessionStorage.getItem("Token"),
-//            },
-//          }).then((updateResult) => {
-//            const logMessage = `Has turn over employee Id ${TurnOver.accountId}, status ${TurnOver.status}, date : ${TurnOver.exitDate} `;
-//            SaveLogUpdate(logMessage);
-//          });
-//        }
-
-//        // Tampilkan elemen inputCompany jika opsi "Transfer" dipilih, jika tidak, sembunyikan
-//        if (selectedOption === "Transfer") {
-//          inputCompany.style.display = "block";
-//        } else {
-//          inputCompany.style.display = "none";
-//        }
-//      });
-//    }
-//  });
-//}
 
 function Detail(id) {
     window.location.href = "/ManageEmployee/DetailEmployee?accountId=" + id;
@@ -819,6 +664,9 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
+//Function berikut diguanakan dalam menangani Edit Placement yang akan mengisi value form eidt tersebut
+//Form Edit Placement berada pada detail employee
+//Dijalankan ketika admin klik tombol edit
 function GetByIdPlacement(accountId, placementStatus) {
 
     //ClearScreenPlacement();
@@ -878,6 +726,8 @@ function GetByIdPlacement(accountId, placementStatus) {
     });
 }
 
+//Function berikut digunakan untuk menyimpan turnover yang dilakukan oleh admin
+//Untuk menjalankan function ini dnegan klik button update pada form turnover
 function SaveTurnOver() {
     table = $("#dataTableEmployee").DataTable();
     var isValid = true;
@@ -1005,7 +855,8 @@ function handlePlacementStatusChange() {
     }
 }
 
-
+// Functiom beriktu dalah digunakan untuk mendapatkan contract emploeye untuk ditamplkan dalam form update contract
+//
 function GetContract(accountId) {
     ClearScreenContract();
     $.ajax({
@@ -1085,6 +936,7 @@ function GetContract(accountId) {
     });
 }
 
+//Function melakukan update contract dijalankan ketika admin klik update contract
 function UpdateContract() {
     var table = $("#dataTableEmployee").DataTable();
     var isValid = true;
@@ -1152,7 +1004,8 @@ function UpdateContract() {
     });
 }
 
-
+// Function berikut digunkan untuk mengupdate placement yang ada pada detail employee
+// Dijalankan ketika admin klik tombol update pada form edit placement
 function UpdatePlacement() {
     //table = $("#dataTableEmployee").DataTable()
     var Placement = new Object();
@@ -1209,15 +1062,8 @@ function ClearScreenContract() {
     $(".error-message-contract").hide();
     $(".error-message").hide();
 
-    /*$('#accountId').val('');
-          $('#StartContract').val('');
-          $('#EndContract').val('');
-          $('input[required]').each(function () {
-              var input = $(this);
-      
-              input.next('.error-message-contract').hide();
-      
-          });*/
+  
+ 
 }
 
 function ClearScreenPlacement() {
@@ -1259,6 +1105,9 @@ function ClearScreenChangeStatus() {
     $(".error-message, .error-message-turnOver, .error-message-dept").hide();
 }
 
+
+//Function berikut digunakan untuk menghandel save placement saat admin menambahkan penempatan baru untuk employee
+//Function tersebut menerima parameter account id untuk di simpan berdasarkan account id pada table placement
 function Save(accountId) {
     debugger;
     table = $("#dataTableEmployee").DataTable();
@@ -1344,6 +1193,9 @@ function Save(accountId) {
     });
 }
 
+
+//Function berikut digunakan untuk mengupdate placement atau penempatan 
+//Berjalan ketika di klik update pada form edit placement
 function Update() {
 
     var isValid = true;
@@ -1464,11 +1316,14 @@ function TimeSheetView(accountId) {
     window.location.href = "/TimeSheets/Index?accountId=" + accountId;
 }
 
-function GetByIdAsset(assetsManagementId) {
+//Function berikut digunakan unutk melihat asset employee
+//Berjalan ketika admin klik view asset
+//Menerima parameter account id yang digunakan untuk mendapatkan asset berdasarkan account id
+function GetByIdAsset(id) {
     $.ajax({
         url:
             "https://localhost:7177/api/Assets/accountId?accountId=" +
-            assetsManagementId,
+            id,
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -1501,6 +1356,9 @@ function GetByIdAsset(assetsManagementId) {
     });
 }
 
+
+//Function berikut digunakan untuk mengisi value level employee pada menu manage employee / manage resource
+//Berjakan ketika admin klik level employee yang ada pada table manage resource
 function GetbyLevel(accountId) {
     $.ajax({
         url:
@@ -1545,6 +1403,9 @@ function GetbyLevel(accountId) {
         },
     });
 }
+
+//Function berikut digunakan untuk mengirim data update ke server
+//berjalan ketika admin klik button update saat mengedit form level employee
 function UpdateLevel() {
     accountId = $("#accountLevel").val();
     level = $("#levelchange").val();
@@ -1593,6 +1454,8 @@ function UpdateLevel() {
         },
     });
 }
+
+//Random Color
 function getColorForWord(word) {
     if (!colorsByWord.hasOwnProperty(word)) {
         // Jika kata belum memiliki warna yang terkait, atur warna pastel secara urut
@@ -1602,6 +1465,7 @@ function getColorForWord(word) {
     return colorsByWord[word];
 }
 
+//Random Color
 function getColorForPosition(word) {
     if (!colorsByWord.hasOwnProperty(word)) {
         // Jika kata belum memiliki warna yang terkait, atur warna pastel secara urut
@@ -1611,6 +1475,8 @@ function getColorForPosition(word) {
     return colorsByWord[word];
 }
 
+//Function berikut dugunakan untuk menampilkan data client pada select placement
+//Digunakan pada form add ataupun edit placement
 function getPlacementLoc() {
     var selectPlacement = document.getElementById("selectPlacementLoc");
 
@@ -1646,6 +1512,8 @@ function getPlacementLoc() {
     });
 }
 
+//Function berikut digunakan untuk mendapatkan data position pada client
+//Digunakan untuk ditampilkan pada select position
 function getPosition() {
     var selectPosition = document.getElementById("selectPosition");
 
@@ -1694,6 +1562,8 @@ function closeLevel() {
     table.ajax.reload();
 }
 
+//Function berikut digunakan untuk menghandle reset filter
+//Berjalan ketika admin klik tombol clear pada modal filter Data
 function resetFilter() {
     $("#selectPosition").select2("val", $("#selectPosition option:eq(0)").val());
     $("#selectPlacementLoc").select2(
@@ -1711,6 +1581,10 @@ function resetFilter() {
     handleFilterSubmission();
     window.location.href = "/ManageEmployee/Index";
 }
+
+//Function berikut digunakan unutk menghandle Filter pada manage resource
+//Menerima input dari modal filter kemudian mengirim ke server untuk di return data yang di minta
+//Kemudian data yang di dapat langsung ditampilkan dalam bentuk table 
 function handleFilterSubmission() {
     var filterPosition =
         $("#selectPosition").val() != null ? $("#selectPosition").val() : null;
@@ -1790,31 +1664,7 @@ function handleFilterSubmission() {
                 },
             },
 
-            /* initComplete: function () {
-                 this.api()
-                   .columns()
-                   .every(function () {
-                     let column = this;
-                     let title = column.footer().textContent;
-         
-                     if (title !== "No" && title !== "Action" && title !== "Assets") {
-                       // Create input element
-                       let input = document.createElement("input");
-                       input.classList.add("form-control");
-                       input.placeholder = title;
-                       column.footer().replaceChildren(input);
-         
-                       // Event listener for user input
-                       input.addEventListener("keyup", () => {
-                         if (column.search() !== this.value) {
-                           column.search(input.value).draw();
-                         }
-                       });
-                     } else {
-                       column.footer().replaceChildren("");
-                     }
-                   });
-               },*/
+          
             columns: [
                 //Render digunakan untuk menampilkan atau memodifikasi isi sel (cell) pada kolom
 
@@ -2029,33 +1879,13 @@ function handleFilterSubmission() {
                         var timeDiff = endc.getTime() - startc; // Menghitung selisih dalam milidetik
                         var daysremain = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Menghitung selisih dalam hari dan membulatkannya
 
-                        /*if (daysremain >= 30) {
-                                                                    // Jika sisa kontrak lebih dari 1 bulan, hitung dalam bulan
-                                                                    var monthsRemaining = Math.floor(daysremain / 30);
-                                                                    return monthsRemaining + " months";
-                                                                } else {
-                                                                    // Jika sisa kontrak kurang dari 1 bulan, hitung dalam hari
-                                                                    return daysremain + " days";
-                                                                }*/
 
                         var monthsRemaining = Math.floor(daysremain / 30); // Menghitung bulan
                         var daysInMonth = daysremain % 30; // Menghitung sisa hari
-                        //console.log(monthsRemaining);
-                        //console.log(daysInMonth)
+                       
                         var result = "";
 
-                        /*if (monthsRemaining > 0) {
-                                                                    result += monthsRemaining + " months ";
-                                                                }
-                                            
-                                                                if (daysInMonth > 0) {
-                                                                    if (monthsRemaining > 0) {
-                                                                        result += daysInMonth + " days";
-                                                                    } else {
-                                                                        result = '<span class="badge rounded-pill badge-danger">' + daysInMonth + ' days' + '</span > '
-                                                                    }                     
-                                                                }*/
-
+                     
                         if (monthsRemaining > 2) {
                             // Jika sisa kontrak lebih dari 3 bulan, beri warna hijau
                             result =
@@ -2140,24 +1970,7 @@ function handleFilterSubmission() {
                     targets: "_all",
                 },
             ],
-            //"order": [], // menonaktifkan order pada semua kolom
-            /*   "fnDrawCallback": function (oSettings) {
-                                     // mengatur nomor urut berdasarkan halaman dan pengurutan yang aktif, menetapkan nomor urut menjadi 1
-                                     var table = $('#TB_Department').DataTable();
-                                     var startIndex = table.context[0]._iDisplayStart;
-                                     table.column(0, { order: 'applied' }).nodes().each(function (cell, i) {
-                                         cell.innerHTML = startIndex + i + 1;
-                                     });
-                                 }*/
-
-            /*   "fndrawCallback": function (settings) {
-                                   var api = this.api();
-                                   var rows = api.rows({ page: 'current' }).nodes();
-                                   api.column(1, { page: 'current' }).data().each(function (group, i) {
-                       
-                                       $(rows).eq(i).find('td:first').html(i + 1);
-                                   });s
-                               }*/
+           
             drawCallback: function (settings) {
                 var api = this.api();
                 var rows = api.rows({ page: "current" }).nodes();

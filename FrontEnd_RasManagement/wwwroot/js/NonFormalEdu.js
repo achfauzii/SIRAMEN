@@ -1,8 +1,13 @@
+//NonFormalEdu.js digunakan untuk menghandle View, Add, Edit dan delete NonFormal Edu yang ada pada bagian admin
+//Non Formal edu berada pada file Employee->Educations menjadi satu dengan Education hanya berbeda table
+
 var initialNonFormalEdu = {};
 $(document).ready(function () {
-  //debugger;
+  //ParseJWT untuk mendapatkan account id dari token
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const accid = decodedtoken.AccountId;
+    const accid = decodedtoken.AccountId;
+
+//Menampilkan table Nonformal Edu berdsarkan Account Id Employee
   $("#NonFormalEdu").DataTable({
     responsive: true,
     ajax: {
@@ -78,6 +83,7 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
+//Clear Form Non Formal Edu
 function ClearScreen() {
   //debugger;
   $("#UpdateNonFormal").hide();
@@ -90,6 +96,9 @@ function ClearScreen() {
     $(".error-message").hide();
 }
 
+
+//Function berikut untuk mengisi value pada form edit non formal education
+//Menerima parameter NonFormalId untuk get data by NonFormalId
 function getbyID(NonFormalId) {
     ClearScreen()
     $("#UpdateNonFormal").show();
@@ -140,6 +149,9 @@ function handleInput(event, input) {
   noHTML(input);
 }
 
+
+//Function save ini adalah untuk menyimpan data ke server
+//Berjalan ketika employee klik tombol save pada form Add NonFroaml Education
 function Save() {
   var isValid = true;
 
@@ -201,6 +213,7 @@ function Save() {
   });
 }
 
+//Function Delete Non Formal Education
 function Delete(NonFormalId) {
   Swal.fire({
     title: "Are you sure?",
@@ -232,6 +245,7 @@ function Delete(NonFormalId) {
   });
 }
 
+//Function Update Non Formal Education
 function Update() {
   var isValid = true;
 
