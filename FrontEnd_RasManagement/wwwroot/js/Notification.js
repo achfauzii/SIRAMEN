@@ -1,10 +1,17 @@
-﻿var notifLength = 0;
+﻿//Notification.js ini berfungsi untuk menangani notif yang ada pada admin
+//Notif diantaranya yaitu remaining Contract Placement, Employee Overtime Request, dan Employee OverView ( Yang belum melengkapi CV)
+//Menu Notification ini ada di topbar admin yang ber icon lonceng
+
+var notifLength = 0;
 $(document).ready(function () {
     fetchContractPlacement();
 });
 $(document).on('click', '.btnBell .dropdown-menu', function (e) {
     e.stopPropagation();
 });
+
+// Function berikut digunakan unutk menghandle Notif remaining contract penempatam
+// Notif akan muncul jika contract pada penempatan sudah hampir abis atau kurang dari sebluan
 function fetchContractPlacement() {
     notification.innerHTML = '';
     fetch("https://localhost:7177/api/Employees", {
@@ -93,6 +100,9 @@ function fetchContractPlacement() {
             });
         });
 }
+
+//Function berikut diguanakan untuk menangani notif Kelengkapan Data Employee
+// Notif akan muncul jika data employee ada yang belum lengkap
 function checkOverviewEmployee() {
     fetch("https://localhost:7177/api/Employees/CheckOverviewEmployee", {
         method: "GET",
@@ -164,6 +174,8 @@ function checkOverviewEmployee() {
         });
 }
 
+//Function berikut diguanakan untuk menangani notif Employee yang menginput timesheet pada hari libur (Request Overtime) atau Overtime yang bestatus on progress
+//Notif akan muncul jika data overtime yang berstatus On Progress
 function overtimeNotification() {
     fetch("https://localhost:7177/api/Approval", {
         method: 'get',

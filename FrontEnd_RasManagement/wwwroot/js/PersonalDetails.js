@@ -1,3 +1,8 @@
+// PersonalDetail.js digunakan untuk menangani data personal detail pada Employee
+// Fitur yang ditangani pada js ini diantaranya View pesonal data employee, dan Edit Data pesonal employee
+// View Information Sudah melakukan updtae password, Information kelengkapan data, dan information employee birthday
+// File Cshtml personal detail pada employee ini yaitu Dashboards -> Employee
+
 let validName = true;
 let validNickName = true;
 let validBirthPlace = true;
@@ -21,7 +26,9 @@ $(document).ready(function () {
   });
 
   $('[data-toggle="tooltip"]').tooltip();
-  //GetBirthday
+
+//code berikut digunakan untuk mendapatkan data Birthday Seluruh employee 
+//Kemudian akan ditampilkan pada halaman employee siapa yang berulang tahun hari ini
   $.ajax({
     type: "GET",
     url: "https://localhost:7177/api/Accounts/BirthDay",
@@ -46,12 +53,16 @@ $(document).ready(function () {
     }
   });
 
-  // Mendapatkan nilai parameter accountId dari URL
-  loadDataA();
+  
+//LoadDataA ini digunakan untuk memanggil function loadData yang berisi code untuk menampilkan Personal Detail
+    loadDataA();
+
   $("#editDetailsBtn").on("click", function () {
     loadDataA(); // Reload the data before opening the modal
     $("#myModal").modal("show"); // Show the modal after loading the data
   });
+
+//Event berikut diguakan untuk menangani validasi dari edit personal detail
   $("#editName, #editNickName, #editBirthPlace").on("keyup", function () {
     var value = $(this).val();
     var maxLength = 50; // Default max length
@@ -66,7 +77,8 @@ $(document).ready(function () {
       maxLength = 50;
       errorMessage = "Birthplace should not exceed 50 characters";
     }
-    var isValidCharacter = true;
+      var isValidCharacter = true;
+
     // Validasi karakter hanya jika bidang tidak kosong
     if (value.trim() !== "") {
       isValidCharacter = /^[A-Za-z'-\s]+$/.test(value);
@@ -99,16 +111,21 @@ $(document).ready(function () {
     }
   });
 });
+
 function toPascalCase(str) {
   return str.replace(/(\w)(\w*)/g, function (_, firstChar, rest) {
     return firstChar.toUpperCase() + rest.toLowerCase();
   });
 }
 
+
+//Function loadDataA beirkut digunakan unutk menangani View Pesonal Detail Employee
+//Get data employee berdasarkan account id kemudian akan ditampilkan disini
 function loadDataA() {
   $("#loader").show();
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
+
   var imgElement = $("#employeePhoto");
   $.ajax({
     url: "https://localhost:7177/api/Employees/accountId?accountId=" + accid,
@@ -162,6 +179,7 @@ function loadDataA() {
       $("#nationality").text(obj.nationality);
       $("#address").text(obj.address);
       // Set employee photo
+      //Jika employee tidak ada file photo maka akan menampilkan default.png
       if (obj.image != null) {
         imgElement.attr("src", obj.image);
         imgElement.attr("alt", obj.fullname + "'s photo");
@@ -191,6 +209,9 @@ function loadDataA() {
   });
   $("#loader").hide();
 }
+
+
+// Function untuk melakukan parse pada Token JWT, memisah token menjadi beberapa bagian untuk di gunakan datanya
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -218,6 +239,8 @@ function clearMessage() {
     $(".error-message").hide();
     $(".error-message-address").hide();
 }
+
+//Clear Screen Form Edit Personal Data
 function ClearScreen() {
   alert("coba");
   $("#accountId").val("");
@@ -239,6 +262,9 @@ function ClearScreen() {
     input.next(".error-message").hide();
   });
 }
+
+// Function GetById berikut digunakan untuk menangani form Edit Pesonal Detail
+// Data yang didapat dari Get Employee berdasarkan account id akan mengisi value pada form edit personal detail untuk di tampilkan
 function GetById(accountId) {
   $.ajax({
     url:
@@ -319,6 +345,9 @@ function formatDate(dateString) {
   return formattedDate;
 }
 
+
+//Function berikut digunakan unutk mengirim data update ke server
+//Berjalan ketika employee klik tombol update setelah mengubah form personal detail
 function updateData() {
   // Data yang ada di form/modal
   var existingData = {
@@ -447,6 +476,7 @@ function updateData() {
     },
   });
 }
+
 function validateFormData() {
   var fullname = $("#editName").val();
   var nickname = $("#editNickName").val();
@@ -477,6 +507,7 @@ function validateFormData() {
   }
   return true;
 }
+
 function previewImage(event) {
   var imageInput = event.target;
   var imageLabel = document.getElementById("imageLabel");
@@ -492,6 +523,8 @@ function previewImage(event) {
     imageLabel.innerText = imageInput.files[0].name;
   }
 }
+//Function ini adalah untuk menyimpan gambar atau photo yang diupload ke dalam folder
+//Function ini menggunakan controller EmployeeController -> Upload Image untuk melakukan penyimpanan foto kedalam folder
 function uploadImage(accountId) {
   var imageFile = $("#imageFile")[0].files[0];
   // Cek apakah ada file yang diunggah sebelum mengirimkan data ke server
