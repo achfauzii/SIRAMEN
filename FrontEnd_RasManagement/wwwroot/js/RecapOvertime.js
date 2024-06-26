@@ -1,4 +1,6 @@
-﻿// A $( document ).ready() block.
+﻿//File Recap Overtime.js ini digunakan untuk menghandle recap overtime pada admin
+//Menu Recap ini berada pada Overtime Approval
+//Dalam function ini menghandle pilihan compnay dan bulan kemudian akan menampilkan data overtime dan dapat di download
 var table;
 $(document).ready(function () {
 
@@ -9,8 +11,8 @@ $(document).ready(function () {
 
     });
 
-    
-
+    //Ajax berikut digunakan untuk menampilkan nama company atau client yang ber status onsite
+    //data akan ditampilkan pada select2 company name
     $.ajax({
         url: "https://localhost:7177/api/ClientName/ClientNameWithStatusOnsite",
         method: "GET",
@@ -22,12 +24,7 @@ $(document).ready(function () {
         success: function (data) {
             // Create a Set to store unique company names
             var placements = data.data;
-            /*    var uniqueCompanyNames = new Set();
-    
-                // Iterate over the data and add unique company names to the Set
-                for (var i = 0; i < placement.length; i++) {
-                    uniqueCompanyNames.add(placement[i].companyName);
-                }*/
+     
 
             // Create <option> elements based on unique company names and append them to the select
             placements.forEach(function (placement) {
@@ -43,6 +40,7 @@ $(document).ready(function () {
         }
     });
 
+    //Menangani event click submit dan memanggil function submitReportTimesheet untuk menampilkan datanya
     $('#submitBtn').click(function (event) {
         event.preventDefault(); // Prevent default form submission behavior
         submitReportTimesheet();
@@ -56,7 +54,8 @@ $(document).ready(function () {
 });
 
 
-
+// Function berikut untuk menangani view data recap overtime dan dwonload reacap nya
+// Berjalan setelah admin klin tombol submit setelah mengisi company name dan month
 function submitReportTimesheet() {
 
     var companyName = $('#companySelect').val();
@@ -75,9 +74,7 @@ function submitReportTimesheet() {
     report.show();
 
     var downloadUrl = "/TimeSheetPdf/GeneratePdfAllOvertime?companyName=" + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
-    //var downloadUrl = "/TimeSheetPdf/GeneratePdfperEmployee?accountId=" + encodeURIComponent(accountId) + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
-
-
+   
     // Update the download button's href attribute with the new URL
     $("#btn-report").attr("href", downloadUrl);
 
@@ -88,6 +85,7 @@ function submitReportTimesheet() {
         $('#reportTimesheetTable').DataTable().destroy();
     }
 
+    //Menamppilkan table report timesheet
     var table = new $('#reportTimesheetTable').DataTable({
         ajax: {
             url: 'https://localhost:7177/api/TimeSheet/GetTimeSheetByCompanyNameAndMonth?companyName=' + companyName + '&month=' + month,
@@ -165,7 +163,7 @@ function submitReportTimesheet() {
     });
 }
 
-
+//Menampilkan detail overttime timesheet
 function detailRecap(accountId, month, name) {
 
     $("#informationAccountModal").modal("show");
@@ -244,6 +242,8 @@ function detailRecap(accountId, month, name) {
 };
 
 
+//Menangani download recap timesheet setekah di klik download
+//Untuk pdfnya sendiri dibuat melalui controller fe timesheetpdfController
 
 function downloadRecap(accountId, month, name) {
     //$("#informationAccountModal").modal("show");
@@ -285,7 +285,7 @@ function downloadRecap(accountId, month, name) {
 
 
             // Update the download button's href attribute with the new URL
-            /*$("#downloadBtn").attr("href", downloadUrl);*/
+            
             // Create a temporary anchor element to trigger the download
             var tempAnchor = document.createElement('a');
             tempAnchor.href = downloadUrl;

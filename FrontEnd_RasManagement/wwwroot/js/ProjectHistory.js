@@ -1,8 +1,14 @@
-﻿
+﻿// ProjectHistory.js ini merupakan file yang menangani Data CV Prohect History Employee
+// File CSHTML nya berada pada Employee -> Project History
+// Beberapa code diantaranya menangani view datatable project history, Save Update, Delete dan get By Id
+
 var table = null;
 $(document).ready(function () {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-  const accid = decodedtoken.AccountId;
+    const accid = decodedtoken.AccountId;
+
+//View Datatable untuk data project history employee
+//Data yang ditampilkan adalah Project History By Account Id Employee
   table = $("#TB_ProjectHistory").DataTable({
     responsive: true,
     ajax: {
@@ -25,7 +31,7 @@ $(document).ready(function () {
         },
       },
       { data: "projectName" },
-      /*{ "data": "jobSpec" },*/
+   
       {
         data: "jobSpec",
           render: function (data, type, row) {
@@ -50,18 +56,6 @@ $(document).ready(function () {
               list += "</ul>";
 
               return list;
-          //// Split data menjadi item-item dalam daftar
-          //var items = data.split("• ");
-
-          //// Buat daftar HTML
-          //var list = "<ul>";
-          //    for (var i = 1; i < items.length; i++) {
-
-          //  list += "<li>" + items[i] + "</li>";
-          //}
-          //list += "</ul>";
-
-          //return list;
         },
       },
       { data: "year" },
@@ -156,22 +150,10 @@ function handleInput(event, input) {
 
 
 // Proses input pada textarea JobSpesification
+// Digunakan keika meng input jobspesification untuk menambahkan bullet
 $("#JobSpec").on("input", function () {
   var jobSpecValue = $(this).val();
 
-  // var lines = jobSpecValue.value.split('\n');
-  // var bulletText = "$bull;";
-  // for (let i = 0; i < lines.length; i++) {
-  //   lines[i] = lines[i].trim();
-
-  //   // Remove lines that contain only the bullet point
-  //   if (lines[i] === bulletText) {
-  //     lines.splice(i, 1);
-  //     i--; // Adjust the index after removal
-  //   }
-  // }
-  // input.value = lines.join('\n');
-  // Memecah teks menjadi baris-baris
   var lines = jobSpecValue.split("\n");
 
   // Memeriksa dan menghapus bullet dari setiap baris jika tidak dibutuhkan
@@ -204,6 +186,9 @@ $("#JobSpec").on("keypress", function (e) {
   }
 });
 
+
+// Function Save untuk menyimpan data project history employee
+// Berjalan saat employe klik save pada form add project history
 function Save() {
   var isValid = true;
 
@@ -220,27 +205,6 @@ function Save() {
   if (!isValid) {
     return;
   }
-
-  /* var jobSpecValue = $('#JobSpec').val();
-
-    // Pastikan data dimulai dengan bullet ('• ') jika belum
-    if (!jobSpecValue.startsWith('• ')) {
-        jobSpecValue = '• ' + jobSpecValue;
-    }
-
-    // Pisahkan entri dengan bullet ('• ') sebagai pemisah
-    var jobSpecEntries = jobSpecValue.split('\n');
-
-    // Hapus elemen yang kosong dari daftar
-    jobSpecEntries = jobSpecEntries.filter(function (entry) {
-        return entry.trim() !== '';
-    });
-
-    // Gabungkan dengan bullet untuk menampilkan data di textarea
-    var formattedJobSpec = jobSpecEntries.join('\n• ');
-
-    // Setel nilai textarea dengan data yang diformat
-    $('#JobSpec').val(formattedJobSpec);*/
 
   var ProjectHistory = new Object(); //object baru
   ProjectHistory.projectName = $("#ProjectName").val(); //value insert dari id pada input
@@ -291,6 +255,7 @@ function Save() {
   });
 }
 
+// Clearscreen form project history
 function ClearScreen() {
   $("#Update").hide();
   $("#Save").show();
@@ -303,6 +268,9 @@ function ClearScreen() {
     $(".error-message").hide()
 }
 
+// Function untuk menghandle get data berdasarkan porject history
+// Function ini berjalan ketika employee klik button edit project history
+// Kemudian akan menampilkan value yang di dapat pada form project history
 function GetById(projectHistoryId) {
     ClearScreen()
   $.ajax({
@@ -330,57 +298,10 @@ function GetById(projectHistoryId) {
   });
 }
 
-// function Update() {
-//   var isValid = true;
 
-//   $("input[required], textarea[required]").each(function () {
-//     var element = $(this);
-//     if (!element.val()) {
-//       element.next(".error-message").show();
-//       isValid = false;
-//     } else {
-//       element.next(".error-message").hide();
-//     }
-//   });
-
-//   if (!isValid) {
-//     return;
-//   }
-
-//   var ProjectHistory = new Object(); //object baru
-//   ProjectHistory.projectHistoryId = $("#ProjectHistoryId").val();
-//   ProjectHistory.projectName = $("#ProjectName").val(); //value insert dari id pada input
-//   ProjectHistory.jobSpec = $("#JobSpec").val();
-//   ProjectHistory.year = $("#Year").val();
-//   ProjectHistory.companyName = $("#CompanyName").val();
-//   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
-//   const accid = decodedtoken.AccountId;
-//   ProjectHistory.accountId = accid;
-
-//   $.ajax({
-//     url: "https://localhost:7177/api/ProjectHistory",
-//     type: "PUT",
-//     data: JSON.stringify(ProjectHistory),
-//     contentType: "application/json; charset=utf-8",
-//     headers: {
-//       Authorization: "Bearer " + sessionStorage.getItem("Token"),
-//     },
-//   }).then((result) => {
-//     if (result.status == 200) {
-//       Swal.fire({
-//         icon: "success",
-//         title: "Success...",
-//         text: "Data has been update!",
-//         showConfirmButtom: false,
-//         timer: 2000,
-//       });
-//       $("#Modal").modal("hide");
-//       table.ajax.reload();
-//     } else {
-//       Swal.fire("Error!", "Data failed to update", "error");
-//     }
-//   });
-// }
+//Function update berikut untuk mengupdate data Project History Employee
+//Berjalan kerika employee klik button save update pada form project history
+//Kemudian akan mengirim data yang di perbaharui ke server
 function Update() {
   var isValid = true;
 
@@ -401,9 +322,7 @@ function Update() {
     var hasChanged = JSON.stringify(existingData) !== JSON.stringify(initialData);
 
     console.log("Has data changed:", hasChanged);
-    //console.log("existingData:", existingData);
-    //console.log("initialData:", initialData);
-
+   
     if (!hasChanged) {
         Swal.fire({
             icon: "info",
@@ -465,7 +384,8 @@ function Update() {
   });
 }
 
-
+//Function delete untuk menghandle hapus project history employee
+//Berjalan ketika employee klik button delete pada row table project history
 function Delete(projectHistoryId) {
   Swal.fire({
     title: "Are you sure?",

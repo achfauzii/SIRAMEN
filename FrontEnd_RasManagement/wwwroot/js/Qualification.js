@@ -1,8 +1,14 @@
-﻿var initialQualification = {};
+﻿//File qualification ini digunakan dalam menghandle View, Add, Update Delte Qualification Employee
+//Untuk File Cshtml nya Employee -> Qualification, kemudian controller fe EmployeeController -> Qualification
+//Menggunakan select2 multiple input output kedatabasenya dalam bentuk array
+var initialQualification = {};
 $(document).ready(function () {
   const decodedtoken = parseJwt(sessionStorage.getItem("Token"));
   const accid = decodedtoken.AccountId;
 
+//Ajax untuk menangani view data qualification
+//Terdapat kondisi jika data qualification masih kosong button add akan ditampilkan
+//Tetapi ketika data qualification not null button add di hide, dan hanya button edit yang ada
   $.ajax({
     url:
       "https://localhost:7177/api/Qualification/accountId?accountId=" + accid,
@@ -13,9 +19,12 @@ $(document).ready(function () {
     },
     success: function (response) {
       //debugger;
-      if (response.status === 200) {
+        if (response.status === 200) {
+        
+        //Memanggil function untuk mendisplay data qualification memiliki parameter data dari qualification employee
         displayQualification(response.data);
 
+        //Jika respon data kosong maka tampilkan button add
         if (response.data == "") {
           var element = document.getElementById("buttonAdd");
           element.style.display = "block"; // Menampilkan elemen
@@ -43,6 +52,9 @@ $(document).ready(function () {
   $(".frameworkOptions").select2();
 });
 
+
+//Function berikut untuk menangani display data qualification
+//Menerima parameter data berisi data qualificatin 
 function displayQualification(data) {
   var frameworks = data.map((item) => item.framework).join(", ");
   $("#framework").text(frameworks);
@@ -58,6 +70,7 @@ function displayQualification(data) {
   $("#others").text(others);
 }
 
+// Clear form add qualification
 function ClearScreen() {
   $("#framework_").val(null).trigger("change"); // Kosongkan pilihan select
   $("#customFramework").val(""); // Kosongkan input teks
@@ -72,7 +85,7 @@ function ClearScreen() {
     input.next(".error-message").hide();
   });
 }
-
+//Clear screen form edit qualification
 function ClearScreenUpdate() {
   $("#frameworkUpdate").val(null).trigger("change"); // Kosongkan pilihan select
   $("#programmingLanguageUpdate").val(""); // Kosongkan input teks
@@ -92,41 +105,13 @@ function ClearScreenUpdate() {
   });
 }
 
+//Function untuk menghandle save pada add new qualification
 function Save() {
-  /*      debugger;
-      var isValid = true;
-  
-      $('input[required_add]').each(function () {
-          var input = $(this);
-          if (!input.val()) {
-              input.next('.error-message').show();  
-              isValid = false;
-          } else {
-              input.next('.error-message').hide();
-          }
-      });*/
-
   // Validasi select options
   var selectedFrameworks = $("#framework_").val();
   var selectedProgramming = $("#programmingLanguage_").val();
   var selectedDatabase = $("#qualDatabase").val();
 
-/*  if (
-    !selectedFrameworks?.some(Boolean) ||
-    !selectedProgramming?.some(Boolean) ||
-    !selectedDatabase?.some(Boolean)
-  ) {
-    $(".frameworkOptions").closest(".form-group").find(".error-message").show();
-    isValid = false;
-  } else {
-    $(".frameworkOptions").closest(".form-group").find(".error-message").hide();
-  }
-
-  
-        if (!isValid) {
-    
-            return;
-        }*/
   var qualifications = new Object(); //bikin objek baru
 
   qualifications.framework = $("#framework_").val().join(", ");
@@ -179,6 +164,8 @@ function Save() {
   });
 }
 
+//Function ini berjalan ketika employee klik button edit pada framework
+//Kemudian akan menampilkan form field dan data Framework dan hide selain framework
 function updateFramework() {
   getbyID();
 
@@ -194,6 +181,8 @@ function updateFramework() {
   othersInput.style.display = "none";
 }
 
+//Function ini berjalan ketika employee klik button edit pada Programming Language
+//Kemudian akan menampilkan form field dan data Programming Language dan hide selain Programming Language
 function updateProgramming() {
   getbyID();
   var frameworkInput = document.getElementById("frameworkShow");
@@ -207,6 +196,8 @@ function updateProgramming() {
   toolsInput.style.display = "none";
   othersInput.style.display = "none";
 }
+//Function ini berjalan ketika employee klik button edit pada bagian Database
+//Kemudian akan menampilkan form field dan data Database dan hide selain Database
 function updateDatabase() {
   getbyID();
   var frameworkInput = document.getElementById("frameworkShow");
@@ -220,7 +211,8 @@ function updateDatabase() {
   toolsInput.style.display = "none";
   othersInput.style.display = "none";
 }
-
+//Function ini berjalan ketika employee klik button edit pada bagian Tools
+//Kemudian akan menampilkan form field dan data Tools dan hide selain Database
 function updateTools() {
   getbyID();
   var frameworkInput = document.getElementById("frameworkShow");
@@ -234,7 +226,8 @@ function updateTools() {
   toolsInput.style.display = "block";
   othersInput.style.display = "none";
 }
-
+//Function ini berjalan ketika employee klik button edit pada bagian Others Qualification Employee
+//Kemudian akan menampilkan form field dan data Others dan hide selain Others Qualification Employee
 function updateOthers() {
   getbyID();
   var frameworkInput = document.getElementById("frameworkShow");
@@ -249,6 +242,9 @@ function updateOthers() {
   othersInput.style.display = "block";
 }
 
+//Function ini untuk mendapatkan data qualification berdasarkan account id employee
+//Lalu menampillkan value pada form edit qualification
+//Terdapat beberapa format untuk menampilkannya dalam bentuk multiple select2
 function getbyID() {
   //debugger;
 
@@ -404,51 +400,11 @@ function getbyID() {
   });
 }
 
+//Function update ini berjalan saat employee klik tombol save update untuk menyimpan perubahan Qualification
 function Update() {
   //debugger;
   var isValid = true;
   // Validasi apakah field frameworkUpdate memiliki nilai yang dipilih
- /* var selectedFrameworks = $("#frameworkUpdate").val();
-  if (!selectedFrameworks || selectedFrameworks.length === 0) {
-    $("#frameworkShow .error-message").show();
-    isValid = false;
-  } else {
-    $("#frameworkShow .error-message").hide();
-  }
-
-  // Validasi apakah field programmingLanguageUpdate memiliki nilai yang dipilih
-  var selectedProgrammingLanguages = $("#programmingLanguageUpdate").val();
-  if (
-    !selectedProgrammingLanguages ||
-    selectedProgrammingLanguages.length === 0
-  ) {
-    $("#programmingShow .error-message").show();
-    isValid = false;
-  } else {
-    $("#programmingShow .error-message").hide();
-  }
-
-  // Validasi apakah field databaseUpdate memiliki nilai yang dipilih
-  var selectedDatabases = $("#databaseUpdate").val();
-  if (!selectedDatabases || selectedDatabases.length === 0) {
-    $("#databaseShow .error-message").show();
-    isValid = false;
-  } else {
-    $("#databaseShow .error-message").hide();
-  }
-
-  // Validasi apakah field toolsUpdate memiliki nilai yang dipilih
-  var selectedTools = $("#toolsUpdate").val();
-  if (!selectedTools || selectedTools.length === 0) {
-    $("#toolsShow .error-message").show();
-    isValid = false;
-  } else {
-    $("#toolsShow .error-message").hide();
-  }
-
-  if (!isValid) {
-    return;
-  }*/
 
   var qualifications = new Object(); //bikin objek baru
   qualifications.accountId = $("#accountId").val();
