@@ -1,3 +1,6 @@
+//SrcDatatables.js ini untuk menangani menu shortlist candidate yang ada pada admin
+//js ini menangani add New Shortlist Canidate, Edit, Delete
+//dan Navigasi Table yang akan request ke server untuk di tampilkan datanya
 var table = null;
 var isTruncated = null;
 var compare = {};
@@ -34,6 +37,8 @@ var pastelColors = [
     "#D2E0FB",
     "#F7F5EB",
 ];
+
+//Function berikut untuk menangani read more pada row table untuk melihat keseluruhan Notes
 function toggleContent(element, originalData) {
     var content = document.getElementById(element).innerHTML;
     isTruncated = content.includes("... (Read More)");
@@ -93,6 +98,7 @@ $(document).ready(function () {
     getUniversitasList();
     // Panggil fungsi fetchCategories saat halaman dimuat
 
+    //Memanggil function kategori
     fetchCategories();
 
     Src("all");

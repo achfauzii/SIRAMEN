@@ -1,4 +1,7 @@
+//SalesProjectionActivity.js untuk menangani halaman Sales Projection Activity pada admin
+//Menampilkan Acvivity Sales dengan memilih Sales Projection mana yang akan dilihat
 $(document).ready(function () {
+
     $("#search").select2({
         placeholder: "Choose Sales Projection",
         allowClear: false,
@@ -8,6 +11,8 @@ $(document).ready(function () {
     $('.bg-success').attr('style', 'min-height:100px')
     getSalesProjectionData()
 
+    //Handle select choose Saels Projection
+    //Setelah Dipilih akan memanggil function getActivity dengan parameter sales projection yang dipilih
     $('#search').change(function (e) {
         e.preventDefault()
         const selected = $(this).val()
@@ -25,6 +30,7 @@ $(document).ready(function () {
 </div>
     `)
 
+    //Handle Tampilan secara Or Horizontal
     $('#buttonFilter').click(function (e) {
         let text = $(this).text();
         if (text.toLowerCase() === "vertical") {
@@ -37,6 +43,8 @@ $(document).ready(function () {
     })
 })
 
+//Function untuk menampilkan Activity SalesProjection berdasarkan Id Sales Projection yang dipilih
+//Menerima parameter Id Sales Projection
 function getActivity(id) {
     $.ajax({
         url: 'https://localhost:7177/api/ActivitySalesProjection/bySpId?id='+id,
@@ -93,6 +101,8 @@ function getActivity(id) {
         }
     })
 }
+
+//Get Data SalesProjection unutuk ditampilkan dalam pilihan (Select Sales Projection)
 function getSalesProjectionData() {
     $.ajax({
         url: 'https://localhost:7177/api/SalesProjection/allData',

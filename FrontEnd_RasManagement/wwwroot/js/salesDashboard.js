@@ -1,12 +1,13 @@
-﻿// A $( document ).ready() block.
+﻿//SalesDashboard.js untuk menangani menu salesDashboard pada admin
+//View information, chart dam table
 $(document).ready(function () {
-
-    
-
 
 //Card Total SalesPro
     viewCardSalesPro();
+//Card Total Opportunity, bestview, close win
     countProjectStatus();
+
+//Select Year untuk view chart most neded position
     $("#selectYear").datepicker({
         format: "yyyy", 
         viewMode: "years", 
@@ -15,6 +16,7 @@ $(document).ready(function () {
         viewChart(this.value);
     });
 
+ //Select Year untuk view chart Sales Projection
     $("#selectYearChartSales").datepicker({
         format: "yyyy",
         viewMode: "years",
@@ -44,9 +46,10 @@ $(document).ready(function () {
 
 document.getElementById('selectYear').addEventListener('change', function () {
     console.log("Year changed to:", this.value);
-    // Call your function to handle the year change here
     viewChart(this.value);
 });
+
+// Setting format bar cahrt
 function number_format(number, decimals, dec_point, thousands_sep) {
     // *     example: number_format(1234.56, 2, ',', ' ');
     // *     return: '1 234,56'
@@ -76,7 +79,10 @@ var positionName;
 var count;
 
 
-//Bar Chart Position
+//Bar Chart Most Neded position
+//Menerima parameter tahun untuk get data salesProjection by year
+//Dari data yang didapat akan ditampilkan dalam bentuk bar chart pada function berikut
+//Kemudian ditampilkan dalam bentuk linechart
 function viewChart(year) {
 
     $.ajax({
@@ -90,19 +96,7 @@ function viewChart(year) {
         success: function (positions) {
 
             var result = positions.data;
-
-         
-     
-
-            //var top5PositionNames = result.slice(0, 5).map(function (item) {
-            //    return item.positionType;
-            //});
-
-            //var top5count = result.slice(0, 5).map(function (item) {
-            //    return item.count;
-            //});
-
-            // Bar Chart Example
+            // Bar Chart 
             var ctx = document.getElementById("position");
             var myBarChart = new Chart(ctx, {
                 type: 'bar',
@@ -208,119 +202,10 @@ async function viewCardSalesPro() {
     });
 }
 
-
-//Line Chart Sales Projection
-//async function lineChartSalesPro() {
-   
-   
-//    getDataSalesPro().then(data => {
-//        if (data) {
-//            const projects = data.data;
-//            const projectCountByDateAndStatus = {};
-
-           
-//            projects.forEach(project => {
-//                const date = project.entryDate.split("T")[0];
-//                const status = project.projectStatus;
-
-//                if (projectCountByDateAndStatus[date]) {
-//                    if (projectCountByDateAndStatus[date][status]) {
-//                        projectCountByDateAndStatus[date][status]++;
-//                    } else {
-//                        projectCountByDateAndStatus[date][status] = 1;
-//                    }
-//                } else {
-//                    projectCountByDateAndStatus[date] = { [status]: 1 };
-//                }
-//            });
-
-         
-//            const labels = Object.keys(projectCountByDateAndStatus);
-
-          
-//            const statusColors = {
-//                "string": "rgba(78, 115, 223, 1)",
-//                "Close Win": "rgba(28, 200, 138, 1)",
-//                "Best View": "rgba(54, 185, 204, 1)",
-//                "Open": "rgba(246, 194, 62, 1)",
-//                "Hold": "rgba(231, 74, 59, 1)",
-//                "Close Lose": "rgba(133, 135, 150, 1)"
-//            };
-
-        
-//            const projectStatusDatasets = {};
-
-//            labels.forEach(date => {
-//                const statuses = projectCountByDateAndStatus[date];
-//                for (const status in statuses) {
-//                    if (!projectStatusDatasets[status]) {
-//                        projectStatusDatasets[status] = {
-//                            label: status,
-//                            data: [],
-//                            backgroundColor: statusColors[status],
-//                            borderColor: statusColors[status],
-//                            lineTension: 0.3,
-//                            fill: false
-//                        };
-//                    }
-//                    projectStatusDatasets[status].data.push(statuses[status]);
-//                }
-//            });
-
-          
-//            for (const status in projectStatusDatasets) {
-//                projectStatusDatasets[status].data = labels.map(date => projectCountByDateAndStatus[date][status] || 0);
-//            }
-
-            
-//            const datasets = Object.values(projectStatusDatasets);
-
-//            // Konfigurasi chart
-//            var ctx = document.getElementById("lineChartSales");
-//            var myLineChart = new Chart(ctx, {
-//                type: 'line',
-//                data: {
-//                    labels: labels,
-//                    datasets: datasets
-//                },
-//                options: {
-//                    maintainAspectRatio: false,
-//                    layout: {
-//                        padding: {
-//                            left: 10,
-//                            right: 25,
-//                            top: 0,
-//                            bottom: 0
-//                        }
-//                    },
-//                    scales: {
-//                        xAxes: [{
-//                            time: {
-//                                unit: 'date'
-//                            },
-//                            gridLines: {
-//                                display: false,
-//                                drawBorder: false
-//                            },
-//                            ticks: {
-//                                maxTicksLimit: 7
-//                            }
-//                        }],
-//                        yAxes: [{
-//                            ticks: {
-//                                maxTicksLimit: 10,
-//                                padding: 10
-//                            }
-//                        }]
-//                    }
-//                }
-//            });
-//        }
-//    });
-
-//}
-
-// Line Chart Perbulan
+//Function berikut untuk menampilkan line chart sales projection
+//Menerima yearFilter (Tahun) untuk memfilter data berdasarkan tahun
+//Didalam function berikut juga memanggil getDataSalesPro untuk mendapatkan data sales project
+//yang akan di proses di filter berdasarkan tahun (yearFilter)
  async function lineChartSalesPro(yearFilter) {
 
      getDataSalesPro().then(data => {

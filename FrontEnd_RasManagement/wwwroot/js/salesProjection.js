@@ -1,4 +1,7 @@
-﻿const formModal = $('#Modal-addSalesProjection form');
+﻿//SalesProjection.js untuk menangani Menu Saels Projection pada Admin
+//Handle View Table Sales Projection, Add Sales Projection, Update, Add Activity
+
+const formModal = $('#Modal-addSalesProjection form');
 let savedLocation;
 $(document).ready(function () {
 

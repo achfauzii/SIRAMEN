@@ -1,4 +1,5 @@
-﻿// A $( document ).ready() block.
+﻿//RecapTimesheet.js ini digunakan untuk menghandle yang ada pada menu Recap Timesheet Report (Admin)
+//File Cshtml : ManageEmployee -> Timesheet Report
 var table;
 $(document).ready(function () {
     
@@ -8,6 +9,8 @@ $(document).ready(function () {
         allowClear: false,
        
     });
+    //Ajax untuk menampilkan nama client yang didapat dari server
+    //Client yang teradapat employee yang onsite pada client tersebut
     $.ajax({
         url: "https://localhost:7177/api/ClientName/ClientNameWithStatusOnsite", 
         method: "GET",
@@ -28,7 +31,7 @@ $(document).ready(function () {
             // Create <option> elements based on unique company names and append them to the select
             placements.forEach(function (placement) {
                 var option = $("<option>")
-                    .val(placement.nameOfClient)  // Set the value attribute
+                    .val(placement.nameOfClient) 
                     .text(placement.nameOfClient);
                 $("#companySelect").append(option);
             });
@@ -38,8 +41,10 @@ $(document).ready(function () {
         }
     });
 
+    //Handle event submit click untuk menampilkan Report Timesheet datatable
+    //Memanggil submitReportTimesheet
     $('#submitBtn').click(function (event) {
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault(); 
         submitReportTimesheet();
     });
 
@@ -50,9 +55,8 @@ $(document).ready(function () {
 
 });
    
-   
-
-
+//Function berikut untuk menampilkan table setelah klik submit pada form memilih company name dan month
+//Terdapat juga code dalam menghandle download timesheet report yang di arahkan ke FE TimesheetPdfController -> GeneratePdf
 function submitReportTimesheet() {
 
     var companyName = $('#companySelect').val();
@@ -71,6 +75,8 @@ function submitReportTimesheet() {
     }
     report.show();
 
+    //link download url untuk digunakan pada href pada Download Report
+    //Diarahkan ke /TimeSheetPdf/GeneratePdf?companyName= (Controller FE TimesheetPdfController untuk mengatur Pdf nya)
     var downloadUrl = "/TimeSheetPdf/GeneratePdf?companyName=" + encodeURIComponent(companyName) + "&month=" + encodeURIComponent(month);
 
     // Memperbarui atribut href tautan unduhan dengan URL yang baru
@@ -81,6 +87,8 @@ function submitReportTimesheet() {
 
 
 
+    //View Datatable Recap Timesheet Report
+    //Memuncul button download jika data ada dan hide jika tidak ada
     if ($.fn.DataTable.isDataTable('#reportTimesheetTable')) {
         $('#reportTimesheetTable').DataTable().destroy();
     }
@@ -158,6 +166,8 @@ function submitReportTimesheet() {
 
 }
 
+//Function untuk menampilkan detail timesheet per Employee
+//Function dijakankan ketika admin klik button info pada row table recap timesheet report
 function detailRecap(accountId, month, name) {
     $("#informationAccountModal").modal("show");
     document.getElementById('nameEmp').textContent = name;

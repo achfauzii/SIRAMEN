@@ -1,4 +1,7 @@
-﻿var table = null;
+﻿//File SharedShorlistCandidate.js ini untuk mennangai Shared Shorlist Candidate, atau
+//Shortlist Candidate yang dapat dilihat oleh public tanpa perlu login
+
+var table = null;
 var softlColors = [
   "#B7E4C7", // Mint Green
   "#FFD8B1", // Soft Peach
